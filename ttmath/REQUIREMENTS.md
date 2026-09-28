@@ -66,27 +66,29 @@ The campus is the heart of the demo. Direction from Jim, 2026-09-27: "very moder
 
 | ID | Requirement | Priority | Status |
 | --- | --- | --- | --- |
-| CP-1 | Hidden from the start point; comes into view after about 5 m of walking up the ridge (checked by line of sight against the real terrain) | Must | Done in v0.4; redo for v0.5 |
-| CP-2 | Dream-style, curved, "flying" architecture that grows out of the Mars terrain: no boxes, no copy of a real building | Must | In progress (v0.5) |
-| CP-3 | Close: the nearest building about 30 m past the ridge top, the whole campus within about 100 m of the start | Must | In progress (v0.5) |
-| CP-4 | TTMath logo as glowing signs: on the main building and on a sign by the path | Must | Done in v0.4; redo for v0.5 |
-| CP-5 | Lights that look impressive at sunset and twilight: glowing glass, light lines on the building edges, light on the ground around it | Must | Done in v0.4; redo for v0.5 |
-| CP-6 | Rovers and flying craft instead of cars; one craft flying around the campus | Should | Done in v0.4; keep in v0.5 |
+| CP-1 | Hidden from the start point; comes into view after about 5 m of walking up the ridge (checked by line of sight against the real terrain) | Must | Done (v0.5: nothing visible from the start; 80 to 97% visible after 5 to 6 m) |
+| CP-2 | Dream-style, curved, "flying" architecture that grows out of the Mars terrain: no boxes, no copy of a real building | Must | Done (v0.5): Dune Shells; Wing Hall kept as an option |
+| CP-3 | Close: the nearest building about 30 m past the ridge top, the whole campus within about 100 m of the start | Must | Done (v0.5): shells 41 to 71 m from the start, ring and pods 73 to 96 m |
+| CP-4 | TTMath logo as glowing signs: on the main building and on a sign by the path | Must | Done (v0.5): curved logo wall by the path |
+| CP-5 | Lights that look impressive at sunset and twilight: glowing glass, light lines on the building edges, light on the ground around it | Must | Done (v0.5): lit interiors seen through the glass, light lines on every arch, light pools on the ground |
+| CP-6 | Rovers and flying craft instead of cars; one craft flying around the campus | Should | Done (v0.5): rovers on glowing charging bays, a craft parked on the floating ring, one circling |
 | CP-7 | Blends in: Mars dust on ledges and at the base, same sky light and haze as the terrain | Must | Done |
 | CP-8 | Footprints lead from the start up the ridge toward the campus | Should | Done |
 | CP-9 | No distracting objects, and nothing cartoonish; the blue guide-light posts were removed in v0.4.1 | Must | Done (v0.4.1) |
 | CP-10 | "Discovered" message, a floating label with distance, and a compass marker once the campus is seen | Should | Done |
-| CP-11 | Walking bumps into the buildings instead of through them | Should | Done in v0.4; redo for v0.5 |
+| CP-11 | Walking bumps into the buildings instead of through them | Should | Done (v0.5) |
+| CP-12 | Glass looks real: see-through lit rooms with ceilings, floors and walls behind the panes | Should | Done (v0.5) |
 
-### Design concept for v0.5
+### Design concept (v0.5)
 
-Everything sits in the ridge's "shadow" as seen from the start. That shadow is shallow near the ridge and deeper farther away, so the buildings are low where they are near you and rise as they go away:
+Everything sits in the ridge's "shadow" as seen from the start. That shadow is shallow near the ridge and deeper farther away, so the buildings are low where they are near you and rise as they go away.
 
-- **Wing Hall (main building):** a white roof shaped like a wing. Its nose is about 30 m past the ridge top, low and pointing at you. The two wings sweep back and curve up at the tips, floating off the ground like a bird taking off. Under the middle sits a glowing glass hall with the entrance and the TTMath logo. Blue light lines trace the wing's edges.
-- **Floating landing ring:** a ring-shaped landing pad that hovers above the ground behind the hall, with a light beam under it. A flying craft is parked on it and another circles the campus.
-- **Sky pods:** two hovering glass pods behind the wing tips, glowing inside, linked to the hall by curved glass sky bridges.
-- **Logo sign:** a low curved sign with the glowing TTMath logo beside the path, just past the ridge.
-- **Rovers:** parked under the left wing's overhang on glowing charging bays.
+- **Dune Shells (main buildings, default):** five white shells rising from the ground like wind-blown sails. They grow from 4.4 m at the front to 7.7 m at the back, and each leans toward you with a thin light line along its crest. Under each arch a glass face shows warm, lit rooms, and the two centre shells hold the entrance.
+- **Floating landing ring:** a ring-shaped landing pad that hovers 7.8 m above the ground behind the shells, with a soft light column under it. One flying craft is parked on it and another circles the campus.
+- **Sky pods:** two hovering glass pods with gardens inside, linked to the back shell by curved glass sky bridges.
+- **Logo sign:** a low curved wall with the glowing TTMath logo beside the path, just past the ridge.
+- **Rovers:** two rovers on glowing charging bays beside the shells.
+- **Option, Wing Hall:** a white wing-shaped roof with a low nose, wings curving up at the tips, and a glass hall underneath. Open it with `?design=wing` to compare.
 
 Measured limits from the start point (height a building can have and still be hidden): about 3 to 4 m at 30 to 35 m out, 5 to 7 m at 40 to 45 m, 7 to 9 m at 50 to 60 m, 9 to 12 m at 70 to 90 m, in the sector from bearing 310° to 340°.
 
@@ -141,7 +143,7 @@ Measured limits from the start point (height a building can have and still be hi
 
 | Date | Version | Change |
 | --- | --- | --- |
-| 2026-09-27 | v0.5 (in progress) | New campus: Wing Hall, floating landing ring, sky pods, logo sign; much closer; brighter |
+| 2026-09-27 | v0.5 | New campus: Dune Shells with lit glass interiors, floating landing ring, sky pods and bridges, logo sign; 4 to 5 times closer; Wing Hall option (`?design=wing`) |
 | 2026-09-27 | v0.4.1 | Published on GitHub Pages with auto-deploy; fixed flashing while walking; removed the guide-light posts; brighter exposure |
 | 2026-09-27 | v0.4 | Renamed TTMath Mars Campus; campus hidden over the ridge with lights, pad, rovers, flying craft; footprint trail; iPhone layout with joystick; welcome card |
 | 2026-09-27 | v0.3 | Physical sky, true-size Sun, twilight with Earth, Phobos, clouds and sun rays; simulated 3D surroundings; texture artifacts cleaned |

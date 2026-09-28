@@ -201,7 +201,7 @@
 <canvas id="view" tabindex="0" aria-label="3D view of Mars at Dingo Gap with the TTMath campus beyond the ridge. Drag to look around."></canvas>
 <div class="skylabel" id="earthLabel" style="opacity:0"><span>EARTH + MOON</span></div>
 <div class="skylabel" id="phobosLabel" style="opacity:0"><span>PHOBOS</span></div>
-<div class="pin" id="campusPin" style="opacity:0"><div class="stem"></div><div class="tag"><b>TTMATH MARS CAMPUS</b> · <span id="campusDist">200 m</span></div></div>
+<div class="pin" id="campusPin" style="opacity:0"><div class="stem"></div><div class="tag"><b>TTMATH MARS CAMPUS</b> · <span id="campusDist">40 m</span></div></div>
 
 <div class="loading" id="loading">
   <div class="box glass">
@@ -320,10 +320,10 @@
   <button class="close" type="button" id="aboutClose" aria-label="Close">×</button>
   <h2>TTMath Mars Campus</h2>
   <p>An imagined TTMath campus on Mars, set at "Dingo Gap" in Gale Crater. The ground around your starting point, about 260 × 260 m, is real: NASA JPL's 3D model built from Curiosity rover photos (around sol 528) and HiRISE orbital images. The campus, the landscape beyond, the vehicles and the sky effects are simulated.</p>
-  <p>The campus building takes its shape from TTMath's home at 590 Alden Road, Markham: a long two-storey block with ribbon windows, a tall end tower and a glass stair tower, redesigned for Mars with a landing pad, rovers and flying craft.</p>
+  <p>The campus is a dream of TTMath on Mars. White Dune Shells rise from the ground like wind-blown sails, each with a glowing glass face. Behind them a landing ring floats above the ground and glass pods hover on curved sky bridges. Rovers park beside the shells, and a flying craft circles the campus.</p>
   <h3>Things to try</h3>
   <ul>
-    <li>Walk up the ridge ahead to find the campus, then walk down to the landing pad.</li>
+    <li>Walk up the ridge ahead: after a few steps the campus comes into view. Walk down to the glowing entrance.</li>
     <li>Press play and watch the sunset turn to twilight: the campus lights glow, clouds keep shining after the Sun is gone, and stars come out.</li>
     <li>In twilight, find Earth and the Moon low in the west, and Phobos rising.</li>
     <li>Jump: in Mars gravity you stay in the air about three times as long.</li>
@@ -423,12 +423,57 @@
   camera.rotation.order = "YXZ";
   var WIND_DIR = new THREE.Vector2(0.8, 0.6).normalize();
 
-  /* ===================== Campus placement (hidden behind the NW ridge) ===================== */
-  var CAMPUS = { x: -100, z: -188, y: -1.0 };
-  CAMPUS.rot = Math.atan2(-CAMPUS.x, -CAMPUS.z);
-  var CC = Math.cos(CAMPUS.rot), CS = Math.sin(CAMPUS.rot);
-  function campusToWorld(lx, ly, lz, out) { return out.set(CAMPUS.x + lx * CC + lz * CS, CAMPUS.y + ly, CAMPUS.z - lx * CS + lz * CC); }
-  function worldToCampus(x, z) { var dx = x - CAMPUS.x, dz = z - CAMPUS.z; return { x: dx * CC - dz * CS, z: dx * CS + dz * CC }; }
+  /* ===================== Campus layout: in the ridge's shadow, 30-95 m from the start ===================== */
+  // Seen from the start point, the NW ridge hides anything below a line that rises with distance:
+  // about 3-4 m high at 30-35 m out, 5-7 m at 40-45 m, 7-9 m at 50-60 m, 9-12 m at 70-90 m (bearings 310-340).
+  // So the buildings are low where they are near and rise as they go away; they appear after ~5 m of walking.
+  function dirAz(a) { return { x: Math.sin(a), z: -Math.cos(a) }; }
+  function azPt(azDeg, d) { var v = dirAz(azDeg * D2R); return { x: v.x * d, z: v.z * d }; }
+  // Wing Hall: a white wing-shaped roof, nose toward the visitor, wings sweeping back and curving up; glass hall under it.
+  // le = leading-edge points [bearing from the start, distance], left tip to right tip.
+  var WING = { le: [[314, 72], [319, 52], [327, 40.5], [335, 50], [338, 70]], cRoot: 16, hN: 3.3, hTL: 5.6, hTR: 5.6, wlL: 1.2, wlR: 1.4, cam: 1.3, rise: 2.4, thk: 0.7, Te: 0.32, NU: 200, NV: 30 };
+  var HALLPOD = { N: 144, uc: 0.5, ur: 0.17, vc: 0.6, vr: 0.28 };   // glass hall outline under the wing, in wing (u, v)
+  var HALO = { c: azPt(336, 88), R: 8.2, r: 2.4, H: 7.8 };           // floating landing ring
+  var PODS = [{ c: azPt(318, 77), bot: 5.2, a: 3.6, b: 2.6, h: 3.4, yaw: 0.5, u: 0.3 }, { c: azPt(337, 73), bot: 4.8, a: 3.4, b: 2.5, h: 3.2, yaw: -0.4, u: 0.7 }];
+  var SIGNP = { c: azPt(313.5, 27.5), W: 4.8, Ht: 1.45, T: 0.3 };       // curved logo wall by the path
+  var ORBIT = { c: azPt(328, 82), R: 11, alt: 7.0 };                 // flying craft circuit behind the hall
+  var RIDGE_VIEW = { x: -5.2, z: -7.4 };                             // where the campus first comes into view
+  var DESIGN = /[?&#]design=wing/.test(location.search + location.hash) ? "wing" : "shells";
+  var POD_LOGO = { W: 4.6, H: 1.44, y0: 2.7 };                      // logo over the entrance, inside the glass
+  var wingCurve = (function () {
+    var pts = WING.le.map(function (p) { var q = azPt(p[0], p[1]); return new THREE.Vector3(q.x, 0, q.z); });
+    return new THREE.CatmullRomCurve3(pts, false, "centripetal");
+  })();
+  WING.L = wingCurve.getLength();
+  var _wv = new THREE.Vector3(), WPLANE = { a: 0, b: 0, c: 0 };
+  // plan frame at span position u (0 = left tip, 1 = right tip): leading-edge point, chord direction (away from the start), chord length
+  function wingFrame(u, o) {
+    wingCurve.getPointAt(clamp(u, 0, 1), _wv);
+    var r = Math.hypot(_wv.x, _wv.z) || 1, a = Math.abs(2 * u - 1);
+    o = o || {}; o.x = _wv.x; o.z = _wv.z; o.dx = _wv.x / r; o.dz = _wv.z / r; o.a = a; o.c = WING.cRoot * (1 - 0.72 * Math.pow(a, 1.4));
+    return o;
+  }
+  var _wf = {};
+  function wingXZ(u, v, o) { var f = wingFrame(u, _wf); o = o || {}; o.x = f.x + f.dx * f.c * v; o.z = f.z + f.dz * f.c * v; return o; }
+  function wingPlane(x, z) { return WPLANE.a + WPLANE.b * x + WPLANE.c * z; }
+  // roof height above the reference plane: low nose, tips curving up, rising toward the back like a wing taking off
+  function wingY(u, v, bottom) {
+    var a = Math.abs(2 * u - 1), left = u < 0.5, hT = left ? WING.hTL : WING.hTR, wl = left ? WING.wlL : WING.wlR, tip = Math.max(0, (a - 0.8) / 0.2);
+    var yLE = WING.hN + (hT - WING.hN) * Math.pow(a, 1.7) + wl * tip * tip, sv = Math.sin(Math.PI * clamp(v, 0, 1));
+    var top = yLE + WING.Te / 2 + WING.cam * (1 - 0.45 * a) * Math.pow(sv, 0.8) + WING.rise * (1 - 0.5 * a) * v;
+    return bottom ? top - WING.Te - WING.thk * (1 - 0.7 * a) * Math.pow(sv, 0.9) : top;
+  }
+  // outline of the glass hall, starting at its back so the front (and the logo) is one run in the middle
+  var HALL_LOOP = (function () {
+    var pts = [], o = {}, s = 0, prev = null;
+    for (var k = 0; k <= HALLPOD.N; k++) {
+      var t = Math.PI / 2 + k / HALLPOD.N * 2 * Math.PI, u = HALLPOD.uc + HALLPOD.ur * Math.cos(t), v = HALLPOD.vc + HALLPOD.vr * Math.sin(t);
+      wingXZ(u, v, o); if (prev) s += Math.hypot(o.x - prev.x, o.z - prev.z);
+      pts.push({ u: u, v: v, x: o.x, z: o.z, s: s }); prev = { x: o.x, z: o.z };
+    }
+    return pts;
+  })();
+  var HALL_FRONT_S = HALL_LOOP[HALLPOD.N / 2].s;
 
   /* ===================== Shared uniforms ===================== */
   var dummyTex = new THREE.DataTexture(new Uint8Array([128, 128, 128, 255]), 1, 1, THREE.RGBAFormat); dummyTex.needsUpdate = true;
@@ -448,7 +493,7 @@
     uShadowMap: { value: null }, uShadowMatrix: { value: new THREE.Matrix4() }, uShadowTexel: { value: 1 / 2048 }, uShadowBias: { value: 0.0005 }, uShadowOn: { value: 0 },
     uHF: { value: dummyTex }, uHFExt: { value: 17000 }, uHFOn: { value: 0 },
     uSynthF: { value: dummyTex }, uSynthMeanF: { value: 0.5 }, uSynthC: { value: dummyTex }, uSynthMeanC: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-    uWindDir: { value: WIND_DIR.clone() }, uLogo: { value: dummyTex }, uPadY: { value: CAMPUS.y },
+    uWindDir: { value: WIND_DIR.clone() }, uLogo: { value: dummyTex }, uPodLogo: { value: new THREE.Vector4(HALL_FRONT_S, POD_LOGO.W, POD_LOGO.y0, POD_LOGO.H) },
     uMote: { value: 0.5 }, uWindV: { value: new THREE.Vector3() }, uCam: { value: new THREE.Vector3() }, uBox: { value: 22 }, uPxScale: { value: 800 }
   };
   function withMap(tex) { var u = Object.assign({}, U); u.map = { value: tex }; return u; }
@@ -741,86 +786,137 @@
 
   /* ===================== Campus + vehicles material ===================== */
   var OBJ_VS = [
-    "attribute vec2 aFac; attribute float aMat;",
-    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying float vMat;",
-    "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vFac = aFac; vMat = aMat; gl_Position = projectionMatrix * viewMatrix * wp; }"
+    "attribute vec2 aFac; attribute vec2 aFac2; attribute float aMat;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat;",
+    "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vFac = aFac; vFac2 = aFac2; vMat = aMat; gl_Position = projectionMatrix * viewMatrix * wp; }"
   ].join("\n");
   var OBJ_FS = [
     "#include <packing>",
     SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL,
-    "uniform sampler2D uLogo; uniform float uTime, uPadY;",
-    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying float vMat;",
+    "uniform sampler2D uLogo; uniform float uTime; uniform vec4 uPodLogo;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat;",
+    "const vec3 BRAND = vec3(0.345, 0.545, 0.659);",
     "float hsh(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
     "float joint(float u, float period, float w){ float f = fract(u / period); float d = min(f, 1.0 - f) * period; return 1.0 - smoothstep(w * 0.5, w * 1.5, d); }",
+    // anti-aliased periodic line: fades to its average coverage once the pattern is smaller than a pixel
+    "float aline(float x, float period, float w){ float fw = fwidth(x) + 1e-5; float d = abs(fract(x / period + 0.5) - 0.5) * period;",
+    "  float l = 1.0 - smoothstep(w * 0.5 - fw, w * 0.5 + fw, d); return mix(l, min(w / period, 1.0), smoothstep(period * 0.25, period * 0.8, fw)); }",
+    "float logoAt(vec2 q){ vec2 k = step(vec2(0.0), q) * step(q, vec2(1.0)); return texture2D(uLogo, clamp(q, 0.0, 1.0)).a * k.x * k.y; }",
     "void main(){",
     "  vec3 n = normalize(vN);",
     "  vec3 V = vW - cameraPosition; float dist = length(V); vec3 vd = V / max(dist, 1e-3);",
     "  if (dot(n, vd) > 0.0) n = -n;",
-    "  float m = vMat; vec2 f = vFac;",
-    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float refl = 0.0; float dustable = 1.0;",
-    "  if (m < 0.5) {",                                         // white composite panels
-    "    alb = vec3(0.83, 0.82, 0.79) * (1.0 - 0.22 * max(joint(f.x, 3.0, 0.03), joint(f.y, 1.4, 0.03)));",
-    "  } else if (m < 1.5) {",                                  // facade with ribbon windows
-    "    float fl = floor(f.y / 4.2); float fy = f.y - fl * 4.2;",
-    "    if (fy > 1.0 && fy < 3.35 && fl < 1.5 && f.y > 0.0) {",
-    "      float col = floor(f.x / 1.6); float fx = f.x - col * 1.6;",
-    "      float mull = 1.0 - step(0.06, fx) * step(fx, 1.54) * step(1.06, fy) * step(fy, 3.29);",
-    "      float rnd = hsh(vec2(col, fl + 3.0)); float on = step(0.2, rnd);",
-    "      float gy = (fy - 1.0) / 2.35;",
-    "      float blind = smoothstep(0.62, 0.95, hsh(vec2(col * 1.7, fl))) * (0.3 + 0.55 * hsh(vec2(col, fl * 2.3)));",
-    "      vec3 room = mix(vec3(1.0, 0.80, 0.58), vec3(0.85, 0.92, 1.0), step(0.75, hsh(vec2(col, fl + 9.0))));",
-    "      room *= (0.55 + 0.6 * smoothstep(0.45, 1.0, gy)) * mix(0.25, 1.0, on) * (0.85 + 0.3 * hsh(vec2(col, fl + 7.0)));",
-    "      if (gy > 1.0 - blind) room *= 0.4;",
-    "      emi = room * 0.09 * (1.0 - mull);",
-    "      alb = mix(vec3(0.03, 0.035, 0.04), vec3(0.09), mull); refl = 1.0 - mull; dustable = mull;",
-    "    } else { alb = vec3(0.83, 0.82, 0.79) * (1.0 - 0.2 * joint(f.x, 3.2, 0.03)); }",
+    "  float m = vMat; vec2 f = vFac, g = vFac2;",
+    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float refl = 0.0; float dustable = 1.0; float hab = g.x; float gloss = 0.0;",
+    "  if (m < 0.5) {",                                            // PEARL: smooth white panels (f in metres)
+    "    alb = vec3(0.86, 0.85, 0.82) * (1.0 - 0.08 * max(aline(f.x, 3.0, 0.03), aline(f.y, 3.0, 0.03))); refl = 0.14; gloss = 0.35;",
+    "  } else if (m < 1.5) {",                                     // WING top skin: f.x span metres, f.y chord 0..1, g.y 0 centre..1 tips
+    "    float rib = aline(f.x, 2.4, 0.025) * (1.0 - 0.6 * smoothstep(0.8, 1.0, g.y));",
+    "    alb = vec3(0.92, 0.905, 0.87) * (1.0 - 0.07 * rib); refl = 0.9; gloss = 0.6; dustable = 0.35;",
     "  } else if (m < 2.5) { alb = vec3(0.07, 0.075, 0.08); refl = 0.12; }",                 // dark metal
     "  else if (m < 3.5) { alb = vec3(0.44, 0.42, 0.40) * (1.0 - 0.15 * max(joint(f.x, 4.0, 0.04), joint(f.y, 4.0, 0.04))); }", // concrete
-    "  else if (m < 4.5) { alb = vec3(0.03); emi = vec3(0.10, 0.45, 1.0) * 0.30; dustable = 0.0; }", // blue LED strip
-    "  else if (m < 5.5) {",                                     // TTMath sign
-    "    float lg = texture2D(uLogo, f).a;",
-    "    vec3 bg = vec3(0.345, 0.545, 0.659);",
-    "    alb = mix(bg, vec3(0.95), lg) * 0.35;",
-    "    emi = mix(pow(bg, vec3(2.2)) * 0.12, vec3(1.0, 0.98, 0.95) * 0.40, lg); dustable = 0.0;",
-    "  } else if (m < 6.5) {",                                   // solar panels
+    "  else if (m < 4.5) { alb = vec3(0.03); emi = vec3(0.10, 0.45, 1.0) * 0.32; dustable = 0.0; }", // blue light line
+    "  else if (m < 4.9) {",                                       // FASCIA: white edge band with a fine light line along its lower edge (f.y 0..1)
+    "    float ln = 1.0 - smoothstep(0.16, 0.24, f.y);",
+    "    alb = mix(vec3(0.9, 0.89, 0.86), vec3(0.05), ln); emi = vec3(0.12, 0.5, 1.0) * 0.55 * ln; refl = 0.2; gloss = 0.5; dustable = 0.0;",
+    "  }",
+    "  else if (m < 5.5) {",                                       // TTMath sign: f = logo coordinates
+    "    float lg = logoAt(f);",
+    "    alb = mix(BRAND, vec3(0.95), lg) * 0.35;",
+    "    emi = mix(pow(BRAND, vec3(2.2)) * 0.12, vec3(1.0, 0.98, 0.95) * 0.40, lg); dustable = 0.0;",
+    "  } else if (m < 6.5) {",                                     // solar panels
     "    alb = vec3(0.03, 0.05, 0.12) + vec3(0.12) * max(joint(f.x, 1.0, 0.03), joint(f.y, 1.6, 0.03)); refl = 0.7; dustable = 0.4;",
     "  } else if (m < 7.5) { alb = vec3(0.86, 0.85, 0.83); }",                              // vehicle white
     "  else if (m < 8.5) { alb = vec3(0.045, 0.043, 0.04); dustable = 1.3; }",             // tyres
     "  else if (m < 9.5) { alb = vec3(0.02, 0.025, 0.03); refl = 1.0; dustable = 0.2; }",  // dark glass
-    "  else if (m < 10.5) { alb = vec3(0.9); emi = vec3(1.0, 0.95, 0.85) * 1.2; dustable = 0.0; }", // head / lamp light
+    "  else if (m < 10.5) { alb = vec3(0.9); emi = vec3(1.0, 0.95, 0.85) * 1.2; dustable = 0.0; }", // lamps
     "  else if (m < 11.5) { alb = vec3(0.3, 0.02, 0.02); emi = vec3(1.0, 0.05, 0.03) * (0.25 + 1.2 * step(0.55, fract(uTime * 0.9 + f.x))); dustable = 0.0; }", // red nav
     "  else if (m < 12.5) { alb = vec3(0.02, 0.3, 0.05); emi = vec3(0.05, 1.0, 0.25) * (0.25 + 1.2 * step(0.55, fract(uTime * 0.9 + f.x))); dustable = 0.0; }", // green nav
     "  else if (m < 13.5) { alb = vec3(0.9); emi = vec3(1.0) * 4.0 * step(0.92, fract(uTime * 0.75 + f.x)); dustable = 0.0; }", // strobe
-    "  else if (m < 14.5) {",                                    // landing pad
+    "  else if (m < 14.5) {",                                      // landing deck
     "    float r = length(f); alb = vec3(0.19, 0.185, 0.18);",
-    "    float paint = max(1.0 - smoothstep(0.18, 0.28, abs(r - 11.8)), 1.0 - smoothstep(0.1, 0.18, abs(r - 6.6)));",
-    "    paint = max(paint, step(abs(f.x), 3.2) * step(abs(f.y - 2.1), 0.5));",
-    "    paint = max(paint, step(abs(f.x), 0.55) * step(-3.6, f.y) * step(f.y, 2.6));",
+    "    float paint = max(1.0 - smoothstep(0.18, 0.28, abs(r - 11.2)), 1.0 - smoothstep(0.1, 0.18, abs(r - 6.6)));",
     "    alb = mix(alb, vec3(0.78, 0.8, 0.82), paint * 0.9); emi = vec3(0.35, 0.6, 1.0) * 0.012 * paint;",
-    "    alb *= 1.0 - 0.12 * joint(f.x, 4.0, 0.05) - 0.12 * joint(f.y, 4.0, 0.05);",
-    "  } else if (m < 15.5) {",                                  // pad ring lights (chasing)
+    "    alb *= 1.0 - 0.12 * joint(f.x, 4.0, 0.05) - 0.12 * joint(f.y, 4.0, 0.05); dustable = 0.3;",
+    "  } else if (m < 15.5) {",                                    // chasing deck lights
     "    float chase = 0.5 + 0.5 * sin(f.x * 4.0 - uTime * 3.0);",
     "    alb = vec3(0.2); emi = mix(vec3(0.15, 0.5, 1.0), vec3(1.0), 0.25) * (0.3 + 1.2 * chase); dustable = 0.0;",
-    "  } else if (m < 16.5) {",                                  // glass stair tower
-    "    float fx = fract(f.x / 1.25); float fyy = mod(f.y, 4.2);",
-    "    float mull = max(1.0 - step(0.04, fx) * step(fx, 0.96), 1.0 - step(0.12, fyy));",
-    "    float stair = step(0.45, fract((f.y + f.x * 0.55) / 4.2 * 2.0)) * 0.35 + 0.65;",
-    "    emi = vec3(0.82, 0.9, 1.0) * 0.11 * stair * (1.0 - mull);",
-    "    alb = mix(vec3(0.03, 0.04, 0.05), vec3(0.85), mull * 0.6); refl = 1.0 - mull; dustable = mull * 0.5;",
-    "  } else if (m < 17.5) {",                                  // entrance atrium glass
-    "    float fx = fract(f.x / 1.5); float fyy = fract(f.y / 2.9);",
-    "    float mull = max(1.0 - step(0.035, fx) * step(fx, 0.965), 1.0 - step(0.03, fyy) * step(fyy, 0.97));",
-    "    emi = vec3(1.0, 0.86, 0.66) * 0.16 * (0.75 + 0.25 * smoothstep(0.0, 8.0, f.y)) * (1.0 - mull);",
-    "    alb = mix(vec3(0.03), vec3(0.8), mull); refl = 1.0 - mull; dustable = 0.0;",
-    "  } else if (m < 18.5) {",                                  // rover bays
-    "    alb = vec3(0.16, 0.155, 0.15);",
-    "    float ln = max(joint(f.x, 7.0, 0.14), step(f.y, 0.25));",
-    "    emi = vec3(0.2, 0.6, 1.0) * 0.10 * ln; alb = mix(alb, vec3(0.5), ln * 0.5);",
+    "  } else if (m < 16.5) {",                                    // GLASSWALL: f.x metres along, f.y height above ground; g.x wall top, g.y lobby
+    "    hab = f.y; float top = g.x, ent = g.y;",
+    "    float mull = aline(f.x, 1.5, 0.045) * (1.0 - smoothstep(0.3, 0.6, ent) * step(f.y, 2.6));",
+    "    float twoLv = step(5.2, top) * (1.0 - smoothstep(0.2, 0.5, ent));",
+    "    float slab = (1.0 - smoothstep(0.12, 0.18, abs(f.y - 3.4))) * twoLv;",
+    "    float base = 1.0 - smoothstep(0.16, 0.22, f.y), topF = smoothstep(top - 0.12, top - 0.06, f.y);",
+    "    float door = smoothstep(0.3, 0.6, ent) * (1.0 - smoothstep(2.5, 2.58, f.y)) * aline(f.x + 0.6, 1.2, 0.04);",
+    "    float dark = max(mull, max(topF, door)), white = max(slab, base);",
+    // interior mapping: a lit room box behind every pane gives the glass real depth
+    "    vec3 dp1 = dFdx(vW), dp2 = dFdy(vW); float du1 = dFdx(f.x), du2 = dFdy(f.x);",
+    "    vec3 Tn = cross(dp2, n) * du1 + cross(n, dp1) * du2; Tn.y = 0.0; Tn = length(Tn) > 1e-6 ? normalize(Tn) : normalize(cross(vec3(0.0, 1.0, 0.0), n));",
+    "    float lv = step(3.4, f.y) * twoLv, RH = twoLv > 0.5 ? (lv > 0.5 ? max(top - 3.4, 2.2) : 3.4) : max(top, 2.6), RW = mix(4.2, 7.0, ent), RD = mix(6.0, 9.0, ent);",
+    "    float cx = fract(f.x / RW) * RW, cyy = f.y - lv * 3.4;",
+    "    vec3 dr = vec3(dot(vd, Tn), vd.y, max(dot(vd, -n), 0.02));",
+    "    float tx = dr.x > 0.0 ? (RW - cx) / dr.x : -cx / min(dr.x, -1e-4);",
+    "    float ty = dr.y > 0.0 ? (RH - cyy) / dr.y : -cyy / min(dr.y, -1e-4);",
+    "    float tz = RD / dr.z, tt = min(min(tx, ty), tz);",
+    "    vec3 hp = vec3(cx, cyy, 0.0) + dr * tt;",
+    "    float rid = hsh(vec2(floor(f.x / RW), lv + 5.0));",
+    "    vec3 warm = mix(vec3(1.0, 0.76, 0.50), vec3(1.0, 0.88, 0.72), step(0.72, rid)) * (0.8 + 0.4 * rid);",
+    "    vec3 room;",
+    "    if (tt == ty && dr.y > 0.0) {",                            // ceiling with light panels
+    "      vec2 cl = vec2(fract(hp.x / 1.4) - 0.5, fract(hp.z / 1.6) - 0.5);",
+    "      room = warm * (0.55 + 2.6 * (1.0 - smoothstep(0.16, 0.24, max(abs(cl.x), abs(cl.y) * 0.6))));",
+    "    } else if (tt == ty) {",                                   // floor, a little glossy
+    "      room = warm * (0.30 + 0.035 * step(0.5, fract(hp.x / 1.2 + floor(hp.z / 1.2) * 0.5)) + 0.25 * exp(-pow(hp.z / RD - 0.5, 2.0) * 6.0));",
+    "    } else if (tt == tz) {",                                   // back wall with a lit band
+    "      room = warm * (0.42 + 0.35 * (1.0 - smoothstep(0.1, 0.5, abs(hp.y - RH * 0.55))));",
+    "    } else {",                                                 // side walls
+    "      room = warm * (0.34 + 0.1 * sin(hp.z * 1.3 + rid * 6.0));",
+    "    }",
+    "    room *= (1.0 - 0.4 * hp.z / RD) * (1.0 + 1.3 * ent);",
+    "    emi = room * 0.34 * (1.0 - max(dark, white));",
+    "    alb = mix(vec3(0.012, 0.014, 0.018), vec3(0.06, 0.065, 0.07), dark); alb = mix(alb, vec3(0.88, 0.87, 0.84), white);",
+    "    refl = (1.0 - max(dark, white)) + dark * 0.3; gloss = 1.0; dustable = white * 0.5;",
+    "    vec2 lq = vec2((f.x - (uPodLogo.x - uPodLogo.y * 0.5)) / uPodLogo.y, (f.y - uPodLogo.z) / uPodLogo.w);",
+    "    if (lq.x > -0.05 && lq.x < 1.05 && lq.y > -0.12 && lq.y < 1.12) {",
+    "      float lg = logoAt(lq);",
+    "      alb = mix(BRAND * 0.45, vec3(0.95), lg); emi = mix(pow(BRAND, vec3(2.2)) * 0.12, vec3(1.0, 0.98, 0.95) * 0.45, lg); refl = 0.05; dustable = 0.0;",
+    "    }",
+    "  } else if (m < 17.5) {",                                    // SOFFIT (wing underside): f.x span m, f.y chord m; g.x chord, g.y 0 centre..1 tips
+    "    alb = vec3(0.80, 0.78, 0.75); dustable = 0.0;",
+    "    vec2 q = vec2((fract(f.x / 2.4) - 0.5) * 2.4, (fract(f.y / 2.4) - 0.5) * 2.4);",
+    "    float core = 1.0 - smoothstep(0.3, 0.55, g.y);",
+    "    float spot = (1.0 - smoothstep(0.07, 0.13, length(q))) * core;",
+    "    emi = vec3(1.0, 0.9, 0.76) * (1.4 * spot + 0.05 * core);",
+    "  } else if (m < 18.5) {",                                    // POD (hovering glass pod): f.x 0..1 around, f.y -1 bottom .. 1 top
+    "    float band = 1.0 - smoothstep(0.10, 0.14, abs(f.y + 0.05));",
+    "    float ribs = aline(f.x * 24.0, 1.0, 0.06) * (1.0 - band);",
+    "    float solid = max(band, ribs);",
+    "    float glowRing = 1.0 - smoothstep(0.04, 0.08, abs(f.y + 0.86));",
+    "    vec3 inside = mix(vec3(0.35, 0.72, 0.32), vec3(1.0, 0.86, 0.62), smoothstep(-0.4, 0.6, f.y)) * (0.6 + 0.4 * vnoise(vec2(f.x * 60.0, f.y * 9.0)));",
+    "    emi = inside * 0.13 * (1.0 - solid) + vec3(0.2, 0.55, 1.0) * 0.9 * glowRing;",
+    "    alb = mix(vec3(0.02, 0.03, 0.03), vec3(0.9, 0.89, 0.86), solid); refl = (1.0 - solid) * 0.9; dustable = 0.0;",
     "  } else if (m < 19.5) { alb = vec3(0.3, 0.02, 0.02); emi = vec3(1.0, 0.04, 0.02) * 3.0 * step(0.5, fract(uTime * 0.8)); dustable = 0.0; }", // beacon
-    "  else { alb = vec3(0.035); refl = 0.3; }",                                           // rotor discs
-    // dust settles on the campus
-    "  float hag = vW.y - uPadY;",
-    "  float dust = dustable * (0.45 * smoothstep(0.55, 0.95, n.y) + 0.5 * (1.0 - smoothstep(0.0, 1.3, hag)));",
+    "  else if (m < 20.5) { alb = vec3(0.035); refl = 0.3; }",                               // rotor discs
+    "  else if (m < 21.5) {",                                      // TUBE (glass sky bridge): f.x m along, f.y m around; g.y = position of the top
+    "    float rib = aline(f.x, 2.4, 0.2);",
+    "    float strip = 1.0 - smoothstep(0.1, 0.18, abs(f.y - g.y));",
+    "    emi = vec3(0.75, 0.88, 1.0) * (0.05 + 0.45 * strip) * (1.0 - rib);",
+    "    alb = mix(vec3(0.03, 0.035, 0.04), vec3(0.87, 0.86, 0.84), rib); refl = (1.0 - rib) * 0.85; dustable = 0.0; hab = 99.0;",
+    "  } else {",                                                  // PAVE: draped paving. plaza: f m, g.x = distance to the edge; bays: g = (W, -L)
+    "    hab = 0.0; dustable = 0.55;",
+    "    if (g.y < 0.0) {",
+    "      float W = g.x, L = -g.y; float e = min(min(f.x, W - f.x), min(f.y, L - f.y));",
+    "      float line = 1.0 - smoothstep(0.06, 0.12, e);",
+    "      alb = vec3(0.30, 0.29, 0.28) * (1.0 - 0.3 * line); emi = vec3(0.2, 0.55, 1.0) * 0.55 * line;",
+    "    } else {",
+    "      float j1 = aline(f.x, 2.0, 0.05), j2 = aline(f.y, 2.0, 0.05);",
+    "      alb = vec3(0.60, 0.56, 0.51) * (1.0 - 0.16 * max(j1, j2)) * (0.92 + 0.16 * hsh(floor(f / 2.0)));",
+    "      float ring = 1.0 - smoothstep(0.04, 0.08, abs(g.x - 0.3));",
+    "      alb *= 1.0 - 0.25 * ring; emi = vec3(1.0, 0.86, 0.66) * 0.06 * ring;",
+    "    }",
+    "  }",
+    // dust settles on ledges and near the ground
+    "  float dust = dustable * (0.45 * smoothstep(0.55, 0.95, n.y) + 0.5 * (1.0 - smoothstep(0.0, 1.3, hab)));",
     "  dust *= 0.55 + 0.45 * vnoise(vW.xz * 1.3 + vW.y * 0.7);",
     "  alb = mix(alb, vec3(0.52, 0.35, 0.23), clamp(dust, 0.0, 0.8) * 0.75);",
     "  vec3 albl = pow(alb, vec3(2.2));",
@@ -831,23 +927,36 @@
     "  float fres = 0.04 + 0.96 * pow(1.0 - max(dot(-vd, n), 0.0), 5.0);",
     "  vec3 rd = reflect(vd, n);",
     "  lit += refl * fres * skyRad(normalize(vec3(rd.x, max(rd.y, 0.0), rd.z))) * 0.9;",
+    "  if (gloss > 0.0 && sh > 0.0) lit += uSunIrr * sh * gloss * (0.04 + 0.96 * fres) * pow(max(dot(rd, uSun), 0.0), 80.0) * 6.0;",
     "  lit += emi;",
     "  vec3 c = mix(lit, hazeCol(vd), hazeAmt(dist));",
     "  gl_FragColor = vec4(enc(c * uExposure), 0.0);",
     "}"
   ].join("\n");
-  var M = { WHITE: 0, FACADE: 1, METAL: 2, CONCRETE: 3, LED: 4, SIGN: 5, SOLAR: 6, BODY: 7, TIRE: 8, GLASS: 9, LAMP: 10, RED: 11, GREEN: 12, STROBE: 13, PAD: 14, PADLIGHT: 15, STAIR: 16, ATRIUM: 17, BAYS: 18, BEACON: 19, ROTOR: 20 };
-  var objMat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: OBJ_VS, fragmentShader: OBJ_FS, side: THREE.DoubleSide });
+  var M = { PEARL: 0, WING: 1, METAL: 2, CONCRETE: 3, LED: 4, FASCIA: 4.7, SIGN: 5, SOLAR: 6, BODY: 7, TIRE: 8, GLASS: 9, LAMP: 10, RED: 11, GREEN: 12, STROBE: 13, PAD: 14, PADLIGHT: 15, GLASSWALL: 16, SOFFIT: 17, POD: 18, BEACON: 19, ROTOR: 20, TUBE: 21, PAVE: 22 };
+  var objMat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: OBJ_VS, fragmentShader: OBJ_FS, side: THREE.DoubleSide, extensions: { derivatives: true } });
+  // same shading for things laid flat on the ground (plaza, charging bays), pulled forward so they never flicker with the terrain
+  var drapeMat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: OBJ_VS, fragmentShader: OBJ_FS, side: THREE.DoubleSide, extensions: { derivatives: true }, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
+  // soft light column under the floating ring (additive, no depth write)
+  var beamMat = new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor,
+    vertexShader: "attribute float aH; varying vec3 vW; varying vec3 vN; varying float vH; void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vH = aH; gl_Position = projectionMatrix * viewMatrix * wp; }",
+    fragmentShader: [SKY_GLSL, "uniform float uTime; varying vec3 vW; varying vec3 vN; varying float vH;",
+      "void main(){ vec3 vd = normalize(vW - cameraPosition); float edge = 1.0 - abs(dot(normalize(vN), vd));",
+      "  float k = pow(edge, 2.5) * (0.3 + 0.7 * vH) * (0.88 + 0.12 * sin(uTime * 1.7 + vH * 9.0));",
+      "  gl_FragColor = vec4(enc(vec3(0.25, 0.6, 1.0) * 0.035 * k * uExposure), 0.0); }"].join("\n")
+  });
 
-  /* Geometry builder: boxes and shapes with facade coordinates + material ids */
-  function Builder() { this.p = []; this.n = []; this.f = []; this.m = []; this.i = []; }
+  /* Geometry builder: boxes, parametric surfaces and shapes, with facade coordinates + material ids */
+  function Builder() { this.p = []; this.n = []; this.f = []; this.f2 = []; this.m = []; this.i = []; }
   Builder.prototype.quad = function (a, b, c, d, nrm, fa, fb, fc, fd, mat) {
     var base = this.p.length / 3, self = this;
-    [a, b, c, d].forEach(function (v) { self.p.push(v[0], v[1], v[2]); self.n.push(nrm[0], nrm[1], nrm[2]); self.m.push(mat); });
+    [a, b, c, d].forEach(function (v) { self.p.push(v[0], v[1], v[2]); self.n.push(nrm[0], nrm[1], nrm[2]); self.m.push(mat); self.f2.push(99, 0); });
     [fa, fb, fc, fd].forEach(function (v) { self.f.push(v[0], v[1]); });
     this.i.push(base, base + 1, base + 2, base, base + 2, base + 3);
   };
-  // axis-aligned box; mats = number or {px,nx,py,ny,pz,nz}; facade coords: u = meters along face, v = y (or z on top)
+  // axis-aligned box; mats = number or {px,nx,py,ny,pz,nz}; facade coords: u = metres along face, v = y (or z on top)
   Builder.prototype.box = function (x0, y0, z0, x1, y1, z1, mats, skipBottom) {
     function mt(k) { return typeof mats === "number" ? mats : (mats[k] !== undefined ? mats[k] : mats.all); }
     this.quad([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1], [0, 0, 1], [0, y0], [x1 - x0, y0], [x1 - x0, y1], [0, y1], mt("pz"));
@@ -857,32 +966,113 @@
     this.quad([x0, y1, z1], [x1, y1, z1], [x1, y1, z0], [x0, y1, z0], [0, 1, 0], [x0, z1], [x1, z1], [x1, z0], [x0, z0], mt("py"));
     if (!skipBottom) this.quad([x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [0, -1, 0], [x0, z0], [x1, z0], [x1, z1], [x0, z1], mt("ny"));
   };
-  // arbitrary three.js geometry with a transform
+  // any three.js geometry with a transform (keeps aMat / aFac / aFac2 if the geometry has them)
   Builder.prototype.geo = function (g, matrix, mat, facScale) {
     g = g.index ? g.toNonIndexed() : g.clone(); g.applyMatrix4(matrix);
     var P = g.attributes.position.array, N = g.attributes.normal.array, UV = g.attributes.uv ? g.attributes.uv.array : null, base = this.p.length / 3, s = facScale || 1;
-    var AM = g.attributes.aMat ? g.attributes.aMat.array : null, AF = g.attributes.aFac ? g.attributes.aFac.array : null;
+    var AM = g.attributes.aMat ? g.attributes.aMat.array : null, AF = g.attributes.aFac ? g.attributes.aFac.array : null, AF2 = g.attributes.aFac2 ? g.attributes.aFac2.array : null;
     for (var k = 0; k < P.length / 3; k++) {
       this.p.push(P[k * 3], P[k * 3 + 1], P[k * 3 + 2]); this.n.push(N[k * 3], N[k * 3 + 1], N[k * 3 + 2]);
       if (AF) this.f.push(AF[k * 2], AF[k * 2 + 1]); else this.f.push(UV ? UV[k * 2] * s : 0, UV ? UV[k * 2 + 1] * s : 0);
+      if (AF2) this.f2.push(AF2[k * 2], AF2[k * 2 + 1]); else this.f2.push(99, 0);
       this.m.push(AM ? AM[k] : mat); this.i.push(base + k);
     }
+  };
+  // parametric grid surface: fn(i, j, q) fills q.p (xyz), q.f, q.f2, q.m for grid point (i, j); smooth normals from the grid
+  Builder.prototype.surf = function (nu, nv, fn, wrapU, wrapV) {
+    var base = this.p.length / 3, W = nu + 1, P = [], q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0 }, i, j;
+    for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
+      q.f2[0] = 99; q.f2[1] = 0; fn(i, j, q);
+      P.push(q.p[0], q.p[1], q.p[2]); this.p.push(q.p[0], q.p[1], q.p[2]);
+      this.f.push(q.f[0], q.f[1]); this.f2.push(q.f2[0], q.f2[1]); this.m.push(q.m);
+    }
+    for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
+      var i0 = i - 1, i1 = i + 1, j0 = j - 1, j1 = j + 1;
+      if (i0 < 0) i0 = wrapU ? nu - 1 : 0; if (i1 > nu) i1 = wrapU ? 1 : nu;
+      if (j0 < 0) j0 = wrapV ? nv - 1 : 0; if (j1 > nv) j1 = wrapV ? 1 : nv;
+      var a = (j * W + i1) * 3, b = (j * W + i0) * 3, c = (j1 * W + i) * 3, d = (j0 * W + i) * 3;
+      var ux = P[a] - P[b], uy = P[a + 1] - P[b + 1], uz = P[a + 2] - P[b + 2], vx = P[c] - P[d], vy = P[c + 1] - P[d + 1], vz = P[c + 2] - P[d + 2];
+      var nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx, l = Math.sqrt(nx * nx + ny * ny + nz * nz);
+      if (l < 1e-9) { nx = 0; ny = 1; nz = 0; l = 1; }
+      this.n.push(nx / l, ny / l, nz / l);
+    }
+    for (j = 0; j < nv; j++) for (i = 0; i < nu; i++) { var k = base + j * W + i; this.i.push(k, k + 1, k + W + 1, k, k + W + 1, k + W); }
   };
   Builder.prototype.build = function () {
     var g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(this.p, 3));
     g.setAttribute("normal", new THREE.Float32BufferAttribute(this.n, 3));
     g.setAttribute("aFac", new THREE.Float32BufferAttribute(this.f, 2));
+    g.setAttribute("aFac2", new THREE.Float32BufferAttribute(this.f2, 2));
     g.setAttribute("aMat", new THREE.Float32BufferAttribute(this.m, 1));
     g.setIndex(this.i); g.computeBoundingSphere();
     return g;
   };
-  var _m4 = new THREE.Matrix4();
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
-  function addRover(B, cx, cz, yaw) {
-    var R = T(cx, 0, cz, 0, yaw, 0);
-    function bx(x0, y0, z0, x1, y1, z1, mat) { var b = new Builder(); b.box(x0, y0, z0, x1, y1, z1, mat); B.geo(b.build(), R, null); }
+  /* ===================== Campus ground: height grid rasterized from the real NASA mesh ===================== */
+  var CG = { x0: -96, z0: -112, res: 0.5, nx: 200, nz: 200, h: null };
+  function buildCampusGround() {
+    var nx = CG.nx, nz = CG.nz, res = CG.res, x0 = CG.x0, z0 = CG.z0, x1 = x0 + nx * res, z1 = z0 + nz * res;
+    var h = new Float32Array(nx * nz).fill(-1e9), i, j, k;
+    function splat(x, y, z) { var ii = Math.floor((x - x0) / res), jj = Math.floor((z - z0) / res); if (ii >= 0 && jj >= 0 && ii < nx && jj < nz) { var kk = jj * nx + ii; if (y > h[kk]) h[kk] = y; } }
+    for (var mi = 0; mi < terrainMeshes.length; mi++) {
+      var mesh = terrainMeshes[mi], bb = mesh.userData.box;
+      if (bb.max.x < x0 || bb.min.x > x1 || bb.max.z < z0 || bb.min.z > z1) continue;
+      var P = mesh.geometry.attributes.position.array, I = mesh.geometry.index.array;
+      for (var t = 0; t < I.length; t += 3) {
+        var ia = I[t] * 3, ib = I[t + 1] * 3, ic = I[t + 2] * 3;
+        var ax = P[ia], ay = P[ia + 1], az = P[ia + 2], bx = P[ib], by = P[ib + 1], bz = P[ib + 2], cx = P[ic], cy = P[ic + 1], cz = P[ic + 2];
+        var mnx = Math.min(ax, bx, cx), mxx = Math.max(ax, bx, cx), mnz = Math.min(az, bz, cz), mxz = Math.max(az, bz, cz);
+        if (mxx < x0 || mnx > x1 || mxz < z0 || mnz > z1) continue;
+        splat(ax, ay, az); splat(bx, by, bz); splat(cx, cy, cz);
+        var i0 = Math.max(0, Math.ceil((mnx - x0) / res - 0.5)), i1 = Math.min(nx - 1, Math.floor((mxx - x0) / res - 0.5));
+        var j0 = Math.max(0, Math.ceil((mnz - z0) / res - 0.5)), j1 = Math.min(nz - 1, Math.floor((mxz - z0) / res - 0.5));
+        if (i1 < i0 || j1 < j0) continue;
+        var det = (bz - cz) * (ax - cx) + (cx - bx) * (az - cz);
+        if (Math.abs(det) < 1e-9) continue;
+        for (j = j0; j <= j1; j++) {
+          var pz = z0 + (j + 0.5) * res;
+          for (i = i0; i <= i1; i++) {
+            var px = x0 + (i + 0.5) * res;
+            var l1 = ((bz - cz) * (px - cx) + (cx - bx) * (pz - cz)) / det, l2 = ((cz - az) * (px - cx) + (ax - cx) * (pz - cz)) / det, l3 = 1 - l1 - l2;
+            if (l1 < -1e-4 || l2 < -1e-4 || l3 < -1e-4) continue;
+            var y = l1 * ay + l2 * by + l3 * cy; k = j * nx + i; if (y > h[k]) h[k] = y;
+          }
+        }
+      }
+    }
+    for (var pass = 0; pass < 24; pass++) {           // fill any holes from their neighbours
+      var changed = false, nh = h.slice();
+      for (j = 0; j < nz; j++) for (i = 0; i < nx; i++) {
+        k = j * nx + i; if (h[k] > -1e8) continue;
+        var s = 0, c = 0;
+        for (var dj = -1; dj <= 1; dj++) for (var di = -1; di <= 1; di++) { var ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= nx || jj >= nz) continue; var v = h[jj * nx + ii]; if (v > -1e8) { s += v; c++; } }
+        if (c) { nh[k] = s / c; changed = true; }
+      }
+      h = nh; if (!changed) break;
+    }
+    for (k = 0; k < h.length; k++) if (h[k] < -1e8) h[k] = 0;
+    CG.h = h;
+  }
+  function cgH(x, z) {
+    if (!CG.h) return 0;
+    var u = clamp((x - CG.x0) / CG.res - 0.5, 0, CG.nx - 1.001), v = clamp((z - CG.z0) / CG.res - 0.5, 0, CG.nz - 1.001);
+    var i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j, H = CG.h, W = CG.nx;
+    var a = H[j * W + i], b = H[j * W + i + 1], c = H[(j + 1) * W + i], d = H[(j + 1) * W + i + 1];
+    return (a * (1 - fu) + b * fu) * (1 - fv) + (c * (1 - fu) + d * fu) * fv;
+  }
+
+  /* ===================== Vehicles ===================== */
+  // rover sitting on the terrain: pitched and rolled to the ground under its wheels; dust gathers low on the body
+  function addRover(B, x, z, yaw) {
+    var ca = Math.cos(yaw), sa = Math.sin(yaw);
+    function at(lx, lz) { return cgH(x + lx * ca + lz * sa, z - lx * sa + lz * ca); }
+    var gf = at(0, 1.75), gb = at(0, -1.75), gl = at(-1.32, 0), gr = at(1.32, 0);
+    var y = (gf + gb + gl + gr) / 4 - 0.04, pitch = Math.atan2(gf - gb, 3.5), roll = Math.atan2(gr - gl, 2.64);
+    var R = new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(-pitch, yaw, roll, "YXZ")), new THREE.Vector3(1, 1, 1));
+    var L = new Builder(), I4 = new THREE.Matrix4();
+    function bx(x0, y0, z0, x1, y1, z1, mat) { L.box(x0, y0, z0, x1, y1, z1, mat); }
     bx(-1.1, 0.7, -2.4, 1.1, 1.05, 2.4, M.METAL);
     bx(-1.2, 1.05, -2.2, 1.2, 2.75, 1.6, M.BODY);
     bx(-1.1, 1.3, 1.6, 1.1, 2.55, 1.85, M.GLASS);
@@ -892,9 +1082,11 @@
     bx(-0.95, 1.12, -2.45, -0.55, 1.26, -2.4, M.RED); bx(0.55, 1.12, -2.45, 0.95, 1.26, -2.4, M.RED);
     bx(-1.225, 1.48, -2.2, -1.205, 1.6, 1.6, M.LED); bx(1.205, 1.48, -2.2, 1.225, 1.6, 1.6, M.LED);
     bx(0.7, 2.82, -1.7, 0.76, 3.9, -1.64, M.METAL);
-    [-1.75, 0, 1.75].forEach(function (z) { [-1.32, 1.32].forEach(function (x) {
-      B.geo(new THREE.CylinderGeometry(0.56, 0.56, 0.42, 20), new THREE.Matrix4().multiplyMatrices(R, T(x, 0.56, z, 0, 0, Math.PI / 2)), M.TIRE, 1);
+    [-1.75, 0, 1.75].forEach(function (zz) { [-1.32, 1.32].forEach(function (xx) {
+      L.geo(new THREE.CylinderGeometry(0.56, 0.56, 0.42, 20), T(xx, 0.56, zz, 0, 0, Math.PI / 2), M.TIRE, 1);
     }); });
+    for (var k = 0; k < L.p.length / 3; k++) L.f2[k * 2] = L.p[k * 3 + 1];   // height above the ground, for dust
+    B.geo(L.build(), R.multiply(I4), null);
   }
   function craftGeometry() {
     var B = new Builder();
@@ -918,92 +1110,271 @@
     B.geo(new THREE.BoxGeometry(1.6, 0.06, 0.5), T(0, 0.02, -2.2), M.LED, 1);
     return B.build();
   }
-  function campusGeometry() {
-    var B = new Builder();
-    // plinth deck + walkway
-    B.box(-41, -1.6, -22, 36, 0.35, 6.2, M.CONCRETE);
-    B.box(1.6, -0.5, 6.2, 6.4, 0.08, 20.5, M.CONCRETE, true);
-    // main two-storey block
-    B.box(-26, 0.35, -18, 34, 9.3, 0, { all: M.FACADE, py: M.CONCRETE }, true);
-    // tall end tower + glass stair tower
-    B.box(-36, 0.35, -20, -26, 13.6, 1.0, { all: M.WHITE }, true);
-    B.box(-39.8, 0.35, -11.5, -36, 15.6, -2.5, { all: M.STAIR, py: M.WHITE }, true);
-    // entrance atrium, frame, canopy
-    B.box(-1, 0.35, 0, 9, 8.8, 3.2, { all: M.ATRIUM, py: M.WHITE }, true);
-    B.box(-1.4, 8.8, -0.2, 9.4, 9.35, 3.6, M.WHITE);
-    B.box(-3, 4.05, 1.5, 11, 4.4, 7.0, M.WHITE);
-    B.box(-2.9, 0.35, 6.4, -2.6, 4.05, 6.7, M.METAL); B.box(10.6, 0.35, 6.4, 10.9, 4.05, 6.7, M.METAL);
-    // piers
-    [-13, 21.5].forEach(function (x) { B.box(x - 0.7, 0.35, -0.2, x + 0.7, 9.4, 0.7, M.WHITE); });
-    // signs: big logo on the tower, smaller over the entrance
-    B.quad([-35.3, 9.2, 1.03], [-26.7, 9.2, 1.03], [-26.7, 11.89, 1.03], [-35.3, 11.89, 1.03], [0, 0, 1], [0, 0], [1, 0], [1, 1], [0, 1], M.SIGN);
-    B.quad([0.4, 5.0, 3.23], [7.6, 5.0, 3.23], [7.6, 7.25, 3.23], [0.4, 7.25, 3.23], [0, 0, 1], [0, 0], [1, 0], [1, 1], [0, 1], M.SIGN);
-    // blue LED lines
-    B.box(-26, 9.1, 0.0, 34, 9.22, 0.14, M.LED);
-    B.box(-36, 13.48, 1.0, -26, 13.6, 1.14, M.LED);
-    B.box(-41, 0.22, 6.2, 36, 0.32, 6.32, M.LED);
-    B.box(-39.94, 0.35, -2.44, -39.8, 15.6, -2.3, M.LED);
-    B.box(-1.4, 8.72, 3.6, 9.4, 8.82, 3.72, M.LED);
-    // rooftop solar arrays + plant + mast with beacon
-    for (var r = 0; r < 5; r++) B.geo(new THREE.BoxGeometry(46, 0.08, 2.3), T(6, 9.95, -2.6 - r * 3.1, 0.34, 0, 0), M.SOLAR, 12);
-    B.box(22, 9.3, -16.5, 26.5, 11.1, -13, M.METAL);
-    B.box(-20, 9.3, -16, -16.5, 10.6, -13.5, M.METAL);
-    B.box(-31.15, 13.6, -12.15, -30.85, 20.2, -11.85, M.METAL);
-    B.box(-31.3, 20.2, -12.3, -30.7, 20.8, -11.7, M.BEACON);
-    B.geo(new THREE.CylinderGeometry(1.1, 0.2, 0.5, 24, 1, true), T(-28.5, 14.5, -16, 0.5, 0, 0), M.WHITE, 1);
-    // landing pad + ring lights
-    var pad = new THREE.CircleGeometry(12.6, 64); pad.rotateX(-Math.PI / 2);
-    var ppos = pad.attributes.position, uv = pad.attributes.uv;
-    for (var k = 0; k < ppos.count; k++) uv.setXY(k, ppos.getX(k), -ppos.getZ(k));
-    B.geo(pad, T(4, 0.06, 34), M.PAD, 1);
-    B.box(-8.6, -0.5, 21.4, 16.6, 0.06, 46.6, M.CONCRETE, true);
-    for (var a = 0; a < 24; a++) {
-      var ang = a / 24 * Math.PI * 2, x = 4 + Math.cos(ang) * 12.9, z = 34 + Math.sin(ang) * 12.9;
-      var nb = new Builder(); nb.box(-0.22, 0.06, -0.22, 0.22, 0.2, 0.22, M.PADLIGHT); var g = nb.build();
-      var fa = g.attributes.aFac.array; for (var q = 0; q < fa.length; q += 2) { fa[q] = ang; fa[q + 1] = 0; }
-      B.geo(g, T(x, 0, z), M.PADLIGHT, 1);
-    }
-    // rover bays + rovers
-    B.box(17, -0.5, 12, 40, 0.05, 30, M.BAYS, true);
-    addRover(B, 20.5, 21, 0.05); addRover(B, 27.5, 21.5, -0.08); addRover(B, 34.5, 20.8, 0.12);
-    // light poles
-    [[-10, 22], [19, 46], [-9, 47], [38, 32]].forEach(function (p) {
-      B.box(p[0] - 0.12, 0, p[1] - 0.12, p[0] + 0.12, 7.0, p[1] + 0.12, M.METAL);
-      B.box(p[0] - 0.55, 7.0, p[1] - 0.25, p[0] + 0.55, 7.2, p[1] + 0.25, M.METAL);
-      B.box(p[0] - 0.5, 6.95, p[1] - 0.2, p[0] + 0.5, 7.0, p[1] + 0.2, M.LAMP);
-    });
-    return B.build();
+
+  /* ===================== Design B: Dune Shells ===================== */
+  // Curved white shells that rise from low at the front to tall at the back, each with a glowing glass face toward the visitor.
+  var SHELLS = [
+    { az: 316.5, d: 41.5, W: 8.0, H: 4.4, D: 10, lean: 1.0, yaw: 12 },
+    { az: 323.5, d: 43.5, W: 10.0, H: 5.7, D: 12, lean: 1.3, yaw: 6 },
+    { az: 331.0, d: 44.5, W: 10.0, H: 6.1, D: 12, lean: 1.4, yaw: -4 },
+    { az: 338.5, d: 48.5, W: 8.5, H: 5.9, D: 11, lean: 1.2, yaw: -13 },
+    { az: 326.5, d: 56.5, W: 13.0, H: 7.7, D: 15, lean: 1.8, yaw: 2 }
+  ];
+  function shellFrame(S) {
+    var c = azPt(S.az, S.d), fx = RIDGE_VIEW.x - c.x, fz = RIDGE_VIEW.z - c.z, fl = Math.hypot(fx, fz); fx /= fl; fz /= fl;
+    var yr = S.yaw * D2R, cf = Math.cos(yr), sf = Math.sin(yr), Fx = fx * cf - fz * sf, Fz = fx * sf + fz * cf;
+    S.c = c; S.F = { x: Fx, z: Fz }; S.Rt = { x: Fz, z: -Fx };   // F faces the visitor; Rt runs to the visitor's right
+    return S;
   }
-  var campus = null, craftFly = null, craftParked = null, campusTarget = new THREE.Vector3(), craftPos = new THREE.Vector3();
-  function buildCampus() {
-    var g = campusGeometry();
-    campus = new THREE.Mesh(g, objMat);
-    campus.position.set(CAMPUS.x, CAMPUS.y, CAMPUS.z); campus.rotation.y = CAMPUS.rot; campus.updateMatrixWorld(); campus.matrixAutoUpdate = false; campus.frustumCulled = false;
-    scene.add(campus);
-    var cg = craftGeometry();
-    craftParked = new THREE.Mesh(cg, objMat); craftParked.frustumCulled = false;
-    var p = campusToWorld(4, 1.05, 34, new THREE.Vector3()); craftParked.position.copy(p); craftParked.rotation.y = CAMPUS.rot + 0.6; craftParked.updateMatrixWorld(); craftParked.matrixAutoUpdate = false;
-    scene.add(craftParked);
-    craftFly = new THREE.Mesh(cg, objMat); craftFly.frustumCulled = false;
-    scene.add(craftFly);
-    campusToWorld(4, 7.5, 1.5, campusTarget);
-    // fixed lights: pad poles + entrance canopy
-    var lamps = [[-10, 6.9, 22, 7], [19, 6.9, 46, 7], [-9, 6.9, 47, 7], [38, 6.9, 32, 6], [4, 3.9, 5.5, 3]], tmp = new THREE.Vector3();
-    for (var i = 0; i < 4; i++) {
-      var L = lamps[i === 3 ? 4 : i]; campusToWorld(L[0], L[1], L[2], tmp);
-      LP[i].set(tmp.x, tmp.y, tmp.z, i === 3 ? 20 : 34); LC[i].set(1.0, 0.9, 0.75).multiplyScalar(L[3]);
+  function shellArch(S, s) {     // front edge: lateral, forward, height
+    var y = S.H * Math.pow(Math.sin(Math.PI * clamp(s, 0, 1)), 0.72), bow = 0.12 * S.W * (1 - Math.pow(2 * s - 1, 2));
+    return { lat: (s - 0.5) * S.W, fwd: bow + S.lean * Math.pow(y / S.H, 2), y: y };
+  }
+  function shellHood(S, s, t) {   // hood surface from the front edge (t=0) down to the ground at the back (t=1)
+    var A = shellArch(S, s), gl = (s - 0.5) * S.W * 0.5, gf = -S.D;
+    var y = A.y * Math.pow(Math.max(0, 1 - Math.pow(t, 1.5)), 0.85) + 0.18 * S.H * Math.sin(Math.PI * t) * Math.pow(Math.sin(Math.PI * s), 0.6);
+    return { lat: lerp(A.lat, gl, t), fwd: lerp(A.fwd, gf, t), y: y };
+  }
+  function shellXZ(S, lat, fwd) { return { x: S.c.x + S.Rt.x * lat + S.F.x * fwd, z: S.c.z + S.Rt.z * lat + S.F.z * fwd }; }
+  function shellsGeometry(B) {
+    SHELLS.forEach(function (S, si) {
+      shellFrame(S);
+      var acc = 0, n = 0;
+      for (var k = 0; k <= 8; k++) for (var m2 = 0; m2 <= 4; m2++) { var h0 = shellHood(S, k / 8, m2 / 4), q0 = shellXZ(S, h0.lat, h0.fwd); acc += cgH(q0.x, q0.z); n++; }
+      var gR = S.gR = acc / n, NS = 64, NT = 26;
+      function place(lat, fwd, y, out) { var q = shellXZ(S, lat, fwd), gg = cgH(q.x, q.z), kk = smoothstep(0, 2, y); out[0] = q.x; out[1] = y + gg * (1 - kk) + gR * kk - 0.05; out[2] = q.z; return gg; }
+      // hood
+      B.surf(NS, NT, function (i, j, q) { var s = i / NS, t = j / NT, h = shellHood(S, s, t); place(h.lat, h.fwd, h.y, q.p); q.f[0] = s * S.W * 1.3; q.f[1] = t; q.f2[1] = 0; q.m = M.WING; });
+      // front edge with its fine light line
+      B.surf(NS, 1, function (i, j, q) { var s = i / NS, A = shellArch(S, s), y = Math.max(0, A.y - (j ? 0 : 0.34)); place(A.lat, A.fwd, y, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
+      // glass face, set back under the edge, from the ground up to the hood
+      var sb = 0.6;
+      B.surf(NS, 1, function (i, j, q) {
+        var s = i / NS, A = shellArch(S, s), fwdG = A.fwd - S.lean * Math.pow(A.y / S.H, 2) - sb, t = clamp((A.fwd - fwdG) / (A.fwd + S.D), 0, 1), top = shellHood(S, s, t).y;
+        var gg = place(A.lat, fwdG, j ? top : -0.6, q.p);
+        if (!j) q.p[1] = gg - 0.6;
+        q.f[0] = s * S.W; q.f[1] = q.p[1] - gg; q.f2[0] = Math.max(0, top + gR - gg); q.f2[1] = si === 1 || si === 2 ? Math.exp(-Math.pow((s - 0.5) / 0.16, 2)) : 0.25 * Math.exp(-Math.pow((s - 0.5) / 0.2, 2)); q.m = M.GLASSWALL;
+      });
+      // footprint for walking into it
+      var poly = [];
+      for (k = 0; k <= 16; k++) { var s1 = k / 16, A1 = shellArch(S, s1), f1 = A1.fwd - S.lean * Math.pow(A1.y / S.H, 2) - sb; poly.push(shellXZ(S, A1.lat, f1)); }
+      for (k = 16; k >= 0; k--) { var h1 = shellHood(S, k / 16, 0.92); poly.push(shellXZ(S, h1.lat, h1.fwd)); }
+      S.poly = poly;
+    });
+  }
+
+  /* ===================== The campus ===================== */
+  function fitWingPlane() {           // least-squares plane through the ground under the wing
+    var S = [0, 0, 0, 0, 0, 0, 0, 0, 0], R = [0, 0, 0], o = {};
+    for (var i = 0; i <= 40; i++) for (var j = 0; j <= 8; j++) {
+      wingXZ(i / 40, j / 8, o); var gg = cgH(o.x, o.z), r = [1, o.x, o.z];
+      for (var p = 0; p < 3; p++) { R[p] += r[p] * gg; for (var q = 0; q < 3; q++) S[p * 3 + q] += r[p] * r[q]; }
     }
+    var e = new THREE.Matrix3().set(S[0], S[1], S[2], S[3], S[4], S[5], S[6], S[7], S[8]).invert().elements;
+    WPLANE.a = e[0] * R[0] + e[3] * R[1] + e[6] * R[2]; WPLANE.b = e[1] * R[0] + e[4] * R[1] + e[7] * R[2]; WPLANE.c = e[2] * R[0] + e[5] * R[1] + e[8] * R[2];
+  }
+  function wingPoint(u, v, bottom, out) { var o = wingXZ(u, v, {}); out[0] = o.x; out[1] = wingPlane(o.x, o.z) + wingY(u, v, bottom); out[2] = o.z; return out; }
+  function wingGeometry(B) {
+    var NU = WING.NU, NV = WING.NV;
+    B.surf(NU, NV, function (i, j, q) { var u = i / NU, v = j / NV; wingPoint(u, v, false, q.p); q.f[0] = u * WING.L; q.f[1] = v; q.f2[1] = Math.abs(2 * u - 1); q.m = M.WING; });
+    B.surf(NU, NV, function (i, j, q) { var u = i / NU, v = j / NV, fr = wingFrame(u, {}); wingPoint(u, v, true, q.p); q.f[0] = u * WING.L; q.f[1] = v * fr.c; q.f2[0] = fr.c; q.f2[1] = Math.abs(2 * u - 1); q.m = M.SOFFIT; });
+    // glowing outline: leading edge, trailing edge, wing tips
+    B.surf(NU, 1, function (i, j, q) { wingPoint(i / NU, 0, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
+    B.surf(NU, 1, function (i, j, q) { wingPoint(i / NU, 1, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
+    [0, 1].forEach(function (u) { B.surf(NV, 1, function (i, j, q) { wingPoint(u, i / NV, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; }); });
+  }
+  function hallBase(p, ctr) { var dx = ctr.x - p.x, dz = ctr.z - p.z, l = Math.hypot(dx, dz) || 1, k = Math.min(1.6, l * 0.3) / l; return { x: p.x + dx * k, z: p.z + dz * k }; }
+  function hallGeometry(B) {          // glass walls of the hall, leaning out from the ground up to the wing's underside
+    var N = HALLPOD.N, ctr = wingXZ(HALLPOD.uc, HALLPOD.vc, {});
+    B.surf(N, 1, function (i, j, q) {
+      var p = HALL_LOOP[i], b = hallBase(p, ctr), gg = cgH(b.x, b.z), top = wingPlane(p.x, p.z) + wingY(p.u, p.v, true) - 0.02;
+      var ds = Math.abs(p.s - HALL_FRONT_S), y = j ? top : gg - 0.6, x = j ? p.x : b.x - (p.x - b.x) * 0.6 / Math.max(top - gg, 1), z = j ? p.z : b.z - (p.z - b.z) * 0.6 / Math.max(top - gg, 1);
+      q.p[0] = x; q.p[1] = y; q.p[2] = z; q.f[0] = p.s; q.f[1] = y - gg; q.f2[0] = top - gg; q.f2[1] = Math.exp(-Math.pow(ds / 3.6, 2)); q.m = M.GLASSWALL;
+    });
+  }
+  function lathe(B, c, prof, mat, g0) {
+    var NA = 72;
+    B.surf(NA, prof.length - 1, function (i, j, q) {
+      var th = i / NA * 2 * Math.PI, pr = prof[j];
+      q.p[0] = c.x + Math.sin(th) * pr[0]; q.p[1] = pr[1]; q.p[2] = c.z - Math.cos(th) * pr[0];
+      q.f[0] = th * 2.0; q.f[1] = pr[1] - g0; q.f2[0] = pr[1] - g0; q.m = mat;
+    }, true);
+  }
+  function haloGeometry(B) {          // floating landing ring
+    var c = HALO.c, g0 = cgH(c.x, c.z), top = g0 + HALO.H, R = HALO.R, r = HALO.r, und = [], k;
+    HALO.g0 = g0; HALO.top = top;
+    for (k = 0; k <= 16; k++) { var t = k / 16; und.push([R - (R - r) * t, top - 0.26 - 1.05 * Math.pow(Math.sin(Math.PI * t), 0.8)]); }
+    lathe(B, c, und, M.PEARL, g0);
+    lathe(B, c, [[R, top - 0.26], [R + 0.06, top - 0.13], [R, top]], M.LED, g0);
+    lathe(B, c, [[r, top], [r - 0.05, top - 0.13], [r, top - 0.26]], M.LED, g0);
+    B.surf(72, 6, function (i, j, q) {
+      var th = i / 72 * 2 * Math.PI, rr = R - (R - r) * j / 6, x = Math.sin(th) * rr, z = -Math.cos(th) * rr;
+      q.p[0] = c.x + x; q.p[1] = top; q.p[2] = c.z + z; q.f[0] = x * 1.45; q.f[1] = z * 1.45; q.m = M.PAD;
+    }, true);
+    for (var a = 0; a < 20; a++) {
+      var ang = a / 20 * Math.PI * 2, x = c.x + Math.sin(ang) * (R - 0.45), z = c.z - Math.cos(ang) * (R - 0.45);
+      var nb = new Builder(); nb.box(-0.2, 0, -0.2, 0.2, 0.12, 0.2, M.PADLIGHT); var gg = nb.build();
+      var fa = gg.attributes.aFac.array; for (var q2 = 0; q2 < fa.length; q2 += 2) { fa[q2] = ang; fa[q2 + 1] = 0; }
+      B.geo(gg, T(x, top, z), M.PADLIGHT, 1);
+    }
+  }
+  function beamGeometry() {           // light column from the ground up to the ring
+    var c = HALO.c, NA = 40, NH = 12, pos = [], nor = [], hh = [], idx = [], R = HALO.r - 0.5, y0 = HALO.g0 - 0.3, y1 = HALO.top - 0.35;
+    for (var j = 0; j <= NH; j++) for (var i = 0; i <= NA; i++) {
+      var th = i / NA * 2 * Math.PI, t = j / NH; pos.push(c.x + Math.sin(th) * R, y0 + (y1 - y0) * t, c.z - Math.cos(th) * R); nor.push(Math.sin(th), 0, -Math.cos(th)); hh.push(t);
+    }
+    for (j = 0; j < NH; j++) for (i = 0; i < NA; i++) { var k = j * (NA + 1) + i; idx.push(k, k + 1, k + NA + 2, k, k + NA + 2, k + NA + 1); }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3)); g.setAttribute("aH", new THREE.Float32BufferAttribute(hh, 1));
+    g.setIndex(idx); g.computeBoundingSphere(); return g;
+  }
+  function podGeometry(B, P) {        // hovering glass pod
+    var g = cgH(P.c.x, P.c.z), yc = g + P.bot + P.h / 2, cy = Math.cos(P.yaw), sy = Math.sin(P.yaw);
+    P.g = g; P.yc = yc;
+    B.surf(48, 24, function (i, j, q) {
+      var th = i / 48 * 2 * Math.PI, ph = j / 24 * Math.PI;
+      var lx = Math.cos(th) * Math.sin(ph) * P.a, lz = Math.sin(th) * Math.sin(ph) * P.b, ly = Math.cos(ph) * P.h / 2;
+      q.p[0] = P.c.x + lx * cy - lz * sy; q.p[1] = yc + ly; q.p[2] = P.c.z + lx * sy + lz * cy;
+      q.f[0] = i / 48; q.f[1] = Math.cos(ph); q.m = M.POD;
+    }, true);
+  }
+  function bridgeGeometry(B, p0, p1, lift) {   // curved glass sky bridge
+    var N = 36, R = 0.95, NA = 16, pts = [], k, L = 0;
+    for (k = 0; k <= N; k++) { var t = k / N; pts.push(new THREE.Vector3(lerp(p0.x, p1.x, t), lerp(p0.y, p1.y, t) + lift * Math.sin(Math.PI * t), lerp(p0.z, p1.z, t))); }
+    for (k = 1; k <= N; k++) L += pts[k].distanceTo(pts[k - 1]);
+    var tg = new THREE.Vector3(), sd = new THREE.Vector3(), up = new THREE.Vector3();
+    B.surf(N, NA, function (i, j, q) {
+      tg.subVectors(pts[Math.min(N, i + 1)], pts[Math.max(0, i - 1)]).normalize();
+      sd.set(-tg.z, 0, tg.x).normalize(); up.crossVectors(sd, tg).normalize();
+      var ang = j / NA * 2 * Math.PI, p = pts[i], cs = Math.cos(ang) * R, sn = Math.sin(ang) * R;
+      q.p[0] = p.x + sd.x * cs + up.x * sn; q.p[1] = p.y + sd.y * cs + up.y * sn; q.p[2] = p.z + sd.z * cs + up.z * sn;
+      q.f[0] = i / N * L; q.f[1] = ang * R; q.f2[1] = R * Math.PI / 2; q.m = M.TUBE;
+    }, false, true);
+  }
+  function signGeometry(B) {          // low curved wall with the glowing logo, facing the ridge
+    var c = SIGNP.c, nx = RIDGE_VIEW.x - c.x, nz = RIDGE_VIEW.z - c.z, nl = Math.hypot(nx, nz); nx /= nl; nz /= nl;
+    var tx = nz, tz = -nx, Wd = SIGNP.W, Ht = SIGNP.Ht, Th = SIGNP.T, Rc = 12, gR = cgH(c.x, c.z), NS = 28;
+    SIGNP.n = { x: nx, z: nz }; SIGNP.t = { x: tx, z: tz }; SIGNP.gR = gR;
+    function at(s, off) { var bend = -s * s / (2 * Rc); return { x: c.x + tx * s + nx * (off + bend), z: c.z + tz * s + nz * (off + bend) }; }
+    SIGNP.at = at;
+    B.surf(NS, 1, function (i, j, q) {
+      var s = -Wd / 2 + Wd * i / NS, p = at(s, Th / 2), gg = cgH(p.x, p.z), y = j ? gR + Ht : gg - 0.4;
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = (s + 2.1) / 4.2; q.f[1] = (y - gR - 0.1) / 1.3125; q.m = M.SIGN;
+    });
+    B.surf(NS, 1, function (i, j, q) {
+      var s = -Wd / 2 + Wd * i / NS, p = at(s, -Th / 2), gg = cgH(p.x, p.z), y = j ? gR + Ht : gg - 0.4;
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = s; q.f[1] = y - gg; q.f2[0] = y - gg; q.m = M.PEARL;
+    });
+    B.surf(NS, 1, function (i, j, q) { var s = -Wd / 2 + Wd * i / NS, p = at(s, j ? Th / 2 : -Th / 2); q.p[0] = p.x; q.p[1] = gR + Ht; q.p[2] = p.z; q.f[0] = s; q.f[1] = j * Th; q.f2[0] = Ht; q.m = M.PEARL; });
+    [-Wd / 2, Wd / 2].forEach(function (s) {
+      B.surf(1, 1, function (i, j, q) { var p = at(s, i ? Th / 2 : -Th / 2), gg = cgH(p.x, p.z); q.p[0] = p.x; q.p[1] = j ? gR + Ht : gg - 0.4; q.p[2] = p.z; q.f[0] = i * Th; q.f[1] = q.p[1] - gg; q.f2[0] = q.p[1] - gg; q.m = M.PEARL; });
+    });
+    B.surf(NS, 1, function (i, j, q) { var s = -Wd / 2 + Wd * i / NS, p = at(s, Th / 2 + 0.008); q.p[0] = p.x; q.p[1] = gR + Ht - 0.1 + 0.08 * j; q.p[2] = p.z; q.f[0] = s; q.f[1] = j; q.m = M.LED; });
+  }
+  var PLAZA = { c: azPt(327, 38.5), a: 8.5, b: 4.6 };
+  function drapeGeometry(D) {         // paved forecourt under the wing's nose, and glowing charging bays for the rovers
+    var c = PLAZA.c, d = dirAz(327 * D2R), tx = -d.z, tz = d.x;
+    D.surf(64, 10, function (i, j, q) {
+      var th = i / 64 * 2 * Math.PI, rho = j / 10, lx = Math.cos(th) * PLAZA.a * rho, lz = Math.sin(th) * PLAZA.b * rho;
+      var x = c.x + tx * lx + d.x * lz, z = c.z + tz * lx + d.z * lz;
+      q.p[0] = x; q.p[1] = cgH(x, z) + 0.05; q.p[2] = z; q.f[0] = lx; q.f[1] = lz; q.f2[0] = (1 - rho) * PLAZA.b; q.f2[1] = 0; q.m = M.PAVE;
+    }, true);
+    ROVER_BAYS.forEach(function (bay) {
+      var W = 3.6, L = 6.0, dx = -bay.dx, dz = -bay.dz, bxx = -dz, bzz = dx;   // bay long axis points toward the visitor
+      D.surf(6, 10, function (i, j, q) {
+        var lx = W * i / 6, lz = L * j / 10, x = bay.x + bxx * (lx - W / 2) + dx * (lz - L / 2), z = bay.z + bzz * (lx - W / 2) + dz * (lz - L / 2);
+        q.p[0] = x; q.p[1] = cgH(x, z) + 0.05; q.p[2] = z; q.f[0] = lx; q.f[1] = lz; q.f2[0] = W; q.f2[1] = -L; q.m = M.PAVE;
+      });
+    });
+  }
+  var ROVER_BAYS = [];
+  var campus = null, drape = null, beam = null, craftFly = null, craftParked = null, campusTarget = new THREE.Vector3(), craftPos = new THREE.Vector3(), orbitG = null;
+  var COLL = { polys: [], rovers: [] };
+  function buildCampus() {
+    buildCampusGround(); fitWingPlane();
+    var shells = DESIGN === "shells";
+    if (shells) ROVER_BAYS = [[313.5, 49], [312.3, 53.6]].map(function (p) { var o = azPt(p[0], p[1]), r = Math.hypot(o.x, o.z); return { x: o.x, z: o.z, dx: o.x / r, dz: o.z / r }; });
+    else ROVER_BAYS = [0.2, 0.26].map(function (u) { var o = wingXZ(u, 0.42, {}), fr = wingFrame(u, {}); return { x: o.x, z: o.z, dx: fr.dx, dz: fr.dz }; });
+    if (shells) PLAZA = { c: azPt(327, 36.2), a: 9, b: 4.2 };
+    var B = new Builder();
+    if (shells) shellsGeometry(B); else { wingGeometry(B); hallGeometry(B); }
+    haloGeometry(B); signGeometry(B);
+    PODS.forEach(function (P) {
+      podGeometry(B, P);
+      var start;
+      if (shells) { var S5 = SHELLS[4], hh = shellHood(S5, P.u < 0.5 ? 0.22 : 0.78, 0.5), qq = shellXZ(S5, hh.lat, hh.fwd); start = { x: qq.x, y: S5.gR + hh.y - 0.6, z: qq.z }; }
+      else { var a = [0, 0, 0]; wingPoint(P.u, 0.96, false, a); var b2 = [0, 0, 0]; wingPoint(P.u, 0.96, true, b2); start = { x: a[0], y: (a[1] + b2[1]) / 2, z: a[2] }; }
+      var to = { x: start.x - P.c.x, z: start.z - P.c.z }, tl = Math.hypot(to.x, to.z);
+      var end = { x: P.c.x + to.x / tl * (P.a * 0.8), y: P.yc - 0.1, z: P.c.z + to.z / tl * (P.a * 0.8) };
+      bridgeGeometry(B, start, end, 0.9);
+    });
+    ROVER_BAYS.forEach(function (bay) { addRover(B, bay.x, bay.z, Math.atan2(-bay.dx, -bay.dz)); COLL.rovers.push({ x: bay.x, z: bay.z }); });
+    campus = new THREE.Mesh(B.build(), objMat); campus.frustumCulled = false; campus.matrixAutoUpdate = false; scene.add(campus);
+    var D = new Builder(); drapeGeometry(D);
+    drape = new THREE.Mesh(D.build(), drapeMat); drape.frustumCulled = false; drape.matrixAutoUpdate = false; drape.renderOrder = 1; scene.add(drape);
+    beam = new THREE.Mesh(beamGeometry(), beamMat); beam.frustumCulled = false; beam.renderOrder = 4; scene.add(beam);
+    // craft: one parked on the ring, one flying a circuit behind the hall
+    var cg = craftGeometry(), ang = Math.atan2(RIDGE_VIEW.x - HALO.c.x, -(RIDGE_VIEW.z - HALO.c.z));
+    craftParked = new THREE.Mesh(cg, objMat); craftParked.frustumCulled = false;
+    craftParked.position.set(HALO.c.x + Math.sin(ang) * 5.3, HALO.top + 1.02, HALO.c.z - Math.cos(ang) * 5.3); craftParked.rotation.y = ang + Math.PI / 2;
+    craftParked.updateMatrixWorld(); craftParked.matrixAutoUpdate = false; scene.add(craftParked);
+    craftFly = new THREE.Mesh(cg, objMat); craftFly.frustumCulled = false; scene.add(craftFly);
+    orbitG = new Float32Array(180);
+    for (var k = 0; k < 180; k++) { var t = k / 180 * 2 * Math.PI; orbitG[k] = cgH(ORBIT.c.x + Math.cos(t) * ORBIT.R, ORBIT.c.z + Math.sin(t) * ORBIT.R * 0.8); }
+    var sm = orbitG.slice(); for (k = 0; k < 180; k++) { var s = 0; for (var d = -6; d <= 6; d++) s += orbitG[(k + d + 180) % 180]; sm[k] = s / 13; } orbitG = sm;
+    // discovery target: top of the wing's nose
+    if (shells) { var S5t = SHELLS[4], at5 = shellArch(S5t, 0.5), p5 = shellXZ(S5t, at5.lat, at5.fwd); campusTarget.set(p5.x, S5t.gR + at5.y + 0.3, p5.z); }
+    else { var nose = wingPoint(0.5, 0.3, false, [0, 0, 0]); campusTarget.set(nose[0], nose[1] + 0.3, nose[2]); }
+    // lights: entrance, under the wing, under the ring, on the logo sign; LP[4] follows the flying craft
+    if (shells) {
+      [[SHELLS[1], SHELLS[2]], [SHELLS[4]]].forEach(function (grp, li) {
+        var x = 0, z = 0; grp.forEach(function (S) { var ps = shellXZ(S, 0, 1.8); x += ps.x / grp.length; z += ps.z / grp.length; });
+        LP[li].set(x, cgH(x, z) + 2.4, z, li ? 22 : 26); LC[li].set(1.0, 0.86, 0.66).multiplyScalar(li ? 7 : 10);
+      });
+    } else {
+      var fr = HALL_LOOP[HALLPOD.N / 2], gE = cgH(fr.x, fr.z), dE = dirAz(327 * D2R);
+      LP[0].set(fr.x - dE.x * 2.2, gE + 2.6, fr.z - dE.z * 2.2, 26); LC[0].set(1.0, 0.85, 0.65).multiplyScalar(10);
+      var mid = wingXZ(0.5, 0.55, {}); LP[1].set(mid.x, wingPlane(mid.x, mid.z) + 3.0, mid.z, 30); LC[1].set(1.0, 0.9, 0.75).multiplyScalar(8);
+    }
+    LP[2].set(HALO.c.x, HALO.top - 1.6, HALO.c.z, 24); LC[2].set(0.7, 0.85, 1.0).multiplyScalar(10);
+    var sp = SIGNP.at(0, SIGNP.T / 2 + 1.3); LP[3].set(sp.x, cgH(sp.x, sp.z) + 0.3, sp.z, 9); LC[3].set(0.75, 0.85, 1.0).multiplyScalar(4);
     LC[4].set(0.85, 0.92, 1.0).multiplyScalar(6);
+    // collision: the glass hall outline, the rovers and the sign
+    var polys;
+    if (shells) polys = SHELLS.map(function (S) { return S.poly; });
+    else { var hc = wingXZ(HALLPOD.uc, HALLPOD.vc, {}); polys = [HALL_LOOP.map(function (p) { var b = hallBase(p, hc); return { x: lerp(b.x, p.x, 0.4), z: lerp(b.z, p.z, 0.4) }; })]; }
+    COLL.polys = polys.map(function (poly) {
+      var xs = poly.map(function (p) { return p.x; }), zs = poly.map(function (p) { return p.z; });
+      return { poly: poly, bbox: [Math.min.apply(null, xs) - 0.6, Math.max.apply(null, xs) + 0.6, Math.min.apply(null, zs) - 0.6, Math.max.apply(null, zs) + 0.6] };
+    });
   }
   function updateCraft(time) {
     if (!craftFly) return;
-    var a = time * 0.11, R = 30, cx = 4 + Math.cos(a) * R, cz = 30 + Math.sin(a) * R * 0.75, cy = 15 + Math.sin(time * 0.6) * 0.8;
-    campusToWorld(cx, cy, cz, craftPos);
-    craftFly.position.copy(craftPos);
-    var tx = -Math.sin(a), tz = Math.cos(a) * 0.75;
-    craftFly.rotation.set(0.06, CAMPUS.rot + Math.atan2(tx, tz), Math.sin(time * 0.6) * 0.04 - 0.12, "YXZ");
+    var a = time * 0.12, x = ORBIT.c.x + Math.cos(a) * ORBIT.R, z = ORBIT.c.z + Math.sin(a) * ORBIT.R * 0.8;
+    var fi = (((a / (2 * Math.PI)) % 1) + 1) % 1 * 180, i0 = Math.floor(fi) % 180, i1 = (i0 + 1) % 180, gg = lerp(orbitG[i0], orbitG[i1], fi - Math.floor(fi));
+    var y = gg + ORBIT.alt + Math.sin(time * 0.6) * 0.5;
+    craftPos.set(x, y, z); craftFly.position.copy(craftPos);
+    var tx = -Math.sin(a), tz = Math.cos(a) * 0.8, yawC = Math.atan2(tx, tz);
+    var rx = Math.cos(yawC), rz = -Math.sin(yawC), cx = ORBIT.c.x - x, cz = ORBIT.c.z - z, bank = (rx * cx + rz * cz) > 0 ? -0.16 : 0.16;
+    craftFly.rotation.set(0.05, yawC, bank + Math.sin(time * 0.6) * 0.03, "YXZ");
     craftFly.updateMatrixWorld();
-    LP[4].set(craftPos.x, craftPos.y - 1.2, craftPos.z, 40);
+    LP[4].set(x, y - 1.2, z, 40);
+  }
+  function inPoly(poly, x, z) { var c = false; for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) { var a = poly[i], b = poly[j]; if (((a.z > z) !== (b.z > z)) && (x < (b.x - a.x) * (z - a.z) / (b.z - a.z) + a.x)) c = !c; } return c; }
+  function segDist2(px, pz, a, b) { var dx = b.x - a.x, dz = b.z - a.z, l = dx * dx + dz * dz, t = l > 0 ? clamp(((px - a.x) * dx + (pz - a.z) * dz) / l, 0, 1) : 0, ex = a.x + dx * t - px, ez = a.z + dz * t - pz; return ex * ex + ez * ez; }
+  function blockedByBuilding(x, z) {
+    for (var pi = 0; pi < COLL.polys.length; pi++) {
+      var cp = COLL.polys[pi], bb = cp.bbox, poly = cp.poly;
+      if (x < bb[0] || x > bb[1] || z < bb[2] || z > bb[3]) continue;
+      if (inPoly(poly, x, z)) return true;
+      for (var i = 0; i < poly.length - 1; i++) if (segDist2(x, z, poly[i], poly[i + 1]) < 0.16) return true;
+    }
+    for (var r = 0; r < COLL.rovers.length; r++) { var dx = x - COLL.rovers[r].x, dz = z - COLL.rovers[r].z; if (dx * dx + dz * dz < 6.0) return true; }
+    if (SIGNP.n) {
+      var lx = x - SIGNP.c.x, lz = z - SIGNP.c.z, s = lx * SIGNP.t.x + lz * SIGNP.t.z, o = lx * SIGNP.n.x + lz * SIGNP.n.z + s * s / 24;
+      if (Math.abs(s) < SIGNP.W / 2 + 0.35 && Math.abs(o) < SIGNP.T / 2 + 0.35) return true;
+    }
+    return false;
   }
 
   /* ===================== Footprints trail toward the campus ===================== */
@@ -1019,13 +1390,11 @@
     var t = new THREE.CanvasTexture(c); t.needsUpdate = true; return t;
   }
   function buildFootprints() {
-    var pts = [], dirStart = 312 * D2R, dirEnd = Math.atan2(CAMPUS.x, -CAMPUS.z);
-    if (dirEnd < 0) dirEnd += Math.PI * 2;
-    var s = 1.4, side = 1, dist = 0, x = 0, z = 0, prev = null;
-    for (var k = 0; k < 110; k++) {
-      var d = s + k * 0.74, az = lerp(dirStart, dirEnd, smoothstep(0, 14, d)) + Math.sin(d * 0.21) * 0.05;
-      var px = Math.sin(az) * d, pz = -Math.cos(az) * d;
-      pts.push([px, pz, az]);
+    var pts = [], ctrl = [[0, 0], [318, 8], [323, 20], [326, 30], [327, 35]].map(function (p, i) { var q = i ? azPt(p[0], p[1]) : { x: 0, z: 0 }; return new THREE.Vector3(q.x, 0, q.z); });
+    var curve = new THREE.CatmullRomCurve3(ctrl, false, "centripetal"), Lp = curve.getLength(), tp = new THREE.Vector3(), tan = new THREE.Vector3();
+    for (var d = 1.4; d < Lp - 0.4; d += 0.74) {
+      var uu = d / Lp; curve.getPointAt(uu, tp); curve.getTangentAt(uu, tan);
+      pts.push([tp.x, tp.z, Math.atan2(tan.x, -tan.z) + Math.sin(d * 0.21) * 0.05]);
     }
     var pos = [], uv = [], nor = [], idx = [], rc = new THREE.Raycaster(), o = new THREE.Vector3(), down = new THREE.Vector3(0, -1, 0);
     pts.forEach(function (p, k) {
@@ -1367,13 +1736,6 @@
     return h - r * r / (2 * 3389500);
   }
   var H0 = 0;
-  function campusFlatten(x, z, h) {
-    var l = worldToCampus(x, z);
-    var ex = Math.max(Math.abs(l.x - 0) - 48, 0), ez = Math.max(-26 - l.z, l.z - 52, 0);
-    var d = Math.sqrt(ex * ex + ez * ez);
-    var w = 1 - smoothstep(0, 38, d);
-    return w > 0 ? lerp(h, CAMPUS.y - 0.05, w) : h;
-  }
   function hCombined(x, z) {
     var dx = Math.max(X0 - x, 0, x - X1), dz = Math.max(Z0 - z, 0, z - Z1);
     var dOut = Math.sqrt(dx * dx + dz * dz);
@@ -1384,7 +1746,7 @@
     }
     var he = sampleGrid(gAvg, clamp(x, X0, X1), clamp(z, Z0, Z1));
     var hf = hFarRaw(x, z) - H0;
-    return campusFlatten(x, z, he + (hf - he) * smoothstep(0, 150, dOut));
+    return he + (hf - he) * smoothstep(0, 150, dOut);
   }
   var RINGS, RA = MOBILE ? 720 : 900, FARH, farMesh = null, C0 = [0.62, 0.5, 0.38];
   function farColor(x, z, h, ny) {
@@ -1499,16 +1861,16 @@
   var depthMat = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, side: THREE.DoubleSide });
   var lightCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 1000);
   var BIAS = new THREE.Matrix4().set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1);
-  var shadowBox = new THREE.Box3(new THREE.Vector3(-165, -10, -250), new THREE.Vector3(132, 24, 132));
+  var shadowBox = new THREE.Box3(new THREE.Vector3(-132, -10, -132), new THREE.Vector3(132, 24, 132));
   U.uShadowMap.value = shadowRT.texture; U.uShadowTexel.value = 1 / SH;
   function renderShadow() {
     if (!terrainMeshes.length || sunDir.y < 0.0005) { U.uShadowOn.value = 0; return; }
-    lightCam.position.copy(sunDir).multiplyScalar(700).add(tmpV.set(-16, 0, -59)); lightCam.up.set(0, 1, 0); lightCam.lookAt(-16, 0, -59); lightCam.updateMatrixWorld();
+    lightCam.position.copy(sunDir).multiplyScalar(700); lightCam.up.set(0, 1, 0); lightCam.lookAt(0, 0, 0); lightCam.updateMatrixWorld();
     var inv = lightCam.matrixWorldInverse, mn = new THREE.Vector3(1e9, 1e9, 1e9), mx = new THREE.Vector3(-1e9, -1e9, -1e9), c = new THREE.Vector3();
     for (var i = 0; i < 8; i++) { c.set(i & 1 ? shadowBox.max.x : shadowBox.min.x, i & 2 ? shadowBox.max.y : shadowBox.min.y, i & 4 ? shadowBox.max.z : shadowBox.min.z).applyMatrix4(inv); mn.min(c); mx.max(c); }
     lightCam.left = mn.x - 1; lightCam.right = mx.x + 1; lightCam.bottom = mn.y - 1; lightCam.top = mx.y + 1; lightCam.near = -mx.z - 2; lightCam.far = -mn.z + 2;
     lightCam.updateProjectionMatrix();
-    var hidden = [sky, motes]; if (farMesh) hidden.push(farMesh); if (craftFly) hidden.push(craftFly); if (footprints) hidden.push(footprints);
+    var hidden = [sky, motes]; if (farMesh) hidden.push(farMesh); if (craftFly) hidden.push(craftFly); if (footprints) hidden.push(footprints); if (beam) hidden.push(beam); if (drape) hidden.push(drape);
     hidden.forEach(function (o) { o.visible = false; });
     scene.overrideMaterial = depthMat;
     renderer.setRenderTarget(shadowRT); renderer.setClearColor(0xffffff, 1); renderer.clear();
@@ -1617,9 +1979,7 @@
 
   /* ===================== Ground + movement ===================== */
   var ray = new THREE.Raycaster(), rayOrigin = new THREE.Vector3(), DOWN = new THREE.Vector3(0, -1, 0);
-  function onCampusDeck(x, z) { var l = worldToCampus(x, z); if (l.x > -41 && l.x < 36 && l.z > -22 && l.z < 6.2) return CAMPUS.y + 0.35; return null; }
   function groundAt(x, z, fallback) {
-    var deck = onCampusDeck(x, z); if (deck !== null) return deck;
     if (X0 !== undefined && x > X0 + 1 && x < X1 - 1 && z > Z0 + 1 && z < Z1 - 1) {
       var cands = [];
       for (var i = 0; i < terrainMeshes.length; i++) { var b = terrainMeshes[i].userData.box; if (x >= b.min.x - 0.01 && x <= b.max.x + 0.01 && z >= b.min.z - 0.01 && z <= b.max.z + 0.01) cands.push(terrainMeshes[i]); }
@@ -1629,7 +1989,6 @@
     }
     return FARH ? farHeightAt(x, z) : fallback;
   }
-  function blockedByBuilding(x, z) { var l = worldToCampus(x, z); return (l.x > -40.3 && l.x < 34.4 && l.z > -20.4 && l.z < 3.6); }
   var EYE = 1.7, GRAV = 3.71, WALK = 2.0, RUN = 5.4, MAXR = 1600;
   var START_AZ = 316 * D2R;
   var yaw = -START_AZ, pitch = 1.0 * D2R, fov = 70;
@@ -1805,7 +2164,7 @@
     sightRay.set(camera.position, sightDir); sightRay.far = d - 2;
     if (!sightRay.intersectObjects(terrainMeshes, false).length) {
       discovered = true; $("campmark").style.display = "";
-      $("toastSub").textContent = Math.round(d) + " m ahead, just beyond the ridge. Keep walking to reach it.";
+      $("toastSub").textContent = "Just past the ridge, " + Math.round(d) + " m ahead. Walk down to the glowing entrance.";
       $("toast").classList.remove("hide"); clearTimeout(toastTimer); toastTimer = setTimeout(function () { $("toast").classList.add("hide"); }, 5200);
     }
   }
@@ -1899,8 +2258,8 @@
     placeLabel($("phobosLabel"), phobosDir, clamp((U.uExposure.value - 20) / 60, 0, 1) * state.stars * (phobosDir.y > 0.01 ? 1 : 0));
     // campus pin
     var cd = Math.hypot(campusTarget.x - px, campusTarget.z - pz), pin = $("campusPin");
-    if (discovered && cd > 45) {
-      campusToWorld(-31, 22, -9, pinPos); proj.copy(pinPos).project(camera);
+    if (discovered && cd > 18) {
+      pinPos.copy(campusTarget); pinPos.y += 3.4; proj.copy(pinPos).project(camera);
       if (proj.z < 1 && Math.abs(proj.x) < 1.05 && Math.abs(proj.y) < 1.05) {
         pin.style.transform = "translate(" + ((proj.x * 0.5 + 0.5) * canvas.clientWidth) + "px," + ((-proj.y * 0.5 + 0.5) * canvas.clientHeight) + "px)";
         pin.style.opacity = "1";
@@ -1989,7 +2348,16 @@
     setT: function (t) { tMin = t; applyState(state); updateTimeUI(); }, setScene: setScene, faceSun: faceSun,
     look: function (az, p) { yaw = -az * D2R; pitch = p * D2R; }, fov: setFov,
     go: function (x, z) { walked += Math.hypot(x - px, z - pz); px = x; pz = z; ground = groundAt(x, z, 0); py = ground + EYE; },
-    goCampus: function (lx, lz) { var p = campusToWorld(lx, 0, lz, new THREE.Vector3()); this.go(p.x, p.z); },
+    view: function (name) {
+      var v = { ridge: [RIDGE_VIEW.x, RIDGE_VIEW.z, 326, 2], plaza: [azPt(325, 30).x, azPt(325, 30).z, 328, 7], side: [azPt(305, 52).x, azPt(305, 52).z, 20, 5], ring: [azPt(348, 66).x, azPt(348, 66).z, 300, 6] }[name];
+      if (v) { this.go(v[0], v[1]); this.look(v[2], v[3]); }
+    },
+    campusSample: function (step) {
+      var out = [], st = step || 7, meshes = [campus, craftParked].filter(Boolean), v = new THREE.Vector3();
+      meshes.forEach(function (m) { var P = m.geometry.attributes.position; for (var i = 0; i < P.count; i += st) { v.fromBufferAttribute(P, i).applyMatrix4(m.matrixWorld); out.push([+v.x.toFixed(2), +v.y.toFixed(2), +v.z.toFixed(2)]); } });
+      for (var k = 0; k < 60; k++) { updateCraft(k / 60 * 2 * Math.PI / 0.12); out.push([+craftPos.x.toFixed(2), +(craftPos.y + 0.9).toFixed(2), +craftPos.z.toFixed(2)]); }
+      return out;
+    },
     lockQuality: function (q) { qLocked = true; qScale = q; resize(); },
     hideUI: function () { hideOnboard(); $("toast").classList.add("hide"); },
     state: function () { return { px: px, pz: pz, walked: walked, discovered: discovered, q: qScale, touch: TOUCH, mobile: MOBILE }; }

@@ -6,11 +6,11 @@ Walkable 3D scenes on real Mars terrain that run in the browser. Each demo start
 
 ## Demos
 
-| Demo | Link | What it is |
-|---|---|---|
-| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | Sunset at Dingo Gap. Walk over the ridge to find the TTMath campus, with rovers and flying craft. |
+| Demo | Link | Requirements | What it is |
+|---|---|---|---|
+| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge to find the TTMath campus, with rovers and flying craft. |
 
-More demos will be added in their own folders.
+More demos will be added in their own folders. Each demo folder keeps its own `REQUIREMENTS.md`, the source of truth for that demo.
 
 ## Controls
 
@@ -35,7 +35,7 @@ More demos will be added in their own folders.
 ```
 index.html        landing page that lists the demos
 data/             NASA terrain shared by every demo (manifest + tiles packed as base64 text)
-ttmath/           Demo 1: TTMath on Mars (page + logo)
+ttmath/           Demo 1: TTMath on Mars (page, logo, REQUIREMENTS.md)
 ```
 
 Each demo page loads the shared terrain from `../data/`.

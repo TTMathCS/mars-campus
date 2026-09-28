@@ -291,7 +291,7 @@
     <li><svg viewBox="0 0 34 34"><path d="M12 19V9a2 2 0 0 1 4 0v8m0-2a2 2 0 0 1 4 0v3m0-1a2 2 0 0 1 4 0v5a8 8 0 0 1-8 8h-1a8 8 0 0 1-6-3l-4-5a2 2 0 0 1 3-3l3 3"/><path d="M4 7l3-3m0 0l3 3M7 4v8" opacity=".6"/></svg><span><b>Look around:</b> drag anywhere on the view</span></li>
     <li class="touch-only"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="13" r="5"/><path d="M17 4v2M17 28v2M4 17h2M28 17h2"/></svg><span><b>Walk:</b> push the <b>MOVE</b> stick at bottom left</span></li>
     <li class="desk-only"><svg viewBox="0 0 34 34"><rect x="12" y="4" width="10" height="10" rx="2"/><rect x="2" y="17" width="10" height="10" rx="2"/><rect x="12" y="17" width="10" height="10" rx="2"/><rect x="22" y="17" width="10" height="10" rx="2"/></svg><span><b>Walk:</b> W A S D or arrow keys, Shift to run, Space to jump</span></li>
-    <li><svg viewBox="0 0 34 34"><path d="M9 26c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4zM22 16c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4z"/></svg><span><b>Find the campus:</b> follow the footprints and blue guide lights up the ridge ahead</span></li>
+    <li><svg viewBox="0 0 34 34"><path d="M9 26c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4zM22 16c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4z"/></svg><span><b>Find the campus:</b> follow the footprints up the ridge ahead</span></li>
   </ul>
   <button type="button" class="go" id="obGo">Start exploring</button>
 </div>
@@ -395,7 +395,7 @@
   var BASE = {
     wide: [1.0, 0.60, 0.36], fwd: [0.30, 0.55, 1.0], gW: 0.55, gF: 0.93, kW: 1.0, kF: 0.5, kI: 0.33, tau: 0.35,
     sunTau: [0.36, 0.38, 0.42], sunE: 1.0, sunLight: 2.2, disk: 3000, haze: 0.0018, hazeFar: 0.00011,
-    relight: 1, tone: 1, bloom: 1.0, key: 0.2, stars: 1, cloud: 0.45, iri: 0.35, rays: 0.7, motes: 0.55, wind: 0.35
+    relight: 1, tone: 1, bloom: 1.0, key: 0.27, stars: 1, cloud: 0.45, iri: 0.35, rays: 0.7, motes: 0.55, wind: 0.35
   };
   function preset(over) { var o = JSON.parse(JSON.stringify(BASE)); for (var k in over) o[k] = over[k]; return o; }
   var SCENES = {
@@ -1069,20 +1069,6 @@
     mat.blending = THREE.CustomBlending; mat.blendSrc = THREE.SrcAlphaFactor; mat.blendDst = THREE.OneMinusSrcAlphaFactor; mat.blendSrcAlpha = THREE.ZeroFactor; mat.blendDstAlpha = THREE.OneFactor;
     footprints = new THREE.Mesh(g, mat); footprints.frustumCulled = false; footprints.renderOrder = 2;
     scene.add(footprints);
-    // small blue guide lights beside the trail, pulsing toward the campus
-    var GB = new Builder(), gi = 0;
-    [3.5, 8, 12.5, 17.5, 23, 29, 35.5, 42, 49, 56].forEach(function (d) {
-      var az = lerp(dirStart, dirEnd, smoothstep(0, 14, d)) + Math.sin(d * 0.21) * 0.05;
-      var gx = Math.sin(az) * d + Math.cos(az) * 1.15 * (gi % 2 ? -1 : 1), gz = -Math.cos(az) * d + Math.sin(az) * 1.15 * (gi % 2 ? -1 : 1);
-      rc.set(o.set(gx, 80, gz), down); rc.far = 200;
-      var hit = rc.intersectObjects(terrainMeshes, false)[0], gy = hit ? hit.point.y : farHeightAt(gx, gz);
-      var pb = new Builder(); pb.box(-0.04, -0.3, -0.04, 0.04, 0.62, 0.04, M.METAL); pb.box(-0.075, 0.62, -0.075, 0.075, 0.72, 0.075, M.PADLIGHT);
-      var pg = pb.build(), af = pg.attributes.aFac.array, am = pg.attributes.aMat.array;
-      for (var q = 0; q < am.length; q++) if (am[q] === M.PADLIGHT) { af[q * 2] = gi * 0.9; af[q * 2 + 1] = 0; }
-      GB.geo(pg, T(gx, gy, gz), null);
-      gi++;
-    });
-    var guides = new THREE.Mesh(GB.build(), objMat); guides.frustumCulled = false; scene.add(guides);
   }
 
   /* ===================== Drifting dust ===================== */
@@ -1543,13 +1529,21 @@
   var quad = new THREE.Mesh(tri); quad.frustumCulled = false; postScene.add(quad);
   function postMat(fs, uniforms) { return new THREE.ShaderMaterial({ uniforms: uniforms, vertexShader: FS_VS, fragmentShader: fs, depthTest: false, depthWrite: false }); }
   var RAY_N = MOBILE ? 24 : 40;
+  // Bright-sky mask at quarter resolution, pre-blurred: a tiny, moving Sun no longer makes the rays shimmer.
+  var raysPreMat = postMat([DEC,
+    "uniform sampler2D scene; uniform vec2 texel; varying vec2 vUv;",
+    "vec3 bs(vec2 o){ vec4 s = texture2D(scene, vUv + o * texel); return min(max(dec(s.rgb) - 0.9, 0.0), vec3(24.0)) * s.a; }",
+    "void main(){ vec3 c = bs(vec2(-1.0,-1.0)) + bs(vec2(1.0,-1.0)) + bs(vec2(-1.0,1.0)) + bs(vec2(1.0,1.0));",
+    "  c = c * 0.75 + (bs(vec2(-3.0,-1.0)) + bs(vec2(3.0,1.0)) + bs(vec2(-1.0,3.0)) + bs(vec2(1.0,-3.0))) * 0.25;",
+    "  gl_FragColor = vec4(enc(c * 0.25), 1.0); }"].join("\n"), { scene: { value: null }, texel: { value: new THREE.Vector2() } });
   var raysMat = postMat([DEC,
-    "uniform sampler2D scene; uniform vec2 uSunUV; varying vec2 vUv;",
+    "uniform sampler2D pre; uniform sampler2D prev; uniform vec2 uSunUV; uniform float uBlend; varying vec2 vUv;",
     "void main(){",
     "  vec2 delta = (uSunUV - vUv) / " + RAY_N + ".0; vec2 uv = vUv; float w = 1.0; vec3 acc = vec3(0.0);",
-    "  for (int i = 0; i < " + RAY_N + "; i++) { uv += delta; vec4 s = texture2D(scene, clamp(uv, 0.001, 0.999)); acc += max(dec(s.rgb) - 0.9, 0.0) * s.a * w; w *= " + (MOBILE ? "0.95" : "0.97") + "; }",
-    "  gl_FragColor = vec4(enc(acc / " + RAY_N + ".0), 1.0);",
-    "}"].join("\n"), { scene: { value: null }, uSunUV: { value: new THREE.Vector2(0.5, 0.5) } });
+    "  for (int i = 0; i < " + RAY_N + "; i++) { uv += delta; acc += dec(texture2D(pre, clamp(uv, 0.001, 0.999)).rgb) * w; w *= " + (MOBILE ? "0.95" : "0.97") + "; }",
+    "  vec3 cur = acc / " + RAY_N + ".0;",
+    "  gl_FragColor = vec4(enc(mix(dec(texture2D(prev, vUv).rgb), cur, uBlend)), 1.0);",
+    "}"].join("\n"), { pre: { value: null }, prev: { value: null }, uSunUV: { value: new THREE.Vector2(0.5, 0.5) }, uBlend: { value: 1 } });
   var downMat = postMat([DEC,
     "uniform sampler2D src; uniform vec2 texel; uniform float thresh; varying vec2 vUv;",
     "void main(){ vec3 c = dec(texture2D(src, vUv + texel*vec2(-1.0,-1.0)).rgb) + dec(texture2D(src, vUv + texel*vec2(1.0,-1.0)).rgb) + dec(texture2D(src, vUv + texel*vec2(-1.0,1.0)).rgb) + dec(texture2D(src, vUv + texel*vec2(1.0,1.0)).rgb);",
@@ -1570,38 +1564,44 @@
     "void main(){",
     "  vec3 c = dec(texture2D(scene, vUv).rgb) + uBloom * dec(texture2D(bloom, vUv).rgb) * 0.05 + uRays * dec(texture2D(rays, vUv).rgb) * 0.8;",
     "  vec3 m = mix(min(c, vec3(1.0)), aces(c), uTone);",
-    "  vec2 q = vUv - 0.5; q.x *= uRes.x / uRes.y; m *= 1.0 - dot(q, q) * 0.28 * uTone;",
+    "  vec2 q = vUv - 0.5; q.x *= uRes.x / uRes.y; m *= 1.0 - dot(q, q) * 0.16 * uTone;",
     "  m = pow(max(m, 0.0), vec3(1.0/2.2));",
     "  m += (hash(vUv * uRes + fract(uTime) * 91.0) - 0.5) * 0.018 * uTone;",
     "  gl_FragColor = vec4(m, 1.0);",
     "}"].join("\n"),
     { scene: { value: null }, bloom: { value: null }, rays: { value: null }, uBloom: { value: 1 }, uRays: { value: 0 }, uTone: { value: 1 }, uTime: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) } });
-  var sceneRT = null, raysRT = null, downRT = [], upRT = [], LEVELS = MOBILE ? 5 : 6;
+  var sceneRT = null, raysPreRT = null, raysRT = [], downRT = [], upRT = [], LEVELS = MOBILE ? 5 : 6, raysIdx = 0, raysWasOn = false, raysOut = null;
   function makeRT(w, h, msaa) {
     var opts = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: THREE.UnsignedByteType, depthBuffer: !!msaa };
     if (msaa && isGL2 && THREE.WebGLMultisampleRenderTarget) { var rt = new THREE.WebGLMultisampleRenderTarget(w, h, opts); rt.samples = 4; return rt; }
     return new THREE.WebGLRenderTarget(w, h, opts);
   }
   function allocTargets(w, h) {
-    [sceneRT, raysRT].concat(downRT, upRT).forEach(function (r) { if (r) r.dispose(); });
+    [sceneRT, raysPreRT].concat(raysRT, downRT, upRT).forEach(function (r) { if (r) r.dispose(); });
     sceneRT = makeRT(w, h, true);
-    raysRT = makeRT(Math.max(1, w >> 1), Math.max(1, h >> 1), false);
+    raysPreRT = makeRT(Math.max(1, w >> 2), Math.max(1, h >> 2), false);
+    raysRT = [makeRT(Math.max(1, w >> 1), Math.max(1, h >> 1), false), makeRT(Math.max(1, w >> 1), Math.max(1, h >> 1), false)]; raysOut = raysRT[0]; raysWasOn = false;
     downRT = []; upRT = [];
     var cw = w, ch = h;
     for (var i = 0; i < LEVELS; i++) { cw = Math.max(1, cw >> 1); ch = Math.max(1, ch >> 1); downRT.push(makeRT(cw, ch, false)); upRT.push(makeRT(cw, ch, false)); }
   }
   function pass(mat, target) { quad.material = mat; renderer.setRenderTarget(target); renderer.render(postScene, postCam); }
   var sunNDC = new THREE.Vector3(), camFwd = new THREE.Vector3();
-  function renderFrame(time) {
+  function renderFrame(time, dt) {
     renderer.setRenderTarget(sceneRT); renderer.setClearColor(0x000000, 1); renderer.clear();
     renderer.render(scene, camera);
-    var raysAmt = 0;
+    var raysAmt = 0; if (!(state.rays > 0.001)) raysWasOn = false;
     camera.getWorldDirection(camFwd);
     if (state.rays > 0.001 && camFwd.dot(sunDir) > 0.05 && sunDir.y > -0.14) {
       sunNDC.copy(sunDir).multiplyScalar(1000).add(camera.position).project(camera);
       var off = Math.max(Math.abs(sunNDC.x), Math.abs(sunNDC.y));
       raysAmt = state.rays * (1 - smoothstep(1.1, 2.2, off)) * smoothstep(-0.14, -0.02, sunDir.y);
-      if (raysAmt > 0.001) { raysMat.uniforms.scene.value = sceneRT.texture; raysMat.uniforms.uSunUV.value.set(sunNDC.x * 0.5 + 0.5, sunNDC.y * 0.5 + 0.5); pass(raysMat, raysRT); }
+      if (raysAmt > 0.001) {
+        raysPreMat.uniforms.scene.value = sceneRT.texture; raysPreMat.uniforms.texel.value.set(1 / sceneRT.width, 1 / sceneRT.height); pass(raysPreMat, raysPreRT);
+        var rdst = raysRT[raysIdx]; raysMat.uniforms.pre.value = raysPreRT.texture; raysMat.uniforms.prev.value = raysRT[raysIdx ^ 1].texture;
+        raysMat.uniforms.uBlend.value = raysWasOn ? 1 - Math.exp(-(dt || 0.016) / 0.08) : 1;
+        raysMat.uniforms.uSunUV.value.set(sunNDC.x * 0.5 + 0.5, sunNDC.y * 0.5 + 0.5); pass(raysMat, rdst); raysOut = rdst; raysIdx ^= 1; raysWasOn = true;
+      } else raysWasOn = false;
     }
     var src = sceneRT;
     if (state.bloom > 0.001) {
@@ -1610,7 +1610,7 @@
       for (var j = LEVELS - 2; j >= 0; j--) { upMat.uniforms.small.value = small.texture; upMat.uniforms.cur.value = downRT[j].texture; upMat.uniforms.texel.value.set(1 / small.width, 1 / small.height); pass(upMat, upRT[j]); small = upRT[j]; }
       compMat.uniforms.bloom.value = upRT[0].texture;
     } else compMat.uniforms.bloom.value = downRT[LEVELS - 1].texture;
-    compMat.uniforms.scene.value = sceneRT.texture; compMat.uniforms.rays.value = raysRT.texture;
+    compMat.uniforms.scene.value = sceneRT.texture; compMat.uniforms.rays.value = raysOut.texture;
     compMat.uniforms.uBloom.value = state.bloom; compMat.uniforms.uRays.value = raysAmt; compMat.uniforms.uTone.value = state.tone; compMat.uniforms.uTime.value = time;
     pass(compMat, null);
   }
@@ -1693,7 +1693,7 @@
     var sp2 = onGround ? Math.min(1, Math.hypot(vx, vz) / WALK) : 0;
     var bob = Math.abs(Math.sin(bobPhase)) * 0.045 * sp2 * (reduceMotion ? 0 : 1);
     camera.position.set(px, py + bob - landDip, pz);
-    camera.rotation.set(pitch, yaw, Math.sin(bobPhase) * 0.004 * sp2 * (reduceMotion ? 0 : 1));
+    camera.rotation.set(pitch, yaw, 0);
   }
 
   /* ===================== Input ===================== */
@@ -1914,7 +1914,7 @@
   }
 
   /* ===================== Loop + adaptive quality ===================== */
-  var qLocked = false, frameEMA = 16, lastQ = 0, loaded = false, framesSinceLoad = 0;
+  var qLocked = false, frameEMA = 16, lastQ = 0, loaded = false, framesSinceLoad = 0, qChanges = 0;
   function resize() {
     var w = window.innerWidth, h = window.innerHeight;
     renderer.setPixelRatio(qScale);
@@ -1935,9 +1935,9 @@
     if (loaded && !qLocked) {
       framesSinceLoad++;
       frameEMA = frameEMA * 0.94 + Math.min(dtMs, 100) * 0.06;
-      if (now - lastQ > 2500 && framesSinceLoad > 30) {
-        if (frameEMA > 34 && qScale > 0.6) { qScale = Math.max(0.6, qScale - 0.2); resize(); lastQ = now; }
-        else if (frameEMA < 17 && qScale < DPR_MAX - 0.01) { qScale = Math.min(DPR_MAX, qScale + 0.15); resize(); lastQ = now; }
+      if (now - lastQ > 4000 && framesSinceLoad > 60 && qChanges < 4) {
+        if (frameEMA > 38 && qScale > 0.6) { qScale = Math.max(0.6, qScale - 0.25); resize(); lastQ = now; qChanges++; }
+        else if (frameEMA < 14.5 && qScale < DPR_MAX - 0.01) { qScale = Math.min(DPR_MAX, qScale + 0.15); resize(); lastQ = now; qChanges++; }
       }
     }
     stepTransition(now);
@@ -1961,7 +1961,7 @@
     if (onboardShown && !$("onboard").hidden && walked > 2) hideOnboard();
     updateHud(now);
     updateAudio(time);
-    renderFrame(time);
+    renderFrame(time, dt);
     requestAnimationFrame(frame);
   }
 

@@ -40,6 +40,12 @@ ttmath/           Demo 1: TTMath on Mars (page + logo)
 
 Each demo page loads the shared terrain from `../data/`.
 
+## Publishing
+
+Every push to `main` publishes the site automatically through the GitHub Actions workflow in `.github/workflows/pages.yml`. It checks that the key files are present, then deploys to GitHub Pages. You can also run it by hand from the Actions tab ("Deploy to GitHub Pages", then "Run workflow").
+
+One-time setting: in the repo's Settings, then Pages, set Source to "GitHub Actions".
+
 ## Run it locally
 
 The pages load their data with `fetch()`, so they need a small web server. Opening the files straight from disk will not work.

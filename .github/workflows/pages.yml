@@ -1,0 +1,46 @@
+# Publishes the site to GitHub Pages on every push to main.
+# One-time setup: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check the site files
+        run: |
+          for f in index.html data/manifest.json data/terrain0.b64.txt data/terrain1.b64.txt ttmath/index.html ttmath/logo.png; do
+            test -s "$f" || { echo "::error::missing or empty: $f"; exit 1; }
+          done
+          python3 -c "import json; json.load(open('data/manifest.json'))"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

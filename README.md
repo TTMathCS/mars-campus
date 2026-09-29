@@ -8,7 +8,7 @@ Walkable 3D scenes on real Mars terrain that run in the browser. Each demo start
 
 | Demo | Link | Requirements | What it is |
 |---|---|---|---|
-| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge to find the TTMath campus: glowing Dune Shells, a floating landing ring, rovers and flying craft. Compare the alternative design at [?design=wing](https://ttmathcs.github.io/mars-campus/ttmath/?design=wing). |
+| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge and down an avenue of Dune Shells to the Math Palace, a 56 m glass dome you can walk into: grand stairs, a rotunda of math exhibits, a Foucault pendulum and a golden Möbius strip. |
 
 More demos will be added in their own folders. Each demo folder keeps its own `REQUIREMENTS.md`, the source of truth for that demo.
 

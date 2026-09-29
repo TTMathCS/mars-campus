@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Walk real NASA terrain in Gale Crater, Mars, at sunset and discover the TTMath campus just over the ridge. Runs in the browser on desktop, iPhone and Android.">
+<meta name="description" content="Walk real NASA terrain in Gale Crater, Mars, at sunset, find the TTMath campus over the ridge and walk into its Math Palace. Runs in the browser on desktop, iPhone and Android.">
 <meta name="theme-color" content="#120b09">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="TTMath Mars Campus">
 <meta property="og:type" content="website">
 <meta property="og:title" content="TTMath Mars Campus">
-<meta property="og:description" content="Walk real NASA terrain in Gale Crater, Mars, at sunset and discover the TTMath campus just over the ridge. Runs in the browser on desktop, iPhone and Android.">
+<meta property="og:description" content="Walk real NASA terrain in Gale Crater, Mars, at sunset, find the TTMath campus over the ridge and walk into its Math Palace. Runs in the browser on desktop, iPhone and Android.">
 <meta property="og:url" content="https://ttmathcs.github.io/mars-campus/ttmath/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -198,7 +198,7 @@
 </style>
 </head>
 <body>
-<canvas id="view" tabindex="0" aria-label="3D view of Mars at Dingo Gap with the TTMath campus beyond the ridge. Drag to look around."></canvas>
+<canvas id="view" tabindex="0" aria-label="3D view of Mars at Dingo Gap with the TTMath campus and its Math Palace beyond the ridge. Drag to look around."></canvas>
 <div class="skylabel" id="earthLabel" style="opacity:0"><span>EARTH + MOON</span></div>
 <div class="skylabel" id="phobosLabel" style="opacity:0"><span>PHOBOS</span></div>
 <div class="pin" id="campusPin" style="opacity:0"><div class="stem"></div><div class="tag"><b>TTMATH MARS CAMPUS</b> · <span id="campusDist">40 m</span></div></div>
@@ -291,7 +291,7 @@
     <li><svg viewBox="0 0 34 34"><path d="M12 19V9a2 2 0 0 1 4 0v8m0-2a2 2 0 0 1 4 0v3m0-1a2 2 0 0 1 4 0v5a8 8 0 0 1-8 8h-1a8 8 0 0 1-6-3l-4-5a2 2 0 0 1 3-3l3 3"/><path d="M4 7l3-3m0 0l3 3M7 4v8" opacity=".6"/></svg><span><b>Look around:</b> drag anywhere on the view</span></li>
     <li class="touch-only"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="13" r="5"/><path d="M17 4v2M17 28v2M4 17h2M28 17h2"/></svg><span><b>Walk:</b> push the <b>MOVE</b> stick at bottom left</span></li>
     <li class="desk-only"><svg viewBox="0 0 34 34"><rect x="12" y="4" width="10" height="10" rx="2"/><rect x="2" y="17" width="10" height="10" rx="2"/><rect x="12" y="17" width="10" height="10" rx="2"/><rect x="22" y="17" width="10" height="10" rx="2"/></svg><span><b>Walk:</b> W A S D or arrow keys, Shift to run, Space to jump</span></li>
-    <li><svg viewBox="0 0 34 34"><path d="M9 26c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4zM22 16c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4z"/></svg><span><b>Find the campus:</b> follow the footprints up the ridge ahead</span></li>
+    <li><svg viewBox="0 0 34 34"><path d="M9 26c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4zM22 16c-2 0-3-2-3-4s1-5 3-5 3 3 3 5-1 4-3 4z"/></svg><span><b>Find the campus:</b> follow the footprints up the ridge, then the avenue into the Math Palace</span></li>
   </ul>
   <button type="button" class="go" id="obGo">Start exploring</button>
 </div>
@@ -320,14 +320,18 @@
   <button class="close" type="button" id="aboutClose" aria-label="Close">×</button>
   <h2>TTMath Mars Campus</h2>
   <p>An imagined TTMath campus on Mars, set at "Dingo Gap" in Gale Crater. The ground around your starting point, about 260 × 260 m, is real: NASA JPL's 3D model built from Curiosity rover photos (around sol 528) and HiRISE orbital images. The campus, the landscape beyond, the vehicles and the sky effects are simulated.</p>
-  <p>The campus is a dream of TTMath on Mars. White Dune Shells rise from the ground like wind-blown sails, each with a glowing glass face. Behind them a landing ring floats above the ground and glass pods hover on curved sky bridges. Rovers park beside the shells, and a flying craft circles the campus.</p>
+  <p>The campus is a dream of TTMath on Mars. An avenue of white Dune Shells leads to the Math Palace: a glass dome 56 m across whose lattice follows the spirals of a sunflower, 21 ribs winding one way and 34 the other.</p>
+  <p>Inside, a balcony rings a rotunda sunk 10 m into the ground. Two grand stairs sweep down to a Penrose-tiled floor with a sunflower medallion, twelve lit math exhibits, the five Platonic solids, a floating golden M&ouml;bius strip and a 24 m Foucault pendulum. A landing ring floats beside the palace with rovers docked under it, and a flying craft circles the dome.</p>
   <h3>Things to try</h3>
   <ul>
-    <li>Walk up the ridge ahead: after a few steps the campus comes into view. Walk down to the glowing entrance.</li>
-    <li>Press play and watch the sunset turn to twilight: the campus lights glow, clouds keep shining after the Sun is gone, and stars come out.</li>
+    <li>Walk up the ridge ahead: after a few steps the campus comes into view. Follow the avenue to the palace door (hold Shift to run).</li>
+    <li>Inside, take the grand stairs down and read the exhibits. Count the spirals in the floor's sunflower and in the dome: they are Fibonacci numbers.</li>
+    <li>The light studs along the avenue sit 1, 2, 3, 5, 8, 13, 21 and 34 m from the door.</li>
+    <li>Time the pendulum: one swing takes 16 s in Mars gravity, against 9.8 s on Earth.</li>
+    <li>Press play and watch the sunset turn to twilight: the palace lights glow, clouds keep shining after the Sun is gone, and stars come out.</li>
     <li>In twilight, find Earth and the Moon low in the west, and Phobos rising.</li>
     <li>Jump: in Mars gravity you stay in the air about three times as long.</li>
-    <li>Turn on Sound for the wind and your footsteps.</li>
+    <li>Turn on Sound for the wind, your footsteps and the echo under the dome.</li>
   </ul>
   <h3>Grounded in real Curiosity images</h3>
   <ul>
@@ -423,57 +427,34 @@
   camera.rotation.order = "YXZ";
   var WIND_DIR = new THREE.Vector2(0.8, 0.6).normalize();
 
-  /* ===================== Campus layout: in the ridge's shadow, 30-95 m from the start ===================== */
+  /* ===================== Campus layout: in the ridge's shadow, 30-155 m from the start ===================== */
   // Seen from the start point, the NW ridge hides anything below a line that rises with distance:
-  // about 3-4 m high at 30-35 m out, 5-7 m at 40-45 m, 7-9 m at 50-60 m, 9-12 m at 70-90 m (bearings 310-340).
-  // So the buildings are low where they are near and rise as they go away; they appear after ~5 m of walking.
+  // about 3-4 m high at 30-35 m out, 5-7 m at 40-45 m, 7-9 m at 50-60 m, 9-12 m at 70-90 m, 12-19 m at 100-130 m (bearings 310-340).
+  // So the campus grows as it goes away: Dune Shells along an avenue, and the huge Math Palace at its end.
   function dirAz(a) { return { x: Math.sin(a), z: -Math.cos(a) }; }
   function azPt(azDeg, d) { var v = dirAz(azDeg * D2R); return { x: v.x * d, z: v.z * d }; }
-  // Wing Hall: a white wing-shaped roof, nose toward the visitor, wings sweeping back and curving up; glass hall under it.
-  // le = leading-edge points [bearing from the start, distance], left tip to right tip.
-  var WING = { le: [[314, 72], [319, 52], [327, 40.5], [335, 50], [338, 70]], cRoot: 16, hN: 3.3, hTL: 5.6, hTR: 5.6, wlL: 1.2, wlR: 1.4, cam: 1.3, rise: 2.4, thk: 0.7, Te: 0.32, NU: 200, NV: 30 };
-  var HALLPOD = { N: 144, uc: 0.5, ur: 0.17, vc: 0.6, vr: 0.28 };   // glass hall outline under the wing, in wing (u, v)
-  var HALO = { c: azPt(336, 88), R: 8.2, r: 2.4, H: 7.8 };           // floating landing ring
-  var PODS = [{ c: azPt(318, 77), bot: 5.2, a: 3.6, b: 2.6, h: 3.4, yaw: 0.5, u: 0.3 }, { c: azPt(337, 73), bot: 4.8, a: 3.4, b: 2.5, h: 3.2, yaw: -0.4, u: 0.7 }];
-  var SIGNP = { c: azPt(313.5, 27.5), W: 4.8, Ht: 1.45, T: 0.3 };       // curved logo wall by the path
-  var ORBIT = { c: azPt(328, 82), R: 11, alt: 7.0 };                 // flying craft circuit behind the hall
   var RIDGE_VIEW = { x: -5.2, z: -7.4 };                             // where the campus first comes into view
-  var DESIGN = /[?&#]design=wing/.test(location.search + location.hash) ? "wing" : "shells";
-  var POD_LOGO = { W: 4.6, H: 1.44, y0: 2.7 };                      // logo over the entrance, inside the glass
-  var wingCurve = (function () {
-    var pts = WING.le.map(function (p) { var q = azPt(p[0], p[1]); return new THREE.Vector3(q.x, 0, q.z); });
-    return new THREE.CatmullRomCurve3(pts, false, "centripetal");
-  })();
-  WING.L = wingCurve.getLength();
-  var _wv = new THREE.Vector3(), WPLANE = { a: 0, b: 0, c: 0 };
-  // plan frame at span position u (0 = left tip, 1 = right tip): leading-edge point, chord direction (away from the start), chord length
-  function wingFrame(u, o) {
-    wingCurve.getPointAt(clamp(u, 0, 1), _wv);
-    var r = Math.hypot(_wv.x, _wv.z) || 1, a = Math.abs(2 * u - 1);
-    o = o || {}; o.x = _wv.x; o.z = _wv.z; o.dx = _wv.x / r; o.dz = _wv.z / r; o.a = a; o.c = WING.cRoot * (1 - 0.72 * Math.pow(a, 1.4));
-    return o;
-  }
-  var _wf = {};
-  function wingXZ(u, v, o) { var f = wingFrame(u, _wf); o = o || {}; o.x = f.x + f.dx * f.c * v; o.z = f.z + f.dz * f.c * v; return o; }
-  function wingPlane(x, z) { return WPLANE.a + WPLANE.b * x + WPLANE.c * z; }
-  // roof height above the reference plane: low nose, tips curving up, rising toward the back like a wing taking off
-  function wingY(u, v, bottom) {
-    var a = Math.abs(2 * u - 1), left = u < 0.5, hT = left ? WING.hTL : WING.hTR, wl = left ? WING.wlL : WING.wlR, tip = Math.max(0, (a - 0.8) / 0.2);
-    var yLE = WING.hN + (hT - WING.hN) * Math.pow(a, 1.7) + wl * tip * tip, sv = Math.sin(Math.PI * clamp(v, 0, 1));
-    var top = yLE + WING.Te / 2 + WING.cam * (1 - 0.45 * a) * Math.pow(sv, 0.8) + WING.rise * (1 - 0.5 * a) * v;
-    return bottom ? top - WING.Te - WING.thk * (1 - 0.7 * a) * Math.pow(sv, 0.9) : top;
-  }
-  // outline of the glass hall, starting at its back so the front (and the logo) is one run in the middle
-  var HALL_LOOP = (function () {
-    var pts = [], o = {}, s = 0, prev = null;
-    for (var k = 0; k <= HALLPOD.N; k++) {
-      var t = Math.PI / 2 + k / HALLPOD.N * 2 * Math.PI, u = HALLPOD.uc + HALLPOD.ur * Math.cos(t), v = HALLPOD.vc + HALLPOD.vr * Math.sin(t);
-      wingXZ(u, v, o); if (prev) s += Math.hypot(o.x - prev.x, o.z - prev.z);
-      pts.push({ u: u, v: v, x: o.x, z: o.z, s: s }); prev = { x: o.x, z: o.z };
-    }
-    return pts;
-  })();
-  var HALL_FRONT_S = HALL_LOOP[HALLPOD.N / 2].s;
+  // Math Palace: a glass dome with a Fibonacci spiral lattice (21 + 34 ribs), 56 m across and 15 m above its base,
+  // over a rotunda sunk 10 m into the ground. Local frame: rad runs from the centre toward the entrance (and the visitor),
+  // lat runs to the visitor's right, th = 0 at the entrance. Levels: B = balcony and base, F = rotunda floor.
+  var PAL = { az: 326, d: 124, R: 28, H: 15, beam: 0.9, ringIn: 27.4, ringOut: 28.6, pitR: 22.2, balR: 22.45, depth: 10,
+    stairIn: 19.45, landA: 10, stairTop: 20, stairBot: 86, oc: 4.6, vt: 0.5, vFront: 34.5, vBack: 23.8, lanR: 16, pedR: 13.5, benchR: 17.4, benchA: 7 };
+  PAL.c = azPt(PAL.az, PAL.d);
+  (function () { var fx = RIDGE_VIEW.x - PAL.c.x, fz = RIDGE_VIEW.z - PAL.c.z, l = Math.hypot(fx, fz); PAL.F = { x: fx / l, z: fz / l }; PAL.Rt = { x: fz / l, z: -fx / l }; })();
+  var PALY = { B: 0, F: -10, front: 0 };                             // filled in from the ground once the terrain is loaded
+  function palXZ(lat, rad) { return { x: PAL.c.x + PAL.Rt.x * lat + PAL.F.x * rad, z: PAL.c.z + PAL.Rt.z * lat + PAL.F.z * rad }; }
+  function palPol(r, th) { return palXZ(r * Math.sin(th), r * Math.cos(th)); }
+  var _pl = {};
+  function palLoc(x, z, o) { var dx = x - PAL.c.x, dz = z - PAL.c.z; o = o || _pl; o.lat = dx * PAL.Rt.x + dz * PAL.Rt.z; o.rad = dx * PAL.F.x + dz * PAL.F.z; o.r = Math.hypot(o.lat, o.rad); o.th = Math.atan2(o.lat, o.rad); return o; }
+  // entrance vault: inner half-width and height grow toward the flared front
+  function vaultW(rad) { return 4.2 + 0.9 * smoothstep(29.5, PAL.vFront, rad); }
+  function vaultH(rad) { return 7.0 + 1.4 * smoothstep(29.5, PAL.vFront, rad); }
+  function vestY(rad) { return rad <= 27.3 ? PALY.B : lerp(PALY.B, PALY.front, smoothstep(27.3, PAL.vFront, rad)); }
+  function domeY(r) { var k = clamp(r / PAL.R, 0, 1); return PALY.B + PAL.beam + (PAL.H - PAL.beam) * Math.sqrt(1 - k * k); }
+  var HALO = { c: palXZ(-15, 47), R: 6.5, r: 1.3, H: 6.6 };          // floating landing ring beside the forecourt, rovers docked under it
+  var PODS = [{ c: palXZ(15, 47), bot: 5.2, a: 3.4, b: 2.5, h: 3.2, yaw: -0.4, u: 0.78 }];
+  var SIGNP = { c: azPt(313.5, 27.5), W: 4.8, Ht: 1.45, T: 0.3 };       // curved logo wall by the path
+  var ORBIT = { c: PAL.c, R: 40, alt: 9.0 };                         // the flying craft circles the palace
 
   /* ===================== Shared uniforms ===================== */
   var dummyTex = new THREE.DataTexture(new Uint8Array([128, 128, 128, 255]), 1, 1, THREE.RGBAFormat); dummyTex.needsUpdate = true;
@@ -493,7 +474,8 @@
     uShadowMap: { value: null }, uShadowMatrix: { value: new THREE.Matrix4() }, uShadowTexel: { value: 1 / 2048 }, uShadowBias: { value: 0.0005 }, uShadowOn: { value: 0 },
     uHF: { value: dummyTex }, uHFExt: { value: 17000 }, uHFOn: { value: 0 },
     uSynthF: { value: dummyTex }, uSynthMeanF: { value: 0.5 }, uSynthC: { value: dummyTex }, uSynthMeanC: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-    uWindDir: { value: WIND_DIR.clone() }, uLogo: { value: dummyTex }, uPodLogo: { value: new THREE.Vector4(HALL_FRONT_S, POD_LOGO.W, POD_LOGO.y0, POD_LOGO.H) },
+    uWindDir: { value: WIND_DIR.clone() }, uLogo: { value: dummyTex }, uPodLogo: { value: new THREE.Vector4(-1e4, 4.6, 2.7, 1.44) },
+    uCut: { value: new THREE.Vector4(0, 0, 0, 0) }, uCutV: { value: new THREE.Vector4(0, 1, 0, 0) },
     uMote: { value: 0.5 }, uWindV: { value: new THREE.Vector3() }, uCam: { value: new THREE.Vector3() }, uBox: { value: 22 }, uPxScale: { value: 800 }
   };
   function withMap(tex) { var u = Object.assign({}, U); u.map = { value: tex }; return u; }
@@ -595,6 +577,12 @@
     "}"
   ].join("\n");
 
+  // the palace sits in a hole cut out of the terrain: inside the dome ring and along the entrance vault
+  var CUT_GLSL = [
+    "uniform vec4 uCut; uniform vec4 uCutV;",
+    "bool inCut(vec2 xz){ if (uCut.w < 0.5) return false; vec2 q = xz - uCut.xy; if (dot(q, q) < uCut.z * uCut.z) return true;",
+    "  float rad = dot(q, uCutV.xy), lat = q.x * uCutV.y - q.y * uCutV.x; return abs(lat) < uCutV.z && rad > 0.0 && rad < uCutV.w; }"
+  ].join("\n");
   function hgJS(g, c) { var g2 = g * g; return (1 - g2) / Math.pow(Math.max(1 + g2 - 2 * g * c, 1e-4), 1.5) * 0.0795775; }
   function airmJS(y) { return 1 / (Math.max(y, 0) * 0.98 + 0.04); }
   function skyRadJS(d, s, p) {
@@ -725,10 +713,11 @@
   ].join("\n");
   var TERRAIN_FS = [
     "#include <packing>",
-    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, DETAIL_GLSL,
+    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, DETAIL_GLSL, CUT_GLSL,
     "uniform sampler2D map; uniform float uRelight;",
     "varying vec2 vUv; varying vec3 vN; varying vec3 vW;",
     "void main(){",
+    "  if (inCut(vW.xz)) discard;",
     "  vec3 t = texture2D(map, vUv).rgb;",
     "  vec3 tb = texture2D(map, vUv, 3.0).rgb;",
     "  vec3 V = vW - cameraPosition; float dist = length(V); vec3 vd = V / max(dist, 1e-3);",
@@ -759,10 +748,11 @@
   ].join("\n");
   var FAR_FS = [
     "#include <packing>",
-    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, DETAIL_GLSL,
+    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, DETAIL_GLSL, CUT_GLSL,
     "uniform sampler2D uSynthC; uniform vec3 uSynthMeanC;",
     "varying vec3 vW; varying vec3 vN; varying vec3 vCol;",
     "void main(){",
+    "  if (inCut(vW.xz)) discard;",
     "  vec3 V = vW - cameraPosition; float dist = length(V); vec3 vd = V / max(dist, 1e-3);",
     "  vec3 tc = texture2D(uSynthC, vW.xz / 41.0).rgb / uSynthMeanC;",
     "  vec3 tc2 = texture2D(uSynthC, vW.xz / 173.0 + vec2(0.37, 0.71)).rgb / uSynthMeanC;",
@@ -904,7 +894,17 @@
     "    alb = mix(vec3(0.03, 0.035, 0.04), vec3(0.87, 0.86, 0.84), rib); refl = (1.0 - rib) * 0.85; dustable = 0.0; hab = 99.0;",
     "  } else {",                                                  // PAVE: draped paving. plaza: f m, g.x = distance to the edge; bays: g = (W, -L)
     "    hab = 0.0; dustable = 0.55;",
-    "    if (g.y < 0.0) {",
+    "    if (g.y > 50.0) {",                                       // AVENUE: f = (lat, metres from the palace door), g.x = half width
+    "      float hw = g.x, e = hw - abs(f.x);",
+    "      float j1 = aline(f.x + hw, 1.5, 0.04), j2 = aline(f.y, 1.0, 0.04);",
+    "      alb = vec3(0.62, 0.58, 0.53) * (1.0 - 0.14 * max(j1, j2)) * (0.93 + 0.14 * hsh(floor(vec2((f.x + hw) / 1.5, f.y))));",
+    "      alb = mix(alb, vec3(0.36, 0.34, 0.32), 1.0 - smoothstep(0.34, 0.38, e));",
+    "      emi = vec3(1.0, 0.85, 0.62) * 0.05 * (1.0 - smoothstep(0.03, 0.06, abs(e - 0.36)));",
+    // light studs at Fibonacci distances from the door: 1, 2, 3, 5, 8, 13, 21, 34 m
+    "      float fa = 1.0, fb = 2.0, stud = 0.0;",
+    "      for (int k = 0; k < 8; k++) { stud = max(stud, 1.0 - smoothstep(0.09, 0.15, length(vec2(f.y - fa, e - 0.62)))); float t = fa + fb; fa = fb; fb = t; }",
+    "      emi += vec3(0.35, 0.7, 1.0) * 1.1 * stud; alb = mix(alb, vec3(0.9), stud); dustable = 0.35;",
+    "    } else if (g.y < 0.0) {",
     "      float W = g.x, L = -g.y; float e = min(min(f.x, W - f.x), min(f.y, L - f.y));",
     "      float line = 1.0 - smoothstep(0.06, 0.12, e);",
     "      alb = vec3(0.30, 0.29, 0.28) * (1.0 - 0.3 * line); emi = vec3(0.2, 0.55, 1.0) * 0.55 * line;",
@@ -979,14 +979,17 @@
     }
   };
   // parametric grid surface: fn(i, j, q) fills q.p (xyz), q.f, q.f2, q.m for grid point (i, j); smooth normals from the grid
+  // (fn may set q.nn to give the normal of a point explicitly)
   Builder.prototype.surf = function (nu, nv, fn, wrapU, wrapV) {
-    var base = this.p.length / 3, W = nu + 1, P = [], q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0 }, i, j;
+    var base = this.p.length / 3, W = nu + 1, P = [], NN = null, q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0, nn: null }, i, j;
     for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
-      q.f2[0] = 99; q.f2[1] = 0; fn(i, j, q);
+      q.f[0] = 0; q.f[1] = 0; q.f2[0] = 99; q.f2[1] = 0; q.nn = null; fn(i, j, q);
       P.push(q.p[0], q.p[1], q.p[2]); this.p.push(q.p[0], q.p[1], q.p[2]);
       this.f.push(q.f[0], q.f[1]); this.f2.push(q.f2[0], q.f2[1]); this.m.push(q.m);
+      if (q.nn) { if (!NN) NN = []; NN[j * W + i] = q.nn; }
     }
     for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
+      if (NN && NN[j * W + i]) { var gn = NN[j * W + i], gl = Math.hypot(gn[0], gn[1], gn[2]) || 1; this.n.push(gn[0] / gl, gn[1] / gl, gn[2] / gl); continue; }
       var i0 = i - 1, i1 = i + 1, j0 = j - 1, j1 = j + 1;
       if (i0 < 0) i0 = wrapU ? nu - 1 : 0; if (i1 > nu) i1 = wrapU ? 1 : nu;
       if (j0 < 0) j0 = wrapV ? nv - 1 : 0; if (j1 > nv) j1 = wrapV ? 1 : nv;
@@ -997,6 +1000,14 @@
       this.n.push(nx / l, ny / l, nz / l);
     }
     for (j = 0; j < nv; j++) for (i = 0; i < nu; i++) { var k = base + j * W + i; this.i.push(k, k + 1, k + W + 1, k, k + W + 1, k + W); }
+  };
+  Builder.prototype.count = function () { return this.p.length / 3; };
+  // flip normals from vertex `start` on so they point toward dirFn(x, y, z)
+  Builder.prototype.orient = function (start, dirFn) {
+    for (var k = start, N = this.p.length / 3; k < N; k++) {
+      var d = dirFn(this.p[k * 3], this.p[k * 3 + 1], this.p[k * 3 + 2]);
+      if (this.n[k * 3] * d[0] + this.n[k * 3 + 1] * d[1] + this.n[k * 3 + 2] * d[2] < 0) { this.n[k * 3] *= -1; this.n[k * 3 + 1] *= -1; this.n[k * 3 + 2] *= -1; }
+    }
   };
   Builder.prototype.build = function () {
     var g = new THREE.BufferGeometry();
@@ -1011,7 +1022,7 @@
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
   /* ===================== Campus ground: height grid rasterized from the real NASA mesh ===================== */
-  var CG = { x0: -96, z0: -112, res: 0.5, nx: 200, nz: 200, h: null };
+  var CG = { x0: -106, z0: -140, res: 0.5, nx: 236, nz: 264, h: null };   // covers the whole campus and the palace
   function buildCampusGround() {
     var nx = CG.nx, nz = CG.nz, res = CG.res, x0 = CG.x0, z0 = CG.z0, x1 = x0 + nx * res, z1 = z0 + nz * res;
     var h = new Float32Array(nx * nz).fill(-1e9), i, j, k;
@@ -1113,17 +1124,16 @@
 
   /* ===================== Design B: Dune Shells ===================== */
   // Curved white shells that rise from low at the front to tall at the back, each with a glowing glass face toward the visitor.
+  // Two rows of shells line the avenue; each faces a point on the avenue a little closer to the ridge.
   var SHELLS = [
-    { az: 316.5, d: 41.5, W: 8.0, H: 4.4, D: 10, lean: 1.0, yaw: 12 },
-    { az: 323.5, d: 43.5, W: 10.0, H: 5.7, D: 12, lean: 1.3, yaw: 6 },
-    { az: 331.0, d: 44.5, W: 10.0, H: 6.1, D: 12, lean: 1.4, yaw: -4 },
-    { az: 338.5, d: 48.5, W: 8.5, H: 5.9, D: 11, lean: 1.2, yaw: -13 },
-    { az: 326.5, d: 56.5, W: 13.0, H: 7.7, D: 15, lean: 1.8, yaw: 2 }
+    { lat: -8.5, s: 80, W: 8.0, H: 4.4, D: 10, lean: 1.0 },
+    { lat: 8.5, s: 80, W: 9.0, H: 5.6, D: 11, lean: 1.2 },
+    { lat: -10.5, s: 65, W: 10.0, H: 6.2, D: 12, lean: 1.4 },
+    { lat: 10.5, s: 65, W: 10.5, H: 6.8, D: 12, lean: 1.5 }
   ];
   function shellFrame(S) {
-    var c = azPt(S.az, S.d), fx = RIDGE_VIEW.x - c.x, fz = RIDGE_VIEW.z - c.z, fl = Math.hypot(fx, fz); fx /= fl; fz /= fl;
-    var yr = S.yaw * D2R, cf = Math.cos(yr), sf = Math.sin(yr), Fx = fx * cf - fz * sf, Fz = fx * sf + fz * cf;
-    S.c = c; S.F = { x: Fx, z: Fz }; S.Rt = { x: Fz, z: -Fx };   // F faces the visitor; Rt runs to the visitor's right
+    var c = palXZ(S.lat, S.s), t = palXZ(0, S.s + 14), fx = t.x - c.x, fz = t.z - c.z, fl = Math.hypot(fx, fz);
+    S.c = c; S.F = { x: fx / fl, z: fz / fl }; S.Rt = { x: S.F.z, z: -S.F.x };   // F faces the avenue and the visitor; Rt runs to the visitor's right
     return S;
   }
   function shellArch(S, s) {     // front edge: lateral, forward, height
@@ -1153,7 +1163,7 @@
         var s = i / NS, A = shellArch(S, s), fwdG = A.fwd - S.lean * Math.pow(A.y / S.H, 2) - sb, t = clamp((A.fwd - fwdG) / (A.fwd + S.D), 0, 1), top = shellHood(S, s, t).y;
         var gg = place(A.lat, fwdG, j ? top : -0.6, q.p);
         if (!j) q.p[1] = gg - 0.6;
-        q.f[0] = s * S.W; q.f[1] = q.p[1] - gg; q.f2[0] = Math.max(0, top + gR - gg); q.f2[1] = si === 1 || si === 2 ? Math.exp(-Math.pow((s - 0.5) / 0.16, 2)) : 0.25 * Math.exp(-Math.pow((s - 0.5) / 0.2, 2)); q.m = M.GLASSWALL;
+        q.f[0] = s * S.W; q.f[1] = q.p[1] - gg; q.f2[0] = Math.max(0, top + gR - gg); q.f2[1] = 0.3 * Math.exp(-Math.pow((s - 0.5) / 0.2, 2)); q.m = M.GLASSWALL;
       });
       // footprint for walking into it
       var poly = [];
@@ -1164,34 +1174,6 @@
   }
 
   /* ===================== The campus ===================== */
-  function fitWingPlane() {           // least-squares plane through the ground under the wing
-    var S = [0, 0, 0, 0, 0, 0, 0, 0, 0], R = [0, 0, 0], o = {};
-    for (var i = 0; i <= 40; i++) for (var j = 0; j <= 8; j++) {
-      wingXZ(i / 40, j / 8, o); var gg = cgH(o.x, o.z), r = [1, o.x, o.z];
-      for (var p = 0; p < 3; p++) { R[p] += r[p] * gg; for (var q = 0; q < 3; q++) S[p * 3 + q] += r[p] * r[q]; }
-    }
-    var e = new THREE.Matrix3().set(S[0], S[1], S[2], S[3], S[4], S[5], S[6], S[7], S[8]).invert().elements;
-    WPLANE.a = e[0] * R[0] + e[3] * R[1] + e[6] * R[2]; WPLANE.b = e[1] * R[0] + e[4] * R[1] + e[7] * R[2]; WPLANE.c = e[2] * R[0] + e[5] * R[1] + e[8] * R[2];
-  }
-  function wingPoint(u, v, bottom, out) { var o = wingXZ(u, v, {}); out[0] = o.x; out[1] = wingPlane(o.x, o.z) + wingY(u, v, bottom); out[2] = o.z; return out; }
-  function wingGeometry(B) {
-    var NU = WING.NU, NV = WING.NV;
-    B.surf(NU, NV, function (i, j, q) { var u = i / NU, v = j / NV; wingPoint(u, v, false, q.p); q.f[0] = u * WING.L; q.f[1] = v; q.f2[1] = Math.abs(2 * u - 1); q.m = M.WING; });
-    B.surf(NU, NV, function (i, j, q) { var u = i / NU, v = j / NV, fr = wingFrame(u, {}); wingPoint(u, v, true, q.p); q.f[0] = u * WING.L; q.f[1] = v * fr.c; q.f2[0] = fr.c; q.f2[1] = Math.abs(2 * u - 1); q.m = M.SOFFIT; });
-    // glowing outline: leading edge, trailing edge, wing tips
-    B.surf(NU, 1, function (i, j, q) { wingPoint(i / NU, 0, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
-    B.surf(NU, 1, function (i, j, q) { wingPoint(i / NU, 1, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
-    [0, 1].forEach(function (u) { B.surf(NV, 1, function (i, j, q) { wingPoint(u, i / NV, !j, q.p); q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; }); });
-  }
-  function hallBase(p, ctr) { var dx = ctr.x - p.x, dz = ctr.z - p.z, l = Math.hypot(dx, dz) || 1, k = Math.min(1.6, l * 0.3) / l; return { x: p.x + dx * k, z: p.z + dz * k }; }
-  function hallGeometry(B) {          // glass walls of the hall, leaning out from the ground up to the wing's underside
-    var N = HALLPOD.N, ctr = wingXZ(HALLPOD.uc, HALLPOD.vc, {});
-    B.surf(N, 1, function (i, j, q) {
-      var p = HALL_LOOP[i], b = hallBase(p, ctr), gg = cgH(b.x, b.z), top = wingPlane(p.x, p.z) + wingY(p.u, p.v, true) - 0.02;
-      var ds = Math.abs(p.s - HALL_FRONT_S), y = j ? top : gg - 0.6, x = j ? p.x : b.x - (p.x - b.x) * 0.6 / Math.max(top - gg, 1), z = j ? p.z : b.z - (p.z - b.z) * 0.6 / Math.max(top - gg, 1);
-      q.p[0] = x; q.p[1] = y; q.p[2] = z; q.f[0] = p.s; q.f[1] = y - gg; q.f2[0] = top - gg; q.f2[1] = Math.exp(-Math.pow(ds / 3.6, 2)); q.m = M.GLASSWALL;
-    });
-  }
   function lathe(B, c, prof, mat, g0) {
     var NA = 72;
     B.surf(NA, prof.length - 1, function (i, j, q) {
@@ -1201,19 +1183,19 @@
     }, true);
   }
   function haloGeometry(B) {          // floating landing ring
-    var c = HALO.c, g0 = cgH(c.x, c.z), top = g0 + HALO.H, R = HALO.R, r = HALO.r, und = [], k;
+    var c = HALO.c, g0 = cgH(c.x, c.z), top = g0 + HALO.H, R = HALO.R, r = HALO.r, und = [], k, ks = 11.2 / (R - 0.55);
     HALO.g0 = g0; HALO.top = top;
-    for (k = 0; k <= 16; k++) { var t = k / 16; und.push([R - (R - r) * t, top - 0.26 - 1.05 * Math.pow(Math.sin(Math.PI * t), 0.8)]); }
+    for (k = 0; k <= 16; k++) { var t = k / 16; und.push([R - (R - r) * t, top - 0.26 - 1.0 * Math.pow(Math.sin(Math.PI * t), 0.8)]); }
     lathe(B, c, und, M.PEARL, g0);
     lathe(B, c, [[R, top - 0.26], [R + 0.06, top - 0.13], [R, top]], M.LED, g0);
     lathe(B, c, [[r, top], [r - 0.05, top - 0.13], [r, top - 0.26]], M.LED, g0);
     B.surf(72, 6, function (i, j, q) {
       var th = i / 72 * 2 * Math.PI, rr = R - (R - r) * j / 6, x = Math.sin(th) * rr, z = -Math.cos(th) * rr;
-      q.p[0] = c.x + x; q.p[1] = top; q.p[2] = c.z + z; q.f[0] = x * 1.45; q.f[1] = z * 1.45; q.m = M.PAD;
+      q.p[0] = c.x + x; q.p[1] = top; q.p[2] = c.z + z; q.f[0] = x * ks; q.f[1] = z * ks; q.m = M.PAD;
     }, true);
-    for (var a = 0; a < 20; a++) {
-      var ang = a / 20 * Math.PI * 2, x = c.x + Math.sin(ang) * (R - 0.45), z = c.z - Math.cos(ang) * (R - 0.45);
-      var nb = new Builder(); nb.box(-0.2, 0, -0.2, 0.2, 0.12, 0.2, M.PADLIGHT); var gg = nb.build();
+    for (var a = 0; a < 16; a++) {
+      var ang = a / 16 * Math.PI * 2, x = c.x + Math.sin(ang) * (R - 0.4), z = c.z - Math.cos(ang) * (R - 0.4);
+      var nb = new Builder(); nb.box(-0.18, 0, -0.18, 0.18, 0.12, 0.18, M.PADLIGHT); var gg = nb.build();
       var fa = gg.attributes.aFac.array; for (var q2 = 0; q2 < fa.length; q2 += 2) { fa[q2] = ang; fa[q2 + 1] = 0; }
       B.geo(gg, T(x, top, z), M.PADLIGHT, 1);
     }
@@ -1271,92 +1253,114 @@
     });
     B.surf(NS, 1, function (i, j, q) { var s = -Wd / 2 + Wd * i / NS, p = at(s, Th / 2 + 0.008); q.p[0] = p.x; q.p[1] = gR + Ht - 0.1 + 0.08 * j; q.p[2] = p.z; q.f[0] = s; q.f[1] = j; q.m = M.LED; });
   }
-  var PLAZA = { c: azPt(327, 38.5), a: 8.5, b: 4.6 };
-  function drapeGeometry(D) {         // paved forecourt under the wing's nose, and glowing charging bays for the rovers
-    var c = PLAZA.c, d = dirAz(327 * D2R), tx = -d.z, tz = d.x;
+  var PLAZA = { c: { x: 0, z: 0 }, a: 9, b: 4.2 };
+  var AVE = { s0: PAL.vFront + 0.05, s1: 83.75 };                      // the avenue runs along the palace axis from its door to the plaza
+  function aveHalf(s) { return 3 + 2.6 * (1 - smoothstep(0, 9, s - PAL.vFront)); }
+  function drapeGeometry(D) {         // paved plaza below the ridge, the avenue to the palace, glowing charging bays for the rovers
+    var c = PLAZA.c;
     D.surf(64, 10, function (i, j, q) {
       var th = i / 64 * 2 * Math.PI, rho = j / 10, lx = Math.cos(th) * PLAZA.a * rho, lz = Math.sin(th) * PLAZA.b * rho;
-      var x = c.x + tx * lx + d.x * lz, z = c.z + tz * lx + d.z * lz;
+      var x = c.x + PAL.Rt.x * lx + PAL.F.x * lz, z = c.z + PAL.Rt.z * lx + PAL.F.z * lz;
       q.p[0] = x; q.p[1] = cgH(x, z) + 0.05; q.p[2] = z; q.f[0] = lx; q.f[1] = lz; q.f2[0] = (1 - rho) * PLAZA.b; q.f2[1] = 0; q.m = M.PAVE;
     }, true);
+    D.surf(12, 120, function (i, j, q) {
+      var s = lerp(AVE.s0, AVE.s1, j / 120), hw = aveHalf(s), lat = lerp(-hw, hw, i / 12), p = palXZ(lat, s);
+      q.p[0] = p.x; q.p[1] = cgH(p.x, p.z) + 0.05; q.p[2] = p.z; q.f[0] = lat; q.f[1] = s - PAL.vFront; q.f2[0] = hw; q.f2[1] = 99; q.m = M.PAVE;
+    });
     ROVER_BAYS.forEach(function (bay) {
-      var W = 3.6, L = 6.0, dx = -bay.dx, dz = -bay.dz, bxx = -dz, bzz = dx;   // bay long axis points toward the visitor
+      var W = 3.6, L = 6.0, dx = -bay.dx, dz = -bay.dz, bxx = -dz, bzz = dx;   // bay long axis along the rover
       D.surf(6, 10, function (i, j, q) {
         var lx = W * i / 6, lz = L * j / 10, x = bay.x + bxx * (lx - W / 2) + dx * (lz - L / 2), z = bay.z + bzz * (lx - W / 2) + dz * (lz - L / 2);
         q.p[0] = x; q.p[1] = cgH(x, z) + 0.05; q.p[2] = z; q.f[0] = lx; q.f[1] = lz; q.f2[0] = W; q.f2[1] = -L; q.m = M.PAVE;
       });
     });
   }
+  // the palace outside: the white ring the dome springs from, the entrance vault with its glowing arch, the logo crest
+  function palaceExteriorGeometry(B) {
+    var yB = PALY.B, NA = 360, gap = Math.asin(4.45 / PAL.ringOut), NS = 40, NT = 24;
+    function thA(i) { return gap + (2 * Math.PI - 2 * gap) * i / NA; }
+    B.surf(NA, 1, function (i, j, q) {
+      var th = thA(i), p = palPol(PAL.ringOut, th), gg = cgH(p.x, p.z), y = j ? yB + PAL.beam : Math.min(gg, yB) - 0.4;
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = th * PAL.ringOut; q.f[1] = y - gg; q.f2[0] = y - gg; q.m = M.PEARL;
+    });
+    B.surf(NA, 1, function (i, j, q) { var p = palPol(PAL.ringOut + 0.015, thA(i)); q.p[0] = p.x; q.p[1] = yB + 0.62 + 0.08 * j; q.p[2] = p.z; q.f[0] = i; q.f[1] = j; q.m = M.LED; });
+    B.surf(NA, 2, function (i, j, q) { var p = palPol(lerp(PAL.ringIn + 0.3, PAL.ringOut, j / 2), thA(i)); q.p[0] = p.x; q.p[1] = yB + PAL.beam; q.p[2] = p.z; q.f[0] = thA(i) * 28; q.f[1] = j * 0.6; q.f2[0] = PAL.beam; q.m = M.PEARL; });
+    function vout(s, rad) { var wo = vaultW(rad) + PAL.vt, ho = vaultH(rad) + 0.55, o = palXZ(s * wo, rad); o.y = vestY(rad) + ho * Math.pow(Math.max(0, 1 - s * s), 0.55); return o; }
+    function vin(s, rad) { var o = palXZ(s * vaultW(rad), rad); o.y = vestY(rad) + vaultH(rad) * Math.pow(Math.max(0, 1 - s * s), 0.55); return o; }
+    B.surf(NS + 2, NT, function (i, j, q) {        // outer shell of the vault, its sides carried below the ground
+      var rad = lerp(PAL.vBack + 0.4, PAL.vFront, j / NT), ii = clamp(i - 1, 0, NS), s = -Math.cos(Math.PI * ii / NS), o = vout(s, rad), y = (i === 0 || i === NS + 2) ? vestY(rad) - 1.4 : o.y;
+      q.p[0] = o.x; q.p[1] = y; q.p[2] = o.z; q.f[0] = s * 8; q.f[1] = j / NT; q.f2[0] = y - cgH(o.x, o.z); q.f2[1] = 0; q.m = M.WING;
+    });
+    [[PAL.vFront, PAL.vFront], [PAL.vBack, PAL.vBack + 0.4]].forEach(function (e) {   // glowing arch outlines, front and back
+      B.surf(NS, 1, function (i, j, q) { var s = -Math.cos(Math.PI * i / NS), o = j ? vout(s, e[1]) : vin(s, e[0]); q.p[0] = o.x; q.p[1] = o.y; q.p[2] = o.z; q.f[0] = i; q.f[1] = j; q.m = M.FASCIA; });
+    });
+    // logo crest on the vault's front, its lower edge following the arch
+    var W = 5.6, Th = 0.3, Rc = 16, pc = PAL.vFront - 0.3, top = PALY.front + vaultH(PAL.vFront) + 0.55 + 1.6, ly0 = PALY.front + vaultH(PAL.vFront) + 0.55 - 0.1, N2 = 28;
+    function at(s, off) { return palXZ(s, pc + off - s * s / (2 * Rc)); }
+    function low(s) { return vout(clamp(s / (vaultW(PAL.vFront) + PAL.vt), -1, 1), PAL.vFront).y - 0.25; }
+    B.surf(N2, 1, function (i, j, q) { var s = -W / 2 + W * i / N2, p = at(s, Th / 2), y = j ? top : low(s); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = (s + 2.5) / 5.0; q.f[1] = (y - ly0) / 1.5625; q.m = M.SIGN; });
+    B.surf(N2, 1, function (i, j, q) { var s = -W / 2 + W * i / N2, p = at(s, -Th / 2), y = j ? top : low(s); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = s; q.f[1] = y; q.f2[0] = 9; q.m = M.PEARL; });
+    B.surf(N2, 1, function (i, j, q) { var s = -W / 2 + W * i / N2, p = at(s, j ? Th / 2 : -Th / 2); q.p[0] = p.x; q.p[1] = top; q.p[2] = p.z; q.f[0] = s; q.f[1] = j * Th; q.f2[0] = 9; q.m = M.PEARL; });
+    [-W / 2, W / 2].forEach(function (s) { B.surf(1, 1, function (i, j, q) { var p = at(s, i ? Th / 2 : -Th / 2); q.p[0] = p.x; q.p[1] = j ? top : low(s); q.p[2] = p.z; q.f[0] = i * Th; q.f[1] = q.p[1]; q.f2[0] = 9; q.m = M.PEARL; }); });
+    B.surf(N2, 1, function (i, j, q) { var s = -W / 2 + W * i / N2, p = at(s, Th / 2 + 0.008); q.p[0] = p.x; q.p[1] = top - 0.1 + 0.08 * j; q.p[2] = p.z; q.f[0] = s; q.f[1] = j; q.m = M.LED; });
+  }
   var ROVER_BAYS = [];
-  var campus = null, drape = null, beam = null, craftFly = null, craftParked = null, campusTarget = new THREE.Vector3(), craftPos = new THREE.Vector3(), orbitG = null;
+  var campus = null, drape = null, beam = null, craftFly = null, craftParked = null, campusTarget = new THREE.Vector3(), campusGoal = new THREE.Vector3(), craftPos = new THREE.Vector3(), orbitG = null;
   var COLL = { polys: [], rovers: [] };
   function buildCampus() {
-    buildCampusGround(); fitWingPlane();
-    var shells = DESIGN === "shells";
-    if (shells) ROVER_BAYS = [[313.5, 49], [312.3, 53.6]].map(function (p) { var o = azPt(p[0], p[1]), r = Math.hypot(o.x, o.z); return { x: o.x, z: o.z, dx: o.x / r, dz: o.z / r }; });
-    else ROVER_BAYS = [0.2, 0.26].map(function (u) { var o = wingXZ(u, 0.42, {}), fr = wingFrame(u, {}); return { x: o.x, z: o.z, dx: fr.dx, dz: fr.dz }; });
-    if (shells) PLAZA = { c: azPt(327, 36.2), a: 9, b: 4.2 };
+    buildCampusGround();
+    // palace levels from the ground around the dome ring
+    var acc = 0; for (var k = 0; k < 96; k++) { var pp = palPol(PAL.R, k / 96 * 2 * Math.PI); acc += cgH(pp.x, pp.z); }
+    PALY.B = acc / 96 + 0.3; PALY.F = PALY.B - PAL.depth; var pf = palXZ(0, PAL.vFront + 0.4); PALY.front = cgH(pf.x, pf.z);
+    U.uCut.value.set(PAL.c.x, PAL.c.z, PAL.R + 0.1, 1); U.uCutV.value.set(PAL.F.x, PAL.F.z, 4.45, PAL.vFront + 0.1);
+    ROVER_BAYS = [44.3, 49.7].map(function (s) { var o = palXZ(-11.4, s); return { x: o.x, z: o.z, dx: -PAL.Rt.x, dz: -PAL.Rt.z }; });
+    PLAZA.c = palXZ(0, 88);
     var B = new Builder();
-    if (shells) shellsGeometry(B); else { wingGeometry(B); hallGeometry(B); }
-    haloGeometry(B); signGeometry(B);
+    shellsGeometry(B); haloGeometry(B); signGeometry(B); palaceExteriorGeometry(B);
     PODS.forEach(function (P) {
       podGeometry(B, P);
-      var start;
-      if (shells) { var S5 = SHELLS[4], hh = shellHood(S5, P.u < 0.5 ? 0.22 : 0.78, 0.5), qq = shellXZ(S5, hh.lat, hh.fwd); start = { x: qq.x, y: S5.gR + hh.y - 0.6, z: qq.z }; }
-      else { var a = [0, 0, 0]; wingPoint(P.u, 0.96, false, a); var b2 = [0, 0, 0]; wingPoint(P.u, 0.96, true, b2); start = { x: a[0], y: (a[1] + b2[1]) / 2, z: a[2] }; }
-      var to = { x: start.x - P.c.x, z: start.z - P.c.z }, tl = Math.hypot(to.x, to.z);
-      var end = { x: P.c.x + to.x / tl * (P.a * 0.8), y: P.yc - 0.1, z: P.c.z + to.z / tl * (P.a * 0.8) };
-      bridgeGeometry(B, start, end, 0.9);
+      var S = SHELLS[3], best = null;
+      [0.22, 0.78].forEach(function (u) { var hh = shellHood(S, u, 0.5), qq = shellXZ(S, hh.lat, hh.fwd), d = Math.hypot(qq.x - P.c.x, qq.z - P.c.z); if (!best || d < best.d) best = { d: d, x: qq.x, z: qq.z, y: S.gR + hh.y - 0.6 }; });
+      var to = { x: best.x - P.c.x, z: best.z - P.c.z }, tl = Math.hypot(to.x, to.z);
+      bridgeGeometry(B, best, { x: P.c.x + to.x / tl * (P.a * 0.8), y: P.yc - 0.1, z: P.c.z + to.z / tl * (P.a * 0.8) }, 0.9);
     });
     ROVER_BAYS.forEach(function (bay) { addRover(B, bay.x, bay.z, Math.atan2(-bay.dx, -bay.dz)); COLL.rovers.push({ x: bay.x, z: bay.z }); });
     campus = new THREE.Mesh(B.build(), objMat); campus.frustumCulled = false; campus.matrixAutoUpdate = false; scene.add(campus);
     var D = new Builder(); drapeGeometry(D);
     drape = new THREE.Mesh(D.build(), drapeMat); drape.frustumCulled = false; drape.matrixAutoUpdate = false; drape.renderOrder = 1; scene.add(drape);
     beam = new THREE.Mesh(beamGeometry(), beamMat); beam.frustumCulled = false; beam.renderOrder = 4; scene.add(beam);
-    // craft: one parked on the ring, one flying a circuit behind the hall
+    // craft: one parked on the ring, one circling the palace
     var cg = craftGeometry(), ang = Math.atan2(RIDGE_VIEW.x - HALO.c.x, -(RIDGE_VIEW.z - HALO.c.z));
     craftParked = new THREE.Mesh(cg, objMat); craftParked.frustumCulled = false;
-    craftParked.position.set(HALO.c.x + Math.sin(ang) * 5.3, HALO.top + 1.02, HALO.c.z - Math.cos(ang) * 5.3); craftParked.rotation.y = ang + Math.PI / 2;
+    craftParked.position.set(HALO.c.x + Math.sin(ang) * 3.0, HALO.top + 1.02, HALO.c.z - Math.cos(ang) * 3.0); craftParked.rotation.y = ang;
     craftParked.updateMatrixWorld(); craftParked.matrixAutoUpdate = false; scene.add(craftParked);
     craftFly = new THREE.Mesh(cg, objMat); craftFly.frustumCulled = false; scene.add(craftFly);
     orbitG = new Float32Array(180);
-    for (var k = 0; k < 180; k++) { var t = k / 180 * 2 * Math.PI; orbitG[k] = cgH(ORBIT.c.x + Math.cos(t) * ORBIT.R, ORBIT.c.z + Math.sin(t) * ORBIT.R * 0.8); }
-    var sm = orbitG.slice(); for (k = 0; k < 180; k++) { var s = 0; for (var d = -6; d <= 6; d++) s += orbitG[(k + d + 180) % 180]; sm[k] = s / 13; } orbitG = sm;
-    // discovery target: top of the wing's nose
-    if (shells) { var S5t = SHELLS[4], at5 = shellArch(S5t, 0.5), p5 = shellXZ(S5t, at5.lat, at5.fwd); campusTarget.set(p5.x, S5t.gR + at5.y + 0.3, p5.z); }
-    else { var nose = wingPoint(0.5, 0.3, false, [0, 0, 0]); campusTarget.set(nose[0], nose[1] + 0.3, nose[2]); }
-    // lights: entrance, under the wing, under the ring, on the logo sign; LP[4] follows the flying craft
-    if (shells) {
-      [[SHELLS[1], SHELLS[2]], [SHELLS[4]]].forEach(function (grp, li) {
-        var x = 0, z = 0; grp.forEach(function (S) { var ps = shellXZ(S, 0, 1.8); x += ps.x / grp.length; z += ps.z / grp.length; });
-        LP[li].set(x, cgH(x, z) + 2.4, z, li ? 22 : 26); LC[li].set(1.0, 0.86, 0.66).multiplyScalar(li ? 7 : 10);
-      });
-    } else {
-      var fr = HALL_LOOP[HALLPOD.N / 2], gE = cgH(fr.x, fr.z), dE = dirAz(327 * D2R);
-      LP[0].set(fr.x - dE.x * 2.2, gE + 2.6, fr.z - dE.z * 2.2, 26); LC[0].set(1.0, 0.85, 0.65).multiplyScalar(10);
-      var mid = wingXZ(0.5, 0.55, {}); LP[1].set(mid.x, wingPlane(mid.x, mid.z) + 3.0, mid.z, 30); LC[1].set(1.0, 0.9, 0.75).multiplyScalar(8);
-    }
-    LP[2].set(HALO.c.x, HALO.top - 1.6, HALO.c.z, 24); LC[2].set(0.7, 0.85, 1.0).multiplyScalar(10);
-    var sp = SIGNP.at(0, SIGNP.T / 2 + 1.3); LP[3].set(sp.x, cgH(sp.x, sp.z) + 0.3, sp.z, 9); LC[3].set(0.75, 0.85, 1.0).multiplyScalar(4);
+    for (k = 0; k < 180; k++) { var t = k / 180 * 2 * Math.PI; orbitG[k] = cgH(ORBIT.c.x + Math.cos(t) * ORBIT.R, ORBIT.c.z + Math.sin(t) * ORBIT.R); }
+    var sm = orbitG.slice(); for (k = 0; k < 180; k++) { var s = 0; for (var d = -8; d <= 8; d++) s += orbitG[(k + d + 180) % 180]; sm[k] = s / 17; } orbitG = sm;
+    // discovery: the front of the dome is what shows first; the pin and the distance point to the palace door
+    var ft = palXZ(0, 17); campusTarget.set(ft.x, domeY(17) + 0.2, ft.z);
+    var dg = palXZ(0, PAL.vFront); campusGoal.set(dg.x, PALY.front + vaultH(PAL.vFront) + 2.6, dg.z);
+    // lights: along the avenue, at the palace door, under the ring, on the logo sign; LP[4] follows the flying craft
+    var la = palXZ(0, 72); LP[0].set(la.x, cgH(la.x, la.z) + 2.4, la.z, 26); LC[0].set(1.0, 0.86, 0.66).multiplyScalar(8);
+    var ld = palXZ(0, PAL.vFront + 2.2); LP[1].set(ld.x, PALY.front + 3.2, ld.z, 20); LC[1].set(1.0, 0.86, 0.66).multiplyScalar(5);
+    LP[2].set(HALO.c.x, HALO.top - 1.6, HALO.c.z, 18); LC[2].set(0.7, 0.85, 1.0).multiplyScalar(9);
+    var spn = SIGNP.at(0, SIGNP.T / 2 + 1.3); LP[3].set(spn.x, cgH(spn.x, spn.z) + 0.3, spn.z, 9); LC[3].set(0.75, 0.85, 1.0).multiplyScalar(4);
     LC[4].set(0.85, 0.92, 1.0).multiplyScalar(6);
-    // collision: the glass hall outline, the rovers and the sign
-    var polys;
-    if (shells) polys = SHELLS.map(function (S) { return S.poly; });
-    else { var hc = wingXZ(HALLPOD.uc, HALLPOD.vc, {}); polys = [HALL_LOOP.map(function (p) { var b = hallBase(p, hc); return { x: lerp(b.x, p.x, 0.4), z: lerp(b.z, p.z, 0.4) }; })]; }
-    COLL.polys = polys.map(function (poly) {
-      var xs = poly.map(function (p) { return p.x; }), zs = poly.map(function (p) { return p.z; });
-      return { poly: poly, bbox: [Math.min.apply(null, xs) - 0.6, Math.max.apply(null, xs) + 0.6, Math.min.apply(null, zs) - 0.6, Math.max.apply(null, zs) + 0.6] };
+    COLL.polys = SHELLS.map(function (S) {
+      var xs = S.poly.map(function (p) { return p.x; }), zs = S.poly.map(function (p) { return p.z; });
+      return { poly: S.poly, bbox: [Math.min.apply(null, xs) - 0.6, Math.max.apply(null, xs) + 0.6, Math.min.apply(null, zs) - 0.6, Math.max.apply(null, zs) + 0.6] };
     });
+    buildPalace();
   }
   function updateCraft(time) {
     if (!craftFly) return;
-    var a = time * 0.12, x = ORBIT.c.x + Math.cos(a) * ORBIT.R, z = ORBIT.c.z + Math.sin(a) * ORBIT.R * 0.8;
+    var a = time * 0.09, x = ORBIT.c.x + Math.cos(a) * ORBIT.R, z = ORBIT.c.z + Math.sin(a) * ORBIT.R;
     var fi = (((a / (2 * Math.PI)) % 1) + 1) % 1 * 180, i0 = Math.floor(fi) % 180, i1 = (i0 + 1) % 180, gg = lerp(orbitG[i0], orbitG[i1], fi - Math.floor(fi));
-    var y = gg + ORBIT.alt + Math.sin(time * 0.6) * 0.5;
+    var ca = Math.cos(a) * PAL.F.x + Math.sin(a) * PAL.F.z, y = gg + 5.5 + (ORBIT.alt - 5.5) * ca * ca + Math.sin(time * 0.6) * 0.5;   // lower at the sides, where the ridge hides less
     craftPos.set(x, y, z); craftFly.position.copy(craftPos);
-    var tx = -Math.sin(a), tz = Math.cos(a) * 0.8, yawC = Math.atan2(tx, tz);
-    var rx = Math.cos(yawC), rz = -Math.sin(yawC), cx = ORBIT.c.x - x, cz = ORBIT.c.z - z, bank = (rx * cx + rz * cz) > 0 ? -0.16 : 0.16;
-    craftFly.rotation.set(0.05, yawC, bank + Math.sin(time * 0.6) * 0.03, "YXZ");
+    var tx = -Math.sin(a), tz = Math.cos(a), yawC = Math.atan2(tx, tz);
+    craftFly.rotation.set(0.05, yawC, 0.16 + Math.sin(time * 0.6) * 0.03, "YXZ");   // banks into the turn
     craftFly.updateMatrixWorld();
     LP[4].set(x, y - 1.2, z, 40);
   }
@@ -1375,6 +1379,834 @@
       if (Math.abs(s) < SIGNP.W / 2 + 0.35 && Math.abs(o) < SIGNP.T / 2 + 0.35) return true;
     }
     return false;
+  }
+
+  /* ===================== Math Palace artwork, drawn in code ===================== */
+  var SERIF = "Georgia, 'Times New Roman', serif";
+  function mkCanvas(w, h) { var c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
+  function piDigits(n) {                    // Machin's formula with BigInt: pi = 16 atan(1/5) - 4 atan(1/239)
+    var fallback = "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127";
+    if (typeof BigInt === "undefined") return fallback.slice(0, n + 1);
+    var big = function (v) { return BigInt(v); };
+    var S = big(10) ** big(n + 10);
+    function atanInv(x) { x = big(x); var x2 = x * x, term = S / x, sum = term, k = big(1), neg = true; while (term !== big(0)) { term = term / x2; var t = term / (big(2) * k + big(1)); sum = neg ? sum - t : sum + t; neg = !neg; k = k + big(1); } return sum; }
+    var s = ((big(16) * atanInv(5) - big(4) * atanInv(239)) / big(10) ** big(10)).toString();
+    return s[0] + "." + s.slice(1, n);
+  }
+  // text with ^{...} superscripts and _{...} subscripts; returns the width drawn (measure only when dry)
+  function drawMath(g, str, x, y, size, dry) {
+    var fam = g.font.replace(/^.*?\d+px\s*/, ""), style = /italic/.test(g.font) ? "italic " : "", weight = /\b600\b/.test(g.font) ? "600 " : "";
+    var i = 0, cx = x;
+    function run(txt, sz, dy) { g.font = style + weight + Math.round(sz) + "px " + fam; if (!dry) g.fillText(txt, cx, y + dy); cx += g.measureText(txt).width; }
+    while (i < str.length) {
+      var ch = str[i];
+      if ((ch === "^" || ch === "_") && i + 1 < str.length) {
+        var body, j;
+        if (str[i + 1] === "{") { j = str.indexOf("}", i + 2); body = str.slice(i + 2, j); i = j + 1; } else { body = str[i + 1]; i += 2; }
+        run(body, size * 0.62, ch === "^" ? -size * 0.42 : size * 0.2);
+      } else {
+        j = i; while (j < str.length && str[j] !== "^" && str[j] !== "_") j++;
+        run(str.slice(i, j), size, 0); i = j;
+      }
+    }
+    g.font = style + weight + Math.round(size) + "px " + fam;
+    return cx - x;
+  }
+  function fitMath(g, str, x, y, size, maxW, style) {   // shrink to fit maxW
+    g.font = (style || "") + size + "px " + SERIF;
+    var w = drawMath(g, str, x, y, size, true);
+    if (w > maxW) size *= maxW / w;
+    g.font = (style || "") + Math.round(size) + "px " + SERIF;
+    drawMath(g, str, x, y, size);
+  }
+  function penroseTris(levels) {            // Robinson-triangle deflation of a P3 (rhombus) tiling, unit radius
+    var phi = (1 + Math.sqrt(5)) / 2, tris = [], i, l;
+    for (i = 0; i < 10; i++) {
+      var b = [Math.cos((2 * i - 1) * Math.PI / 10), Math.sin((2 * i - 1) * Math.PI / 10)], c = [Math.cos((2 * i + 1) * Math.PI / 10), Math.sin((2 * i + 1) * Math.PI / 10)];
+      if (i % 2 === 0) { var t = b; b = c; c = t; }
+      tris.push([0, [0, 0], b, c]);
+    }
+    for (l = 0; l < levels; l++) {
+      var out = [];
+      for (i = 0; i < tris.length; i++) {
+        var T = tris[i], A = T[1], B = T[2], C = T[3];
+        if (T[0] === 0) { var P = [A[0] + (B[0] - A[0]) / phi, A[1] + (B[1] - A[1]) / phi]; out.push([0, C, P, B], [1, P, C, A]); }
+        else { var Q = [B[0] + (A[0] - B[0]) / phi, B[1] + (A[1] - B[1]) / phi], R = [B[0] + (C[0] - B[0]) / phi, B[1] + (C[1] - B[1]) / phi]; out.push([1, R, C, A], [1, Q, R, B], [0, R, Q, A]); }
+      }
+      tris = out;
+    }
+    return tris;
+  }
+  // rotunda floor: Penrose marble, a gold degree ring and a golden-angle sunflower in the middle, the palace name around the edge
+  function palaceFloorTexture(Rm, N) {
+    var cv = mkCanvas(N, N), g = cv.getContext("2d"), s = N / (2 * Rm), cx = N / 2;
+    g.fillStyle = "#cdbfa8"; g.fillRect(0, 0, N, N);
+    var tris = penroseTris(7), scale = Rm * 1.08 * s;
+    g.lineJoin = "round";
+    for (var pass = 0; pass < 2; pass++) for (var i = 0; i < tris.length; i++) {
+      var T = tris[i], A = T[1], B = T[2], C = T[3];
+      if (pass === 0) {
+        g.beginPath(); g.moveTo(cx + A[0] * scale, cx + A[1] * scale); g.lineTo(cx + B[0] * scale, cx + B[1] * scale); g.lineTo(cx + C[0] * scale, cx + C[1] * scale); g.closePath();
+        g.fillStyle = T[0] ? "#ebe2d0" : "#a8957e"; g.fill();
+      } else {
+        g.beginPath(); g.moveTo(cx + C[0] * scale, cx + C[1] * scale); g.lineTo(cx + A[0] * scale, cx + A[1] * scale); g.lineTo(cx + B[0] * scale, cx + B[1] * scale);
+        g.strokeStyle = "#b08a3c"; g.lineWidth = Math.max(1.2, 0.035 * s); g.stroke();
+      }
+    }
+    // centre medallion: dark stone with a sunflower (Vogel's model, golden angle 137.508 degrees)
+    var rC = 9.4 * s, n = 1600, GA = Math.PI * (3 - Math.sqrt(5)), c0 = rC * 0.965 / Math.sqrt(n), sp = Math.sqrt(Math.PI) * c0;
+    g.fillStyle = "#1c1612"; g.beginPath(); g.arc(cx, cx, rC, 0, Math.PI * 2); g.fill();
+    for (var k = 1; k < n; k++) {
+      var r = c0 * Math.sqrt(k), a = k * GA, rr = sp * 0.42 * (0.72 + 0.28 * Math.sqrt(k / n));
+      g.fillStyle = "hsl(" + (38 + 6 * Math.sin(k * 0.05)) + "," + (55 + 10 * (k / n)) + "%," + (40 + 22 * (k / n)) + "%)";
+      g.beginPath(); g.arc(cx + Math.cos(a) * r, cx + Math.sin(a) * r, rr, 0, Math.PI * 2); g.fill();
+    }
+    // gold ring with a 360-degree scale: the pendulum's swing can be read against it
+    g.fillStyle = "#231b16"; g.beginPath(); g.arc(cx, cx, rC + 1.3 * s, 0, Math.PI * 2); g.arc(cx, cx, rC + 0.02 * s, 0, Math.PI * 2, true); g.fill();
+    g.strokeStyle = "#c9a14c"; g.lineWidth = 0.2 * s; g.beginPath(); g.arc(cx, cx, rC + 0.12 * s, 0, Math.PI * 2); g.stroke();
+    g.lineWidth = 0.06 * s; g.beginPath(); g.arc(cx, cx, rC + 1.3 * s, 0, Math.PI * 2); g.stroke();
+    g.strokeStyle = "#d9b764";
+    for (var d = 0; d < 360; d += 2) {
+      var aa = d * Math.PI / 180, l1 = rC + 0.3 * s, l2 = rC + (d % 10 === 0 ? 0.78 : 0.52) * s;
+      g.lineWidth = Math.max(1, (d % 10 === 0 ? 0.05 : 0.025) * s); g.beginPath(); g.moveTo(cx + Math.cos(aa) * l1, cx + Math.sin(aa) * l1); g.lineTo(cx + Math.cos(aa) * l2, cx + Math.sin(aa) * l2); g.stroke();
+    }
+    g.fillStyle = "#e7c877"; g.font = "600 " + Math.round(0.34 * s) + "px " + SERIF; g.textAlign = "center"; g.textBaseline = "middle";
+    for (d = 0; d < 360; d += 30) { g.save(); g.translate(cx, cx); g.rotate(d * Math.PI / 180); g.fillText(String(d), 0, -(rC + 1.03 * s)); g.restore(); }
+    // outer border with the palace name
+    g.fillStyle = "#211a15"; g.beginPath(); g.arc(cx, cx, Rm * s, 0, Math.PI * 2); g.arc(cx, cx, (Rm - 1.1) * s, 0, Math.PI * 2, true); g.fill();
+    g.strokeStyle = "#c9a14c"; g.lineWidth = 0.06 * s; g.beginPath(); g.arc(cx, cx, (Rm - 1.12) * s, 0, Math.PI * 2); g.stroke();
+    var text = "TTMATH  MATH  PALACE  ✦  MARS  ✦  ", fs = Math.round(0.52 * s); g.font = "600 " + fs + "px " + SERIF; g.fillStyle = "#e0bf6a";
+    var circ = 2 * Math.PI * (Rm - 0.55) * s, reps = Math.max(1, Math.floor(circ / g.measureText(text).width)), full = ""; for (var q = 0; q < reps; q++) full += text;
+    var step = Math.PI * 2 / full.length;
+    for (q = 0; q < full.length; q++) { g.save(); g.translate(cx, cx); g.rotate(q * step); g.fillText(full[q], 0, -(Rm - 0.55) * s); g.restore(); }
+    return cv;
+  }
+  // one exhibit panel: title, the idea, a picture and three lines of trivia
+  function drawPanel(g, x0, y0, W, H, spec) {
+    g.save(); g.translate(x0, y0);
+    var grd = g.createLinearGradient(0, 0, 0, H); grd.addColorStop(0, "#14253d"); grd.addColorStop(1, "#0a1424"); g.fillStyle = grd; g.fillRect(0, 0, W, H);
+    g.strokeStyle = "#c9a24a"; g.lineWidth = 6; g.strokeRect(10, 10, W - 20, H - 20); g.lineWidth = 1.5; g.strokeRect(20, 20, W - 40, H - 40);
+    g.textAlign = "left"; g.textBaseline = "alphabetic";
+    g.fillStyle = "#e3c173"; fitMath(g, spec.title.toUpperCase(), 40, 72, 38, 400, "600 ");
+    g.fillStyle = "#f6ecd8"; spec.formula.forEach(function (f, i) { fitMath(g, f, 40, 150 + i * 52, i ? 34 : 50, 410, "italic "); });
+    g.save(); g.translate(W - 300, 70); spec.draw(g, 260, 260, x0 + W - 300, y0 + 70); g.restore();
+    g.fillStyle = "#e8dcc6";
+    spec.lines.forEach(function (ln, i) { fitMath(g, ln, 40, 392 + i * 36, 25, W - 80); });
+    g.restore();
+  }
+  var PANELS = [
+    { title: "Euler's identity", formula: ["e^{iπ} + 1 = 0"],
+      draw: function (g, w, h) { g.strokeStyle = "#4d6a8c"; g.lineWidth = 2; g.beginPath(); g.moveTo(10, h / 2); g.lineTo(w - 10, h / 2); g.moveTo(w / 2, 10); g.lineTo(w / 2, h - 10); g.stroke();
+        g.strokeStyle = "#8fb3d9"; g.lineWidth = 3; g.beginPath(); g.arc(w / 2, h / 2, w * 0.38, 0, Math.PI * 2); g.stroke();
+        g.strokeStyle = "#e3c173"; g.lineWidth = 6; g.beginPath(); g.arc(w / 2, h / 2, w * 0.38, 0, -Math.PI, true); g.stroke();
+        g.fillStyle = "#e3c173"; g.beginPath(); g.arc(w / 2 - w * 0.38, h / 2, 9, 0, Math.PI * 2); g.fill(); g.beginPath(); g.arc(w / 2 + w * 0.38, h / 2, 7, 0, Math.PI * 2); g.fill();
+        g.font = "italic 30px " + SERIF; g.fillText("−1", w / 2 - w * 0.38 - 22, h / 2 + 42); g.fillText("1", w / 2 + w * 0.38 - 6, h / 2 + 42); },
+      lines: ["Five famous numbers in one line: 0, 1, e, i and π.", "Turn half a circle in the complex plane and you land on −1.", "Leonhard Euler wrote about it in 1748."] },
+    { title: "Pythagoras", formula: ["a^2 + b^2 = c^2"],
+      draw: function (g) { var A = [80, 160], B = [160, 160], C = [80, 100];
+        function sq(p, q, col) { var dx = q[0] - p[0], dy = q[1] - p[1]; g.fillStyle = col; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(q[0], q[1]); g.lineTo(q[0] - dy, q[1] + dx); g.lineTo(p[0] - dy, p[1] + dx); g.closePath(); g.fill(); }
+        sq(A, B, "rgba(143,179,217,.85)"); sq(C, A, "rgba(227,193,115,.9)"); sq(B, C, "rgba(214,120,90,.85)");
+        g.strokeStyle = "#f6ecd8"; g.lineWidth = 3; g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.lineTo(C[0], C[1]); g.closePath(); g.stroke(); },
+      lines: ["The two small squares together fill the big one.", "More than 370 proofs are known. One came from", "U.S. President James Garfield in 1876."] },
+    { title: "The golden ratio", formula: ["φ = (1 + √5) / 2", "= 1.6180339887…"],
+      draw: function (g) { var f = [1, 1, 2, 3, 5, 8, 13], u = 12.5, bx = 118, by = 118, bw = u, bh = u, dir = 0, rects = [[bx, by, u, u]];
+        for (var i = 1; i < f.length; i++) { var s = f[i] * u; if (dir === 0) { rects.push([bx + bw, by, s, s]); bw += s; } else if (dir === 1) { rects.push([bx, by + bh, s, s]); bh += s; } else if (dir === 2) { rects.push([bx - s, by, s, s]); bx -= s; bw += s; } else { rects.push([bx, by - s, s, s]); by -= s; bh += s; } dir = (dir + 1) % 4; }
+        var ox = 130 - (bx + bw / 2), oy = 130 - (by + bh / 2);
+        rects.forEach(function (r, i) { g.fillStyle = "rgba(90,130,190," + (0.10 + 0.03 * (i % 2)) + ")"; g.fillRect(r[0] + ox, r[1] + oy, r[2], r[3]); g.strokeStyle = "#8fb3d9"; g.lineWidth = 1.5; g.strokeRect(r[0] + ox, r[1] + oy, r[2], r[3]);
+          if (i > 1) { g.fillStyle = "#8fb3d9"; g.font = Math.round(8 + r[2] * 0.16) + "px " + SERIF; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(String(f[i]), r[0] + ox + r[2] / 2, r[1] + oy + r[3] / 2); } });
+        g.textAlign = "left"; g.textBaseline = "alphabetic";
+        g.strokeStyle = "#e3c173"; g.lineWidth = 4; g.beginPath();
+        rects.forEach(function (r, i) { var d = (i + 3) % 4, cxr, cyr, a0; // quarter arcs through each square
+          if (d === 0) { cxr = r[0]; cyr = r[1] + r[3]; a0 = -Math.PI / 2; } else if (d === 1) { cxr = r[0]; cyr = r[1]; a0 = 0; } else if (d === 2) { cxr = r[0] + r[2]; cyr = r[1]; a0 = Math.PI / 2; } else { cxr = r[0] + r[2]; cyr = r[1] + r[3]; a0 = Math.PI; }
+          if (i > 0) g.arc(cxr + ox, cyr + oy, r[2], a0, a0 + Math.PI / 2); });
+        g.stroke(); },
+      lines: ["Divide a Fibonacci number by the one before it:", "8/5, 13/8, 21/13 … the answers close in on φ.", "Sunflowers pack their seeds by the golden angle, 137.5°."] },
+    { title: "Pi", formula: ["π = 3.14159 26535 …"],
+      draw: function (g, w, h) { var cx = w / 2, cy = h / 2, R = w * 0.34; g.strokeStyle = "#e3c173"; g.lineWidth = 4; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.stroke();
+        [6, 12].forEach(function (n, j) { g.strokeStyle = j ? "#8fb3d9" : "#d6785a"; g.lineWidth = 2; g.beginPath(); for (var k = 0; k <= n; k++) { var a = k / n * Math.PI * 2; g.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a)); } g.stroke();
+          var Ro = R / Math.cos(Math.PI / n); g.beginPath(); for (k = 0; k <= n; k++) { a = (k + 0.5) / n * Math.PI * 2; g.lineTo(cx + Ro * Math.cos(a), cy + Ro * Math.sin(a)); } g.stroke(); }); },
+      lines: ["Archimedes trapped π between polygons inside and outside", "a circle. With 96 sides: 3 10/71 < π < 3 1/7.", "The digits never end and never repeat: look at the ring above."] },
+    { title: "Prime numbers", formula: ["2, 3, 5, 7, 11, 13 …"],
+      draw: function (g, w) { var n = 81, cell = w / n, isP = function (k) { if (k < 2) return false; for (var d = 2; d * d <= k; d++) if (k % d === 0) return false; return true; };
+        var x = Math.floor(n / 2), y = x, k = 1, step = 1, dir = 0; g.fillStyle = "#e3c173";
+        while (k <= n * n) { for (var rep = 0; rep < 2; rep++) { for (var s = 0; s < step; s++) { if (isP(k)) g.fillRect(x * cell, y * cell, cell * 1.05, cell * 1.05); k++; if (dir === 0) x++; else if (dir === 1) y--; else if (dir === 2) x--; else y++; } dir = (dir + 1) % 4; } step++; } },
+      lines: ["Write 1, 2, 3 … in a square spiral and mark the primes:", "diagonal lines appear (Stanisław Ulam, 1963).", "Euclid proved the primes never run out, about 300 BC."] },
+    { title: "Fractals", formula: ["z → z^2 + c"],
+      draw: function (g, w, h, ax, ay) { var img = g.createImageData(w, h), d = img.data;
+        for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) { var cr = -2.15 + i / w * 2.8, ci = -1.4 + j / h * 2.8, zr = 0, zi = 0, it = 0; while (it < 64 && zr * zr + zi * zi < 4) { var t = zr * zr - zi * zi + cr; zi = 2 * zr * zi + ci; zr = t; it++; }
+          var o = (j * w + i) * 4, v = it === 64 ? 0 : Math.sqrt(it / 64); d[o] = it === 64 ? 10 : 30 + 225 * v; d[o + 1] = it === 64 ? 14 : 22 + 170 * v * v; d[o + 2] = it === 64 ? 26 : 80 + 110 * (1 - v); d[o + 3] = 255; }
+        g.putImageData(img, ax, ay); },
+      lines: ["The Mandelbrot set: repeat the rule, keep the c that stay small.", "Zoom into its edge and new detail keeps appearing forever.", "Coastlines, ferns and lightning have the same kind of shape."] },
+    { title: "Pascal's triangle", formula: ["add the two numbers above"],
+      draw: function (g, w) { var rows = 16, row = [1], cs = w / rows; for (var r = 0; r < rows; r++) { for (var k = 0; k <= r; k++) { var x = w / 2 + (k - r / 2) * cs - cs / 2, y = r * cs; g.fillStyle = row[k] % 2 ? "#e3c173" : "#23364f"; g.fillRect(x + 1, y + 1, cs - 2, cs - 2); } var nr = [1]; for (k = 1; k <= r; k++) nr.push(row[k - 1] + row[k]); nr.push(1); row = nr; } },
+      lines: ["1 · 1 1 · 1 2 1 · 1 3 3 1 … Colour only the odd numbers", "and a Sierpinski triangle appears: a fractal.", "Blaise Pascal wrote about it in 1654."] },
+    { title: "Infinity", formula: ["∞ + 1 = ∞"],
+      draw: function (g) { g.strokeStyle = "#8fb3d9"; g.lineWidth = 2; g.fillStyle = "#e3c173"; g.font = "20px " + SERIF;
+        for (var i = 0; i < 6; i++) { var x = 12 + i * 41; g.strokeRect(x, 130, 32, 66); g.fillText(String(i + 1), x + 10, 122); g.beginPath(); g.moveTo(x + 16, 206); g.quadraticCurveTo(x + 36, 236, x + 57, 206); g.stroke(); }
+        g.font = "90px " + SERIF; g.fillText("∞", 86, 86); },
+      lines: ["Hilbert's Hotel has infinitely many rooms, all of them full.", "A new guest arrives? Everyone moves up one room,", "and room 1 is free. (David Hilbert, 1924)"] },
+    { title: "The Möbius strip", formula: ["one side, one edge"],
+      draw: function (g, w, h) { g.lineWidth = 2; for (var v = -1; v <= 1.001; v += 0.25) { g.strokeStyle = Math.abs(v) > 0.99 ? "#e3c173" : "#5f7fa6"; g.beginPath();
+          for (var u = 0; u <= Math.PI * 2 + 0.01; u += 0.05) { var R = 82, X = (R + v * 28 * Math.cos(u / 2)) * Math.cos(u), Y = (R + v * 28 * Math.cos(u / 2)) * Math.sin(u), Z = v * 28 * Math.sin(u / 2); var px = w / 2 + X, py = h / 2 + Y * 0.45 - Z; if (u === 0) g.moveTo(px, py); else g.lineTo(px, py); } g.stroke(); } },
+      lines: ["Give a strip of paper half a twist and join the ends.", "An ant can walk both 'sides' without crossing an edge.", "Cut it down the middle and it stays in one piece."] },
+    { title: "Platonic solids", formula: ["V − E + F = 2"],
+      draw: function (g) { var phi = 1.618, sets = [
+          [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]],
+          [[1, 1, 1], [1, 1, -1], [1, -1, 1], [1, -1, -1], [-1, 1, 1], [-1, 1, -1], [-1, -1, 1], [-1, -1, -1]],
+          [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]],
+          [[0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi], [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0], [phi, 0, 1], [-phi, 0, 1], [phi, 0, -1], [-phi, 0, -1]]];
+        sets.forEach(function (P, si) { var cx = 65 + (si % 2) * 130, cy = 65 + Math.floor(si / 2) * 130, sc = si === 3 ? 27 : 38, dmin = 1e9;
+          var ps = P.map(function (p) { var a = 0.6, b = 0.45, x = p[0] * Math.cos(a) - p[2] * Math.sin(a), z = p[0] * Math.sin(a) + p[2] * Math.cos(a), y = p[1] * Math.cos(b) - z * Math.sin(b); return [cx + x * sc, cy + y * sc]; });
+          for (var i = 0; i < P.length; i++) for (var j = i + 1; j < P.length; j++) { var d = Math.hypot(P[i][0] - P[j][0], P[i][1] - P[j][1], P[i][2] - P[j][2]); if (d < dmin - 1e-6) dmin = d; }
+          g.strokeStyle = "#e3c173"; g.lineWidth = 2;
+          for (i = 0; i < P.length; i++) for (j = i + 1; j < P.length; j++) { d = Math.hypot(P[i][0] - P[j][0], P[i][1] - P[j][1], P[i][2] - P[j][2]); if (d < dmin * 1.01) { g.beginPath(); g.moveTo(ps[i][0], ps[i][1]); g.lineTo(ps[j][0], ps[j][1]); g.stroke(); } } }); },
+      lines: ["Only five solids have identical regular faces. Find them", "on the pedestals: count corners, edges and faces.", "Corners − edges + faces is always 2 (Euler, 1758)."] },
+    { title: "Fermat's last theorem", formula: ["x^n + y^n = z^n"],
+      draw: function (g) { g.fillStyle = "#e9dcc0"; g.fillRect(34, 22, 196, 220); g.fillStyle = "#6b5a44"; g.font = "italic 18px " + SERIF;
+        ["Cuius rei", "demonstrationem", "mirabilem sane", "detexi. Hanc", "marginis exiguitas", "non caperet."].forEach(function (s, i) { g.fillText(s, 48, 58 + i * 32); }); },
+      lines: ["No whole numbers solve it when n is bigger than 2.", "Fermat, 1637: 'I have a marvellous proof, but this margin", "is too small to hold it.' Andrew Wiles proved it in 1994."] },
+    { title: "Math on Mars", formula: ["g = 3.71 m/s^2"],
+      draw: function (g) { var grd = g.createRadialGradient(100, 100, 10, 130, 130, 120); grd.addColorStop(0, "#e39a66"); grd.addColorStop(0.7, "#a9502b"); grd.addColorStop(1, "#4a1d0e"); g.fillStyle = grd; g.beginPath(); g.arc(130, 130, 105, 0, Math.PI * 2); g.fill();
+        g.fillStyle = "#b9a898"; g.beginPath(); g.arc(238, 60, 9, 0, Math.PI * 2); g.fill(); g.beginPath(); g.arc(22, 232, 5, 0, Math.PI * 2); g.fill(); },
+      lines: ["A sol lasts 24 h 39 min 35 s. A year is 687 Earth days.", "You can jump 2.6 times higher than on Earth.", "The 24 m pendulum here swings once every 16 s (Earth: 9.8 s)."] }
+  ];
+  // two welcome panels for the entrance vault: the math hidden in the building itself
+  var VEST_PANELS = [
+    { title: "Welcome to the Math Palace", formula: ["21 + 34 = 55"],
+      draw: function (g, w, h) { var n = 520, GA = Math.PI * (3 - Math.sqrt(5)), c0 = w * 0.47 / Math.sqrt(n);
+        for (var k = 1; k < n; k++) { var r = c0 * Math.sqrt(k), a = k * GA; g.fillStyle = "hsl(40,60%," + (38 + 25 * k / n) + "%)"; g.beginPath(); g.arc(w / 2 + Math.cos(a) * r, h / 2 + Math.sin(a) * r, 1.6 + 3.2 * Math.sqrt(k / n), 0, Math.PI * 2); g.fill(); } },
+      lines: ["The dome has 21 ribs winding one way and 34 the other:", "Fibonacci numbers, the same spirals as a sunflower head.", "The avenue lights sit 1, 2, 3, 5, 8, 13, 21 and 34 m from this door."] },
+    { title: "Find the math", formula: ["π · φ · e · ∞"],
+      draw: function (g, w, h) { var cx = w / 2, cy = h / 2, R = w * 0.42, i;
+        g.strokeStyle = "#e3c173"; g.lineWidth = 2.5; g.fillStyle = "rgba(227,193,115,.18)";
+        for (i = 0; i < 5; i++) { var a = -Math.PI / 2 + i * 2 * Math.PI / 5, b = a + Math.PI / 5, c = a - Math.PI / 5;   // five kites around a point
+          g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.cos(c) * R * 0.62, cy + Math.sin(c) * R * 0.62); g.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); g.lineTo(cx + Math.cos(b) * R * 0.62, cy + Math.sin(b) * R * 0.62); g.closePath(); g.fill(); g.stroke(); } },
+      lines: ["Floor: a Penrose tiling. It never repeats, yet it has 5-fold symmetry.", "Centre: 1,600 gold seeds set 137.5° apart, the golden angle.", "Up on the wall: 465 digits of π run right round the rotunda."] }
+  ];
+  function vestAtlas() { var cv = mkCanvas(1536, 512), g = cv.getContext("2d"); VEST_PANELS.forEach(function (sp, i) { drawPanel(g, i * 768, 0, 768, 512, sp); }); return cv; }
+  function panelAtlas(small) {              // 4 x 3 panels of 768 x 512
+    var cv = mkCanvas(3072, 1536), g = cv.getContext("2d");
+    PANELS.forEach(function (sp, i) { drawPanel(g, (i % 4) * 768, Math.floor(i / 4) * 512, 768, 512, sp); });
+    if (!small) return cv;
+    var c2 = mkCanvas(2048, 1024); c2.getContext("2d").drawImage(cv, 0, 0, 2048, 1024); return c2;
+  }
+  function friezeTexture(small) {           // gold equations on a dark band; tiles 8 times around the wall
+    var W = 4096, Hh = 192, cv = mkCanvas(W, Hh), g = cv.getContext("2d");
+    var grd = g.createLinearGradient(0, 0, 0, Hh); grd.addColorStop(0, "#2a1d12"); grd.addColorStop(0.5, "#3b2918"); grd.addColorStop(1, "#2a1d12"); g.fillStyle = grd; g.fillRect(0, 0, W, Hh);
+    g.fillStyle = "#c9a24a"; g.fillRect(0, 10, W, 5); g.fillRect(0, Hh - 15, W, 5);
+    var eqs = ["e^{iπ} + 1 = 0", "a^2 + b^2 = c^2", "V − E + F = 2", "φ = (1 + √5) / 2", "1 + 1/4 + 1/9 + 1/16 + … = π^2/6", "x = (−b ± √(b^2 − 4ac)) / 2a", "F_{n+1} = F_n + F_{n−1}", "i^2 = −1", "A = πr^2", "a^p ≡ a (mod p)", "e = 2.71828…"];
+    g.textBaseline = "middle"; g.fillStyle = "#f0d58c"; g.font = "italic 72px " + SERIF;
+    // lay the equations out once, evenly spread so the strip tiles seamlessly
+    var widths = eqs.map(function (e) { return drawMath(g, e, 0, 0, 72, true); }), total = widths.reduce(function (a, b) { return a + b; }, 0), gap = (W - total) / eqs.length, x = gap / 2;
+    eqs.forEach(function (e, i) { g.font = "italic 72px " + SERIF; drawMath(g, e, x, Hh / 2 + 4, 72); g.font = "40px " + SERIF; g.fillText("✦", x + widths[i] + gap / 2 - 14, Hh / 2 + 2); x += widths[i] + gap; });
+    if (!small) return cv;
+    var c2 = mkCanvas(2048, 96); c2.getContext("2d").drawImage(cv, 0, 0, 2048, 96); return c2;
+  }
+  var GLYPHS = "0123456789.π= eφ∞√iΣzng∂";
+  var GLYPH_N = 24;
+  function glyphAtlas() {                   // 24 cells of 64 x 128: white glyphs on transparent
+    var cv = mkCanvas(GLYPH_N * 64, 128), g = cv.getContext("2d");
+    g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle";
+    for (var i = 0; i < GLYPHS.length; i++) { var ch = GLYPHS[i]; g.font = (/[0-9.=]/.test(ch) ? "600 " : "italic 600 ") + (ch === "\u221e" || ch === "\u221a" ? 84 : 96) + "px " + SERIF; g.fillText(ch, i * 64 + 32, 70); }
+    return cv;
+  }
+  function plaqueAtlas() {                  // the five solids with their V - E + F = 2
+    var cv = mkCanvas(2560, 256), g = cv.getContext("2d"), P = [["Tetrahedron", "4 − 6 + 4 = 2"], ["Cube", "8 − 12 + 6 = 2"], ["Octahedron", "6 − 12 + 8 = 2"], ["Dodecahedron", "20 − 30 + 12 = 2"], ["Icosahedron", "12 − 30 + 20 = 2"]];
+    P.forEach(function (p, i) { var x = i * 512; g.fillStyle = "#15100c"; g.fillRect(x, 0, 512, 256); g.strokeStyle = "#c9a24a"; g.lineWidth = 6; g.strokeRect(x + 12, 12, 488, 232);
+      g.fillStyle = "#e9c877"; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.font = "600 50px " + SERIF; g.fillText(p[0].toUpperCase(), x + 256, 106);
+      g.font = "italic 50px " + SERIF; g.fillStyle = "#f6ecd8"; g.fillText(p[1], x + 256, 190); });
+    return cv;
+  }
+
+  /* ===================== The Math Palace ===================== */
+  // Interior materials. Interior light is baked per vertex from about a hundred light sources, and polished
+  // surfaces add highlights of the twelve lanterns and a soft reflection of the room and the sky above.
+  var PM = { FLOOR: 0, STONE: 1, MARBLE: 2, GOLD: 3, PANEL: 4, FRIEZE: 5, GLYPH: 6, LIGHT: 7, PLAQUE: 8, RIB: 9, DARK: 10, STEP: 11, VAULT: 12, LOGO: 13, VPANEL: 14 };
+  var NLAN = 12, WARMJS = [1.0, 0.8, 0.58];
+  var palU = {
+    uFloorTex: { value: dummyTex }, uPanelTex: { value: dummyTex }, uFriezeTex: { value: dummyTex }, uGlyphTex: { value: dummyTex }, uPlaqueTex: { value: dummyTex }, uVestTex: { value: dummyTex },
+    uPalA: { value: new THREE.Vector4() }, uPalB: { value: new THREE.Vector4() }, uLan: { value: [] }, uPortal: { value: new THREE.Vector4() }
+  };
+  for (var lq = 0; lq < NLAN; lq++) palU.uLan.value.push(new THREE.Vector3(0, -999, 0));
+  var PAL_VS = [
+    "attribute vec2 aFac; attribute vec2 aFac2; attribute float aMat; attribute vec3 aLight;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat; varying vec3 vL;",
+    "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vFac = aFac; vFac2 = aFac2; vMat = aMat; vL = aLight; gl_Position = projectionMatrix * viewMatrix * wp; }"
+  ].join("\n");
+  var PAL_COMMON = [
+    "uniform vec4 uPalA; uniform vec4 uPalB; uniform vec3 uLan[" + NLAN + "];",
+    "const vec3 WARM = vec3(1.0, 0.8, 0.58);",
+    "float aline(float x, float period, float w){ float fw = fwidth(x) + 1e-5; float d = abs(fract(x / period + 0.5) - 0.5) * period;",
+    "  float l = 1.0 - smoothstep(w * 0.5 - fw, w * 0.5 + fw, d); return mix(l, min(w / period, 1.0), smoothstep(period * 0.25, period * 0.8, fw)); }",
+    // highlights of the twelve lanterns seen in a mirror direction
+    "vec3 lanternGlints(vec3 p, vec3 rd, float shin){ vec3 hs = vec3(0.0);",
+    "  for (int i = 0; i < " + (MOBILE ? 6 : NLAN) + "; i++) { vec3 L = uLan[i * " + (MOBILE ? 2 : 1) + "] - p; float d2 = dot(L, L); hs += WARM * pow(max(dot(rd, L * inversesqrt(d2)), 0.0), shin) / (1.0 + d2 * 0.012); }",
+    "  return hs * " + (MOBILE ? "1.6" : "1.0") + "; }"
+  ].join("\n");
+  var PAL_FS = [
+    "#include <packing>",
+    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, SHADOW_GLSL, PAL_COMMON,
+    "uniform sampler2D uFloorTex, uPanelTex, uFriezeTex, uGlyphTex, uPlaqueTex, uVestTex, uLogo;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat; varying vec3 vL;",
+    // what polished surfaces reflect: warm lit walls around, the dome and the sky above, the floor below
+    "vec3 palEnv(vec3 d){",
+    "  vec3 sky = skyRad(normalize(vec3(d.x, max(d.y, 0.08), d.z))) * 0.5;",
+    "  vec3 c = mix(WARM * 0.10, sky + WARM * 0.05, smoothstep(0.15, 0.75, d.y));",
+    "  c = mix(c, WARM * 0.06, smoothstep(0.0, -0.5, d.y));",
+    "  return c + WARM * 0.22 * exp(-pow((d.y - 0.22) / 0.09, 2.0)); }",
+    "void main(){",
+    "  vec3 n0 = normalize(vN);",
+    "  vec3 V = vW - cameraPosition; float dist = length(V); vec3 vd = V / max(dist, 1e-3);",
+    "  float back = step(0.0, dot(n0, vd)); vec3 n = back > 0.5 ? -n0 : n0;",
+    "  float m = vMat; vec2 f = vFac, g = vFac2;",
+    "  vec3 alb = vec3(0.8); vec3 emi = vec3(0.0); float polish = 0.0, metal = 0.0, shin = 80.0;",
+    "  vec2 q = vW.xz - uPalA.xy; float lat = q.x * uPalA.w - q.y * uPalA.z, rad = dot(q, uPalA.zw);",
+    "  if (m < 0.5) {",                                                   // FLOOR: Penrose marble, sunflower medallion
+    "    alb = texture2D(uFloorTex, vec2(0.5 - lat, 0.5 * uPalB.z + rad) / (2.0 * uPalB.z) + vec2(0.5, 0.25)).rgb; polish = 0.85; shin = 160.0;",
+    "  } else if (m < 1.5) {",                                            // STONE: dark polished floor with gold inlay
+    "    float ln;",
+    "    if (g.y > 0.5) ln = max(aline(abs(f.x) - 2.2, 100.0, 0.06), aline(f.y, 2.4, 0.05) * step(abs(f.x), 2.2));",   // vestibule: f = (lat, rad)
+    "    else ln = max(max(aline(f.x - 22.9, 100.0, 0.06), aline(f.x - 26.8, 100.0, 0.06)), aline(f.y, 2.62753, 0.05) * step(22.9, f.x) * step(f.x, 26.8) * 0.9);",   // balcony: f = (r, arc at r = 23), 55 gold rays
+    "    vec3 P2 = vW * 0.7; float cl = fbm4(P2.xz + vec2(4.0, 1.0));",
+    "    alb = mix(vec3(0.24, 0.20, 0.17) * (0.85 + 0.3 * cl), vec3(0.85, 0.66, 0.30), ln); metal = ln; polish = 0.8; shin = 140.0;",
+    "  } else if (m < 2.5) {",                                            // MARBLE: g.y 0 ivory, 1 dark green, 2 warm Siena
+    "    vec3 P = vW * 0.9; float w = fbm4(P.xz * 0.5 + P.y * 0.4 + vec2(3.1, 7.7)), t = fbm4(P.xz * 1.3 + P.y * 1.1 + w * 2.2 + vec2(1.7, 4.2));",
+    "    float vein = (1.0 - smoothstep(0.0, 0.006 + 0.01 * w, abs(t - 0.5))) * smoothstep(0.35, 0.65, w), cloud = fbm4(P.xz * 0.2 + P.y * 0.16 + vec2(9.0, 2.0));",
+    "    vec3 base = g.y > 1.5 ? vec3(0.78, 0.64, 0.46) : (g.y > 0.5 ? vec3(0.07, 0.11, 0.09) : vec3(0.88, 0.85, 0.79));",
+    "    vec3 vc = g.y > 1.5 ? vec3(0.52, 0.37, 0.24) : (g.y > 0.5 ? vec3(0.42, 0.50, 0.45) : vec3(0.66, 0.64, 0.60));",
+    "    alb = mix(base * (0.9 + 0.16 * cloud), vc, vein * 0.4); polish = 0.4; shin = 70.0;",
+    "  } else if (m < 3.5) { alb = vec3(1.0, 0.77, 0.36); metal = 1.0; polish = 1.0; shin = 120.0; }",   // GOLD
+    "  else if (m < 4.5) { vec3 t = texture2D(uPanelTex, f).rgb; alb = t * 0.15; emi = pow(t, vec3(2.2)) * 0.8; polish = 0.15; }",   // lit exhibit panel
+    "  else if (m < 5.5) { vec3 t = texture2D(uFriezeTex, f).rgb; float gl = smoothstep(0.3, 0.75, t.r); alb = t; emi = pow(t, vec3(2.2)) * 0.22 * gl; metal = gl * 0.6; polish = 0.3; }",   // equation frieze
+    "  else if (m < 6.5) { float a = texture2D(uGlyphTex, f).a; alb = mix(vec3(0.04, 0.05, 0.07), vec3(0.9, 0.95, 1.0), a); emi = vec3(0.5, 0.75, 1.0) * a * g.x; }",   // glowing digits
+    "  else if (m < 7.5) { alb = vec3(0.95); emi = mix(WARM, vec3(0.75, 0.88, 1.0), g.y) * g.x; }",   // LIGHT: g.x intensity, g.y warm..cool
+    "  else if (m < 8.5) { vec3 t = texture2D(uPlaqueTex, f).rgb; alb = t; emi = pow(t, vec3(2.2)) * 0.15; polish = 0.4; }",
+    "  else if (m < 9.5) { alb = vec3(0.91, 0.89, 0.85); polish = 0.2; shin = 30.0; }",   // dome ribs
+    "  else if (m < 10.5) { alb = vec3(0.10, 0.085, 0.07); metal = 0.7; polish = 0.6; }",   // dark bronze
+    "  else if (m < 11.5) {",                                             // STEP: f.y 0 at the nosing .. 1 at the back
+    "    vec3 P = vW * 0.4; float v = fbm4(P.xz * 1.3 + vec2(5.0, 1.0)); float nose = 1.0 - smoothstep(0.05, 0.08, f.y);",
+    "    alb = mix(vec3(0.86, 0.83, 0.77) * (0.95 + 0.07 * v), vec3(0.85, 0.66, 0.30), nose); metal = nose; polish = 0.6; shin = 90.0;",
+    "  } else if (m < 12.5) {",                                           // VAULT: coffered ceiling with light spots; f = (lat, rad), g.x height above the floor
+    "    vec2 cq = vec2(fract(f.x / 1.3) - 0.5, fract(f.y / 1.5) - 0.5);",
+    "    float spot = (1.0 - smoothstep(0.1, 0.16, length(cq * vec2(1.3, 1.5)))) * step(5.2, g.x);",
+    "    float cof = max(aline(f.x, 1.3, 0.05), aline(f.y, 1.5, 0.05)) * step(4.6, g.x);",
+    "    alb = vec3(0.88, 0.86, 0.82) * (1.0 - 0.18 * cof); emi = WARM * (2.4 * spot + 0.5 * (1.0 - smoothstep(0.03, 0.06, abs(g.x - 0.35))));",
+    "  } else if (m < 13.5) {",                                           // LOGO: f = logo uv
+    "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
+    "    alb = mix(vec3(0.03, 0.06, 0.12), vec3(0.95), lg); emi = mix(vec3(0.01, 0.025, 0.06), vec3(1.0, 0.98, 0.95) * 0.9, lg);",
+    "  } else { vec3 t = texture2D(uVestTex, f).rgb; alb = t * 0.15; emi = pow(t, vec3(2.2)) * 0.8; polish = 0.15; }",   // welcome panels in the entrance vault
+    "  vec3 albl = pow(alb, vec3(2.2));",
+    "  float lam = max(dot(n, uSun), 0.0), sh = 0.0;",
+    "  if (lam > 0.0) sh = shadowAt(vW, n);",
+    "  vec3 E = vL * (1.0 - 0.6 * back) + uSunIrr * lam * sh + ambientAt(n) * 0.4 + WARM * 0.012;",
+    "  vec3 lit = albl * 0.6 * E * (1.0 - 0.9 * metal);",
+    "  float cv = max(dot(-vd, n), 0.0);",
+    "  vec3 F0 = mix(vec3(0.04), albl, metal); vec3 Fr = F0 + (1.0 - F0) * pow(1.0 - cv, 5.0);",
+    "  vec3 rd = reflect(vd, n);",
+    "  lit += polish * Fr * palEnv(rd) * mix(0.55, 1.0, metal);",
+    "  if (polish > 0.1) lit += lanternGlints(vW, rd, shin) * 2.2 * polish * Fr * (shin / 80.0);",
+    "  lit += emi;",
+    "  vec3 c = mix(lit, hazeCol(vd), hazeAmt(dist) * (1.0 - uPalB.w));",
+    "  gl_FragColor = vec4(enc(c * uExposure), 0.0);",
+    "}"
+  ].join("\n");
+  // The dome glass: clear panes that reflect the sky outside and the lanterns inside, with fine mullions
+  // splitting every lattice cell into four; dusty near the base. Drawn after everything solid.
+  var GLASS_VS = [
+    "attribute vec2 aFac; attribute vec2 aFac2;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vS; varying float vPh;",
+    "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vS = aFac; vPh = aFac2.x; gl_Position = projectionMatrix * viewMatrix * wp; }"
+  ].join("\n");
+  var GLASS_FS = [
+    SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, PAL_COMMON,
+    "uniform vec4 uPortal;",
+    "varying vec3 vW; varying vec3 vN; varying vec2 vS; varying float vPh;",
+    "void main(){",
+    "  vec3 nO = normalize(vN);",
+    "  vec3 V = vW - cameraPosition; float dist = length(V); vec3 vd = V / max(dist, 1e-3);",
+    "  vec2 q = vW.xz - uPalA.xy; float lat = q.x * uPalA.w - q.y * uPalA.z, rad = dot(q, uPalA.zw);",
+    "  if (rad > 20.0 && abs(lat) < uPortal.x) { float s = lat / uPortal.x; if (vW.y - uPalB.x < uPortal.y * pow(max(1.0 - s * s, 0.0), 0.55)) discard; }",   // the entrance vault passes here
+    "  bool outside = dot(nO, vd) < 0.0; vec3 n = outside ? nO : -nO;",
+    "  float cosT = max(dot(-vd, n), 0.0), F = 0.04 + 0.96 * pow(1.0 - cosT, 5.0);",
+    "  vec3 rd = reflect(vd, n);",
+    "  float mull = max(aline(vS.x, 0.5, 0.03), aline(vS.y, 0.5, 0.03)) * (1.0 - smoothstep(0.86, 0.9, vPh));",
+    "  vec3 col; float a;",
+    "  if (outside) {",
+    "    col = (skyRad(normalize(vec3(rd.x, max(rd.y, 0.0), rd.z))) + uSunIrr * pow(max(dot(rd, uSun), 0.0), 900.0) * 40.0) * F; a = F * 0.85 + 0.05;",
+    "    float dust = (1.0 - smoothstep(0.0, 0.2, vPh)) * (0.45 + 0.55 * vnoise(vW.xz * 0.6 + vW.y));",
+    "    vec3 dcol = pow(vec3(0.52, 0.35, 0.23), vec3(2.2)) * 0.6 * (uSunIrr * max(dot(n, uSun), 0.0) + ambientAt(n));",
+    "    col = mix(col, dcol, dust * 0.4); a = mix(a, 1.0, dust * 0.35);",
+    "  } else {",
+    "    col = WARM * 0.02 * F + lanternGlints(vW, rd, 500.0) * 6.0 * F; a = F * 0.5 + 0.03;",
+    "  }",
+    "  vec3 mc = pow(vec3(0.9, 0.89, 0.86), vec3(2.2)) * 0.6 * (outside ? uSunIrr * max(dot(n, uSun), 0.0) + ambientAt(n) : WARM * 0.12);",
+    "  col = mix(col, mc, mull * 0.85); a = mix(a, 1.0, mull * 0.85);",
+    "  float hz = hazeAmt(dist) * (1.0 - uPalB.w);",
+    "  col = col * (1.0 - hz) + hazeCol(vd) * hz * a;",
+    "  gl_FragColor = vec4(enc(col * uExposure), a);",
+    "}"
+  ].join("\n");
+  var palMat = new THREE.ShaderMaterial({ uniforms: Object.assign({}, U, palU), vertexShader: PAL_VS, fragmentShader: PAL_FS, side: THREE.DoubleSide, extensions: { derivatives: true } });
+  function glassMat(side) {
+    return new THREE.ShaderMaterial({ uniforms: Object.assign({}, U, palU), vertexShader: GLASS_VS, fragmentShader: GLASS_FS, side: side, transparent: true, depthWrite: false, extensions: { derivatives: true },
+      blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor });
+  }
+  // terrain depth for the shadow map, with the palace hole cut out
+  var cutDepthMat = new THREE.ShaderMaterial({
+    uniforms: { uCut: U.uCut, uCutV: U.uCutV }, side: THREE.DoubleSide,
+    vertexShader: "varying vec2 vXZ; varying vec2 vZW; void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vXZ = wp.xz; gl_Position = projectionMatrix * viewMatrix * wp; vZW = gl_Position.zw; }",
+    fragmentShader: ["#include <packing>", CUT_GLSL, "varying vec2 vXZ; varying vec2 vZW;", "void main(){ if (inCut(vXZ)) discard; gl_FragColor = packDepthToRGBA(0.5 * vZW.x / vZW.y + 0.5); }"].join("\n")
+  });
+
+  var palMesh = null, palGlassB = null, palGlassF = null, palPend = null, palMob = null, palSolids = [], palAnimHidden = [], palTexReady = false;
+  var PEND = { L: 23.75, A: 0.092, T: 15.9 };
+  function addF2(g, a, b) { var n = g.attributes.position.count, arr = new Float32Array(n * 2); for (var i = 0; i < n; i++) { arr[i * 2] = a; arr[i * 2 + 1] = b; } g.setAttribute("aFac2", new THREE.BufferAttribute(arr, 2)); return g; }
+  // tube along points (parallel-transport frames, analytic normals)
+  function tubeAlong(Bd, pts, rad, nside, mat, g2x) {
+    var N = pts.length - 1, tg = new THREE.Vector3(), a = null, frames = [];
+    for (var i = 0; i <= N; i++) {
+      tg.subVectors(pts[Math.min(N, i + 1)], pts[Math.max(0, i - 1)]).normalize();
+      if (!a) { a = new THREE.Vector3(0, 1, 0); if (Math.abs(tg.y) > 0.9) a.set(1, 0, 0); a.sub(tg.clone().multiplyScalar(a.dot(tg))).normalize(); }
+      else { a.sub(tg.clone().multiplyScalar(a.dot(tg))); if (a.lengthSq() < 1e-8) a.set(1, 0, 0); a.normalize(); }
+      frames.push([a.clone(), new THREE.Vector3().crossVectors(tg, a).normalize()]);
+    }
+    Bd.surf(N, nside, function (i, j, q) {
+      var ang = j / nside * 2 * Math.PI, fr = frames[i], c = Math.cos(ang), s = Math.sin(ang), rr = typeof rad === "function" ? rad(i / N) : rad;
+      var nx = fr[0].x * c + fr[1].x * s, ny = fr[0].y * c + fr[1].y * s, nz = fr[0].z * c + fr[1].z * s, p = pts[i];
+      q.p[0] = p.x + nx * rr; q.p[1] = p.y + ny * rr; q.p[2] = p.z + nz * rr; q.nn = [nx, ny, nz]; q.f[0] = i; q.f[1] = j; q.f2[0] = g2x || 0; q.m = mat;
+    }, false, true);
+  }
+  // solid of revolution around a vertical axis: prof = [[r, y], ...] bottom to top
+  function latheAt(Bd, cx, cy, cz, prof, NA, mat, g2y, g2x) {
+    Bd.surf(NA, prof.length - 1, function (i, j, q) {
+      var th = i / NA * 2 * Math.PI, c = Math.cos(th), s = Math.sin(th), pr = prof[j];
+      var j0 = Math.max(0, j - 1), j1 = Math.min(prof.length - 1, j + 1), dr = prof[j1][0] - prof[j0][0], dy = prof[j1][1] - prof[j0][1], l = Math.hypot(dr, dy) || 1;
+      q.p[0] = cx + c * pr[0]; q.p[1] = cy + pr[1]; q.p[2] = cz + s * pr[0]; q.nn = [c * dy / l, -dr / l, s * dy / l]; q.f[0] = th; q.f[1] = pr[1]; q.f2[0] = g2x === undefined ? 99 : g2x; q.f2[1] = g2y || 0; q.m = mat;
+    }, true);
+  }
+  function bakeLight(Bd, lights, off) {
+    var p = Bd.p, n = Bd.n, N = p.length / 3, out = new Float32Array(N * 3), ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0;
+    for (var k = 0; k < N; k++) {
+      var x = p[k * 3] + ox, y = p[k * 3 + 1] + oy, z = p[k * 3 + 2] + oz, nx = n[k * 3], ny = n[k * 3 + 1], nz = n[k * 3 + 2], r = 0.0, g = 0.0, b = 0.0;
+      for (var i = 0; i < lights.length; i++) {
+        var L = lights[i], lx = L.x - x, ly = L.y - y, lz = L.z - z, d2 = lx * lx + ly * ly + lz * lz;
+        if (d2 > L.r * L.r) continue;
+        var d = Math.sqrt(d2) + 1e-6, ndl = (nx * lx + ny * ly + nz * lz) / d;
+        if (ndl <= 0) continue;
+        var w = ndl / (d2 + 1) * (1 - smoothstep(L.r * 0.55, L.r, d));
+        if (L.d) { var sp = -(L.d[0] * lx + L.d[1] * ly + L.d[2] * lz) / d; if (sp <= 0) continue; w *= Math.pow(sp, L.lobe); }
+        r += L.c[0] * w; g += L.c[1] * w; b += L.c[2] * w;
+      }
+      out[k * 3] = r; out[k * 3 + 1] = g; out[k * 3 + 2] = b;
+    }
+    return out;
+  }
+  function palBuild(Bd, lights, off) { var g = Bd.build(); g.setAttribute("aLight", new THREE.Float32BufferAttribute(bakeLight(Bd, lights, off), 3)); return g; }
+
+  function buildPalace() {
+    var yB = PALY.B, yF = PALY.F, P = new Builder(), lights = [], TAU = Math.PI * 2, WARM = WARMJS, COOL = [0.72, 0.86, 1.0], WHITE = [1, 0.96, 0.9];
+    palU.uPalA.value.set(PAL.c.x, PAL.c.z, PAL.F.x, PAL.F.z); palU.uPalB.value.set(yB, yF, PAL.pitR, 0);
+    palU.uPortal.value.set(vaultW(26) + PAL.vt + 0.03, vaultH(26) + 0.58, 0, 0);
+    function light(x, y, z, c, k, range, dir, lobe) { lights.push({ x: x, y: y, z: z, c: [c[0] * k, c[1] * k, c[2] * k], r: range, d: dir || null, lobe: lobe || 0 }); }
+    function V3(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y, p.z); }
+    function inward(th) { var d = palPol(1, th); return [PAL.c.x - d.x, 0, PAL.c.z - d.z]; }            // unit vector toward the axis
+    function tangent(th) { return [Math.cos(th) * PAL.Rt.x - Math.sin(th) * PAL.F.x, 0, Math.cos(th) * PAL.Rt.z - Math.sin(th) * PAL.F.z]; }   // direction of growing th
+    function yawTo(p) { return Math.atan2(PAL.c.x - p.x, PAL.c.z - p.z); }
+    // vertical band on a circle, facing the axis; th0..th1 in radians
+    function band(r, y0, y1, mat, nv, th0, th1, g2, NA) {
+      var a0 = th0 === undefined ? 0 : th0, a1 = th1 === undefined ? TAU : th1, na = NA || Math.max(8, Math.round(Math.abs(a1 - a0) / TAU * 360));
+      P.surf(na, nv || 1, function (i, j, q) { var th = lerp(a0, a1, i / na), p = palPol(r, th), y = lerp(y0, y1, j / (nv || 1)); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = inward(th); q.f[0] = th * r; q.f[1] = y; if (g2) { q.f2[0] = g2[0]; q.f2[1] = g2[1]; } q.m = mat; });
+    }
+    function flatRing(r0, r1, y, mat, nr, th0, th1, up) {   // horizontal annulus
+      var a0 = th0 === undefined ? 0 : th0, a1 = th1 === undefined ? TAU : th1, na = Math.max(8, Math.round(Math.abs(a1 - a0) / TAU * 360));
+      P.surf(na, nr || 1, function (i, j, q) { var th = lerp(a0, a1, i / na), r = lerp(r0, r1, j / (nr || 1)), p = palPol(r, th); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [0, up === false ? -1 : 1, 0]; q.f[0] = r; q.f[1] = th * 23; q.m = mat; });
+    }
+    function boxAt(r, th, y0, y1, w, d, mat, g2) { var p = palPol(r, th), g = new THREE.BoxGeometry(w, y1 - y0, d); if (g2) addF2(g, g2[0], g2[1]); P.geo(g, T(p.x, (y0 + y1) / 2, p.z, 0, yawTo(p), 0), mat, 1); }
+    function quad(c0, c1, c2, c3, nrm, mat, uv, g2) {   // corners counter-clockwise from bottom-left; uv = [[u,v] x4]
+      P.surf(1, 1, function (i, j, q) { var c = j ? (i ? c2 : c3) : (i ? c1 : c0), t = uv[j ? (i ? 2 : 3) : (i ? 1 : 0)]; q.p[0] = c.x; q.p[1] = c.y; q.p[2] = c.z; q.nn = nrm; q.f[0] = t[0]; q.f[1] = t[1]; if (g2) { q.f2[0] = g2[0]; q.f2[1] = g2[1]; } q.m = mat; });
+    }
+
+    // ---- rotunda floor and the exhibit wall ----
+    P.surf(240, 40, function (i, j, q) { var th = i / 240 * TAU, r = 0.03 + (PAL.pitR - 0.03) * Math.pow(j / 40, 0.8), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yF; q.p[2] = p.z; q.nn = [0, 1, 0]; q.m = PM.FLOOR; }, true);
+    band(PAL.pitR, yF, yB - 0.35, PM.MARBLE, 20, 0, TAU, [99, 2]);
+    band(PAL.pitR - 0.04, yF, yF + 0.9, PM.MARBLE, 1, 0, TAU, [99, 1]);          // dark green dado
+    band(PAL.pitR - 0.05, yF + 0.9, yF + 0.96, PM.GOLD);
+    band(PAL.pitR - 0.06, yF + 0.02, yF + 0.07, PM.LIGHT, 1, 0, TAU, [0.9, 0]);   // light line along the foot of the wall
+    // cornice under the frieze and a gold lip under the pi ring
+    band(PAL.pitR - 0.16, yF + 8.3, yF + 8.46, PM.GOLD);
+    flatRing(PAL.pitR - 0.16, PAL.pitR, yF + 8.46, PM.GOLD, 1);
+    flatRing(PAL.pitR - 0.16, PAL.pitR, yF + 8.3, PM.GOLD, 1, 0, TAU, false);
+    band(PAL.pitR - 0.03, yB - 1.05, yB - 0.35, PM.DARK);
+    band(PAL.pitR - 0.05, yB - 0.35, yB - 0.29, PM.GOLD);
+    band(PAL.pitR - 0.02, yB - 0.29, yB + 0.001, PM.MARBLE);
+    // equation frieze: 8 strips, text runs the way a visitor facing the wall reads
+    for (var k = 0; k < 8; k++) (function (k) {
+      P.surf(48, 1, function (i, j, q) { var th = (k + 1 - i / 48) * TAU / 8, p = palPol(PAL.pitR - 0.05, th), y = yF + 7.5 + 0.8 * j; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = inward(th); q.f[0] = i / 48; q.f[1] = j; q.m = PM.FRIEZE; });
+    })(k);
+    // ring of pi: 465 digits, starting at the back of the rotunda, opposite the entrance
+    var digits = "π=" + piDigits(470), ND = 465, dth = TAU / ND;
+    for (k = 0; k < ND; k++) {
+      var gi = GLYPHS.indexOf(digits[k]); if (gi < 0) gi = 13;
+      var tha = Math.PI - k * dth, thb = tha - dth * 0.92, ya = yB - 0.95, yb = yB - 0.45, rP = PAL.pitR - 0.06;
+      quad(V3(rP, tha, ya), V3(rP, thb, ya), V3(rP, thb, yb), V3(rP, tha, yb), inward(tha - dth / 2), PM.GLYPH, [[gi / GLYPH_N + 0.004, 0.02], [(gi + 1) / GLYPH_N - 0.004, 0.02], [(gi + 1) / GLYPH_N - 0.004, 0.98], [gi / GLYPH_N + 0.004, 0.98]], [0.55, 0]);
+    }
+    // twelve exhibit panels between gold-capped pilasters on the back half of the wall
+    var PANEL_ORDER = [1, 3, 4, 10, 5, 0, 2, 9, 8, 7, 6, 11], PW = 4.4, PH = 2.933, py0 = yF + 1.35, pd = 21.95;
+    for (k = 0; k < 12; k++) {
+      var thc = (106.667 + k * 13.333) * D2R, idx = PANEL_ORDER[k], col = idx % 4, row = Math.floor(idx / 4);
+      var cc = palPol(pd, thc), tg = tangent(thc), rt = [-tg[0], -tg[2]];   // viewer's right when facing the wall
+      var pL = new THREE.Vector3(cc.x - rt[0] * PW / 2, 0, cc.z - rt[1] * PW / 2), pR = new THREE.Vector3(cc.x + rt[0] * PW / 2, 0, cc.z + rt[1] * PW / 2);
+      var u0 = col / 4, u1 = (col + 1) / 4, v0 = 1 - (row + 1) / 3, v1 = 1 - row / 3;
+      quad(new THREE.Vector3(pL.x, py0, pL.z), new THREE.Vector3(pR.x, py0, pR.z), new THREE.Vector3(pR.x, py0 + PH, pR.z), new THREE.Vector3(pL.x, py0 + PH, pL.z), inward(thc), PM.PANEL, [[u0, v0], [u1, v0], [u1, v1], [u0, v1]]);
+      var fy = T(cc.x, 0, cc.z, 0, yawTo(cc), 0), fr = [[0, py0 - 0.05, PW + 0.2, 0.1], [0, py0 + PH + 0.05, PW + 0.2, 0.1], [-PW / 2 - 0.05, py0 + PH / 2, 0.1, PH + 0.2], [PW / 2 + 0.05, py0 + PH / 2, 0.1, PH + 0.2]];
+      fr.forEach(function (b) { P.geo(new THREE.BoxGeometry(b[2], b[3], 0.1), new THREE.Matrix4().multiplyMatrices(fy, T(b[0], b[1], 0.02)), PM.GOLD, 1); });
+      var lw = palPol(20.6, thc); light(lw.x, py0 + PH * 0.55, lw.z, COOL, 0.9, 7);
+    }
+    // a glowing symbol in a gold medallion above each panel
+    var SYM = "e\u221a\u03c6\u03c07z\u03a3\u221e15ng";
+    for (k = 0; k < 12; k++) {
+      var thm = (106.667 + k * 13.333) * D2R, cm = palPol(PAL.pitR - 0.07, thm), tgm = tangent(thm), rm = [-tgm[0], -tgm[2]], ym = yF + 5.65, gs = GLYPHS.indexOf(SYM[PANEL_ORDER[k]]);
+      P.surf(24, 1, function (i, j, q) { var a2 = i / 24 * TAU, rr2 = j * 0.56, x = cm.x + rm[0] * Math.cos(a2) * rr2, z = cm.z + rm[1] * Math.cos(a2) * rr2; q.p[0] = x; q.p[1] = ym + Math.sin(a2) * rr2; q.p[2] = z; q.nn = inward(thm); q.m = PM.DARK; }, true);
+      var mr = []; for (var i2 = 0; i2 <= 32; i2++) { var a3 = i2 / 32 * TAU; mr.push(new THREE.Vector3(cm.x + rm[0] * Math.cos(a3) * 0.58 - inward(thm)[0] * 0.02, ym + Math.sin(a3) * 0.58, cm.z + rm[1] * Math.cos(a3) * 0.58 - inward(thm)[2] * 0.02)); }
+      tubeAlong(P, mr, 0.05, 6, PM.GOLD);
+      var gc = { x: cm.x + inward(thm)[0] * 0.03, z: cm.z + inward(thm)[2] * 0.03 }, hw = 0.3, hh = 0.6;
+      quad(new THREE.Vector3(gc.x - rm[0] * hw, ym - hh, gc.z - rm[1] * hw), new THREE.Vector3(gc.x + rm[0] * hw, ym - hh, gc.z + rm[1] * hw), new THREE.Vector3(gc.x + rm[0] * hw, ym + hh, gc.z + rm[1] * hw), new THREE.Vector3(gc.x - rm[0] * hw, ym + hh, gc.z - rm[1] * hw),
+        inward(thm), PM.GLYPH, [[gs / GLYPH_N + 0.004, 0.02], [(gs + 1) / GLYPH_N - 0.004, 0.02], [(gs + 1) / GLYPH_N - 0.004, 0.98], [gs / GLYPH_N + 0.004, 0.98]], [1.1, 0]);
+    }
+    var PIL = []; for (k = 0; k <= 12; k++) PIL.push(100 + k * 13.333);
+    for (k = 20; k <= 90; k += 10) { PIL.push(k); PIL.push(-k); }
+    PIL.forEach(function (a) {
+      var th = a * D2R;
+      boxAt(PAL.pitR - 0.09, th, yF + 0.9, yF + 7.0, 0.5, 0.18, PM.MARBLE);
+      boxAt(PAL.pitR - 0.13, th, yF + 7.0, yF + 7.42, 0.64, 0.26, PM.GOLD);
+      boxAt(PAL.pitR - 0.11, th, yF, yF + 0.9, 0.62, 0.22, PM.MARBLE, [99, 1]);
+    });
+    // the TTMath logo under the entrance
+    (function () {
+      var d0 = 21.95, W = 7.2, y0 = yF + 3.3, y1 = yF + 5.55, a = palXZ(3.6, d0), b = palXZ(-3.6, d0), ly0 = yF + 3.43, n = [-PAL.F.x, 0, -PAL.F.z];
+      quad(new THREE.Vector3(a.x, y0, a.z), new THREE.Vector3(b.x, y0, b.z), new THREE.Vector3(b.x, y1, b.z), new THREE.Vector3(a.x, y1, a.z), n, PM.LOGO,
+        [[(-3.6 + 3.2) / 6.4, (y0 - ly0) / 2], [(3.6 + 3.2) / 6.4, (y0 - ly0) / 2], [(3.6 + 3.2) / 6.4, (y1 - ly0) / 2], [(-3.6 + 3.2) / 6.4, (y1 - ly0) / 2]]);
+      var c0 = palXZ(0, d0), fy = T(c0.x, 0, c0.z, 0, yawTo(c0), 0);
+      [[0, y0 - 0.06, W + 0.24, 0.12], [0, y1 + 0.06, W + 0.24, 0.12], [-W / 2 - 0.06, (y0 + y1) / 2, 0.12, y1 - y0 + 0.24], [W / 2 + 0.06, (y0 + y1) / 2, 0.12, y1 - y0 + 0.24]].forEach(function (b2) {
+        P.geo(new THREE.BoxGeometry(b2[2], b2[3], 0.1), new THREE.Matrix4().multiplyMatrices(fy, T(b2[0], b2[1], 0.02)), PM.GOLD, 1);
+      });
+      var lp = palXZ(0, 20.4); light(lp.x, yF + 4.4, lp.z, COOL, 1.6, 9);
+    })();
+
+    // ---- balcony ring, pit-edge balustrade, ring beam inner face ----
+    flatRing(PAL.pitR, PAL.ringIn, yB, PM.STONE, 6);
+    var gapV = 9.6 * D2R;
+    band(PAL.ringIn, yB, yB + PAL.beam, PM.MARBLE, 1, gapV, TAU - gapV);
+    flatRing(PAL.ringIn, PAL.ringIn + 0.3, yB + PAL.beam, PM.MARBLE, 1, gapV, TAU - gapV);
+    function balustrade(a0, a1) {                 // classic balusters on the pit edge between angles a0..a1 (radians)
+      var rB = 22.33, len = Math.abs(a1 - a0) * rB, nb = Math.max(2, Math.round(len / 0.3));
+      for (var i = 0; i <= nb; i++) {
+        var th = lerp(a0, a1, i / nb), p = palPol(rB, th);
+        latheAt(P, p.x, yB + 0.08, p.z, [[0.068, 0], [0.068, 0.06], [0.045, 0.1], [0.04, 0.26], [0.066, 0.42], [0.07, 0.5], [0.042, 0.62], [0.036, 0.68], [0.056, 0.72], [0.056, 0.8]], 6, PM.MARBLE);
+      }
+      var sp = function (r0, r1, y0, y1, mat) {   // rail with a rectangular section
+        var na = Math.max(4, Math.round(len / 0.5));
+        [[r0, y1, r1, y1, [0, 1, 0]], [r1, y0, r0, y0, [0, -1, 0]]].forEach(function (f) {
+          P.surf(na, 1, function (i, j, q) { var th = lerp(a0, a1, i / na), r = j ? f[2] : f[0], p = palPol(r, th); q.p[0] = p.x; q.p[1] = j ? f[3] : f[1]; q.p[2] = p.z; q.nn = f[4]; q.f[0] = th * 23; q.f[1] = j; q.m = mat; });
+        });
+        [[r0, 1], [r1, -1]].forEach(function (f) {
+          P.surf(na, 1, function (i, j, q) { var th = lerp(a0, a1, i / na), p = palPol(f[0], th), iw = inward(th); q.p[0] = p.x; q.p[1] = j ? y1 : y0; q.p[2] = p.z; q.nn = [iw[0] * f[1], 0, iw[2] * f[1]]; q.f[0] = th * 23; q.f[1] = j; q.m = mat; });
+        });
+      };
+      sp(rB - 0.12, rB + 0.12, yB, yB + 0.08, PM.MARBLE);
+      sp(rB - 0.11, rB + 0.11, yB + 0.88, yB + 0.98, PM.MARBLE);
+      var rail = [], nr = Math.max(4, Math.round(len / 0.5)); for (i = 0; i <= nr; i++) rail.push(V3(rB, lerp(a0, a1, i / nr), yB + 1.02));
+      tubeAlong(P, rail, 0.035, 6, PM.GOLD);
+    }
+    balustrade(PAL.stairTop * D2R, TAU - PAL.stairTop * D2R);
+    balustrade(-PAL.landA * D2R, PAL.landA * D2R);
+
+    // ---- the two grand stairs, cantilevered from the wall ----
+    var NST = 56, rise = PAL.depth / NST, dA = (PAL.stairBot - PAL.stairTop) / NST;
+    function walkY(a) { return palStairY(a); }                  // a in degrees
+    [1, -1].forEach(function (sg) {
+      var A = function (deg) { return sg * deg * D2R; };
+      // top landing
+      P.surf(6, 4, function (i, j, q) { var th = A(lerp(PAL.landA, PAL.stairTop, j / 4)), r = lerp(PAL.stairIn, PAL.pitR, i / 6), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yB; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = th * 23; q.m = PM.STONE; });
+      P.surf(6, 4, function (i, j, q) { var th = A(lerp(PAL.landA, PAL.stairTop, j / 4)), r = lerp(PAL.stairIn, PAL.pitR, i / 6), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yB - 0.4; q.p[2] = p.z; q.nn = [0, -1, 0]; q.m = PM.MARBLE; });
+      band(PAL.stairIn, yB - 0.4, yB, PM.MARBLE, 1, A(PAL.landA), A(PAL.stairTop), null, 6);
+      [PAL.landA, PAL.stairTop].forEach(function (deg) { var th = A(deg), tgv = tangent(th), s2 = deg === PAL.landA ? -sg : sg;
+        P.surf(6, 1, function (i, j, q) { var r = lerp(PAL.stairIn, PAL.pitR, i / 6), p = palPol(r, th); q.p[0] = p.x; q.p[1] = j ? yB : yB - 0.4; q.p[2] = p.z; q.nn = [tgv[0] * s2, 0, tgv[2] * s2]; q.m = PM.MARBLE; }); });
+      for (var k = 0; k < NST - 1; k++) {
+        var a0 = A(PAL.stairTop + k * dA), a1 = A(PAL.stairTop + (k + 1) * dA), yt = yB - (k + 1) * rise, yb2 = yt - 0.16, tg1 = tangent(a1);
+        P.surf(4, 1, function (i, j, q) { var th = lerp(a0, a1, j), r = lerp(PAL.stairIn, PAL.pitR, i / 4), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yt; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = 1 - j; q.m = PM.STEP; });
+        P.surf(4, 1, function (i, j, q) { var r = lerp(PAL.stairIn, PAL.pitR, i / 4), p = palPol(r, a1); q.p[0] = p.x; q.p[1] = j ? yt : yb2; q.p[2] = p.z; q.nn = [tg1[0] * sg, 0, tg1[2] * sg]; q.m = PM.MARBLE; });
+        P.surf(4, 1, function (i, j, q) { var th = lerp(a0, a1, j), r = lerp(PAL.stairIn, PAL.pitR, i / 4), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yb2; q.p[2] = p.z; q.nn = [0, -1, 0]; q.m = PM.MARBLE; });
+        var iw0 = inward(a0);
+        P.surf(1, 1, function (i, j, q) { var th = i ? a1 : a0, p = palPol(PAL.stairIn, th); q.p[0] = p.x; q.p[1] = j ? yt : yb2; q.p[2] = p.z; q.nn = iw0; q.m = PM.MARBLE; });
+        var ls = a1 - sg * 0.12 / 20.8;          // light strip under the nosing
+        P.surf(4, 1, function (i, j, q) { var th = j ? ls : a1, r = lerp(PAL.stairIn + 0.1, PAL.pitR - 0.1, i / 4), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yb2 - 0.004; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f2[0] = 1.3; q.f2[1] = 0; q.m = PM.LIGHT; });
+      }
+      // gold stringer along the open side, handrails, posts
+      var NS = 80;
+      P.surf(NS, 1, function (i, j, q) { var deg = lerp(PAL.stairTop, PAL.stairBot, i / NS), th = A(deg), p = palPol(PAL.stairIn - 0.03, th), y = walkY(deg); q.p[0] = p.x; q.p[1] = j ? y + 0.04 : y - 0.42; q.p[2] = p.z; q.nn = inward(th); q.m = PM.GOLD; });
+      var rail = [], low = [], wallR = [];
+      [[PAL.pitR - 0.02, PAL.landA], [PAL.stairIn + 0.05, PAL.landA]].forEach(function (c) { rail.push(V3(c[0], A(c[1]), yB + 1.0)); });
+      for (var i = 0; i <= NS; i++) { var deg = lerp(PAL.landA, PAL.stairBot + 1.5, i / NS), y = walkY(clamp(deg, PAL.stairTop, PAL.stairBot)); rail.push(V3(PAL.stairIn + 0.05, A(deg), y + 1.0)); low.push(V3(PAL.stairIn + 0.05, A(deg), y + 0.5)); }
+      for (i = 0; i <= NS; i++) { deg = lerp(PAL.stairTop + 0.5, PAL.stairBot, i / NS); wallR.push(V3(PAL.pitR - 0.12, A(deg), walkY(deg) + 0.9)); }
+      tubeAlong(P, rail, 0.04, 6, PM.GOLD); tubeAlong(P, low, 0.022, 5, PM.GOLD); tubeAlong(P, wallR, 0.03, 5, PM.GOLD);
+      for (i = 0; i <= 18; i++) { deg = lerp(PAL.landA + 0.4, PAL.stairBot + 1.2, i / 18); var yy = walkY(clamp(deg, PAL.stairTop, PAL.stairBot)); tubeAlong(P, [V3(PAL.stairIn + 0.05, A(deg), yy - 0.05), V3(PAL.stairIn + 0.05, A(deg), yy + 1.0)], 0.025, 5, PM.GOLD); }
+      [0.35, 0.65, 0.95].forEach(function (t) { var c = V3(PAL.stairIn + 0.05, A(PAL.landA), yB); tubeAlong(P, [V3(lerp(PAL.stairIn + 0.05, PAL.pitR - 0.02, t), A(PAL.landA), yB), V3(lerp(PAL.stairIn + 0.05, PAL.pitR - 0.02, t), A(PAL.landA), yB + 1.0)], 0.025, 5, PM.GOLD); });
+      for (i = 0; i < 8; i++) { deg = lerp(PAL.stairTop + 4, PAL.stairBot - 3, i / 7); var lp = palPol(20.8, A(deg)); light(lp.x, walkY(deg) + 0.35, lp.z, WARM, 0.8, 5.5); }
+    });
+
+    // ---- pedestals with the five Platonic solids, the pendulum rail ----
+    var SOLIDS = palSolidDefs();
+    for (k = 0; k < 5; k++) {
+      var th = (36 + 72 * k) * D2R, pc = palPol(PAL.pedR, th);
+      latheAt(P, pc.x, yF, pc.z, [[0.9, 0], [0.9, 0.12], [0.76, 0.15], [0.76, 0.2], [0.58, 0.25], [0.55, 0.9], [0.63, 0.95], [0.76, 1.0], [0.8, 1.06], [0.8, 1.12], [0.4, 1.12], [0.0, 1.12]], 24, PM.MARBLE);
+      latheAt(P, pc.x, yF + 0.2, pc.z, [[0.585, 0], [0.62, 0.025], [0.585, 0.05]], 24, PM.GOLD);
+      latheAt(P, pc.x, yF + 1.121, pc.z, [[0.36, 0], [0.0, 0.0]], 16, PM.LIGHT, 0, 1.4);
+      // plaque on the shaft, facing the wall
+      var out = [-inward(th)[0], -inward(th)[2]], right = [out[1], -out[0]];   // a visitor facing the pedestal looks along -out
+      var c1 = new THREE.Vector3(pc.x + out[0] * 0.6, 0, pc.z + out[1] * 0.6);
+      quad(new THREE.Vector3(c1.x - right[0] * 0.45, yF + 0.42, c1.z - right[1] * 0.45), new THREE.Vector3(c1.x + right[0] * 0.45, yF + 0.42, c1.z + right[1] * 0.45),
+        new THREE.Vector3(c1.x + right[0] * 0.45, yF + 0.84, c1.z + right[1] * 0.45), new THREE.Vector3(c1.x - right[0] * 0.45, yF + 0.84, c1.z - right[1] * 0.45),
+        [out[0], 0, out[1]], PM.PLAQUE, [[k / 5 + 0.003, 0.02], [(k + 1) / 5 - 0.003, 0.02], [(k + 1) / 5 - 0.003, 0.98], [k / 5 + 0.003, 0.98]]);
+      light(pc.x, yF + 3.6, pc.z, WHITE, 2.4, 6.5);
+      light(pc.x, yF + 1.3, pc.z, WARM, 0.5, 3, [0, 1, 0], 2);
+    }
+    // curved marble benches between the pedestals
+    for (k = 0; k < 5; k++) {
+      var tb = 72 * k * D2R, b0 = tb - PAL.benchA * D2R, b1 = tb + PAL.benchA * D2R, rI = PAL.benchR - 0.3, rO = PAL.benchR + 0.3, ys = yF + 0.45;
+      flatRing(rI, rO, ys, PM.MARBLE, 1, b0, b1);
+      flatRing(rI, rO, ys - 0.09, PM.MARBLE, 1, b0, b1, false);
+      band(rI, ys - 0.09, ys, PM.MARBLE, 1, b0, b1, null, 24);
+      band(rO, ys - 0.09, ys, PM.MARBLE, 1, b0, b1, null, 24);
+      [b0, b1].forEach(function (a) { var tgb = tangent(a), sgn = a === b0 ? -1 : 1; P.surf(1, 1, function (i, j, q) { var pp = palPol(i ? rO : rI, a); q.p[0] = pp.x; q.p[1] = j ? ys : ys - 0.09; q.p[2] = pp.z; q.nn = [tgb[0] * sgn, 0, tgb[2] * sgn]; q.m = PM.MARBLE; }); });
+      [b0 + 0.02, tb, b1 - 0.02].forEach(function (a) { boxAt(PAL.benchR, a, yF, ys - 0.09, 0.08, 0.44, PM.GOLD); });
+    }
+    for (k = 0; k < 16; k++) { var tp = V3(4.0, k / 16 * TAU, yF); tubeAlong(P, [tp, new THREE.Vector3(tp.x, yF + 0.95, tp.z)], 0.03, 5, PM.GOLD); }
+    var railC = []; for (k = 0; k <= 64; k++) railC.push(V3(4.0, k / 64 * TAU, yF + 0.95)); tubeAlong(P, railC, 0.035, 6, PM.GOLD);
+
+    // ---- lanterns, oculus crown, uplights ----
+    var ico = new THREE.IcosahedronGeometry(0.5, 0), icoP = ico.attributes.position, iv = [];
+    for (k = 0; k < icoP.count; k++) { var vv = new THREE.Vector3().fromBufferAttribute(icoP, k); if (!iv.some(function (u) { return u.distanceTo(vv) < 1e-4; })) iv.push(vv); }
+    var icoEdges = []; for (var a = 0; a < iv.length; a++) for (var b = a + 1; b < iv.length; b++) if (iv[a].distanceTo(iv[b]) < 0.55) icoEdges.push([a, b]);
+    var LAN = [];
+    for (k = 0; k < NLAN; k++) {
+      var lth = (15 + 30 * k) * D2R, lc = palPol(PAL.lanR, lth), ly = yB + 3.2, top = domeY(PAL.lanR) - 0.3;
+      P.geo(addF2(ico.clone(), 2.6, 0), T(lc.x, ly, lc.z, 0.3, lth, 0), PM.LIGHT, 1);
+      var rot = T(lc.x, ly, lc.z, 0.3, lth, 0);
+      icoEdges.forEach(function (e) { tubeAlong(P, [iv[e[0]].clone().multiplyScalar(1.04).applyMatrix4(rot), iv[e[1]].clone().multiplyScalar(1.04).applyMatrix4(rot)], 0.022, 4, PM.GOLD); });
+      latheAt(P, lc.x, ly + 0.48, lc.z, [[0.16, 0], [0.12, 0.12], [0.05, 0.2], [0.0, 0.22]], 10, PM.GOLD);
+      tubeAlong(P, [new THREE.Vector3(lc.x, ly + 0.66, lc.z), new THREE.Vector3(lc.x, top, lc.z)], 0.018, 4, PM.DARK);
+      light(lc.x, ly, lc.z, WARM, 7.5, 28); LAN.push(new THREE.Vector3(lc.x, ly, lc.z));
+    }
+    LAN.forEach(function (p, i) { palU.uLan.value[i].copy(p); });
+    var ocY = domeY(PAL.oc) - 0.15, ring = []; for (k = 0; k <= 96; k++) ring.push(V3(PAL.oc, k / 96 * TAU, ocY));
+    tubeAlong(P, ring, 0.22, 8, PM.GOLD);
+    var hub = new THREE.Vector3(PAL.c.x, yB + PAL.H - 0.25, PAL.c.z);
+    for (k = 0; k < 8; k++) tubeAlong(P, [V3(PAL.oc, k / 8 * TAU, ocY), hub], 0.07, 6, PM.GOLD);
+    P.geo(new THREE.SphereGeometry(0.4, 18, 12), T(hub.x, hub.y, hub.z), PM.GOLD, 1);
+    PEND.pivot = new THREE.Vector3(hub.x, hub.y - 0.35, hub.z); PEND.L = PEND.pivot.y - (yF + 0.85); PEND.T = 2 * Math.PI * Math.sqrt(PEND.L / GRAV);
+    light(PAL.c.x, yB + 13.2, PAL.c.z, [0.92, 0.95, 1.0], 26, 44);
+    for (k = 0; k < 34; k++) {
+      var uth = k / 34 * TAU; if (Math.abs(Math.atan2(Math.sin(uth), Math.cos(uth))) < 11.5 * D2R) continue;
+      var up = palPol(27.75, uth), iw = inward(uth);
+      boxAt(27.75, uth, yB + PAL.beam, yB + PAL.beam + 0.13, 0.3, 0.22, PM.DARK);
+      boxAt(27.75, uth, yB + PAL.beam + 0.13, yB + PAL.beam + 0.15, 0.22, 0.16, PM.LIGHT, [1.6, 0]);
+      var dl = Math.hypot(iw[0] * 0.32, 0.95, iw[2] * 0.32);
+      light(up.x, yB + PAL.beam + 0.2, up.z, WARM, 5.0, 20, [iw[0] * 0.32 / dl, 0.95 / dl, iw[2] * 0.32 / dl], 2);
+    }
+    // pi ring glow, spilling onto the wall and the balcony lip
+    for (k = 0; k < 24; k++) { var gp = palPol(21.7, k / 24 * TAU); light(gp.x, yB - 0.7, gp.z, COOL, 0.6, 6); }
+
+    // ---- entrance vault inside, vestibule floor ----
+    var v0 = P.count();
+    P.surf(40, 30, function (i, j, q) {
+      var s = -Math.cos(Math.PI * i / 40), rad = lerp(PAL.vBack, PAL.vFront, j / 30), wi = vaultW(rad), hi = vaultH(rad), fl = vestY(rad), p = palXZ(s * wi, rad);   // finer near the floor
+      var y = fl + hi * Math.pow(Math.max(0, 1 - s * s), 0.55);
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.f[0] = s * wi; q.f[1] = rad; q.f2[0] = y - fl; q.m = PM.VAULT;
+    });
+    P.orient(v0, function (x, y, z) { var o = palLoc(x, z, {}), ax = palXZ(0, o.rad); return [ax.x - x, vestY(o.rad) + 2.5 - y, ax.z - z]; });
+    P.surf(10, 16, function (i, j, q) { var rad = lerp(PAL.ringIn - 0.1, PAL.vFront + 0.05, j / 16), wi = vaultW(rad), lat = lerp(-wi, wi, i / 10), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = vestY(rad) + 0.004; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[1] = 1; q.m = PM.STONE; });
+    [25.5, 28.5, 31.5, 34.0].forEach(function (rad) { var p = palXZ(0, rad); light(p.x, vestY(rad) + vaultH(rad) - 1.3, p.z, WARM, 2.6, 11); });
+    // welcome panels on the vault walls, facing each other
+    [[-1, 0], [1, 1]].forEach(function (e) {
+      var sd = e[0], lat = sd * 3.72, r0 = 30.1, r1 = 32.5, y0 = 0.95, y1 = y0 + (r1 - r0) / 1.5, n = [-sd * PAL.Rt.x, 0, -sd * PAL.Rt.z];
+      var ra = sd < 0 ? r1 : r0, rb = sd < 0 ? r0 : r1, a = palXZ(lat, ra), b = palXZ(lat, rb), ym = vestY((r0 + r1) / 2), u0 = e[1] / 2, u1 = (e[1] + 1) / 2;
+      quad(new THREE.Vector3(a.x, ym + y0, a.z), new THREE.Vector3(b.x, ym + y0, b.z), new THREE.Vector3(b.x, ym + y1, b.z), new THREE.Vector3(a.x, ym + y1, a.z), n, PM.VPANEL, [[u0, 0], [u1, 0], [u1, 1], [u0, 1]]);
+      var c = palXZ(lat, (r0 + r1) / 2), fyv = T(c.x, ym, c.z, 0, Math.atan2(n[0], n[2]), 0), Wp = r1 - r0, Hp = y1 - y0;
+      [[0, y0 - 0.05, Wp + 0.16, 0.08], [0, y1 + 0.05, Wp + 0.16, 0.08], [-Wp / 2 - 0.04, (y0 + y1) / 2, 0.08, Hp + 0.16], [Wp / 2 + 0.04, (y0 + y1) / 2, 0.08, Hp + 0.16]].forEach(function (bx) {
+        P.geo(new THREE.BoxGeometry(bx[2], bx[3], 0.06), new THREE.Matrix4().multiplyMatrices(fyv, T(bx[0], bx[1], -0.02)), PM.GOLD, 1); });
+    });
+
+    // ---- the dome's spiral lattice ----
+    domeRibs(P);
+
+    palMesh = new THREE.Mesh(palBuild(P, lights), palMat); palMesh.frustumCulled = false; palMesh.matrixAutoUpdate = false; scene.add(palMesh);
+    // glass: far side first, then the near side
+    var gg = domeGlassGeometry();
+    palGlassB = new THREE.Mesh(gg, glassMat(THREE.BackSide)); palGlassB.renderOrder = 6; palGlassB.frustumCulled = false; palGlassB.matrixAutoUpdate = false; scene.add(palGlassB);
+    palGlassF = new THREE.Mesh(gg, glassMat(THREE.FrontSide)); palGlassF.renderOrder = 7; palGlassF.frustumCulled = false; palGlassF.matrixAutoUpdate = false; scene.add(palGlassF);
+
+    // ---- moving pieces: Foucault pendulum, golden Moebius strip, the five solids ----
+    var PB = new Builder();
+    tubeAlong(PB, [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -PEND.L + 0.3, 0)], 0.022, 5, PM.GOLD);
+    PB.geo(new THREE.SphereGeometry(0.32, 24, 16), T(0, -PEND.L, 0), PM.GOLD, 1);
+    PB.geo(new THREE.ConeGeometry(0.07, 0.3, 12), T(0, -PEND.L - 0.42, 0, Math.PI, 0, 0), PM.GOLD, 1);
+    palPend = new THREE.Mesh(palBuild(PB, lights, PEND.pivot), palMat); palPend.position.copy(PEND.pivot); palPend.frustumCulled = false; scene.add(palPend);
+    var MB = new Builder(), mR = 3.6, mW = 1.4, mY = yB + 4.4;
+    MB.surf(240, 10, function (i, j, q) {
+      var u = i / 240 * TAU, v = -1 + 2 * j / 10, rr = mR + v * mW * Math.cos(u / 2);
+      q.p[0] = rr * Math.cos(u); q.p[1] = v * mW * Math.sin(u / 2); q.p[2] = rr * Math.sin(u); q.m = PM.GOLD;
+    });
+    var edge = []; for (k = 0; k <= 480; k++) { var u = k / 480 * 2 * TAU, rr2 = mR + mW * Math.cos(u / 2); edge.push(new THREE.Vector3(rr2 * Math.cos(u), mW * Math.sin(u / 2), rr2 * Math.sin(u))); }
+    tubeAlong(MB, edge, 0.05, 6, PM.GOLD);
+    PAL.mob = { x: PAL.c.x, y: mY, z: PAL.c.z };
+    palMob = new THREE.Mesh(palBuild(MB, lights, PAL.mob), palMat); palMob.frustumCulled = false;
+    PAL.mobHold = new THREE.Group(); PAL.mobHold.position.set(PAL.c.x, mY, PAL.c.z); PAL.mobHold.add(palMob); scene.add(PAL.mobHold);
+    for (k = 0; k < 5; k++) {
+      var SB = new Builder(), sd = SOLIDS[k], thk = (36 + 72 * k) * D2R, pcs = palPol(PAL.pedR, thk), cy = yF + 2.05;
+      sd.e.forEach(function (e) { tubeAlong(SB, [sd.v[e[0]], sd.v[e[1]]], 0.03, 6, PM.GOLD); });
+      sd.v.forEach(function (p) { SB.geo(new THREE.SphereGeometry(0.06, 10, 8), T(p.x, p.y, p.z), PM.GOLD, 1); });
+      SB.geo(addF2(new THREE.SphereGeometry(0.1, 14, 10), 2.2, 0), T(0, 0, 0), PM.LIGHT, 1);
+      var ms = new THREE.Mesh(palBuild(SB, lights, { x: pcs.x, y: cy, z: pcs.z }), palMat); ms.position.set(pcs.x, cy, pcs.z); ms.frustumCulled = false; scene.add(ms); palSolids.push(ms);
+    }
+    palAnimHidden = [palPend, palMob].concat(palSolids);
+    PAL.built = true;
+  }
+  function palSolidDefs() {
+    var phi = (1 + Math.sqrt(5)) / 2, ip = 1 / phi, sets = [
+      [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]],
+      [[1, 1, 1], [1, 1, -1], [1, -1, 1], [1, -1, -1], [-1, 1, 1], [-1, 1, -1], [-1, -1, 1], [-1, -1, -1]],
+      [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]],
+      [[1, 1, 1], [1, 1, -1], [1, -1, 1], [1, -1, -1], [-1, 1, 1], [-1, 1, -1], [-1, -1, 1], [-1, -1, -1], [0, ip, phi], [0, ip, -phi], [0, -ip, phi], [0, -ip, -phi], [ip, phi, 0], [ip, -phi, 0], [-ip, phi, 0], [-ip, -phi, 0], [phi, 0, ip], [phi, 0, -ip], [-phi, 0, ip], [-phi, 0, -ip]],
+      [[0, 1, phi], [0, 1, -phi], [0, -1, phi], [0, -1, -phi], [1, phi, 0], [1, -phi, 0], [-1, phi, 0], [-1, -phi, 0], [phi, 0, 1], [phi, 0, -1], [-phi, 0, 1], [-phi, 0, -1]]];
+    return sets.map(function (S) {
+      var v = S.map(function (p) { return new THREE.Vector3(p[0], p[1], p[2]); }), R0 = v[0].length();
+      v.forEach(function (p) { p.multiplyScalar(0.62 / R0); });
+      var dmin = 1e9, i, j; for (i = 0; i < v.length; i++) for (j = i + 1; j < v.length; j++) dmin = Math.min(dmin, v[i].distanceTo(v[j]));
+      var e = []; for (i = 0; i < v.length; i++) for (j = i + 1; j < v.length; j++) if (v[i].distanceTo(v[j]) < dmin * 1.01) e.push([i, j]);
+      return { v: v, e: e };
+    });
+  }
+  // The lattice: 21 ribs winding one way and 34 the other, like the seed spirals of a sunflower. Each rib keeps a
+  // constant angle to the meridians (58 and 32 degrees), so the cells stay square as they shrink toward the oculus.
+  function domeTables() {
+    var R = PAL.R, Hh = PAL.H - PAL.beam, phMax = Math.acos(PAL.oc / R), NT = 1600, LT = new Float32Array(NT + 1), ST = new Float32Array(NT + 1);
+    for (var k = 1; k <= NT; k++) { var p0 = (k - 1) / NT * phMax, p1 = k / NT * phMax, pm = (p0 + p1) / 2, ds = Math.hypot(R * Math.sin(pm), Hh * Math.cos(pm)) * (p1 - p0); ST[k] = ST[k - 1] + ds; LT[k] = LT[k - 1] + ds / (R * Math.cos(pm)); }
+    PAL.phMax = phMax; PAL.LT = LT; PAL.ST = ST; PAL.NT = NT;
+  }
+  function domeLam(ph) { var t = clamp(ph / PAL.phMax, 0, 1) * PAL.NT, i = Math.min(PAL.NT - 1, Math.floor(t)), f = t - i; return PAL.LT[i] * (1 - f) + PAL.LT[i + 1] * f; }
+  function domePhAtS(s) { var ST = PAL.ST, lo = 0, hi = PAL.NT; while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (ST[mid] <= s) lo = mid; else hi = mid; } return (lo + (s - ST[lo]) / Math.max(1e-9, ST[hi] - ST[lo])) / PAL.NT * PAL.phMax; }
+  var RIBF = [{ m: 21, tn: Math.tan(58 * D2R) }, { m: 34, tn: -Math.tan(32 * D2R) }];
+  function domeRibs(P) {
+    domeTables();
+    var R = PAL.R, Hh = PAL.H - PAL.beam, y0 = PALY.B + PAL.beam, sMax = PAL.ST[PAL.NT];
+    function sp(ph, th) { var p = palPol(R * Math.cos(ph), th); return new THREE.Vector3(p.x, y0 + Hh * Math.sin(ph), p.z); }
+    function sn(ph, th) { var nr = Math.cos(ph) / R, ny = Math.sin(ph) / Hh, l = Math.hypot(nr, ny), d = palPol(1, th); return new THREE.Vector3((d.x - PAL.c.x) * nr / l, ny / l, (d.z - PAL.c.z) * nr / l); }
+    function inVault(p) { var o = palLoc(p.x, p.z, {}); if (o.rad < 20 || Math.abs(o.lat) > vaultW(26) + PAL.vt + 0.45) return false; var s = o.lat / (vaultW(26) + PAL.vt + 0.45); return p.y - PALY.B < (vaultH(26) + 0.55 + 0.45) * Math.pow(Math.max(0, 1 - s * s), 0.55); }
+    var T3 = new THREE.Vector3(), Bn = new THREE.Vector3();
+    function beam(pts, nrm) {
+      var N = pts.length - 1; if (N < 1) return;
+      var cs = [];
+      for (var i = 0; i <= N; i++) {
+        T3.subVectors(pts[Math.min(N, i + 1)], pts[Math.max(0, i - 1)]).normalize();
+        var n = nrm[i], t = pts[i].tag, w = lerp(0.26, 0.16, t), dp = lerp(0.55, 0.3, t);
+        Bn.crossVectors(n, T3).normalize();
+        var o = pts[i].clone().addScaledVector(n, -0.02), inn = pts[i].clone().addScaledVector(n, -0.02 - dp);
+        cs.push({ oa: o.clone().addScaledVector(Bn, w / 2), ob: o.clone().addScaledVector(Bn, -w / 2), ia: inn.clone().addScaledVector(Bn, w / 2), ib: inn.clone().addScaledVector(Bn, -w / 2), n: n.clone(), b: Bn.clone(), t: T3.clone() });
+      }
+      [["oa", "ob", "n", 1], ["ib", "ia", "n", -1], ["ia", "oa", "b", 1], ["ob", "ib", "b", -1]].forEach(function (fc) {
+        P.surf(N, 1, function (i, j, q) { var c = cs[i], v = c[j ? fc[1] : fc[0]], nn = c[fc[2]]; q.p[0] = v.x; q.p[1] = v.y; q.p[2] = v.z; q.nn = [nn.x * fc[3], nn.y * fc[3], nn.z * fc[3]]; q.f[0] = i; q.f[1] = j; q.f2[0] = pts[i].tag; q.m = PM.RIB; });
+      });
+      [[0, -1], [N, 1]].forEach(function (e) { var c = cs[e[0]]; quad(c.ob, c.oa, c.ia, c.ib, [c.t.x * e[1], c.t.y * e[1], c.t.z * e[1]]); });
+    }
+    function quad(a, b, c, d, nn) { P.surf(1, 1, function (i, j, q) { var v = j ? (i ? c : d) : (i ? b : a); q.p[0] = v.x; q.p[1] = v.y; q.p[2] = v.z; q.nn = nn; q.m = PM.RIB; }); }
+    RIBF.forEach(function (F) {
+      var N = Math.ceil(sMax / Math.cos(Math.atan(Math.abs(F.tn))) / 0.6);
+      for (var k = 0; k < F.m; k++) {
+        var th0 = k / F.m * 2 * Math.PI, run = [], rn = [];
+        for (var i = 0; i <= N; i++) {
+          var ph = domePhAtS(i / N * sMax), th = th0 + F.tn * domeLam(ph), p = sp(ph, th);
+          p.tag = i / N;
+          if (inVault(p)) { beam(run, rn); run = []; rn = []; continue; }
+          run.push(p); rn.push(sn(ph, th));
+        }
+        beam(run, rn);
+      }
+    });
+  }
+  function domeGlassGeometry() {
+    var NU = 192, NV = 56, R = PAL.R, Hh = PAL.H - PAL.beam, y0 = PALY.B + PAL.beam, pos = [], nor = [], fa = [], fb = [], idx = [];
+    for (var j = 0; j <= NV; j++) for (var i = 0; i <= NU; i++) {
+      var ph = j / NV * Math.PI / 2, th = i / NU * 2 * Math.PI, p = palPol(R * Math.cos(ph), th), d = palPol(1, th);
+      var nr = Math.cos(ph) / R, ny = Math.sin(ph) / Hh, l = Math.hypot(nr, ny), L = domeLam(Math.min(ph, PAL.phMax));
+      pos.push(p.x, y0 + Hh * Math.sin(ph), p.z); nor.push((d.x - PAL.c.x) * nr / l, ny / l, (d.z - PAL.c.z) * nr / l);
+      fa.push((th - RIBF[0].tn * L) * RIBF[0].m / (2 * Math.PI), (th - RIBF[1].tn * L) * RIBF[1].m / (2 * Math.PI)); fb.push(ph / (Math.PI / 2), 0);
+    }
+    for (j = 0; j < NV; j++) for (i = 0; i < NU; i++) { var k = j * (NU + 1) + i; idx.push(k, k + 1, k + NU + 2, k, k + NU + 2, k + NU + 1); }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+    g.setAttribute("aFac", new THREE.Float32BufferAttribute(fa, 2)); g.setAttribute("aFac2", new THREE.Float32BufferAttribute(fb, 2));
+    g.setIndex(idx); g.computeBoundingSphere(); return g;
+  }
+  // textures are drawn after the first frames, so the page opens as fast as before
+  function buildPalaceTextures() {
+    if (palTexReady) return; palTexReady = true;
+    function tex(cv, repeat) { var t = new THREE.CanvasTexture(cv); t.anisotropy = maxAniso; t.wrapS = t.wrapT = repeat ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping; t.needsUpdate = true; return t; }
+    palU.uFloorTex.value = tex(palaceFloorTexture(PAL.pitR, MOBILE ? 1024 : 2048));
+    palU.uPanelTex.value = tex(panelAtlas(MOBILE));
+    palU.uFriezeTex.value = tex(friezeTexture(MOBILE));
+    palU.uGlyphTex.value = tex(glyphAtlas());
+    palU.uPlaqueTex.value = tex(plaqueAtlas());
+    palU.uVestTex.value = tex(vestAtlas());
+  }
+  // ---- walking in the palace ----
+  function palStairY(deg) { return PALY.B - PAL.depth * clamp((deg - PAL.stairTop) / (PAL.stairBot - PAL.stairTop), 0, 1); }
+  var _ps = {};
+  // walkable height at (x, z) for a walker whose feet are at yf: undefined outside the palace, NaN where blocked
+  function palSupport(x, z, yf) {
+    if (!PAL.built) return undefined;
+    var o = palLoc(x, z, _ps), r = o.r;
+    if (r > 37) return undefined;
+    var wi = vaultW(o.rad), wo = wi + PAL.vt, alat = Math.abs(o.lat);
+    var inV = o.rad > PAL.vBack - 0.3 && o.rad < PAL.vFront + 0.25 && alat < wi - 0.6;
+    if (inV && o.rad >= PAL.ringIn - 0.1) return vestY(Math.min(o.rad, PAL.vFront));
+    var vaultWall = o.rad > PAL.vBack - 0.35 && o.rad < PAL.vFront + 0.25 && alat >= wi - 0.6 && alat < wo + 0.35;
+    if (r >= PAL.ringOut + 0.3) return vaultWall ? NaN : undefined;
+    if (vaultWall || (r >= PAL.ringIn - 0.35 && !inV)) return NaN;
+    var ath = Math.abs(o.th) * R2D, best = -1e9, c = [];
+    if (r >= PAL.balR + 0.15) c.push(PALY.B);                                                 // balcony
+    else {
+      c.push(PALY.F);
+      if (r >= PAL.stairIn + 0.3) {
+        if (ath >= PAL.landA + 1 && ath <= PAL.stairTop) c.push(PALY.B);                          // top landing
+        else if (ath > PAL.stairTop && ath < PAL.stairBot && r <= PAL.pitR - 0.3) c.push(palStairY(ath));   // stair
+      }
+    }
+    for (var i = 0; i < c.length; i++) if (c[i] <= yf + 0.45 && c[i] > best) best = c[i];
+    if (best < -1e8) return NaN;
+    if (best === PALY.F) {
+      if (r >= PAL.stairIn - 0.35 && ath > PAL.landA - 1 && ath < PAL.stairBot && palStairY(Math.max(ath, PAL.stairTop)) - PALY.F < 2.3) return NaN;   // under the stairs
+      if (r < 4.25) return NaN;                                                                  // pendulum rail
+      if (r > PAL.pedR - 1.2 && r < PAL.pedR + 1.2) for (var k = 0; k < 5; k++) { var d = palPol(PAL.pedR, (36 + 72 * k) * D2R); if (Math.hypot(x - d.x, z - d.z) < 1.2) return NaN; }
+      if (Math.abs(r - PAL.benchR) < 0.65) { var bd = ((o.th * R2D % 72) + 72 + 36) % 72 - 36; if (Math.abs(bd) < PAL.benchA + 1.5) return NaN; }   // benches
+      if (r > PAL.pitR - 0.45) return NaN;                                                       // the wall
+    }
+    return best;
+  }
+  function palInside(x, z) {       // 0 outside .. 1 under the dome
+    if (!PAL.built) return 0;
+    var o = palLoc(x, z, {});
+    if (o.r < PAL.ringIn) return 1;
+    if (Math.abs(o.lat) < vaultW(o.rad) && o.rad > 20 && o.rad < PAL.vFront + 0.5) return smoothstep(PAL.vFront + 0.5, PAL.ringIn, o.rad);
+    return 0;
+  }
+  function palUpdate(time) {
+    if (!palPend) return;
+    var sw = PEND.A * Math.sin(2 * Math.PI * time / PEND.T), plane = (PAL.th0 || 0) + tMin * (28.8 / 1477.6) * D2R;   // Mars Foucault precession at 4.6 degrees S: about 29 degrees per sol
+    var ax = palPol(1, plane + Math.PI / 2), axis = new THREE.Vector3(ax.x - PAL.c.x, 0, ax.z - PAL.c.z).normalize();
+    palPend.quaternion.setFromAxisAngle(axis, sw); palPend.updateMatrix();
+    PAL.mobHold.rotation.set(0.5, time * 2 * Math.PI / 140, 0, "YXZ"); PAL.mobHold.position.y = PAL.mob.y + 0.12 * Math.sin(time * 0.37); palMob.rotation.y = time * 2 * Math.PI / 60;
+    palSolids.forEach(function (s, i) { s.rotation.set(0.35 * Math.sin(time * 0.2 + i), time * (0.22 + 0.04 * i), 0); s.position.y = PALY.F + 2.05 + 0.06 * Math.sin(time * 0.8 + i * 1.3); });
   }
 
   /* ===================== Footprints trail toward the campus ===================== */
@@ -1861,7 +2693,7 @@
   var depthMat = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, side: THREE.DoubleSide });
   var lightCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 1000);
   var BIAS = new THREE.Matrix4().set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1);
-  var shadowBox = new THREE.Box3(new THREE.Vector3(-132, -10, -132), new THREE.Vector3(132, 24, 132));
+  var shadowBox = new THREE.Box3(new THREE.Vector3(-132, -14, -140), new THREE.Vector3(132, 26, 132));
   U.uShadowMap.value = shadowRT.texture; U.uShadowTexel.value = 1 / SH;
   function renderShadow() {
     if (!terrainMeshes.length || sunDir.y < 0.0005) { U.uShadowOn.value = 0; return; }
@@ -1870,12 +2702,17 @@
     for (var i = 0; i < 8; i++) { c.set(i & 1 ? shadowBox.max.x : shadowBox.min.x, i & 2 ? shadowBox.max.y : shadowBox.min.y, i & 4 ? shadowBox.max.z : shadowBox.min.z).applyMatrix4(inv); mn.min(c); mx.max(c); }
     lightCam.left = mn.x - 1; lightCam.right = mx.x + 1; lightCam.bottom = mn.y - 1; lightCam.top = mx.y + 1; lightCam.near = -mx.z - 2; lightCam.far = -mn.z + 2;
     lightCam.updateProjectionMatrix();
-    var hidden = [sky, motes]; if (farMesh) hidden.push(farMesh); if (craftFly) hidden.push(craftFly); if (footprints) hidden.push(footprints); if (beam) hidden.push(beam); if (drape) hidden.push(drape);
+    var hidden = [sky, motes, farMesh, craftFly, footprints, beam, drape, palGlassB, palGlassF].concat(palAnimHidden).filter(Boolean);
     hidden.forEach(function (o) { o.visible = false; });
-    scene.overrideMaterial = depthMat;
+    var solid = [campus, craftParked, palMesh].filter(Boolean), ac = renderer.autoClear;
+    renderer.autoClear = false;
     renderer.setRenderTarget(shadowRT); renderer.setClearColor(0xffffff, 1); renderer.clear();
-    renderer.render(scene, lightCam);
-    scene.overrideMaterial = null;
+    solid.forEach(function (o) { o.visible = false; });                  // terrain, with the palace hole cut out
+    scene.overrideMaterial = cutDepthMat; renderer.render(scene, lightCam);
+    solid.forEach(function (o) { o.visible = true; }); terrainMeshes.forEach(function (o) { o.visible = false; });
+    scene.overrideMaterial = depthMat; renderer.render(scene, lightCam);   // buildings, vehicles, the palace and its lattice
+    terrainMeshes.forEach(function (o) { o.visible = true; });
+    scene.overrideMaterial = null; renderer.autoClear = ac;
     hidden.forEach(function (o) { o.visible = true; });
     U.uShadowMatrix.value.copy(BIAS).multiply(lightCam.projectionMatrix).multiply(lightCam.matrixWorldInverse);
     U.uShadowBias.value = 0.06 / (lightCam.far - lightCam.near);
@@ -1990,6 +2827,14 @@
     return FARH ? farHeightAt(x, z) : fallback;
   }
   var EYE = 1.7, GRAV = 3.71, WALK = 2.0, RUN = 5.4, MAXR = 1600;
+  // where a step to (x, z) lands, or null if something is in the way (walls, balustrades, ledges)
+  function tryMove(x, z, yf) {
+    if (blockedByBuilding(x, z)) return null;
+    var ps = palSupport(x, z, yf);
+    if (ps === undefined) return groundAt(x, z, ground);
+    if (ps !== ps || ps < ground - 0.6) return null;
+    return ps;
+  }
   var START_AZ = 316 * D2R;
   var yaw = -START_AZ, pitch = 1.0 * D2R, fov = 70;
   var px = 0, pz = 0, ground = 0, py = EYE, vx = 0, vz = 0, vy = 0, onGround = true, bobPhase = 0, landDip = 0, walked = 0;
@@ -2027,12 +2872,12 @@
     var acc = onGround ? 7 : 1.2;
     vx += (tx - vx) * Math.min(1, dt * acc); vz += (tz - vz) * Math.min(1, dt * acc);
     if (Math.abs(vx) + Math.abs(vz) > 0.001) {
-      var nx = px + vx * dt, nz = pz + vz * dt;
-      if (blockedByBuilding(nx, nz)) { if (!blockedByBuilding(nx, pz)) nz = pz; else if (!blockedByBuilding(px, nz)) nx = px; else { nx = px; nz = pz; } }
-      walked += Math.hypot(nx - px, nz - pz);
-      px = nx; pz = nz;
-      var rr = Math.hypot(px, pz); if (rr > MAXR) { px *= MAXR / rr; pz *= MAXR / rr; }
-      ground = groundAt(px, pz, ground);
+      var nx = px + vx * dt, nz = pz + vz * dt, yf = onGround ? ground : py - EYE, g1 = tryMove(nx, nz, yf);
+      if (g1 === null) { g1 = tryMove(nx, pz, yf); if (g1 !== null) nz = pz; else { g1 = tryMove(px, nz, yf); if (g1 !== null) nx = px; } }
+      if (g1 !== null) {
+        var rr = Math.hypot(nx, nz); if (rr > MAXR) { nx *= MAXR / rr; nz *= MAXR / rr; }
+        walked += Math.hypot(nx - px, nz - pz); px = nx; pz = nz; ground = g1;
+      } else { vx *= 0.5; vz *= 0.5; }
     }
     if (jumpQueued && onGround) { vy = 2.5; onGround = false; stepSound(0.6); }
     jumpQueued = false;
@@ -2164,9 +3009,13 @@
     sightRay.set(camera.position, sightDir); sightRay.far = d - 2;
     if (!sightRay.intersectObjects(terrainMeshes, false).length) {
       discovered = true; $("campmark").style.display = "";
-      $("toastSub").textContent = "Just past the ridge, " + Math.round(d) + " m ahead. Walk down to the glowing entrance.";
-      $("toast").classList.remove("hide"); clearTimeout(toastTimer); toastTimer = setTimeout(function () { $("toast").classList.add("hide"); }, 5200);
+      var dg = Math.round(Math.hypot(campusGoal.x - px, campusGoal.z - pz));
+      showToast("Discovered", "TTMath Mars Campus", "The Math Palace is at the end of the avenue, " + dg + " m ahead. Walk down and go in.", 5600);
     }
+  }
+  function showToast(t1, t2, t3, ms) {
+    var el = $("toast"); el.querySelector(".t1").textContent = t1; el.querySelector(".t2").textContent = t2; $("toastSub").textContent = t3;
+    el.classList.remove("hide"); clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.classList.add("hide"); }, ms || 5200);
   }
 
   /* ===================== Sound ===================== */
@@ -2191,7 +3040,11 @@
     src.start(); src2.start(ctx.currentTime + 0.37); hum.start();
     var sl = Math.floor(ctx.sampleRate * 0.18), sb = ctx.createBuffer(1, sl, ctx.sampleRate), sd = sb.getChannelData(0);
     for (i = 0; i < sl; i++) sd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / sl, 3);
-    return { ctx: ctx, master: master, lp: lp, wg: wg, wg2: wg2, bp: bp, stepBuf: sb, hum: hum, humGain: hg };
+    // echo for footsteps under the dome
+    var dl = ctx.createDelay(1.0); dl.delayTime.value = 0.27; var fb = ctx.createGain(); fb.gain.value = 0.38; var eg = ctx.createGain(); eg.gain.value = 0;
+    var ef = ctx.createBiquadFilter(); ef.type = "lowpass"; ef.frequency.value = 1800;
+    eg.connect(dl); dl.connect(ef); ef.connect(fb); fb.connect(dl); ef.connect(master);
+    return { ctx: ctx, master: master, lp: lp, wg: wg, wg2: wg2, bp: bp, stepBuf: sb, hum: hum, humGain: hg, echo: eg };
   }
   function setSound(on) {
     soundOn = on; $$(".js-sound").forEach(function (b) { b.setAttribute("aria-pressed", String(on)); });
@@ -2204,9 +3057,9 @@
     if (!audio || !soundOn) return;
     var c = audio.ctx, t0 = c.currentTime;
     var s = c.createBufferSource(); s.buffer = audio.stepBuf; s.playbackRate.value = 0.75 + Math.random() * 0.4;
-    var f = c.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 600 + Math.random() * 400;
+    var f = c.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = (600 + Math.random() * 400) * (1 + 3 * palKs);
     var g = c.createGain(); g.gain.value = 0.32 * strength;
-    s.connect(f); f.connect(g); g.connect(audio.master); s.start(t0);
+    s.connect(f); f.connect(g); g.connect(audio.master); g.connect(audio.echo); s.start(t0);
     var o = c.createOscillator(); o.frequency.value = 58 + Math.random() * 12;
     var og = c.createGain(); og.gain.setValueAtTime(0.22 * strength, t0); og.gain.exponentialRampToValueAtTime(0.001, t0 + 0.13);
     o.connect(og); og.connect(audio.master); o.start(t0); o.stop(t0 + 0.15);
@@ -2215,9 +3068,11 @@
     if (!audio || !soundOn) return;
     var c = audio.ctx, now = c.currentTime, w = state.wind;
     var gust = 0.35 + 0.65 * fbm(time * 0.12, 3.7, 3, 5);
-    audio.wg.gain.setTargetAtTime(0.18 + 0.55 * gust * (0.4 + w), now, 0.4);
-    audio.lp.frequency.setTargetAtTime(220 + 520 * gust * (0.5 + w), now, 0.5);
-    audio.wg2.gain.setTargetAtTime(Math.max(0, gust - 0.55) * 0.25 * (0.3 + w), now, 0.5);
+    var mute = 1 - 0.85 * palKs;
+    audio.wg.gain.setTargetAtTime((0.18 + 0.55 * gust * (0.4 + w)) * mute, now, 0.4);
+    audio.lp.frequency.setTargetAtTime((220 + 520 * gust * (0.5 + w)) * (1 - 0.5 * palKs), now, 0.5);
+    audio.wg2.gain.setTargetAtTime(Math.max(0, gust - 0.55) * 0.25 * (0.3 + w) * mute, now, 0.5);
+    audio.echo.gain.setTargetAtTime(0.42 * palKs, now, 0.3);
     audio.bp.frequency.setTargetAtTime(650 + 700 * fbm(time * 0.07, 9.1, 2, 7), now, 0.8);
     var dc = craftFly ? camera.position.distanceTo(craftFly.position) : 1e9;
     audio.humGain.gain.setTargetAtTime(0.09 * clamp(1 - dc / 90, 0, 1), now, 0.3);
@@ -2251,15 +3106,15 @@
     $("tape").style.transform = "translateX(" + (w / 2 - (brg + 360) * PXD) + "px)";
     var saz = (Math.atan2(sunDir.x, -sunDir.z) * R2D + 360) % 360;
     $("sunmark").style.left = ((wrapNear(saz, brg) + 360) * PXD) + "px"; $("sunmark").style.opacity = sunDir.y > -0.05 ? "1" : "0.35";
-    var caz = (Math.atan2(campusTarget.x - px, -(campusTarget.z - pz)) * R2D + 360) % 360;
+    var caz = (Math.atan2(campusGoal.x - px, -(campusGoal.z - pz)) * R2D + 360) % 360;
     $("campmark").style.left = ((wrapNear(caz, brg) + 360) * PXD) + "px";
     var dark = clamp((U.uExposure.value - 60) / 120, 0, 1) * state.stars;
     placeLabel($("earthLabel"), earthDir, dark * (earthDir.y > 0.01 ? 1 : 0));
     placeLabel($("phobosLabel"), phobosDir, clamp((U.uExposure.value - 20) / 60, 0, 1) * state.stars * (phobosDir.y > 0.01 ? 1 : 0));
     // campus pin
-    var cd = Math.hypot(campusTarget.x - px, campusTarget.z - pz), pin = $("campusPin");
-    if (discovered && cd > 18) {
-      pinPos.copy(campusTarget); pinPos.y += 3.4; proj.copy(pinPos).project(camera);
+    var cd = Math.hypot(campusGoal.x - px, campusGoal.z - pz), pin = $("campusPin");
+    if (discovered && cd > 18 && palKs < 0.05) {
+      pinPos.copy(campusGoal); proj.copy(pinPos).project(camera);
       if (proj.z < 1 && Math.abs(proj.x) < 1.05 && Math.abs(proj.y) < 1.05) {
         pin.style.transform = "translate(" + ((proj.x * 0.5 + 0.5) * canvas.clientWidth) + "px," + ((-proj.y * 0.5 + 0.5) * canvas.clientHeight) + "px)";
         pin.style.opacity = "1";
@@ -2288,7 +3143,9 @@
     var portrait = window.innerWidth / Math.max(1, window.innerHeight) < 0.8;
     if (portrait !== lastAspectPortrait) { lastAspectPortrait = portrait; setFov(baseFov()); }
   });
-  var last = performance.now(), cloudT = 0;
+  var last = performance.now(), cloudT = 0, palKs = 0, palWelcomed = false, INT_KEY = 0.18;
+  // inside the palace the eye adapts to the room light, plus whatever skylight comes through the glass
+  function interiorExposure() { var a = U.uAmbUp.value, sk = 0.2126 * a.x + 0.7152 * a.y + 0.0722 * a.z; return INT_KEY / (0.045 + 0.35 * sk); }
   function frame(now) {
     var dtMs = now - last, dt = Math.min(0.1, dtMs / 1000); last = now;
     if (loaded && !qLocked) {
@@ -2302,7 +3159,11 @@
     stepTransition(now);
     if (playing) { tMin += dt * 4; if (tMin >= 95) { tMin = 95; playing = false; syncPlay(); } applyState(state); updateTimeUI(); }
     if (!to) { var a = 1 - Math.exp(-dt * 2.5); exposure = Math.exp(Math.log(exposure) + (Math.log(exposureTarget) - Math.log(exposure)) * a); }
-    U.uExposure.value = exposure;
+    var palK = palInside(px, pz); palKs += (palK - palKs) * (1 - Math.exp(-dt * 2.2));
+    // near the palace its lights set the exposure too, so a lit palace at night glows instead of washing out
+    var nearK = 1 - smoothstep(45, 130, Math.hypot(px - PAL.c.x, pz - PAL.c.z)), expOut = Math.exp(lerp(Math.log(exposure), Math.log(Math.min(exposure, 6.5)), nearK));
+    U.uExposure.value = palKs > 0.001 ? Math.exp(lerp(Math.log(expOut), Math.log(interiorExposure()), palKs)) : expOut;
+    palU.uPalB.value.w = palKs; U.uMote.value = state.motes * (1 - palKs);
     var time = now / 1000;
     U.uTime.value = time;
     U.uPixAng.value = (fov * D2R) / Math.max(1, canvas.clientHeight * qScale);
@@ -2313,6 +3174,9 @@
     U.uWindV.value.set(-WIND_DIR.x * ws, 0.05 * ws, -WIND_DIR.y * ws);
     updateViewer(dt, now);
     updateCraft(time);
+    palUpdate(time);
+    if (!palWelcomed && palK > 0.9) { palWelcomed = true; showToast("TTMath Math Palace", "Welcome inside", "Take the grand stairs down to 12 math exhibits, the golden M\u00f6bius strip, the five Platonic solids and a 24 m Foucault pendulum.", 7000); }
+
     U.uCam.value.copy(camera.position);
     sky.position.copy(camera.position);
     if (sunDirty) { renderShadow(); sunDirty = false; }
@@ -2340,6 +3204,7 @@
     $("loading").hidden = true;
     window.__marsReady = true;
     setTimeout(showOnboard, 600);
+    setTimeout(buildPalaceTextures, 900);
   }).catch(function (err) {
     showError("The terrain did not load (" + (err && err.message ? err.message : "unknown error") + "). Reload the page to try again.");
     if (window.console) console.error(err);
@@ -2347,20 +3212,43 @@
   window.__mars = {
     setT: function (t) { tMin = t; applyState(state); updateTimeUI(); }, setScene: setScene, faceSun: faceSun,
     look: function (az, p) { yaw = -az * D2R; pitch = p * D2R; }, fov: setFov,
-    go: function (x, z) { walked += Math.hypot(x - px, z - pz); px = x; pz = z; ground = groundAt(x, z, 0); py = ground + EYE; },
+    go: function (x, z, level) {
+      walked += Math.hypot(x - px, z - pz); px = x; pz = z;
+      var ps = palSupport(x, z, level === undefined ? 1e3 : level); ground = (ps === undefined || ps !== ps) ? groundAt(x, z, 0) : ps; py = ground + EYE;
+    },
+    // viewpoints for checking: [lat, rad] in the palace frame, level ("B" balcony, "F" rotunda floor, none = highest), look-at [lat, rad], pitch
     view: function (name) {
-      var v = { ridge: [RIDGE_VIEW.x, RIDGE_VIEW.z, 326, 2], plaza: [azPt(325, 30).x, azPt(325, 30).z, 328, 7], side: [azPt(305, 52).x, azPt(305, 52).z, 20, 5], ring: [azPt(348, 66).x, azPt(348, 66).z, 300, 6] }[name];
+      var P = { avenue: [0, 84, null, 0, 0, 4], door: [0, 44, null, 0, 0, 8], vest: [0, 31, null, 0, 0, 3], balcony: [0, 24.3, "B", 0, -22, -10], down: [-3, 22.95, "B", -6, 0, -30],
+        stair: [20.8 * Math.sin(-50 * D2R), 20.8 * Math.cos(50 * D2R), null, 0, 0, -15], floor: [0, -12, "F", 0, 22, 12], exhibits: [0, -15, "F", 0, -22, 5],
+        center: [5.5, 3, "F", 0, 0, 25], vwall: [1.2, 31.3, null, -3.72, 31.3, 0], up: [8, 8, "F", 0, 0, 62], ped: [0, -17.2, "F", 0, -13.5, -8], wall: [-8, -17, "F", -9.5, -19.8, 2] }[name];
+      if (P) {
+        var p = palXZ(P[0], P[1]), L = palXZ(P[3], P[4]), lvl = P[2] === "B" ? PALY.B : P[2] === "F" ? PALY.F : undefined;
+        this.go(p.x, p.z, lvl); this.look(Math.atan2(L.x - p.x, -(L.z - p.z)) * R2D, P[5]); return;
+      }
+      var v = { ridge: [RIDGE_VIEW.x, RIDGE_VIEW.z, 326, 2], plaza: [azPt(325, 30).x, azPt(325, 30).z, 327, 6], side: [azPt(305, 52).x, azPt(305, 52).z, 20, 5], ring: [azPt(348, 66).x, azPt(348, 66).z, 300, 6] }[name];
       if (v) { this.go(v[0], v[1]); this.look(v[2], v[3]); }
     },
     campusSample: function (step) {
-      var out = [], st = step || 7, meshes = [campus, craftParked].filter(Boolean), v = new THREE.Vector3();
+      var out = [], st = step || 7, meshes = [campus, craftParked, palGlassF, palMesh].filter(Boolean), v = new THREE.Vector3();
       meshes.forEach(function (m) { var P = m.geometry.attributes.position; for (var i = 0; i < P.count; i += st) { v.fromBufferAttribute(P, i).applyMatrix4(m.matrixWorld); out.push([+v.x.toFixed(2), +v.y.toFixed(2), +v.z.toFixed(2)]); } });
       for (var k = 0; k < 60; k++) { updateCraft(k / 60 * 2 * Math.PI / 0.12); out.push([+craftPos.x.toFixed(2), +(craftPos.y + 0.9).toFixed(2), +craftPos.z.toFixed(2)]); }
       return out;
     },
     lockQuality: function (q) { qLocked = true; qScale = q; resize(); },
     hideUI: function () { hideOnboard(); $("toast").classList.add("hide"); },
-    state: function () { return { px: px, pz: pz, walked: walked, discovered: discovered, q: qScale, touch: TOUCH, mobile: MOBILE }; }
+    state: function () { return { px: +px.toFixed(2), pz: +pz.toFixed(2), y: +(py - EYE).toFixed(2), walked: +walked.toFixed(1), discovered: discovered, q: qScale, touch: TOUCH, mobile: MOBILE, exp: +exposure.toFixed(2), expUsed: +U.uExposure.value.toFixed(2), inside: +palKs.toFixed(2) }; },
+    info: function () { return { calls: renderer.info.render.calls, tris: renderer.info.render.triangles, geos: renderer.info.memory.geometries, tex: renderer.info.memory.textures, progs: renderer.info.programs ? renderer.info.programs.length : 0 }; },
+    palace: function () { return { B: PALY.B, F: PALY.F, front: PALY.front, c: PAL.c, dir: PAL.F, verts: palMesh ? palMesh.geometry.attributes.position.count : 0, glass: palGlassF ? palGlassF.geometry.attributes.position.count : 0, campus: campus ? campus.geometry.attributes.position.count : 0 }; },
+    walk: function (fwd, secs) { keys = {}; keys[fwd || "w"] = true; setTimeout(function () { keys = {}; }, (secs || 1) * 1000); },
+    // deterministic walk for tests: face a bearing (or a palace-frame point) and hold W for `secs`
+    sim: function (brg, secs, key) {
+      var out = [], dt = 1 / 30, n = Math.round(secs / dt), was = keys; keys = {}; keys[key || "w"] = true; yaw = -brg * D2R; tween = null; setAuto(false);
+      for (var i = 0; i < n; i++) { updateViewer(dt, 0); if (i % 15 === 0) { var o = palLoc(px, pz, {}); out.push([+o.lat.toFixed(2), +o.rad.toFixed(2), +o.r.toFixed(2), +(o.th * R2D).toFixed(1), +ground.toFixed(2)]); } }
+      keys = was; var o2 = palLoc(px, pz, {}); out.push([+o2.lat.toFixed(2), +o2.rad.toFixed(2), +o2.r.toFixed(2), +(o2.th * R2D).toFixed(1), +ground.toFixed(2)]); return out;
+    },
+    palBrg: function (lat, rad) { var p = palXZ(lat, rad); return Math.atan2(p.x - px, -(p.z - pz)) * R2D; },
+    palGo: function (lat, rad, level) { var p = palXZ(lat, rad); this.go(p.x, p.z, level === "F" ? PALY.F : level === "B" ? PALY.B : undefined); },
+    setKey: function (k) { INT_KEY = k; }
   };
 })();
 </script>

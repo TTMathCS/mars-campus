@@ -8,7 +8,7 @@ Walkable 3D scenes on real Mars terrain that run in the browser. Each demo start
 
 | Demo | Link | Requirements | What it is |
 |---|---|---|---|
-| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge and down an avenue of Dune Shells to the Math Palace, a 56 m glass dome you can walk into: grand stairs, a rotunda of math exhibits, a Foucault pendulum and a golden Möbius strip. |
+| 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge, through the gateway into the courtyard of the TTMath campus: a classroom wing (math classroom, coding lab, seminar room), a café and library wing, and the Math Palace, a 56 m glass dome with a rotunda of math exhibits, a Foucault pendulum and a golden Möbius strip. Real-looking marble, brass, wood and glass. |
 
 More demos will be added in their own folders. Each demo folder keeps its own `REQUIREMENTS.md`, the source of truth for that demo.
 
@@ -28,7 +28,7 @@ More demos will be added in their own folders. Each demo folder keeps its own `R
 ## What is real and what is simulated
 
 - **Real:** the ground around the start, about 260 × 260 m. It is NASA JPL's 3D model of "Dingo Gap", built from Curiosity rover photos (around sol 528) and HiRISE orbital images.
-- **Simulated:** the landscape beyond that area, the sky and Sun, the buildings, the rovers and the flying craft.
+- **Simulated:** the landscape beyond that area, the sky and Sun, the buildings and the rovers.
 
 ## Layout
 

@@ -62,41 +62,47 @@ A sunset as it looks on Mars: a cool blue glow around the Sun fading into a dust
 
 ## 5. TTMath campus
 
-The campus is the heart of the demo. Direction from Jim, 2026-09-27: "very modern, very special buildings", "concept and dream style with curve and flying design that fit terrain of Mars", "not a real-life building", and much closer than the first version, which sat about 200 m away. The 590 Alden Rd photo is not a reference any more. Direction from Jim, 2026-09-28: "make the building much bigger", "like huge palace", "I can walk in and go around", "the best interior design and decoration", with "trivial things and topics related to math".
+The campus is the heart of the demo. Direction from Jim, 2026-09-27: "very modern, very special buildings", "concept and dream style with curve and flying design that fit terrain of Mars", "not a real-life building", and much closer than the first version, which sat about 200 m away. The 590 Alden Rd photo is not a reference any more. Direction from Jim, 2026-09-28: "make the building much bigger", "like huge palace", "I can walk in and go around", "the best interior design and decoration", with "trivial things and topics related to math". Feedback from Jim, 2026-09-29, on v0.6: the small rooms outside the dome "are separated and look not integrated as a whole architecture"; "there are no classrooms with desks, chairs for students, no front desk, coffee area"; the dome inside "looks obviously cartoon style, I need detailed material feeling like real material/objects"; the flying cars "look just like cartoon toys"; "overall it is like a cartoon building sitting on top of real Mars".
 
 | ID | Requirement | Priority | Status |
 | --- | --- | --- | --- |
-| CP-1 | Hidden from the start point; comes into view after about 5 m of walking up the ridge (checked by line of sight against the real terrain) | Must | Done (v0.6: nothing visible from the start; smallest clearance 0.3 m at the logo sign, 0.6 m or more for everything new) |
-| CP-2 | Dream-style, curved, "flying" architecture that grows out of the Mars terrain: no boxes, no copy of a real building | Must | Done (v0.6): Dune Shells along an avenue and the Math Palace |
-| CP-3 | Close: the first buildings about 30 m past the ridge top; only the huge palace sits farther out, because its height has to stay below the ridge line | Must | Done (v0.6): shells 41 to 80 m from the start, palace door about 90 m |
-| CP-4 | TTMath logo as glowing signs: on the main building and on a sign by the path | Must | Done (v0.6): logo crest over the palace door, logo wall by the path, logo inside the rotunda |
-| CP-5 | Lights that look impressive at sunset and twilight: glowing glass, light lines on the building edges, light on the ground around it | Must | Done (v0.5): lit interiors seen through the glass, light lines on every arch, light pools on the ground |
-| CP-6 | Rovers and flying craft instead of cars; one craft flying around the campus | Should | Done (v0.5): rovers on glowing charging bays, a craft parked on the floating ring, one circling |
+| CP-1 | Hidden from the start point; comes into view after about 5 m of walking up the ridge (checked by line of sight against the real terrain) | Must | Done (v0.7: nothing visible from the start; smallest clearance 0.2 m at the logo wall, 0.6 m or more for the wings, gateway, links and rovers) |
+| CP-2 | Curved, modern architecture that grows out of the Mars terrain and reads as one building: no copy of a real building | Must | Done (v0.7): the Math Palace with two curved wings, a courtyard, a gateway and glass links (see CP-18) |
+| CP-3 | Close: the first buildings about 30 m past the ridge top; only the huge palace sits farther out, because its height has to stay below the ridge line | Must | Done (v0.7): gateway about 45 m from the start, courtyard 45 to 90 m, palace door about 90 m |
+| CP-4 | TTMath logo as signs: on the main building and on a sign by the path | Must | Done (v0.7): logo crest over the palace door, logo wall by the path, logo in the rotunda and behind the front desk, the campus name on the gateway |
+| CP-5 | Lights that look good at sunset and twilight: lit rooms behind the glass, light on the ground around the buildings | Must | Done (v0.7): light from the windows falls on the courtyard, downlights under the canopies, bollards, a lit vault and name band; the neon light lines were removed |
+| CP-6 | Vehicles that look real | Should | Done (v0.7): the flying craft were removed; two pressurized six-wheel rovers (cabin with window band, suitports, solar panel) are parked by the gateway and behind the café wing |
 | CP-7 | Blends in: Mars dust on ledges and at the base, same sky light and haze as the terrain | Must | Done |
 | CP-8 | Footprints lead from the start up the ridge toward the campus | Should | Done |
-| CP-9 | No distracting objects, and nothing cartoonish; the blue guide-light posts were removed in v0.4.1 | Must | Done (v0.4.1) |
+| CP-9 | No distracting objects, and nothing cartoonish | Must | Done (v0.7): blue guide-light posts removed in v0.4.1; floating landing ring, sky pod, bridges, flying craft and neon light lines removed in v0.7 |
 | CP-10 | "Discovered" message, a floating label with distance, and a compass marker once the campus is seen | Should | Done |
-| CP-11 | Walking bumps into the buildings instead of through them | Should | Done (v0.5) |
-| CP-12 | Glass looks real: see-through lit rooms with ceilings, floors and walls behind the panes | Should | Done (v0.5) |
+| CP-11 | Walking bumps into the buildings instead of through them | Should | Done (v0.7): glass fronts, walls, furniture, rovers, bollards; doors and links are the way in |
+| CP-12 | Glass looks real: see-through rooms behind the panes, reflections of the real surroundings | Should | Done (v0.7) |
 | CP-13 | A huge main building: the Math Palace, a glass dome 56 m across and 15 m high over a rotunda sunk 10 m into the ground (25 m high inside) | Must | Done (v0.6) |
 | CP-14 | Walk in and go around: entrance vault, balcony ring, two grand stairs down to the rotunda floor; walls, rails and ledges stop you; footsteps echo inside | Must | Done (v0.6) |
-| CP-15 | Palace-grade interior: marble walls and pilasters, gold rails and frames, twelve crystal lanterns, a lit dome lattice, a polished floor, benches | Must | Done (v0.6) |
+| CP-15 | Palace-grade interior in real materials: Giallo Siena marble walls in slabs with fine joints, Carrara pilasters and balusters, Verde Alpi and Nero Marquina bands, a Penrose floor in Carrara and Botticino with brass joints, polished brass rails and frames, crystal lanterns, painted steel lattice | Must | Done (v0.7) |
 | CP-16 | Math trivia everywhere: 12 lit exhibit panels, symbol medallions, an equation frieze, a ring of 465 digits of pi, a Penrose tiled floor, a golden-angle sunflower, a dome of 21 + 34 Fibonacci spiral ribs, avenue lights at Fibonacci distances, the five Platonic solids with V − E + F plaques, a golden Moebius strip, a Foucault pendulum (16 s swing in Mars gravity), welcome panels that point out the math in the building | Should | Done (v0.6) |
-| CP-17 | Light that works in every scene: the eye adapts when you walk in; the palace glows at twilight without washing out; sunlight throws the lattice's shadow in daylight | Should | Done (v0.6) |
+| CP-17 | Light that works in every scene: the eye adapts when you walk in; the palace glows at twilight without washing out; sunlight throws the lattice's shadow in daylight | Should | Done (v0.6, v0.7 also in the wings) |
+| CP-18 | One architecture: two long curved wings sweep out from the dome and frame a paved courtyard; a gateway with the campus name closes it; glass links join each wing to the dome and can be walked through | Must | Done (v0.7) |
+| CP-19 | Real school rooms: math classroom (16 student desks and chairs, teacher desk, whiteboard lesson), coding lab (18 seats, monitors showing real code, lesson screen), seminar room, lobby with the day's timetable; Café π (espresso bar, menu board, tables), reception (curved front desk, logo wall, sofa), library and reading room (bookshelves, study tables, banker's lamps, leather armchairs) | Must | Done (v0.7) |
+| CP-20 | Materials that look real: physically based shading (Fresnel, roughness, sharp highlights); veined marble, brass, oak and walnut, fabric, leather, terrazzo, plaster, brushed steel, anodised aluminium, fibre-composite cladding; glass and polished surfaces reflect the real surroundings | Must | Done (v0.7) |
+| CP-21 | Light that looks real: soft shadows and darker corners under furniture, where walls meet and under the canopies; daylight through the glass; traced in the background a few seconds after the page opens | Must | Done (v0.7) |
+| CP-22 | Weathered outside: panel joints, Mars dust settled on ledges, streaked down walls and splashed at the base, darker ground where walls meet it | Should | Done (v0.7) |
+| CP-23 | Entrances: glass sliding doors that open as you come near, steps where floors and ground differ, room plates by every door and direction signs in the foyers | Should | Done (v0.7) |
 
-### Design concept (v0.6)
+### Design concept (v0.7)
 
 Everything sits in the ridge's "shadow" as seen from the start. That shadow is shallow near the ridge and deeper farther away, so the buildings are low where they are near you and rise as they go away.
 
-- **Avenue:** from the plaza at the foot of the ridge, a paved avenue runs about 50 m straight to the palace door. Its light studs sit 1, 2, 3, 5, 8, 13, 21 and 34 m from the door.
-- **Dune Shells:** four white shells line the avenue, two on each side, growing from 4.4 m to 6.8 m as they near the palace. Each leans toward the avenue with a light line along its crest and warm lit rooms behind its glass.
-- **Math Palace (main building):** a glass dome 56 m across and 15 m high on a white ring with a blue light line. Its lattice follows the seed spirals of a sunflower: 21 ribs wind one way and 34 the other, each at a constant angle, so the cells stay square as they shrink toward a gold oculus crown. A flared entrance vault with a glowing arch and the TTMath logo crest leads in.
-- **Inside:** the vault opens onto a balcony ring with marble balusters. The rotunda floor lies 10 m below, reached by two cantilevered grand stairs that curve down along the wall, with gold rails and a light under every step. The wall is warm Siena marble with ivory pilasters and gold capitals. Twelve lit exhibit panels, each under a gold medallion with a glowing symbol, run round the back half; above them an equation frieze, a gold cornice and a ring of 465 digits of pi. The floor is a Penrose tiling in two marbles with a sunflower of 1,600 gold seeds at the centre, a degree ring and the palace name round the edge. A 24 m Foucault pendulum hangs from the oculus through a floating golden Moebius strip; the five Platonic solids turn above marble pedestals with V − E + F plaques; twelve icosahedral crystal lanterns hang from the dome, and uplights wash its ribs.
-- **Landing ring:** floats beside the forecourt with a craft parked on it and two rovers docked under it on glowing charging bays.
-- **Sky pod:** a hovering glass pod beside the forecourt, joined to a shell by a curved glass bridge.
-- **Flying craft:** circles the palace dome, lower at the sides where the ridge hides less.
-- **Logo sign:** a low curved wall with the glowing TTMath logo beside the path, just past the ridge.
-- The Wing Hall option of v0.5 was retired: the avenue now runs where it stood.
+- **One building:** the Math Palace and two wings form a single campus around a paved courtyard. The wings start beside the dome, curve outward and run 44 m toward the ridge. Their roofs are one continuous fibre-composite shell: 7.2 m high at the dome end, 4.3 m at the gateway, sweeping down to the ground at the back; the front overhangs the glass by 1.2 m as a canopy with downlights.
+- **Courtyard and gateway:** basalt slabs between the wings, a granite avenue down the middle with light studs 1, 2, 3, 5, 8, 13, 21 and 34 m from the palace door, bollard lights. A slender arch spans the wings' ends with the campus name in lit letters.
+- **Glass links:** a glazed barrel vault on a concrete curb from each wing's end into the dome, with aluminium ribs; the right link climbs five steps to its wing.
+- **Classroom wing (right):** foyer, M1 Mathematics (whiteboard with a lesson on quadratic equations), lobby with the courtyard door and a timetable screen, coding lab, seminar room.
+- **Café and library wing (left):** foyer, Café π with an espresso bar, reception with the courtyard door and a curved front desk, library, reading room.
+- **Floors** follow the real ground: each room has its own level (from −0.45 to 1.0 m), with steps in the doorways and at the courtyard entrances; a concrete plinth stands up where the ground outside is higher than the floor.
+- **Math Palace:** the glass dome 56 m across with the 21 + 34 Fibonacci spiral lattice, the entrance vault with the logo crest, the balcony, grand stairs and rotunda as in v0.6, now in real marble and brass.
+- **Rovers:** a pressurized rover parked by the avenue at the gateway, another behind the café wing.
+- **Logo wall:** the low curved wall with the TTMath logo beside the path, just past the ridge.
 
 Measured limits from the start point (height a building can have and still be hidden): about 3 to 4 m at 30 to 35 m out, 5 to 7 m at 40 to 45 m, 7 to 9 m at 50 to 60 m, 9 to 12 m at 70 to 90 m and 12 to 19 m at 100 to 130 m, in the sector from bearing 310° to 340°.
 
@@ -135,7 +141,8 @@ Measured limits from the start point (height a building can have and still be hi
 - **Rendering:** Three.js r128 (WebGL2), one shared sky-scattering model, HDR-style post-processing (bloom, sun rays, filmic tone map), a shadow map near the start and campus, height-map shadows for distant terrain.
 - **Real data:** 493 of the 5,150 terrain tiles (about 18 MB), converted to y-up; texture holes inpainted with OpenCV. Stored once in `../data/` and shared by every demo.
 - **Simulated land:** procedural polar-grid terrain out to about 17 km, blended into the real edge, textured with patches cut from the real photos.
-- **Campus:** built in code from curved parametric surfaces with one material shader (glass, white shell, light lines, logo, dust). Hidden-from-start placement checked with a line-of-sight analysis of a 0.5 m height raster of the real mesh.
+- **Campus:** built in code from curved parametric surfaces and furniture pieces, all drawn by one physically based material shader (29 materials: marble kinds, brass, woods, fabrics, leather, terrazzo, plaster, metals, composite cladding, screens, pictures). Pictures (whiteboard, code, screens, menu, book spines, plates, signs) are drawn in code into one 2048 × 2048 atlas. Hidden-from-start placement checked with a line-of-sight analysis of a 0.5 m height raster of the real mesh.
+- **Light and reflections:** artificial light is baked per vertex from about 250 light sources (by zone: outside, rotunda, wings). A Web Worker then voxelizes the campus at 20 cm and traces ambient occlusion, sky visibility through the glass and shadows toward each vertex's two strongest lights, and replaces the first values about 5 s after loading. Reflections come from three cube maps captured in the scene (rotunda, a classroom, the courtyard), re-captured one at a time as the sky changes; the rotunda map is parallax-corrected.
 - **Math Palace:** the terrain has a hole cut for the rotunda (in the terrain shaders and the shadow map). The interior is one mesh with light baked per vertex from about 110 light sources, plus lantern highlights on polished surfaces and sunlight through the lattice from the shadow map. Floor, exhibits, frieze, digits and plaques are drawn in code on canvases (the Penrose tiling by Robinson-triangle deflation, pi by Machin's formula). The dome glass is drawn in two sorted layers so the interior shows through. Walking uses levels (balcony, stairs, floor) with ledges and rails that stop you, and the exposure adapts as you enter.
 - **Mobile:** touch layout chosen by pointer type; lower resolution and fewer effect samples on phones; adaptive quality.
 
@@ -146,13 +153,14 @@ Measured limits from the start point (height a building can have and still be hi
 - [x] Keep the Alden Rd look? No: dream-style, curved, flying design
 - [ ] Check smoothness and memory on a real iPhone (older models may need lighter settings)
 - [x] Should visitors be able to enter a building? Yes: the Math Palace (v0.6)
-- [ ] Enter the Dune Shells too (classrooms)?
+- [x] Classrooms to walk into? Yes: the two wings (v0.7)
 - [ ] Add a second site (Jezero Crater)?
 
 ## 10. Change log
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-09-29 | v0.7 | One integrated campus: two curved wings frame a courtyard, a gateway with the campus name, glass links to the dome; real rooms (math classroom, coding lab, seminar room, lobby, Café π, reception, library, reading room) with furniture; physically based materials with real marble, brass, wood and fabric; reflections of the real surroundings; soft shadows and ambient occlusion traced in a worker; weathered, dusty exterior; realistic pressurized rovers; flying craft, landing ring, sky pod, bridges, Dune Shells and neon light lines removed |
 | 2026-09-28 | v0.6 | Math Palace: a huge walk-in glass dome with a Fibonacci spiral lattice at the end of a new avenue; balcony, grand stairs and a rotunda of math exhibits, Penrose floor, sunflower medallion, ring of pi, Foucault pendulum, golden Moebius strip and Platonic solids; shells moved to line the avenue; landing ring and rovers moved beside the forecourt; craft circles the dome; Wing Hall option retired |
 | 2026-09-27 | v0.5 | New campus: Dune Shells with lit glass interiors, floating landing ring, sky pods and bridges, logo sign; 4 to 5 times closer; Wing Hall option (`?design=wing`) |
 | 2026-09-27 | v0.4.1 | Published on GitHub Pages with auto-deploy; fixed flashing while walking; removed the guide-light posts; brighter exposure |

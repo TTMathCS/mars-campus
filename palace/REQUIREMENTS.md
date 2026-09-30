@@ -2,8 +2,13 @@
 
 Demo 2 of [Mars Campus](../README.md) · live at https://ttmathcs.github.io/mars-campus/palace/ · owner: Jim
 
-This file is the source of truth for this demo. It collects what was asked for in the two design rounds
+This file is the source of truth for this demo. It collects what was asked for in the design rounds
 so far. Every requirement has an ID so it can be referenced, changed or retired later.
+
+> **Status, 29 Sep 2026: redesign in review.** Jim found the palace below "far from satisfactory" and asked
+> to start again. Round 3 (section 10) replaces it. The floor plans are at
+> https://ttmathcs.github.io/mars-campus/palace/plans/ and nothing new is built until Jim approves them.
+> Sections 2 to 9 describe the current palace, which stays live until the new demo replaces it at the same link.
 
 ## 1. Vision and scope
 
@@ -97,3 +102,37 @@ Because Mars weather is harsh, most of the house is underground.
 - `tools/` has headless Playwright scripts for screenshots (`shot.js`), probes (`probe.js`) and contact
   sheets (`grid.js`).
 - The same page is also published as a private Claude artifact: https://claude.ai/artifact/BbTsfVb3svKSs8Er7un1W2
+
+## 10. Round 3: the redesign (plans in review)
+
+Direction from Jim, 29 Sep 2026: start from the beginning. "Future-proof, the bravest designs." "Before
+you jump into details, show me the plans." "I like the pentagon shape solid design underground, and above
+the ground I like most future proof design, not necessary glasses due to strong sun lights." "Above the
+ground design doesn't need to be pentagon shape … like what you can imagine in the dream", "only exist in
+dreams design". The spaceport is "30 km east of your house", and "when the flying pod carry me to my house I
+need impressive video to show the flight on the way". A small city will grow from the house.
+
+| ID | Requirement | Priority | Status |
+| --- | --- | --- | --- |
+| RD-1 | Start again; the new demo replaces the current palace at the same link | Must | Agreed |
+| RD-2 | Show the floor plans before building any detail | Must | Done: plans Rev A at `palace/plans/` |
+| RD-3 | Above ground: the most future-proof, dream-like design; not a pentagon; no big glass because of the strong sun | Must | Proposed: the Crown, a solid white ring 280 m across floating 40 m up on five legs, with five points rising to 66 m and narrow window slots |
+| RD-4 | The part above ground is much bigger than the TTMath campus | Must | Proposed: about 20,900 m², 6 times the campus |
+| RD-5 | Most of the house underground because of the weather: 10 times the surface | Must | Proposed: about 209,700 m², 10.0 times the Crown |
+| RD-6 | Underground: a solid pentagon | Must | Proposed: the Pentagon, 160 m sides, five levels from 24 m to 68 m down, five rings and five sectors around an atrium |
+| RD-7 | A rocket transportation centre where Earth–Mars ships land, 30 km east of the house | Must | Proposed: Arcadia Spaceport, three pads, terminal, fuel plant, pod station |
+| RD-8 | A flying pod carries Jim home, with an impressive video of the flight | Must | Proposed: 37 km scenic route, about 4 min 30 s, nine shots |
+| RD-9 | Phase 1 is the spaceport and the house; then more houses, a city and connections | Should | Proposed: homes added on a sunflower spiral, phases 1 to 4 |
+
+Jim's answers to the plans Rev A, 30 Sep 2026: "even wilder"; "master suites one up and one down"; add a
+"warm hole transformation device which can transfer me to anytime any space"; "Arrival land on sunset, but
+animation can go through mar storm etc."; "keep all the progress in the repo, so I can switch account or ai to
+continue there". He also asked how the Crown can float: "is it supported by anti gravity device?"
+
+| ID | Requirement | Priority | Status |
+| --- | --- | --- | --- |
+| RD-10 | Above ground even wilder, "only exist in dreams" | Must | Rev B in progress: floating mirror Orb over the Sun Well, spires to +90 m, lighter 16 m ring. Open: keep the five legs, or float the whole Crown on anti-gravity drives with five columns of light as lifts |
+| RD-11 | Two master suites, one up in the Crown and one down in the Pentagon | Must | Rev B in progress: Crown SE dip and L1 sector 1 |
+| RD-12 | A wormhole device that takes Jim to any time and any place | Must | Rev B in progress: the Wormhole Gate inside the Orb, reached by the Beam lift |
+| RD-13 | Land at sunset; the flight video can pass through a Mars dust storm and more | Must | Rev B in progress: storm wall after the Ice Cliffs, breakout into the sunset with Phobos crossing the sun |
+| RD-14 | Keep all progress in the repo so another account or AI can continue | Must | Done: `HANDOFF.md`, demo 1 sources in `ttmath/src/`, tests in `ttmath/tools/`, plans in `palace/plans/` |

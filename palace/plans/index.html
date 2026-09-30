@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcadia Floor Plans</title>
+<meta name="description" content="Review set for demo 2: the Crown above ground, the Pentagon below, the spaceport 30 km east and the pod flight between them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Saira+Condensed:wght@400;500;600;700&display=swap">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Crown and the Pentagon · floor plans">
+<meta property="og:description" content="Review set for demo 2: the Crown above ground, the Pentagon below, the spaceport 30 km east and the pod flight between them.">
+<meta property="og:url" content="https://ttmathcs.github.io/mars-campus/palace/plans/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<style>
+/* Layout: a bound set of architect's sheets, one drawing per sheet, each with its own title block, read top to bottom */
+:root {
+  color-scheme: light;
+  --bg: #E2E6E2;      /* drafting table */
+  --sheet: #F7F8F5;   /* sheet paper */
+  --ink: #1C2124;     /* graphite ink */
+  --ink-2: #4F585C;
+  --ink-3: #8B9496;
+  --rule: #C9CFCB;
+  --route: #AE4329;   /* hematite: the pod route, sheet numbers */
+  --ice: #2A6E8E;     /* ice, water, light, tunnels */
+  --shell: #FFFFFF;   /* the Crown's ceramic shell */
+  --z1: #D1A443; --z2: #7F9C45; --z3: #9079B0; --z4: #5A98B8; --z5: #858E93;
+  --zo: .36;
+  --f-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111416; --sheet: #191E21; --ink: #E3E7E3; --ink-2: #A4ADAF; --ink-3: #69747A; --rule: #323A3E;
+    --route: #E77D5E; --ice: #6CB2D2; --shell: #2A3135;
+    --z1: #C9A04A; --z2: #86A052; --z3: #9A86B8; --z4: #5F9DBB; --z5: #7F898E; --zo: .42;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111416; --sheet: #191E21; --ink: #E3E7E3; --ink-2: #A4ADAF; --ink-3: #69747A; --rule: #323A3E;
+  --route: #E77D5E; --ice: #6CB2D2; --shell: #2A3135;
+  --z1: #C9A04A; --z2: #86A052; --z3: #9A86B8; --z4: #5F9DBB; --z5: #7F898E; --zo: .42;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--f-body); }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 72px; }
+a { color: inherit; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--route); }
+:focus-visible { outline: 2px solid var(--route); outline-offset: 2px; }
+
+/* header */
+.top { display: grid; gap: 10px; padding-block: 8px 22px; }
+.eyebrow { margin: 0; font: 500 12.5px/1.4 var(--f-mono); letter-spacing: .02em; color: var(--ink-2); }
+h1 { margin: 0; font: 600 clamp(38px, 6.4vw, 68px)/1 var(--f-display); letter-spacing: -.005em; text-wrap: balance; }
+.lede { margin: 0; max-width: 62ch; font-size: 18px; color: var(--ink-2); }
+.phone-hint { display: none; margin: 0; font-size: 14px; color: var(--ink-2); }
+@media (max-width: 760px) { .phone-hint { display: block; } }
+.concept { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px 32px; margin-block: 8px 22px; }
+.concept p { margin: 0; max-width: 62ch; }
+.concept strong { font-weight: 600; }
+
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--sheet); border: 1px solid var(--rule); overflow: hidden; }
+.fig { padding: 14px 16px 15px; display: grid; gap: 4px; align-content: start; box-shadow: 1px 0 0 var(--rule), 0 1px 0 var(--rule); }
+.fig b { font: 600 32px/1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fig span { font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+
+nav.index { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 14px; }
+nav.index a { display: inline-flex; gap: 8px; align-items: baseline; padding: 5px 10px; border: 1px solid var(--rule); background: var(--sheet); text-decoration: none; }
+nav.index a span { font: 500 12px var(--f-mono); color: var(--route); }
+
+/* sheets */
+.sheet { background: var(--sheet); border: 1px solid var(--rule); margin-top: 28px; scroll-margin-top: 16px; }
+.tb { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 18px; align-items: baseline; padding: 13px 20px 12px; border-bottom: 1px solid var(--rule); }
+.tb .no { font: 600 26px/1 var(--f-display); color: var(--route); font-variant-numeric: tabular-nums; }
+.tb h2 { margin: 0; font: 600 23px/1.15 var(--f-display); text-wrap: balance; }
+.tb .meta { font: 400 12px/1.35 var(--f-mono); color: var(--ink-2); text-align: right; }
+.draw { overflow-x: auto; padding: 10px 12px 6px; }
+.draw svg { display: block; width: 100%; height: auto; min-width: 720px; max-height: 94vh; margin: 0 auto; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 30px; padding: 16px 20px 22px; border-top: 1px solid var(--rule); font-size: 15px; }
+.notes p { margin: 0; max-width: 62ch; }
+.notes h3 { margin: 0 0 4px; font: 600 13px/1.3 var(--f-display); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.key { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; font-size: 14px; }
+.key li { display: flex; gap: 10px; align-items: center; }
+.key svg { flex: none; width: 34px; height: 12px; }
+
+/* crown schedule */
+.sched { display: grid; grid-template-columns: repeat(auto-fill, minmax(208px, 1fr)); gap: 1px; border-top: 1px solid var(--rule); overflow: hidden; }
+.sched section { padding: 12px 14px 13px; min-width: 0; box-shadow: 1px 0 0 var(--rule), 0 1px 0 var(--rule); }
+.sched section.tot { grid-column: 1 / -1; }
+.sched section.tot table { max-width: 420px; }
+.sched h4 { margin: 0 0 6px; font: 600 15px/1.2 var(--f-display); display: flex; justify-content: space-between; gap: 8px; }
+.sched h4 small { font: 400 11px var(--f-mono); color: var(--ink-2); align-self: center; }
+.sched table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.sched td { padding: 1px 0; vertical-align: baseline; }
+.sched td.n { width: 24px; font: 500 11px var(--f-mono); color: var(--route); }
+.sched td.a { text-align: right; font: 400 12px var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 8px; }
+.sched tr.up td { color: var(--ink-2); font-style: italic; }
+.sched tr.up td.a { font-style: normal; }
+
+/* level tabs and table */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 20px 0; }
+.tabs button { font: 500 14px/1 var(--f-body); color: var(--ink); background: transparent; border: 1px solid var(--rule); padding: 8px 12px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.tabs button i { width: 12px; height: 12px; display: inline-block; border: 1px solid var(--ink-2); }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.tabs button[aria-pressed="true"] i { border-color: var(--sheet); }
+.tabs button:hover { border-color: var(--ink-2); }
+.tblwrap { overflow-x: auto; border-top: 1px solid var(--rule); }
+table.lv { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+table.lv th, table.lv td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.lv th { font: 600 12px/1.2 var(--f-display); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+table.lv td.num { font: 400 13px var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.lv tr.sel td { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+table.lv tr { cursor: pointer; }
+
+/* shots */
+ol.shots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; border-top: 1px solid var(--rule); overflow: hidden; }
+ol.shots li { padding: 12px 16px 14px; display: grid; gap: 3px; align-content: start; min-width: 0; box-shadow: 1px 0 0 var(--rule), 0 1px 0 var(--rule); }
+ol.shots .tc { font: 500 12px var(--f-mono); color: var(--route); display: flex; gap: 10px; }
+ol.shots .tc b { font-weight: 500; color: var(--ink-2); }
+ol.shots h4 { margin: 0; font: 600 18px/1.2 var(--f-display); }
+ol.shots p { margin: 0; font-size: 14.5px; }
+ol.shots .cam { font-size: 13px; color: var(--ink-2); }
+
+/* decisions */
+.ask { margin-top: 28px; background: var(--sheet); border: 1px solid var(--rule); padding: 18px 22px 20px; }
+.ask h2 { margin: 0 0 10px; font: 600 26px/1.1 var(--f-display); }
+.ask ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; max-width: 75ch; }
+.ask p { margin: 12px 0 0; max-width: 75ch; color: var(--ink-2); }
+footer { margin-top: 26px; font: 400 12.5px/1.5 var(--f-mono); color: var(--ink-2); }
+
+/* svg styling, all from tokens */
+svg text { font-family: var(--f-display); fill: var(--ink); font-size: 12px; font-weight: 500; }
+svg .sm { font-size: 10.5px; fill: var(--ink-2); font-weight: 500; }
+svg .xs { font-size: 9px; fill: var(--ink-2); font-weight: 500; }
+svg .cap { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+svg .big { font-size: 15px; font-weight: 600; }
+svg .mono { font-family: var(--f-mono); font-size: 9.5px; fill: var(--ink-2); font-weight: 400; }
+svg .tr { fill: var(--route); }
+svg .ti { fill: var(--ice); }
+svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stroke-linejoin: round; }
+.ln { fill: none; stroke: var(--ink); stroke-width: 1.3; }
+.ln2 { fill: none; stroke: var(--ink-2); stroke-width: .8; }
+.hl { fill: none; stroke: var(--ink-3); stroke-width: .6; }
+.dash { stroke-dasharray: 5 4; }
+.dots { stroke-dasharray: 1.2 2.8; stroke-linecap: round; }
+.route { fill: none; stroke: var(--route); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.icel { fill: none; stroke: var(--ice); stroke-width: 1.4; }
+.inkf { fill: var(--ink); }
+.ink2f { fill: var(--ink-2); }
+.ink3f { fill: var(--ink-3); }
+.routef { fill: var(--route); }
+.icef { fill: var(--ice); }
+.paper { fill: var(--sheet); }
+.shell { fill: var(--shell); stroke: var(--ink); stroke-width: 1.4; }
+.tint { fill: var(--ink-3); fill-opacity: .14; }
+.tint2 { fill: var(--ink-3); fill-opacity: .26; }
+.icet { fill: var(--ice); fill-opacity: .16; }
+.icet2 { fill: var(--ice); fill-opacity: .32; }
+.routet { fill: var(--route); fill-opacity: .12; }
+.z1 { fill: var(--z1); fill-opacity: var(--zo); }
+.z2 { fill: var(--z2); fill-opacity: var(--zo); }
+.z3 { fill: var(--z3); fill-opacity: var(--zo); }
+.z4 { fill: var(--z4); fill-opacity: var(--zo); }
+.z5 { fill: var(--z5); fill-opacity: var(--zo); }
+.zs1 { fill: var(--z1); } .zs2 { fill: var(--z2); } .zs3 { fill: var(--z3); } .zs4 { fill: var(--z4); } .zs5 { fill: var(--z5); }
+.zline { stroke: var(--ink-2); stroke-width: .6; }
+@media (max-width: 640px) {
+  .wrap { padding-inline: 16px; }
+  .tb { grid-template-columns: auto 1fr; }
+  .tb .meta { grid-column: 1 / -1; text-align: left; }
+  .lede { font-size: 17px; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow"><a href="../../">Mars Campus</a> · Demo 2 · Floor plans for review · Rev A · 29 Sep 2026</p>
+    <h1>The Crown and the Pentagon</h1>
+    <p class="lede">Jim's retirement house on Arcadia Planitia, Mars, and the spaceport 30 km east where the ships from Earth land. These are the floor plans. Nothing is built in 3D yet.</p>
+    <p class="phone-hint">On a phone, swipe sideways across a drawing to see all of it.</p>
+  </header>
+
+  <div class="concept">
+    <p><strong>Above the ground: the Crown.</strong> A solid white ring 280 m across, held 40 m above the plain on five legs. Its five points rise to 66 m. It has no glass walls: narrow window slots look out to the horizon, and shutters close them in a storm.</p>
+    <p><strong>Below the ground: the Pentagon.</strong> One solid five-sided block, 160 m on each side and five levels deep, with ten times the Crown's floor area. The five legs carry lifts straight down into its five corners, so the two halves work as one house.</p>
+    <p><strong>Getting home.</strong> A pod lifts off at the spaceport, flies a 37 km scenic route in about four and a half minutes and lands on the Crown's east point. Later, more homes grow around the house in a spiral and become a city.</p>
+  </div>
+
+  <div class="figs">
+    <div class="fig"><b>20,900 m²</b><span>The Crown, above ground. 6 times the TTMath campus.</span></div>
+    <div class="fig"><b>209,700 m²</b><span>The Pentagon, below ground. 10.0 times the Crown.</span></div>
+    <div class="fig"><b>5 levels</b><span>From 24 m to 68 m below the plain, under 16 m of soil.</span></div>
+    <div class="fig"><b>30 km</b><span>From the house to the spaceport, due east.</span></div>
+    <div class="fig"><b>4 min 30 s</b><span>Pod flight home over the scenic route.</span></div>
+  </div>
+
+  <nav class="index" aria-label="Sheets">
+    <a href="#a001"><span>A-001</span>The Crown, bird's-eye view</a>
+    <a href="#a002"><span>A-002</span>Size check</a>
+    <a href="#a101"><span>A-101</span>Site and flight corridor</a>
+    <a href="#a102"><span>A-102</span>How the city grows</a>
+    <a href="#a201"><span>A-201</span>The Crown, main floor</a>
+    <a href="#a301"><span>A-301</span>The Pentagon, levels 1–5</a>
+    <a href="#a401"><span>A-401</span>Section east–west</a>
+    <a href="#a501"><span>A-501</span>Arcadia Spaceport</a>
+    <a href="#a601"><span>A-601</span>Pod flight video</a>
+    <a href="#decide"><span>→</span>Your answers</a>
+  </nav>
+
+  <section class="sheet" id="a001">
+    <div class="tb"><span class="no">A-001</span><h2>The Crown · bird's-eye view from the south</h2><span class="meta">axonometric · true scale · looking north</span></div>
+    <div class="draw"><svg id="svg-elev" viewBox="0 0 1080 450" role="img" aria-label="Bird's-eye view of the Crown ring floating on five legs over the Stone Garden, with the TTMath dome at the same scale"></svg></div>
+    <div class="notes">
+      <p>The ring floats 40 m above the plain on five legs. Above each leg the ring rises into a point, 66 m high, like the points of a crown. The dips between them are 50 m high.</p>
+      <p>The dashed lines are the window slots: one row along the main floor and a second row at each point for its upper floor. Everything else is solid white shell.</p>
+      <p>The small dome at the front right is the TTMath campus dome from demo 1, drawn at the same scale.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="a002">
+    <div class="tb"><span class="no">A-002</span><h2>Size check · all three to the same scale</h2><span class="meta">plan view · north up</span></div>
+    <div class="draw"><svg id="svg-compare" viewBox="0 0 1000 350" role="img" aria-label="Footprints of the TTMath campus, the Crown and the Pentagon drawn at the same scale"></svg></div>
+  </section>
+
+  <section class="sheet" id="a101">
+    <div class="tb"><span class="no">A-101</span><h2>Site and flight corridor</h2><span class="meta">Arcadia Planitia, about 44° N · north up</span></div>
+    <div class="draw"><svg id="svg-site" viewBox="0 0 1080 430" role="img" aria-label="Map of the 30 km corridor between the house and the spaceport with the scenic pod route"></svg></div>
+    <div class="notes">
+      <p>The house and the spaceport sit on the flat, ice-rich floor of Arcadia Planitia. The ice is the reason to live here: it gives water, air and rocket fuel.</p>
+      <p>The pod doesn't fly straight. Its 37 km scenic route crosses the Dune Sea with its dust devils, a 3 km crater and the Ice Cliffs, then circles the Crown before it lands. The numbers on the route are the shots of the flight video on sheet A-601.</p>
+      <p>The rover road is the backup for days when pods can't fly. In phase 2 a maglev tunnel runs 30 km straight between the two, 68 m underground.</p>
+      <p>From the top of the Crown (66 m) the horizon is 21 km away, so you can see the ships standing at the spaceport. Standing on the plain, the horizon is only 3.4 km away.</p>
+      <ul class="key" aria-label="Legend">
+        <li><svg viewBox="0 0 34 12"><path d="M1 6H33" class="route"/></svg>Pod route, with shot numbers</li>
+        <li><svg viewBox="0 0 34 12"><path d="M1 6H33" class="ln2 dash"/></svg>Rover road</li>
+        <li><svg viewBox="0 0 34 12"><path d="M1 6H33" class="icel dash"/></svg>Maglev tunnel, phase 2</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sheet" id="a102">
+    <div class="tb"><span class="no">A-102</span><h2>How the city grows from the house</h2><span class="meta">10 km around the Crown · north up</span></div>
+    <div class="draw"><svg id="svg-growth" viewBox="0 0 1000 760" role="img" aria-label="Sunflower spiral of future homes around the Crown, in four phases"></svg></div>
+    <div class="notes">
+      <div><h3>Phase 1 · Port and home</h3><p>The spaceport, the Crown and the Pentagon, the pod corridor and the rover road.</p></div>
+      <div><h3>Phase 2 · First neighbours</h3><p>13 homes, each a small crown over its own small pentagon, and the maglev tunnel to the spaceport.</p></div>
+      <div><h3>Phase 3 · Arcadia City</h3><p>Homes 14 to 233 and the civic buildings. The city reaches 3.8 km from the Crown.</p></div>
+      <div><h3>Phase 4 · Connections</h3><p>Tunnels and rail to other Mars cities.</p></div>
+      <p>Every new home takes the next seed of a sunflower spiral, turned 137.5° (the golden angle) from the one before. The spiral never needs replanning: it keeps growing outward and the homes stay evenly spaced, about 450 m apart.</p>
+      <p>Civic buildings take the Fibonacci seeds: 21 school, 34 hospital, 55 market hall, 89 university, 144 concert hall, 233 stadium. Those seeds line up on their own, so the civic buildings form one avenue running due north from the Crown.</p>
+      <p>Tunnels, the city's roots, link each home to its nearest older neighbour and through them back to the Pentagon. In a dust storm the whole city stays connected underground.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="a201">
+    <div class="tb"><span class="no">A-201</span><h2>The Crown · main floor, 41 m above the plain</h2><span class="meta">ring 240–280 m across · north up</span></div>
+    <div class="draw"><svg id="svg-crown" viewBox="0 0 1000 870" role="img" aria-label="Floor plan of the Crown ring with its ten parts and 30 rooms"></svg></div>
+    <div class="notes">
+      <p>The shell is sintered regolith, Mars soil fired into a white ceramic, with a titanium rim. The window slots are 1.2 m tall and set 3 m deep, so the sun never shines straight in, and outer shutters close them in a storm.</p>
+      <p>The ring is 20 m wide. Its five points, above the legs, rise to 66 m and hold a second floor (dashed). The Glide, a moving walkway, runs 767 m around the inside edge past every room.</p>
+      <p>The five legs stand on the Pentagon's corners and carry the lifts, water and power. Inside the ring, the Stone Garden holds about 340 sun-tracking mirrors that send daylight down the Sun Well into the Pentagon.</p>
+      <p>Storm mode: the shutters close, the Sun Well's iris closes, the pods stay in their hangar and daily life moves down to level L1.</p>
+    </div>
+    <div class="sched" id="crown-sched"></div>
+  </section>
+
+  <section class="sheet" id="a301">
+    <div class="tb"><span class="no">A-301</span><h2>The Pentagon · level plans</h2><span class="meta">160 m sides · pick a level · north up</span></div>
+    <div class="tabs" id="lv-tabs" role="group" aria-label="Level"></div>
+    <div class="draw"><svg id="svg-pent" viewBox="0 0 1000 880" role="img" aria-label="Plan of one Pentagon level with five rings and five sectors"></svg></div>
+    <div class="tblwrap"><table class="lv" id="lv-table"><thead><tr><th>Level</th><th>Floor</th><th>Height</th><th>Area</th><th>Sectors 1 to 5</th></tr></thead><tbody></tbody></table></div>
+    <div class="notes">
+      <p>The Pentagon is one solid block of sintered regolith under 16 m of soil. That much soil weighs as much as the air inside pushes up: 101 kPa ÷ (1.7 t/m³ × 3.71 m/s²) ≈ 16 m. It also stops cosmic radiation.</p>
+      <p>Five rings, A on the inside to E on the outside, have 4 m streets between them. Five 5 m avenues run from the atrium out to the corner cores. No room is more than two minutes' walk from a lift.</p>
+      <p>Each corner core holds the lifts that come down one of the Crown's legs. The Stem, a glass lift in the middle of the atrium, stops at every level.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="a401">
+    <div class="tb"><span class="no">A-401</span><h2>Section A–A · east to west through the centre</h2><span class="meta">looking north · heights in metres above the plain</span></div>
+    <div class="draw"><svg id="svg-sec" viewBox="0 0 1080 452" role="img" aria-label="Cross-section through the Crown, the Sun Well and all five Pentagon levels"></svg></div>
+    <div class="notes">
+      <p>The cut passes through the Crown's east point (Arrival, with the pod deck on its roof) and its west dip (the Sunset lounge). The other three legs stand behind the cut.</p>
+      <p>The Crown's underside is at +40 m and its main floor at +41 m. The points rise to +66 m. The pod lands on the east point's roof and a lift takes it down into the hangar.</p>
+      <p>The Sun Well is the one big piece of glass in the house: a thick lens set into the ground under a solid iris. Below it, the atrium drops 68 m to the L5 floor.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="a501">
+    <div class="tb"><span class="no">A-501</span><h2>Arcadia Spaceport · 30 km east of the house</h2><span class="meta">phase 1 · north up</span></div>
+    <div class="draw"><svg id="svg-port" viewBox="0 0 1000 870" role="img" aria-label="Plan of the spaceport with three landing pads, terminal, pod station, fuel plant and power"></svg></div>
+    <div class="notes">
+      <p>Three landing pads for ships from Earth stand 1.6 km from the terminal. A landing rocket throws rocks, so each pad has a berm and nothing else is near.</p>
+      <p>The fuel plant turns ground ice and the CO₂ in the air into methane and oxygen, so the ships refuel here for the trip back.</p>
+      <p>Arriving passengers ride a pressurised bus from the pad to the terminal, then walk through to the pod station on the west side, facing home.</p>
+      <p>Power comes from a solar field and a buried reactor. In phase 2 a maglev station opens under the terminal.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="a601">
+    <div class="tb"><span class="no">A-601</span><h2>Pod flight home · the video</h2><span class="meta">height above the plain against time</span></div>
+    <div class="draw"><svg id="svg-flight" viewBox="0 0 1000 300" role="img" aria-label="Flight profile of the pod from lift-off to landing with nine shots"></svg></div>
+    <div class="notes">
+      <p><strong>The pod.</strong> Four seats. It takes off and lands on rocket thrusters burning methane and oxygen, and cruises at 600 km/h on a lifting-body shape. Mars air has less than 1% of Earth's pressure, too thin for rotors to lift a cabin.</p>
+      <p><strong>The flight.</strong> 37 km along the scenic route, 30 km in a straight line. About 4 min 30 s from lift-off to touchdown, late in the afternoon so you land as the blue Mars sunset starts. Highest point 400 m, lowest pass 30 m, under the ring.</p>
+      <p><strong>Watching it.</strong> It plays in real time. You can switch between cockpit, chase and drone cameras, or skip at any moment.</p>
+    </div>
+    <ol class="shots" id="shots"></ol>
+  </section>
+
+  <section class="ask" id="decide">
+    <h2>Your answers · Rev B in progress</h2>
+    <ol>
+      <li><strong>The Crown: "even wilder".</strong> Rev B adds a mirror-polished orb, 40 m across, floating with no supports over the Sun Well, and turns the five points into spires 90 m high.</li>
+      <li><strong>Master suites: one up and one down.</strong> One stays in the Crown for the sunrise. The second goes on level L1 of the Pentagon.</li>
+      <li><strong>Wormhole Gate.</strong> It goes inside the floating orb: step through to any time and any place. A capsule rises to it in a column of light from the Sun Well.</li>
+      <li><strong>Sunset arrival, through a storm.</strong> After the Ice Cliffs the pod flies into a Mars dust storm, then breaks out into the blue sunset with the Crown ahead.</li>
+    </ol>
+    <p>Open question: should the Crown keep its five legs, or float on anti-gravity drives with five columns of light as lifts? The drawings above are still Rev A. Rev B replaces this page at the same link.</p>
+  </section>
+
+  <footer>Drawn by Claude for Jim · review set Rev A · areas are gross floor areas, rounded</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg", D2R = Math.PI / 180, GOLDEN = 137.50776;
+  function r1(v) { return Math.round(v * 10) / 10; }
+  function S(tag, a, p) {
+    var e = document.createElementNS(NS, tag);
+    if (a) {
+      if (a["stroke-width"] !== undefined) { a.style = (a.style ? a.style + ";" : "") + "stroke-width:" + a["stroke-width"]; delete a["stroke-width"]; }
+      for (var k in a) e.setAttribute(k, a[k]);
+    }
+    if (p) p.appendChild(e); return e;
+  }
+  function G(p, cls) { return S("g", cls ? { "class": cls } : null, p); }
+  function T(p, x, y, s, cls, extra) {
+    var a = { x: r1(x), y: r1(y) }; if (cls) a["class"] = cls; if (extra) for (var k in extra) a[k] = extra[k];
+    var t = S("text", a, p); t.textContent = s; return t;
+  }
+  function TL(p, x, y, lines, cls, lh, anchor) {   // multi-line text; each line may be [string, class]
+    var t = S("text", { x: r1(x), y: r1(y), "class": cls || "", "text-anchor": anchor || "start" }, p);
+    lines.forEach(function (ln, i) {
+      var s = typeof ln === "string" ? ln : ln[0], c = typeof ln === "string" ? null : ln[1];
+      var ts = S("tspan", { x: r1(x), dy: i ? lh : 0 }, t); if (c) ts.setAttribute("class", c); ts.textContent = s;
+    });
+    return t;
+  }
+  function path(pts, close) { return "M" + pts.map(function (q) { return r1(q[0]) + " " + r1(q[1]); }).join("L") + (close ? "Z" : ""); }
+  function catmull(pts, seg) {  // sample a Catmull-Rom spline through pts
+    var out = [], n = pts.length; seg = seg || 12;
+    for (var i = 0; i < n - 1; i++) {
+      var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(n - 1, i + 2)];
+      for (var j = 0; j < seg; j++) {
+        var t = j / seg, t2 = t * t, t3 = t2 * t;
+        out.push(p1.map(function (_, c) {
+          return 0.5 * ((2 * p1[c]) + (-p0[c] + p2[c]) * t + (2 * p0[c] - 5 * p1[c] + 4 * p2[c] - p3[c]) * t2 + (-p0[c] + 3 * p1[c] - 3 * p2[c] + p3[c]) * t3);
+        }));
+      }
+    }
+    out.push(pts[n - 1]); return out;
+  }
+  function monotone(pts, seg) {  // Fritsch-Carlson monotone cubic through pts sorted by x: no overshoot
+    var N = pts.length, dx = [], dy = [], m = [], out = [], i;
+    for (i = 0; i < N - 1; i++) { dx[i] = pts[i + 1][0] - pts[i][0]; dy[i] = (pts[i + 1][1] - pts[i][1]) / dx[i]; }
+    m[0] = dy[0]; m[N - 1] = dy[N - 2];
+    for (i = 1; i < N - 1; i++) m[i] = dy[i - 1] * dy[i] <= 0 ? 0 : (dy[i - 1] + dy[i]) / 2;
+    for (i = 0; i < N - 1; i++) {
+      if (dy[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+      var a = m[i] / dy[i], b = m[i + 1] / dy[i], q = a * a + b * b;
+      if (q > 9) { var t = 3 / Math.sqrt(q); m[i] = t * a * dy[i]; m[i + 1] = t * b * dy[i]; }
+    }
+    for (i = 0; i < N - 1; i++) for (var j = 0; j < seg; j++) {
+      var u = j / seg, h = dx[i], u2 = u * u, u3 = u2 * u;
+      out.push([pts[i][0] + u * h, (2 * u3 - 3 * u2 + 1) * pts[i][1] + (u3 - 2 * u2 + u) * h * m[i] + (-2 * u3 + 3 * u2) * pts[i + 1][1] + (u3 - u2) * h * m[i + 1]]);
+    }
+    out.push(pts[N - 1]); return out;
+  }
+  function rng(seed) { var s = seed >>> 0; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function north(p, x, y) {
+    var g = G(p);
+    S("path", { d: "M" + x + " " + (y - 16) + "L" + (x + 7) + " " + (y + 6) + "L" + x + " " + (y + 1) + "Z", "class": "inkf" }, g);
+    S("path", { d: "M" + x + " " + (y - 16) + "L" + (x - 7) + " " + (y + 6) + "L" + x + " " + (y + 1) + "Z", "class": "ln", "stroke-width": 1 }, g);
+    T(g, x, y + 20, "N", "cap", { "text-anchor": "middle" });
+  }
+  function scalebar(p, x, y, k, marks, unit) {    // k = px per unit
+    var g = G(p), last = marks[marks.length - 1];
+    for (var i = 0; i < marks.length - 1; i++) {
+      S("rect", { x: r1(x + marks[i] * k), y: y, width: r1((marks[i + 1] - marks[i]) * k), height: 5, "class": i % 2 ? "paper" : "inkf", stroke: "currentColor" }, g).setAttribute("style", "stroke: var(--ink); stroke-width: .8");
+    }
+    marks.forEach(function (m) { T(g, x + m * k, y + 17, m === last ? m + " " + unit : String(m), "mono", { "text-anchor": m === last ? "start" : "middle", dx: m === last ? -6 : 0 }); });
+    return g;
+  }
+  function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+
+  // ---------------------------------------------------------------- geometry shared by all sheets
+  var CR = { rc: 130, w0: 20, wa: 0, span: 10, under: 40, floor: 41, dipTop: 50, peakTop: 66, upper: 51, peaks: [90, 162, 234, 306, 18] };
+  function cw(b) { return CR.w0 + CR.wa * Math.cos(5 * (b - 18) * D2R); }
+  function rIn(b) { return CR.rc - cw(b) / 2; }
+  function rOut(b) { return CR.rc + cw(b) / 2; }
+  function crownTop(b) { var c = (1 + Math.cos(5 * (b - 18) * D2R)) / 2; return CR.dipTop + (CR.peakTop - CR.dipTop) * c * c; }
+  var PG = { side: 160, aside: 35, street: 4, ave: 5 };
+  PG.R = PG.side / (2 * Math.sin(36 * D2R)); PG.ap = PG.R * Math.cos(36 * D2R);
+  PG.Ra = PG.aside / (2 * Math.sin(36 * D2R)); PG.apA = PG.Ra * Math.cos(36 * D2R);
+  PG.ring = (PG.ap - PG.apA - 4 * PG.street) / 5;
+  var CORNERS = [18, 90, 162, 234, 306];
+  function ringA(k) { return PG.apA + k * (PG.ring + PG.street); }   // inner apothem of ring k (0 = A)
+
+  var SEGS = [
+    { b: 90, kind: "point", code: "E", name: "Arrival", rooms: [["Suit room", .2], ["Pod hangar", .36], ["The Door", .12], ["Arrival hall", .32]], up: "Pod lift and dock control", roof: "Pod deck on the roof" },
+    { b: 126, kind: "dip", code: "SE", name: "Master suite", rooms: [["Dressing room", .24], ["Bedroom", .38], ["Bath", .18], ["Private spa", .2]] },
+    { b: 162, kind: "point", code: "SSE", name: "Salon", rooms: [["Hearth room", .22], ["Great salon", .56], ["Piano room", .22]], up: "Sky lounge" },
+    { b: 198, kind: "dip", code: "SSW", name: "Wellness", rooms: [["Spa and sauna", .3], ["Pool, 25 m", .45], ["Gym", .25]] },
+    { b: 234, kind: "point", code: "SW", name: "Dining", rooms: [["Wine room", .2], ["Dining hall", .5], ["Chef's kitchen", .3]], up: "Sky bar" },
+    { b: 270, kind: "dip", code: "W", name: "Sunset lounge", rooms: [["Guest suite", .25], ["Sunset lounge", .5], ["Guest suite", .25]] },
+    { b: 306, kind: "point", code: "NW", name: "Library", rooms: [["Study", .25], ["Library, two floors", .55], ["Map room", .2]], up: "Reading gallery" },
+    { b: 342, kind: "dip", code: "NNW", name: "Studio", rooms: [["Music room", .3], ["Art studio", .4], ["Workshop", .3]] },
+    { b: 18, kind: "point", code: "NNE", name: "Observatory", rooms: [["Star lounge", .6], ["Planetarium", .4]], up: "Telescope dome on the roof" },
+    { b: 54, kind: "dip", code: "NE", name: "Garden room", rooms: [["Tea house", .2], ["Breakfast room", .3], ["Sky garden", .5]] }
+  ];
+  // room areas: band from the Glide's outer edge (rIn + 4) to the outer wall
+  (function () {
+    var tag = 1;
+    SEGS.forEach(function (sg) {
+      var b0 = sg.b - 18, acc = 0;
+      sg.rooms = sg.rooms.map(function (rm) {
+        var s0 = b0 + acc * 36, s1 = s0 + rm[1] * 36, a = 0, n = 60;
+        for (var i = 0; i < n; i++) { var b = s0 + (i + .5) * (s1 - s0) / n, ro = rOut(b), ri = rIn(b) + 4; a += (ro * ro - ri * ri) / 2 * ((s1 - s0) / n * D2R); }
+        acc += rm[1];
+        return { name: rm[0], s0: s0, s1: s1, area: a, tag: tag++ };
+      });
+    });
+  })();
+  function upperArea() { var a = 0, n = 200, s = CR.span; for (var i = 0; i < n; i++) { var b = 90 - s + (i + .5) * 2 * s / n, ro = rOut(b), ri = rIn(b); a += (ro * ro - ri * ri) / 2 * (2 * s / n * D2R); } return a; }
+
+  var LEVELS = [
+    { id: "L1", name: "Residence", floor: -24, top: -16, z: 1, atrium: "Atrium · bridges to the Stem", sectors: [
+      { n: "Jim's residence", zs: [["Family room"], ["Storm suite"], ["Kitchen and dining"], ["Private spa"], ["Wardrobes and store"]] },
+      { n: "Club", zs: [["Cinema, 40 seats"], ["Music room"], ["Games and billiards"], ["Bar"], ["Wine vault"]] },
+      { n: "Baths", zs: [["Thermal pools"], ["Pool, 50 m"], ["Sauna and steam"], ["Gym"], ["Treatment rooms"]] },
+      { n: "Library", zs: [["Great library"], ["Archive of Earth"], ["Reading rooms"], ["Film and music archive"], ["Book stacks"]] },
+      { n: "Guests", zs: [["Guest lounge"], ["Guest suites 1–4"], ["Guest suites 5–8"], ["Family apartments"], ["Staff and robots"]] }] },
+    { id: "L2", name: "Garden", floor: -41, top: -25, z: 2, atrium: "Atrium · hanging gardens", sectors: [
+      { n: "Orchard", zs: [["Citrus grove"], ["Apples and pears"], ["Olives and figs"], ["Vineyard"], ["Tree nursery"]] },
+      { n: "Farm", zs: [["Market garden"], ["Vertical farm"], ["Grain and rice"], ["Mushroom cellar"], ["Seed store"]] },
+      { n: "Lake", zs: [["Lake · the water reserve", 0, 2], ["Fish farm", 3], ["Pumps and filters", 4]] },
+      { n: "Forest", zs: [["Forest walk", 0, 2], ["Stream and falls", 3], ["Forest nursery", 4]] },
+      { n: "Meadow", zs: [["Meadow and bees"], ["Flower garden"], ["Tea house"], ["Aquaponics"], ["Compost and soil"]] }] },
+    { id: "L3", name: "Studio", floor: -50, top: -42, z: 3, atrium: "Atrium", sectors: [
+      { n: "Jim's studio", zs: [["Workshop"], ["Art studio"], ["Model hall"], ["Tool store"], ["Materials"]] },
+      { n: "Foundry", zs: [["Robot foundry · prints city parts", 0, 2], ["Regolith kilns", 3], ["Parts yard", 4]] },
+      { n: "Science", zs: [["Labs"], ["Medical centre"], ["Clean rooms"], ["Test halls"], ["Stores"]] },
+      { n: "House mind", zs: [["AI core"], ["Data vault"], ["Earth link"], ["Cooling"], ["Backup core"]] },
+      { n: "Control", zs: [["City control room"], ["Storm watch"], ["Pod flight control"], ["Training"], ["Stores"]] }] },
+    { id: "L4", name: "Life support", floor: -59, top: -51, z: 4, atrium: "Atrium", sectors: [
+      { n: "Power", zs: [["Two fission microreactors", 0, 1], ["Fusion-ready bay", 2], ["Batteries and heat store", 3], ["Switchgear", 4]] },
+      { n: "Water", zs: [["Ice melt"], ["Purification"], ["Recycling"], ["Water tanks", 3, 4]] },
+      { n: "Air", zs: [["Oxygen plant"], ["CO₂ scrubbers"], ["Nitrogen and argon"], ["Air tanks", 3, 4]] },
+      { n: "Storm reserve", zs: [["Food for two years", 0, 2], ["Spare parts", 3, 4]] },
+      { n: "Recycling", zs: [["Waste to soil"], ["Metals"], ["Plastics"], ["Maintenance"], ["Stores"]] }] },
+    { id: "L5", name: "Transit", floor: -68, top: -60, z: 5, atrium: "Atrium floor · base of the Stem", sectors: [
+      { n: "Maglev station", zs: [["Maglev hall · phase 2", 0, 2], ["Platforms", 3], ["Tunnel portal", 4]] },
+      { n: "Cargo", zs: [["Freight lifts"], ["Cargo hall"], ["Sorting"], ["Cold store"], ["Loading"]] },
+      { n: "Seed vault", zs: [["Seed vault"], ["DNA archive"], ["Earth memory vault"], ["Vault services"], ["Stores"]] },
+      { n: "Tunnel works", zs: [["Tunnel boring machines", 0, 2], ["Spoil to bricks", 3], ["City roots · the tunnels", 4]] },
+      { n: "Rovers", zs: [["Rover hall"], ["Garage"], ["Charging"], ["Suit room"], ["Ramp to the surface"]] }] }
+  ];
+  var LEVEL_AREA = (2.5 * PG.R * PG.R - 2.5 * PG.Ra * PG.Ra) * Math.sin(72 * D2R);
+  var CORE_NAMES = { 18: "Observatory", 90: "Arrival", 162: "Salon", 234: "Dining", 306: "Library" };
+
+  // ---------------------------------------------------------------- A-001 bird's-eye view from the south (axonometric, true scale)
+  (function () {
+    var svg = document.getElementById("svg-elev"), sc = 2.5, al = 20 * D2R, ca = Math.cos(al), sa = Math.sin(al), X0 = 540, Y0 = 300;
+    function pr(x, n, h) { return [X0 + x * sc, Y0 - (h * ca + n * sa) * sc]; }
+    function pol(r, b, h) { return pr(r * Math.sin(b * D2R), r * Math.cos(b * D2R), h); }
+    function ring(r, h, b0, b1, st) { var o = []; for (var b = b0; b <= b1 + 1e-6; b += st || 3) o.push(pol(r, b, h)); return o; }
+    // ground: the Stone Garden, its mirrors and the Sun Well
+    S("path", { d: path(ring(112, 0, 0, 360), true), "class": "tint" }, svg);
+    [42, 54, 66, 78, 90, 102].forEach(function (r, ri) {
+      var n = Math.round(2 * Math.PI * r / 8);
+      for (var i = 0; i < n; i++) { var p = pol(r, (i + (ri % 2) * .5) * 360 / n, 0); S("ellipse", { cx: r1(p[0]), cy: r1(p[1]), rx: 2.6, ry: 1.1, "class": "icet2" }, svg); }
+    });
+    S("path", { d: path(CORNERS.map(function (b) { return pol(PG.Ra, b, 0); }), true), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
+    S("path", { d: path(CORNERS.map(function (b) { return pol(PG.R, b, 0); }), true), "class": "icel dash", "stroke-width": 1 }, svg);
+    // TTMath dome at the same scale, front left
+    var dc = [185, -95], base = [], dome = [];
+    for (var t = 0; t <= 360; t += 6) base.push(pr(dc[0] + 28 * Math.cos(t * D2R), dc[1] + 28 * Math.sin(t * D2R), 0));
+    for (var t2 = 0; t2 <= 180; t2 += 6) dome.push(pr(dc[0] + 28 * Math.cos(t2 * D2R), dc[1], 15 * Math.sin(t2 * D2R)));
+    var frontHalf = base.filter(function (q, i) { return i * 6 >= 180; });
+    S("path", { d: path(dome.concat(frontHalf.slice().reverse().reverse()), true), "class": "tint2", style: "stroke: var(--ink-2); stroke-width: 1.1" }, svg);
+    S("path", { d: path(base, true), "class": "ln2 dash", "stroke-width": .8 }, svg);
+    var dl = pr(dc[0], dc[1], 15);
+    TL(svg, dl[0], dl[1] - 14, [["TTMATH DOME", "cap"], ["demo 1, same scale", "xs"]], "halo", 11, "middle");
+    // painter's algorithm: legs and ring segments sorted far to near
+    var items = [];
+    CR.peaks.forEach(function (pb) { items.push({ d: 1000 + 130 * Math.cos(pb * D2R), leg: pb }); });   // legs first: the ring always hides their tops
+    var st = 2;
+    for (var b0 = 0; b0 < 360; b0 += st) items.push({ d: 130 * Math.cos((b0 + st / 2) * D2R), seg: b0 });
+    items.sort(function (p, q) { return q.d - p.d; });
+    var gR = G(svg);
+    items.forEach(function (it) {
+      if (it.leg !== undefined) {
+        var lx = 130 * Math.sin(it.leg * D2R), ln = 130 * Math.cos(it.leg * D2R);
+        var a0 = pr(lx - 5, ln, 0), a1 = pr(lx - 5, ln, 20), a2 = pr(lx - 12, ln, 35), a3 = pr(lx - 13, ln, 40), c3 = pr(lx + 13, ln, 40), c2 = pr(lx + 12, ln, 35), c1 = pr(lx + 5, ln, 20), c0 = pr(lx + 5, ln, 0);
+        S("path", { d: "M" + r1(a0[0]) + " " + r1(a0[1]) + "C" + r1(a1[0]) + " " + r1(a1[1]) + " " + r1(a2[0]) + " " + r1(a2[1]) + " " + r1(a3[0]) + " " + r1(a3[1]) + "L" + r1(c3[0]) + " " + r1(c3[1]) + "C" + r1(c2[0]) + " " + r1(c2[1]) + " " + r1(c1[0]) + " " + r1(c1[1]) + " " + r1(c0[0]) + " " + r1(c0[1]) + "Z", "class": "shell", "stroke-width": 1.2 }, gR);
+        S("ellipse", { cx: r1((a0[0] + c0[0]) / 2), cy: r1(a0[1]), rx: r1(5 * sc), ry: r1(5 * sc * sa), "class": "ink3f", "fill-opacity": .5 }, gR);
+        return;
+      }
+      var b0 = it.seg, b1 = b0 + st, bm = b0 + st / 2, t0 = crownTop(b0), t1 = crownTop(b1), front = Math.cos(bm * D2R) < 0;
+      var bx = b1 + 0.6, tx = crownTop(bx);   // faces overlap the next segment slightly so no seams show
+      var top = [pol(140, b0, t0), pol(140, bx, tx), pol(120, bx, tx), pol(120, b0, t0)];
+      S("path", { d: path(top, true), "class": "shell", style: "stroke: none" }, gR);
+      var r = front ? 140 : 120, wall = [pol(r, b0, 40), pol(r, bx, 40), pol(r, bx, tx), pol(r, b0, t0)];
+      S("path", { d: path(wall, true), "class": "shell", style: "stroke: none" }, gR);
+      S("path", { d: path(wall, true), "class": front ? "tint" : "tint2", style: "stroke: none" }, gR);
+      // window slots on the visible wall: main floor, and the upper floor at the points
+      var w0 = pol(r, b0, 44.6), w1 = pol(r, b1, 44.6);
+      if ((b0 % 4) === 0) S("line", { x1: r1(w0[0]), y1: r1(w0[1]), x2: r1(w1[0]), y2: r1(w1[1]), style: "stroke: var(--ink-2); stroke-width: 2.4" }, gR);
+      var nearPeak = CR.peaks.some(function (pb) { var dd = Math.abs(((bm - pb) % 360 + 540) % 360 - 180); return dd < CR.span - 1; });
+      if (nearPeak && (b0 % 4) === 0) { var u0 = pol(r, b0, 55.6), u1 = pol(r, b1, 55.6); S("line", { x1: r1(u0[0]), y1: r1(u0[1]), x2: r1(u1[0]), y2: r1(u1[1]), style: "stroke: var(--ink-2); stroke-width: 2.4" }, gR); }
+      // edges: roof edges and the bottom edge of the visible wall
+      S("path", { d: path([pol(140, b0, t0), pol(140, b1, t1)]), "class": "ln", style: "stroke-width: 1.3; stroke-linecap: round" }, gR);
+      S("path", { d: path([pol(120, b0, t0), pol(120, b1, t1)]), "class": "ln", style: "stroke-width: 1; stroke-linecap: round" }, gR);
+      S("path", { d: path([pol(r, b0, 40), pol(r, b1, 40)]), "class": "ln", style: "stroke-width: 1.3; stroke-linecap: round" }, gR);
+    });
+    // the pod on the east point's deck, and one arriving
+    var pd = pol(130, 90, 66);
+    S("ellipse", { cx: r1(pd[0]), cy: r1(pd[1] - 4), rx: 9, ry: 4.5, "class": "routef" }, svg);
+    var tr = catmull([[205, -30, 112], [178, -22, 96], [156, -12, 82], [138, -3, 72]], 10).map(function (q) { return pr(q[0], q[1], q[2]); });
+    S("path", { d: path(tr), "class": "route dash", "stroke-width": 1.6 }, svg);
+    var pa = pr(178, -22, 96); S("ellipse", { cx: r1(pa[0]), cy: r1(pa[1]), rx: 8, ry: 4, "class": "routef" }, svg);
+    TL(svg, pa[0] + 6, pa[1] - 14, [["pod arriving", "xs tr"], ["from the spaceport", "xs tr"]], "halo", 11, "middle");
+    // labels with leaders
+    function lead(p, q, lines, anchor) { S("line", { x1: r1(p[0]), y1: r1(p[1]), x2: r1(q[0]), y2: r1(q[1]), "class": "ln2" }, svg); TL(svg, q[0] + (anchor === "end" ? -4 : anchor === "start" ? 4 : 0), q[1] + (anchor === "middle" ? -6 : 4), lines, "halo", 11.5, anchor); }
+    lead(pol(140, 18, 66), [pol(140, 18, 66)[0] + 40, 26], [["▲ OBSERVATORY POINT", "cap"], ["+66 m", "xs"]], "start");
+    lead(pol(140, 306, 66), [pol(140, 306, 66)[0] - 30, 26], [["▲ LIBRARY POINT", "cap"], ["+66 m", "xs"]], "end");
+    lead(pd, [pd[0] + 64, pd[1] + 28], [["▲ ARRIVAL POINT", "cap"], ["pod deck on the roof", "xs"]], "start");
+    lead(pol(140, 234, 44), [pol(140, 234, 44)[0] - 44, pol(140, 234, 44)[1] + 26], [["▲ DINING POINT", "cap"], ["window slots, main and upper floor", "xs"]], "end");
+    lead(pol(140, 180, 40), [pol(140, 180, 40)[0] - 70, pol(140, 180, 40)[1] + 70], [["UNDERSIDE +40 m", "cap"], ["the ring touches the ground only through its legs", "xs"]], "end");
+    lead(pol(130, 162, 20), [pol(130, 162, 20)[0] + 70, pol(130, 162, 20)[1] + 64], [["LEGS", "cap"], ["lifts, water and power down to the Pentagon", "xs"]], "start");
+    var sw = pol(20, 0, 0);
+    TL(svg, sw[0], sw[1] - 30, [["STONE GARDEN · SUN WELL", "cap"], ["mirrors send daylight down to the Pentagon", "xs"]], "halo", 12, "middle");
+    TL(svg, 24, 404, [["THE CROWN", "cap big"], ["280 m across · floating 40 m up", "sm"], ["solid white shell, no glass walls", "sm"], ["Pentagon outline below ground, dashed", "xs ti"]], "", 15, "start");
+  })();
+
+  // ---------------------------------------------------------------- A-002 size check
+  (function () {
+    var svg = document.getElementById("svg-compare"), k = 1, cy = 165;
+    var TT = [[15.0,52.0],[9.5,47.5],[-4.0,29.0],[-8.0,32.0],[-10.5,29.5],[-6.5,24.5],[-11.5,14.5],[-9.5,12.5],[-9.5,8.5],[-12.0,6.0],[-19.0,5.0],[-21.0,6.0],[-26.0,3.0],[-27.0,4.0],[-31.0,2.0],[-38.5,-5.5],[-42.5,-12.5],[-41.5,-13.5],[-43.5,-16.5],[-42.5,-17.5],[-43.5,-18.5],[-42.5,-27.5],[-43.5,-28.5],[-41.5,-31.5],[-42.5,-32.5],[-37.5,-41.5],[-33.0,-46.0],[-26.0,-50.0],[-25.0,-49.0],[-18.0,-52.0],[-17.0,-51.0],[-12.0,-52.0],[-7.0,-50.0],[-6.0,-51.0],[3.0,-46.0],[7.5,-41.5],[13.5,-30.5],[12.5,-29.5],[14.5,-24.5],[13.5,-23.5],[14.5,-18.5],[10.5,-8.5],[15.0,-4.0],[19.0,-5.0],[32.0,11.0],[34.5,8.5],[24.5,-4.5],[32.0,-9.0],[43.5,7.5],[33.5,14.5],[40.5,24.5],[39.5,25.5],[43.5,32.5],[25.0,44.0]];
+    var tx = 110;
+    S("path", { d: path(TT.map(function (q) { return [tx + q[0] * k, cy - q[1] * k]; }), true), "class": "tint2", style: "stroke: var(--ink); stroke-width: 1.1" }, svg);
+    TL(svg, tx, 296, [["TTMath campus", "big"], ["demo 1 · about 3,300 m² of floor", "sm"], ["104 m end to end", "sm"]], "", 16, "middle");
+    // Crown
+    var cx = 430, N = 360, o = [], inn = [];
+    for (var i = 0; i <= N; i++) { var b = i * 360 / N; o.push([cx + rOut(b) * Math.sin(b * D2R), cy - rOut(b) * Math.cos(b * D2R)]); inn.push([cx + rIn(b) * Math.sin(b * D2R), cy - rIn(b) * Math.cos(b * D2R)]); }
+    S("path", { d: path(o, true) + path(inn.slice().reverse(), true), "class": "shell", "fill-rule": "evenodd" }, svg);
+    CR.peaks.forEach(function (b) { S("circle", { cx: r1(cx + 130 * Math.sin(b * D2R)), cy: r1(cy - 130 * Math.cos(b * D2R)), r: 5, "class": "ink2f" }, svg); });
+    TL(svg, cx, 330, [["The Crown", "big"], ["above ground · 20,900 m² · 6.3 × TTMath", "sm"], ["280 m across", "sm"]], "", 16, "middle");
+    // Pentagon (drawn with its east corner pointing right, as built)
+    var px = 790, pc = CORNERS.map(function (b) { return [px + PG.R * Math.sin(b * D2R), cy - PG.R * Math.cos(b * D2R)]; });
+    var pa = CORNERS.map(function (b) { return [px + PG.Ra * Math.sin(b * D2R), cy - PG.Ra * Math.cos(b * D2R)]; });
+    S("path", { d: path(pc, true) + path(pa.slice().reverse(), true), "class": "z5", "fill-rule": "evenodd", style: "stroke: var(--ink); stroke-width: 1.3" }, svg);
+    for (var kk = 1; kk < 5; kk++) {
+      var a = ringA(kk) - PG.street / 2, rr = a / Math.cos(36 * D2R);
+      S("path", { d: path(CORNERS.map(function (b) { return [px + rr * Math.sin(b * D2R), cy - rr * Math.cos(b * D2R)]; }), true), "class": "hl" }, svg);
+    }
+    TL(svg, px, 330, [["The Pentagon", "big"], ["below ground · 5 levels · 209,700 m² · 10.0 × Crown", "sm"], ["160 m sides", "sm"]], "", 16, "middle");
+    scalebar(svg, 30, 18, 1, [0, 50, 100], "m");
+  })();
+
+  // ---------------------------------------------------------------- A-101 site and corridor
+  (function () {
+    var svg = document.getElementById("svg-site"), k = 28, X = function (x) { return 36 + (x + 3) * k; }, Y = function (y) { return 44 + (6 - y) * k; };
+    var M = function (q) { return [X(q[0]), Y(q[1])]; };
+    var bg = G(svg), R = rng(7);
+    // Dune Sea: crescent dunes inside an ellipse
+    for (var i = 0; i < 150; i++) {
+      var ex = 21.3 + (R() * 2 - 1) * 4.8, ey = 3.3 + (R() * 2 - 1) * 1.9;
+      if (((ex - 21.3) / 4.8) * ((ex - 21.3) / 4.8) + ((ey - 3.3) / 1.9) * ((ey - 3.3) / 1.9) > 1) continue;
+      var x0 = X(ex), y0 = Y(ey), w = 6 + R() * 6;
+      S("path", { d: "M" + r1(x0 - w) + " " + r1(y0 + 2) + "Q" + r1(x0) + " " + r1(y0 - w * .7) + " " + r1(x0 + w) + " " + r1(y0 + 2), "class": "ln2" }, bg);
+    }
+    T(bg, X(21.3), Y(5.55), "DUNE SEA", "cap", { "text-anchor": "middle" });
+    // dust devils
+    [[18.2, 4.5], [20.1, 4.9], [22.6, 4.3], [24.1, 4.8], [19.6, 2.1]].forEach(function (d) {
+      var x0 = X(d[0]), y0 = Y(d[1]);
+      [0, 1, 2, 3].forEach(function (j) { S("ellipse", { cx: r1(x0 + j * .8), cy: r1(y0 - j * 4.2), rx: 1.6 + j * 1.5, ry: .9 + j * .35, "class": "ln2" }, bg); });
+    });
+    T(bg, X(24.1) + 12, Y(4.8) - 8, "dust devils", "sm halo");
+    // crater
+    var cc = [13.8, 2.3], cr = 1.6;
+    S("circle", { cx: X(cc[0]), cy: Y(cc[1]), r: cr * k, "class": "ln" }, bg);
+    for (var a = 0; a < 360; a += 6) { var s = Math.sin(a * D2R), c = Math.cos(a * D2R); S("line", { x1: r1(X(cc[0]) + s * cr * k), y1: r1(Y(cc[1]) - c * cr * k), x2: r1(X(cc[0]) + s * (cr * k - 7)), y2: r1(Y(cc[1]) - c * (cr * k - 7)), "class": "ln2" }, bg); }
+    S("circle", { cx: X(cc[0]), cy: Y(cc[1]), r: 3, "class": "ink2f" }, bg);
+    T(bg, X(cc[0]), Y(cc[1] + cr) - 8, "CRATER · 3 km", "cap halo", { "text-anchor": "middle" });
+    // ice cliffs with hachures on the downhill (south-east) side
+    var cl = catmull([[10.9, -0.4], [9.2, -1.6], [7.6, -2.9], [5.9, -4.3]], 10).map(M);
+    S("path", { d: path(cl), "class": "icel", "stroke-width": 2 }, bg);
+    for (var q = 1; q < cl.length - 1; q++) {
+      var dx = cl[q + 1][0] - cl[q - 1][0], dy = cl[q + 1][1] - cl[q - 1][1], L = Math.hypot(dx, dy), nx = -dy / L, ny = dx / L;
+      if (nx < 0) { nx = -nx; ny = -ny; }
+      S("line", { x1: r1(cl[q][0]), y1: r1(cl[q][1]), x2: r1(cl[q][0] + nx * 8), y2: r1(cl[q][1] + ny * 8), "class": "icel", "stroke-width": 1 }, bg);
+    }
+    TL(bg, X(4.3), Y(-4.2), [["ICE CLIFFS", "cap ti"], ["100 m scarp of layered ice", "sm"]], "halo", 13, "end");
+    // small craters
+    [[3.5, 3.6, .35], [7.2, 4.4, .22], [26.8, -3.2, .3], [17.6, -3.6, .45], [23.5, -1.8, .18], [11.2, 4.6, .25]].forEach(function (m) { S("circle", { cx: X(m[0]), cy: Y(m[1]), r: m[2] * k, "class": "ln2" }, bg); });
+    // maglev (phase 2) and rover road
+    S("path", { d: path([M([0, 0]), M([30, 0])]), "class": "icel dash" }, svg);
+    T(svg, X(15), Y(0) - 5, "maglev tunnel, 68 m down · phase 2", "sm ti halo", { "text-anchor": "middle" });
+    S("path", { d: path(catmull([[29.7, 0], [24, -0.5], [18, -0.55], [12, -0.25], [6, -0.45], [0.2, 0]], 10).map(M)), "class": "ln2 dash", "stroke-width": 1.2 }, svg);
+    T(svg, X(19.5), Y(-0.55) + 13, "rover road", "sm halo", { "text-anchor": "middle" });
+    // straight-line distance
+    var dy0 = Y(-5.35);
+    S("line", { x1: X(0), y1: dy0, x2: X(30), y2: dy0, "class": "ln2" }, svg);
+    [0, 10, 20, 30].forEach(function (d) { S("line", { x1: X(d), y1: dy0 - 5, x2: X(d), y2: dy0 + 5, "class": "ln2" }, svg); T(svg, X(d), dy0 + 16, d + " km", "mono", { "text-anchor": "middle" }); });
+    // pod route
+    var wp = [[29.7, 0], [28.9, 0.8], [26.6, 2.3], [23.5, 3.35], [20, 3.55], [16.6, 3.05], [13.8, 2.3], [11.4, 0.9], [9.5, -0.9], [8.1, -2.25], [6.4, -2.6], [4.2, -1.95], [2.3, -1.15], [1.1, -0.75]];
+    var rt = catmull(wp, 14);
+    for (var th = 132; th <= 450; th += 6) { var rr = th < 380 ? 0.8 : 0.8 - (th - 380) / 70 * 0.67; rt.push([rr * Math.sin(th * D2R), rr * Math.cos(th * D2R)]); }
+    S("path", { d: path(rt.map(M)), "class": "route" }, svg);
+    // arrows along the route
+    [30, 70, 110, 150].forEach(function (ix) {
+      var p = M(rt[ix]), p2 = M(rt[ix + 1]), ang = Math.atan2(p2[1] - p[1], p2[0] - p[0]) * 180 / Math.PI;
+      S("path", { d: "M-5 -4L4 0L-5 4Z", "class": "routef", transform: "translate(" + r1(p[0]) + " " + r1(p[1]) + ") rotate(" + r1(ang) + ")" }, svg);
+    });
+    // shot markers
+    [[1, 29.7, 0, 12, -14], [2, 28, 1.6, -4, -16], [3, 21.8, 3.5, 0, -16], [4, 13.8, 2.3, 0, 22], [5, 8.4, -2.0, 18, 4], [6, 4.2, -1.95, 0, 20], [7, 0.8, -0.8, 12, 18], [8, 0.13, 0, -18, 14]].forEach(function (s) {
+      var p = M([s[1], s[2]]), x = p[0] + s[3], y = p[1] + s[4];
+      S("circle", { cx: r1(x), cy: r1(y), r: 8, "class": "paper", style: "stroke: var(--route); stroke-width: 1.4" }, svg);
+      T(svg, x, y + 4, String(s[0]), "sm tr", { "text-anchor": "middle", style: "font-weight:600" });
+    });
+    // house
+    var hc = M([0, 0]);
+    S("circle", { cx: hc[0], cy: hc[1], r: 5.5, "class": "shell" }, svg);
+    S("circle", { cx: hc[0], cy: hc[1], r: 2.4, "class": "inkf" }, svg);
+    TL(svg, hc[0] - 4, hc[1] - 44, [["JIM'S HOUSE", "cap"], ["the Crown and the Pentagon", "sm"]], "halo", 13, "start");
+    // spaceport
+    var sp = M([30, 0]);
+    S("circle", { cx: sp[0], cy: sp[1], r: 4.5, "class": "inkf" }, svg);
+    [60, 90, 120].forEach(function (b) { var p = M([30 + 1.6 * Math.sin(b * D2R), 1.6 * Math.cos(b * D2R)]); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 3.4, "class": "ln", "stroke-width": 1.1 }, svg); });
+    TL(svg, sp[0] + 48, sp[1] + 42, [["ARCADIA SPACEPORT", "cap"], ["3 pads · terminal · fuel plant", "sm"], ["see sheet A-501", "sm"]], "halo", 13, "end");
+    north(svg, 1046, 70);
+    T(svg, X(15), dy0 + 34, "straight line, house to spaceport", "xs", { "text-anchor": "middle" });
+    TL(svg, 1046, 402, [["horizon from the Crown's top: 21 km", "sm"], ["from the plain: 3.4 km", "sm"]], "halo", 13, "end");
+  })();
+
+  // ---------------------------------------------------------------- A-102 growth
+  (function () {
+    var svg = document.getElementById("svg-growth"), k = 68, cx = 430, cy = 380;
+    var M = function (x, y) { return [cx + x * k, cy - y * k]; };
+    for (var d = 1; d <= 5; d++) { S("circle", { cx: cx, cy: cy, r: d * k, "class": "hl dash" }, svg); T(svg, cx + d * k * Math.sin(200 * D2R) - 4, cy - d * k * Math.cos(200 * D2R) + 14, d + " km", "mono halo", { "text-anchor": "end" }); }
+    // corridor east
+    S("path", { d: path([M(0.15, 0), M(8.2, 0)]), "class": "icel dash" }, svg);
+    S("path", { d: path([M(0.15, 0.06), M(8.2, 0.35)]), "class": "route dash", "stroke-width": 1.6 }, svg);
+    TL(svg, M(8.2, 0)[0], M(8.2, 0)[1] - 44, [["→ SPACEPORT, 30 km", "cap"], ["pod corridor and maglev", "sm"]], "halo", 13, "end");
+    // seeds
+    var seeds = [{ n: 0, x: 0, y: 0 }];
+    for (var n = 1; n <= 233; n++) { var r = 0.25 * Math.sqrt(n + 2), b = n * GOLDEN; seeds.push({ n: n, x: r * Math.sin(b * D2R), y: r * Math.cos(b * D2R) }); }
+    var ave = G(svg);
+    S("line", { x1: cx, y1: cy, x2: cx, y2: r1(cy - 4.15 * k), style: "stroke: var(--ink-3); stroke-width: 9; stroke-opacity: .28; stroke-linecap: round" }, ave);
+    TL(ave, cx - 12, cy - 4.1 * k, [["CIVIC AVENUE", "cap"], ["the Fibonacci seeds line up due north", "xs"]], "halo", 12, "end");
+    var roots = G(svg);
+    for (var i = 1; i < seeds.length; i++) {
+      var best = 0, bd = 1e9;
+      for (var j = 0; j < i; j++) { var dd = Math.hypot(seeds[i].x - seeds[j].x, seeds[i].y - seeds[j].y); if (dd < bd) { bd = dd; best = j; } }
+      var a = M(seeds[i].x, seeds[i].y), c = M(seeds[best].x, seeds[best].y);
+      S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(c[0]), y2: r1(c[1]), "class": "icel", "stroke-width": i <= 13 ? 1.3 : .8, "stroke-opacity": i <= 13 ? 1 : .6 }, roots);
+    }
+    var FIB = { 21: "School", 34: "Hospital", 55: "Market hall", 89: "University", 144: "Concert hall", 233: "Stadium" };
+    seeds.forEach(function (s) {
+      if (!s.n) return;
+      var p = M(s.x, s.y);
+      if (FIB[s.n]) {
+        S("rect", { x: r1(p[0] - 6), y: r1(p[1] - 6), width: 12, height: 12, "class": "paper", style: "stroke: var(--ink); stroke-width: 1.6" }, svg);
+        TL(svg, p[0] + 11, p[1] + 4, [[FIB[s.n] + "  ·  seed " + s.n, "sm"]], "halo", 11, "start").setAttribute("style", "fill: var(--ink)");
+      } else if (s.n <= 13) {
+        S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 5, "class": "inkf" }, svg);
+      } else {
+        S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 3.2, "class": "paper", style: "stroke: var(--ink-2); stroke-width: 1.1" }, svg);
+      }
+    });
+    // the Crown
+    S("circle", { cx: cx, cy: cy, r: 0.14 * k, "class": "shell", "stroke-width": 2.2 }, svg);
+    S("circle", { cx: cx, cy: cy, r: 0.12 * k, "class": "paper" }, svg);
+    TL(svg, cx - 14, cy - 18, [["THE CROWN", "cap"]], "halo", 13, "end");
+    // phase 4 arrows
+    [[0, 5.3, "↑ Vastitas Borealis"], [-5.8, 0, "← Utopia Planitia"], [0, -5.35, "↓ Amazonis Planitia"]].forEach(function (a) {
+      var p = M(a[0], a[1]); T(svg, p[0], p[1], a[2], "sm halo", { "text-anchor": a[0] < 0 ? "start" : "middle" });
+    });
+    T(svg, M(-5.8, 0)[0], M(-5.8, 0)[1] + 14, "phase 4 links to other cities", "xs halo");
+    // legend
+    var lg = G(svg), lx = 800, ly = 520;
+    S("circle", { cx: lx, cy: ly, r: 5, "class": "inkf" }, lg); T(lg, lx + 14, ly + 4, "Phase 2 homes 1–13", "sm");
+    S("circle", { cx: lx, cy: ly + 24, r: 3.2, "class": "paper", style: "stroke: var(--ink-2); stroke-width: 1.1" }, lg); T(lg, lx + 14, ly + 28, "Phase 3 homes 14–233", "sm");
+    S("rect", { x: lx - 6, y: ly + 42, width: 12, height: 12, "class": "paper", style: "stroke: var(--ink); stroke-width: 1.6" }, lg); T(lg, lx + 14, ly + 52, "Civic building, Fibonacci seed", "sm");
+    S("line", { x1: lx - 9, y1: ly + 72, x2: lx + 7, y2: ly + 72, "class": "icel" }, lg); T(lg, lx + 14, ly + 76, "Tunnel (root) to nearest older home", "sm");
+    north(svg, 960, 60);
+    scalebar(svg, 40, 730, k, [0, 1, 2], "km");
+  })();
+
+  // ---------------------------------------------------------------- A-201 the Crown
+  (function () {
+    var svg = document.getElementById("svg-crown"), k = 2, cx = 500, cy = 440;
+    var P = function (r, b) { return [cx + k * r * Math.sin(b * D2R), cy - k * r * Math.cos(b * D2R)]; };
+    var g0 = G(svg);
+    // under the ring: the Stone Garden and the Pentagon outline below
+    S("circle", { cx: cx, cy: cy, r: 110 * k, "class": "tint" }, g0);
+    S("path", { d: path(CORNERS.map(function (b) { return P(PG.R, b); }), true), "class": "icel dash", "stroke-width": 1.1 }, g0);
+    var nHel = 0;
+    [42, 54, 66, 78, 90, 102].forEach(function (r, ri) {
+      var n = Math.round(2 * Math.PI * r / 8);
+      for (var i = 0; i < n; i++) { var b = (i + (ri % 2) * .5) * 360 / n, p = P(r, b); nHel++; S("rect", { x: r1(p[0] - 3), y: r1(p[1] - 2), width: 6, height: 4, "class": "icet2", transform: "rotate(" + r1(b) + " " + r1(p[0]) + " " + r1(p[1]) + ")" }, g0); }
+    });
+    S("path", { d: path(CORNERS.map(function (b) { return P(PG.Ra, b); }), true), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.4" }, g0);
+    S("circle", { cx: cx, cy: cy, r: PG.Ra * k * .78, "class": "icel", "stroke-width": 1 }, g0);
+    TL(g0, cx, cy - 4, [["SUN WELL", "cap ti"], ["lens under an iris", "xs"]], "halo", 12, "middle");
+    TL(g0, cx, cy - 150, [["STONE GARDEN", "cap"], ["about " + (Math.round(nHel / 10) * 10) + " sun-tracking mirrors", "xs"]], "halo", 12, "middle");
+    T(g0, cx - 96 * k, cy + 4, "Pentagon below", "xs ti halo", { "text-anchor": "start" });
+    // the ring
+    var g1 = G(svg), N = 720, o = [], inn = [], pe = [];
+    for (var i = 0; i <= N; i++) { var b = i * 360 / N; o.push(P(rOut(b), b)); inn.push(P(rIn(b), b)); pe.push(P(rIn(b) + 4, b)); }
+    S("path", { d: path(o, true) + path(inn.slice().reverse(), true), "class": "shell", "fill-rule": "evenodd", "stroke-width": 1.6 }, g1);
+    S("path", { d: path(pe, true) + path(inn.slice().reverse(), true), "class": "tint2", "fill-rule": "evenodd" }, g1);
+    S("path", { d: path(pe, true), "class": "ln2" }, g1);
+    // upper floors (dashed) at the points
+    CR.peaks.forEach(function (pb) {
+      var pts = [], s = CR.span;
+      for (var b = pb - s; b <= pb + s + 1e-6; b += 1) pts.push(P(rOut(b) - 1.2, b));
+      for (var b2 = pb + s; b2 >= pb - s - 1e-6; b2 -= 1) pts.push(P(rIn(b2) + 1.2, b2));
+      S("path", { d: path(pts, true), "class": "ln2 dash", "stroke-width": 1 }, g1);
+    });
+    // segment boundaries and room partitions
+    SEGS.forEach(function (sg) {
+      var b0 = sg.b - 18;
+      S("line", { x1: r1(P(rIn(b0), b0)[0]), y1: r1(P(rIn(b0), b0)[1]), x2: r1(P(rOut(b0), b0)[0]), y2: r1(P(rOut(b0), b0)[1]), "class": "ln", "stroke-width": 1.6 }, g1);
+      sg.rooms.forEach(function (rm, j) {
+        if (j) { var a = P(rIn(rm.s0) + 4, rm.s0), c = P(rOut(rm.s0), rm.s0); S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(c[0]), y2: r1(c[1]), "class": "ln2" }, g1); }
+        var bm = (rm.s0 + rm.s1) / 2, p = P((rIn(bm) + 4 + rOut(bm)) / 2, bm);
+        T(g1, p[0], p[1] + 3.5, String(rm.tag), "mono tr", { "text-anchor": "middle", style: "font-weight:500" });
+      });
+      // window slots: short ticks on the outer wall
+      for (var wb = b0 + 2; wb < b0 + 36; wb += 4) { var a2 = P(rOut(wb) - 0.2, wb), c2 = P(rOut(wb) + 2.4, wb); S("line", { x1: r1(a2[0]), y1: r1(a2[1]), x2: r1(c2[0]), y2: r1(c2[1]), "class": "paper", style: "stroke: var(--sheet); stroke-width: 2.4" }, g1); }
+    });
+    // legs with lift cores
+    CR.peaks.forEach(function (pb) { var p = P(130, pb); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 5 * k, "class": "ink2f" }, g1); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 2.2 * k, "class": "paper" }, g1); });
+    // pod path: in under the ring at the north-east, over the garden, up to the roof pad on the east point
+    var Q = function (x, y) { return [cx + k * x, cy - k * y]; };
+    var pod = catmull([[240, 55], [178, 54], [123, 60], [86, 42], [64, 14], [72, -8], [100, -9], [122, -3], [130, 0]], 12).map(function (q) { return Q(q[0], q[1]); });
+    S("path", { d: path(pod), "class": "route", "stroke-width": 2 }, svg);
+    [[1, 2], [3, 4], [5, 6]].forEach(function (pr) { var i = Math.round(pod.length * pr[0] / 8), a = pod[i], b = pod[i + 1], ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI; S("path", { d: "M-5 -4L4 0L-5 4Z", "class": "routef", transform: "translate(" + r1(a[0]) + " " + r1(a[1]) + ") rotate(" + r1(ang) + ")" }, svg); });
+    var pl = P(130, 90); S("circle", { cx: r1(pl[0]), cy: r1(pl[1]), r: 8 * k, "class": "ln2 dash" }, svg); S("circle", { cx: r1(pl[0]), cy: r1(pl[1]), r: 3, "class": "routef" }, svg);
+    var tel = P(130, 18); S("circle", { cx: r1(tel[0]), cy: r1(tel[1]), r: 7 * k, "class": "ln2 dash" }, svg);
+    TL(svg, Q(200, 60)[0], Q(200, 60)[1] - 38, [["POD APPROACH", "cap tr"], ["in under the ring, over the garden,", "xs"], ["up to the pod deck on the roof", "xs"]], "halo", 11.5, "middle");
+    // the Glide callout inside
+    var gl = P(rIn(214) + 2, 214), gt = P(88, 222);
+    S("line", { x1: r1(gl[0]), y1: r1(gl[1]), x2: r1(gt[0]), y2: r1(gt[1]), "class": "ln2" }, svg);
+    TL(svg, gt[0] + 4, gt[1] - 4, [["THE GLIDE", "cap"], ["moving walkway, 767 m loop", "xs"]], "halo", 12, "start");
+    // leg callout
+    var lp = P(135.5, 234), lt = P(96, 250);
+    S("line", { x1: r1(lp[0]), y1: r1(lp[1]), x2: r1(lt[0]), y2: r1(lt[1]), "class": "ln2" }, svg);
+    TL(svg, lt[0] + 4, lt[1] + 2, [["LEG", "cap"], ["lifts down to the Pentagon", "xs"]], "halo", 12, "start");
+    // segment callouts
+    SEGS.forEach(function (sg) {
+      var b = sg.b, s = Math.sin(b * D2R), c = Math.cos(b * D2R), Rl = 168;
+      var a = P(rOut(b) + 1.5, b), q = P(Rl, b), anchor = s > 0.2 ? "start" : (s < -0.2 ? "end" : "middle");
+      S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(q[0]), y2: r1(q[1]), "class": "ln2" }, svg);
+      var lines = [[(sg.kind === "point" ? "▲ " : "") + sg.name.toUpperCase(), "cap"]];
+      sg.rooms.forEach(function (rm) { lines.push([rm.tag + "  " + rm.name, "sm"]); });
+      if (sg.up) lines.push(["upper: " + sg.up, "xs"]);
+      if (sg.roof) lines.push(["roof: " + sg.roof, "xs"]);
+      var lh = 13, h = (lines.length - 1) * lh, x = q[0] + (anchor === "start" ? 6 : anchor === "end" ? -6 : 0), y;
+      if (Math.abs(c) < 0.2) y = q[1] - h / 2 + 4; else if (c > 0) y = q[1] - h - 4; else y = q[1] + 12;
+      TL(svg, x, y, lines, "", lh, anchor);
+    });
+    north(svg, 44, 60);
+    scalebar(svg, 30, 836, k, [0, 50, 100], "m");
+    T(svg, 970, 850, "▲ = one of the five points, with an upper floor (dashed)", "xs", { "text-anchor": "end" });
+
+    // schedule
+    var host = document.getElementById("crown-sched"), up = upperArea(), tot = 0;
+    SEGS.forEach(function (sg) {
+      var sec = document.createElement("section"), h = document.createElement("h4");
+      h.innerHTML = "<span></span><small></small>";
+      h.firstChild.textContent = sg.name; h.lastChild.textContent = sg.code + " " + (sg.kind === "point" ? "point" : "dip");
+      sec.appendChild(h);
+      var tb = document.createElement("table");
+      sg.rooms.forEach(function (rm) { tot += rm.area; var tr = tb.insertRow(); tr.insertCell().textContent = rm.tag; tr.cells[0].className = "n"; tr.insertCell().textContent = rm.name; var td = tr.insertCell(); td.className = "a"; td.textContent = fmt(Math.round(rm.area / 10) * 10) + " m²"; });
+      if (sg.up) { var tr2 = tb.insertRow(); tr2.className = "up"; tr2.insertCell().className = "n"; tr2.insertCell().textContent = "Upper: " + sg.up; var td2 = tr2.insertCell(); td2.className = "a"; td2.textContent = fmt(Math.round(up / 10) * 10) + " m²"; }
+      sec.appendChild(tb); host.appendChild(sec);
+    });
+    var glide = 2 * Math.PI * CR.rc * CR.w0 - tot;
+    var sec2 = document.createElement("section"); sec2.className = "tot"; sec2.innerHTML = "<h4><span>Totals</span><small>gross floor area</small></h4>";
+    var tb2 = document.createElement("table");
+    [["The Glide promenade", glide, 10], ["Rooms, main floor", tot, 10], ["Upper floors, 5 points", 5 * up, 10], ["The Crown", glide + tot + 5 * up, 100]].forEach(function (r, i) {
+      var tr = tb2.insertRow(); tr.insertCell().className = "n"; tr.insertCell().textContent = r[0]; var td = tr.insertCell(); td.className = "a"; td.textContent = fmt(Math.round(r[1] / r[2]) * r[2]) + " m²"; if (i === 3) { tr.cells[1].style.fontWeight = "600"; td.style.fontWeight = "600"; td.style.color = "var(--ink)"; }
+    });
+    sec2.appendChild(tb2); host.appendChild(sec2);
+  })();
+
+  // ---------------------------------------------------------------- A-301 the Pentagon
+  (function () {
+    var svg = document.getElementById("svg-pent"), k = 2.8, cx = 505, cy = 444;
+    var P = function (r, b) { return [cx + k * r * Math.sin(b * D2R), cy - k * r * Math.cos(b * D2R)]; };
+    var T36 = Math.tan(36 * D2R), C36 = Math.cos(36 * D2R), h = PG.ave / 2;
+    function sidePt(nb, a, u) {   // point on the side with outward normal bearing nb, apothem a, offset u along the side
+      var n = [Math.sin(nb * D2R), -Math.cos(nb * D2R)], t = [Math.cos(nb * D2R), Math.sin(nb * D2R)];
+      return [cx + k * (a * n[0] + u * t[0]), cy + k * (a * n[1] + u * t[1])];
+    }
+    function umax(a) { return a * T36 - h / C36; }
+    var base = G(svg), zones = G(svg), over = G(svg);
+    // static: the Crown above (dashed), outline, atrium
+    var o = [], inn = [];
+    for (var i = 0; i <= 360; i++) { o.push(P(rOut(i), i)); inn.push(P(rIn(i), i)); }
+    S("path", { d: path(o, true), "class": "hl dash" }, base); S("path", { d: path(inn, true), "class": "hl dash" }, base);
+    T(base, P(145, 206)[0] - 6, P(145, 206)[1] + 14, "Crown above (dashed)", "xs halo", { "text-anchor": "end" });
+    S("path", { d: path(CORNERS.map(function (b) { return P(PG.R, b); }), true), "class": "tint" }, base);
+    function draw(L) {
+      while (zones.firstChild) zones.removeChild(zones.firstChild);
+      while (over.firstChild) over.removeChild(over.firstChild);
+      var zc = "z" + L.z;
+      L.sectors.forEach(function (sc, si) {
+        var nb = (126 + 72 * si) % 360;
+        sc.zs.forEach(function (z) {
+          var k0 = z.length > 1 ? z[1] : null, k1 = z.length > 2 ? z[2] : k0;
+          if (k0 === null) { k0 = sc.zs.indexOf(z); k1 = k0; }
+          var a0 = ringA(k0), a1 = ringA(k1) + PG.ring;
+          var poly = [sidePt(nb, a0, -umax(a0)), sidePt(nb, a0, umax(a0)), sidePt(nb, a1, umax(a1)), sidePt(nb, a1, -umax(a1))];
+          S("path", { d: path(poly, true), "class": zc + " zline" }, zones);
+          var am = (a0 + a1) / 2, p = sidePt(nb, am, 0), ang = nb;
+          while (ang > 90) ang -= 180; while (ang <= -90) ang += 180;
+          var tall = (k1 - k0) >= 1;
+          T(zones, p[0], p[1] + 3.8, z[0], tall ? "lbl" : "sm", { "text-anchor": "middle", transform: "rotate(" + r1(ang) + " " + r1(p[0]) + " " + r1(p[1]) + ")", style: tall ? "font-size:12.5px;font-weight:600" : "fill: var(--ink)" });
+        });
+        // sector callout
+        var cp = sidePt(nb, PG.ap + 17, 0), s = Math.sin(nb * D2R), anchor = s > 0.3 ? "start" : (s < -0.3 ? "end" : "middle");
+        TL(over, cp[0], cp[1] - 2, [[(si + 1) + " · " + sc.n.toUpperCase(), "cap"]], "halo", 13, anchor);
+      });
+      // atrium
+      S("path", { d: path(CORNERS.map(function (b) { return P(PG.Ra, b); }), true), "class": L.z === 5 ? zc + " zline" : "icet", style: "stroke: var(--ink); stroke-width: 1.3" }, over);
+      if (L.z !== 5) {
+        [126, 198, 270, 342, 54].forEach(function (nb) {
+          var a = sidePt(nb, PG.apA, 0), c = P(4, nb);
+          S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(c[0]), y2: r1(c[1]), "class": zc, style: "stroke: var(--z" + L.z + "); stroke-width: " + (3 * k) + "; stroke-opacity: .9" }, over);
+        });
+      }
+      S("circle", { cx: cx, cy: cy, r: 4 * k, "class": "paper", style: "stroke: var(--ice); stroke-width: 2" }, over);
+      T(over, cx, cy + 3.5, "Stem", "xs ti", { "text-anchor": "middle" });
+      T(over, cx, cy - PG.apA * k + 14, L.z === 5 ? "atrium floor" : "atrium", "xs halo", { "text-anchor": "middle" });
+      // outline
+      S("path", { d: path(CORNERS.map(function (b) { return P(PG.R, b); }), true), "class": "ln", "stroke-width": 2.4 }, over);
+      // corner cores
+      CORNERS.forEach(function (b) {
+        var p = P(130, b); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 6 * k, "class": "ink2f" }, over); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 2.6 * k, "class": "paper" }, over);
+        var q = P(PG.R + 9, b), s = Math.sin(b * D2R), anchor = s > 0.3 ? "start" : (s < -0.3 ? "end" : "middle"), dy = Math.cos(b * D2R) > 0.5 ? -4 : 4;
+        if (b === 90) { q = P(PG.R, b); anchor = "middle"; dy = -22; }
+        TL(over, q[0], q[1] + dy, [["core ↑ " + CORE_NAMES[b], "xs"]], "halo", 11, anchor);
+      });
+      // ring letters on the north-west avenue
+      "ABCDE".split("").forEach(function (ch, kk) { var p = P((ringA(kk) + 2.5) / C36, 306); T(over, p[0], p[1] + 3.5, ch, "mono", { "text-anchor": "middle", style: "font-weight:500; fill: var(--ink)" }); });
+      if (L.z === 5) {   // tunnel east and rover ramp
+        var e0 = P(PG.R - 2, 90);
+        S("rect", { x: r1(e0[0]), y: r1(e0[1] - 4 * k), width: r1(1000 - e0[0]), height: r1(8 * k), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.2" }, over);
+        TL(over, 994, e0[1] + 4 * k + 16, [["MAGLEV TUNNEL", "cap ti"], ["to the spaceport, 30 km", "xs"], ["phase 2", "xs"]], "halo", 12, "end");
+        var ra = sidePt(54, PG.ap, 24), rb = sidePt(54, PG.ap + 26, 24);
+        S("line", { x1: r1(ra[0]), y1: r1(ra[1]), x2: r1(rb[0]), y2: r1(rb[1]), "class": "ln2", "stroke-width": 7 * k, "stroke-opacity": .35 }, over);
+        T(over, rb[0] + 12, rb[1] + 4, "ramp up to the rover road", "xs halo");
+      }
+      // title
+      while (title.firstChild) title.removeChild(title.firstChild);
+      TL(title, 24, 36, [[L.id + " · " + L.name.toUpperCase(), "cap big"], ["floor " + (-L.floor) + " m below the plain · " + (L.top - L.floor) + " m high · " + fmt(Math.round(LEVEL_AREA / 100) * 100) + " m²", "sm"], [L.atrium, "sm"]], "", 16, "start");
+      S("rect", { x: 24, y: 76, width: 40, height: 8, "class": "zs" + L.z }, title);
+    }
+    var title = G(svg);
+    north(svg, 960, 60);
+    scalebar(svg, 24, 846, k, [0, 25, 50], "m");
+    // tabs and table
+    var tabs = document.getElementById("lv-tabs"), tbody = document.querySelector("#lv-table tbody"), btns = [], rows = [];
+    function select(i) {
+      draw(LEVELS[i]);
+      btns.forEach(function (b, j) { b.setAttribute("aria-pressed", String(i === j)); });
+      rows.forEach(function (r, j) { r.className = i === j ? "sel" : ""; });
+    }
+    LEVELS.forEach(function (L, i) {
+      var b = document.createElement("button"); b.type = "button"; b.id = "lv-" + L.id;
+      b.innerHTML = "<i></i><span></span>"; b.firstChild.style.background = "var(--z" + L.z + ")"; b.lastChild.textContent = L.id + " " + L.name;
+      b.addEventListener("click", function () { select(i); }); tabs.appendChild(b); btns.push(b);
+      var tr = tbody.insertRow(); rows.push(tr); tr.addEventListener("click", function () { select(i); });
+      tr.insertCell().innerHTML = "<b></b>"; tr.cells[0].firstChild.textContent = L.id + " " + L.name;
+      var c1 = tr.insertCell(); c1.className = "num"; c1.textContent = "−" + (-L.floor) + " m";
+      var c2 = tr.insertCell(); c2.className = "num"; c2.textContent = (L.top - L.floor) + " m";
+      var c3 = tr.insertCell(); c3.className = "num"; c3.textContent = fmt(Math.round(LEVEL_AREA / 100) * 100) + " m²";
+      tr.insertCell().textContent = L.sectors.map(function (s) { return s.n; }).join(" · ");
+    });
+    var tr = tbody.insertRow(); tr.style.cursor = "default";
+    tr.insertCell().innerHTML = "<b>Pentagon</b>"; tr.insertCell().className = "num"; tr.insertCell().className = "num";
+    var ct = tr.insertCell(); ct.className = "num"; ct.innerHTML = "<b></b>"; ct.firstChild.textContent = fmt(Math.round(5 * LEVEL_AREA / 100) * 100) + " m²";
+    tr.insertCell().textContent = "10.0 times the Crown's 20,900 m²";
+    select(0);
+  })();
+
+  // ---------------------------------------------------------------- A-401 section
+  (function () {
+    var svg = document.getElementById("svg-sec"), k = 2.6;
+    var X = function (x) { return 60 + (x + 190) * k; }, Y = function (y) { return 34 + (75 - y) * k; };
+    var defs = S("defs", null, svg), pat = S("pattern", { id: "soil", width: 7, height: 7, patternUnits: "userSpaceOnUse" }, defs);
+    S("circle", { cx: 1.5, cy: 1.5, r: .8, "class": "ink3f" }, pat); S("circle", { cx: 5, cy: 4.8, r: .6, "class": "ink3f" }, pat);
+    // ground and soil
+    S("rect", { x: X(-190), y: Y(0), width: r1(X(190) - X(-190)), height: r1(Y(-71) - Y(0)), fill: "url(#soil)" }, svg);
+    // Pentagon levels: rings on the west half (towards a side) and the east half (towards a corner)
+    var W0 = -PG.ap, E0 = PG.R, C36 = Math.cos(36 * D2R);
+    LEVELS.forEach(function (L) {
+      S("rect", { x: X(W0), y: Y(L.top), width: r1(X(E0) - X(W0)), height: r1(Y(L.floor) - Y(L.top)), "class": "paper" }, svg);
+      for (var kk = 0; kk < 5; kk++) {
+        var a0 = ringA(kk), a1 = a0 + PG.ring;
+        S("rect", { x: X(-a1), y: Y(L.top), width: r1((a1 - a0) * k), height: r1(Y(L.floor) - Y(L.top)), "class": "z" + L.z }, svg);
+        S("rect", { x: X(a0 / C36), y: Y(L.top), width: r1((a1 - a0) / C36 * k), height: r1(Y(L.floor) - Y(L.top)), "class": "z" + L.z }, svg);
+      }
+      S("line", { x1: X(W0), y1: Y(L.floor), x2: X(E0), y2: Y(L.floor), "class": "ln", "stroke-width": 1.6 }, svg);
+      S("line", { x1: X(W0), y1: Y(L.top), x2: X(E0), y2: Y(L.top), "class": "ln", "stroke-width": 1.6 }, svg);
+      TL(svg, X(W0) - 8, (Y(L.top) + Y(L.floor)) / 2 + 4, [[L.id + " " + L.name, "sm"]], "halo", 12, "end").setAttribute("style", "fill: var(--ink)");
+    });
+    S("line", { x1: X(W0), y1: Y(-16), x2: X(W0), y2: Y(-68), "class": "ln", "stroke-width": 2.2 }, svg);
+    S("line", { x1: X(E0), y1: Y(-16), x2: X(E0), y2: Y(-68), "class": "ln", "stroke-width": 2.2 }, svg);
+    // atrium void and the Sun Well
+    var aw = -PG.apA, ae = PG.Ra;
+    S("rect", { x: X(aw), y: Y(0), width: r1((ae - aw) * k), height: r1(Y(-68) - Y(0)), "class": "paper" }, svg);
+    S("rect", { x: X(aw), y: Y(0), width: r1((ae - aw) * k), height: r1(Y(-68) - Y(0)), "class": "icet" }, svg);
+    LEVELS.forEach(function (L) {
+      S("line", { x1: X(aw), y1: Y(L.floor), x2: X(aw + 3), y2: Y(L.floor), "class": "ln", "stroke-width": 1.6 }, svg);
+      S("line", { x1: X(ae - 3), y1: Y(L.floor), x2: X(ae), y2: Y(L.floor), "class": "ln", "stroke-width": 1.6 }, svg);
+    });
+    S("line", { x1: X(aw), y1: Y(-68), x2: X(ae), y2: Y(-68), "class": "ln", "stroke-width": 1.6 }, svg);
+    S("line", { x1: X(aw), y1: Y(0), x2: X(aw), y2: Y(-68), "class": "ln" }, svg);
+    S("line", { x1: X(ae), y1: Y(0), x2: X(ae), y2: Y(-68), "class": "ln" }, svg);
+    S("rect", { x: X(-4), y: Y(-16), width: 8 * k, height: r1(Y(-68) - Y(-16)), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
+    [-12, 0, 12].forEach(function (dx) { S("line", { x1: X(dx * .8), y1: Y(-1), x2: X(dx * 1.6), y2: Y(-62), "class": "icel dots", "stroke-width": 1.2 }, svg); });
+    S("rect", { x: X(aw), y: r1(Y(0) - 2), width: r1((ae - aw) * k), height: 4, "class": "icef" }, svg);
+    S("rect", { x: X(aw - 9), y: r1(Y(0) - 5), width: 9 * k, height: 3, "class": "inkf" }, svg);
+    S("rect", { x: X(ae), y: r1(Y(0) - 5), width: 9 * k, height: 3, "class": "inkf" }, svg);
+    TL(svg, X(7), Y(-7), [["SUN WELL", "cap ti"], ["lens and iris", "xs"]], "halo", 11, "start");
+    TL(svg, X(7), Y(-33), [["ATRIUM", "cap"], ["68 m deep", "xs"]], "halo", 11, "start");
+    T(svg, X(-5), Y(-46), "Stem lift", "xs ti halo", { "text-anchor": "end" });
+    // cover dimension
+    var dx0 = X(-66);
+    S("line", { x1: dx0, y1: Y(0), x2: dx0, y2: Y(-16), "class": "ln2" }, svg);
+    [0, -16].forEach(function (y) { S("line", { x1: dx0 - 5, y1: Y(y), x2: dx0 + 5, y2: Y(y), "class": "ln2" }, svg); });
+    TL(svg, dx0 + 8, Y(-6), [["16 m of soil", "sm"], ["balances the air inside", "xs"]], "halo", 11, "start");
+    // ground line and mirrors
+    S("line", { x1: X(-190), y1: Y(0), x2: X(190), y2: Y(0), "class": "ln", "stroke-width": 1.8 }, svg);
+    for (var hx = -100; hx <= 100; hx += 11) { if (Math.abs(hx) < 34) continue; var x = X(hx), y = Y(0); S("line", { x1: x, y1: y, x2: x, y2: y - 4, "class": "ln2" }, svg); S("line", { x1: x - 4, y1: y - 2.5, x2: x + 4, y2: y - 6.5, "class": "icel", "stroke-width": 1.6 }, svg); }
+    T(svg, X(-66), Y(0) - 12, "sun-tracking mirrors", "xs halo", { "text-anchor": "middle" });
+    T(svg, X(-160), Y(0) - 6, "WEST", "cap", { "text-anchor": "middle" });
+    T(svg, X(168), Y(0) - 6, "EAST", "cap", { "text-anchor": "middle" });
+    // the Crown beyond the cut: silhouette of the ring and the other legs
+    var fr = [], bk = [];
+    for (var b = 90; b <= 270; b += 2) fr.push([X(130 * Math.sin(b * D2R)), Y(crownTop(b))]);
+    for (var b2 = 270; b2 <= 450; b2 += 2) bk.push([X(130 * Math.sin(b2 * D2R)), Y(crownTop(b2))]);
+    S("path", { d: path(fr), "class": "hl" }, svg); S("path", { d: path(bk), "class": "hl dash" }, svg);
+    S("line", { x1: X(-140), y1: Y(40), x2: X(140), y2: Y(40), "class": "hl" }, svg);
+    function leg(lx, cls) {
+      return "M" + X(lx - 5) + " " + Y(0) + "C" + X(lx - 5) + " " + Y(20) + " " + X(lx - 9) + " " + Y(34) + " " + X(lx - 10) + " " + Y(40) + "L" + X(lx + 10) + " " + Y(40) + "C" + X(lx + 9) + " " + Y(34) + " " + X(lx + 5) + " " + Y(20) + " " + X(lx + 5) + " " + Y(0);
+    }
+    [40.2, -105.2].forEach(function (lx) { S("path", { d: leg(lx), "class": "hl dash" }, svg); });
+    T(svg, X(40.2), Y(20), "legs beyond", "xs halo", { "text-anchor": "middle" });
+    // east point in section, leg and core
+    S("path", { d: leg(130) + "Z", "class": "tint2", style: "stroke: var(--ink); stroke-width: 1.3" }, svg);
+    S("rect", { x: X(124), y: Y(0), width: 12 * k, height: r1(Y(-68) - Y(0)), "class": "tint2", style: "stroke: var(--ink); stroke-width: 1.3" }, svg);
+    S("line", { x1: X(130), y1: Y(-66), x2: X(130), y2: Y(51), "class": "ln2 dash" }, svg);
+    var ep = "M" + X(122) + " " + Y(40) + "L" + X(138) + " " + Y(40) + "Q" + X(140) + " " + Y(40) + " " + X(140.5) + " " + Y(42) + "L" + X(141.5) + " " + Y(54) +
+      "C" + X(141.5) + " " + Y(62) + " " + X(137) + " " + Y(66) + " " + X(134) + " " + Y(66) + "L" + X(126) + " " + Y(66) + "C" + X(123) + " " + Y(66) + " " + X(118.5) + " " + Y(62) + " " + X(118.5) + " " + Y(54) +
+      "L" + X(119.5) + " " + Y(42) + "Q" + X(120) + " " + Y(40) + " " + X(122) + " " + Y(40) + "Z";
+    S("path", { d: ep, "class": "shell", "stroke-width": 1.8 }, svg);
+    S("line", { x1: X(120), y1: Y(41), x2: X(140), y2: Y(41), "class": "ln2" }, svg);
+    S("line", { x1: X(119), y1: Y(51), x2: X(141), y2: Y(51), "class": "ln2" }, svg);
+    [[44, 45.2], [55, 56.2]].forEach(function (w) { S("line", { x1: X(141.3), y1: Y(w[0]), x2: X(141.3), y2: Y(w[1]), style: "stroke: var(--ice); stroke-width: 3" }, svg); });
+    S("path", { d: "M" + X(125) + " " + Y(66) + "Q" + X(125) + " " + Y(69.5) + " " + X(129) + " " + Y(69.5) + "L" + X(133) + " " + Y(69.5) + "Q" + X(136) + " " + Y(69) + " " + X(136) + " " + Y(66) + "Z", "class": "routef" }, svg);
+    TL(svg, X(148), Y(70), [["EAST POINT · ARRIVAL", "cap"], ["pod deck +66 · upper floor +51", "xs"], ["main floor +41 · underside +40", "xs"]], "halo", 11.5, "start");
+    TL(svg, X(142), Y(22), [["LEG AND CORE", "cap"], ["lifts from the Crown to L5", "xs"]], "halo", 11.5, "start");
+    // west dip in section
+    var wp = "M" + X(-138) + " " + Y(40) + "L" + X(-122) + " " + Y(40) + "Q" + X(-120) + " " + Y(40) + " " + X(-119.6) + " " + Y(41.5) + "L" + X(-119.2) + " " + Y(46) +
+      "C" + X(-119.2) + " " + Y(49.5) + " " + X(-123) + " " + Y(50) + " " + X(-130) + " " + Y(50) + "C" + X(-137) + " " + Y(50) + " " + X(-140.8) + " " + Y(49.5) + " " + X(-140.8) + " " + Y(46) +
+      "L" + X(-140.4) + " " + Y(41.5) + "Q" + X(-140) + " " + Y(40) + " " + X(-138) + " " + Y(40) + "Z";
+    S("path", { d: wp, "class": "shell", "stroke-width": 1.8 }, svg);
+    S("line", { x1: X(-140), y1: Y(41), x2: X(-120), y2: Y(41), "class": "ln2" }, svg);
+    S("line", { x1: X(-140.7), y1: Y(43.6), x2: X(-140.7), y2: Y(44.8), style: "stroke: var(--ice); stroke-width: 3" }, svg);
+    TL(svg, X(-116), Y(38), [["WEST DIP · SUNSET LOUNGE", "cap"], ["main floor +41 · roof +50", "xs"]], "halo", 11.5, "start");
+    // maglev tunnel
+    S("rect", { x: X(E0), y: Y(-60.5), width: r1(X(190) - X(E0)), height: r1(6.5 * k), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
+    TL(svg, X(189), Y(-74), [["MAGLEV TUNNEL → SPACEPORT, 30 km · phase 2", "xs ti"]], "", 11, "end");
+    // elevation marks
+    [[66, "+66"], [51, "+51"], [40, "+40"], [0, "±0 plain"], [-16, "−16"], [-24, "−24"], [-41, "−41"], [-50, "−50"], [-59, "−59"], [-68, "−68"]].forEach(function (m) {
+      var y = Y(m[0]); S("path", { d: "M" + X(-188) + " " + (y - 5) + "L" + X(-185) + " " + y + "L" + X(-182) + " " + (y - 5) + "Z", "class": "inkf" }, svg);
+      S("line", { x1: X(-182), y1: y, x2: X(-176), y2: y, "class": "ln2" }, svg);
+      T(svg, X(-175), y + 3.5, m[1], "mono halo");
+    });
+    scalebar(svg, X(-110), Y(-74) - 2, k, [0, 25, 50], "m");
+  })();
+
+  // ---------------------------------------------------------------- A-501 spaceport
+  (function () {
+    var svg = document.getElementById("svg-port"), k = 0.34;
+    var X = function (x) { return 40 + (x + 900) * k; }, Y = function (y) { return 20 + (1250 - y) * k; };
+    var M = function (x, y) { return [X(x), Y(y)]; };
+    var defs = S("defs", null, svg), pat = S("pattern", { id: "hatch", width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, defs);
+    S("line", { x1: 0, y1: 0, x2: 0, y2: 6, style: "stroke: var(--ice); stroke-width: 1.2" }, pat);
+    // solar field
+    S("rect", { x: X(-720), y: Y(-640), width: r1(1040 * k), height: r1(520 * k), "class": "tint" }, svg);
+    for (var sy = -660; sy >= -1150; sy -= 22) S("line", { x1: X(-705), y1: Y(sy), x2: X(305), y2: Y(sy), "class": "hl" }, svg);
+    TL(svg, X(-200), Y(-890), [["SOLAR FIELD", "cap halo"], ["0.5 km²", "xs halo"]], "", 12, "middle");
+    // reactor
+    S("circle", { cx: X(-560), cy: Y(-380), r: 150 * k, "class": "hl dash" }, svg);
+    S("circle", { cx: X(-560), cy: Y(-380), r: 26 * k, "class": "ink2f" }, svg);
+    TL(svg, X(-560), Y(-380) + 26, [["Buried reactor", "sm"], ["keep-out ring", "xs"]], "halo", 11, "middle");
+    // ice mine and fuel plant
+    S("rect", { x: X(-460), y: Y(1150), width: r1(320 * k), height: r1(200 * k), fill: "url(#hatch)", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
+    TL(svg, X(-300), Y(1150) - 8, [["ICE MINE", "cap ti"]], "halo", 12, "middle");
+    S("path", { d: path([M(-140, 1050), M(340, 880)]), "class": "icel", "stroke-width": 2 }, svg);
+    T(svg, X(100), Y(990) - 6, "conveyor", "xs halo", { "text-anchor": "middle", transform: "rotate(19 " + r1(X(100)) + " " + r1(Y(990) - 6) + ")" });
+    S("rect", { x: X(340), y: Y(900), width: r1(230 * k), height: r1(120 * k), "class": "tint2", style: "stroke: var(--ink); stroke-width: 1.2" }, svg);
+    TL(svg, X(455), Y(900) - 22, [["FUEL PLANT", "cap"], ["methane and oxygen", "xs"]], "halo", 11, "middle");
+    var tanks = [];
+    for (var ti = 0; ti < 6; ti++) { var tx = 640 + (ti % 3) * 60, ty = 840 - Math.floor(ti / 3) * 60; tanks.push([tx, ty]); S("circle", { cx: X(tx), cy: Y(ty), r: 18 * k, "class": "paper", style: "stroke: var(--ink); stroke-width: 1.1" }, svg); }
+    T(svg, X(700), Y(700), "tank farm", "xs halo", { "text-anchor": "middle" });
+    // pads
+    var pads = [60, 90, 120].map(function (b) { return [1600 * Math.sin(b * D2R), 1600 * Math.cos(b * D2R)]; });
+    // main road from the terminal to the pads, with a spur to the cargo yard
+    S("path", { d: path([M(90, 0), M(1480, 0)]), "class": "ln2", "stroke-width": 2 }, svg);
+    [pads[0], pads[2]].forEach(function (p) { S("path", { d: path(catmull([[1000, 0], [1160, p[1] * .45], [p[0] - 115, p[1] * .96]], 12).map(function (q) { return M(q[0], q[1]); })), "class": "ln2", "stroke-width": 2 }, svg); });
+    S("path", { d: path(catmull([[380, 0], [470, -110], [545, -230]], 10).map(function (q) { return M(q[0], q[1]); })), "class": "ln2", "stroke-width": 1.4 }, svg);
+    TL(svg, X(700), Y(0) - 8, [["pressurised bus and cargo road", "xs"]], "halo", 11, "middle");
+    pads.forEach(function (p, i) {
+      S("path", { d: path([M(760, 800), M(p[0], p[1])]), "class": "hl dash" }, svg);
+      S("circle", { cx: X(p[0]), cy: Y(p[1]), r: 130 * k, "class": "ln2 dash" }, svg);
+      S("circle", { cx: X(p[0]), cy: Y(p[1]), r: 110 * k, "class": "tint" }, svg);
+      S("circle", { cx: X(p[0]), cy: Y(p[1]), r: 40 * k, "class": "paper", style: "stroke: var(--ink); stroke-width: 1.6" }, svg);
+      T(svg, X(p[0]) + 50, Y(p[1]) + 4, "PAD " + (i + 1), "cap halo");
+    });
+    S("circle", { cx: X(pads[1][0]), cy: Y(pads[1][1]), r: 4.5 * 1.6, "class": "inkf" }, svg);
+    TL(svg, X(pads[1][0]) + 50, Y(pads[1][1]) + 18, [["ship from Earth", "xs"], ["berm at 130 m", "xs"]], "halo", 11, "start");
+    // approach arrows
+    [[2020, 520], [2020, 0], [2020, -520]].forEach(function (a) { var p = M(a[0], a[1]); S("path", { d: "M" + r1(p[0] + 14) + " " + r1(p[1]) + "L" + r1(p[0] - 10) + " " + r1(p[1]) + "M" + r1(p[0] - 4) + " " + r1(p[1] - 5) + "L" + r1(p[0] - 10) + " " + r1(p[1]) + "L" + r1(p[0] - 4) + " " + r1(p[1] + 5), "class": "ln2" }, svg); });
+    TL(svg, X(2020) + 16, Y(-620), [["ships land", "xs"], ["from the east", "xs"]], "", 11, "end");
+    // cargo yard
+    [[0, 0], [0, -70], [0, -140]].forEach(function (c) { S("rect", { x: X(470 + c[0]), y: Y(-240 + c[1]), width: r1(150 * k), height: r1(44 * k), "class": "tint2", style: "stroke: var(--ink-2); stroke-width: 1" }, svg); });
+    TL(svg, X(545), Y(-470), [["CARGO YARD", "cap"]], "halo", 12, "middle");
+    // terminal
+    S("circle", { cx: X(0), cy: Y(0), r: 90 * k, "class": "shell", "stroke-width": 1.8 }, svg);
+    S("circle", { cx: X(0), cy: Y(0), r: 56 * k, "class": "tint2" }, svg);
+    TL(svg, X(0), Y(0) + 48, [["TERMINAL", "cap"], ["arrivals, health check, lounge", "xs"], ["maglev station below · phase 2", "xs"]], "halo", 11, "middle");
+    // tower
+    S("circle", { cx: X(-150), cy: Y(190), r: 12 * k + 2, "class": "inkf" }, svg);
+    T(svg, X(-150) - 10, Y(190) + 4, "control tower", "xs halo", { "text-anchor": "end" });
+    // pod station (west, facing home)
+    S("rect", { x: X(-420), y: Y(60), width: r1(70 * k), height: r1(120 * k), "class": "tint2", style: "stroke: var(--ink); stroke-width: 1.1" }, svg);
+    [-80, -27, 27, 80].forEach(function (py) { S("circle", { cx: X(-300), cy: Y(py), r: 13 * k + 1, "class": "paper", style: "stroke: var(--route); stroke-width: 1.6" }, svg); });
+    S("path", { d: path([M(-90, 0), M(-280, 0)]), "class": "ln2", "stroke-width": 1.4 }, svg);
+    TL(svg, X(-432), Y(0) - 2, [["POD STATION", "cap tr"], ["4 pads and a hangar", "xs"]], "halo", 11, "end");
+    // roads west to the house
+    S("path", { d: path([M(-420, -150), M(-900, -150)]), "class": "ln2 dash", "stroke-width": 1.4 }, svg);
+    S("path", { d: path([M(-90, -40), M(-240, -150), M(-420, -150)]), "class": "ln2", "stroke-width": 1.4 }, svg);
+    S("path", { d: path([M(-60, -60), M(-900, -230)]), "class": "icel dash" }, svg);
+    TL(svg, X(-890), Y(-150) - 8, [["← rover road to the house, 30 km", "sm"]], "halo", 13, "start");
+    TL(svg, X(-890), Y(-190) - 2, [["← maglev tunnel to the house · phase 2", "sm ti"]], "halo", 13, "start");
+    S("path", { d: path(catmull([[-300, 0], [-600, 150], [-900, 180]], 10).map(function (q) { return M(q[0], q[1]); })), "class": "route" }, svg);
+    T(svg, X(-890), Y(180) - 10, "← pod route home", "sm tr halo");
+    north(svg, 960, 50);
+    scalebar(svg, 40, 836, k, [0, 250, 500], "m");
+  })();
+
+  // ---------------------------------------------------------------- A-601 flight
+  (function () {
+    var svg = document.getElementById("svg-flight"), tmax = 285, amax = 450;
+    var X = function (t) { return 64 + t / tmax * 900; }, Y = function (a) { return 244 - a / amax * 196; };
+    [0, 100, 200, 300, 400].forEach(function (a) { S("line", { x1: X(0), y1: Y(a), x2: X(tmax), y2: Y(a), "class": "hl" }, svg); T(svg, X(0) - 8, Y(a) + 3.5, a + " m", "mono", { "text-anchor": "end" }); });
+    for (var t = 0; t <= 270; t += 30) { T(svg, X(t), Y(0) + 18, Math.floor(t / 60) + ":" + ("0" + t % 60).slice(-2), "mono", { "text-anchor": "middle" }); }
+    var kf = [[0, 0], [15, 150], [30, 400], [52, 400], [66, 70], [104, 55], [114, 240], [140, 240], [150, 90], [158, 45], [188, 45], [200, 160], [220, 160], [235, 90], [246, 40], [250, 30], [256, 30], [263, 76], [270, 66]];
+    var cv = monotone(kf, 12).map(function (q) { return [X(q[0]), Y(Math.max(0, q[1]))]; });
+    S("path", { d: path(cv.concat([[X(270), Y(0)], [X(0), Y(0)]]), true), "class": "routet" }, svg);
+    S("path", { d: path(cv), "class": "route" }, svg);
+    S("line", { x1: X(0), y1: Y(0), x2: X(tmax), y2: Y(0), "class": "ln" }, svg);
+    S("line", { x1: X(240), y1: Y(40), x2: X(262), y2: Y(40), "class": "hl dash" }, svg);
+    T(svg, X(238), Y(40) + 3.5, "ring underside +40", "xs halo", { "text-anchor": "end" });
+    T(svg, X(270) + 7, Y(66) - 7, "pod deck +66", "xs halo", { "text-anchor": "start" });
+    S("circle", { cx: r1(X(270)), cy: r1(Y(66)), r: 4, "class": "routef" }, svg);
+    var SH = [[0, "Lift-off"], [30, "Over the spaceport"], [62, "Dune Sea"], [108, "Crater"], [148, "Ice Cliffs"], [198, "First sight"], [226, "Orbit, under the ring"], [258, "Landing"], [270, "Welcome home"]];
+    SH.forEach(function (s, i) {
+      var x = X(s[0]);
+      S("line", { x1: x, y1: 26, x2: x, y2: Y(0), "class": "hl dots" }, svg);
+      S("circle", { cx: r1(x), cy: 20, r: 8, "class": "paper", style: "stroke: var(--route); stroke-width: 1.4" }, svg);
+      T(svg, x, 24, String(i + 1), "sm tr", { "text-anchor": "middle", style: "font-weight:600" });
+    });
+    T(svg, X(tmax), Y(0) + 18, "min:s", "mono", { "text-anchor": "end" });
+    var shots = [
+      ["0:00", "Lift-off", "The pod rises from the pod station. Behind it, the ship you came on stands on Pad 2, venting white vapour.", "chase camera, low"],
+      ["0:30", "Over the spaceport", "It pitches over and turns west into the low sun. Pads, fuel tanks and the solar field slide by below.", "drone camera, high"],
+      ["1:02", "Dune Sea", "Down to 55 m over black dunes. Dust devils march across the plain and the pod banks between two of them.", "side camera, tracking"],
+      ["1:48", "Crater", "A climb over the rim of a 3 km crater, frost still lying in its shadows.", "high, looking down"],
+      ["2:28", "Ice Cliffs", "The pod drops to 45 m and follows a 100 m scarp of layered ice, blue in the shade.", "close along the cliff"],
+      ["3:18", "First sight", "The Crown appears on the horizon, its five white points catching the sun.", "over your shoulder, through the cockpit"],
+      ["3:46", "Orbit, under the ring", "One circle around the Crown, then in under the ring between two legs, 30 m above the Stone Garden. The mirrors flash.", "pod-front camera"],
+      ["4:18", "Landing", "Up and over the east point, turn to vertical and touch down on the pod deck as the sunset turns blue.", "wide, from the Observatory point"],
+      ["4:30", "Welcome home", "The deck lowers into the hangar and fills with air. The Door recognises you and opens onto the Arrival hall.", "inside"]
+    ];
+    var ol = document.getElementById("shots");
+    shots.forEach(function (s, i) {
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="tc"><span></span><b></b></span><h4></h4><p></p><span class="cam"></span>';
+      li.querySelector(".tc span").textContent = String(i + 1);
+      li.querySelector(".tc b").textContent = s[0];
+      li.querySelector("h4").textContent = s[1];
+      li.querySelector("p").textContent = s[2];
+      li.querySelector(".cam").textContent = "Camera: " + s[3];
+      ol.appendChild(li);
+    });
+  })();
+})();
+</script>
+</body>
+</html>

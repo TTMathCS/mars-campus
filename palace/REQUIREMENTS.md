@@ -5,8 +5,8 @@ Demo 2 of [Mars Campus](../README.md) · live at https://ttmathcs.github.io/mars
 This file is the source of truth for this demo. It collects what was asked for in the design rounds
 so far. Every requirement has an ID so it can be referenced, changed or retired later.
 
-> **Status, 29 Sep 2026: redesign in review.** Jim found the palace below "far from satisfactory" and asked
-> to start again. Round 3 (section 10) replaces it. The floor plans are at
+> **Status, 30 Sep 2026: redesign in review, plans Rev B.** Jim found the palace below "far from satisfactory"
+> and asked to start again. Round 3 (section 10) replaces it. The floor plans are at
 > https://ttmathcs.github.io/mars-campus/palace/plans/ and nothing new is built until Jim approves them.
 > Sections 2 to 9 describe the current palace, which stays live until the new demo replaces it at the same link.
 
@@ -127,12 +127,19 @@ need impressive video to show the flight on the way". A small city will grow fro
 Jim's answers to the plans Rev A, 30 Sep 2026: "even wilder"; "master suites one up and one down"; add a
 "warm hole transformation device which can transfer me to anytime any space"; "Arrival land on sunset, but
 animation can go through mar storm etc."; "keep all the progress in the repo, so I can switch account or ai to
-continue there". He also asked how the Crown can float: "is it supported by anti gravity device?"
+continue there". He also asked how the Crown can float: "is it supported by anti gravity device?", and then
+chose: "use anti gravity. No elevator. From crown to underground is by use warm hole or any transmission device."
 
 | ID | Requirement | Priority | Status |
 | --- | --- | --- | --- |
-| RD-10 | Above ground even wilder, "only exist in dreams" | Must | Rev B in progress: floating mirror Orb over the Sun Well, spires to +90 m, lighter 16 m ring. Open: keep the five legs, or float the whole Crown on anti-gravity drives with five columns of light as lifts |
-| RD-11 | Two master suites, one up in the Crown and one down in the Pentagon | Must | Rev B in progress: Crown SE dip and L1 sector 1 |
-| RD-12 | A wormhole device that takes Jim to any time and any place | Must | Rev B in progress: the Wormhole Gate inside the Orb, reached by the Beam lift |
-| RD-13 | Land at sunset; the flight video can pass through a Mars dust storm and more | Must | Rev B in progress: storm wall after the Ice Cliffs, breakout into the sunset with Phobos crossing the sun |
+| RD-10 | Above ground even wilder, "only exist in dreams" | Must | Rev B: the mirror Orb floats over the Sun Well, the five points are spires to +90 m, the ring is 16 m wide |
+| RD-11 | Two master suites, one up in the Crown and one down in the Pentagon | Must | Rev B: "Master suite up" in the Crown's SE dip, "Master suite down" on L1 sector 1 |
+| RD-12 | A wormhole device that takes Jim to any time and any place | Must | Rev B: the Wormhole Gate hall on the Orb's +72 floor |
+| RD-13 | Land at sunset; the flight video can pass through a Mars dust storm and more | Must | Rev B: storm wall after the Ice Cliffs, breakout into the sunset with Phobos crossing the sun, then into the hangar; 10 shots, about 4 min 40 s |
+| RD-15 | The Crown floats on anti-gravity; no legs | Must | Rev B: an anti-gravity drive in each spire; nothing touches the ground |
+| RD-16 | No elevators; the Crown and the underground are linked by wormhole or another transmission device | Must | Rev B: portals in the five spires, the Orb, the Pentagon's corner cores and a portal column in the atrium; stairs only between Pentagon levels |
 | RD-14 | Keep all progress in the repo so another account or AI can continue | Must | Done: `HANDOFF.md`, demo 1 sources in `ttmath/src/`, tests in `ttmath/tools/`, plans in `palace/plans/` |
+
+Rev B numbers: Crown 20,100 m² (ring 13,070 including the Glide, upper floors 3,630, Orb 3,370); Pentagon
+209,700 m², 10.4 times the Crown. Open for Jim: approve Rev B, and where the Wormhole Gate should take him in
+the demo (for example the TTMath campus in demo 1).

@@ -64,6 +64,8 @@
       linear-gradient(180deg, #4a2d1e, #9a6440 66%, #3a2317 67%, #1c120d); }
   .thumb.plans { background: radial-gradient(ellipse 60% 70% at 50% 55%, rgba(156, 201, 234, 0.10), transparent 70%), linear-gradient(180deg, #1b2326, #111618); }
   .thumb.plans svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .thumb.book { background: #1a110d; overflow: hidden; }
+  .thumb.book img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .card .body { padding: 14px 16px 16px; display: grid; gap: 6px; align-content: start; }
   .card h3 { font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.05; margin: 0; }
   .card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
@@ -114,13 +116,14 @@
         <span class="go">See the plans →</span>
       </div>
     </a>
-    <div class="card soon" aria-label="Next demo, coming soon">
-      <div class="thumb"><span class="tag">Coming soon</span></div>
+    <a class="card" href="palace/design/">
+      <div class="thumb book"><img src="palace/design/img/crown-sunset.jpg" alt="" loading="lazy"><span class="tag">Demo 2 · Design book</span></div>
       <div class="body">
-        <h3>Next demo</h3>
-        <p>More places on Mars are on the way.</p>
+        <h3>Design book and Mars Atlas</h3>
+        <p>Every plan for demo 2 before it is built: the site and the city, the Crown, the Pentagon, interiors, power, transport, the spaceport and life support, with a zoomable map of Mars from the solar system down to the house.</p>
+        <span class="go">Open the book →</span>
       </div>
-    </div>
+    </a>
   </div>
   <div class="notes">
     <div>

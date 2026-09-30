@@ -304,7 +304,7 @@
       "  float slope = 1.0 - n.y, bslope = 1.0 - normalize(vN).y;",
       // albedo: regolith, bright dust on flats, darker rock on slopes, dark basalt sand in the dunes
       "  vec2 wq = pw / 1500.0; wq += vec2(vnoise(wq * 1.7 + 3.1), vnoise(wq * 1.7 + 9.4)) * 0.55;",
-      "  float big = vnoise(wq) * 0.55 + vnoise(wq * 3.3 + 2.0) * 0.28 + vnoise(pw / 75.0) * 0.17;",
+      "  float big = vnoise(wq) * 0.55 + vnoise(rot * wq * 3.3 + 2.0) * 0.28 + vnoise(rot * rot * pw / 75.0 + 3.0) * 0.17;",
       "  vec3 reg = mix(vec3(0.245, 0.152, 0.100), vec3(0.335, 0.218, 0.143), smoothstep(-0.75, 0.75, big));",
       "  reg *= 0.9 + 0.1 * smoothstep(-0.4, 0.6, vnoise(pw / 2600.0 + 11.0));",
       // dust devil tracks: long thin dark curves, seen best from above
@@ -318,7 +318,10 @@
       "    trk = max(trk, ln * smoothstep(-0.2, 0.45, vnoise(pw / 1700.0 + float(k) * 5.0)));",
       "  }",
       "  reg *= 1.0 - 0.22 * trk;",
-      "  reg = mix(reg, vec3(0.37, 0.255, 0.175), smoothstep(0.1, 0.6, vnoise(pw / 190.0 + 5.0)) * (1.0 - smoothstep(0.02, 0.12, bslope)) * 0.55);",
+      // bright dust on the flats: rotated, warped noise so the patches don't line up with the axes
+      "  vec2 dq = rot * pw / 190.0; dq += vec2(vnoise(dq * 0.45 + 1.7), vnoise(dq * 0.45 + 6.3)) * 0.8;",
+      "  float dust = vnoise(dq + 5.0) * 0.68 + vnoise(rot * dq * 2.4 + 2.0) * 0.32;",
+      "  reg = mix(reg, vec3(0.37, 0.255, 0.175), smoothstep(0.05, 0.55, dust) * (1.0 - smoothstep(0.02, 0.12, bslope)) * 0.55);",
       "  vec3 rock = vec3(0.155, 0.112, 0.090) * (0.8 + 0.4 * (vnoise(pw / 7.0) * 0.5 + 0.5));",
       "  vec3 alb = mix(reg, rock, smoothstep(0.18, 0.45, bslope));",
       "  vec3 sand = mix(vec3(0.105, 0.088, 0.078), vec3(0.16, 0.115, 0.088), 0.5 + 0.5 * vnoise(pw / 90.0));",

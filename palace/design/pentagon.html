@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pentagon · Arcadia Design Book</title>
+<meta name="description" content="Five levels below the Stone Garden: the Pentagon's plan, its levels, the atrium and the portal column, why it is under 16 m of soil, and how it is dug and built.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+<style>
+  .lvbtns { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+  .lvbtns button { font: 600 13.5px var(--f-body); padding: 7px 12px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); cursor: pointer; }
+  .lvbtns button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+  .lvbtns button i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+</style>
+</head>
+<body data-ch="pentagon">
+<main class="wrap">
+  <div class="open">
+    <div class="no">Chapter 03</div>
+    <h1>The Pentagon</h1>
+    <p class="lede">The house below ground. One solid five-sided block, 160 m on each side and five levels deep, lies under the Stone Garden with 16 m of soil on top. It is the night house and the working house: where Jim sleeps, where the gardens and the workshops are, and where the air, water and power come from. It has ten times the floor area of the Crown.</p>
+  </div>
+  <figure class="hero"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fSec" viewBox="0 0 1180 690" role="img" aria-label="Section east to west through the Crown, the Pentagon and the atrium"></svg></div></div><figcaption><b>Section east to west through the centre</b>, looking north, to scale. To the right the cut runs along the east avenue to the corner core under the Arrival spire; to the left it crosses the five rings to the west face. The atrium drops 68 m from the Sun Well to the sun court on L5.</figcaption></figure>
+  <div class="nums">
+    <div><b>160 m</b><span>Each of the five sides. The corners lie exactly under the Crown's five spires</span></div>
+    <div><b>−16 to −68 m</b><span>Five levels, from the roof of L1 to the floor of L5</span></div>
+    <div><b>209,700 m²</b><span>Floor area, 41,940 m² a level: 10.4 times the Crown</span></div>
+    <div><b>16 m</b><span>Soil on top: it stops the radiation and holds the air pressure down</span></div>
+    <div><b>68 m</b><span>Depth of the atrium under the Sun Well</span></div>
+    <div><b>2 min</b><span>The longest walk to a portal. There are no lifts</span></div>
+  </div>
+
+  <section class="part" id="plan">
+    <h2><small>The plan</small>Five rings, five sectors, one atrium</h2>
+    <div class="two">
+      <div>
+        <p>Every level has the same plan. Round the <b>atrium</b> in the middle run five pentagonal <b>rings</b>, A on the inside to E on the outside, each 14 m deep, with 4 m <b>streets</b> between them. Five 5 m <b>avenues</b> run from the atrium's corners out to the five <b>corner cores</b>, and divide each level into five <b>sectors</b>.</p>
+        <p>Each corner core sits under one of the Crown's spires and holds a portal to that spire, a portal to every other level, a stair, and the shafts for air, water and power. In the middle of the atrium stands the <b>portal column</b>, with a portal on every level reached by five bridges.</p>
+        <p>Sector 1 lies to the south-east, under the Crown's Master suite up, and the sectors are numbered clockwise from there. Jim's own rooms on L1 are in sector 1, straight below his suite in the Crown.</p>
+        <div class="lvbtns" id="lvb" role="group" aria-label="Choose a level"></div>
+        <div class="tw"><table class="spec" id="tZones"><thead><tr><th>Sector</th><th>Rings A to E, from the atrium out</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <figure class="fig"><svg id="fPlan" viewBox="0 0 640 640" role="img" aria-label="Plan of a Pentagon level with its rings and sectors"></svg><figcaption><b>Level plan</b>, north up. Pick a level above. Grey lines are the streets and avenues; the five dots at the corners are the corner cores, and the ring in the middle is the portal column.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="part" id="levels">
+    <h2><small>The levels</small>From the residence down to the trains</h2>
+    <div class="rooms" id="lvCards"></div>
+  </section>
+
+  <section class="part" id="why">
+    <h2><small>Why underground</small>Sixteen metres of soil</h2>
+    <div class="two flip">
+      <div>
+        <p><b>Radiation.</b> On the open plain cosmic rays and solar storms give about 230 mSv a year. Under 16 m of soil, about 2,700 g/cm², that falls to less than people get on Earth. Nothing else Jim could build stops radiation so completely.</p>
+        <p><b>Pressure.</b> Air inside pushes the roof up; soil on top pushes it down. At Earth's sea-level pressure the two balance under 16 m of soil:</p>
+        <p style="font:500 15.5px var(--f-mono);background:var(--sheet);border:1px solid var(--rule);padding:10px 14px">101 kPa ÷ (1.7 t/m³ × 3.71 m/s²) ≈ 16 m</p>
+        <p>At 70 kPa, the pressure recommended in chapter 08, 11 m would balance and the extra 5 m simply rests on the roof. Either way the roof never has to hold the house down against its own air, which is the hardest job a Mars building has.</p>
+        <p><b>Temperature.</b> A few metres down the day and the seasons disappear; the ground stays near −60 °C all year. The Pentagon's walls are insulated so its warmth doesn't melt the ice-rich ground round it, just as buildings on permafrost in Canada and Siberia are.</p>
+        <p><b>Storms and quakes.</b> Dust storms don't reach it, and the small marsquakes at this distance are felt less below ground than on the surface.</p>
+      </div>
+      <figure class="fig"><svg id="fDose" viewBox="0 0 620 440" role="img" aria-label="Radiation dose by place, from the open plain to the Pentagon"></svg><figcaption><b>Radiation, mSv a year</b>, if you stayed in one place all year. Estimates from measurements by Curiosity's radiation detector; the Crown's figure depends on its final wall design.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="part" id="atrium">
+    <h2><small>The heart</small>The atrium and the sun court</h2>
+    <div class="two">
+      <div>
+        <p>The atrium is a five-sided shaft 35 m across and 68 m deep. Sunlight from the Sun Well falls down its middle; the portal column rises through it; five bridges cross to the column on every level. Its walls are terraces of hanging gardens that catch the light, with water running down them from the lake on L2.</p>
+        <p>At the bottom, on L5, the <b>sun court</b> is a garden of 2,100 m² in real sunlight: lawns, fruit trees and a pool under the column, the only place on Mars where Jim can sit in the sun without a suit.</p>
+        <p>When a dust storm closes the Sun Well's iris, lamps in the lens take over with the same colour and brightness as a clear Mars noon.</p>
+        <table class="spec"><tbody>
+          <tr><td>Atrium</td><td class="n">35 m sides · 68 m deep</td></tr>
+          <tr><td>Sun court floor, L5</td><td class="n">2,100 m²</td></tr>
+          <tr><td>Portal column</td><td class="n">Ø 10 m · a portal on every level</td></tr>
+          <tr><td>Bridges</td><td class="n">5 a level · 25 in all</td></tr>
+          <tr><td>Sunlight at noon, clear day</td><td class="n">about 500 kW</td></tr>
+        </tbody></table>
+      </div>
+      <div>
+        <div class="future"><div class="k">Future technology · portals</div><p>A portal is a door that opens onto another place: step through the one in the corner core and you are in the spire above, or on another level. Portals link the Crown's spires, the Orb, the corner cores and the portal column. In the demo you walk through them in one step.</p></div>
+        <div class="note"><div class="k">Real fallback</div><p>Every corner core also has a stair from L5 to L1, and robot carriers climb the spiral ramps beside it with goods. From L1, a sealed stair in each core leads to a hatch in the garden. If the portals stop, you can still walk anywhere below ground, and the pods and escape capsules connect the Crown to the ground (chapter 02).</p></div>
+        <p><b>Safety.</b> Each sector can be sealed from the others by pressure doors in the streets and avenues, so a leak or a fire stays in one sector. Every point has two ways out. The storm reserve on L4 holds food and spares for two years.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="part" id="build">
+    <h2><small>How it is built</small>Dig, build, cover</h2>
+    <div class="two flip">
+      <div>
+        <p>The Pentagon is built in an open pit by robots, then buried.</p>
+        <ol>
+          <li><b>Dig.</b> Excavators and cutters remove about 3 million m³ of ground to 70 m. In the frozen ice-rich ground the pit walls stand steep on their own, like an ice quarry.</li>
+          <li><b>Keep the ice.</b> Most of what comes out below 14 m is water ice, about <b>1.5 million tonnes</b>: water, air and rocket fuel for decades. It goes to the ice store and the fuel plant.</li>
+          <li><b>Build.</b> The walls, floors and roof are thick sintered-regolith panels made in the foundry from the soil that was dug out, tied together as one stiff block, then lined, insulated and sealed.</li>
+          <li><b>Cover.</b> The roof is covered with 16 m of the dug soil, rolled in layers. The Stone Garden is laid on top, and the Crown's pads beside it.</li>
+        </ol>
+        <p>Digging starts before Jim arrives, in the first two years of robot work (chapter 10). L4 and L5, which hold life support and the transit halls, are finished first; the gardens take the longest to grow.</p>
+      </div>
+      <figure class="fig"><svg id="fDig" viewBox="0 0 620 460" role="img" aria-label="The four stages of building the Pentagon"></svg><figcaption><b>Four stages</b>, in section. The soil that comes out becomes the walls and the cover; the ice becomes the water store and the rocket fuel.</figcaption></figure>
+    </div>
+    <table class="spec"><thead><tr><th>Quantity, estimate</th><th>Amount</th></tr></thead><tbody>
+      <tr><td>Footprint</td><td class="n">44,000 m²</td></tr>
+      <tr><td>Ground dug out</td><td class="n">3.1 million m³</td></tr>
+      <tr><td>Water ice recovered</td><td class="n">1.5 million t</td></tr>
+      <tr><td>Soil put back on top, 16 m</td><td class="n">0.7 million m³</td></tr>
+      <tr><td>Floor area built</td><td class="n">209,700 m²</td></tr>
+    </tbody></table>
+  </section>
+</main>
+<script src="book.js"></script>
+<script>
+(function () {
+  var S = BOOK.S, T = BOOK.T, P = BOOK.path, D = Math.PI / 180, r1 = BOOK.r1;
+  var R = 160 / (2 * Math.sin(36 * D)), RA = 35 / (2 * Math.sin(36 * D)), AP = R * Math.cos(36 * D), APA = RA * Math.cos(36 * D), RING = (AP - APA - 16) / 5;
+  var LEVELS = [
+    { id: "L1", name: "Residence", floor: -24, top: -16, col: "var(--z1)", d: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema and a bar, thermal baths and a 50 m pool, the great library and eight guest suites.",
+      sec: [["Jim's residence", ["Family room", "Master suite down", "Kitchen and dining", "Private spa", "Wardrobes and store"]], ["Club", ["Cinema, 40 seats", "Music room", "Games and billiards", "Bar", "Wine vault"]], ["Baths", ["Thermal pools", "Pool, 50 m", "Sauna and steam", "Gym", "Treatment rooms"]], ["Library", ["Great library", "Archive of Earth", "Reading rooms", "Film and music archive", "Book stacks"]], ["Guests", ["Guest lounge", "Guest suites 1–4", "Guest suites 5–8", "Family apartments", "Staff and robots"]]] },
+    { id: "L2", name: "Garden", floor: -41, top: -25, col: "var(--z2)", d: "Sixteen metres tall, under a sky of lamps: orchards, a farm, a lake that is also the house's water reserve, a forest with a stream, and a meadow with bees.",
+      sec: [["Orchard", ["Citrus grove", "Apples and pears", "Olives and figs", "Vineyard", "Tree nursery"]], ["Farm", ["Market garden", "Vertical farm", "Grain and rice", "Mushroom cellar", "Seed store"]], ["Lake", [["Lake · the water reserve", 0, 2], ["Fish farm", 3, 3], ["Pumps and filters", 4, 4]]], ["Forest", [["Forest walk", 0, 2], ["Stream and falls", 3, 3], ["Forest nursery", 4, 4]]], ["Meadow", ["Meadow and bees", "Flower garden", "Tea house", "Aquaponics", "Compost and soil"]]] },
+    { id: "L3", name: "Studio", floor: -50, top: -42, col: "var(--z3)", d: "Where things are made and run: Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms.",
+      sec: [["Jim's studio", ["Workshop", "Art studio", "Model hall", "Tool store", "Materials"]], ["Foundry", [["Robot foundry · prints city parts", 0, 2], ["Regolith kilns", 3, 3], ["Parts yard", 4, 4]]], ["Science", ["Labs", "Medical centre", "Clean rooms", "Test halls", "Stores"]], ["House mind", ["AI core", "Data vault", "Earth link", "Cooling", "Backup core"]], ["Control", ["City control room", "Storm watch", "Pod flight control", "Training", "Stores"]]] },
+    { id: "L4", name: "Life support", floor: -59, top: -51, col: "var(--z4)", d: "The machine room of the house: two fission reactors and a bay kept for fusion, water from ice, the air plant, the storm reserve and recycling. Chapters 05 and 08 describe how it works.",
+      sec: [["Power", [["Two fission microreactors", 0, 1], ["Fusion-ready bay", 2, 2], ["Batteries and heat store", 3, 3], ["Switchgear", 4, 4]]], ["Water", ["Ice melt", "Purification", "Recycling", ["Water tanks", 3, 4]]], ["Air", ["Oxygen plant", "CO₂ scrubbers", "Nitrogen and argon", ["Air tanks", 3, 4]]], ["Storm reserve", [["Food for two years", 0, 2], ["Spare parts", 3, 4]]], ["Recycling", ["Waste to soil", "Metals", "Plastics", "Maintenance", "Stores"]]] },
+    { id: "L5", name: "Transit", floor: -68, top: -60, col: "var(--z5)", d: "Where things arrive: the maglev station for the spaceport (phase 2), the cargo halls, the seed vault, the tunnel works that dig the city's roots, and the rover hall with the tunnel up to the plain. The sun court is at its centre.",
+      sec: [["Maglev station", [["Maglev hall · phase 2", 0, 2], ["Platforms", 3, 3], ["Tunnel portal", 4, 4]]], ["Cargo", ["Freight portals", "Cargo hall", "Sorting", "Cold store", "Loading"]], ["Seed vault", ["Seed vault", "DNA archive", "Earth memory vault", "Vault services", "Stores"]], ["Tunnel works", [["Tunnel boring machines", 0, 2], ["Spoil to bricks", 3, 3], ["City roots · the tunnels", 4, 4]]], ["Rovers", ["Rover hall", "Garage", "Charging", "Suit room", "Tunnel to the surface"]]] }
+  ];
+  function zones(sc) { return sc[1].map(function (z, i) { return Array.isArray(z) ? { n: z[0], k0: z[1], k1: z[2] } : { n: z, k0: i, k1: i }; }); }
+
+  /* ---------------- section east to west */
+  (function () {
+    var svg = document.getElementById("fSec"), k = 3.4, X0 = 590, Y0 = 348;   // x: metres east of the centre; ground at Y0
+    function E(x, h) { return [X0 + x * k, Y0 - h * k]; }
+    S("rect", { x: 0, y: 0, width: 1180, height: Y0, "class": "paper" }, svg);
+    // ground layers
+    [[0, -1.2, "#b98c6a"], [-1.2, -14, "#b9c9cf"], [-14, -60, "#d2e1e8"], [-60, -130, "#a8968a"]].forEach(function (l) { var a = E(-170, l[0]), b = E(170, l[1]); S("rect", { x: 0, y: r1(a[1]), width: 1180, height: r1(b[1] - a[1]), fill: l[2], "fill-opacity": .6 }, svg); });
+    S("line", { x1: 0, y1: Y0, x2: 1180, y2: Y0, "class": "ink", "stroke-width": 1.4 }, svg);
+    [["dust and sand", -0.6, 1], ["ice-rich soil", -7, 1], ["thick ice", -37, 1], ["old lava and sediments", -95, 1]].forEach(function (l) { T(svg, 14, E(0, l[1])[1] + 4, l[0], "t2", { style: "font-size:12px" }); });
+    // the Pentagon block: west face at -AP, east corner at +R
+    var W0 = -AP, E0 = R;
+    S("rect", { x: r1(E(W0, 0)[0]), y: r1(E(0, -16)[1]), width: r1((E0 - W0) * k), height: r1(54 * k), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.8 }, svg);
+    // level bands
+    LEVELS.forEach(function (L) {
+      var a = E(W0, L.top), b = E(E0, L.floor);
+      S("rect", { x: r1(a[0]), y: r1(a[1]), width: r1(b[0] - a[0]), height: r1(b[1] - a[1]), fill: L.col, "fill-opacity": .22 }, svg);
+      S("line", { x1: r1(a[0]), y1: r1(b[1]), x2: r1(b[0]), y2: r1(b[1]), "class": "ink", "stroke-width": 1.4 }, svg);
+      T(svg, E(W0, 0)[0] - 10, (a[1] + b[1]) / 2 + 4, L.id + " " + L.name, "", { "text-anchor": "end", style: "font-size:13px;font-weight:600" });
+      T(svg, E(W0, 0)[0] - 10, (a[1] + b[1]) / 2 + 19, L.floor + " m", "mono t2", { "text-anchor": "end", style: "font-size:10.5px" });
+    });
+    // west half: rings A to E and the streets between them
+    for (var q = 0; q < 5; q++) { var i0 = APA + q * (RING + 4), i1 = i0 + RING; T(svg, E(-(i0 + i1) / 2, 0)[0], E(0, -64)[1] + 4, "ABCDE"[q], "disp t2", { "text-anchor": "middle", style: "font-size:13px;font-weight:600" }); if (q < 4) { var s0 = E(-i1, -16), s1 = E(-i1 - 4, -68); S("rect", { x: r1(s1[0]), y: r1(s0[1]), width: r1(4 * k), height: r1(52 * k), fill: "var(--panel)", stroke: "var(--ink-3)", "stroke-width": .6 }, svg); } }
+    // east half: the avenue (open corridor) to the corner core
+    var cc = E(R - 12, -16), cc1 = E(R, -70); S("rect", { x: r1(cc[0]), y: r1(cc[1]), width: r1(12 * k), height: r1(54 * k), fill: "#e7e1d6", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    T(svg, E(R - 6, 0)[0], E(0, -12)[1], "corner core", "t2", { "text-anchor": "middle", style: "font-size:11.5px" });
+    for (var st = -24; st >= -68; st -= 3) { var p1 = E(R - 11, st), p2 = E(R - 1, st - 3); S("line", { x1: r1(p1[0]), y1: r1(p1[1]), x2: r1(p2[0]), y2: r1(p2[1]), "class": "ink3", "stroke-width": .8 }, svg); }
+    T(svg, E(RA + 40, 0)[0], E(0, -64)[1] + 4, "east avenue", "t2", { "text-anchor": "middle", style: "font-size:12px" });
+    // the atrium: from the lens at 0 down to the L5 floor, west face at -APA, east corner at +RA
+    var a0 = E(-APA, 0), a1 = E(RA, -68); S("rect", { x: r1(a0[0]), y: r1(a0[1]), width: r1(a1[0] - a0[0]), height: r1(a1[1] - a0[1]), fill: "#fbf4e6", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    // sunlight down the middle
+    S("path", { d: P([E(-10.2, 0), E(10.2, 0), E(12, -68), E(-12, -68)], true), fill: "#f2c46b", "fill-opacity": .28 }, svg);
+    // the portal column and its bridges on every level
+    var pc0 = E(-5, -16), pc1 = E(5, -68); S("rect", { x: r1(pc0[0]), y: r1(pc0[1]), width: r1(10 * k), height: r1(52 * k), fill: "#dfe6f3", stroke: "#3b5fb0", "stroke-width": 1.2 }, svg);
+    LEVELS.forEach(function (L) { var b0 = E(5, L.floor + 0.8), b1 = E(RA, L.floor); S("rect", { x: r1(b0[0]), y: r1(b0[1]), width: r1(b1[0] - b0[0]), height: r1(0.8 * k), "class": "inkf" }, svg); var w0 = E(-APA, L.floor + 0.8), w1 = E(-5, L.floor); S("rect", { x: r1(w0[0]), y: r1(w0[1]), width: r1(w1[0] - w0[0]), height: r1(0.8 * k), "class": "inkf", "fill-opacity": .35 }, svg); });
+    T(svg, E(0, -30)[0], E(0, -30)[1], "portal", "", { "text-anchor": "middle", style: "font-size:11px;fill:#3b5fb0" });
+    T(svg, E(0, -30)[0], E(0, -30)[1] + 13, "column", "", { "text-anchor": "middle", style: "font-size:11px;fill:#3b5fb0" });
+    // hanging gardens on the atrium walls
+    for (var hg = -18; hg > -64; hg -= 5) { var g0 = E(-APA, hg), g1 = E(RA, hg); S("path", { d: "M" + r1(g0[0]) + " " + r1(g0[1]) + "q 7 5 0 11", "class": "leaf", "stroke-width": 2.2 }, svg); S("path", { d: "M" + r1(g1[0]) + " " + r1(g1[1]) + "q -7 5 0 11", "class": "leaf", "stroke-width": 2.2 }, svg); }
+    // sun court at the bottom
+    S("path", { d: P([E(-APA + 1, -67.2), E(RA - 1, -67.2)]), "class": "leaf", "stroke-width": 3 }, svg);
+    T(svg, E(0, -66)[0], E(0, -66)[1] - 3, "sun court", "tl", { "text-anchor": "middle", style: "font-size:11.5px;font-weight:600" });
+    // the Sun Well lens and the garden
+    S("rect", { x: r1(E(-11.4, 0)[0]), y: Y0 - 3, width: r1(22.8 * k), height: 5, fill: "#a8a39c", stroke: "var(--ink)" }, svg);
+    for (var m = -94; m <= 94; m += 12) { if (Math.abs(m) < 14) continue; var mp = E(m, 0); S("line", { x1: r1(mp[0]), y1: Y0, x2: r1(mp[0]), y2: r1(Y0 - 3.2 * k), "class": "ink3", "stroke-width": 1 }, svg); S("rect", { x: r1(mp[0] - 4), y: r1(Y0 - 4.6 * k), width: 8, height: r1(2.8 * k), fill: "#e9eef1", stroke: "var(--ink-3)", "stroke-width": .6 }, svg); }
+    // the Crown above: east spire (Arrival) and west dip (Sunset lounge), the Orb
+    function top(b) { var c = (1 + Math.cos(5 * (b - 18) * D)) / 2; return 50 + 40 * Math.pow(c, 6); }
+    var eS = [E(122, 40), E(138, 40), E(138, top(90)), E(122, top(90))], wS = [E(-138, 40), E(-122, 40), E(-122, top(270)), E(-138, top(270))];
+    S("path", { d: P(eS, true), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    S("path", { d: P(wS, true), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    var o = E(0, 72); S("circle", { cx: r1(o[0]), cy: r1(o[1]), r: r1(20 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    [64, 72, 80].forEach(function (h) { var w = Math.sqrt(400 - (h - 72) * (h - 72)), a = E(-w, h), b = E(w, h); S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(b[0]), y2: r1(b[1]), "class": "ink2", "stroke-width": 1 }, svg); });
+    T(svg, E(130, 90)[0], E(130, 90)[1] - 8, "Arrival spire +90", "", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, E(-130, 50)[0], E(-130, 50)[1] - 8, "Sunset lounge +50", "", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, E(0, 92)[0], E(0, 92)[1] - 8, "the Orb", "", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, E(-70, 0)[0], Y0 - 26, "Stone Garden", "t2", { "text-anchor": "middle", style: "font-size:12px" });
+    // the cover and the tunnels
+    var cv = E(-40, -8); T(svg, cv[0], cv[1] + 4, "16 m of soil", "halo", { "text-anchor": "middle", style: "font-size:13px;font-weight:600" });
+    var t0 = E(R, -66), t1 = E(170, -62); S("path", { d: P([t0, t1]), "class": "ice", "stroke-width": 7, "stroke-opacity": .5 }, svg);
+    T(svg, t1[0] - 40, t1[1] + 22, "maglev tunnel to the spaceport →", "ti halo", { "text-anchor": "end", style: "font-size:12px" });
+    // heights
+    [80, 40, 0, -20, -40, -60, -80].forEach(function (h) { var p = E(160, h); T(svg, 1170, p[1] + 4, (h > 0 ? "+" : "") + h + " m", "mono t3", { "text-anchor": "end", style: "font-size:10.5px" }); });
+    BOOK.scalebar(svg, 930, 664, k, [0, 25, 50], "m");
+  })();
+
+  /* ---------------- level plan with rings and sectors */
+  var cur = 0;
+  function planDraw() {
+    var svg = document.getElementById("fPlan"), c = 320, k = 2.06, L = LEVELS[cur];
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    function W(u, v, th) { var s = Math.sin(th * D), co = Math.cos(th * D); return [c + (v * s + u * co) * k, c + (-v * co + u * s) * k]; }
+    S("rect", { x: 0, y: 0, width: 640, height: 640, "class": "panelf" }, svg);
+    var CN = [18, 90, 162, 234, 306];
+    S("path", { d: P(CN.map(function (b) { return [c + R * k * Math.sin(b * D), c - R * k * Math.cos(b * D)]; }), true), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 2 }, svg);
+    L.sec.forEach(function (sc, si) {
+      var th = (126 + 72 * si) % 360;
+      zones(sc).forEach(function (z) {
+        var v0 = APA + z.k0 * (RING + 4), v1 = APA + z.k1 * (RING + 4) + RING, off = 2.5 / Math.sin(54 * D);
+        var u0 = v0 * Math.tan(36 * D) - off, u1 = v1 * Math.tan(36 * D) - off;
+        var pts = [W(-u0, v0, th), W(u0, v0, th), W(u1, v1, th), W(-u1, v1, th)];
+        S("path", { d: P(pts, true), fill: L.col, "fill-opacity": z.n === "Master suite down" ? .75 : .38, stroke: "var(--ink-2)", "stroke-width": .7 }, svg);
+        var vm = (v0 + v1) / 2, pm = W(0, vm, th), rot = th > 90 && th < 270 ? th - 180 : th;
+        var t = T(svg, pm[0], pm[1] + 3.5, z.n, "", { "text-anchor": "middle", transform: "rotate(" + r1(rot) + " " + r1(pm[0]) + " " + r1(pm[1]) + ")", style: "font-size:" + (z.k1 > z.k0 ? 11.5 : 9.6) + "px" });
+      });
+      var lp = W(0, AP + 16, th), rot2 = th > 90 && th < 270 ? th - 180 : th;
+      T(svg, lp[0], lp[1] + 5, (si + 1) + " · " + sc[0], "disp", { "text-anchor": "middle", transform: "rotate(" + r1(rot2) + " " + r1(lp[0]) + " " + r1(lp[1]) + ")", style: "font-size:15px;font-weight:600" });
+    });
+    // atrium, portal column, corner cores
+    S("path", { d: P(CN.map(function (b) { return [c + RA * k * Math.sin(b * D), c - RA * k * Math.cos(b * D)]; }), true), fill: "#fbf4e6", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    S("circle", { cx: c, cy: c, r: r1(5 * k), fill: "#dfe6f3", stroke: "#3b5fb0", "stroke-width": 1.4 }, svg);
+    CN.forEach(function (b) { var a = [c + (RA + 1) * k * Math.sin(b * D), c - (RA + 1) * k * Math.cos(b * D)], e = [c + 5 * k * Math.sin(b * D), c - 5 * k * Math.cos(b * D)]; S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(e[0]), y2: r1(e[1]), "class": "ink", "stroke-width": 2 }, svg); var q = [c + (R - 7) * k * Math.sin(b * D), c - (R - 7) * k * Math.cos(b * D)]; S("circle", { cx: r1(q[0]), cy: r1(q[1]), r: 7, "class": "inkf" }, svg); });
+    T(svg, c, c + RA * k * 0.55 + 4, "atrium", "t2", { "text-anchor": "middle", style: "font-size:11px" });
+    T(svg, 20, 30, L.id + " · " + L.name + " · floor " + L.floor + " m", "disp", { style: "font-size:17px;font-weight:600" });
+    BOOK.north(svg, 606, 48); BOOK.scalebar(svg, 24, 612, k, [0, 50, 100], "m");
+    // the table
+    var tb = document.querySelector("#tZones tbody"); tb.innerHTML = "";
+    L.sec.forEach(function (sc, si) { var tr = document.createElement("tr"); tr.innerHTML = "<td><b>" + (si + 1) + " · " + sc[0] + "</b></td><td>" + zones(sc).map(function (z) { return z.n + (z.k1 > z.k0 ? " <small>(" + "ABCDE"[z.k0] + "–" + "ABCDE"[z.k1] + ")</small>" : ""); }).join(" · ") + "</td>"; tb.appendChild(tr); });
+    document.querySelectorAll("#lvb button").forEach(function (b, i) { b.setAttribute("aria-pressed", i === cur ? "true" : "false"); });
+  }
+  var lvb = document.getElementById("lvb");
+  LEVELS.forEach(function (L, i) { var b = document.createElement("button"); b.type = "button"; b.innerHTML = '<i style="background:' + L.col + '"></i>' + L.id + " " + L.name; b.addEventListener("click", function () { cur = i; planDraw(); }); lvb.appendChild(b); });
+  planDraw();
+
+  /* ---------------- level cards */
+  var lc = document.getElementById("lvCards");
+  LEVELS.forEach(function (L) { var d = document.createElement("div"); d.className = "room"; d.style.borderTop = "4px solid " + L.col; d.innerHTML = '<div class="k">' + L.id + " · floor " + L.floor + " m · " + (L.top - L.floor) + ' m tall · 41,940 m²</div><h4>' + L.name + "</h4><p>" + L.d + '</p><div class="tags">' + L.sec.map(function (s) { return s[0]; }).join(" · ") + "</div>"; lc.appendChild(d); });
+
+  /* ---------------- radiation by place */
+  (function () {
+    var svg = document.getElementById("fDose"), rows = [["Open plain, no shelter", 230, "var(--route)"], ["In a suit or a rover", 200, "var(--route)"], ["The Crown, 3 m ice walls", 75, "var(--gold)"], ["Pentagon L1, 24 m down", 1, "var(--leaf)"], ["For comparison: Earth, natural", 2.4, "var(--ice)"], ["Limit for radiation workers", 20, "var(--ink-3)"]];
+    var x0 = 250, w = 280, max = 240;
+    rows.forEach(function (r, i) { var y = 40 + i * 62; T(svg, x0 - 12, y + 21, r[0], "", { "text-anchor": "end", style: "font-size:13.5px" }); S("rect", { x: x0, y: y + 6, width: r1(Math.max(2, r[1] / max * w)), height: 24, fill: r[2], "fill-opacity": .85 }, svg); T(svg, x0 + Math.max(2, r[1] / max * w) + 8, y + 23, r[1] < 3 ? (r[1] === 1 ? "about 1" : "2.4") : "about " + r[1], "mono", { style: "font-size:12.5px" }); });
+    T(svg, x0, 26, "mSv per year", "mono t3", { style: "font-size:11px" });
+  })();
+
+  /* ---------------- building in four stages */
+  (function () {
+    var svg = document.getElementById("fDig"), st = [["1 · Dig", 0], ["2 · Keep the ice", 1], ["3 · Build", 2], ["4 · Cover", 3]];
+    st.forEach(function (s, i) {
+      var x = 16 + (i % 2) * 302, y = 16 + Math.floor(i / 2) * 220, w = 286, h = 204, g = S("g", {}, svg);
+      S("rect", { x: x, y: y, width: w, height: h, "class": "paper", stroke: "var(--rule)" }, g);
+      T(g, x + 12, y + 22, s[0], "disp", { style: "font-size:15px;font-weight:600" });
+      var gy = y + 70, px0 = x + 50, px1 = x + w - 50, pd = 100;
+      S("rect", { x: x + 1, y: gy, width: w - 2, height: h - 71, fill: "#d2e1e8", "fill-opacity": .6 }, g);
+      S("rect", { x: x + 1, y: gy, width: w - 2, height: 18, fill: "#b9c9cf", "fill-opacity": .8 }, g);
+      if (i < 3) S("path", { d: P([[px0 - 12, gy], [px0, gy + pd + 10], [px1, gy + pd + 10], [px1 + 12, gy]], true), fill: "var(--sheet)", stroke: "var(--ink-2)", "stroke-width": 1 }, g);
+      if (i === 0) { S("rect", { x: px0 + 40, y: gy + pd - 8, width: 34, height: 16, "class": "inkf" }, g); S("path", { d: "M" + (px0 + 74) + " " + (gy + pd - 4) + "l 30 -20 l 16 6", "class": "ink", "stroke-width": 3 }, g); T(g, x + w / 2, gy + 50, "3 million m³ out", "t2", { "text-anchor": "middle", style: "font-size:12px" }); }
+      if (i === 1) { for (var b = 0; b < 6; b++) S("rect", { x: x + 20 + b * 22, y: gy - 20, width: 18, height: 14, fill: "#cfe1ea", stroke: "var(--ice)" }, g); T(g, x + w - 16, gy - 8, "ice to the store", "ti", { "text-anchor": "end", style: "font-size:12px" }); T(g, x + w / 2, gy + 50, "1.5 million t of ice", "ti", { "text-anchor": "middle", style: "font-size:12px" }); }
+      if (i >= 2) { var bx0 = px0 + 6, bx1 = px1 - 6, bt = gy + 34; S("rect", { x: bx0, y: bt, width: bx1 - bx0, height: pd + 10 - 34 + (i === 3 ? 0 : 0), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, g); for (var lv = 1; lv < 5; lv++) S("line", { x1: bx0, y1: bt + lv * (pd - 24) / 5, x2: bx1, y2: bt + lv * (pd - 24) / 5, "class": "ink3" }, g); S("rect", { x: (bx0 + bx1) / 2 - 10, y: bt, width: 20, height: pd - 24, fill: "#fbf4e6", stroke: "var(--ink-2)" }, g); }
+      if (i === 3) { S("rect", { x: px0 - 4, y: gy, width: px1 - px0 + 8, height: 34, fill: "#b89479", "fill-opacity": .6 }, g); S("rect", { x: x + w / 2 - 10, y: gy - 3, width: 20, height: 5, fill: "#a8a39c" }, g); T(g, x + w / 2, gy + 22, "16 m of soil", "halo", { "text-anchor": "middle", style: "font-size:12px;font-weight:600" }); T(g, x + 12, gy - 10, "Stone Garden on top", "t2", { style: "font-size:12px" }); }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

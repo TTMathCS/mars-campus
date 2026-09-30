@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcadia Design Book</title>
+<meta name="description" content="The design book for Jim's house on Mars: the Crown, the Pentagon, Arcadia Spaceport, the pod flight and the future city, with how every part looks and works, and a zoomable Mars Atlas.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Crown and the Pentagon · design book">
+<meta property="og:description" content="Every plan for Jim's house on Mars in one place, with a zoomable Mars Atlas.">
+<meta property="og:url" content="https://ttmathcs.github.io/mars-campus/palace/design/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+<style>
+  .cover { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 34px; align-items: end; padding: 42px 0 10px; }
+  .cover h1 { margin: 10px 0 14px; font: 700 clamp(46px, 7vw, 82px)/0.95 var(--f-display); }
+  .cover .no { font: 600 13px var(--f-mono); letter-spacing: .14em; color: var(--route); text-transform: uppercase; }
+  .cover .lede { font-size: 20px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
+  .cover .go { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cover .go a { font: 600 15.5px var(--f-body); padding: 11px 16px; border: 1px solid var(--ink); text-decoration: none; }
+  .cover .go a.main { background: var(--ink); color: var(--sheet); }
+  @media (max-width: 880px) { .cover { grid-template-columns: 1fr; } }
+  .atlasfig { position: relative; display: block; background: #0b0d10; border: 1px solid var(--rule); overflow: hidden; text-decoration: none; }
+  .atlasfig img { width: 100%; height: auto; opacity: .95; }
+  .atlasfig .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; background: linear-gradient(to top, rgba(8,10,12,.92), rgba(8,10,12,0)); color: #f1ede6; }
+  .atlasfig .cap b { display: block; font: 700 26px/1.05 var(--f-display); }
+  .atlasfig .cap span { font-size: 14.5px; color: #cfd4d2; }
+  .realfut { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0 16px; }
+  .realfut > div { padding: 14px 16px 6px; background: var(--sheet); border: 1px solid var(--rule); }
+  .realfut > div.f { border: 1.5px dashed var(--z3); }
+  .realfut h4 { margin: 0 0 6px; font: 600 12.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .realfut > div.f h4 { color: var(--z3); }
+  @media (max-width: 720px) { .realfut { grid-template-columns: 1fr; } }
+  ol.dec { counter-reset: d; list-style: none; padding: 0; margin: 10px 0 16px; display: grid; gap: 10px; }
+  ol.dec li { counter-increment: d; display: grid; grid-template-columns: 40px 1fr; gap: 10px; background: var(--sheet); border: 1px solid var(--rule); padding: 12px 14px; margin: 0; }
+  ol.dec li::before { content: counter(d); font: 700 26px/1 var(--f-display); color: var(--route); }
+  ol.dec li b { display: block; font-size: 17px; }
+  ol.dec li span { color: var(--ink-2); font-size: 15.5px; }
+  ol.dec li em { display: block; font-style: normal; font: 500 12.5px/1.4 var(--f-mono); color: var(--ink-3); margin-top: 4px; }
+</style>
+</head>
+<body data-ch="index">
+<main class="wrap">
+  <div class="cover">
+    <div>
+      <div class="no">Mars Campus · Demo 2 · Design book · Rev C</div>
+      <h1>The Crown and the Pentagon</h1>
+      <p class="lede">Jim's retirement house on Mars, in Arcadia Planitia: a white crown floating over a stone garden, a five-level world below the ground, a spaceport 30 km to the east and a city that will grow around it. This book collects every plan in one place: <b>what each part looks like and how it works.</b></p>
+      <div class="go"><a class="main" href="atlas/">Open the Mars Atlas</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a></div>
+    </div>
+    <a class="atlasfig" href="atlas/" aria-label="Open the Mars Atlas">
+      <img src="img/atlas-teaser.jpg" alt="The Mars Atlas zoomed in on Jim's house: the Crown floating over the Stone Garden, with the city's first homes around it" width="1200" height="760" loading="eager">
+      <div class="cap"><b>Mars Atlas</b><span>Zoom from the solar system to Mars, Arcadia Planitia and the house, on real NASA imagery.</span></div>
+    </a>
+  </div>
+
+  <div class="nums">
+    <div><b>39.8° N · 201.4° E</b><span>The house, on the ice-rich plains of Arcadia Planitia, 3.9 km below Mars' average height</span></div>
+    <div><b>276 m</b><span>The Crown across, floating 40 m above the ground on five anti-gravity drives</span></div>
+    <div><b>209,700 m²</b><span>The Pentagon: five levels 24 to 68 m below ground, under 16 m of soil</span></div>
+    <div><b>30 km</b><span>East to Arcadia Spaceport, a real candidate landing site for SpaceX Starship</span></div>
+    <div><b>4 min 40 s</b><span>The pod flight home, over dunes, a crater and ice cliffs</span></div>
+    <div><b>0 lifts</b><span>Portals link the Crown, the Orb and every level below</span></div>
+  </div>
+
+  <section class="part">
+    <h2><small>The idea</small>A day house in the sky, a night house in the ground</h2>
+    <div class="two">
+      <div>
+        <p><b>Above ground, the Crown</b> is for light and views. Its white ring of fired Mars soil floats 40 m up, with five spires, window slots that keep out the harsh sun, a mirror Orb at the centre and a pod hangar in the east spire. It is where Jim watches the blue sunsets, plays the piano in the salon and greets guests arriving from Earth.</p>
+        <p><b>Below ground, the Pentagon</b> is for safety and abundance. Sixteen metres of soil stop the radiation, hold the air pressure in and keep the temperature steady. Its five levels hold Jim's residence, a garden level with orchards, a lake and a forest, his studio and workshops, the plant that makes air and water, and the halls where cargo, rovers and later a maglev train arrive.</p>
+        <p><b>Around it grows Arcadia City.</b> Each new home takes the next seed of a sunflower spiral. The spaceport, 30 km east, is where ships from Earth land, refuel with fuel made on Mars and fly home.</p>
+      </div>
+      <figure class="fig"><img src="img/crown-garden.jpg" alt="The Crown seen from its Stone Garden: the underside of the ring, the mirror Orb and the garden mirrors" width="1600" height="900" loading="lazy"><figcaption><b>Under the ring.</b> Nothing holds the Crown up. The mirrors in the Stone Garden aim sunlight at the Orb, which sends it down the Sun Well to the gardens below.</figcaption></figure>
+    </div>
+    <h3>Real, or future?</h3>
+    <div class="realfut">
+      <div><h4>Real science and engineering</h4><p>Almost everything in the book uses what is known today: the site and its ice, the air and radiation on Mars, making fuel from ice and air, fission reactors, solar fields, shielding with soil, rocket-powered flight in thin air, farming under lights, the 26-month launch windows. The numbers are worked out and shown.</p></div>
+      <div class="f"><h4>Future technology</h4><p>Three things are dreams, on purpose, because Jim asked for them: the <b>anti-gravity drives</b> that hold the Crown up, the <b>portals</b> that replace lifts, and the <b>Wormhole Gate</b> in the Orb. They are marked like this box wherever they appear, with a real fallback where safety needs one.</p></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2><small>Contents</small>The chapters</h2>
+    <p class="intro">Each chapter pairs <b>what it looks like</b> with <b>how it works</b>, with drawings, numbers and the choices still open.</p>
+    <div class="chapters" id="chapters"></div>
+  </section>
+
+  <section class="part" id="decide">
+    <h2><small>For Jim</small>Decisions still open</h2>
+    <p class="intro">Rev B of the floor plans is approved. These are the questions this design book raises. Each chapter explains the choice; a short answer is enough.</p>
+    <ol class="dec">
+      <li><div><b>Where should the Wormhole Gate take you in the demo?</b><span>For example the TTMath campus in demo 1 (Gale crater, 4,360 km away), your home on Earth, or anywhere and any time you name.</span><em>Chapter 04 · Interiors, the Orb</em></div></li>
+      <li><div><b>The site moves to a real studied landing zone.</b><span>The spaceport now sits on AP-1 (39.8° N, 202.1° E), the safest of the Arcadia Planitia sites studied for SpaceX Starship, with ice just under the ground. The house is 30 km due west. Rev B said "about 44° N". OK?</span><em>Chapter 01 · Site and city</em></div></li>
+      <li><div><b>Air pressure inside: Earth normal, or like Calgary?</b><span>Earth sea-level air (101 kPa) is the most familiar. 70 kPa with a little more oxygen (27%) breathes like Calgary, halves the load on the walls and the gas needed, and makes spacesuit trips quick. Recommended: 70 kPa.</span><em>Chapter 08 · Life support</em></div></li>
+      <li><div><b>Sleep below ground most nights?</b><span>The Crown's thick shell cuts radiation to about a third; the Pentagon stops it completely. Sleeping in the master suite down and spending about six hours a day in the Crown keeps Jim near 20 mSv a year, the limit for radiation workers on Earth.</span><em>Chapter 08 · Life support</em></div></li>
+      <li><div><b>Which year does Jim move in?</b><span>The plan counts from Jim's arrival (year 0): robots land two launch windows ahead, about 4½ years before. Pick a year and the whole timeline gets dates.</span><em>Chapter 10 · Building it</em></div></li>
+    </ol>
+  </section>
+
+  <section class="part">
+    <h2><small>Revisions</small>How the design got here</h2>
+    <table class="spec"><thead><tr><th>Rev</th><th>Date</th><th>What changed</th></tr></thead><tbody>
+      <tr><td class="n">A</td><td class="n">30 Sep 2026</td><td>First floor plans of the Crown and the Pentagon, the site and the flight.</td></tr>
+      <tr><td class="n">B</td><td class="n">30 Sep 2026</td><td>From Jim's answers: the Crown floats on anti-gravity, sharper spires, the Orb and the Wormhole Gate, portals instead of lifts, master suites up and down, a dust storm in the flight. <b>Approved.</b></td></tr>
+      <tr><td class="n">C</td><td class="n">30 Sep 2026</td><td>This design book: the Mars Atlas, the real site coordinates, and the systems designed in detail: structure, interiors, power, transport, the spaceport and fuel plant, life support, communications and the building sequence.</td></tr>
+    </tbody></table>
+  </section>
+</main>
+<script src="book.js"></script>
+<script>
+(function () {
+  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.jpg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  BOOK.CH.slice(1).forEach(function (c) {
+    var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[0] + ".html";
+    a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";
+    C.appendChild(a);
+  });
+})();
+</script>
+</body>
+</html>

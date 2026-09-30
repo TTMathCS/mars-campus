@@ -9,12 +9,12 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html` | Live. Lists the demos and links the demo 2 plans. |
+| Hub page | `index.html` | Live. Lists the demos and links the demo 2 plans and the design book. |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2, old palace | `palace/index.html`, source in `palace/src_old/` | Still live, but Jim rejected it ("far from satisfactory"). It stays up until the new build replaces it at the same link. |
 | Demo 2, plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). Live at https://ttmathcs.github.io/mars-campus/palace/plans/. |
 | Demo 2, new 3D build | `palace/src/` | **Paused on 30 Sep 2026 at Jim's request** until the design book is finished. Phase 1 works end to end in the debug build: terrain, sky, spaceport, pod, the Crown with the Orb, storm, the 10-shot flight, cameras and UI. Not published yet (`palace/index.html` is still the old palace). |
-| Design book | `palace/design/` | **In progress.** Jim asked for all plans to be designed and documented before more implementation: an interactive zoomable map (space → Mars → Arcadia → the house) and chapters on architecture, interiors, power, transportation, the spaceport, life support, communications, the city and the phases. |
+| Design book | `palace/design/` | **In progress, live at https://ttmathcs.github.io/mars-campus/palace/design/.** Jim asked for all plans to be designed and documented before more implementation. Done: the cover (`index.html`), the Mars Atlas (`atlas/`, a Google-Earth-style zoomable map from the solar system down to the house), chapter 01 Site and city, 02 The Crown, 03 The Pentagon. To write: 04 Interiors, 05 Power, 06 Transportation, 07 Arcadia Spaceport, 08 Life support, 09 Communications and space, 10 Building it. The chapter list is `BOOK.CH` in `book.js`. |
 
 ## 2. Demo 2 redesign: decisions so far
 
@@ -84,18 +84,41 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
     the old one**, because it overwrites the old demo.
 - Source files: `10_core.js` renderer, shared uniforms, shader chunks, HDR bloom and tone mapping; `20_sky.js` sun, sky,
   Phobos, stars; `30_terrain.js` the height function (GLSL and a JS twin that must match) and ten nested terrain grids;
-  `99_main.js` the main loop (for now a test harness). Planned next: `40_mat.js` building material and shadow map,
-  `50_port.js` spaceport, `55_pod.js` pod and cockpit, `60_crown.js` the Crown and the Orb, `70_fx.js` dust devils, storm,
-  sparks, `80_flight.js` the path, shots and cameras, `90_ui.js` HUD, cards, look-around, sound.
+  `40_mat.js` building material and shadow map; `45_lights.js` point lights; `50_port.js` spaceport; `55_pod.js` pod and
+  cockpit; `60_crown.js` the Crown, the Orb and the Stone Garden; `70_fx.js` dust devils, storm, sparks; `80_flight.js` the
+  path, the ten shots and the cameras; `90_ui.js` HUD, cards, look-around, sound; `99_main.js` the main loop.
 - World: metres, x east, z south, y up, the Crown's centre at the origin, the spaceport terminal at x = 30 000. Plan
   coordinates (x, y north) map to world (x, −y). Every vertex shader bends the world with the curvature of Mars.
 - Test: `python3 palace/tools/crown_shot.py '[["name", "js", waitMs], ...]' 960x540` loads the debug page headless and
-  saves PNGs to `palace/tools/out/`. In the page, `__crown.view(x, y, z, tx, ty, tz)` places the camera,
-  `__crown.sun(elevationDeg, azimuthDeg)` sets the sun, `__crown.exp(e)` the exposure, `__crown.dbg(1)` colours the
-  terrain grid levels, and `__crown.frame()` renders. Each frame takes about 8 s in SwiftShader.
+  saves PNGs to `palace/tools/out/`. In the page, `__crown.at(t)` jumps the flight video to time t (director's camera),
+  `__crown.view(x, y, z, tx, ty, tz)` places the camera, `__crown.exp(e)` sets the exposure, `__crown.step(n)` renders n
+  frames and `__crown.ev("js")` runs code inside the page's scope (FLIGHT, CROWN, U, camera, setSun ...). Each frame takes
+  about 8 s at 960×540 in SwiftShader; long jobs must run in the background (`nohup ... &`).
 
 **Demo 2, old palace**: source in `palace/src_old/` (its build script is in git history, commit c2e231b). It will be
 deleted when the new build replaces it; it stays in git history.
+
+**Design book** (`palace/design/`): static pages, no build step.
+- `book.css` and `book.js` are shared by every page. `book.js` adds the top bar, the chapter menu, the page turn and the
+  footer, and has SVG helpers (`BOOK.S`, `BOOK.T`, `BOOK.path`, `BOOK.scalebar`, `BOOK.north` ...). Each page sets
+  `<body data-ch="site">` and draws its own figures in a script at the end. Chapters: `site.html`, `crown.html`,
+  `pentagon.html`, and the rest as listed in `BOOK.CH`.
+- Map figures use real NASA imagery: `BOOK.marsImagery()` lays Esri OnMars tiles (Viking MDIM 2.1 colour mosaic,
+  `https://astro.arcgis.com/arcgis/rest/services/OnMars/MDIM/MapServer/tile/{z}/{y}/{x}`, 512 px, geographic) over
+  `img/mars-map.jpg`, a simplified stand-in map baked by `python3 palace/tools/bake_marsmap.py`. The sandbox this was
+  built in can't reach astro.arcgis.com, so the tiles are only seen in a real browser.
+- Pictures in `img/` come from the demo 2 debug build: `python3 palace/tools/book_renders.py [names]` renders the views
+  listed in the script (fixed cameras via `SHOT(...)`, or flight times). Thumbnails `img/th-*` are cropped from them or
+  drawn as SVG.
+- Check pages with `python3 palace/tools/book_shot.py site,crown light [phone]`: section screenshots in
+  `palace/tools/out/`, script errors, missing files and page overflow. Tiles are faked from the stand-in map with yellow
+  outlines so their placement can be checked (`TILES=none` makes them fail instead).
+- **The Mars Atlas** (`atlas/index.html` + `atlas/atlas.js`): three.js r128, camera-relative rendering in km, a quadtree
+  of OnMars tiles (MDIM and the colour elevation map), the planets and moons, and Jim's site placed in the demo's frame
+  (metres, x east, z south, the Crown at the origin). `atlas/site-terrain.jpg` is the demo's own 40 × 12 km landscape
+  seen from above, baked by `python3 palace/tools/bake_site.py` (about 17 min, run in the background). Test with
+  `python3 palace/tools/atlas_shot.py '[["name", "js", waitMs]]' 1280x720 fake|none`; `window.__atlas` has `jump(k)`,
+  `select(id)`, `flyTo({...})` and `CAM`. Links can open a view: `atlas/#place=house` or `atlas/#@lat,lon,distkm,...`.
 
 **Demo 2 plans**: edit `palace/plans/index.html` directly. It is one self-contained page, and every drawing is SVG built by its script. The geometry constants sit near the top of the script:
 - `CR` is the Crown.
@@ -133,5 +156,8 @@ palace/src_old/         demo 2 old palace source, to be deleted when the new bui
 palace/tools/crown_shot.py   headless screenshots of the new build
 palace/plans/           demo 2 redesign floor plans (index.html, self-contained)
 palace/tools/plans_snap.py   screenshots of the plans page
+palace/design/          the design book: index.html (cover), site/crown/pentagon.html ..., book.css, book.js, img/
+palace/design/atlas/    the Mars Atlas: index.html, atlas.js, site-terrain.jpg
+palace/tools/book_shot.py, book_renders.py, atlas_shot.py, bake_site.py, bake_marsmap.py   tools for the design book
 .github/workflows/pages.yml  deploys to GitHub Pages on every push to main
 ```

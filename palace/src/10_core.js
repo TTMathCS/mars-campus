@@ -61,7 +61,7 @@
     "  float az = max(0.0, dot(hv, hs));",
     "  c += vec3(0.60, 0.38, 0.22) * pow(az, 5.0) * exp(-max(vy, 0.0) * 10.0) * low * 0.75;",
     "  c *= mix(0.035, 1.0, smoothstep(-0.16, 0.10, e));",
-    "  vec3 st = vec3(0.20, 0.085, 0.040) * (0.35 + 0.65 * day) * (0.6 + 0.4 * exp(-th / 0.5));",
+    "  vec3 st = vec3(0.15, 0.052, 0.026) * (0.35 + 0.65 * day) * (0.55 + 0.45 * exp(-th / 0.5));",
     "  c = mix(c, st, uStorm);",
     "  return c * 1.7;",
     "}",
@@ -81,8 +81,9 @@
 
   // sun shadow map sampling, shared by the terrain and the buildings
   var GLSL_SHADOW = [
+    "\n#include <packing>\n",
     "uniform mat4 uShadowMat; uniform sampler2D uShadowMap; uniform float uShadowOn; uniform float uShadowTx;",
-    "float unpackD(vec4 c){ return dot(c, vec4(1.0, 1.0 / 255.0, 1.0 / 65025.0, 1.0 / 16581375.0)); }",
+    "float unpackD(vec4 c){ return unpackRGBAToDepth(c); }",
     "float shadowAt(vec3 w, float bias){",
     "  if (uShadowOn < 0.5) return 1.0;",
     "  vec4 s = uShadowMat * vec4(w, 1.0); vec3 q = s.xyz / s.w * 0.5 + 0.5;",
@@ -112,7 +113,7 @@
       var bright = lerp(0.035, 1, smooth(-0.16, 0.10, e));
       r *= bright; g *= bright; b *= bright;
       var st = U.uStorm.value, sd = 0.35 + 0.65 * day, sk = 0.6 + 0.4 * Math.exp(-th / 0.5);
-      r = lerp(r, 0.20 * sd * sk, st); g = lerp(g, 0.085 * sd * sk, st); b = lerp(b, 0.040 * sd * sk, st);
+      sk = 0.55 + 0.45 * Math.exp(-th / 0.5); r = lerp(r, 0.15 * sd * sk, st); g = lerp(g, 0.052 * sd * sk, st); b = lerp(b, 0.026 * sd * sk, st);
       out.set(r * 1.7, g * 1.7, b * 1.7); return out;
     }
   };

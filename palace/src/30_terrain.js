@@ -10,7 +10,8 @@
     dunes: { x: 21300, z: -3300, rx: 4800, rz: 1900 },
     cliff: [[10900, 400], [9200, 1600], [7600, 2900], [5900, 4300]],
     port: { x: 30000, z: 0, r0: 1900, r1: 2700 },
-    home: { r0: 170, r1: 420, garden: 112 }
+    home: { r0: 170, r1: 420, garden: 112 },
+    pit: { x: 29700, z: -1050, hx: 160, hz: 100, depth: 9 }   // the spaceport's ice mine, an open pit with benches
   };
 
   var GLSL_TERRAIN = [
@@ -18,6 +19,10 @@
     "const vec2 DS_C = vec2(" + FEAT.dunes.x.toFixed(1) + ", " + FEAT.dunes.z.toFixed(1) + "); const vec2 DS_R = vec2(" + FEAT.dunes.rx.toFixed(1) + ", " + FEAT.dunes.rz.toFixed(1) + ");",
     "const vec2 CL0 = vec2(" + FEAT.cliff[0].join(".0, ") + ".0); const vec2 CL1 = vec2(" + FEAT.cliff[1].join(".0, ") + ".0); const vec2 CL2 = vec2(" + FEAT.cliff[2].join(".0, ") + ".0); const vec2 CL3 = vec2(" + FEAT.cliff[3].join(".0, ") + ".0);",
     "const vec2 PORT_C = vec2(" + FEAT.port.x.toFixed(1) + ", " + FEAT.port.z.toFixed(1) + ");",
+    "const vec2 PIT_C = vec2(" + FEAT.pit.x.toFixed(1) + ", " + FEAT.pit.z.toFixed(1) + "); const vec2 PIT_H = vec2(" + FEAT.pit.hx.toFixed(1) + ", " + FEAT.pit.hz.toFixed(1) + ");",
+    "float pitSD(vec2 p){ vec2 d = abs(p - PIT_C) - PIT_H; return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0); }",
+    "float pitDepth(vec2 p){ float d = pitSD(p); if (d > 0.0) return 0.0; float t = clamp(-d / 22.0, 0.0, 1.0); float dep = " + FEAT.pit.depth.toFixed(1) + " * t;",
+    "  return 3.0 * floor(dep / 3.0) + 3.0 * smoothstep(0.62, 1.0, fract(dep / 3.0)); }",
     "float sminT(float a, float b, float k){ float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0); return mix(b, a, h) - k * h * (1.0 - h); }",
     // band-limited fbm: octaves shorter than about three grid spacings are left out
     "float fbmF(vec2 p, float lam0, float sp){ float s = 0.0, a = 0.5, lam = lam0; vec2 q = p / lam0;",
@@ -78,6 +83,7 @@
     "  h += cliffH(p, sp);",
     "  float dp = length(p - PORT_C); float wp = 1.0 - smoothstep(" + FEAT.port.r0.toFixed(1) + ", " + FEAT.port.r1.toFixed(1) + ", dp);",
     "  h = mix(h, 0.25 * vnoise(p / 60.0), wp);",
+    "  h -= pitDepth(p);",
     "  float dh = length(p); float wh = 1.0 - smoothstep(" + FEAT.home.r0.toFixed(1) + ", " + FEAT.home.r1.toFixed(1) + ", dh);",
     "  float bowl = -1.4 * max(0.0, 1.0 - dh * dh / " + (FEAT.home.garden * FEAT.home.garden).toFixed(1) + ");",
     "  h = mix(h, bowl, wh);",
@@ -151,6 +157,14 @@
       drop *= smooth(-0.10, 0.03, T) * (1 - smooth(0.97, 1.10, T));
       return -drop;
     }
+    var PI_ = FEAT.pit;
+    function pitDepth(x, z) {
+      var dx = Math.abs(x - PI_.x) - PI_.hx, dz = Math.abs(z - PI_.z) - PI_.hz;
+      var d = Math.hypot(Math.max(dx, 0), Math.max(dz, 0)) + Math.min(Math.max(dx, dz), 0);
+      if (d > 0) return 0;
+      var dep = PI_.depth * clamp(-d / 22, 0, 1);
+      return 3 * Math.floor(dep / 3) + 3 * smooth(0.62, 1, fract(dep / 3));
+    }
     function smallCraters(x, z, sp) {
       var cx = Math.floor(x / 700), cz = Math.floor(z / 700);
       if (hash12(cx + 71.3, cz + 71.3) < 0.62) return 0;
@@ -177,6 +191,7 @@
       v += cliffH(x, z, sp);
       var dp = Math.sqrt((x - PT.x) * (x - PT.x) + (z - PT.z) * (z - PT.z)), wp = 1 - smooth(PT.r0, PT.r1, dp);
       v = lerp(v, 0.25 * vnoise(x / 60, z / 60), wp);
+      v -= pitDepth(x, z);
       var dh = Math.sqrt(x * x + z * z), wh = 1 - smooth(HM.r0, HM.r1, dh), bowl = -1.4 * Math.max(0, 1 - dh * dh / (HM.garden * HM.garden));
       return lerp(v, bowl, wh);
     }
@@ -254,7 +269,7 @@
 
     var FS = [
       GLSL_COMMON, GLSL_TERRAIN, GLSL_SHADOW, LOGF_PARS,
-      "uniform vec4 uInner; uniform float uLevel; uniform float uDbg;",
+      "uniform vec4 uInner; uniform float uLevel; uniform float uDbg; uniform float uAG;",
       "varying vec3 vW; varying vec3 vN; varying float vSh; varying float vSp; varying float vDist; varying float vMorph;",
       // cracked polygon ground of ice-rich plains: distance to the nearest cell edge
       "vec3 polyEdge(vec2 p){ vec2 i = floor(p), f = fract(p); float d1 = 8.0, d2 = 8.0; vec2 r1 = vec2(0.0), r2 = vec2(0.0);",
@@ -288,9 +303,21 @@
       "  n = normalize(n + vec3(-gd.x, 0.0, -gd.y) * 0.55);",
       "  float slope = 1.0 - n.y, bslope = 1.0 - normalize(vN).y;",
       // albedo: regolith, bright dust on flats, darker rock on slopes, dark basalt sand in the dunes
-      "  float big = vnoise(pw / 1300.0) * 0.5 + vnoise(pw / 340.0) * 0.3 + vnoise(pw / 75.0) * 0.2;",
-      "  vec3 reg = mix(vec3(0.225, 0.140, 0.092), vec3(0.355, 0.232, 0.152), smoothstep(-0.7, 0.7, big));",
-      "  reg *= 0.86 + 0.14 * smoothstep(-0.4, 0.6, vnoise(pw / 2400.0 + 11.0));",
+      "  vec2 wq = pw / 1500.0; wq += vec2(vnoise(wq * 1.7 + 3.1), vnoise(wq * 1.7 + 9.4)) * 0.55;",
+      "  float big = vnoise(wq) * 0.55 + vnoise(wq * 3.3 + 2.0) * 0.28 + vnoise(pw / 75.0) * 0.17;",
+      "  vec3 reg = mix(vec3(0.245, 0.152, 0.100), vec3(0.335, 0.218, 0.143), smoothstep(-0.75, 0.75, big));",
+      "  reg *= 0.9 + 0.1 * smoothstep(-0.4, 0.6, vnoise(pw / 2600.0 + 11.0));",
+      // dust devil tracks: long thin dark curves, seen best from above
+      "  float trk = 0.0;",
+      "  for (int k = 0; k < 3; k++){",
+      "    float sc = 480.0 + 230.0 * float(k); vec2 q = pw / sc + vec2(float(k) * 7.3, float(k) * 3.1);",
+      "    q += vec2(vnoise(q * 0.6 + 1.3), vnoise(q * 0.6 + 8.1)) * 0.7;",
+      "    float f = vnoise(q) + 0.45 * vnoise(q * 2.3 + 4.0);",
+      "    float fw = fwidth(f) + 1e-5, e = 0.012 + 0.008 * float(k);",
+      "    float ln = (1.0 - smoothstep(e * 0.4, e + fw, abs(f))) * min(1.0, e / fw);",
+      "    trk = max(trk, ln * smoothstep(-0.2, 0.45, vnoise(pw / 1700.0 + float(k) * 5.0)));",
+      "  }",
+      "  reg *= 1.0 - 0.22 * trk;",
       "  reg = mix(reg, vec3(0.37, 0.255, 0.175), smoothstep(0.1, 0.6, vnoise(pw / 190.0 + 5.0)) * (1.0 - smoothstep(0.02, 0.12, bslope)) * 0.55);",
       "  vec3 rock = vec3(0.155, 0.112, 0.090) * (0.8 + 0.4 * (vnoise(pw / 7.0) * 0.5 + 0.5));",
       "  vec3 alb = mix(reg, rock, smoothstep(0.18, 0.45, bslope));",
@@ -300,11 +327,12 @@
       // polygon ground on the open plain
       "  float psz = 15.0;",
       "  vec3 pe3 = polyEdge(pw / psz + vec2(vnoise(pw / 37.0), vnoise(pw / 37.0 + 9.0)) * 0.30 + vec2(vnoise(pw / 230.0 + 4.0), vnoise(pw / 230.0 + 1.0)) * 0.8); float pe = pe3.x;",
-      "  float polyA = (1.0 - dm) * (1.0 - smoothstep(0.08, 0.2, bslope)) * (0.45 + 0.55 * smoothstep(-0.3, 0.4, vnoise(pw / 150.0)));",
-      "  float crack = (1.0 - smoothstep(0.02, 0.13, pe)) * polyA * mid;",
-      "  float tq = clamp(pe / 0.16, 0.0, 1.0); vec2 gtr = pe3.yz * (6.0 * tq * (1.0 - tq) / 0.16) * 0.21 / psz * polyA * (1.0 - smoothstep(150.0, 1200.0, dist));",
+      "  float graded = max(1.0 - smoothstep(" + FEAT.port.r0.toFixed(1) + ", " + FEAT.port.r1.toFixed(1) + ", length(pw - PORT_C)), 1.0 - smoothstep(" + FEAT.home.r0.toFixed(1) + ", " + FEAT.home.r1.toFixed(1) + ", length(pw)));",
+      "  float polyA = (1.0 - dm) * (1.0 - smoothstep(0.08, 0.2, bslope)) * (0.45 + 0.55 * smoothstep(-0.3, 0.4, vnoise(pw / 150.0))) * (1.0 - 0.75 * graded);",
+      "  float crack = (1.0 - smoothstep(0.02, 0.13, pe)) * polyA * (1.0 - smoothstep(180.0, 900.0, dist));",
+      "  float tq = clamp(pe / 0.16, 0.0, 1.0); vec2 gtr = pe3.yz * (6.0 * tq * (1.0 - tq) / 0.16) * 0.13 / psz * polyA * (1.0 - smoothstep(120.0, 800.0, dist));",
       "  n = normalize(n + vec3(-gtr.x, 0.0, -gtr.y));",
-      "  alb *= 1.0 - 0.10 * crack;",
+      "  alb *= 1.0 - 0.07 * crack;",
       // the crater: frost on its cold floor and in the shade of its walls
       "  float rc = length(pw - CR_C) / CR_R;",
       "  float frost = (1.0 - smoothstep(0.55, 0.8, rc)) * smoothstep(-150.0, -215.0, vW.y);",
@@ -337,11 +365,20 @@
       "    ice = mix(ice, vec3(0.30, 0.22, 0.17), 0.7 * (1.0 - smoothstep(10.0, 18.0, cd.x)));",
       "    alb = mix(alb, ice, cliff);",
       "  }",
+      // the ice mine: dirty ice on the floor and benches, tyre tracks
+      "  float pd = pitSD(pw);",
+      "  if (pd < 2.0){",
+      "    float pin = 1.0 - smoothstep(-4.0, 1.0, pd);",
+      "    vec3 dice = mix(vec3(0.40, 0.42, 0.44), vec3(0.62, 0.66, 0.70), smoothstep(-0.3, 0.6, vnoise(pw / 9.0)));",
+      "    float track = smoothstep(0.6, 0.9, abs(sin(dot(pw, vec2(0.8, 0.6)) * 1.9))) * smoothstep(0.2, 0.6, vnoise(pw / 25.0));",
+      "    dice *= 1.0 - 0.25 * track;",
+      "    alb = mix(alb, dice, pin * (0.55 + 0.45 * smoothstep(-5.0, -8.5, vW.y)));",
+      "  }",
       // the Stone Garden under the Crown: raked rings round the Sun Well
       "  float rh = length(pw); float gard = 1.0 - smoothstep(108.0, 114.0, rh);",
-      "  float rake = sin(rh * 6.2832 / 0.9);",
+      "  float rfw = clamp(1.0 - fwidth(rh / 0.9) * 1.5, 0.0, 1.0); float rake = sin(rh * 6.2832 / 0.9) * rfw;",
       "  alb = mix(alb, vec3(0.34, 0.25, 0.185) * (0.92 + 0.08 * rake), gard);",
-      "  n = normalize(n + vec3(pw.x / max(rh, 1.0), 0.0, pw.y / max(rh, 1.0)) * cos(rh * 6.2832 / 0.9) * 0.12 * gard * near);",
+      "  n = normalize(n + vec3(pw.x / max(rh, 1.0), 0.0, pw.y / max(rh, 1.0)) * cos(rh * 6.2832 / 0.9) * 0.12 * gard * near * rfw);",
       // light
       "  float ndl = max(dot(n, uSunDir), 0.0);",
       "  float back = 0.18 * pow(max(0.0, dot(normalize(uCam - vW), uSunDir)), 3.0);",
@@ -354,18 +391,32 @@
       "    float fr = 0.04 + 0.5 * pow(1.0 - max(dot(-vv, n), 0.0), 5.0);",
       "    col += skyColor(rv) * fr * cliff * 0.45 * (1.0 - 0.7 * streak);",
       "  }",
-      "  float spec = pow(max(dot(reflect(-uSunDir, n), normalize(uCam - vW)), 0.0), 40.0) * (cliff * 0.5 + frost * 0.25);",
+      "  float spec = pow(max(dot(reflect(-uSunDir, n), normalize(uCam - vW)), 0.0), 60.0) * (cliff * 0.5 + frost * 0.08);",
       "  col += uSunCol * spec * sh;",
+      // the anti-gravity fields under the Crown's five spires: slow rings of pale light on the ground
+      "  if (uAG > 0.0 && dot(pw, pw) < 40000.0){",
+      "    for (int k = 0; k < 5; k++){",
+      "      float b = (18.0 + 72.0 * float(k)) * 0.0174533; vec2 c = vec2(sin(b), -cos(b)) * 130.0; float d = length(pw - c);",
+      "      if (d < 40.0){ float ph = fract(d / 9.0 - uTime * 0.12); float ring = smoothstep(0.0, 0.08, ph) * (1.0 - smoothstep(0.08, 0.35, ph));",
+      "        col += vec3(0.30, 0.46, 1.0) * (ring * 0.5 + 0.25 * exp(-d / 6.0)) * (1.0 - smoothstep(20.0, 38.0, d)) * uAG * 0.35; }",
+      "    }",
+      "  }",
       "  col = haze(col, vW);",
+      "  if (rc < 1.05){",
+      "    float fogH = smoothstep(-120.0, -245.0, vW.y) * (1.0 - smoothstep(0.75, 1.02, rc));",
+      "    float fogN = 0.6 + 0.4 * vnoise(pw / 160.0 + uTime * 0.01);",
+      "    vec3 fogC = vec3(0.60, 0.62, 0.66) * (uAmbUp + uAmbHor) * 0.9 + uSunCol * 0.05;",
+      "    col = mix(col, fogC, fogH * fogN * 0.55 * smoothstep(80.0, 600.0, dist));",
+      "  }",
       "  if (uDbg > 0.5) col = vec3(fract(uLevel * 0.37), fract(uLevel * 0.61 + 0.3), fract(uLevel * 0.83 + 0.6)) * (0.4 + 0.6 * ndl) + vec3(vMorph, 0.0, 0.0) * 0.5;",
       "  gl_FragColor = vec4(col, 1.0);",
       "  " + LOGF,
       "}"].join("\n");
 
-    var levels = [], DBGU = { value: 0 };
+    var levels = [], DBGU = { value: 0 }, AGU = { value: 1 };
     for (var L = 0; L < LEVELS; L++) {
-      var u = sharedUniforms({ uC: { value: new THREE.Vector2() }, uS: { value: S0 * Math.pow(2, L) }, uN: { value: N }, uLevel: { value: L }, uInner: { value: new THREE.Vector4(0, 0, 0, 0) }, uDbg: DBGU });
-      var mat = new THREE.ShaderMaterial({ uniforms: u, vertexShader: VS, fragmentShader: FS });
+      var u = sharedUniforms({ uC: { value: new THREE.Vector2() }, uS: { value: S0 * Math.pow(2, L) }, uN: { value: N }, uLevel: { value: L }, uInner: { value: new THREE.Vector4(0, 0, 0, 0) }, uDbg: DBGU, uAG: AGU });
+      var mat = new THREE.ShaderMaterial({ uniforms: u, vertexShader: VS, fragmentShader: FS, extensions: { derivatives: true } });
       var mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; mesh.renderOrder = 1;
       scene.add(mesh); levels.push(mesh);
     }
@@ -376,5 +427,5 @@
         if (L > 0) { var ui = levels[L - 1].material.uniforms; u.uInner.value.set(ui.uC.value.x, ui.uC.value.y, (N - 1.5) * ui.uS.value, 0); }
       }
     }
-    return { levels: levels, update: update, S0: S0, N: N, dbg: DBGU };
+    return { levels: levels, update: update, S0: S0, N: N, dbg: DBGU, ag: AGU };
   })();

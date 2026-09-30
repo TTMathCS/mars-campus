@@ -13,7 +13,8 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2, old palace | `palace/index.html`, source in `palace/src_old/` | Still live, but Jim rejected it ("far from satisfactory"). It stays up until the new build replaces it at the same link. |
 | Demo 2, plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). Live at https://ttmathcs.github.io/mars-campus/palace/plans/. |
-| Demo 2, new 3D build | `palace/src/` | **In progress**, phase 1 of 3 (section 2, build order). Engine, sky and terrain are done; spaceport, pod, Crown, flight and UI are next. Not published yet. |
+| Demo 2, new 3D build | `palace/src/` | **Paused on 30 Sep 2026 at Jim's request** until the design book is finished. Phase 1 works end to end in the debug build: terrain, sky, spaceport, pod, the Crown with the Orb, storm, the 10-shot flight, cameras and UI. Not published yet (`palace/index.html` is still the old palace). |
+| Design book | `palace/design/` | **In progress.** Jim asked for all plans to be designed and documented before more implementation: an interactive zoomable map (space → Mars → Arcadia → the house) and chapters on architecture, interiors, power, transportation, the spaceport, life support, communications, the city and the phases. |
 
 ## 2. Demo 2 redesign: decisions so far
 
@@ -45,6 +46,12 @@ copy of the plans that had been published as a Claude artifact (done).
 - **Pod.** It flies in under the ring, loops once round the Orb and enters the hangar through a door on the garden side of the east spire.
 - **Flight video.** Ten shots, about 4 min 40 s, including a dust storm after the Ice Cliffs and a breakout into the blue sunset with Phobos crossing the sun.
 - **Numbers.** Crown 20,100 m²; Pentagon 209,700 m² (10.4×).
+
+**Jim's direction, 30 Sep 2026 (later):** "before the detailed html implementation, I really like to put efforts on the
+design and figure out all the plans ... architecture, interior, power station design, transportation design/etc with
+details on its outlook/how it works ... we need to finish this before we move the implementation." And: "in the design
+doc, I need full map of mars, terrain and space maps. also mark where are the city/my house/spaceport are located ...
+better like google earth design so that we can zoom in/out."
 
 **Waiting for Jim:** where the Wormhole Gate should take him in the demo, for example the TTMath campus in demo 1.
 This is only needed for phase 2.

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mars Campus</title>
-<meta name="description" content="Walkable 3D scenes on real NASA Mars terrain. Each demo starts in Gale Crater and adds an imagined place to discover.">
+<meta name="description" content="Walkable 3D places on Mars to discover on foot: a campus on real NASA ground in Gale Crater and a palace above Arcadia Planitia.">
 <meta name="theme-color" content="#120b09">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mars Campus">
-<meta property="og:description" content="Walkable 3D scenes on real NASA Mars terrain. Each demo starts in Gale Crater and adds an imagined place to discover.">
+<meta property="og:description" content="Walkable 3D places on Mars to discover on foot: a campus on real NASA ground in Gale Crater and a palace above Arcadia Planitia.">
 <meta property="og:url" content="https://ttmathcs.github.io/mars-campus/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -58,6 +58,10 @@
       linear-gradient(180deg, #3a2419, #7a4c33 70%, #2a1912 71%, #1c120d); }
   .thumb .tag { position: absolute; left: 12px; top: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; background: rgba(18, 11, 9, 0.7); border: 1px solid var(--line); }
   .thumb .tag.live { color: #bfe0ff; border-color: rgba(156, 201, 234, 0.5); }
+  .thumb.palace { background:
+      radial-gradient(ellipse 22% 30% at 50% 74%, rgba(255, 214, 150, 0.75), transparent 70%),
+      radial-gradient(ellipse 30% 22% at 50% 70%, rgba(170, 210, 255, 0.35), transparent 70%),
+      linear-gradient(180deg, #4a2d1e, #9a6440 66%, #3a2317 67%, #1c120d); }
   .card .body { padding: 14px 16px 16px; display: grid; gap: 6px; align-content: start; }
   .card h3 { font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.05; margin: 0; }
   .card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
@@ -76,9 +80,9 @@
   <div class="sun" aria-hidden="true"></div>
   <div class="ridge" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="eyebrow">Gale Crater · Mars</p>
+    <p class="eyebrow">Gale Crater · Arcadia Planitia · Mars</p>
     <h1>Mars Campus</h1>
-    <p class="lead">Walkable 3D scenes on real Mars ground. Each demo starts on NASA terrain from Gale Crater and adds an imagined place to discover. They run in the browser on a computer or a phone.</p>
+    <p class="lead">Walkable 3D places on Mars, each one imagined and built to discover on foot, from a campus on real NASA ground in Gale Crater to a palace above Arcadia Planitia. They run in the browser on a computer or a phone.</p>
   </div>
 </header>
 <main>
@@ -89,6 +93,14 @@
       <div class="body">
         <h3>TTMath on Mars</h3>
         <p>Sunset at Dingo Gap. Walk over the ridge into the TTMath campus: classrooms, a coding lab, a café and a library around a courtyard, and the Math Palace, a huge glass dome full of math.</p>
+        <span class="go">Enter demo →</span>
+      </div>
+    </a>
+    <a class="card" href="palace/">
+      <div class="thumb palace"><span class="tag live">Demo 2 · Live</span></div>
+      <div class="body">
+        <h3>Arcadia Palace</h3>
+        <p>A retirement palace on Mars. Land at the spaceport, fly home in an air taxi, let the door recognise you, then explore the palace and the Deep: five levels underground with a library, a cinema, a lagoon, a forest and a fusion plant.</p>
         <span class="go">Enter demo →</span>
       </div>
     </a>
@@ -107,7 +119,7 @@
     </div>
     <div>
       <h2>What's real</h2>
-      <p>The ground around the starting point, about 260 × 260 m, is NASA JPL's 3D model built from Curiosity rover photos. The landscape beyond it, the sky and the buildings are simulated.</p>
+      <p>In TTMath on Mars, the ground around the starting point, about 260 × 260 m, is NASA JPL's 3D model built from Curiosity rover photos. Everything else, including the whole of Arcadia Palace and its landscape, is simulated.</p>
     </div>
   </div>
 </main>

@@ -28,7 +28,7 @@ jobs:
 
       - name: Check the site files
         run: |
-          for f in index.html data/manifest.json data/terrain0.b64.txt data/terrain1.b64.txt ttmath/index.html ttmath/logo.png ttmath/REQUIREMENTS.md; do
+          for f in index.html data/manifest.json data/terrain0.b64.txt data/terrain1.b64.txt ttmath/index.html ttmath/logo.png ttmath/REQUIREMENTS.md palace/index.html palace/REQUIREMENTS.md; do
             test -s "$f" || { echo "::error::missing or empty: $f"; exit 1; }
           done
           python3 -c "import json; json.load(open('data/manifest.json'))"

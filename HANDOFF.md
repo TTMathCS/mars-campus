@@ -11,8 +11,9 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | --- | --- | --- |
 | Hub page | `index.html` | Live. Lists the demos and links the demo 2 plans. |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
-| Demo 2, current palace | `palace/` | Live, but Jim rejected it ("far from satisfactory"). It stays up until the redesign replaces it at the same link. |
-| Demo 2, redesign | `palace/plans/` | Floor plans Rev B live at https://ttmathcs.github.io/mars-campus/palace/plans/, waiting for Jim's approval (section 2). Nothing is built in 3D until he approves. |
+| Demo 2, old palace | `palace/index.html`, source in `palace/src_old/` | Still live, but Jim rejected it ("far from satisfactory"). It stays up until the new build replaces it at the same link. |
+| Demo 2, plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). Live at https://ttmathcs.github.io/mars-campus/palace/plans/. |
+| Demo 2, new 3D build | `palace/src/` | **In progress**, phase 1 of 3 (section 2, build order). Engine, sky and terrain are done; spaceport, pod, Crown, flight and UI are next. Not published yet. |
 
 ## 2. Demo 2 redesign: decisions so far
 
@@ -45,11 +46,10 @@ copy of the plans that had been published as a Claude artifact (done).
 - **Flight video.** Ten shots, about 4 min 40 s, including a dust storm after the Ice Cliffs and a breakout into the blue sunset with Phobos crossing the sun.
 - **Numbers.** Crown 20,100 m²; Pentagon 209,700 m² (10.4×).
 
-**Waiting for Jim:**
-1. Approve Rev B, or say what to change.
-2. Where the Wormhole Gate should take him in the demo, for example the TTMath campus in demo 1.
+**Waiting for Jim:** where the Wormhole Gate should take him in the demo, for example the TTMath campus in demo 1.
+This is only needed for phase 2.
 
-**After approval**, build in this order and replace the old palace at `palace/` (same link):
+**Build order** (Jim approved Rev B, so this is under way). Each phase replaces the old palace at `palace/` (same link):
 1. The 30 km landscape, the spaceport and the pod flight video.
 2. The Crown and the Orb.
 3. The Pentagon, one level at a time.
@@ -70,7 +70,25 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
 - `site_check.py`: loads the built page.
 - `hidden.py`: the campus must stay hidden behind the ridge from the start point.
 
-**Demo 2, old palace**: `palace/src/`, then `palace/build.sh` (use `./build.sh debug` for test hooks). Node scripts are in `palace/tools/`.
+**Demo 2, new build** (`palace/src/`): plain JavaScript on three.js r128, no build tools beyond `sh`.
+- `palace/build.sh` joins `src/00_head.html` and `src/[1-9]*.js` (in name order, inside one function) into one page.
+  - `sh palace/build.sh debug` writes `palace/palace-debug.html` (git-ignored) with test hooks. Use this while working.
+  - `sh palace/build.sh` writes the published `palace/index.html`. **Don't run it until the new demo is ready to replace
+    the old one**, because it overwrites the old demo.
+- Source files: `10_core.js` renderer, shared uniforms, shader chunks, HDR bloom and tone mapping; `20_sky.js` sun, sky,
+  Phobos, stars; `30_terrain.js` the height function (GLSL and a JS twin that must match) and ten nested terrain grids;
+  `99_main.js` the main loop (for now a test harness). Planned next: `40_mat.js` building material and shadow map,
+  `50_port.js` spaceport, `55_pod.js` pod and cockpit, `60_crown.js` the Crown and the Orb, `70_fx.js` dust devils, storm,
+  sparks, `80_flight.js` the path, shots and cameras, `90_ui.js` HUD, cards, look-around, sound.
+- World: metres, x east, z south, y up, the Crown's centre at the origin, the spaceport terminal at x = 30 000. Plan
+  coordinates (x, y north) map to world (x, −y). Every vertex shader bends the world with the curvature of Mars.
+- Test: `python3 palace/tools/crown_shot.py '[["name", "js", waitMs], ...]' 960x540` loads the debug page headless and
+  saves PNGs to `palace/tools/out/`. In the page, `__crown.view(x, y, z, tx, ty, tz)` places the camera,
+  `__crown.sun(elevationDeg, azimuthDeg)` sets the sun, `__crown.exp(e)` the exposure, `__crown.dbg(1)` colours the
+  terrain grid levels, and `__crown.frame()` renders. Each frame takes about 8 s in SwiftShader.
+
+**Demo 2, old palace**: source in `palace/src_old/` (its build script is in git history, commit c2e231b). It will be
+deleted when the new build replaces it; it stays in git history.
 
 **Demo 2 plans**: edit `palace/plans/index.html` directly. It is one self-contained page, and every drawing is SVG built by its script. The geometry constants sit near the top of the script:
 - `CR` is the Crown.
@@ -102,7 +120,10 @@ data/                   NASA terrain for demo 1 (Dingo Gap tiles as base64 text)
 ttmath/                 demo 1: index.html (built), logo.png, REQUIREMENTS.md
 ttmath/src/             page.html (source page), blocks/*.js, assemble.py, build.py
 ttmath/tools/           Playwright tests; hraster.npy + lay/ for the hidden check
-palace/                 demo 2 (old palace): index.html (built), REQUIREMENTS.md, src/, build.sh, tools/
+palace/                 demo 2: index.html (built, still the old palace), REQUIREMENTS.md, build.sh, tools/
+palace/src/             demo 2 new build (in progress)
+palace/src_old/         demo 2 old palace source, to be deleted when the new build goes live
+palace/tools/crown_shot.py   headless screenshots of the new build
 palace/plans/           demo 2 redesign floor plans (index.html, self-contained)
 palace/tools/plans_snap.py   screenshots of the plans page
 .github/workflows/pages.yml  deploys to GitHub Pages on every push to main

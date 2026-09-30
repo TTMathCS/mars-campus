@@ -5,9 +5,10 @@ Demo 2 of [Mars Campus](../README.md) · live at https://ttmathcs.github.io/mars
 This file is the source of truth for this demo. It collects what was asked for in the design rounds
 so far. Every requirement has an ID so it can be referenced, changed or retired later.
 
-> **Status, 30 Sep 2026: redesign in review, plans Rev B.** Jim found the palace below "far from satisfactory"
-> and asked to start again. Round 3 (section 10) replaces it. The floor plans are at
-> https://ttmathcs.github.io/mars-campus/palace/plans/ and nothing new is built until Jim approves them.
+> **Status, 30 Sep 2026: plans Rev B approved, 3D build in progress.** Jim found the palace below "far from
+> satisfactory" and asked to start again. Round 3 (section 10) replaces it. Jim approved the Rev B floor plans
+> (https://ttmathcs.github.io/mars-campus/palace/plans/) with "Approve. Go". Phase 1 (the landscape, the spaceport
+> and the flight to the Crown) is being built in `palace/src/`.
 > Sections 2 to 9 describe the current palace, which stays live until the new demo replaces it at the same link.
 
 ## 1. Vision and scope
@@ -141,5 +142,5 @@ chose: "use anti gravity. No elevator. From crown to underground is by use warm 
 | RD-14 | Keep all progress in the repo so another account or AI can continue | Must | Done: `HANDOFF.md`, demo 1 sources in `ttmath/src/`, tests in `ttmath/tools/`, plans in `palace/plans/` |
 
 Rev B numbers: Crown 20,100 m² (ring 13,070 including the Glide, upper floors 3,630, Orb 3,370); Pentagon
-209,700 m², 10.4 times the Crown. Open for Jim: approve Rev B, and where the Wormhole Gate should take him in
-the demo (for example the TTMath campus in demo 1).
+209,700 m², 10.4 times the Crown. Rev B approved 30 Sep 2026. Open for Jim: where the Wormhole Gate should take
+him in the demo (for example the TTMath campus in demo 1).

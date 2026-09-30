@@ -1,0 +1,124 @@
+<title>The Crown · Arcadia</title>
+<meta name="description" content="Fly home from Arcadia Spaceport to the Crown, Jim's house on Mars: 37 km over dunes, a crater, ice cliffs and a dust storm, landing at sunset.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Crown · Arcadia">
+<meta property="og:description" content="Fly home from Arcadia Spaceport to the Crown, Jim's house on Mars, landing at sunset.">
+<meta property="og:url" content="https://ttmathcs.github.io/mars-campus/palace/">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #f3e8da; --dim: #c9b39c; --faint: rgba(243, 232, 218, 0.55); --line: rgba(243, 232, 218, 0.18);
+    --panel: rgba(16, 11, 9, 0.62); --panel2: rgba(16, 11, 9, 0.82); --hot: #ff9b6b; --ice: #9fd3ee;
+    --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; height: 100%; background: #0b0706; color: var(--ink); font-family: var(--body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  canvas#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  button { font: inherit; color: inherit; }
+  .hud { position: fixed; pointer-events: none; }
+  .hud * { pointer-events: auto; }
+
+  /* top-left: shot title */
+  #shot { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 70vw); pointer-events: none; }
+  #shot .k { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  #shot .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 12px rgba(0,0,0,.55); }
+  #shot .d { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--ink); opacity: .9; text-shadow: 0 1px 8px rgba(0,0,0,.7); max-width: 46ch; }
+
+  /* top-right: flight data */
+  #data { right: calc(env(safe-area-inset-right, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); text-align: right; font: 400 12px/1.6 var(--mono); color: var(--dim); pointer-events: none; text-shadow: 0 1px 6px rgba(0,0,0,.7); }
+  #data b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* bottom: timeline and controls */
+  #bar { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); width: min(960px, calc(100vw - 28px)); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 10px; display: grid; gap: 8px; }
+  #tl { position: relative; height: 22px; cursor: pointer; }
+  #tl .track { position: absolute; left: 0; right: 0; top: 10px; height: 3px; background: rgba(243,232,218,.18); border-radius: 2px; }
+  #tl .fill { position: absolute; left: 0; top: 10px; height: 3px; background: var(--hot); border-radius: 2px; width: 0; }
+  #tl .mk { position: absolute; top: 3px; width: 17px; height: 17px; margin-left: -8.5px; border-radius: 50%; border: 1.5px solid var(--hot); background: rgba(16,11,9,.9); font: 600 9.5px/14px var(--mono); text-align: center; color: var(--ink); padding: 0; cursor: pointer; }
+  #tl .mk.on { background: var(--hot); color: #1a0f0a; }
+  #tl .storm { position: absolute; top: 8px; height: 7px; background: repeating-linear-gradient(135deg, rgba(255,155,107,.55) 0 3px, transparent 3px 6px); border-radius: 2px; }
+  #ctl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  #ctl .grp { display: flex; gap: 4px; }
+  #ctl button { background: rgba(243,232,218,.06); border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; font: 500 13px/1 var(--body); cursor: pointer; }
+  #ctl button:hover { background: rgba(243,232,218,.14); }
+  #ctl button[aria-pressed="true"] { background: var(--ink); color: #1a0f0a; border-color: var(--ink); }
+  #ctl .sp { flex: 1; }
+  #ctl .time { font: 500 13px var(--mono); color: var(--dim); font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
+  button:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+
+  /* radar */
+  #radar { right: calc(env(safe-area-inset-right, 0px) + 18px); top: 92px; width: 190px; height: 190px; border-radius: 50%; display: none; pointer-events: none; }
+
+  /* start and end cards */
+  .card { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: radial-gradient(ellipse at 50% 60%, rgba(10,6,5,.35), rgba(10,6,5,.82)); z-index: 5; }
+  .card[hidden] { display: none; }
+  .card .box { max-width: 560px; width: 100%; background: var(--panel2); border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 22px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .card .k { font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  .card h1 { margin: 6px 0 8px; font: 700 clamp(34px, 6vw, 52px)/1 var(--display); letter-spacing: .01em; }
+  .card p { margin: 0 0 12px; font-size: 15px; line-height: 1.55; color: var(--ink); opacity: .92; }
+  .card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .card .row button, .card .row a { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 10px; border: 1px solid var(--line); background: rgba(243,232,218,.07); font: 600 15px/1 var(--body); color: var(--ink); text-decoration: none; cursor: pointer; }
+  .card .row .go { background: var(--hot); color: #1a0f0a; border-color: var(--hot); }
+  .card .small { font: 400 12.5px/1.5 var(--mono); color: var(--dim); margin-top: 14px; }
+  #load { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 500 13px var(--mono); color: var(--dim); letter-spacing: .08em; z-index: 6; }
+  #flash { position: fixed; inset: 0; background: #cfe6ff; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+  #welcome { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; opacity: 0; transition: opacity 1.2s; }
+  #welcome .t { font: 600 clamp(34px, 6vw, 64px)/1 var(--display); letter-spacing: .02em; text-shadow: 0 2px 24px rgba(0,0,0,.6); }
+  #welcome .d { margin-top: 8px; font: 500 13px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ice); }
+  @media (max-width: 640px) {
+    #data { display: none; }
+    #shot .d { display: none; }
+    #radar { width: 130px; height: 130px; top: 76px; }
+    #ctl button { padding: 7px 9px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<canvas id="fx"></canvas>
+<div id="flash"></div>
+<div id="load">Loading Mars…</div>
+<div class="hud" id="shot" hidden><div class="k" id="shotK"></div><div class="t" id="shotT"></div><div class="d" id="shotD"></div></div>
+<div class="hud" id="data" hidden></div>
+<canvas class="hud" id="radar" width="380" height="380"></canvas>
+<div class="hud" id="bar" hidden>
+  <div id="tl" role="slider" aria-label="Flight timeline" aria-valuemin="0" aria-valuemax="282" tabindex="0"><div class="track"></div><div class="fill" id="tlFill"></div></div>
+  <div id="ctl">
+    <button type="button" id="bPlay" aria-label="Pause">Pause</button>
+    <div class="grp" role="group" aria-label="Camera">
+      <button type="button" data-cam="director" aria-pressed="true">Director</button>
+      <button type="button" data-cam="cockpit" aria-pressed="false">Cockpit</button>
+      <button type="button" data-cam="chase" aria-pressed="false">Chase</button>
+    </div>
+    <button type="button" id="bSound" aria-pressed="false">Sound off</button>
+    <span class="sp"></span>
+    <span class="time" id="tTime">0:00 / 4:42</span>
+    <button type="button" id="bSkip">Skip to arrival</button>
+  </div>
+</div>
+<div id="welcome"><div class="t">Welcome home, Jim</div><div class="d">The Door recognises you</div></div>
+<div class="card" id="start" hidden>
+  <div class="box">
+    <div class="k">Mars Campus · Demo 2 · Arcadia Planitia</div>
+    <h1>Fly home to the Crown</h1>
+    <p>Your ship from Earth has landed at Arcadia Spaceport. A pod is waiting to fly you home, 30 km west, to the Crown: your house floating above the plain.</p>
+    <p>The flight takes 4 minutes 40 seconds over the Dune Sea, a crater, the Ice Cliffs and a dust storm, and lands at sunset.</p>
+    <div class="row"><button type="button" class="go" id="bStart">Start the flight</button><a href="plans/">See the plans</a></div>
+    <div class="small">Space pauses · 1 2 3 switch cameras · → next shot · drag to look around while paused</div>
+  </div>
+</div>
+<div class="card" id="end" hidden>
+  <div class="box">
+    <div class="k">You are home</div>
+    <h1>The Crown</h1>
+    <p>This is the first part of the new demo: the spaceport, the flight and the Crown from outside. The rooms of the Crown, the Orb with the Wormhole Gate and the five levels of the Pentagon come next.</p>
+    <div class="row"><button type="button" class="go" id="bLook">Look around the Crown</button><button type="button" id="bReplay">Fly again</button><a href="plans/">Plans</a><a href="../">Mars Campus</a></div>
+  </div>
+</div>

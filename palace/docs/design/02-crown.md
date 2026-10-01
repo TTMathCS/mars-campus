@@ -63,6 +63,9 @@ Ten parts of 36°: five under the spires, each with an upper floor, and five in 
 
 ## The Orb: the universe in VR and the Wormhole Gate
 
+**Try it:** [the Orb in the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) (phase 2): switch the universe
+on, zoom from the cosmic web down to Mars and the house, and step into the Gate.
+
 **Rev E, 1 Oct 2026, from Jim's words, for his review.** The Orb is a mirror ball 40 m across floating over the Sun
 Well. At its heart floats a ball 18 m across, the **Wormhole Gate**, and the rooms sit around it on three rings, like
 the boxes of an opera house. Switch the universe on and it appears in the room itself, in 3D, all around you:

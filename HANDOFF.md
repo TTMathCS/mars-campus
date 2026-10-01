@@ -15,7 +15,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 (the Orb, then the Crown's rooms) is next. |
+| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 started: **the Orb is live** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). The Crown's rooms are next. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -193,6 +193,14 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
   whether it looks real; drop a view rather than publish one that looks like a game (the cockpit view was dropped on
   1 Oct 2026 for that reason).
 
+**Demo 2, the Orb** (`palace/orb/index.html`): one self-contained page, no build step, three.js r128. Read
+`palace/orb/README.md` first. Levels are built in `LV` (web, mw, sol, mars, arc, home, earth), each a group with a slow
+spin, a focus point where its child level sits, and labels; `go(id)` zooms there through the chain (`PARENT`).
+`ASTRO` has the planets' positions today, the Mars clock (Mars24's algorithm) and the Sun over Earth; `DASH` draws the
+two globes into the canvas behind the dashboard and fetches Earth's weather (Open-Meteo) for the home town kept in
+`localStorage`. The send sequence is `sending()`. Test with `python3 palace/tools/orb_shot.py` (`?debug` exposes
+`window.__orb`); the planet maps come from `python3 palace/tools/fetch_textures.py`.
+
 **Demo 2, first palace**: the built page is `palace/archive/old-palace/index.html`; its source is in git history
 (before commit 0f7a717, `palace/src_old/`; build script at commit c2e231b).
 
@@ -280,6 +288,7 @@ palace/                       demo 2
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
 ├── plans/                    floor plans Rev B (index.html, self-contained)
 ├── src/                      the 3D demo's source; build.sh builds it
+├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
 ├── tools/                    crown_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
 │                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js

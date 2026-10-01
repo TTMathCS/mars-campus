@@ -169,23 +169,23 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | Phase | What it adds | State |
 | --- | --- | --- |
 | 1 | The 30 km landscape, the spaceport and the flight video | ✅ Live, 1 Oct 2026, at [palace/](https://ttmathcs.github.io/mars-campus/palace/) |
-| 2 | The Crown and the Orb | 🔧 The Orb is live, 1 Oct 2026, at [palace/orb/](https://ttmathcs.github.io/mars-campus/palace/orb/); the Crown's rooms next |
+| 2 | The Crown and the Orb | 🎬 Live, 1 Oct 2026: the Crown's main floor at [palace/crown/](https://ttmathcs.github.io/mars-campus/palace/crown/) and the Orb at [palace/orb/](https://ttmathcs.github.io/mars-campus/palace/orb/). Still to come: the spires' upper floors and the rest rooms |
 | 3 | The Pentagon, one level at a time | Next |
 
 | ID | You can … | Priority | Phase | Status |
 | --- | --- | --- | --- | --- |
 | DM-1 | Fly home: watch the flight video, switch between three cameras (director, cockpit, chase), pause, jump between the ten shots, skip | Must | 1 | ✅ Live |
 | DM-2 | After landing, look around the Crown from outside | Should | 1 | ✅ Live |
-| DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 📐 |
-| DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 📐 |
-| DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 📐 |
+| DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 🎬 Live at [palace/crown/](https://ttmathcs.github.io/mars-campus/palace/crown/): you start by the pod in the hangar; the iris of light opens and you walk into the Arrival hall |
+| DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 🎬 Live: the whole main floor, 30 furnished rooms in ten parts; the Glide carries you round; the sun comes in through the slots |
+| DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 🔧 Portals in the five spires go up to the Orb; the Orb's link comes back down. To the Pentagon in phase 3 |
 | DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and the house, see Earth and Mars with their weather, then switch it off | Must | 2 | 🎬 Live: the switch; six steps from the cosmic web to the Milky Way, the solar system today, Mars, Arcadia and the house, and Earth; the Earth and Mars dashboard with the Mars clock and live Earth weather |
 | DM-7 | Use the Wormhole Gate: choose the place in the universe, walk into the ball, press send and arrive there in a beam of light (default: the TTMath campus, demo 1) | Should | 2 | 🎬 Live: set the time, press send, walk across the bridge into the ball, and the beam takes you to demo 1 |
 | DM-8 | Rest in a rest room in the Orb and look out over the plain | Could | 2 | 🟡 |
 | DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 📐 |
 | DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 📐 |
-| DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 📐 |
-| DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 📐 |
+| DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 🎬 Live in the Crown: all five |
+| DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 🔧 The Crown has a map of the ring: click a part to glide there; walk freely or ride the Glide |
 | DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment) |
 
 ## 10. Open questions

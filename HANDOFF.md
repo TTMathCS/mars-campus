@@ -15,7 +15,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 started: **the Orb is live** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). The Crown's rooms are next. |
+| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3, the Pentagon, is next. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -193,6 +193,13 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
   whether it looks real; drop a view rather than publish one that looks like a game (the cockpit view was dropped on
   1 Oct 2026 for that reason).
 
+**Demo 2, the Crown's main floor** (`palace/crown/index.html`): one self-contained page, three.js r128. Read
+`palace/crown/README.md` first. The ring is built in 9° chunks from `roofTop(b)` and `ceilAt(b)`; `ROOMS` comes from
+`SEGS` (the same list as chapter 02); each room's furniture is placed in its frame (`roomFrame`: x clockwise round the
+ring, z towards the garden) with the kit (`sofa`, `table`, `bed`, `shelves`, `piano`, `tree`, `fern`, `pool` ...).
+Light: a 4096 shadow map that follows you, `TOD` for the five times of day, and `probe()`, a cube camera turned into
+image-based light every 14 m. Test with `python3 palace/tools/crown_in_shot.py`.
+
 **Demo 2, the Orb** (`palace/orb/index.html`): one self-contained page, no build step, three.js r128. Read
 `palace/orb/README.md` first. Levels are built in `LV` (web, mw, sol, mars, arc, home, earth), each a group with a slow
 spin, a focus point where its child level sits, and labels; `go(id)` zooms there through the chain (`PARENT`).
@@ -288,6 +295,7 @@ palace/                       demo 2
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
 ├── plans/                    floor plans Rev B (index.html, self-contained)
 ├── src/                      the 3D demo's source; build.sh builds it
+├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
 ├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
 ├── tools/                    crown_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with

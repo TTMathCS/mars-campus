@@ -41,6 +41,9 @@ middle, and on the ground stand the Orb's dock and the garden's stones.*
 
 ## The main floor
 
+**Walk it:** [the Crown in the demo](https://ttmathcs.github.io/mars-campus/palace/crown/) (phase 2): from the hangar
+through the Door into the Arrival hall, then round the ring on the Glide.
+
 ![Plan of the Crown's main floor](../img/book/crown-plan.png)
 
 *Main floor at +41 m, north up. Spires are shaded; the dashed circle is the Glide.*

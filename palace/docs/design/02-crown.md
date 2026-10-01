@@ -65,12 +65,18 @@ Well. At its heart floats a ball 18 m across, the **Wormhole Gate**, and the roo
 the boxes of an opera house. Switch the universe on and it appears in the room itself, in 3D, all around you:
 future-tech VR shown directly in the space of the room, with no projector, no screen and no ball to look into.
 
+![Inside the Orb with the universe switched on](../../design/img/orb-universe.jpg)
+
+*The universe, switched on, in a lounge on the +72 floor. The galaxy floats in the room itself, close enough to walk
+round, and the polished stone floor reflects it. On the left, through the glass, the Wormhole Gate shows the place it
+opens onto, a far nebula. A render of the design.*
+
 ![Inside the Orb, in section](../img/book/crown-orb-inside.png)
 
 *Inside the Orb, section looking north, to scale. In the middle floats the Wormhole Gate, a ball 18 m across, in a
 round space 24 m across. Around it: the portal ring at +64, the lounges at +72 with the bridge into the Gate, and the
-rest rooms at +80 under the windows. Left, the universe switched on: it fills the rooms themselves, and the Gate sends
-a beam of light to the target chosen in it. Right, switched off.*
+rest rooms at +80 under the windows. Tinted: rooms with the universe switched on. Dashed red: the beam that sends you
+to the target chosen in it.*
 
 - **Switch it on** and the universe appears in the room in 3D, in front of Jim, behind him, above and below, close
   enough to reach into. Everyone in the room sees the same sky. He zooms it with his hands or his voice: from the web

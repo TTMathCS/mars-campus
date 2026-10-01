@@ -44,7 +44,7 @@ in VR, the ball as the Wormhole Gate), drawn from his words. See the [decision l
 
 | | | |
 | --- | --- | --- |
-| <a href="docs/design/02-crown.md"><img src="design/img/crown-day.jpg" alt="The Crown by day"></a><br>**The Crown**, above ground: 276 m across, floating 40 m up | <a href="docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate"><img src="docs/img/book/crown-orb-inside.png" alt="Inside the Orb"></a><br>**The Orb**: the Wormhole Gate, with the universe in VR in the rooms round it | <a href="docs/design/03-pentagon.md"><img src="docs/img/book/pentagon-section.png" alt="Section through the Pentagon"></a><br>**The Pentagon**, below ground: five levels |
+| <a href="docs/design/02-crown.md"><img src="design/img/crown-day.jpg" alt="The Crown by day"></a><br>**The Crown**, above ground: 276 m across, floating 40 m up | <a href="docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate"><img src="design/img/orb-universe.jpg" alt="Inside the Orb, the universe switched on"></a><br>**The Orb**: the universe in VR in the rooms, and the Wormhole Gate | <a href="docs/design/03-pentagon.md"><img src="docs/img/book/pentagon-section.png" alt="Section through the Pentagon"></a><br>**The Pentagon**, below ground: five levels |
 | <a href="docs/design/01-site-and-city.md"><img src="docs/img/book/site-mars.jpg" alt="Map of Mars"></a><br>**Site**: 39.8° N on Arcadia Planitia | <a href="docs/design/06-transport.md"><img src="design/img/flight-cliffs.jpg" alt="The pod along the Ice Cliffs"></a><br>**The flight home**: 4 min 40 s | <a href="docs/design/07-spaceport.md"><img src="design/img/port-aerial.jpg" alt="Arcadia Spaceport"></a><br>**Arcadia Spaceport**, 30 km east |
 
 | Number | |

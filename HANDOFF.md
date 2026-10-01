@@ -194,8 +194,13 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
   `https://astro.arcgis.com/arcgis/rest/services/OnMars/MDIM/MapServer/tile/{z}/{y}/{x}`, 512 px, geographic) over
   `img/mars-map.jpg`, a real colour map of Mars (Solar System Scope, CC BY 4.0) made by
   `python3 palace/tools/fetch_marsmap.py`. Credit both in captions and the footer.
-- Thumbnails `img/th-*` are cropped from the renders or drawn as SVG. `atlas-teaser.jpg` is a screenshot of the Atlas
-  at the house (`atlas_shot.py` with the UI hidden).
+- Thumbnails `img/th-*` are cropped from the renders or drawn as SVG.
+- Two pictures come from their own small three.js scenes in `palace/tools/`, rendered by
+  `python3 palace/tools/scene_render.py orb|mars ['{"key": value}'] [out.jpg]` (a few seconds each):
+  `orb_scene.html` → `img/orb-universe.jpg`, inside the Orb with the universe switched on (HDR bloom and ACES as in the
+  demo, a planar reflection in the floor, a particle galaxy over a spiral body shader, the Gate's lensed far sky);
+  `mars_scene.html` → `img/atlas-teaser.jpg`, Mars from orbit on the real colour map, for the Atlas card. The book's
+  views are the defaults (`VIEW` in each scene). Jim rejected people drawn as mannequins: leave figures out of renders.
 - Labels stay readable in both themes: `legible()` in `book.js` finds the shapes under each SVG label after the
   drawings are made and, where a label would be hard to read (dark mode puts light ink on the fixed light material
   colours), switches it to the dark or light ink of its kind. Draw in the light theme and let it handle dark.
@@ -265,7 +270,8 @@ palace/                       demo 2
 ├── plans/                    floor plans Rev B (index.html, self-contained)
 ├── src/                      the new 3D build, phase 1 (paused); build.sh builds it
 ├── tools/                    crown_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
-│                             docs_export.py, fetch_marsmap.py, bake_site.py; shot.js, probe.js, grid.js
+│                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
+│                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js
 ├── archive/old-palace/       the first palace, kept for reference
 ├── build.sh                  builds src/ into palace-debug.html or index.html
 └── index.html                opens the design book until phase 1 is published here

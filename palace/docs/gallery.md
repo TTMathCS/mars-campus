@@ -12,7 +12,7 @@ on the [design pages](design/README.md) and the plan sheets on [Floor plans](pla
 | [<img src="../design/img/crown-sunset.jpg" alt="The Crown at sunset">](#coming-home-at-sunset) | [<img src="../design/img/crown-day.jpg" alt="The Crown by day">](#the-crown-by-day) | [<img src="../design/img/crown-garden.jpg" alt="Nothing holds it up">](#nothing-holds-it-up) |
 | [<img src="../design/img/site-aerial.jpg" alt="The house from the air">](#the-house-from-the-air) | [<img src="../design/img/port-aerial.jpg" alt="Arcadia Spaceport">](#arcadia-spaceport) | [<img src="../design/img/port-liftoff.jpg" alt="Lift-off">](#1-lift-off) |
 | [<img src="../design/img/flight-west.jpg" alt="Heading west">](#2-heading-west) | [<img src="../design/img/flight-dunes.jpg" alt="The Dune Sea">](#3-the-dune-sea) | [<img src="../design/img/flight-crater.jpg" alt="Over the crater">](#4-over-the-crater) |
-| [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="img/atlas/mars.jpg" alt="Mars in the Atlas">](#the-mars-atlas) | [<img src="img/atlas/house.jpg" alt="The Mars Atlas at the house">](#the-mars-atlas) |
+| [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="../design/img/orb-universe.jpg" alt="Inside the Orb">](#inside-the-orb-the-universe-switched-on) | [<img src="../design/img/atlas-teaser.jpg" alt="Mars from orbit">](#mars-from-orbit) |
 
 ## The Crown
 
@@ -44,6 +44,15 @@ book's cover and in [chapter 02](design/02-crown.md).*
 
 The Crown alone on the plain of Arcadia Planitia, with the rings of light under its spires where the anti-gravity
 fields touch the ground. *[Chapter 01](design/01-site-and-city.md#the-site-plan).*
+
+### Inside the Orb, the universe switched on
+
+![Inside the Orb with the universe switched on](../design/img/orb-universe.jpg)
+
+A lounge on the Orb's +72 floor with the universe switched on: future-tech VR shown directly in the space of the room.
+A spiral galaxy floats above the polished stone floor, which reflects it; on the left, through the glass, the Wormhole
+Gate shows the place it opens onto, a far nebula. Rendered from its own scene (`palace/tools/orb_scene.html`).
+*In [chapter 02](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate).*
 
 ## The spaceport
 
@@ -93,19 +102,29 @@ The climb over the rim of a crater 3.2 km across, with frost in its shadows. *[C
 
 ## The Mars Atlas
 
+### Mars from orbit
+
+![Mars from orbit, with a marker at Jim's house](../design/img/atlas-teaser.jpg)
+
+Mars from orbit over the northern plains: the north polar cap at the top, Arcadia Planitia with a marker at Jim's
+house, and Olympus Mons to the lower right. Rendered with the real colour map of Mars
+(`palace/tools/mars_scene.html`). *The Atlas card on the design book's cover.*
+
 The Atlas on the live site zooms from the solar system to the house over NASA imagery
 ([open it](https://ttmathcs.github.io/mars-campus/palace/design/atlas/)). These views were saved without the NASA
 tiles, so they show the coarser base map.
 
-| Whole Mars | Arcadia Planitia | The house |
-| --- | --- | --- |
-| ![Mars in the Atlas](img/atlas/mars.jpg) | ![Arcadia Planitia in the Atlas](img/atlas/arcadia.jpg) | ![The house in the Atlas](img/atlas/house.jpg) |
+| Whole Mars | Arcadia Planitia |
+| --- | --- |
+| ![Mars in the Atlas](img/atlas/mars.jpg) | ![Arcadia Planitia in the Atlas](img/atlas/arcadia.jpg) |
 
 ## How the pictures are made
 
 - **Renders:** `python3 palace/tools/book_renders.py [names]` loads the 3D test build and saves 1600 × 900 pictures
   to `palace/design/img/`. Each view is a fixed camera or a time in the flight video; see the list in the script.
   Build the test page first with `sh palace/build.sh debug`.
+- **Two pictures from their own scenes:** `python3 palace/tools/scene_render.py orb` (inside the Orb) and
+  `scene_render.py mars` (Mars from orbit) load `palace/tools/orb_scene.html` and `mars_scene.html` headless.
 - **Diagrams, plan sheets and Atlas views:** `python3 palace/tools/docs_export.py` exports them from the live pages
   into `palace/docs/img/`.
 - **Maps:** the base map of Mars is the Solar System Scope colour map (CC BY 4.0, from NASA imagery). On the live

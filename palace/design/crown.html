@@ -66,7 +66,8 @@
   <section class="part" id="orb">
     <h2><small>The Orb · Rev E, for Jim's review</small>The universe in the room, and a gate to anywhere</h2>
     <p class="intro">The Orb is a mirror ball 40 m across floating over the Sun Well. At its heart floats a ball 18 m across, the <b>Wormhole Gate</b>, and the rooms sit around it on three rings, like the boxes of an opera house. Switch the universe on and it appears in the room itself, in 3D, all around you: future-tech VR, shown directly in the space of the room, with no screen, no glasses and no ball to look into.</p>
-    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fOrbIn" viewBox="0 0 1180 640" role="img" aria-label="Section through the Orb: the Wormhole Gate, a ball, floating in the middle with a bridge to it; three rings of rooms around it; on the left the universe switched on, filling the rooms in 3D, and a beam of light from the Gate to a target in it"></svg></div></div><figcaption><b>Inside the Orb</b>, section looking north, to scale. In the middle floats the Wormhole Gate, a ball 18 m across, in a round space 24 m across. Around it: the portal ring at +64, the lounges at +72 with the bridge into the Gate, and the rest rooms at +80 under the windows. Left, the universe switched on: it fills the rooms themselves, and the Gate sends a beam of light to the target chosen in it. Right, switched off.</figcaption></figure>
+    <figure class="fig wide"><img src="img/orb-universe.jpg" alt="Inside the Orb with the universe switched on: a spiral galaxy floating in a dark lounge, reflected in the polished stone floor, a sofa and a floor lamp, and on the left, through the glass, the Wormhole Gate showing a far nebula" width="1600" height="900" loading="lazy"><figcaption><b>The universe, switched on</b>, in a lounge on the +72 floor. The galaxy floats in the room itself, close enough to walk round, and the polished stone floor reflects it. On the left, through the glass, the Wormhole Gate shows the place it opens onto, a far nebula. A render of the design.</figcaption></figure>
+    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fOrbIn" viewBox="0 0 1180 640" role="img" aria-label="Section through the Orb: three floors of rooms round a round space, the Wormhole Gate floating in it with a bridge from the lounge floor, and the beam the Gate sends to a target in the universe"></svg></div></div><figcaption><b>Inside the Orb</b>, section looking north, to scale. The Wormhole Gate, a ball 18 m across, floats in a round space 24 m across. Around it: the portal ring at +64, the lounges at +72 with the bridge into the Gate, and the rest rooms at +80 under the windows. Tinted: rooms with the universe switched on. Dashed red: the beam that sends you to the target chosen in it.</figcaption></figure>
     <div class="two">
       <div>
         <p><b>Switch it on</b> and the lights go down and the universe appears in the room in 3D: in front of Jim, behind him, above and below, close enough to reach into. It is future-tech VR shown directly in the space of the room, so there is no screen and no headset, and everyone in the room sees the same sky. He zooms it with his hands or his voice: from the web of galaxies to the Milky Way, the solar system, Mars and the house, or Earth and his home town. It zooms in time too, so the planets move and the sky turns. Switched on in every room, it fills the whole Orb. <b>Switch it off</b> and the room comes back, with its windows to the real sky. Every room has the switch, and the voice works anywhere.</p>
@@ -281,7 +282,7 @@
     });
   })();
 
-  /* ---------------- inside the Orb (Rev E): the Wormhole Gate in the middle, three rings of rooms; left, the universe switched on */
+  /* ---------------- inside the Orb (Rev E), in section: the floors, the Gate, the bridge and how the Gate sends you */
   (function () {
     var svg = document.getElementById("fOrbIn"), k = 13, CX = 470, H0 = 94, Y0 = 26;
     var R = 20, RI = 18, RS = 12, RG = 9, HC = 72;   // Orb outside, inside of the 2 m shell, the round space, the Gate, centre height
@@ -290,112 +291,68 @@
     function ring(r, a0, a1, st) { var p = []; for (var a = a0; a <= a1 + 1e-6; a += st || 2) p.push(E(r * Math.cos(a * D), HC + r * Math.sin(a * D))); return p; }
     var c = E(0, HC), FLOORS = [64, 72, 80];
     S("rect", { x: 0, y: 0, width: 1180, height: 640, "class": "paper" }, svg);
-    S("defs", {}, svg).innerHTML =
-      '<radialGradient id="oiGate" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#1b2547"/><stop offset="70%" stop-color="#0a0f1f"/><stop offset="100%" stop-color="#05070f"/></radialGradient>' +
-      '<radialGradient id="oiGal" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff4dc" stop-opacity=".95"/><stop offset="35%" stop-color="#c9b6ff" stop-opacity=".45"/><stop offset="100%" stop-color="#6b7cff" stop-opacity="0"/></radialGradient>' +
-      '<radialGradient id="oiNeb" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8a6bff" stop-opacity=".38"/><stop offset="100%" stop-color="#3a4bb0" stop-opacity="0"/></radialGradient>' +
-      '<linearGradient id="oiSpace" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#101833"/><stop offset="100%" stop-color="#070a16"/></linearGradient>' +
-      '<pattern id="oiHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1" stroke-opacity=".55"/></pattern>';
+    S("defs", {}, svg).innerHTML = '<pattern id="oiHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1" stroke-opacity=".6"/></pattern>' +
+      '<pattern id="oiIce" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#6cb2d2" stroke-width="0.8" stroke-opacity=".7"/></pattern>';
     // heights on the left
     [52, 60, 64, 72, 80, 84, 92].forEach(function (h) { var p = E(-22.6, h); S("line", { x1: r1(p[0]), y1: r1(p[1]), x2: r1(p[0] + 10), y2: r1(p[1]), "class": "ink3" }, svg); T(svg, p[0] - 4, p[1] + 4, "+" + h, "mono t3", { "text-anchor": "end", style: "font-size:11px" }); });
-    // the shell: mirror skin outside, 2 m of ice inside it, rooms within
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(R * k), fill: "#cfe1ea", stroke: "var(--ink)", "stroke-width": 1.6 }, svg);
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(R * k + 2.5), fill: "none", stroke: "#8c969c", "stroke-width": 3.2 }, svg);
+    // the shell: mirror skin over 2 m of ice in cells
+    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(R * k), fill: "url(#oiIce)", stroke: "var(--ink)", "stroke-width": 1.6 }, svg);
+    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(R * k + 2.2), fill: "none", stroke: "#8c969c", "stroke-width": 2.6 }, svg);
     S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RI * k), fill: "var(--sheet)", stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    // the universe switched on in the west rooms: a zone, drawn as a pale tint
+    var a0 = 180 + Math.asin(8 / RI) / D, vr = [E(0, 64), E(-half(RI, 64), 64)];
+    for (var a = a0; a >= 90; a -= 2) vr.push(E(RI * Math.cos(a * D), HC + RI * Math.sin(a * D)));
+    S("path", { d: P(vr, true), fill: "#8a7fd0", "fill-opacity": .12 }, svg);
     // windows of the rest rooms, in the shell's upper part on both sides
     [[38, 66], [114, 142]].forEach(function (w) {
       var o = ring(R, w[0], w[1], 2), i = ring(RI, w[0], w[1], 2).reverse();
       S("path", { d: P(o.concat(i), true), fill: "#eaf7fb", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
-      for (var a = w[0] + 4; a < w[1]; a += 7) { var p = E(R * Math.cos(a * D), HC + R * Math.sin(a * D)), q = E(RI * Math.cos(a * D), HC + RI * Math.sin(a * D)); S("line", { x1: r1(p[0]), y1: r1(p[1]), x2: r1(q[0]), y2: r1(q[1]), stroke: "#6cb2d2", "stroke-width": 1, "stroke-opacity": .7 }, svg); }
     });
     // drive and services under the lowest ring
-    var low = [E(-half(RI, 64), 64)]; for (var a = 180 + Math.asin(8 / RI) / D; a <= 360 - Math.asin(8 / RI) / D; a += 2) low.push(E(RI * Math.cos(a * D), HC + RI * Math.sin(a * D))); low.push(E(half(RI, 64), 64));
+    var low = [E(-half(RI, 64), 64)]; for (var a2 = 180 + Math.asin(8 / RI) / D; a2 <= 360 - Math.asin(8 / RI) / D; a2 += 2) low.push(E(RI * Math.cos(a2 * D), HC + RI * Math.sin(a2 * D))); low.push(E(half(RI, 64), 64));
     S("path", { d: P(low, true), fill: "url(#oiHatch)", stroke: "none" }, svg);
-    var dv0 = E(-4, 56.4), dv1 = E(4, 58.6); S("rect", { x: r1(dv0[0]), y: r1(dv1[1]), width: r1(8 * k), height: r1(2.2 * k), fill: "#6b9cff", "fill-opacity": .35, stroke: "#3b5fb0", "stroke-width": 1 }, svg);
-    // west half: the universe switched on. It fills the rooms themselves, from the portal ring up to the dome
-    var a0 = 180 + Math.asin(8 / RI) / D, vr = [E(0, 64), E(-half(RI, 64), 64)];
-    for (var a = a0; a >= 90; a -= 2) vr.push(E(RI * Math.cos(a * D), HC + RI * Math.sin(a * D)));
-    S("path", { d: P(vr, true), fill: "url(#oiSpace)" }, svg);
-    [[-14.6, 77.4, 4.2], [-6.5, 86.2, 3.4], [-10.5, 66.4, 2.6]].forEach(function (n) { var q = E(n[0], n[1]); S("ellipse", { cx: r1(q[0]), cy: r1(q[1]), rx: r1(n[2] * k), ry: r1(n[2] * 0.6 * k), fill: "url(#oiNeb)" }, svg); });
-    var rs = BOOK.rng(11);
-    for (var i = 0; i < 520 && i >= 0; i++) {
-      var x = -rs() * RI, h = 64.3 + rs() * 26, dc = Math.hypot(x, h - HC);
-      if (dc > RI - 0.3 || dc < RG + 0.3) continue;   // stars fill the rooms and the round space, everywhere but the Gate
-      if (FLOORS.some(function (f) { return Math.abs(h - f) < 0.45; })) continue;
-      var sp = E(x, h); S("circle", { cx: r1(sp[0]), cy: r1(sp[1]), r: r1(0.45 + rs() * rs() * 1.5), fill: rs() < .14 ? "#ffd9a8" : "#e6eeff", "fill-opacity": r1(.35 + rs() * .6) }, svg);
-    }
-    // a small galaxy in the lounge and a ringed planet in a rest room, at arm's length in the room
-    var g2 = E(-15.6, 76.6), gl = S("g", { transform: "translate(" + r1(g2[0]) + " " + r1(g2[1]) + ") rotate(-24) scale(1 .42)" }, svg);
-    S("circle", { cx: 0, cy: 0, r: r1(2.3 * k), fill: "url(#oiGal)" }, gl);
-    for (var arm = 0; arm < 2; arm++) { var pts = []; for (var tt = 0; tt < 3.4; tt += 0.08) { var rad = (0.2 + 0.6 * tt) * k, ang = tt * 1.6 + arm * Math.PI; pts.push([rad * Math.cos(ang), rad * Math.sin(ang)]); } S("path", { d: P(pts), fill: "none", stroke: "#efe8ff", "stroke-width": 1.6, "stroke-opacity": .55, "stroke-linecap": "round" }, gl); }
-    var pl = E(-7.6, 84.3); S("ellipse", { cx: r1(pl[0]), cy: r1(pl[1]), rx: r1(1.7 * k), ry: r1(0.45 * k), fill: "none", stroke: "#e9d7b0", "stroke-width": 2, "stroke-opacity": .8, transform: "rotate(-14 " + r1(pl[0]) + " " + r1(pl[1]) + ")" }, svg);
-    S("circle", { cx: r1(pl[0]), cy: r1(pl[1]), r: r1(0.85 * k), fill: "#d9b38a" }, svg);
-    S("circle", { cx: r1(pl[0] + 3), cy: r1(pl[1] + 3), r: r1(0.85 * k), fill: "#000", "fill-opacity": .3 }, svg);
-    // the floors: solid where the universe is off; faint where it is on, because the universe fills the room
+    var dv0 = E(-4, 56.4), dv1 = E(4, 58.6); S("rect", { x: r1(dv0[0]), y: r1(dv1[1]), width: r1(8 * k), height: r1(2.2 * k), fill: "var(--sheet)", stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    // the floors, from the glass round the space to the shell
     FLOORS.forEach(function (h) {
       var wo = half(RI, h), wi = half(RS, h);
-      var a = E(wi, h), b = E(wo, h - 0.6); S("rect", { x: r1(a[0]), y: r1(a[1]), width: r1(b[0] - a[0]), height: r1(b[1] - a[1]), fill: "var(--ink-2)" }, svg);
-      var p = E(-wo, h), q = E(-wi, h); S("line", { x1: r1(p[0]), y1: r1(p[1]), x2: r1(q[0]), y2: r1(q[1]), stroke: "#9fb4d6", "stroke-width": 1.2, "stroke-opacity": .45, "stroke-dasharray": "5 4" }, svg);
+      [[-wo, -wi], [wi, wo]].forEach(function (sd) { var p = E(sd[0], h), q = E(sd[1], h - 0.6); S("rect", { x: r1(Math.min(p[0], q[0])), y: r1(p[1]), width: r1(Math.abs(q[0] - p[0])), height: r1(q[1] - p[1]), fill: "var(--ink-2)" }, svg); });
     });
-    // the Gate: a ball showing the place at its other end, here a far galaxy, with a bright rim like a lens
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RG * k), fill: "url(#oiGate)" }, svg);
-    var rg = BOOK.rng(7);
-    for (var j = 0; j < 150; j++) { var an = rg() * 2 * Math.PI, rr = Math.sqrt(rg()) * (RG - 0.4); S("circle", { cx: r1(c[0] + rr * k * Math.cos(an)), cy: r1(c[1] + rr * k * Math.sin(an)), r: r1(0.5 + rg() * rg() * 1.6), fill: rg() < .15 ? "#ffd9a8" : "#e6eeff", "fill-opacity": r1(.35 + rg() * .6) }, svg); }
-    var gx = c[0] - 0.5 * k, gy = c[1] - 0.6 * k, gal = S("g", { transform: "translate(" + r1(gx) + " " + r1(gy) + ") rotate(-18) scale(1 .42)" }, svg);
-    S("circle", { cx: 0, cy: 0, r: r1(6.6 * k), fill: "url(#oiGal)" }, gal);
-    for (var arm2 = 0; arm2 < 2; arm2++) { var pts2 = []; for (var t2 = 0; t2 < 3.6; t2 += 0.06) { var rad2 = (0.5 + 1.55 * t2) * k, ang2 = t2 * 1.6 + arm2 * Math.PI; pts2.push([rad2 * Math.cos(ang2), rad2 * Math.sin(ang2)]); } S("path", { d: P(pts2), fill: "none", stroke: "#dcd2ff", "stroke-width": 7, "stroke-opacity": .22, "stroke-linecap": "round" }, gal); S("path", { d: P(pts2), fill: "none", stroke: "#f5efff", "stroke-width": 2, "stroke-opacity": .5, "stroke-linecap": "round" }, gal); }
-    S("circle", { cx: 0, cy: 0, r: r1(0.9 * k), fill: "#fff6e2", "fill-opacity": .95 }, gal);
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RG * k - 3), fill: "none", stroke: "#bcd4ff", "stroke-width": 6, "stroke-opacity": .28 }, svg);
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RG * k - 2), fill: "none", stroke: "#f2f7ff", "stroke-width": 1.2, "stroke-opacity": .75 }, svg);
-    // send: the Gate shoots its passenger like a beam of light to the target chosen in the universe, here a small blue planet
-    var tg = E(-15.6, 68.9), du = -15.6, dv = 68.9 - HC, dl = Math.hypot(du, dv), sp0 = E(RG * du / dl, HC + RG * dv / dl);
-    S("line", { x1: r1(sp0[0]), y1: r1(sp0[1]), x2: r1(tg[0] + 8), y2: r1(tg[1] - 1), stroke: "#cfe6ff", "stroke-width": 7, "stroke-opacity": .22, "stroke-linecap": "round" }, svg);
-    S("line", { x1: r1(sp0[0]), y1: r1(sp0[1]), x2: r1(tg[0] + 8), y2: r1(tg[1] - 1), stroke: "#f4f9ff", "stroke-width": 1.8, "stroke-opacity": .95, "stroke-linecap": "round" }, svg);
-    S("circle", { cx: r1(tg[0]), cy: r1(tg[1]), r: r1(0.5 * k), fill: "#5fa8ff" }, svg);
-    S("circle", { cx: r1(tg[0]), cy: r1(tg[1]), r: r1(1.15 * k), fill: "none", stroke: "#9fd4ff", "stroke-width": 1.2, "stroke-dasharray": "3 3" }, svg);
-    // the rooms' glass fronts round the space, and the bridge from the lounge floor to the Gate, east side, with its door open
-    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RS * k), fill: "none", stroke: "#6cb2d2", "stroke-width": 2.4, "stroke-opacity": .9 }, svg);
+    // the glass round the space, with the door to the bridge
+    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RS * k), fill: "none", stroke: "#6cb2d2", "stroke-width": 2 }, svg);
+    var dr0 = E(RS - 0.2, 75.4), dr1 = E(RS + 0.2, 72); S("rect", { x: r1(dr0[0]), y: r1(dr0[1]), width: r1(dr1[0] - dr0[0]), height: r1(dr1[1] - dr0[1]), fill: "var(--sheet)" }, svg);
+    // the bridge, 3 m, from the lounge floor to the Gate
     var bg0 = E(RG - 0.2, 72), bg1 = E(RS, 71.4); S("rect", { x: r1(bg0[0]), y: r1(bg0[1]), width: r1(bg1[0] - bg0[0]), height: r1(bg1[1] - bg0[1]), fill: "var(--ink-2)" }, svg);
-    var dr0 = E(RS - 0.15, 75.6), dr1 = E(RS + 0.15, 72); S("rect", { x: r1(dr0[0]), y: r1(dr0[1]), width: r1(dr1[0] - dr0[0]), height: r1(dr1[1] - dr0[1]), fill: "var(--sheet)" }, svg);
-    var ga = E(RG, 72); S("path", { d: "M" + r1(ga[0] + 2) + " " + r1(ga[1]) + "A" + r1(RG * k) + " " + r1(RG * k) + " 0 0 0 " + r1(c[0] + RG * k * Math.cos(-24 * D) + 2) + " " + r1(c[1] + RG * k * Math.sin(-24 * D)), fill: "none", stroke: "#b9d3ff", "stroke-width": 4, "stroke-opacity": .9, "stroke-linecap": "round" }, svg);
-    // people and furniture, for scale: light where the universe is on, dark where it is off
-    function person(x, h, sit, col) { var g = S("g", { fill: col || "var(--ink)" }, svg), f = E(x, h); if (sit) { S("rect", { x: r1(f[0] - 4), y: r1(f[1] - 1.05 * k), width: 8, height: r1(0.6 * k), rx: 3 }, g); S("circle", { cx: r1(f[0]), cy: r1(f[1] - 1.3 * k), r: 3.6 }, g); } else { S("rect", { x: r1(f[0] - 3.2), y: r1(f[1] - 1.45 * k), width: 6.4, height: r1(1.45 * k), rx: 3 }, g); S("circle", { cx: r1(f[0]), cy: r1(f[1] - 1.6 * k), r: 3.6 }, g); } }
-    function sofa(x0, x1, h, col) { var a = E(x0, h + 0.75), b = E(x1, h); S("rect", { x: r1(a[0]), y: r1(a[1]), width: r1(b[0] - a[0]), height: r1(b[1] - a[1]), rx: 4, fill: col || "#b9a27e", stroke: col ? "none" : "var(--ink-2)", "stroke-width": .8 }, svg); }
-    var LT = "#e6ecf7", LS = "#7d8bab";
-    sofa(-14.8, -12.8, 72, LS); person(-13.4, 72.75, true, LT); sofa(13.4, 15.4, 72); person(14.4, 72.75, true);
-    var bw0 = E(-15.4, 80.7), bw1 = E(-12.6, 80); S("rect", { x: r1(bw0[0]), y: r1(bw0[1]), width: r1(bw1[0] - bw0[0]), height: r1(bw1[1] - bw0[1]), rx: 3, fill: LS }, svg);
-    var lw = E(-14.9, 81.05); S("rect", { x: r1(lw[0]), y: r1(lw[1] - 3), width: r1(1.8 * k), height: 6.5, rx: 3.2, fill: LT }, svg); S("circle", { cx: r1(lw[0] - 1), cy: r1(lw[1]), r: 3.6, fill: LT }, svg);
-    var be0 = E(12.6, 80.7), be1 = E(15.4, 80); S("rect", { x: r1(be0[0]), y: r1(be0[1]), width: r1(be1[0] - be0[0]), height: r1(be1[1] - be0[1]), rx: 3, fill: "#e6dccb", stroke: "var(--ink-2)", "stroke-width": .8 }, svg);
-    person(11.6, 80, false); person(10.7, 72, false);
-    person(-12.6, 64, false, LT);
-    // a portal on the portal ring, east side
-    var pp = E(14.6, 65.6); S("ellipse", { cx: r1(pp[0]), cy: r1(pp[1]), rx: r1(0.55 * k), ry: r1(1.6 * k), fill: "#6b9cff", "fill-opacity": .18, stroke: "#b98a2c", "stroke-width": 2.6 }, svg);
-    person(12.6, 64, false);
-    // the dashboard, floating in the corner of the seated man's view
-    var db = E(-11.6, 75.9); S("rect", { x: r1(db[0] - 2), y: r1(db[1] - 1), width: 18, height: 11, rx: 2, fill: "#0e1520", stroke: "#9fd4ff", "stroke-width": 1 }, svg);
-    S("circle", { cx: r1(db[0] + 3.4), cy: r1(db[1] + 4.6), r: 2.4, fill: "#5fa8ff" }, svg); S("circle", { cx: r1(db[0] + 10.6), cy: r1(db[1] + 4.6), r: 2.4, fill: "#e8875a" }, svg);
-    // labels; the leader dot is hollow so it shows on the dark universe too
+    // the Gate: a ball 18 m across, floating free in the round space
+    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RG * k), fill: "#1d2638", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    S("circle", { cx: r1(c[0]), cy: r1(c[1]), r: r1(RG * k - 3), fill: "none", stroke: "#cfe0ff", "stroke-width": 1.2, "stroke-opacity": .8 }, svg);
+    T(svg, c[0], c[1] - 4, "WORMHOLE GATE", "mono", { "text-anchor": "middle", style: "font-size:12px;letter-spacing:.12em;fill:#e6ecf7" });
+    T(svg, c[0], c[1] + 14, "Ø 18 m · any place, any time", "", { "text-anchor": "middle", style: "font-size:12px;fill:#aebbd3" });
+    // send: the beam to the target chosen in the universe, west lounge
+    var tg = E(-15.2, 75.4), du = -15.2, dv = 75.4 - HC, dl = Math.hypot(du, dv), sp0 = E(RG * du / dl, HC + RG * dv / dl);
+    S("line", { x1: r1(sp0[0]), y1: r1(sp0[1]), x2: r1(tg[0] + 9), y2: r1(tg[1] + 2), stroke: "var(--route)", "stroke-width": 1.6, "stroke-dasharray": "6 4" }, svg);
+    S("circle", { cx: r1(tg[0]), cy: r1(tg[1]), r: 7, fill: "none", stroke: "var(--route)", "stroke-width": 1.4 }, svg);
+    [[-11, 0, -4, 0], [4, 0, 11, 0], [0, -11, 0, -4], [0, 4, 0, 11]].forEach(function (l) { S("line", { x1: r1(tg[0] + l[0]), y1: r1(tg[1] + l[1]), x2: r1(tg[0] + l[2]), y2: r1(tg[1] + l[3]), stroke: "var(--route)", "stroke-width": 1.2 }, svg); });
+    // portals on the portal ring
+    [-14.6, 14.6].forEach(function (x) { var p = E(x, 65.6); S("ellipse", { cx: r1(p[0]), cy: r1(p[1]), rx: r1(0.55 * k), ry: r1(1.6 * k), fill: "none", stroke: "var(--gold)", "stroke-width": 2 }, svg); });
+    // labels
     function lab(x, y, to, head, sub, anchor) {
       var a = anchor || "start", ht = T(svg, x, y, head, "disp", { "text-anchor": a, style: "font-size:16px;font-weight:600" });
-      // the leader leaves from the end of the heading that faces the drawing
       var len = ht.getComputedTextLength ? ht.getComputedTextLength() : head.length * 8, tx = to[0] > x ? x + len + 6 : x - 6;
       S("path", { d: P([to, [tx, y - 5]]), "class": "ink3", "stroke-width": .8 }, svg);
-      S("circle", { cx: r1(to[0]), cy: r1(to[1]), r: 2.6, fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+      S("circle", { cx: r1(to[0]), cy: r1(to[1]), r: 2.4, "class": "inkf" }, svg);
       (sub || []).forEach(function (s, i) { T(svg, x, y + 16 + i * 15, s, "t2", { "text-anchor": a, style: "font-size:12.5px" }); });
     }
     lab(800, 70, E(11.7, 87.0), "radiation-glass windows", ["(future technology; fallback: deep acrylic and water)"]);
     lab(800, 124, E(11.0, 82.2), "+80  Rest rooms", ["five day rooms: a day bed, a window to the sky,", "a glass wall onto the Gate that turns frosted"]);
-    lab(800, 198, E(15.2, 73.6), "+72  Universe lounges", ["five lounges facing the Gate; switch the", "universe on and it fills the room"]);
-    lab(800, 262, E(11.6, 71.7), "the bridge into the Gate", ["people walk across and in; things ride", "in on a cart, or a robot carries them"]);
-    lab(800, 330, E(5.6, 67.2), "the Wormhole Gate, a ball Ø 18 m", ["press send and it shoots you like light", "to any place and any time, instantly"]);
-    lab(800, 402, E(13.4, 66.0), "+64  Portal ring", ["five portals from the spires, round a foyer", "under the Gate"]);
+    lab(800, 198, E(15.0, 74.6), "+72  Universe lounges", ["five lounges facing the Gate; switch the", "universe on and it fills the room"]);
+    lab(800, 262, E(10.8, 71.7), "the bridge into the Gate", ["3 m; people walk in; things ride in", "on a cart, or a robot carries them"]);
+    lab(800, 330, E(6.2, 66.0), "the Wormhole Gate, a ball Ø 18 m", ["press send and it shoots you like light", "to any place and any time, instantly"]);
+    lab(800, 402, E(14.0, 66.4), "+64  Portal ring", ["five portals from the spires, round a foyer", "under the Gate"]);
     lab(800, 468, E(16.45, 62.5), "shell: mirror skin over 2 m of ice", ["the Sun Well's sky lens is 52 m below"]);
     lab(800, 528, E(3.6, 57.4), "the Orb's own drive, air and power", []);
-    lab(20, 84, E(-15.2, 79.0), "the universe, switched on", ["future-tech VR in 3D, right in", "the space of the room, all", "round: no screen, no glasses"], "start");
-    lab(20, 236, E(-11.0, 76.3), "dashboard", ["Earth and Mars with live", "weather, floating in the", "corner of his view"], "start");
-    lab(20, 344, E(-12.2, 69.6), "send", ["the Gate shoots its passenger like", "light to the place chosen in the", "universe: here, a small planet"], "start");
-    T(svg, E(-9.5, 93.2)[0], E(-9.5, 93.2)[1], "UNIVERSE ON", "mono t2", { "text-anchor": "middle", style: "font-size:11px;letter-spacing:.08em" });
-    T(svg, E(9.5, 93.2)[0], E(9.5, 93.2)[1], "UNIVERSE OFF", "mono t2", { "text-anchor": "middle", style: "font-size:11px;letter-spacing:.08em" });
+    lab(20, 96, E(-12.5, 83.5), "the universe, switched on", ["tinted rooms: VR in 3D,", "in the space of the room"], "start");
+    lab(20, 250, E(-15.2, 76.6), "the target", ["the place chosen in the", "universe, glowing in the room"], "start");
+    lab(20, 352, E(-11.4, 74.0), "send", ["the beam that carries", "you there, instantly"], "start");
     T(svg, E(0, 92.8)[0], E(0, 92.8)[1], "+92", "mono t2", { "text-anchor": "middle", style: "font-size:11px" });
     T(svg, E(0, 51.2)[0], E(0, 51.2)[1] + 10, "+52, over the Sun Well", "mono t2", { "text-anchor": "middle", style: "font-size:11px" });
     BOOK.scalebar(svg, 960, 600, k, [0, 5, 10], "m");

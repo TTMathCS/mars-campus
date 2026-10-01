@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inside the Orb · render scene</title>
+<style>html, body { margin: 0; background: #000; overflow: hidden; } canvas { display: block; }</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Inside the Orb, Rev E: a lounge on the +72 floor with the universe switched on (future-tech VR shown directly in
+   the space of the room) and the Wormhole Gate, a ball 18 m across, floating in the middle with a bridge to it.
+   A render scene for the design book, not part of the demo: palace/tools/scene_render.py loads it headless and saves
+   palace/design/img/orb-universe.jpg. Units are metres; the Orb's centre (+72 m) is the origin, y up. */
+(function () {
+  "use strict";
+  var W = window.innerWidth, H = window.innerHeight, DPR = window.devicePixelRatio || 1;
+  var renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(DPR); renderer.setSize(W, H); document.body.appendChild(renderer.domElement);
+  var GL2 = renderer.capabilities.isWebGL2, PW = Math.round(W * DPR), PH = Math.round(H * DPR);
+  var scene = new THREE.Scene(), world = new THREE.Group(); scene.add(world);
+  var camera = new THREE.PerspectiveCamera(50, W / H, 0.05, 300);
+  var RI = 18, RS = 12, RG = 9, FLOORS = [-8, 0, 8], SLAB = 0.45, D = Math.PI / 180;
+  function rAt(R, y) { return Math.sqrt(Math.max(0, R * R - y * y)); }
+  function rng(seed) { var s = seed >>> 0; return function () { s = (s + 0x6D2B79F5) >>> 0; var t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function gauss(r) { var u = Math.max(1e-9, r()), v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+
+  // shared uniforms: the reflection pass mirrors the world in the lounge floor (y = 0) and clips what was below it
+  var U = { uMirror: { value: 0 }, uScale: { value: PH / (2 * Math.tan(25 * D)) }, uCam: { value: new THREE.Vector3() }, uTime: { value: 0 } };
+  var CLIP_V = "vClip = (uMirror > 0.5 && wp.y > 0.002) ? 1.0 : 0.0;";
+
+  /* ------------------------------------------------------------------ architecture */
+  var M = {
+    floor: new THREE.MeshStandardMaterial({ color: 0x0a0b0d, roughness: 0.3, metalness: 0.0 }),
+    slab: new THREE.MeshStandardMaterial({ color: 0x08090b, roughness: 0.8 }),
+    ceil: new THREE.MeshStandardMaterial({ color: 0x050608, roughness: 0.9 }),
+    shell: new THREE.MeshStandardMaterial({ color: 0x040506, roughness: 0.9, side: THREE.BackSide }),
+    fascia: new THREE.MeshStandardMaterial({ color: 0x2b2d31, roughness: 0.35, metalness: 0.7 }),
+    metal: new THREE.MeshStandardMaterial({ color: 0x8d8f94, roughness: 0.28, metalness: 0.9 }),
+    fabric: new THREE.MeshStandardMaterial({ color: 0x6b6a6e, roughness: 0.95 }),
+    skin: new THREE.MeshStandardMaterial({ color: 0x2a2624, roughness: 0.75 }),
+    cloth: new THREE.MeshStandardMaterial({ color: 0x1c1e22, roughness: 0.9 }),
+    led: new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.82, 0.62).multiplyScalar(1.4) }),
+    ledDim: new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.82, 0.62).multiplyScalar(0.5) }),
+    ledFaint: new THREE.MeshBasicMaterial({ color: new THREE.Color(0.6, 0.72, 1.0).multiplyScalar(0.16) }),
+    shade: new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.78, 0.5).multiplyScalar(1.6) }),
+    ledCool: new THREE.MeshBasicMaterial({ color: new THREE.Color(0.5, 0.75, 1.0).multiplyScalar(0.8) })
+  };
+  // the polished stone floor of the lounge picks up the mirrored world rendered in the reflection pass
+  var REFL = { tRefl: { value: null }, uRes: { value: new THREE.Vector2(PW, PH) }, uAmt: { value: 1.0 } };
+  M.floor.onBeforeCompile = function (sh) {
+    sh.uniforms.tRefl = REFL.tRefl; sh.uniforms.uRes = REFL.uRes; sh.uniforms.uAmt = REFL.uAmt;
+    sh.fragmentShader = "uniform sampler2D tRefl; uniform vec2 uRes; uniform float uAmt;\n" + sh.fragmentShader.replace("#include <dithering_fragment>", [
+      "#include <dithering_fragment>",
+      "vec2 ruv = gl_FragCoord.xy / uRes;",
+      "vec3 rc = texture2D(tRefl, ruv).rgb * 0.16; vec2 rr = vec2(0.0016, 0.0042);",
+      "for (int i = 0; i < 12; i++){ float a = float(i) * 2.39996 + 0.5; float d = sqrt((float(i) + 0.5) / 12.0); rc += texture2D(tRefl, ruv + vec2(cos(a), sin(a)) * d * rr).rgb * 0.07; }",
+      "float cv = clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0);",
+      "float fres = 0.05 + 0.95 * pow(1.0 - cv, 5.0);",
+      "gl_FragColor.rgb += rc * uAmt * mix(0.35, 1.0, fres);"].join("\n"));
+  };
+  function add(geo, mat, parent) { var m = new THREE.Mesh(geo, mat); (parent || world).add(m); return m; }
+  var floor0 = null;
+  FLOORS.forEach(function (y) {
+    var ri = rAt(RS, y), ro = rAt(RI, y - 0.01);
+    var top = add(new THREE.RingGeometry(ri, ro, 360, 1), y === 0 ? M.floor : M.slab); top.rotation.x = -Math.PI / 2; top.position.y = y;
+    if (y === 0) floor0 = top;
+    var bot = add(new THREE.RingGeometry(ri, rAt(RI, y - SLAB), 360, 1), M.ceil); bot.rotation.x = Math.PI / 2; bot.position.y = y - SLAB;
+    var fas = add(new THREE.CylinderGeometry(ri, ri, SLAB, 360, 1, true), M.fascia); fas.position.y = y - SLAB / 2;
+    // light lines: along the foot of the glass, and under the slab edge
+    var l2 = add(new THREE.TorusGeometry(ri + 0.05, 0.010, 6, 720), M.ledCool); l2.rotation.x = Math.PI / 2; l2.position.y = y - SLAB - 0.012;
+  });
+  [14.6, 16.6].forEach(function (r) { var l = add(new THREE.TorusGeometry(r, 0.008, 6, 720), M.ledFaint); l.rotation.x = Math.PI / 2; l.position.y = 8 - SLAB - 0.01; });
+  (function () { var l = add(new THREE.TorusGeometry(rAt(RI, 0.05) - 0.06, 0.007, 6, 720), M.ledDim); l.rotation.x = Math.PI / 2; l.position.y = 0.03; })();
+  var shellMesh = add(new THREE.SphereGeometry(RI, 160, 96), M.shell); M.shell.depthWrite = false; shellMesh.renderOrder = -10;
+  // glass fronts: one sphere r = 12 between the floors, nearly invisible, with Fresnel sheen
+  var glassMat = new THREE.ShaderMaterial({
+    uniforms: { uCam: U.uCam, uMirror: U.uMirror }, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    vertexShader: "uniform float uMirror; varying vec3 vW; varying vec3 vN; varying float vClip; void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); " + CLIP_V + " gl_Position = projectionMatrix * viewMatrix * wp; }",
+    fragmentShader: "uniform vec3 uCam; varying vec3 vW; varying vec3 vN; varying float vClip; void main(){ if (vClip > 0.5) discard; vec3 V = normalize(vW - uCam); float c = abs(dot(V, normalize(vN))); float f = 0.04 + 0.96 * pow(1.0 - c, 5.0); gl_FragColor = vec4(vec3(0.62, 0.72, 0.9) * f * 0.55 + vec3(0.012, 0.016, 0.022), 0.035 + f * 0.45); }"
+  });
+  var glass = add(new THREE.SphereGeometry(RS, 160, 96), glassMat); glass.renderOrder = 5;
+  // mullions every 12 degrees on the lounge storey, and a slim rail at hand height
+  for (var a = 0; a < 360; a += 12) {
+    var mu = add(new THREE.BoxGeometry(0.035, 7.5, 0.07), M.fascia); var ra = RS + 0.03;
+    mu.position.set(ra * Math.cos(a * D), 3.75, ra * Math.sin(a * D)); mu.rotation.y = -a * D;
+  }
+
+
+  /* ------------------------------------------------------------------ the bridge to the Gate, and the door in the glass */
+  var BRIDGE = -58;   // bearing of the bridge, degrees (x = 0 deg, towards -z = -90)
+  (function () {
+    var g = new THREE.Group(); g.rotation.y = -BRIDGE * D; world.add(g);
+    var deck = add(new THREE.BoxGeometry(3.4, 0.32, 3.0), M.floor, g); deck.position.set(10.6, -0.16, 0);
+    [-1.5, 1.5].forEach(function (z) {
+      var e = add(new THREE.BoxGeometry(3.4, 0.015, 0.02), M.ledDim, g); e.position.set(10.6, 0.01, z);
+
+    });
+  })();
+
+  /* ------------------------------------------------------------------ furniture and Jim, seen from behind */
+  function sofa(w) {
+    var s = new THREE.Shape(); var d = 0.95, sh = 0.42, bh = 0.8, bt = 0.24, rr = 0.06;
+    s.moveTo(rr, 0); s.lineTo(d - rr, 0); s.quadraticCurveTo(d, 0, d, rr); s.lineTo(d, sh - rr); s.quadraticCurveTo(d, sh, d - rr, sh);
+    s.lineTo(bt + 0.02, sh); s.lineTo(bt, bh - rr); s.quadraticCurveTo(bt, bh, bt - rr, bh); s.lineTo(rr, bh); s.quadraticCurveTo(0, bh, 0, bh - rr);
+    s.lineTo(0, rr); s.quadraticCurveTo(0, 0, rr, 0);
+    var geo = new THREE.ExtrudeGeometry(s, { depth: w, bevelEnabled: true, bevelThickness: 0.035, bevelSize: 0.035, bevelSegments: 4, curveSegments: 10 });
+    geo.translate(0, 0, -w / 2); return geo;
+  }
+  function person() {
+    var g = new THREE.Group();
+    var prof = [[0.0, 0.0], [0.17, 0.0], [0.175, 0.08], [0.15, 0.22], [0.165, 0.36], [0.2, 0.47], [0.19, 0.52], [0.12, 0.56], [0.055, 0.58], [0.0, 0.585]].map(function (p) { return new THREE.Vector2(p[0], p[1]); });
+    var torso = add(new THREE.LatheGeometry(prof, 40), M.cloth, g); torso.scale.set(1.12, 1, 0.62); torso.position.y = 0.45;
+    var neck = add(new THREE.CylinderGeometry(0.05, 0.055, 0.12, 20), M.skin, g); neck.position.y = 1.07;
+    var head = add(new THREE.SphereGeometry(0.1, 40, 30), M.skin, g); head.scale.set(0.9, 1.13, 1.0); head.position.set(0, 1.21, 0.01);
+    var hair = add(new THREE.SphereGeometry(0.104, 40, 30, 0, Math.PI * 2, 0, Math.PI * 0.62), M.cloth, g); hair.scale.set(0.92, 1.12, 1.02); hair.position.set(0, 1.215, -0.006);
+    [-1, 1].forEach(function (sd) {
+      var up = add(new THREE.CylinderGeometry(0.048, 0.042, 0.32, 16), M.cloth, g); up.position.set(sd * 0.215, 0.83, 0.02); up.rotation.z = sd * 0.12;
+      var lo = add(new THREE.CylinderGeometry(0.04, 0.035, 0.3, 16), M.cloth, g); lo.position.set(sd * 0.25, 0.6, 0.12); lo.rotation.x = -1.1;
+      var th = add(new THREE.CylinderGeometry(0.07, 0.06, 0.45, 16), M.cloth, g); th.position.set(sd * 0.1, 0.47, 0.2); th.rotation.x = Math.PI / 2;
+    });
+    return g;
+  }
+  function rbox(w, h, d, r) {
+    var s = new THREE.Shape(), x = -w / 2 + r, y = -h / 2 + r, ww = w - 2 * r, hh = h - 2 * r;
+    s.moveTo(x, y - r); s.lineTo(x + ww, y - r); s.quadraticCurveTo(x + ww + r, y - r, x + ww + r, y); s.lineTo(x + ww + r, y + hh); s.quadraticCurveTo(x + ww + r, y + hh + r, x + ww, y + hh + r);
+    s.lineTo(x, y + hh + r); s.quadraticCurveTo(x - r, y + hh + r, x - r, y + hh); s.lineTo(x - r, y); s.quadraticCurveTo(x - r, y - r, x, y - r);
+    var g = new THREE.ExtrudeGeometry(s, { depth: Math.max(0.001, d - 2 * r), bevelEnabled: true, bevelThickness: r, bevelSize: r * 0.98, bevelSegments: 5, curveSegments: 8 });
+    g.translate(0, 0, -(d - 2 * r) / 2); return g;
+  }
+  var SET = new THREE.Group(); world.add(SET);   // placed in front of the camera in place(); the seats face +z
+  (function () {
+    var b = add(rbox(2.7, 0.2, 0.98, 0.03), M.cloth, SET); b.position.set(0, 0.12, 0);
+    [-0.88, 0, 0.88].forEach(function (x) {
+      var c = add(rbox(0.86, 0.17, 0.86, 0.07), M.fabric, SET); c.position.set(x, 0.3, 0.05);
+      var k = add(rbox(0.86, 0.5, 0.22, 0.08), M.fabric, SET); k.position.set(x, 0.6, -0.36); k.rotation.x = -0.14;
+    });
+    [-1.42, 1.42].forEach(function (x) { var a = add(rbox(0.16, 0.5, 0.98, 0.05), M.fabric, SET); a.position.set(x, 0.32, 0); });
+    var t = add(rbox(1.3, 0.045, 0.66, 0.01), M.metal, SET); t.position.set(0, 0.38, 1.25); t.material = new THREE.MeshStandardMaterial({ color: 0x14151a, roughness: 0.18, metalness: 0.2 });
+    var tb = add(new THREE.BoxGeometry(1.0, 0.33, 0.42), M.cloth, SET); tb.position.set(0, 0.18, 1.25);
+    // a soft contact shadow, so the sofa sits on the stone
+    var cs = add(new THREE.PlaneGeometry(3.6, 2.6), new THREE.ShaderMaterial({ transparent: true, depthWrite: false, uniforms: { uMirror: U.uMirror },
+      vertexShader: "uniform float uMirror; varying vec2 vUv; varying float vClip; void main(){ vUv = uv; vec4 wp = modelMatrix * vec4(position, 1.0); vClip = uMirror; gl_Position = projectionMatrix * viewMatrix * wp; }",
+      fragmentShader: "varying vec2 vUv; varying float vClip; void main(){ if (vClip > 0.5) discard; vec2 q = (vUv - 0.5) * vec2(1.0, 1.35); float a = 0.72 * exp(-dot(q, q) * 9.0); gl_FragColor = vec4(0.0, 0.0, 0.0, a); }" }), SET);
+    cs.rotation.x = -Math.PI / 2; cs.position.set(0, 0.004, 0.2); cs.renderOrder = 1;
+    var st = add(new THREE.CylinderGeometry(0.012, 0.012, 1.45, 10), M.metal, SET); st.position.set(-1.75, 0.725, -0.1);
+    var bs = add(new THREE.CylinderGeometry(0.16, 0.18, 0.02, 32), M.metal, SET); bs.position.set(-1.75, 0.01, -0.1);
+    var sh = add(new THREE.CylinderGeometry(0.13, 0.17, 0.24, 40, 1, true), M.shade, SET); sh.position.set(-1.75, 1.5, -0.1);
+    var lamp = new THREE.PointLight(0xffc98a, 2.2, 6.5, 2); lamp.position.set(-1.75, 1.36, -0.1); SET.add(lamp);
+    // Jim, seated on the left of the sofa: head and shoulders show above the back cushions
+    var J = new THREE.Group(); J.position.set(-0.55, 0, -0.05); SET.add(J); J.visible = !!window.__withJim;
+    var sh2 = add(new THREE.SphereGeometry(1, 40, 24), M.cloth, J); sh2.scale.set(0.235, 0.15, 0.13); sh2.position.set(0, 0.9, -0.02);
+    var to = add(new THREE.CylinderGeometry(0.2, 0.17, 0.5, 32), M.cloth, J); to.scale.set(1, 1, 0.6); to.position.set(0, 0.66, -0.02);
+    var nk = add(new THREE.CylinderGeometry(0.048, 0.055, 0.14, 20), M.skin, J); nk.position.set(0, 1.02, 0.0);
+    var hd = add(new THREE.SphereGeometry(0.1, 40, 30), M.skin, J); hd.scale.set(0.92, 1.12, 1.02); hd.position.set(0, 1.16, 0.015);
+    var hr = add(new THREE.SphereGeometry(0.104, 40, 30, 0, Math.PI * 2, 0, Math.PI * 0.64), M.cloth, J); hr.scale.set(0.94, 1.1, 1.04); hr.position.set(0, 1.168, 0.0); hr.rotation.x = -0.35;
+    window.__orbJim = J;
+  })();
+
+  /* ------------------------------------------------------------------ the universe, switched on: points of light in the room */
+  function pointsMat(intensity) {
+    return new THREE.ShaderMaterial({
+      uniforms: { uScale: U.uScale, uMirror: U.uMirror, uInt: { value: intensity } },
+      vertexShader: ["attribute float aSize; attribute vec3 aCol; uniform float uScale; uniform float uMirror;",
+        "varying vec3 vCol; varying float vA; varying float vClip;",
+        "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); " + CLIP_V,
+        "  vec4 mv = viewMatrix * wp; gl_Position = projectionMatrix * mv;",
+        "  float px = aSize * uScale / max(-mv.z, 0.05); float s = clamp(px, 1.6, 56.0); gl_PointSize = s;",
+        "  vA = min(px / 1.6, 1.0) * (px > 56.0 ? 56.0 * 56.0 / (px * px) : 1.0); vCol = aCol; }"].join("\n"),
+      fragmentShader: ["uniform float uInt; varying vec3 vCol; varying float vA; varying float vClip;",
+        "void main(){ if (vClip > 0.5) discard; vec2 q = gl_PointCoord - 0.5; float r2 = dot(q, q) * 4.0; if (r2 > 1.0) discard;",
+        "  float a = exp(-r2 * 6.0) + 0.12 * exp(-r2 * 1.5); gl_FragColor = vec4(vCol * a * vA * uInt, 1.0); }"].join("\n"),
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+    });
+  }
+  function cloud(N, fill, mat) {
+    var pos = new Float32Array(N * 3), col = new Float32Array(N * 3), siz = new Float32Array(N), c = new THREE.Color();
+    for (var i = 0; i < N; i++) { var o = fill(i, c); pos[i * 3] = o[0]; pos[i * 3 + 1] = o[1]; pos[i * 3 + 2] = o[2]; col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b; siz[i] = o[3]; }
+    var g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("aCol", new THREE.BufferAttribute(col, 3)); g.setAttribute("aSize", new THREE.BufferAttribute(siz, 1));
+    var p = new THREE.Points(g, mat); p.frustumCulled = false; return p;
+  }
+  function starColor(r, c) { var t = r(); if (t < 0.12) c.setRGB(0.62, 0.74, 1.0); else if (t < 0.55) c.setRGB(0.92, 0.94, 1.0); else if (t < 0.85) c.setRGB(1.0, 0.92, 0.78); else c.setRGB(1.0, 0.74, 0.5); return c; }
+  // stars everywhere inside the Orb but the Gate
+  var rs = rng(3);
+  var stars = cloud(70000, function (i, c) {
+    var p; do { p = [(rs() * 2 - 1) * RI, (rs() * 2 - 1) * RI, (rs() * 2 - 1) * RI]; var r = Math.hypot(p[0], p[1], p[2]); } while (r > RI - 0.4 || r < RG + 0.25);
+    var m = Math.pow(rs(), 9); starColor(rs, c).multiplyScalar(0.35 + 5.5 * m);
+    p.push(0.006 + 0.03 * Math.pow(rs(), 6)); return p;
+  }, pointsMat(1.0));
+  world.add(stars);
+  // a spiral galaxy floating in the lounge, about 6.5 m across, with a bulge, two arms, star-forming knots and dust
+  var GAL = new THREE.Group(); world.add(GAL);
+  var rg = rng(11), GR = 3.25;
+  function armAngle(r) { return Math.log(r / (0.25 * GR) + 1.0) * 3.6; }
+  var gal = cloud(420000, function (i, c) {
+    var t = rg(), x, y, z, s;
+    if (t < 0.2) {   // bulge
+      var rr = Math.abs(gauss(rg)) * 0.16 * GR, th = rg() * 2 * Math.PI, ph = Math.acos(2 * rg() - 1);
+      x = rr * Math.sin(ph) * Math.cos(th); z = rr * Math.sin(ph) * Math.sin(th); y = rr * Math.cos(ph) * 0.55;
+      c.setRGB(1.0, 0.86, 0.62).multiplyScalar(1.1 + 1.6 * Math.exp(-rr / (0.05 * GR))); s = 0.010 + 0.01 * rg();
+    } else {
+      var r; do { r = -Math.log(1 - rg()) * 0.3 * GR; } while (r > GR);
+      var aq = rg(), arm = aq < 0.4 ? 0 : aq < 0.8 ? Math.PI : aq < 0.9 ? Math.PI * 0.5 : Math.PI * 1.5;
+      var th2 = arm + armAngle(r) + gauss(rg) * (0.12 + 0.16 * r / GR + 1.4 * Math.exp(-r / (0.12 * GR))) * (aq < 0.8 ? 1.0 : 1.7);
+      if (rg() < 0.22) th2 = rg() * 2 * Math.PI;   // the disc between the arms
+      x = r * Math.cos(th2); z = r * Math.sin(th2); y = gauss(rg) * 0.025 * GR * (1.0 - 0.5 * r / GR);
+      var k = r / GR; c.setRGB(1.0 - 0.35 * k, 0.9 - 0.12 * k, 0.78 + 0.22 * k).multiplyScalar(0.55 + 0.9 * Math.exp(-k * 2.2));
+      if (rg() < 0.025 && k > 0.25) c.setRGB(1.0, 0.45, 0.62).multiplyScalar(2.2);   // star-forming knots
+      if (rg() < 0.02 && k > 0.2) c.setRGB(0.7, 0.82, 1.0).multiplyScalar(2.6);
+      s = 0.006 + 0.01 * Math.pow(rg(), 3);
+    }
+    return [x, y, z, s];
+  }, pointsMat(0.2));
+  GAL.add(gal);
+  // dust lanes along the inner edges of the arms: dark, drawn over the stars with normal blending
+  var dustMat = new THREE.ShaderMaterial({
+    uniforms: { uScale: U.uScale, uMirror: U.uMirror },
+    vertexShader: ["attribute float aSize; uniform float uScale; uniform float uMirror; varying float vClip; varying float vA;",
+      "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); " + CLIP_V + " vec4 mv = viewMatrix * wp; gl_Position = projectionMatrix * mv;",
+      "  float px = aSize * uScale / max(-mv.z, 0.05); gl_PointSize = clamp(px, 1.0, 64.0); vA = px > 64.0 ? 64.0 / px : 1.0; }"].join("\n"),
+    fragmentShader: "varying float vClip; varying float vA; void main(){ if (vClip > 0.5) discard; vec2 q = gl_PointCoord - 0.5; float r2 = dot(q, q) * 4.0; if (r2 > 1.0) discard; gl_FragColor = vec4(0.03, 0.018, 0.012, 0.075 * exp(-r2 * 3.0) * vA); }",
+    transparent: true, depthWrite: false
+  });
+  var rd = rng(19), dust = cloud(9000, function (i, c) {
+    var r = GR * (0.16 + 0.66 * Math.sqrt(rd())), arm = rd() < 0.5 ? 0 : Math.PI, th = arm + armAngle(r) - 0.2 + gauss(rd) * 0.09;
+    return [r * Math.cos(th), gauss(rd) * 0.01 * GR, r * Math.sin(th), 0.03 + 0.03 * rd()];
+  }, dustMat);
+  dust.renderOrder = 2; GAL.add(dust);
+  // glows: the galaxy's core, and soft nebulae in the room
+  function glowMat(col, power) {
+    return new THREE.ShaderMaterial({
+      uniforms: { uCol: { value: col }, uMirror: U.uMirror, uPow: { value: power || 2.0 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: "uniform float uMirror; varying vec2 vUv; varying float vClip; void main(){ vUv = uv; vec4 wp = modelMatrix * vec4(position, 1.0); " + CLIP_V + " gl_Position = projectionMatrix * viewMatrix * wp; }",
+      fragmentShader: "uniform vec3 uCol; uniform float uPow; varying vec2 vUv; varying float vClip; void main(){ if (vClip > 0.5) discard; float r = length(vUv - 0.5) * 2.0; float a = pow(max(1.0 - r, 0.0), uPow); gl_FragColor = vec4(uCol * a, 1.0); }"
+    });
+  }
+  var nebMat = function (c1, c2, seed, amt) {
+    return new THREE.ShaderMaterial({
+      uniforms: { uC1: { value: c1 }, uC2: { value: c2 }, uSeed: { value: seed }, uAmt: { value: amt }, uMirror: U.uMirror }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: "uniform float uMirror; varying vec2 vUv; varying float vClip; void main(){ vUv = uv; vec4 wp = modelMatrix * vec4(position, 1.0); " + CLIP_V + " gl_Position = projectionMatrix * viewMatrix * wp; }",
+      fragmentShader: [
+        "uniform vec3 uC1, uC2; uniform float uSeed, uAmt; varying vec2 vUv; varying float vClip;",
+        "float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+        "float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }",
+        "float fbm(vec2 p){ float s = 0.0, a = 0.5; mat2 m = mat2(1.6, 1.2, -1.2, 1.6); for (int i = 0; i < 6; i++){ s += a * n(p); p = m * p; a *= 0.5; } return s; }",
+        "void main(){ if (vClip > 0.5) discard; vec2 p = (vUv - 0.5) * 4.0 + uSeed; float r = length(vUv - 0.5) * 2.0;",
+        "  float f = fbm(p + fbm(p * 0.7 + 3.1) * 1.6); float m = smoothstep(0.45, 0.95, f) * pow(max(1.0 - r, 0.0), 1.6);",
+        "  vec3 c = mix(uC1, uC2, smoothstep(0.35, 0.8, fbm(p * 1.7 + 7.0))); gl_FragColor = vec4(c * m * uAmt, 1.0); }"].join("\n")
+    });
+  };
+  var BILL = [];   // billboards that face the camera
+  function billboard(size, mat, x, y, z, parent) { var m = add(new THREE.PlaneGeometry(size, size), mat, parent); m.position.set(x, y, z); BILL.push(m); return m; }
+  billboard(1.5, glowMat(new THREE.Vector3(2.6, 2.0, 1.25), 2.6), 0, 0, 0, GAL);
+  billboard(4.8, glowMat(new THREE.Vector3(0.16, 0.13, 0.12), 1.6), 0, 0, 0, GAL);
+  var bodyMat = new THREE.ShaderMaterial({
+    uniforms: { uMirror: U.uMirror, uK: { value: 3.6 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    vertexShader: "uniform float uMirror; varying vec2 vP; varying float vClip; void main(){ vP = position.xy; vec4 wp = modelMatrix * vec4(position, 1.0); " + CLIP_V + " gl_Position = projectionMatrix * viewMatrix * wp; }",
+    fragmentShader: [
+      "uniform float uK; varying vec2 vP; varying float vClip;",
+      "float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+      "float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }",
+      "float fbm(vec2 p){ float s = 0.0, a = 0.5; mat2 m = mat2(1.6, 1.2, -1.2, 1.6); for (int i = 0; i < 5; i++){ s += a * n(p); p = m * p; a *= 0.5; } return s; }",
+      "void main(){ if (vClip > 0.5) discard; float R = " + GR.toFixed(3) + "; float r = length(vP) / R; if (r > 1.0) discard; float th = atan(vP.y, vP.x);",
+      "  float ph = th - log(r / 0.25 + 1.0) * uK; float n1 = fbm(vP * 2.2), n2 = fbm(vP * 7.0 + 3.0);",
+      "  float arms = pow(0.5 + 0.5 * cos(2.0 * ph + 0.5 * (n1 - 0.5)), 3.5);",
+      "  float lane = pow(0.5 + 0.5 * cos(2.0 * ph + 0.62), 12.0) * smoothstep(0.1, 0.22, r) * smoothstep(1.0, 0.5, r);",
+      "  float disc = exp(-r * 3.3) * smoothstep(1.0, 0.72, r);",
+      "  float lum = disc * (0.12 + 1.6 * arms * (0.55 + 0.9 * n1));",
+      "  lum *= 1.0 - 0.8 * lane * (0.55 + 0.7 * n2);",
+      "  float bulge = exp(-r * r * 85.0) * 2.4 + exp(-r * 9.0) * 0.45;",
+      "  vec3 c = mix(vec3(1.0, 0.83, 0.58), vec3(0.62, 0.74, 1.0), smoothstep(0.1, 0.55, r)) * lum * 1.1;",
+      "  c += vec3(1.0, 0.42, 0.6) * pow(arms, 2.0) * smoothstep(0.72, 0.9, n2) * disc * 1.8 * smoothstep(0.18, 0.3, r);",
+      "  c += vec3(1.0, 0.86, 0.66) * bulge;",
+      "  gl_FragColor = vec4(c, 1.0); }"].join("\n")
+  });
+  var body = add(new THREE.CircleGeometry(GR, 160), bodyMat, GAL); body.rotation.x = -Math.PI / 2;
+  var NEB = new THREE.Group(); world.add(NEB);
+
+  /* ------------------------------------------------------------------ the Wormhole Gate: a ball showing the place at its other end */
+  var gateMat = new THREE.ShaderMaterial({
+    uniforms: { uCam: U.uCam, uMirror: U.uMirror },
+    vertexShader: "uniform float uMirror; varying vec3 vW; varying vec3 vN; varying float vClip; void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); " + CLIP_V + " gl_Position = projectionMatrix * viewMatrix * wp; }",
+    fragmentShader: [
+      "uniform vec3 uCam; varying vec3 vW; varying vec3 vN; varying float vClip;",
+      "float hash(vec3 p){ p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }",
+      "float noise(vec3 x){ vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);",
+      "  return mix(mix(mix(hash(i), hash(i + vec3(1, 0, 0)), f.x), mix(hash(i + vec3(0, 1, 0)), hash(i + vec3(1, 1, 0)), f.x), f.y),",
+      "             mix(mix(hash(i + vec3(0, 0, 1)), hash(i + vec3(1, 0, 1)), f.x), mix(hash(i + vec3(0, 1, 1)), hash(i + vec3(1, 1, 1)), f.x), f.y), f.z); }",
+      "float fbm(vec3 p){ float s = 0.0, a = 0.5; for (int i = 0; i < 6; i++){ s += a * noise(p); p = p * 2.02 + vec3(1.7, 9.2, 3.1); a *= 0.5; } return s; }",
+      "vec3 stars(vec3 d){ vec3 c = vec3(0.0); for (int k = 0; k < 3; k++){ float sc = 70.0 + float(k) * 85.0; vec3 g = d * sc, id = floor(g), f = fract(g) - 0.5; float h = hash(id + float(k) * 13.1);",
+      "  if (h > 0.972){ vec3 o = vec3(hash(id + 1.3), hash(id + 2.7), hash(id + 5.1)) - 0.5; float dd = length(f - o * 0.6); float br = (h - 0.972) / 0.028;",
+      "    c += mix(vec3(0.7, 0.8, 1.0), vec3(1.0, 0.86, 0.66), hash(id + 9.0)) * (0.6 + 7.0 * br * br) * exp(-dd * dd * 140.0); } } return c; }",
+      "vec3 sky(vec3 d){",
+      "  vec3 q = d * 3.2 + vec3(3.0, 1.0, 7.0); q += 0.6 * vec3(fbm(q * 1.3), fbm(q * 1.3 + 4.0), fbm(q * 1.3 + 8.0));",
+      "  float n1 = fbm(q), n2 = fbm(q * 2.3 + 7.0), rid = 1.0 - abs(2.0 * fbm(q * 3.1 + 2.0) - 1.0);",
+      "  float neb = smoothstep(0.5, 0.86, n1) * (0.35 + 0.65 * pow(rid, 3.0));",
+      "  vec3 c = mix(vec3(0.05, 0.3, 0.42), vec3(0.95, 0.5, 0.2), smoothstep(0.45, 0.75, n2)) * neb * 1.1;",
+      "  c += vec3(0.7, 0.22, 0.45) * pow(rid, 6.0) * smoothstep(0.55, 0.85, n1) * 0.5;",
+      "  c *= 1.0 - 0.85 * smoothstep(0.55, 0.8, fbm(q * 2.0 + 11.0));",
+      "  return c + stars(d) + vec3(0.004, 0.005, 0.009); }",
+      "void main(){ if (vClip > 0.5) discard;",
+      "  vec3 V = normalize(vW - uCam), N = normalize(vN); float mu = clamp(dot(-V, N), 0.0, 1.0), b = sqrt(1.0 - mu * mu);",
+      "  float bend = 1.15 * b * b * b; vec3 ax = normalize(cross(V, N) + vec3(1e-5));",
+      "  vec3 Vb = V * cos(bend) + cross(ax, V) * sin(bend) + ax * dot(ax, V) * (1.0 - cos(bend));",
+      "  vec3 col = sky(normalize(Vb));",
+      "  float ring = exp(-pow((b - 0.985) / 0.006, 2.0)), glow = exp(-pow((b - 0.985) / 0.03, 2.0)), edge = smoothstep(0.8, 0.99, b);",
+      "  col = col * (1.0 - 0.9 * edge) + vec3(0.8, 0.9, 1.0) * (ring * 0.75 + glow * 0.05);",
+      "  gl_FragColor = vec4(col, 1.0); }"].join("\n")
+  });
+  var gate = add(new THREE.SphereGeometry(RG, 256, 160), gateMat);
+  // the Gate's halo: a faint glow just outside its rim
+  var halo = billboard(RG * 2.5, glowMat(new THREE.Vector3(0.05, 0.09, 0.13), 3.0), 0, 0, 0);
+
+  /* ------------------------------------------------------------------ light from the universe and the Gate */
+  var LIGHTS = new THREE.Group(); world.add(LIGHTS);
+  var lCore = new THREE.PointLight(0xffd9a6, 0.75, 14, 2), lArm = new THREE.PointLight(0x8fb2ff, 0.35, 12, 2), lGate = new THREE.PointLight(0x6fd6ff, 0.55, 16, 2), lFill = new THREE.PointLight(0x9a7cff, 0.12, 20, 2);
+  LIGHTS.add(lCore, lArm, lGate, lFill);
+  world.add(new THREE.HemisphereLight(0x27304f, 0x07070a, 0.05));
+
+  /* ------------------------------------------------------------------ HDR pipeline: scene -> bloom -> ACES (as in the demo, src/10_core.js) */
+  var POST = (function () {
+    var type = THREE.HalfFloatType, opts = { type: type, format: THREE.RGBAFormat, depthBuffer: true, stencilBuffer: false };
+    var rt = GL2 ? new THREE.WebGLMultisampleRenderTarget(PW, PH, opts) : new THREE.WebGLRenderTarget(PW, PH, opts); if (GL2) rt.samples = 4;
+    var refl = new THREE.WebGLRenderTarget(PW >> 1, PH >> 1, { type: type, format: THREE.RGBAFormat, depthBuffer: true, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
+    var bopt = { type: type, format: THREE.RGBAFormat, depthBuffer: false, stencilBuffer: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter };
+    var N = 6, mips = [], tmps = [];
+    for (var i = 0; i < N; i++) { var bw = Math.max(2, (PW >> 1) >> i), bh = Math.max(2, (PH >> 1) >> i); mips.push(new THREE.WebGLRenderTarget(bw, bh, bopt)); tmps.push(new THREE.WebGLRenderTarget(bw, bh, bopt)); }
+    var ocam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1), qs = new THREE.Scene(), quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); quad.frustumCulled = false; qs.add(quad);
+    var VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }";
+    function mat(fs, uni) { return new THREE.ShaderMaterial({ uniforms: uni, vertexShader: VS, fragmentShader: fs, depthTest: false, depthWrite: false }); }
+    var bright = mat("uniform sampler2D t; uniform float uTh; varying vec2 vUv; void main(){ vec3 c = clamp(texture2D(t, vUv).rgb, 0.0, 60.0); float l = max(max(c.r, c.g), c.b); float k = max(l - uTh, 0.0); k = k * k / (k + 0.6); gl_FragColor = vec4(c * (k / max(l, 1e-4)), 1.0); }", { t: { value: null }, uTh: { value: 0.9 } });
+    var down = mat("uniform sampler2D t; uniform vec2 uTx; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv + uTx * vec2(-1.0, -1.0)).rgb + texture2D(t, vUv + uTx * vec2(1.0, -1.0)).rgb + texture2D(t, vUv + uTx * vec2(-1.0, 1.0)).rgb + texture2D(t, vUv + uTx * vec2(1.0, 1.0)).rgb; gl_FragColor = vec4(c * 0.25, 1.0); }", { t: { value: null }, uTx: { value: new THREE.Vector2() } });
+    var blur = mat("uniform sampler2D t; uniform vec2 uD; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv).rgb * 0.2270270; c += (texture2D(t, vUv + uD * 1.3846154).rgb + texture2D(t, vUv - uD * 1.3846154).rgb) * 0.3162162; c += (texture2D(t, vUv + uD * 3.2307692).rgb + texture2D(t, vUv - uD * 3.2307692).rgb) * 0.0702703; gl_FragColor = vec4(c, 1.0); }", { t: { value: null }, uD: { value: new THREE.Vector2() } });
+    var cu = { tS: { value: null }, uBloom: { value: 0.6 }, uExp: { value: 1 }, uGrain: { value: 0.022 }, uVig: { value: 0.34 } };
+    for (var b = 0; b < N; b++) cu["tB" + b] = { value: null };
+    var comp = mat([
+      "uniform sampler2D tS, tB0, tB1, tB2, tB3, tB4, tB5; uniform float uBloom, uExp, uGrain, uVig; varying vec2 vUv;",
+      "vec3 fit(vec3 v){ return (v * (v + 0.0245786) - 0.000090537) / (v * (0.983729 * v + 0.4329510) + 0.238081); }",
+      "vec3 aces(vec3 c){ const mat3 I = mat3(0.59719, 0.07600, 0.02840, 0.35458, 0.90834, 0.13383, 0.04823, 0.01566, 0.83777); const mat3 O = mat3(1.60475, -0.10208, -0.00327, -0.53108, 1.10813, -0.07276, -0.07367, -0.00605, 1.07602); return clamp(O * fit(I * c), 0.0, 1.0); }",
+      "vec3 srgb(vec3 c){ return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }",
+      "float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }",
+      "void main(){ vec3 c = max(texture2D(tS, vUv).rgb, 0.0);",
+      "  vec3 bl = texture2D(tB0, vUv).rgb * 0.26 + texture2D(tB1, vUv).rgb * 0.24 + texture2D(tB2, vUv).rgb * 0.2 + texture2D(tB3, vUv).rgb * 0.17 + texture2D(tB4, vUv).rgb * 0.15 + texture2D(tB5, vUv).rgb * 0.14;",
+      "  c = (c + bl * uBloom) * uExp; vec3 a = aces(c); float m = max(max(c.r, c.g), c.b); vec3 hp = aces(vec3(m)) * c / max(m, 1e-4); c = mix(a, hp, 0.3);",
+      "  vec2 q = vUv - 0.5; c *= 1.0 - uVig * dot(q, q) * 2.2; c = srgb(clamp(c, 0.0, 1.0));",
+      "  c += (h(vUv * 1000.0) - 0.5) * uGrain * (1.0 - c * 0.6); c += (h(vUv * 731.0 + 3.0) - 0.5) / 255.0; gl_FragColor = vec4(c, 1.0); }"].join("\n"), cu);
+    function pass(m, target) { quad.material = m; renderer.setRenderTarget(target); renderer.render(qs, ocam); }
+    function bloom(src) {
+      bright.uniforms.t.value = src; pass(bright, mips[0]);
+      for (var i = 0; i < N; i++) {
+        if (i > 0) { down.uniforms.t.value = mips[i - 1].texture; down.uniforms.uTx.value.set(0.5 / mips[i - 1].width, 0.5 / mips[i - 1].height); pass(down, mips[i]); }
+        blur.uniforms.t.value = mips[i].texture; blur.uniforms.uD.value.set(1 / mips[i].width, 0); pass(blur, tmps[i]);
+        blur.uniforms.t.value = tmps[i].texture; blur.uniforms.uD.value.set(0, 1 / mips[i].height); pass(blur, mips[i]);
+      }
+    }
+    var clipBelow = [new THREE.Plane(new THREE.Vector3(0, -1, 0), 0.002)];
+    function render() {
+      // 1. the world mirrored in the lounge floor, keeping only what was above it
+      world.scale.y = -1; world.updateMatrixWorld(true); floor0.visible = false; U.uMirror.value = 1; renderer.clippingPlanes = clipBelow;
+      faceCamera();
+      renderer.setRenderTarget(refl); renderer.setClearColor(0x000000, 1); renderer.clear(true, true, true); renderer.render(scene, camera);
+      world.scale.y = 1; world.updateMatrixWorld(true); floor0.visible = true; U.uMirror.value = 0; renderer.clippingPlanes = [];
+      faceCamera();
+      REFL.tRefl.value = refl.texture;
+      // 2. the room
+      renderer.setRenderTarget(rt); renderer.clear(true, true, true); renderer.render(scene, camera);
+      bloom(rt.texture);
+      cu.tS.value = rt.texture; for (var i = 0; i < N; i++) cu["tB" + i].value = mips[i].texture;
+      pass(comp, null);
+    }
+    return { render: render, u: cu, bright: bright };
+  })();
+  function faceCamera() {
+    // billboards face the camera; in the mirrored pass the world is flipped, so they face the camera's mirror image
+    var cp = camera.position.clone(); if (world.scale.y < 0) cp.y = -cp.y;
+    BILL.forEach(function (b) { var wp = new THREE.Vector3(); b.parent.updateMatrixWorld(true); var inv = new THREE.Matrix4().copy(b.parent.matrixWorld).invert(); var lc = cp.clone(); if (world.scale.y < 0) lc.y = -lc.y; b.lookAt(world.scale.y < 0 ? new THREE.Vector3(camera.position.x, -camera.position.y, camera.position.z) : camera.position); });
+  }
+
+  /* ------------------------------------------------------------------ the view */
+  function place(o) {
+    o = o || {};
+    var P = new THREE.Vector3(o.px != null ? o.px : 16.6, o.py != null ? o.py : 1.55, o.pz != null ? o.pz : 0);
+    var yaw = (o.yaw != null ? o.yaw : 38) * D, pitch = (o.pitch != null ? o.pitch : -3) * D;
+    var dir = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw)), right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
+    camera.position.copy(P); camera.fov = o.fov || 50; camera.aspect = W / H; camera.updateProjectionMatrix();
+    var look = P.clone().add(dir.clone().multiplyScalar(10)); look.y += Math.tan(pitch) * 10; camera.lookAt(look); camera.updateMatrixWorld(true);
+    U.uScale.value = PH / (2 * Math.tan(camera.fov * D / 2)); U.uCam.value.copy(P);
+    // the sofa with Jim, in front of the camera, facing the galaxy
+    var sd = o.sofa || 3.4, sp = P.clone().add(dir.clone().multiplyScalar(sd)).add(right.clone().multiplyScalar(o.sofaR != null ? o.sofaR : 1.5));
+    SET.position.set(sp.x, 0, sp.z);
+    // the galaxy, floating in the lounge ahead and to the right
+    var gd = o.gd || 8.2, gr = o.gr || 1.9, gp = P.clone().add(dir.clone().multiplyScalar(gd)).add(right.clone().multiplyScalar(gr)); gp.y = o.gy || 2.75;
+    GAL.position.copy(gp); GAL.rotation.set(0, 0, 0); GAL.rotateY(Math.atan2(-dir.x, -dir.z)); GAL.rotateX((o.tilt != null ? o.tilt : 62) * D); GAL.rotateZ((o.roll != null ? o.roll : -14) * D);
+    var fz = new THREE.Vector3(gp.x - SET.position.x, 0, gp.z - SET.position.z).normalize(); SET.rotation.set(0, Math.atan2(fz.x, fz.z), 0);
+    lCore.position.copy(gp); lArm.position.copy(gp).add(right.clone().multiplyScalar(-2.2)).add(new THREE.Vector3(0, 0.6, 0));
+    var gdir = new THREE.Vector3().copy(P).setY(0).normalize(); lGate.position.copy(gdir.multiplyScalar(RG + 0.8)).setY(0.8);
+    lFill.position.set(P.x * 0.7, 6.5, P.z * 0.7);
+    // nebulae: one behind the galaxy, one near the ceiling, one low in the room
+    while (NEB.children.length) { var c = NEB.children.pop(); BILL.splice(BILL.indexOf(c), 1); }
+    var n1 = P.clone().add(dir.clone().multiplyScalar(gd + 3.0)).add(right.clone().multiplyScalar(gr + 1.5)); n1.y = 3.4;
+    billboard(9, nebMat(new THREE.Vector3(0.10, 0.18, 0.42), new THREE.Vector3(0.55, 0.18, 0.40), 3.7, 0.55), n1.x, n1.y, n1.z, NEB);
+    var n2 = P.clone().add(dir.clone().multiplyScalar(5.5)).add(right.clone().multiplyScalar(-2.5)); n2.y = 6.2;
+    billboard(7, nebMat(new THREE.Vector3(0.12, 0.30, 0.45), new THREE.Vector3(0.30, 0.12, 0.38), 9.1, 0.35), n2.x, n2.y, n2.z, NEB);
+    var n3 = P.clone().add(dir.clone().multiplyScalar(12)).add(right.clone().multiplyScalar(3.5)); n3.y = 1.2;
+    billboard(8, nebMat(new THREE.Vector3(0.45, 0.20, 0.30), new THREE.Vector3(0.15, 0.22, 0.45), 5.3, 0.3), n3.x, n3.y, n3.z, NEB);
+    POST.u.uExp.value = o.exp || 1.0; POST.u.uBloom.value = o.bloom != null ? o.bloom : 0.6; REFL.uAmt.value = o.refl != null ? o.refl : 0.6;
+  }
+  // the book's view; any key can be overridden from scene_render.py
+  var VIEW = { py: 1.5, pitch: 0, fov: 54, tilt: 40, roll: -16, sofa: 4.6, sofaR: 1.9, gd: 8.8, gr: 1.5, gy: 2.9, exp: 1.15 };
+  window.__scene = { render: function (o) { var v = {}; for (var k in VIEW) v[k] = VIEW[k]; for (var j in (o || {})) v[j] = o[j]; if (window.__orbJim) window.__orbJim.visible = !!v.jim; place(v); POST.render(); return true; }, ready: true };
+})();
+</script>
+</body>
+</html>

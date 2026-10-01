@@ -11,7 +11,8 @@ All the pictures with their captions are on **[Pictures](../../docs/gallery.md)*
 | `port-aerial.jpg` | Arcadia Spaceport from the south-west | Chapter 07 |
 | `port-liftoff.jpg` | The pod lifting off at the pod station | Chapters 06 and 07 |
 | `flight-west.jpg`, `flight-dunes.jpg`, `flight-crater.jpg`, `flight-cliffs.jpg` | Frames from the flight video | Chapter 06 |
-| `atlas-teaser.jpg` | The Mars Atlas at the house | Cover |
+| `orb-universe.jpg` | Inside the Orb with the universe switched on, rendered by `tools/scene_render.py orb` | Chapter 02 |
+| `atlas-teaser.jpg` | Mars from orbit with a marker at the house, rendered by `tools/scene_render.py mars` | Cover (the Atlas card) |
 | `mars-map.jpg` | The base colour map of Mars under the NASA tiles (Solar System Scope, CC BY 4.0), made by `tools/fetch_marsmap.py` | Every map figure, the Atlas |
 | `th-*` | Chapter cards | Cover |
 

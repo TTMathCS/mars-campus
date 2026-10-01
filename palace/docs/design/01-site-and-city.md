@@ -115,9 +115,8 @@ Links can open a place directly, for example
 [the TTMath campus](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=ttmath) or
 [the Orb](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=orb).
 
-| Whole Mars | Arcadia Planitia | The house |
-| --- | --- | --- |
-| ![](../img/atlas/mars.jpg) | ![](../img/atlas/arcadia.jpg) | ![](../img/atlas/house.jpg) |
+| Whole Mars | Arcadia Planitia |
+| --- | --- |
+| ![](../img/atlas/mars.jpg) | ![](../img/atlas/arcadia.jpg) |
 
-*Saved without the NASA tiles, so they show the coarser base map. At the house the Atlas drapes the demo's own
-landscape; the future city's homes are drawn as plan marks.*
+*Saved without the NASA tiles, so they show the coarser base map.*

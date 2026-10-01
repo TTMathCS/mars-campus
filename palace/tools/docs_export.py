@@ -28,8 +28,8 @@ BOOK = {
 SHEETS = [("svg-elev", "a001-crown-birdseye"), ("svg-compare", "a002-size-check"), ("svg-site", "a101-site-corridor"),
           ("svg-growth", "a102-city-growth"), ("svg-crown", "a201-crown-main-floor"), ("svg-pent", "a301-pentagon-L1"),
           ("svg-sec", "a401-section"), ("svg-port", "a501-spaceport"), ("svg-flight", "a601-flight")]
-# close views (tens of km) need the real tiles to look right, so only far views and the house (draped with the demo's own landscape) are exported
-ATLAS = [("mars", "__atlas.jump('mars')", 9000), ("arcadia", "__atlas.jump('arcadia')", 9000), ("house", "__atlas.select('house')", 12000)]
+# close views (tens of km) need the real tiles to look right, so only the far views are exported
+ATLAS = [("mars", "__atlas.jump('mars')", 9000), ("arcadia", "__atlas.jump('arcadia')", 9000)]
 
 def save(png, path):
     im = Image.open(io.BytesIO(png)).convert("RGB")

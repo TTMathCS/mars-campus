@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mars from orbit · render scene</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; } canvas { display: block; }
+  .pin { position: absolute; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; border: 1.6px solid #f3c66b; box-shadow: 0 0 6px rgba(243, 198, 107, .7); }
+  .pin::after { content: ""; position: absolute; left: 4px; top: 4px; width: 3.2px; height: 3.2px; border-radius: 50%; background: #ffe2a6; }
+  .lab { position: absolute; font: 600 15px/1.25 "Helvetica Neue", Arial, sans-serif; color: #f4ead8; letter-spacing: .02em; text-shadow: 0 1px 3px rgba(0, 0, 0, .9); white-space: nowrap; }
+  .lab small { display: block; font-weight: 400; font-size: 12.5px; color: #cdbfae; letter-spacing: .03em; }
+  .lead { position: absolute; height: 1px; background: rgba(243, 198, 107, .75); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Mars from orbit, for the Mars Atlas card on the design book's cover. A render scene, not part of the demo:
+   palace/tools/scene_render.py mars saves palace/design/img/atlas-teaser.jpg. The colour map is
+   palace/design/img/mars-map.jpg (Solar System Scope, CC BY 4.0, from NASA imagery; 0 to 360 E, north up). */
+(function () {
+  "use strict";
+  var W = window.innerWidth, H = window.innerHeight, DPR = window.devicePixelRatio || 1, D = Math.PI / 180;
+  var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(DPR); renderer.setSize(W, H); document.body.appendChild(renderer.domElement);
+  var scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(22, W / H, 0.1, 100);
+  var U = { tMap: { value: null }, uWB: { value: new THREE.Matrix3() }, uSun: { value: new THREE.Vector3(-0.62, 0.34, 0.71).normalize() }, uCam: { value: new THREE.Vector3() }, uSunI: { value: 3.2 } };
+  var planetMat = new THREE.ShaderMaterial({
+    uniforms: U,
+    vertexShader: "varying vec3 vN; varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * w; }",
+    fragmentShader: [
+      "uniform sampler2D tMap; uniform mat3 uWB; uniform vec3 uSun, uCam; uniform float uSunI; varying vec3 vN; varying vec3 vW;",
+      "void main(){",
+      "  vec3 n = normalize(vN), v = normalize(uCam - vW), b = uWB * n;",
+      "  float lat = asin(clamp(b.y, -1.0, 1.0)), lon = atan(b.x, b.z);",
+      "  vec2 uv = vec2(fract(lon / 6.2831853), 0.5 + lat / 3.1415927);",
+      "  vec3 alb = pow(texture2D(tMap, uv).rgb, vec3(2.2));",
+      "  float lu = dot(alb, vec3(0.299, 0.587, 0.114)); alb = mix(alb, vec3(lu) * vec3(1.25, 0.95, 0.72), 0.3);",   // butterscotch, less saturated: closer to true-colour Mars
+      "  float ndl = dot(n, uSun), ndv = max(dot(n, v), 0.0);",
+      "  float k = 0.86, minn = pow(max(ndl, 0.0), k) * pow(max(ndv, 1e-3), k - 1.0);",   // Minnaert: dusty, darker at the limb
+      "  float term = smoothstep(-0.06, 0.12, ndl);",
+      "  vec3 col = alb * minn * term * uSunI;",
+      "  float haze = pow(1.0 - ndv, 3.0);",
+      "  col = mix(col, vec3(0.62, 0.42, 0.28) * term * 0.5 * uSunI * max(ndl + 0.1, 0.0), haze * 0.35);",
+      "  gl_FragColor = vec4(col, 1.0); }"].join("\n")
+  });
+  var planet = new THREE.Mesh(new THREE.SphereGeometry(1, 256, 192), planetMat); scene.add(planet);
+  // the thin dusty atmosphere at the limb: brighter where sunlight passes through it, bluish near the terminator
+  var atmoMat = new THREE.ShaderMaterial({
+    uniforms: { uSun: U.uSun, uCam: U.uCam, uSunI: U.uSunI }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.BackSide,
+    vertexShader: "varying vec3 vN; varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * w; }",
+    fragmentShader: [
+      "uniform vec3 uSun, uCam; uniform float uSunI; varying vec3 vN; varying vec3 vW;",
+      "void main(){ vec3 n = normalize(vN), v = normalize(uCam - vW); float rim = 1.0 - abs(dot(n, v));",
+      "  float a = pow(rim, 5.0) * 1.1; float l = smoothstep(-0.25, 0.4, dot(n, uSun));",
+      "  vec3 c = mix(vec3(0.45, 0.55, 0.85), vec3(0.95, 0.72, 0.52), smoothstep(0.0, 0.5, dot(n, uSun)));",
+      "  gl_FragColor = vec4(c * a * l * 0.16 * uSunI, 1.0); }"].join("\n")
+  });
+  var atmo = new THREE.Mesh(new THREE.SphereGeometry(1.012, 192, 128), atmoMat); scene.add(atmo);
+  // faint stars
+  (function () {
+    var N = 2600, pos = new Float32Array(N * 3), col = new Float32Array(N * 3), s = 7;
+    function r() { s = (s * 16807) % 2147483647; return s / 2147483647; }
+    for (var i = 0; i < N; i++) { var u = r() * 2 - 1, t = r() * 2 * Math.PI, q = Math.sqrt(1 - u * u); pos[i * 3] = 40 * q * Math.cos(t); pos[i * 3 + 1] = 40 * u; pos[i * 3 + 2] = 40 * q * Math.sin(t) - 10; var b = 0.15 + 0.85 * Math.pow(r(), 6); col[i * 3] = b; col[i * 3 + 1] = b; col[i * 3 + 2] = b * (0.9 + 0.2 * r()); }
+    var g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("color", new THREE.BufferAttribute(col, 3));
+    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ size: 1.6, sizeAttenuation: false, vertexColors: true, transparent: true, opacity: 0.5, depthWrite: false })));
+  })();
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0; renderer.outputEncoding = THREE.sRGBEncoding;
+
+  function bodyDir(lat, lon) { return new THREE.Vector3(Math.cos(lat * D) * Math.sin(lon * D), Math.sin(lat * D), Math.cos(lat * D) * Math.cos(lon * D)); }
+  var VIEW = { lat0: 27, lon0: 214, px: 0.2, py: -0.02, dist: 6.3, exp: 1.0, sunI: 3.2, sx: -0.62, sy: 0.34, sz: 0.71 };
+  function render(o) {
+    var v = {}; for (var k in VIEW) v[k] = VIEW[k]; for (var j in (o || {})) v[j] = o[j];
+    planet.position.set(v.px, v.py, 0); atmo.position.copy(planet.position);
+    camera.position.set(0, 0, v.dist); camera.lookAt(0, 0, 0); camera.updateMatrixWorld(true); U.uCam.value.copy(camera.position);
+    U.uSun.value.set(v.sx, v.sy, v.sz).normalize(); U.uSunI.value = v.sunI; renderer.toneMappingExposure = v.exp;
+    // world -> body: b = Ry(lon0) Rx(-lat0) n, so the view centre is (lat0, lon0)
+    var m = new THREE.Matrix4().makeRotationY(v.lon0 * D).multiply(new THREE.Matrix4().makeRotationX(-v.lat0 * D));
+    U.uWB.value.setFromMatrix4(m);
+    renderer.render(scene, camera);
+    // the house: 39.80 N, 201.44 E
+    var inv = new THREE.Matrix4().copy(m).invert(), wdir = bodyDir(39.8, 201.44).applyMatrix4(inv), wp = wdir.clone().add(planet.position);
+    var sp = wp.clone().project(camera), x = (sp.x * 0.5 + 0.5) * W, y = (-sp.y * 0.5 + 0.5) * H;
+    var pin = document.createElement("div"); pin.className = "pin"; pin.style.left = x + "px"; pin.style.top = y + "px"; document.body.appendChild(pin);
+    var lx = W * 0.07, ly = y - 64, lab = document.createElement("div"); lab.className = "lab"; lab.innerHTML = "Jim's house<small>Arcadia Planitia · 39.8° N, 201.4° E</small>"; lab.style.left = lx + "px"; lab.style.top = (ly - 12) + "px"; document.body.appendChild(lab);
+    var x0 = lx + 214, y0 = ly + 2, dx = x - 9 - x0, dy = y - 4 - y0, len = Math.hypot(dx, dy), ld = document.createElement("div"); ld.className = "lead";
+    ld.style.left = x0 + "px"; ld.style.top = y0 + "px"; ld.style.width = len + "px"; ld.style.transform = "rotate(" + Math.atan2(dy, dx) + "rad)"; document.body.appendChild(ld);
+    return true;
+  }
+  var tex = new THREE.TextureLoader().load("../design/img/mars-map.jpg", function () { window.__scene.ready = true; });
+  tex.anisotropy = 8; tex.minFilter = THREE.LinearMipmapLinearFilter; U.tMap.value = tex;
+  window.__scene = { render: render, ready: false };
+})();
+</script>
+</body>
+</html>

@@ -1357,7 +1357,7 @@
   }
   var LIGHT = { hemi: 0.24, exp: 0.8 };
   function setLight() {
-    var garden = ME.lv === 1; RES.casters(ME.lv !== 1);
+    var garden = ME.lv === 1; RES.casters(ME.lv !== 1); if (MAP) MAP.draw();
     sun.intensity = garden ? 2.0 : ME.lv === 4 ? 1.7 : 1.4; sun.color.set(garden ? 0xfff4e6 : 0xfff0dc); hemi.intensity = garden ? 0.3 : ME.lv === 4 ? 0.34 : 0.24; POST.u.uExp.value = garden ? 0.92 : 0.8; LIGHT.hemi = hemi.intensity; LIGHT.exp = POST.u.uExp.value; hemi.color.set(garden ? 0xcfe3ff : 0xfff2e0); hemi.groundColor.set(garden ? 0x4a5a32 : 0x5a4a3a);
     document.querySelectorAll("[data-lv]").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.lv === ME.lv ? "true" : "false"); });
   }

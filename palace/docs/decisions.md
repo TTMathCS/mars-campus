@@ -40,6 +40,9 @@ at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/):
 - **The garden level (L2)**: the orchard, the market garden, the vertical farm and a wheat field, the lake with a pier,
   the forest with ferns and the stream, and the meadow with wild flowers and the tea house. → DM-13 (the forest)
 - **The sun court (L5)**: the lawn, fruit trees and the pool round the foot of the column.
+- **Jim's residence (L1, sector 1)**, to walk into: the family room in ring A behind a glass door from the atrium, the
+  street, and the master suite down in ring B (the bedroom, the bath and the dressing room). In the family room you can
+  play the piano, watch Earth on the screen over the fire, and read a book. → DM-9, DM-10
 
 Four choices made while building are in the table above, for Jim's review.
 

@@ -15,7 +15,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3 has started: **the Pentagon** at `palace/pentagon/` (the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level with the lake, forest, orchard, farm and meadow; the sun court). Next: walking into the rooms of L1. |
+| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3 has started: **the Pentagon** at `palace/pentagon/` (the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level with the lake, forest, orchard, farm and meadow; the sun court; Jim's residence on L1 to walk into, with the piano, the TV and the books). Next: the rest of L1. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -91,8 +91,8 @@ the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
    before he opens it.
 6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`, phase 2 (the Crown's main
    floor and the Orb) at `palace/crown/` and `palace/orb/`, and phase 3 has started at `palace/pentagon/`. Next in
-   the Pentagon: rooms you can walk into on L1 (the residence and the master suite down), then the corner cores and
-   the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. When Jim
+   the Pentagon: the rest of L1 (the club and cinema, the baths and the 50 m pool, the great library, the guests),
+   then the corner cores and the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. When Jim
    approves Rev E, redraw the floor plans' Orb and ground (Rev C of the plans).
 
 ## 2c. Numbers used across the design book
@@ -216,7 +216,9 @@ the point at apothem `a` on side `k`, a fraction `t` along it). The rooms behind
 lists them per level and side as on the plans, and `ROOM_FS` draws each kind (walls, floor, ceiling, lights, then the
 furniture on a plane halfway back). `GARDEN` builds L2 (`lakeD` is the lake's shape, `each(sector, ...)` plants a sector
 row by row, `BLOCK` holds what you can't walk through); its sky shader also draws the far horizon on the outer walls.
-`canStand` decides where you can walk. Static meshes are merged by material at the end (`mergeStatic`). The render
+`canStand` decides where you can walk. `RES` is Jim's residence on L1 (walkable rooms, built in (a, u) coordinates
+with the Crown's furniture kit) and `ACTS` the things to do there. Static meshes are merged by material at the end
+(`mergeStatic`; the residence separately, so its shell can stop casting shadows on L2). The render
 target has a 24-bit depth buffer (three r128 gives render targets 16 bits otherwise, and surfaces 2 cm apart flicker).
 Test with `python3 palace/tools/pentagon_shot.py` (`?debug` exposes `window.__pent`).
 

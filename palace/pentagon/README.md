@@ -21,6 +21,12 @@ floor plans. You come down by portal to L1, onto a bridge in the atrium.
   vertical farm and a field of wheat (2), the lake with its reeds and pier (3), the forest with ferns and the stream (4),
   and the meadow with drifts of wild flowers and the tea house (5). The columns that carry the levels above are
   planted from foot to head, like vertical gardens.
+- **Jim's residence (L1, sector 1).** The glass door in the middle of the south-east side opens into the family room:
+  two sofas by the fire, the grand piano looking out at the atrium, the table for eight and the books, under rows of
+  skylights. Press E (or the orange button) at the piano to play the opening of Für Elise, by the sofas to turn on the
+  screen over the fire (Earth as it is now, turning), or at the shelves to read the first page of The War of the Worlds.
+  Two doors beside the fire lead to the street, 4 m wide and 8 m tall under a sky ceiling, and across it is the master
+  suite down: the bedroom, the bath with a freestanding tub, and the dressing room.
 - **L5, the sun court.** A lawn with fruit trees round the pool at the foot of the column, a paved walk round it and
   causeways over the pool to the portals.
 
@@ -34,5 +40,10 @@ image-based light.
 Test with `python3 palace/tools/pentagon_shot.py` (see its docstring): `?debug` exposes `window.__pent` with
 `enter()`, `on(level, bearing)`, `at(level, x, z, yaw, pitch)`, `look(yaw, pitch)`, `step(n)` and `ev("js")`.
 
-Not yet: walking into the rooms of L1, L3, L4 and L5 (they are seen through the glass), the stair cores in the
+`RES` builds the residence in (a, u) coordinates (a out from the centre, square to side 1; u along it), with the
+Crown's furniture kit; `RES.walkable` and its `BLOCK` list decide where you can walk, and its shell casts shadows only
+when you are not on L2 (it lies over the garden's sky). `ACTS` are the things to do; the TV renders a small scene of
+Earth into a texture.
+
+Not yet: the rest of L1 and the rooms of L3, L4 and L5 (they are seen through the glass), the stair cores in the
 corners, and the stream's falls.

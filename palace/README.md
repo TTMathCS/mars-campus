@@ -7,8 +7,8 @@
 ![The Crown coming home at sunset, a dust storm behind it](design/img/crown-sunset.jpg)
 
 A private house for one person, Jim, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
-ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb whose hollow
-heart is the **Universe Hall**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, eleven times the
+ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb, where the
+universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, eleven times the
 Crown's floor area. **Arcadia Spaceport** stands 30 km east, and a pod flies Jim home through a dust storm into the
 sunset. A city will grow around it.
 
@@ -30,21 +30,21 @@ sunset. A city will grow around it.
 | Part | State | Next |
 | --- | --- | --- |
 | Requirements | Updated 1 Oct 2026 with Jim's answers | — |
-| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb once Jim approves Rev D |
-| Design book | **Rev D**: chapters 01–07 written; the Orb redesigned as the Universe Hall | Write 08 Life support, 09 Communications and space, 10 Building it |
+| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb once Jim approves Rev E |
+| Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, and the ball as the Wormhole Gate | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
 | Mars Atlas | Live, over a real colour map of Mars | — |
 | 3D demo | Phase 1 (landscape, spaceport, flight video) works in a test build; **paused** at Jim's request | Resume when Jim approves the design book |
 | First palace | Archived | — |
 
-**Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb's Universe Hall
-(Rev D), drawn from his answer. See the [decision log](docs/decisions.md).
+**Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb, Rev E (the universe
+in VR, the ball as the Wormhole Gate), drawn from his words. See the [decision log](docs/decisions.md).
 
 ## The design at a glance
 
 | | | |
 | --- | --- | --- |
-| <a href="docs/design/02-crown.md"><img src="design/img/crown-day.jpg" alt="The Crown by day"></a><br>**The Crown**, above ground: 276 m across, floating 40 m up | <a href="docs/design/02-crown.md#the-orb-and-the-universe-hall"><img src="docs/img/book/crown-orb-inside.png" alt="Inside the Orb"></a><br>**The Orb**: the Universe Hall, with rooms round it | <a href="docs/design/03-pentagon.md"><img src="docs/img/book/pentagon-section.png" alt="Section through the Pentagon"></a><br>**The Pentagon**, below ground: five levels |
+| <a href="docs/design/02-crown.md"><img src="design/img/crown-day.jpg" alt="The Crown by day"></a><br>**The Crown**, above ground: 276 m across, floating 40 m up | <a href="docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate"><img src="docs/img/book/crown-orb-inside.png" alt="Inside the Orb"></a><br>**The Orb**: the Wormhole Gate, with the universe in VR in the rooms round it | <a href="docs/design/03-pentagon.md"><img src="docs/img/book/pentagon-section.png" alt="Section through the Pentagon"></a><br>**The Pentagon**, below ground: five levels |
 | <a href="docs/design/01-site-and-city.md"><img src="docs/img/book/site-mars.jpg" alt="Map of Mars"></a><br>**Site**: 39.8° N on Arcadia Planitia | <a href="docs/design/06-transport.md"><img src="design/img/flight-cliffs.jpg" alt="The pod along the Ice Cliffs"></a><br>**The flight home**: 4 min 40 s | <a href="docs/design/07-spaceport.md"><img src="design/img/port-aerial.jpg" alt="Arcadia Spaceport"></a><br>**Arcadia Spaceport**, 30 km east |
 
 | Number | |
@@ -53,7 +53,7 @@ sunset. A city will grow around it.
 | 276 m | The Crown across; it floats 40 m up and its spires reach 90 m |
 | 19,100 m² | The Crown's floor area, 5.6 times the TTMath campus |
 | 209,700 m² | The Pentagon's floor area, 11 times the Crown |
-| 24 m | The Universe Hall across, inside the 40 m Orb |
+| 18 m | The Wormhole Gate across, a ball inside the 40 m Orb: press send and it shoots you like light to any place and time |
 | 30 km | To Arcadia Spaceport, due east |
 | 20 MWe | Four reactors, two at the house and two at the port; no panels or mirrors on the ground |
 | 4 min 40 s | The pod flight home, 37 km |

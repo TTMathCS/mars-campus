@@ -15,7 +15,7 @@ nothing links it to the ground but portals and the pods. **Requirements:** CR-1 
 | **276 m** | Across the outside of the ring; 244 m across the inside |
 | **+40 m** | The underside, over the Stone Garden; the main floor is at +41 m |
 | **+90 m** | The tips of the five spires; between them the roof dips to +50 m |
-| **19,100 m²** | Floor area with the Rev D Orb, 5.6 times the TTMath campus (Rev B: 20,100 m²) |
+| **19,100 m²** | Floor area with the Rev E Orb, 5.6 times the TTMath campus (Rev B: 20,100 m²) |
 | **3 m** | Walls and roof, mostly water ice, to keep out cosmic rays |
 | **0** | Legs, lifts or big windows |
 
@@ -58,41 +58,53 @@ Ten parts of 36°: five under the spires, each with an upper floor, and five in 
 | Observatory (NNE, spire) | Star lounge, planetarium | Telescope dome |
 | Garden room (NE) | Tea house, breakfast room, sky garden | — |
 
-## The Orb and the Universe Hall
+## The Orb: the universe in VR and the Wormhole Gate
 
-**Rev D, 1 Oct 2026, drawn from Jim's answer, for his review.** The Orb is a mirror ball 40 m across floating over the
-Sun Well. Inside it is hollow. Its heart is the **Universe Hall**, a round space 24 m across, and the rooms sit around
-it on three rings, like the boxes of an opera house. Every room has a glass front onto the hall.
+**Rev E, 1 Oct 2026, from Jim's words, for his review.** The Orb is a mirror ball 40 m across floating over the Sun
+Well. At its heart floats a ball 18 m across, the **Wormhole Gate**, and the rooms sit around it on three rings, like
+the boxes of an opera house. Switch the universe on and it appears in the room itself, in 3D, all around you:
+future-tech VR shown directly in the space of the room, with no projector, no screen and no ball to look into.
 
 ![Inside the Orb, in section](../img/book/crown-orb-inside.png)
 
-*Inside the Orb, section looking north, to scale. The Universe Hall (dark) is open from +60 to +84 m. Around it: the
-portal ring at +64, the lounges and the Gate at +72, and the rest rooms at +80 under the windows. Each glass front
-(blue) has the dashboard in its corner.*
+*Inside the Orb, section looking north, to scale. In the middle floats the Wormhole Gate, a ball 18 m across, in a
+round space 24 m across. Around it: the portal ring at +64, the lounges at +72 with the bridge into the Gate, and the
+rest rooms at +80 under the windows. Left, the universe switched on: it fills the rooms themselves, and the Gate sends
+a beam of light to the target chosen in it. Right, switched off.*
 
-- **Switch it on** and the universe appears in the middle of the hall, a 3D image Jim zooms with his hands or his
-  voice: from the web of galaxies to the Milky Way, the solar system, Mars and the house, or Earth and his home town.
-  It zooms in time too. The hall's curved wall is one seamless screen showing the sky as seen from wherever he has
-  zoomed to. **Switch it off** and the wall shows the real sky above the Orb. Every room has the switch.
-- **The dashboard:** in the corner of every glass front, Earth (home) and Mars (where Jim lives now) as small globes
-  with their weather, live. One touch hides it and another brings it back.
+- **Switch it on** and the universe appears in the room in 3D, in front of Jim, behind him, above and below, close
+  enough to reach into. Everyone in the room sees the same sky. He zooms it with his hands or his voice: from the web
+  of galaxies to the Milky Way, the solar system, Mars and the house, or Earth and his home town, and in time too.
+  Switched on in every room, it fills the whole Orb. **Switch it off** and the room is back, with its windows to the
+  real sky. Every room has the switch, and the voice works anywhere.
+- **The dashboard:** two small globes always float in the corner of his view, Earth (home) and Mars (where he lives
+  now), with their weather, live. One touch or one word hides them, another brings them back.
 - **The rest rooms:** five quiet rooms on the top ring for resting by day, with a day bed, a window to the sky behind
-  radiation glass, and a glass wall onto the hall that turns frosted. Jim still sleeps below ground at night.
-- **The Gate:** a ring of light 6 m across on a short bridge into the hall. Pick a place and a time in the universe,
-  and the Gate opens onto it.
+  radiation glass, and a glass wall onto the Gate that turns frosted. Jim still sleeps below ground at night.
+
+**The Wormhole Gate** sends people and things to any place in the universe and any time, past or future, instantly:
+it is a time machine too. Physicists expect the mouth of a wormhole to look like a ball, a round window onto the
+place at its other end; the wormhole in the film *Interstellar* was drawn that way from Kip Thorne's equations.
+
+| Step | What happens |
+| --- | --- |
+| 1 · Choose | With the universe on, Jim zooms to the place and sets the time. The target glows in the room |
+| 2 · Step in | He walks across a short bridge, 3 m wide, from the lounge floor into the ball. Things ride in on a small cart along the bridge, or a robot carries them |
+| 3 · Send | He presses send, or says it. The ball shoots him like a beam of light straight to the target in the universe around the room, and in that instant he is there, at that place and time. That is how the wormhole works |
+| 4 · Come back | At the far end a ball like this one opens. He steps in and presses home, and the light brings him back onto the bridge |
 
 | Floor | Rooms | Area |
 | --- | --- | --- |
-| +80 m | Rest rooms: five day rooms with windows to the sky and glass onto the hall | 804 m² |
-| +72 m | Universe lounges: five lounges facing the hall, and the Gate on its bridge | 804 m² |
-| +64 m | Portal ring: five portals from the spires, round a foyer looking up into the hall | 804 m² |
-| +60 to +84 m | The Universe Hall, open, Ø 24 m, its wall one round screen | open |
+| +80 m | Rest rooms: five day rooms with windows to the sky and glass onto the Gate | 804 m² |
+| +72 m | Universe lounges: five lounges facing the Gate, and the bridge into it | 804 m² |
+| +64 m | Portal ring: five portals from the spires, round a foyer under the Gate | 804 m² |
+| +60 to +84 m | The Wormhole Gate, a ball Ø 18 m, in a round space Ø 24 m | — |
 | | **The Orb** | **2,410 m²** |
 
 | The corner dashboard | From the edge of the universe to the house |
 | --- | --- |
 | ![The corner dashboard: Earth and Mars with their weather](../img/book/crown-dashboard.png) | ![The zoom in nine steps](../img/book/crown-zoom.png) |
-| *On the glass front of a lounge, over the universe image. Readings are examples; Earth's weather arrives 3 to 22 minutes late, the time radio takes.* | *Nine steps, from 93 billion light-years to 276 m: about 3 × 10²⁴ times. The data are real: galaxy surveys, the Gaia star map, NASA's planet positions, the Mars Atlas.* |
+| *Floating in the corner of Jim's view, among the stars of the universe in the room. Readings are examples; Earth's weather arrives 3 to 22 minutes late, the time radio takes.* | *Nine steps, from 93 billion light-years to 276 m: about 3 × 10²⁴ times. The data are real: galaxy surveys, the Gaia star map, NASA's planet positions, the Mars Atlas.* |
 
 **The Sun Well under the Orb** is a glass lens 20 m across over the Pentagon's atrium. It is a sky lens: lamps behind
 it show the atrium the sky that is outside, the sun's place included, and keep it bright in a dust storm. There are no
@@ -100,9 +112,9 @@ mirrors on the ground (Jim, 1 Oct 2026); Jim takes the real sun in the Crown's r
 
 | Future technology | Real fallback |
 | --- | --- |
-| The universe image floating in open air, without glasses | The hall's round screen (like the Sphere in Las Vegas) with light 3D glasses |
+| The universe in VR, shown directly in the space of a room, in 3D, seen with bare eyes | Light VR glasses showing the same universe |
 | Radiation glass that shields like the Crown's 3 m wall | Deep windows of acrylic and water, about 1.5 m thick, and resting there only part of the day |
-| The Wormhole Gate | — |
+| The Wormhole Gate: press send and it shoots you like light to any place and time | — |
 
 ## How it floats
 
@@ -152,5 +164,5 @@ one 36° part at a time; then the drives switch on and lift it to +40 m.
 | Rooms on the main floor, 10 parts of 995 m² | 9,950 m² |
 | The Glide, 4 m wide and 779 m long | 3,120 m² |
 | Upper floors in the five spires, 726 m² each | 3,630 m² |
-| The Orb, three rings of 804 m² | 2,410 m² |
+| The Orb, three rings round the Gate, 804 m² each | 2,410 m² |
 | **The Crown** | **19,110 m²** |

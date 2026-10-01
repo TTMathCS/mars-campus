@@ -8,8 +8,8 @@ can be seen here. Areas are gross floor areas, rounded.
 
 > **Changed since Rev B.** The [design book](design/README.md) is newer where they differ:
 > - **Site:** the real landing zone AP-1, at 39.8° N (Rev B said about 44° N). Decided 1 Oct 2026.
-> - **The Orb:** Rev D opens its centre as the Universe Hall, with rooms on three rings round it, rest rooms and the
->   Gate on a bridge ([chapter 02](design/02-crown.md#the-orb-and-the-universe-hall)). The Crown becomes 19,100 m²
+> - **The Orb:** Rev E puts the Wormhole Gate, a ball 18 m across, in its middle, with rooms on three rings round it,
+>   and the universe in VR in the rooms ([chapter 02](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate)). The Crown becomes 19,100 m²
 >   and the Pentagon 11 times its size. Shown for Jim's review; the sheets below still show the Rev B Orb.
 > - **Nothing on the ground (B.1, 1 Oct 2026):** at Jim's request the garden mirrors and the spaceport's solar field
 >   are off the sheets (GN-12). The Stone Garden is raked gravel and seven stones; the Sun Well is a sky lens; two

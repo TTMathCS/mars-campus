@@ -4,9 +4,9 @@ var BOOK = (function () {
   var CH = [
     ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
-    ["crown", "02", "The Crown", "The floating house above ground, the Orb with the Universe Hall, and the Stone Garden"],
+    ["crown", "02", "The Crown", "The floating house above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
     ["pentagon", "03", "The Pentagon", "Five levels below ground, the atrium and how it is built"],
-    ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Universe Hall"],
+    ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Wormhole Gate"],
     ["power", "05", "Power", "Four reactors, storage and the grid, in sunshine and in storms"],
     ["transport", "06", "Transportation", "Ships from Earth, the pod, rovers, the maglev and the portals"],
     ["spaceport", "07", "Arcadia Spaceport", "Pads, terminal, the fuel plant and the ice mine"],
@@ -95,7 +95,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + (prev[0] === "index" ? "./" : prev[0] + ".html") + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + next[0] + '.html"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev D, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
+      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });

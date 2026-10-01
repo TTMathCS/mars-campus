@@ -10,10 +10,10 @@ goes here first.
 
 > **Where things stand, 1 Oct 2026**
 > - Floor plans **Rev B approved** by Jim on 30 Sep ("Approve. Go").
-> - **Design book Rev D** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
+> - **Design book Rev E** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
 >   are written. Chapters 08 Life support, 09 Communications and space, and 10 Building it are still to write.
-> - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, the Universe Hall
->   (OR-2 to OR-6), is drawn from his answer and shown for his review.
+> - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, Rev E (OR-1 to
+>   OR-8): the universe in VR and the ball as the Wormhole Gate, is drawn from his words and shown for his review.
 > - **3D build paused** at phase 1 (the landscape, the spaceport and the flight video work in a test build). It
 >   resumes when Jim approves the design book.
 
@@ -43,7 +43,7 @@ repo, with its diagrams and pictures.
 1. [The vision and the rules](#1-the-vision-and-the-rules)
 2. [Site and city](#2-site-and-city)
 3. [The Crown, above ground](#3-the-crown-above-ground)
-4. [The Orb and the Universe Hall](#4-the-orb-and-the-universe-hall)
+4. [The Orb: the universe in VR and the Wormhole Gate](#4-the-orb-the-universe-in-vr-and-the-wormhole-gate)
 5. [The Pentagon, below ground](#5-the-pentagon-below-ground)
 6. [Living in the house](#6-living-in-the-house)
 7. [Getting home](#7-getting-home)
@@ -84,10 +84,10 @@ repo, with its diagrams and pictures.
 | --- | --- | --- | --- | --- |
 | CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with window slots instead of glass walls | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
 | CR-2 | It floats on anti-gravity: no legs, and nothing touches the ground | Must | ✅ A drive in each of the five spires, with fallback pads | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#float) · [Summary](docs/design/02-crown.md#how-it-floats) |
-| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,100 m², 5.6 times the campus (Rev D; Rev B had 20,100 m²) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
+| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,100 m², 5.6 times the campus (Rev D and E; Rev B had 20,100 m²) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
 | CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-the-house-portals) |
 
-## 4. The Orb and the Universe Hall
+## 4. The Orb: the universe in VR and the Wormhole Gate
 
 From Jim's answer on 1 Oct 2026: *"I don't need the universe to be displayed in the ball ... I need to sit in some
 rooms in the Orb, so I can see the spaces in the big circle ... I should have some switch to turn it on and off.
@@ -95,15 +95,24 @@ When I turn it on I can do 3D projection of the universe so I can zoom in and zo
 the corner somewhere, there's always our home planet Earth, and our current immigration planet Mars ... small icons
 showing dynamic weather ... I can turn it off. I can turn it back on if I need to."*
 
+And later the same day, on the Rev D drawing: *"not projector. it is future tech VR 3d. not inside a ball, the
+universe can be VR inside the orb, not in the ball"*, *"projected directly in the 3d space"*, *"the ball looks pretty
+cool and I am not sure where to put it for maybe different purpose? but not for the VR 3d universe"*. On the idea of
+the ball as the Gate: *"I like the idea. it is wormhole gate, it can send people/object to specified time (also time
+machine) and specified area of universe instantly. but how object can go into the ball?"* and *"when time/space
+configured and press send, the ball will shoot the object like a light directly to the VR 3d space and this is how
+wormhole works"*.
+
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| OR-1 | A wormhole device that takes Jim to any time and any place | Must | ✅ Rev B: the Wormhole Gate. Rev D: on a bridge into the Universe Hall | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-and-the-universe-hall) |
-| OR-2 | A 3D projection of the whole universe that Jim zooms in and out, down to a solar system and a place, to choose where the Gate goes | Must | 🟡 Rev D: the universe fills the Orb's hollow centre, the Universe Hall, 24 m across | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-and-the-universe-hall) |
-| OR-3 | Sit in rooms in the Orb and see the projection in the big round space, not inside a closed ball that blocks the view | Must | 🟡 Rev D: three rings of rooms round the hall, each with a glass front onto it | [Section drawing](docs/img/book/crown-orb-inside.png) |
-| OR-4 | A switch to turn the projection on and off | Must | 🟡 Rev D: a switch in every room, and voice anywhere. Off, the hall's wall shows the real sky | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
-| OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | 🟡 Rev D: a panel in the corner of every glass front | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
-| OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev D: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
-| OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, then step into demo 1 | [Decisions](docs/decisions.md#for-jims-review) |
+| OR-1 | A wormhole device that sends people and things to any time (a time machine too) and any place in the universe, instantly: set the time and place, press send, and the ball shoots the object like light to that place | Must | 🟡 Rev E: the Gate is a ball 18 m across in the middle of the Orb. Choose in the universe, walk across a short bridge into the ball (things ride in on a cart or with a robot), press send; the far end is a ball too, for the way back | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
+| OR-2 | The whole universe in 3D that Jim zooms in and out, down to a solar system and a place, to choose where the Gate sends him. Future-tech VR shown directly in the 3D space inside the Orb: not a projector, not inside a ball | Must | 🟡 Rev E: switched on, the universe appears in 3D in the room itself, all round, with no screen and no glasses; in every room, or the whole Orb | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
+| OR-3 | Sit in rooms in the Orb with the universe all around | Must | 🟡 Rev E: three rings of rooms round the Gate; the universe fills whichever room he is in | [Section drawing](docs/img/book/crown-orb-inside.png) |
+| OR-4 | A switch to turn the universe on and off | Must | 🟡 Rev E: a switch in every room, and voice anywhere. Off, the room is back, with its windows to the real sky | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | 🟡 Rev E: two small globes with live weather floating in the corner of his view; a touch or a word hides them | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
+| OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev E: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 | [Decisions](docs/decisions.md#for-jims-review) |
+| OR-8 | Keep the ball, which "looks pretty cool", for a purpose other than the universe | Should | 🟡 Rev E: the ball is the Wormhole Gate (OR-1) | [Decisions](docs/decisions.md#1-oct-2026-the-universe-in-vr-the-ball-is-the-gate) |
 
 ## 5. The Pentagon, below ground
 
@@ -167,7 +176,7 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 📐 |
 | DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 📐 |
 | DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and the house, see Earth and Mars with their weather, then switch it off | Must | 2 | 🟡 |
-| DM-7 | Step through the Wormhole Gate to the chosen place (proposed: the TTMath campus, demo 1) | Should | 2 | 🟡 |
+| DM-7 | Use the Wormhole Gate: choose the place in the universe, walk into the ball, press send and arrive there in a beam of light (default: the TTMath campus, demo 1) | Should | 2 | 🟡 |
 | DM-8 | Rest in a rest room in the Orb and look out over the plain | Could | 2 | 🟡 |
 | DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 📐 |
 | DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 📐 |
@@ -178,8 +187,8 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 ## 10. Open questions
 
 None. Jim answered every question on 1 Oct 2026; where he asked us to use our best judgment, the choice and the
-reason are in the [decision log](docs/decisions.md#for-jims-review). One item is shown for his review: the Orb's
-Universe Hall (OR-2 to OR-6). If it looks right, nothing is needed.
+reason are in the [decision log](docs/decisions.md#for-jims-review). One item is shown for his review: the Orb,
+Rev E (OR-1 to OR-8). If it looks right, nothing is needed.
 
 ## 11. History and old IDs
 
@@ -187,7 +196,7 @@ Universe Hall (OR-2 to OR-6). If it looks right, nothing is needed.
 | --- | --- | --- | --- |
 | 1 and 2 | before 29 Sep 2026 | The first palace on a mesa, with the Deep below it | [Archive](docs/archive/old-palace.md) and [the archived page](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
 | 3 | 29–30 Sep 2026 | Start again: the Crown and the Pentagon, floor plans Rev A and Rev B | [Floor plans](docs/plans.md) |
-| 4 | 30 Sep 2026 onwards | The design book and the Mars Atlas (Rev C), then Jim's answers (Rev D) | [Design](docs/design/README.md) |
+| 4 | 30 Sep 2026 onwards | The design book and the Mars Atlas (Rev C), then Jim's answers (Rev D) and his words on the Orb (Rev E) | [Design](docs/design/README.md) |
 
 The rounds 3 and 4 IDs used until 1 Oct 2026 map to the new IDs like this:
 

@@ -49,14 +49,15 @@ machines.
 
 ## The Orb's rooms
 
-**Rev D, for Jim's review.** The rooms ring the Universe Hall on three floors, each with a glass front onto it
-([chapter 02](02-crown.md#the-orb-and-the-universe-hall)).
+**Rev E, for Jim's review.** The rooms ring the Wormhole Gate, a ball 18 m across, on three floors, each with a glass
+front onto it. In any room the universe can be switched on, in 3D, in the room itself
+([chapter 02](02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate)).
 
 | Floor | Room | What it is like |
 | --- | --- | --- |
-| +64 m · 804 m² | Portal ring | Five portals in bronze frames, one from each spire, round a basalt foyer that looks up into the hall |
-| +72 m · 804 m² | Universe lounges and the Gate | Five lounges with deep sofas facing the hall, a switch and controls, and the Earth and Mars dashboard in the corner of the glass; a bridge to the Gate |
-| +80 m · 804 m² | Rest rooms | Five quiet rooms: a day bed, a window to the sky in radiation glass, and a glass wall onto the hall that turns frosted |
+| +64 m · 804 m² | Portal ring | Five portals in bronze frames, one from each spire, round a basalt foyer under the Gate |
+| +72 m · 804 m² | Universe lounges and the Gate | Five lounges with deep sofas facing the Gate and a switch: the universe fills the room in 3D, with Earth and Mars and their weather in the corner of your view. A short bridge leads into the Gate: step in and press send |
+| +80 m · 804 m² | Rest rooms | Five quiet rooms: a day bed, a window to the sky in radiation glass, and a glass wall onto the Gate that turns frosted |
 
 ## Two master suites
 

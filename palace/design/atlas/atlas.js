@@ -43,7 +43,7 @@
   function place(o) { P.push(o); return o; }
   // Jim's Mars
   place({ id: "house", kind: "jim", name: "Jim's house · the Crown", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
-    k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre, with the Universe Hall and the Wormhole Gate inside. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
+    k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre: the universe fills its rooms in 3D at a switch, round the Wormhole Gate. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
   place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of the house", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
     k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station and two buried reactors, with no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
@@ -113,7 +113,7 @@
   // parts of the site, in the design frame
   var SITEP = [
     ["crown", "The Crown", 0, 0, 90, 4, "The house above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
-    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across floating over the Sun Well. Inside is the Universe Hall: a 3D universe you zoom from your seat, Earth and Mars with their weather, rest rooms and the Wormhole Gate."],
+    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across floating over the Sun Well. Inside, rooms ring the Wormhole Gate, a ball that shoots you like light to any place and time. Switch the universe on and it fills the room in 3D, with Earth and Mars and their weather in the corner. Rest rooms behind radiation glass."],
     ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel and seven basalt stones round the Sun Well's sky lens. Nothing else stands on the ground."],
     ["pentagon", "The Pentagon", 118, -118, 0, 3, "Five levels below ground, from 24 to 68 m down, under 16 m of soil that stops radiation."],
     ["terminal", "Terminal", 30000, 0, 34, 8, "Arrivals, health check and lounge. A maglev station opens under it in phase 2."],

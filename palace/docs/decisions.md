@@ -12,15 +12,51 @@ judgment" the choice is recorded below. One item is shown for review:
 
 | What | Drawn from | Where |
 | --- | --- | --- |
-| **The Orb, Rev D: the Universe Hall.** The Orb is hollow and the 3D universe fills its centre, a hall 24 m across. You watch it from rooms on three rings round it, each with a glass front. A switch turns it on and off; it zooms from the whole universe to Mars and the house; Earth and Mars sit in the corner with their weather; the top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's answer about the universe ball, 1 Oct 2026 | [Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall) · OR-2 to OR-6 |
+| **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
 
 **Decided with our best judgment, 1 Oct 2026** (Jim can change any of them):
 
 | Question | Decision | Why |
 | --- | --- | --- |
-| Where the Gate opens in the demo (OR-7) | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, and step through into demo 1 | It links the two demos, and the campus is real NASA ground |
+| Where the Gate opens in the demo (OR-7) | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 | It links the two demos, and the campus is real NASA ground |
 | Guest rooms, now that visitors are rare (LV-7) | Keep them as designed | Visitors from Earth come only once every 26 months and stay until the next launch window, so the few who come need real apartments. They take one of L1's five sectors and two suites in one dip of the Crown |
 | Extras in the demo (DM-13) | All four, as nice-to-haves: the pool in low gravity, Earth as the evening star from the Observatory, a message home with the delay shown, the forest on L2 | Each is one small scene in phase 2 or 3 |
+
+## 1 Oct 2026: the universe in VR, the ball is the Gate
+
+Looking at the Rev D drawing of the Orb, Jim wrote:
+
+> "not projector. it is future tech VR 3d. not inside a ball, the universe can be VR inside the orb, not in the ball"
+>
+> "projected directly in the 3d space"
+>
+> "the ball looks pretty cool and I am not sure where to put it for maybe different purpose? but not for the VR 3d
+> universe"
+
+We proposed making the ball the Wormhole Gate: physicists expect the mouth of a wormhole to look like a ball showing
+the place at its other end, as in the film *Interstellar*, drawn from Kip Thorne's equations. Jim:
+
+> "I like the idea. it is wormhole gate, it can send people/object to specified time (also time machine) and
+> specified area of universe instantly. but how object can go into the ball?"
+>
+> "when time/space configured and press send, the ball will shoot the object like a light directly to the VR 3d
+> space and this is how wormhole works"
+
+**What changed: Rev E.**
+
+- **The universe** is future-tech VR. Switched on, it appears in 3D directly in the space of the room, all round: no
+  projector, no screen, no glasses. It works in every room, or in the whole Orb at once. Earth and Mars float in the
+  corner of his view with their weather. → OR-2 to OR-5.
+- **The ball** is the **Wormhole Gate**, 18 m across, floating in the middle of the Orb. It sends people and things to
+  any place in the universe and any time, instantly; it is a time machine too. → OR-1, OR-8.
+- **How it works:** choose the place and time in the universe; walk across a short bridge from the lounge floor into
+  the ball (things ride in on a cart, or a robot carries them); press send, and the ball shoots you like a beam of light
+  straight to the target in the universe around the room, and you are there. The far end is a ball too, for the way
+  back.
+- The floor areas stay as in Rev D: three rings of 804 m², the Crown 19,100 m².
+
+→ [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate). *Shown for Jim's review
+(above).*
 
 ## 1 Oct 2026: nothing on the ground
 
@@ -69,7 +105,8 @@ to choose where the Wormhole Gate goes. The first proposal put an 8 m ball of li
 
 **What changed:** Rev D. The Orb's centre opens into the Universe Hall, and three rings of rooms with glass fronts
 surround it. Each room has the switch and a corner dashboard showing Earth and Mars with live weather. →
-[Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall), OR-2 to OR-5. *Shown for Jim's review (above).*
+OR-2 to OR-5. *Replaced the same day by Rev E (above): the universe became VR in the rooms, and the ball became the
+Wormhole Gate.*
 
 **2. The site.** Asked whether to move to the real landing zone AP-1, Jim: "do your best judgment." **Decided:** AP-1,
 the safest of the Arcadia Planitia sites studied for SpaceX Starship, with ice just under the ground. The house is at

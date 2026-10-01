@@ -13,7 +13,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
-| Demo 2, design book | `palace/design/` | **Rev D, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb's Universe Hall (Rev D). |
+| Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
 | Demo 2, 3D build | `palace/src/` | **Paused at Jim's request** until he approves the design book. Phase 1 works end to end in the debug build: terrain, sky, spaceport, pod, the Crown with the Orb, storm, the 10-shot flight, cameras and UI. Not published: `palace/index.html` is a small page that opens the design book. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
@@ -24,11 +24,15 @@ The full record is in `palace/docs/decisions.md` (every question, Jim's words, w
 
 - **Above ground: the Crown.** A white ring 276 m across floats on anti-gravity 40 m over the Stone Garden, with five
   spires to 90 m and no big windows. At its centre floats the **Orb**, a mirror ball 40 m across.
-- **The Orb, Rev D (1 Oct 2026, for Jim's review).** Hollow: the **Universe Hall**, 24 m across, is a 3D projection of
-  the universe that Jim switches on and off and zooms like a 3D dashboard, from the whole universe down to Mars and
-  the house. Rooms on three rings look into it through glass fronts: +64 portal ring, +72 Universe lounges and the
-  Wormhole Gate on its bridge, +80 five rest rooms behind radiation glass. A corner dashboard on every glass front
-  shows Earth (home) and Mars (where he lives) with live weather, and can be hidden.
+- **The Orb, Rev E (1 Oct 2026, for Jim's review).** The universe is **future-tech VR**: switched on, it appears in 3D
+  directly in the space of the room, all round, with no projector, no screen and no ball (Jim: "not projector",
+  "not inside a ball", "projected directly in the 3d space"). Jim zooms it like a 3D dashboard, from the whole universe
+  down to Mars and the house; Earth and Mars float in the corner of his view with live weather, and can be hidden.
+  The ball in the middle, 18 m across, is the **Wormhole Gate**: choose a place and a time in the universe, walk
+  across a short bridge into the ball (things ride in on a cart or with a robot), press send, and it shoots you like a
+  beam of light to that place and time, instantly ("this is how wormhole works"). The far end is a ball too, for the
+  way back. Rooms on three rings round it: +64 portal ring, +72 Universe lounges and the bridge, +80 five rest rooms
+  behind radiation glass.
 - **The Stone Garden:** raked gravel 224 m across with seven basalt stones, and **nothing else on the ground**: no
   mirrors and no solar panels (Jim, 1 Oct 2026, GN-12). The **Sun Well** at its centre is a sky lens over the
   Pentagon's atrium: lamps behind the glass show the sky that is outside.
@@ -47,7 +51,8 @@ demo extras stay as nice-to-haves; **visitors are rare**.
 
 How Jim got here: rounds 1–2 built the first palace (archived) → Rev A floor plans → Rev B, the floating Crown,
 approved 30 Sep → Rev C, the design book, because Jim wants every plan designed before more 3D work (30 Sep) →
-Rev D, the Universe Hall, his decisions and the clean ground (1 Oct). The revisions are listed on the book's cover.
+Rev D, the Universe Hall, his decisions and the clean ground (1 Oct) → Rev E, the universe in VR and the ball as
+the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
 
 **Build order** once Jim approves the design book. Each phase is published at `palace/` (same link):
 1. The 30 km landscape, the spaceport and the pod flight video.
@@ -56,7 +61,7 @@ Rev D, the Universe Hall, his decisions and the clean ground (1 Oct). The revisi
 
 ## 2b. Next steps, in order
 
-1. **Jim's review of the Orb (Rev D).** If he asks for changes, update `crown.html` (the Orb section and its figures
+1. **Jim's review of the Orb (Rev E).** If he asks for changes, update `crown.html` (the Orb section and its figures
    `fOrbIn`, `fDash`, `fZoom`), `interiors.html` (the Orb room cards), `docs/design/02-crown.md` and the decision log,
    then re-export the drawings (section 3).
 2. **Write chapter 08 Life support** (`life.html`): air at 70 kPa with 27% oxygen (decided; breathes like Calgary;
@@ -80,9 +85,9 @@ Rev D, the Universe Hall, his decisions and the clean ground (1 Oct). The revisi
    01–07), add its figures to `BOOK` in `docs_export.py` and export, add its requirements' links in
    `REQUIREMENTS.md`, check it with `book_shot.py` (desktop, phone and dark), commit, push and tell Jim what it is
    before he opens it.
-6. When Jim approves the whole design book: redraw the floor plans' Orb as the Universe Hall (Rev C of the plans), then resume
+6. When Jim approves the whole design book: redraw the floor plans' Orb with the Gate and the rings of rooms (Rev C of the plans), then resume
    the paused 3D build, starting with the flight polish, and publish phase 1 at `palace/`, then the Crown and the Orb
-   (with the Universe Hall), then the Pentagon.
+   (with the universe in VR and the Gate), then the Pentagon.
 
 ## 2c. Numbers used across the design book
 
@@ -94,8 +99,9 @@ Keep new pages consistent with these (sources and working are in the chapters):
   dips +50), where c = (1 + cos 5φ) / 2; walls and roof 3 m (0.1 skin, 0.3 sintered shell, 2.2 ice, 0.2 aerogel, 0.2
   liner); about 90,000 t of wall ice; mass about 155,000 t, 115 MN per drive. Floor area **19,110 m²** (main floor
   9,950 + the Glide 3,120 + spire upper floors 3,630 + the Orb 2,410), 5.6 times the TTMath campus.
-- The Orb: Ø 40 m, +52 to +92; the Universe Hall Ø 24 m, open from +60 to +84; rings at +64, +72 and +80 of 804 m²
-  each; five rest rooms on the top ring.
+- The Orb: Ø 40 m, +52 to +92; a round space Ø 24 m from +60 to +84 with the Wormhole Gate in it, a ball Ø 18 m; a
+  bridge 3 m wide from the +72 floor to the Gate; rings at +64, +72 and +80 of 804 m² each; five rest rooms on the top
+  ring.
 - The Stone Garden: Ø 224 m, raked gravel and seven basalt stones of 2 to 4 m; no mirrors, no panels. The Sun Well
   lens Ø 20.4 m, a sky lens with lamps; it closes under an iris in a storm.
 - The Pentagon: 160 m sides, circumradius 136.1 m, atrium 35 m sides, rings A–E 14 m deep with 4 m streets, 5 m

@@ -29,15 +29,15 @@ sunset. A city will grow around it.
 
 | Part | State | Next |
 | --- | --- | --- |
-| Requirements | Updated 1 Oct 2026 with Jim's answers | Jim's OK on the open questions |
+| Requirements | Updated 1 Oct 2026 with Jim's answers | — |
 | Floor plans | **Rev B approved** by Jim, 30 Sep 2026 | Redraw the Orb once Jim approves Rev D |
 | Design book | **Rev D**: chapters 01–07 written; the Orb redesigned as the Universe Hall | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Mars Atlas | Live | — |
 | 3D demo | Phase 1 (landscape, spaceport, flight video) works in a test build; **paused** at Jim's request | Resume when Jim approves the design book |
 | First palace | Archived | — |
 
-**Waiting for Jim:** the Orb's Universe Hall (Rev D), where the Gate opens in the demo, the guest rooms, and which
-extras the demo should have. See [open questions](REQUIREMENTS.md#10-open-questions).
+**Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb's Universe Hall
+(Rev D), drawn from his answer. See the [decision log](docs/decisions.md).
 
 ## The design at a glance
 

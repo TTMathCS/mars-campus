@@ -8,7 +8,7 @@ numbers. These pages carry each chapter's diagrams and pictures and its main poi
 here too. Each page links to its full chapter.
 
 **Rev D, 1 Oct 2026.** Chapters 01–07 are written; 08–10 are still to write. The Orb's new design (the Universe
-Hall) waits for Jim's OK.
+Hall) is shown for Jim's review.
 
 | | Chapter | What it covers | Live chapter |
 | --- | --- | --- | --- |

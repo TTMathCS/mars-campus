@@ -49,7 +49,7 @@ machines.
 
 ## The Orb's rooms
 
-**Rev D, waiting for Jim's OK.** The rooms ring the Universe Hall on three floors, each with a glass front onto it
+**Rev D, for Jim's review.** The rooms ring the Universe Hall on three floors, each with a glass front onto it
 ([chapter 02](02-crown.md#the-orb-and-the-universe-hall)).
 
 | Floor | Room | What it is like |

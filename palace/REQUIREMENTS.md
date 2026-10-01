@@ -12,8 +12,8 @@ goes here first.
 > - Floor plans **Rev B approved** by Jim on 30 Sep ("Approve. Go").
 > - **Design book Rev D** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
 >   are written. Chapters 08 Life support, 09 Communications and space, and 10 Building it are still to write.
-> - **Waiting for Jim:** the Orb's new design, the Universe Hall (OR-2 to OR-6), and where the Gate opens in the
->   demo (OR-7).
+> - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, the Universe Hall
+>   (OR-2 to OR-6), is drawn from his answer and shown for his review.
 > - **3D build paused** at phase 1 (the landscape, the spaceport and the flight video work in a test build). It
 >   resumes when Jim approves the design book.
 
@@ -29,7 +29,7 @@ goes here first.
 | --- | --- |
 | ✅ Approved | Jim approved it (Rev B, 30 Sep 2026) |
 | ☑️ Decided | Jim answered, or asked us to decide with our best judgment |
-| 🟡 Proposed | Designed and waiting for Jim's OK |
+| 🟡 For review | Drawn from Jim's answer and shown for his review |
 | 📐 Designed | In the design book; Jim reviews the whole book at the end |
 | ⏳ To design | A design book chapter still to write |
 | 🎬 Built | Works in the 3D test build (phase 1); not published yet |
@@ -49,7 +49,7 @@ repo, with its diagrams and pictures.
 7. [Getting home](#7-getting-home)
 8. [Systems](#8-systems)
 9. [What you can do in the demo](#9-what-you-can-do-in-the-demo)
-10. [Open questions](#10-open-questions)
+10. [Open questions](#10-open-questions): none
 11. [History and old IDs](#11-history-and-old-ids)
 
 ## 1. The vision and the rules
@@ -102,7 +102,7 @@ showing dynamic weather ... I can turn it off. I can turn it back on if I need t
 | OR-4 | A switch to turn the projection on and off | Must | 🟡 Rev D: a switch in every room, and voice anywhere. Off, the hall's wall shows the real sky | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
 | OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | 🟡 Rev D: a panel in the corner of every glass front | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
 | OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev D: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
-| OR-7 | Where the Gate opens in the demo | Should | 🟡 Proposed: zoom out to the whole universe, back in to the TTMath campus in Gale crater, then step into demo 1 | [Decisions](docs/decisions.md#waiting-for-jim) |
+| OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, then step into demo 1 | [Decisions](docs/decisions.md#for-jims-review) |
 
 ## 5. The Pentagon, below ground
 
@@ -122,7 +122,7 @@ showing dynamic weather ... I can turn it off. I can turn it back on if I need t
 | LV-4 | Watch TV (round 2) | Should | 📐 The 40-seat cinema and the family room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
 | LV-5 | Read books (round 2) | Should | 📐 The Library spire in the Crown and the Great library on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
 | LV-6 | Play the piano, and other things to use (round 2) | Could | 📐 The piano room in the Salon spire, a music room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
-| LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed unless Jim wants fewer ([question](docs/decisions.md#waiting-for-jim)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
+| LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed, because the few visitors from Earth stay until the next launch window ([why](docs/decisions.md#for-jims-review)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
 
 ## 7. Getting home
 
@@ -172,16 +172,13 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 📐 |
 | DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 📐 |
 | DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 📐 |
-| DM-13 | Suggested extras for Jim to pick: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | 🟡 Suggested 1 Oct |
+| DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment) |
 
 ## 10. Open questions
 
-These wait for Jim. The [decision log](docs/decisions.md#waiting-for-jim) has the details and what each choice changes.
-
-1. **The Orb, Rev D:** is the Universe Hall what Jim imagined (OR-2 to OR-6)?
-2. **The Gate in the demo:** the TTMath campus in demo 1, or somewhere else (OR-7)?
-3. **Guest rooms:** keep them as designed, or fewer now that visitors are rare (LV-7)?
-4. **Extras:** which of the suggested things to do should the demo have (DM-13)?
+None. Jim answered every question on 1 Oct 2026; where he asked us to use our best judgment, the choice and the
+reason are in the [decision log](docs/decisions.md#for-jims-review). One item is shown for his review: the Orb's
+Universe Hall (OR-2 to OR-6). If it looks right, nothing is needed.
 
 ## 11. History and old IDs
 

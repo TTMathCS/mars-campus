@@ -5,16 +5,22 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
-## Waiting for Jim
+## For Jim's review
 
-| # | Question | Proposed | Changes if yes | See |
-| --- | --- | --- | --- | --- |
-| 1 | **The Orb, Rev D: is the Universe Hall what you imagined?** | The Orb is hollow and the 3D universe fills its centre, a hall 24 m across. You watch it from rooms on three rings round it, each with a glass front. A switch turns it on and off; it zooms from the whole universe to Mars and the house; Earth and Mars sit in the corner with their weather. The top ring has five rest rooms behind radiation glass | Already drawn in the design book. Still to redraw: the Orb on the floor plans (Rev B) and, later, in the 3D build | [Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall) · OR-2 to OR-6 |
-| 2 | **Where does the Gate open in the demo?** | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, and step through into demo 1 | The demo links the two demos | OR-7 |
-| 3 | **Guest rooms: keep them, or fewer?** You said visitors will be rare | Keep them. Visitors from Earth arrive only once every 26 months and stay until the next launch window, so the few who come need real apartments. The guest areas are one of L1's five sectors and two suites in one dip of the Crown | If fewer: L1's guest sector becomes family apartments and a larger staff and robot area | LV-7 |
-| 4 | **Which extras should the demo have?** | Swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Each one adds a scene to phase 2 or 3 | DM-13 |
+Nothing is waiting for an answer: Jim answered every question on 1 Oct 2026, and where he said "do your best
+judgment" the choice is recorded below. One item is shown for review:
 
-A short answer is enough, for example "1 yes, 2 yes, 3 keep, 4 the pool and the forest".
+| What | Drawn from | Where |
+| --- | --- | --- |
+| **The Orb, Rev D: the Universe Hall.** The Orb is hollow and the 3D universe fills its centre, a hall 24 m across. You watch it from rooms on three rings round it, each with a glass front. A switch turns it on and off; it zooms from the whole universe to Mars and the house; Earth and Mars sit in the corner with their weather; the top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's answer about the universe ball, 1 Oct 2026 | [Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall) · OR-2 to OR-6 |
+
+**Decided with our best judgment, 1 Oct 2026** (Jim can change any of them):
+
+| Question | Decision | Why |
+| --- | --- | --- |
+| Where the Gate opens in the demo (OR-7) | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, and step through into demo 1 | It links the two demos, and the campus is real NASA ground |
+| Guest rooms, now that visitors are rare (LV-7) | Keep them as designed | Visitors from Earth come only once every 26 months and stay until the next launch window, so the few who come need real apartments. They take one of L1's five sectors and two suites in one dip of the Crown |
+| Extras in the demo (DM-13) | All four, as nice-to-haves: the pool in low gravity, Earth as the evening star from the Observatory, a message home with the delay shown, the forest on L2 | Each is one small scene in phase 2 or 3 |
 
 ## 1 Oct 2026: Jim's answers
 
@@ -32,8 +38,7 @@ to choose where the Wormhole Gate goes. The first proposal put an 8 m ball of li
 
 **What changed:** Rev D. The Orb's centre opens into the Universe Hall, and three rings of rooms with glass fronts
 surround it. Each room has the switch and a corner dashboard showing Earth and Mars with live weather. →
-[Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall), OR-2 to OR-5. *Waiting for Jim's OK (question 1
-above).*
+[Ch 02, the Orb](design/02-crown.md#the-orb-and-the-universe-hall), OR-2 to OR-5. *Shown for Jim's review (above).*
 
 **2. The site.** Asked whether to move to the real landing zone AP-1, Jim: "do your best judgment." **Decided:** AP-1,
 the safest of the Arcadia Planitia sites studied for SpaceX Starship, with ice just under the ground. The house is at

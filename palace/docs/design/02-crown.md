@@ -60,7 +60,7 @@ Ten parts of 36°: five under the spires, each with an upper floor, and five in 
 
 ## The Orb and the Universe Hall
 
-**Rev D, 1 Oct 2026, from Jim's answer; waiting for his OK.** The Orb is a mirror ball 40 m across floating over the
+**Rev D, 1 Oct 2026, drawn from Jim's answer, for his review.** The Orb is a mirror ball 40 m across floating over the
 Sun Well. Inside it is hollow. Its heart is the **Universe Hall**, a round space 24 m across, and the rooms sit around
 it on three rings, like the boxes of an opera house. Every room has a glass front onto the hall.
 

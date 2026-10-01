@@ -18,7 +18,7 @@ PAGES = (sys.argv[1] if len(sys.argv) > 1 else "index").split(",")
 WHICH = sys.argv[2] if len(sys.argv) > 2 else "light"
 PHONE = len(sys.argv) > 3 and sys.argv[3] == "phone"
 PORT = 8784
-TILES = os.environ.get("TILES", "fake")   # fake: cut test tiles from img/mars-map.jpg, outlined; none: tiles fail
+TILES = os.environ.get("TILES", "fake")   # fake: cut test tiles from img/mars-map.jpg, outlined; none: tiles fail, the real base map shows alone
 MAP = None
 def fake_tile(z, y, x):
     global MAP

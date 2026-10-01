@@ -9,9 +9,9 @@ Walkable 3D places on Mars that run in the browser. Each demo is an imagined pla
 | Demo | Link | Requirements | What it is |
 |---|---|---|---|
 | 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge, through the gateway into the courtyard of the TTMath campus: a classroom wing (math classroom, coding lab, seminar room), a café and library wing, and the Math Palace, a 56 m glass dome with a rotunda of math exhibits, a Foucault pendulum and a golden Möbius strip. Real-looking marble, brass, wood and glass. |
-| 2. Arcadia Palace | [ttmathcs.github.io/mars-campus/palace/](https://ttmathcs.github.io/mars-campus/palace/) | [palace/REQUIREMENTS.md](palace/REQUIREMENTS.md) | A retirement palace on a mesa above Arcadia Planitia. Land at a spaceport, fly home in an air taxi, pass a face, iris and gait scan at the door, then walk the palace and the Deep: five levels underground, over ten times the floor area above, with a media lounge, cinema, library, lagoon, forest, fusion plant and maglev. Tour, walk, cutaway and a plan of every level. Procedural terrain, not NASA data. |
+| 2. Jim's retirement house: the Crown and the Pentagon | [ttmathcs.github.io/mars-campus/palace/design/](https://ttmathcs.github.io/mars-campus/palace/design/) | [palace/REQUIREMENTS.md](palace/REQUIREMENTS.md) | Jim's retirement house in Arcadia Planitia, in design. A white crown floats on anti-gravity over a stone garden, with a mirror Orb whose hollow heart is the Universe Hall; five levels lie below ground; a spaceport stands 30 km east, and a pod flies him home through a dust storm. The design book, floor plans and a zoomable Mars Atlas are live; the 3D walk-through comes after Jim approves the design. Start at [palace/README.md](palace/README.md). |
 
-**Demo 2 is being redesigned.** The floor plans for the new version, the Crown and the Pentagon, are at [ttmathcs.github.io/mars-campus/palace/plans/](https://ttmathcs.github.io/mars-campus/palace/plans/) for review. The current palace stays live until the new one replaces it at the same link.
+**Demo 2 is in design.** Its home in this repo is [palace/README.md](palace/README.md): requirements, decisions, the design chapter by chapter with every diagram and picture, and the floor plans. The first palace from rounds 1 and 2 is archived at [palace/archive/old-palace/](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/).
 
 More demos will be added in their own folders. Each demo folder keeps its own `REQUIREMENTS.md`, the source of truth for that demo.
 
@@ -42,11 +42,15 @@ data/             NASA terrain shared by every demo (manifest + tiles packed as 
 ttmath/           Demo 1: TTMath on Mars (page, logo, REQUIREMENTS.md)
 ttmath/src/       Demo 1 source: page.html, blocks/*.js, assemble.py, build.py
 ttmath/tools/     Demo 1 headless tests (screenshots, walk tests, line-of-sight check)
-palace/           Demo 2: Arcadia Palace (page, REQUIREMENTS.md, src/ + build.sh, tools/ for headless tests)
-palace/plans/     Floor plans for the demo 2 redesign, for review (one self-contained page)
+palace/           Demo 2: Jim's retirement house. README.md (start here), REQUIREMENTS.md
+palace/docs/      Demo 2 docs: decisions, the design chapter by chapter, floor plans, pictures, archive
+palace/design/    Demo 2 design book and Mars Atlas (live pages)
+palace/plans/     Demo 2 floor plans Rev B, approved (one self-contained page)
+palace/src/       Demo 2 3D build, phase 1 (paused), built by palace/build.sh
+palace/archive/   the first palace from rounds 1 and 2, kept for reference
 ```
 
-Demo 1 loads the shared terrain from `../data/`; its `index.html` is built from `ttmath/src/` with `assemble.py` and `build.py`. Demo 2 generates its own landscape; its `index.html` is built from `palace/src/` with `palace/build.sh`.
+Demo 1 loads the shared terrain from `../data/`; its `index.html` is built from `ttmath/src/` with `assemble.py` and `build.py`. Demo 2's 3D build generates its own landscape from `palace/src/` with `palace/build.sh`; until it is ready, `palace/` opens the design book.
 
 ## Publishing
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Power · Arcadia Design Book</title>
-<meta name="description" content="How the house, the spaceport and the future city get their power on Mars: fission microreactors, a solar field, batteries, fuel cells, a 30 km DC link and radiators, through clear sols and global dust storms.">
+<meta name="description" content="How the house, the spaceport and the future city get their power on Mars: four fission microreactors, batteries, fuel cells, a 30 km DC link and radiators, through clear sols and global dust storms.">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,13 +16,13 @@
   <div class="open">
     <div class="no">Chapter 05</div>
     <h1>Power</h1>
-    <p class="lede">On Mars, power is life: it makes the air, melts the water, lights the farms and fuels the ships home. Sunlight is weak and a global dust storm can hide it for weeks, so the house runs on nuclear power that never stops, with a solar field at the spaceport for the work that can wait for the sun.</p>
+    <p class="lede">On Mars, power is life: it makes the air, melts the water, lights the farms and fuels the ships home. Sunlight is weak, a global dust storm can hide it for weeks, and Jim wants no panels spread over the ground, so the house and the spaceport run on nuclear power that never stops.</p>
   </div>
-  <figure class="hero"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fFlow" viewBox="0 0 1180 566" role="img" aria-label="Where the power comes from and where it goes, in megawatts"></svg></div></div><figcaption><b>The power system in phase 1</b>, average megawatts on a clear sol. Band widths are to scale. Electricity is orange, heat is red, and the 30 km cable joins the house and the spaceport into one grid.</figcaption></figure>
+  <figure class="hero"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fFlow" viewBox="0 0 1180 640" role="img" aria-label="Where the power comes from and where it goes, in megawatts"></svg></div></div><figcaption><b>The power system in phase 1</b>, average megawatts, the same on a clear sol and in a storm. Band widths are to scale. Electricity is orange, heat is red, and the 30 km cable joins the house and the spaceport into one grid.</figcaption></figure>
   <div class="nums">
     <div><b>8 MW</b><span>Average demand in phase 1: the house, the spaceport and the fuel plant</span></div>
-    <div><b>15 MWe</b><span>Three fission microreactors of 5 MWe, running day and night, in storms too</span></div>
-    <div><b>11 MW</b><span>The solar field at a clear noon; about 3.5 MW averaged over a sol</span></div>
+    <div><b>20 MWe</b><span>Four fission microreactors of 5 MWe, two at the house and two at the port, running day and night, in storms too</span></div>
+    <div><b>0</b><span>Panels on the ground: nothing to clean, nothing for a storm to bury</span></div>
     <div><b>30 km</b><span>Buried DC cable linking the house and the spaceport</span></div>
     <div><b>9 days</b><span>Full power from fuel cells alone, burning stored rocket fuel</span></div>
   </div>
@@ -32,7 +32,7 @@
     <div class="two">
       <div>
         <p>The biggest single user is light: the farms and gardens on L2 grow under lamps. The second is the <b>fuel plant</b> at the spaceport, which turns ice and air into methane and oxygen for the ships and pods (chapter 07). Everything else, the air and water plants, the rooms, the foundry and the port, adds up to about a third.</p>
-        <p>The fuel plant is the one load that can wait. It runs flat out while the sun shines and slows down at night and in storms, so it soaks up the solar power and nothing else has to.</p>
+        <p>The fuel plant is the one load that can wait. It takes whatever the rest of the house is not using, so the reactors run steadily, and it slows down when a reactor is being refuelled.</p>
         <div class="future"><div class="k">Future technology</div><p>The Crown's anti-gravity drives and the portals have no known physics, so their power needs are guesses. The design keeps 0.5 MW for them and has room to grow.</p></div>
       </div>
       <div class="tw"><table class="spec" id="tDemand"><thead><tr><th>Load</th><th>Average</th><th>Peak</th></tr></thead><tbody></tbody></table></div>
@@ -40,31 +40,30 @@
   </section>
 
   <section class="part" id="supply">
-    <h2><small>Where it comes from</small>Reactors for the base, the sun for the extra</h2>
+    <h2><small>Where it comes from</small>Four reactors, and nothing on the ground</h2>
     <div class="two flip">
       <div>
-        <p><b>Fission microreactors.</b> Three units of 5 MWe each, the size of a shipping container, cooled by heat pipes with no pumps to fail. Two sit in the power sector of the Pentagon's L4, 59 m down; one sits in a buried vault at the spaceport, with room for a second. Each runs for about 8 years before it is refuelled. Reactors like this are being developed on Earth, and NASA is developing reactors to power bases on the Moon.</p>
-        <p><b>Solar field.</b> 94,000 m² of panels in 23 rows at the spaceport, tilted 35° to the south. Mars gets 43% of Earth's sunlight and dust settles on the panels, so small robots brush every row each night. The field gives about 11 MW at a clear noon and 3.5 MW on average, and next to nothing in a global dust storm.</p>
+        <p><b>Fission microreactors.</b> Four units of 5 MWe each, the size of a shipping container, cooled by heat pipes with no pumps to fail. Two sit in the power sector of the Pentagon's L4, 59 m down; two sit in a buried vault at the spaceport. Each runs for about 8 years before it is refuelled. Reactors like this are being developed on Earth, and NASA is developing reactors to power bases on the Moon.</p>
         <p><b>Batteries</b> of 20 MWh at the house and 20 MWh at the port cover a reactor trip or the evening peak. <b>Fuel cells</b> can burn the methane and oxygen stored for the ships: 1,000 tonnes of propellant keeps 8 MW going for about 9 days.</p>
       </div>
       <figure class="fig"><svg id="fReactor" viewBox="0 0 620 400" role="img" aria-label="Section through a reactor vault on L4"></svg><figcaption><b>A reactor vault on L4</b>, in section. The core sits in a steel vessel inside a water-filled shield; heat pipes carry its heat to a gas turbine, and the waste heat goes up to the radiators.</figcaption></figure>
     </div>
     <div class="tw"><table class="spec" id="tSupply"><thead><tr><th>Source</th><th>Where</th><th>Capacity</th><th>Average, clear sol</th><th>In a global dust storm</th></tr></thead><tbody></tbody></table></div>
-    <div class="note"><div class="k">Real technology</div><p>Heat-pipe microreactors of about 5 MWe are in development on Earth; NASA's Kilopower test (KRUSTY, 2018) ran a small heat-pipe reactor at full power for 28 hours, and NASA's Fission Surface Power project is developing reactors for the Moon. Solar power on Mars is proven: Spirit, Opportunity and InSight all ran on it, and Opportunity was lost in the 2018 global dust storm, which is why this design doesn't depend on the sun.</p></div>
+    <div class="note"><div class="k">Real technology</div><p>Heat-pipe microreactors of about 5 MWe are in development on Earth; NASA's Kilopower test (KRUSTY, 2018) ran a small heat-pipe reactor at full power for 28 hours, and NASA's Fission Surface Power project is developing reactors for the Moon. Solar power on Mars is proven too: Spirit, Opportunity and InSight ran on it. But a field big enough for this house would cover the plain in panels, and a global dust storm can hide the sun for weeks; one ended Opportunity in 2018. So the house runs on reactors alone.</p></div>
   </section>
 
   <section class="part" id="sol">
-    <h2><small>Through a sol</small>A clear day and a storm day</h2>
-    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fSol" viewBox="0 0 1180 400" role="img" aria-label="Power supply and demand through a clear sol and through a dust storm sol"></svg></div></div><figcaption><b>Supply and demand through a sol</b>, in megawatts. On a clear sol the solar field runs the fuel plant by day. In a global storm the sun is nearly gone for weeks; the reactors carry the house and the port, and the fuel plant waits.</figcaption></figure>
+    <h2><small>Through a sol</small>A clear day and a storm day are the same</h2>
+    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fSol" viewBox="0 0 1180 400" role="img" aria-label="Power supply and demand through a clear sol and through a dust storm sol"></svg></div></div><figcaption><b>Supply and demand through a sol</b>, in megawatts. The house and the port follow the day; the fuel plant takes what is left, so the reactors run steadily. A global dust storm hides the sun for weeks and changes nothing.</figcaption></figure>
   </section>
 
   <section class="part" id="grid">
     <h2><small>The grid</small>One cable, two ends</h2>
     <div class="two">
       <div>
-        <p>A buried <b>direct-current cable</b> runs 30 km beside the rover road, at ±20 kV, able to carry 15 MW either way; at full load about 1.5% is lost on the way, less in the cold ground. With it, the house and the spaceport act as one grid: the port's sunshine helps the house by day, and the house's reactors power the port at night.</p>
+        <p>A buried <b>direct-current cable</b> runs 30 km beside the rover road, at ±20 kV, able to carry 15 MW either way; at full load about 1.5% is lost on the way, less in the cold ground. With it, the house and the spaceport act as one grid: the reactors at either end can carry the other's loads, so one can be refuelled or repaired while the lights stay on.</p>
         <p>An <b>optical fibre</b> runs in the same trench for data, as the backup to the radio links (chapter 09).</p>
-        <p>Inside the house, power is distributed as direct current too, because the panels, the batteries and most machines work on DC. The switchgear is on L4 next to the reactors.</p>
+        <p>Inside the house, power is distributed as direct current too, because the batteries and most machines work on DC. The switchgear is on L4 next to the reactors.</p>
         <table class="spec"><tbody>
           <tr><td>Link</td><td class="n">30 km · ±20 kV DC</td></tr>
           <tr><td>Capacity</td><td class="n">15 MW</td></tr>
@@ -82,8 +81,8 @@
     <div class="two flip">
       <div>
         <p>A reactor makes about twice as much heat as electricity. The house uses some of it: warm water from the turbines heats the Pentagon's floors, melts ice for water and keeps the gardens warm, about 2 MW in all.</p>
-        <p>The rest, up to 20 MW, goes to the <b>radiator field</b> 400 m north of the house: 150 × 60 m of tall vertical fins that glow faintly warm against the −60 °C sky. The thin air carries little heat away, so the fins shed it mostly as infrared light. The spaceport's reactor has its own smaller radiators.</p>
-        <p>The radiators are north of the house so they never shade the Stone Garden's mirrors, and far enough away that their heat doesn't thaw the ground under the Pentagon.</p>
+        <p>The rest, up to 20 MW, goes to the <b>radiator field</b> 400 m north of the house: 150 × 60 m of tall vertical fins that glow faintly warm against the −60 °C sky. The thin air carries little heat away, so the fins shed it mostly as infrared light. The spaceport's two reactors have their own smaller radiators.</p>
+        <p>The radiators stand north of the house, out of the views from the Crown's main rooms, and far enough away that their heat doesn't thaw the ground under the Pentagon.</p>
       </div>
       <figure class="fig"><svg id="fRad" viewBox="0 0 620 330" role="img" aria-label="The radiator field seen from the side and from above"></svg><figcaption><b>The radiator field</b>: 24 rows of fins 5 m tall, fed by a warm loop from L4.</figcaption></figure>
     </div>
@@ -92,9 +91,9 @@
   <section class="part" id="grow">
     <h2><small>Growing</small>Power for the city</h2>
     <div class="tw"><table class="spec"><thead><tr><th>Phase</th><th>Demand</th><th>What is added</th></tr></thead><tbody>
-      <tr><td class="n">1 · Port and home</td><td class="n">8 MW</td><td>Three 5 MWe reactors, the solar field, batteries, the 30 km cable.</td></tr>
-      <tr><td class="n">2 · First neighbours</td><td class="n">12 MW</td><td>The second reactor at the port; the maglev (about 1 MW while running); each new home adds about 0.25 MW, mostly for its garden lights.</td></tr>
-      <tr><td class="n">3 · Arcadia City</td><td class="n">60–70 MW</td><td>A bigger solar field, up to 1 km², and a larger power plant on L4's fusion-ready bay, fission until fusion is ready. The city's tunnels carry the cables to every home.</td></tr>
+      <tr><td class="n">1 · Port and home</td><td class="n">8 MW</td><td>Four 5 MWe reactors, two at each end, batteries, the 30 km cable.</td></tr>
+      <tr><td class="n">2 · First neighbours</td><td class="n">12 MW</td><td>The maglev (about 1 MW while running), within the four reactors; each new home adds about 0.25 MW, mostly for its garden lights.</td></tr>
+      <tr><td class="n">3 · Arcadia City</td><td class="n">60–70 MW</td><td>A larger power plant in L4's fusion-ready bay, fission until fusion is ready. The city's tunnels carry the cables to every home.</td></tr>
       <tr><td class="n">4 · Connections</td><td class="n">—</td><td>Links to other Mars cities share power the way countries on Earth do.</td></tr>
     </tbody></table></div>
   </section>
@@ -107,25 +106,26 @@
   var tb = document.querySelector("#tDemand tbody"), tot = [0, 0];
   DEM.forEach(function (d) { tot[0] += d[1]; tot[1] += d[2]; var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + '</td><td class="n">' + d[1].toFixed(1) + ' MW</td><td class="n">' + d[2].toFixed(1) + " MW</td>"; tb.appendChild(tr); });
   var tr0 = document.createElement("tr"); tr0.innerHTML = '<td><b>Total</b></td><td class="n"><b>' + tot[0].toFixed(1) + ' MW</b></td><td class="n"><b>about 14 MW</b><br><small>not all at once</small></td>'; tb.appendChild(tr0);
-  var SUP = [["2 fission microreactors", "Pentagon L4", "2 × 5 MWe", "9 MW", "9 MW"], ["1 fission microreactor", "Spaceport vault", "5 MWe", "4.5 MW", "4.5 MW"], ["Solar field, 94,000 m²", "Spaceport", "11 MW peak", "3.5 MW", "near 0"], ["Batteries", "House and port", "2 × 20 MWh", "evening peaks", "reactor trips"], ["Fuel cells on stored methane and oxygen", "Spaceport", "4 MW", "standby", "if a reactor is down"]];
+  var SUP = [["2 fission microreactors", "Pentagon L4", "2 × 5 MWe", "4.9 MW of 9", "4.9 MW of 9"], ["2 fission microreactors", "Spaceport vault", "2 × 5 MWe", "3.1 MW of 9", "3.1 MW of 9"], ["Batteries", "House and port", "2 × 20 MWh", "evening peaks", "reactor trips"], ["Fuel cells on stored methane and oxygen", "Spaceport", "8 MW", "standby", "if a reactor is down"]];
   var ts = document.querySelector("#tSupply tbody"); SUP.forEach(function (d) { var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + "</td><td>" + d[1] + '</td><td class="n">' + d[2] + '</td><td class="n">' + d[3] + '</td><td class="n">' + d[4] + "</td>"; ts.appendChild(tr); });
 
   /* ---------------- flow diagram, band widths to scale (px per MW) */
   (function () {
     var svg = document.getElementById("fFlow"), k = 13, EL = "#e0a55b", HT = "#d0694c";
-    S("rect", { x: 0, y: 0, width: 1180, height: 560, "class": "paper" }, svg);
+    S("rect", { x: 0, y: 0, width: 1180, height: 640, "class": "paper" }, svg);
     function band(x0, y0, x1, y1, w, col, op) { var mx = (x0 + x1) / 2; S("path", { d: "M" + x0 + " " + r1(y0) + "C" + mx + " " + r1(y0) + " " + mx + " " + r1(y1) + " " + x1 + " " + r1(y1), stroke: col, "stroke-width": r1(w), fill: "none", "stroke-opacity": op || .75 }, svg); }
     function node(x, y, w, h, title, sub, fill) { S("rect", { x: x, y: r1(y), width: w, height: r1(h), rx: 3, fill: fill || "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.2 }, svg); T(svg, x + w / 2, y + h / 2 - (sub ? 4 : -5), title, "disp", { "text-anchor": "middle", style: "font-size:15px;font-weight:600" }); if (sub) (Array.isArray(sub) ? sub : [sub]).forEach(function (sl, i) { T(svg, x + w / 2, y + h / 2 + 13 + i * 14, sl, "t2", { "text-anchor": "middle", style: "font-size:12px" }); }); }
     var xs = 40, ws = 170, xg = 470, wg = 190, xl = 880, wl = 200;
     // sources
-    var SRC = [["Reactors · house", "2 × 5 MWe on L4", 3.3, 9, 50, 100], ["Reactor · port", "5 MWe vault", 1.2, 4.5, 190, 76], ["Solar field", "at the spaceport", 3.5, 3.5, 300, 70]];
-    node(xg, 120, wg, 280, "Grid", ["house and port,", "joined by the 30 km", "DC cable"], "#f6efe3");
+    var SRC = [["Reactors · house", "2 × 5 MWe on L4", 4.9, 9, 60, 120], ["Reactors · port", "2 × 5 MWe in the vault", 3.1, 9, 250, 100]];
+    node(xg, 120, wg, 280, "Grid", ["house and port,", "joined by the 30 km", "DC cable"], "rgba(224,165,91,.14)");
     var yin = 162;
     SRC.forEach(function (s0) {
       node(xs, s0[4], ws, s0[5], s0[0], s0[1]);
-      var w = s0[2] * k, yc = yin + w / 2; yin += w + 8;
-      band(xs + ws, s0[4] + s0[5] / 2, xg, yc, w, EL);
-      T(svg, xs + ws + 12, s0[4] + s0[5] / 2 - w / 2 - 8, s0[0] === "Solar field" ? "3.5 MW on average, all used by day" : s0[2].toFixed(1) + " MW used of " + s0[3] + " MW available", "t2", { style: "font-size:12px" });
+      var w = s0[2] * k, yc = yin + w / 2, ym = s0[4] + s0[5] / 2; yin += w + 8;
+      band(xs + ws, ym, xg, yc, w, EL);
+      // the label goes on the side the band turns away from, so the band never crosses it
+      T(svg, xs + ws + 12, yc < ym ? ym + w / 2 + 17 : ym - w / 2 - 8, s0[2].toFixed(1) + " MW used of " + s0[3] + " MW available", "t2", { style: "font-size:12px" });
     });
     // loads
     var L = [["Farms and gardens", 2.0], ["Fuel plant", 2.4], ["Air, water, heat pumps", 0.6], ["Rooms and house mind", 1.0], ["Foundry", 0.8], ["Port, mine, rovers", 0.7], ["Anti-gravity, portals", 0.5]];
@@ -135,13 +135,14 @@
       node(xl, y, wl, h, l[0], "", "var(--sheet)"); T(svg, xl + wl + 8, y + h / 2 + 4, l[1].toFixed(1) + " MW", "mono t2", { style: "font-size:11.5px" });
       band(xg + wg, yout + w / 2, xl, y + h / 2, w, EL); yout += w + 4; y += h + 8;
     });
-    // heat, its own row at the bottom
-    node(xs, 420, ws + 40, 96, "Reactor heat · house", ["about 7 MW on a clear sol,", "up to 20 MW at full power"], "#f3ddd3");
-    node(xg, 416, wg, 44, "Heating the house", "", "#f3ddd3");
-    node(xl, 468, wl, 50, "Radiators", "400 m north", "#f3ddd3");
-    band(xs + ws + 40, 442, xg, 438, 2 * k, HT, .55); T(svg, 300, 424, "2 MW", "mono tr", { style: "font-size:12px" });
-    band(xs + ws + 40, 486, xl, 493, 5 * k, HT, .55); T(svg, 700, 480, "5 MW", "mono tr", { style: "font-size:12px" });
-    T(svg, 20, 556, "Band widths: " + k + " px = 1 MW. On a clear sol the reactors run at about a third of their power; the rest is kept for storms, repairs and growth.", "t2", { style: "font-size:12.5px" });
+    // heat, its own row at the bottom: 2 MW warms the house, 8 MW goes to the radiators; the bands leave the source stacked
+    var xh = xs + ws + 40, hy = 440, h2 = 2 * k, h8 = 8 * k, y2 = hy + 10 + h2 / 2, y8 = hy + 10 + h2 + 6 + h8 / 2;
+    node(xs, hy, ws + 40, h2 + h8 + 26, "Reactor heat · house", ["about 10 MW on an average sol,", "up to 20 MW at full power"], "rgba(208,105,76,.2)");
+    band(xh, y2, xg, y2 - 4, h2, HT, .55); T(svg, xh + 14, y2 - h2 / 2 - 7, "2 MW", "mono tr", { style: "font-size:12px" });
+    band(xh, y8, xl, y8, h8, HT, .45); T(svg, (xh + xl) / 2, y8 + 4, "8 MW to the sky", "mono tr", { "text-anchor": "middle", style: "font-size:12px" });
+    node(xg, y2 - 4 - 20, wg, 40, "Heating the house", "", "rgba(208,105,76,.2)");
+    node(xl, y8 - h8 / 2 - 8, wl, h8 + 16, "Radiators", "400 m north", "rgba(208,105,76,.2)");
+    T(svg, 20, 628, "Band widths: " + k + " px = 1 MW. The reactors run at a little under half their power; the rest is kept for repairs, refuelling and growth.", "t2", { style: "font-size:12.5px" });
   })();
 
   /* ---------------- a reactor vault on L4 */
@@ -181,28 +182,26 @@
     var svg = document.getElementById("fSol"), SOL = 24.66;
     S("rect", { x: 0, y: 0, width: 1180, height: 400, "class": "paper" }, svg);
     function panel(ox, title, storm) {
-      var x0 = ox + 50, x1 = ox + 540, y0 = 330, y1 = 60, maxMW = 16;
+      var x0 = ox + 50, x1 = ox + 540, y0 = 330, y1 = 60, maxMW = 20;
       function X(h) { return x0 + h / SOL * (x1 - x0); } function Y(v) { return y0 - v / maxMW * (y0 - y1); }
       S("rect", { x: x0, y: y1, width: x1 - x0, height: y0 - y1, fill: "var(--panel)", stroke: "var(--rule)" }, svg);
-      [0, 4, 8, 12, 16].forEach(function (v) { S("line", { x1: x0, y1: r1(Y(v)), x2: x1, y2: r1(Y(v)), "class": "ink3", "stroke-width": .5, "stroke-dasharray": "2 4" }, svg); T(svg, x0 - 8, Y(v) + 4, v + "", "mono t3", { "text-anchor": "end", style: "font-size:10.5px" }); });
+      [0, 5, 10, 15, 20].forEach(function (v) { S("line", { x1: x0, y1: r1(Y(v)), x2: x1, y2: r1(Y(v)), "class": "ink3", "stroke-width": .5, "stroke-dasharray": "2 4" }, svg); T(svg, x0 - 8, Y(v) + 4, v + "", "mono t3", { "text-anchor": "end", style: "font-size:10.5px" }); });
       [0, 6, 12, 18, 24].forEach(function (h) { T(svg, X(h), y0 + 16, (h < 10 ? "0" : "") + h + ":00", "mono t3", { "text-anchor": "middle", style: "font-size:10.5px" }); });
-      // supply: reactors flat 13.5 MW available (dashed), solar bell
-      var pts = [], sol = [], dem = [], fuel = [];
+      // demand: the house and the port follow the day; the fuel plant takes what is left, so the total stays steady
+      var dem = [], tot = [];
       for (var i = 0; i <= 120; i++) {
-        var h = i / 120 * SOL, day = Math.max(0, Math.sin((h - 6.2) / 12.3 * Math.PI)), s = storm ? 0.25 * day : 11 * Math.pow(day, 1.3);
+        var h = i / 120 * SOL;
         var base = 5.2 + 0.7 * Math.exp(-Math.pow((h - 19.5) / 1.8, 2)) + 0.5 * Math.exp(-Math.pow((h - 8) / 1.5, 2)) + (h > 6.5 && h < 22 ? 0.8 : 0);
-        var f = storm ? 0.4 : 0.6 + Math.min(6, s * 0.62);
-        sol.push([X(h), Y(s)]); dem.push([X(h), Y(base)]); fuel.push([X(h), Y(base + f)]);
+        dem.push([X(h), Y(base)]); tot.push([X(h), Y(Math.max(base + 0.6, 8.3))]);
       }
-      S("path", { d: P(sol.concat([[X(SOL), Y(0)], [X(0), Y(0)]]), true), fill: "#f2c46b", "fill-opacity": .55 }, svg);
-      S("path", { d: P(fuel.concat(dem.slice().reverse()), true), fill: "#e0a55b", "fill-opacity": .35 }, svg);
+      S("path", { d: P(tot.concat(dem.slice().reverse()), true), fill: "#e0a55b", "fill-opacity": .35 }, svg);
       S("path", { d: P(dem), stroke: "var(--ink)", "stroke-width": 1.6, fill: "none" }, svg);
-      S("path", { d: P(fuel), stroke: "var(--route)", "stroke-width": 1.6, fill: "none" }, svg);
-      S("line", { x1: x0, y1: r1(Y(13.5)), x2: x1, y2: r1(Y(13.5)), stroke: "var(--ice)", "stroke-width": 2, "stroke-dasharray": "7 4" }, svg);
-      T(svg, x1 - 6, Y(13.5) - 6, "reactors available, 13.5 MW", "ti", { "text-anchor": "end", style: "font-size:12px" });
+      S("path", { d: P(tot), stroke: "var(--route)", "stroke-width": 1.6, fill: "none" }, svg);
+      S("line", { x1: x0, y1: r1(Y(18)), x2: x1, y2: r1(Y(18)), stroke: "var(--ice)", "stroke-width": 2, "stroke-dasharray": "7 4" }, svg);
+      T(svg, x1 - 6, Y(18) - 6, "four reactors available, 18 MW", "ti", { "text-anchor": "end", style: "font-size:12px" });
       T(svg, x0, 40, title, "disp", { style: "font-size:17px;font-weight:600" });
-      if (!storm) { T(svg, X(12.3), Y(11) - 8, "solar", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" }); T(svg, X(15.5), Y(9.5) + 4, "fuel plant runs on the sun", "tr halo", { style: "font-size:12px" }); }
-      else { T(svg, X(12.3), Y(1.2) - 6, "solar: almost nothing", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" }); T(svg, X(9), Y(6.9) - 8, "fuel plant waits", "tr halo", { style: "font-size:12px" }); }
+      T(svg, X(15.5), Y(9.6) - 6, "fuel plant takes what is left", "tr halo", { style: "font-size:12px" });
+      if (storm) T(svg, X(12.3), Y(13.4), "the sun is hidden: nothing changes", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" });
       T(svg, X(1.2), Y(5.6) - 6, "house and port", "halo", { style: "font-size:12px" });
       T(svg, x0 - 36, y1 - 8, "MW", "mono t3", { style: "font-size:10.5px" });
     }

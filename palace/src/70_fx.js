@@ -41,18 +41,20 @@
       "void main(){",
       "  float v = vQ.y, u = vQ.x;",   // u -1..1 across, v 0..1 up
       "  float H = vI2.y * vI.w, w0 = vI2.w, w1 = vI.w * vI2.x;",
-      "  float w = mix(w0, w1 * 0.8, pow(v, 0.75)) / w1;",
-      "  float twist = u / max(w, 0.02) * 1.6 + v * H / 40.0 - uTime * 2.2 + vI.x * 0.01;",
-      "  float n = vnoise(vec2(twist, v * H / 90.0 - uTime * 0.7)) * 0.6 + vnoise(vec2(twist * 2.3, v * H / 35.0 - uTime * 1.3)) * 0.4;",
-      "  float core = exp(-pow(u / max(w, 0.02), 2.0) * 2.2);",
-      "  float d = core * (0.5 + 0.5 * n) * smoothstep(0.0, 0.03, v) * (1.0 - smoothstep(0.55, 1.0, v));",
+      "  float w = mix(w0, w1 * 0.9, pow(v, 0.65)) / w1;",
+      "  float lean = 0.22 * v * v + 0.05 * sin(v * 6.0 + uTime * 0.4 + vI.x * 0.01);",   // the column bends with the wind
+      "  float uu = u - lean;",
+      "  float twist = uu / max(w, 0.02) * 0.8 + v * H / 55.0 - uTime * 1.4 + vI.x * 0.01;",
+      "  float n = vnoise(vec2(twist, v * H / 70.0 - uTime * 0.5)) * 0.5 + vnoise(vec2(twist * 2.1 + 3.0, v * H / 26.0 - uTime * 0.9)) * 0.3 + vnoise(vec2(uu * 9.0, v * H / 9.0 - uTime * 1.6)) * 0.2;",
+      "  float core = exp(-pow(uu / max(w, 0.02), 2.0) * (1.5 + 1.2 * v));",
+      "  float d = core * (0.62 + 0.38 * n) * smoothstep(0.0, 0.05, v) * (1.0 - smoothstep(0.35, 1.0, v)) * (1.0 - 0.45 * v);",
       "  d += exp(-pow(u / (w * 2.6 + 0.1), 2.0) * 2.0) * exp(-v * H / 14.0) * 0.6;",   // the skirt of dust at the foot
       "  vec2 hs = normalize(uSunDir.xz + 1e-5); vec2 hv = normalize(uCam.xz - vI.xz + 1e-5); vec2 side = vec2(hv.y, -hv.x);",
       "  float lit = 0.35 + 0.65 * clamp(0.5 + 0.5 * dot(side, hs) * u / max(w, 0.05) + 0.3 * dot(hv, hs), 0.0, 1.0);",
       "  vec3 dust = vec3(0.58, 0.42, 0.30);",
       "  vec3 col = dust * (uSunCol * lit * 0.8 + (uAmbUp + uAmbHor) * 0.45);",
       "  col = haze(col, vW);",
-      "  gl_FragColor = vec4(col, clamp(d * 0.62, 0.0, 0.9));",
+      "  gl_FragColor = vec4(col, clamp(d * 0.5, 0.0, 0.8));",
       "  " + LOGF,
       "}"].join("\n");
     var devils = billboards(DEV.length, devFS, true);
@@ -113,7 +115,7 @@
     // inst2.y = 2 makes the quad twice as tall as its scale, centred by the y offset of -scale: a disc of radius = scale
     puffs.a.needsUpdate = puffs.b.needsUpdate = true;
 
-    /* ---------------- dust streaks round the camera (in the storm, and lightly in the wind) */
+    /* ---------------- dust streaks round the camera, inside the storm */
     var NSTR = 1400;
     var strU = sharedUniforms({ uVel: { value: new THREE.Vector3() }, uAmt: { value: 0 }, uBox: { value: 70 } });
     var strG = new THREE.BufferGeometry(), sp = [], sd = [];
@@ -190,7 +192,7 @@
     function update(t, camPos, podVel, stormAmt, wind) {
       updateDevils(t);
       puffs.m.uniforms.uIn.value = smooth(0.25, 0.8, stormAmt);
-      strU.uVel.value.copy(podVel); strU.uAmt.value = Math.max(stormAmt, wind || 0);
+      strU.uVel.value.copy(podVel); strU.uAmt.value = stormAmt;   // only in the storm: in clear air the lines read as scratches
       strU.uBox.value = 70;
       vapour.u.uClock.value = U.uTime.value;
       liftDust.u.uClock.value = t; liftDust.u.uAmt.value = smooth(0, 1.2, t) * (1 - smooth(9, 14, t));

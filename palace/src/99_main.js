@@ -5,7 +5,7 @@
   LIGHTS.build();
   U.uShadowOn.value = 1;
   var MAIN = (function () {
-    var t = 0, seekFlag = true, lastEl = -99, W = FLIGHT.WT;
+    var t = 0, seekFlag = true, W = FLIGHT.WT;
     var EXP = [[0, 1.0], [40, 1.0], [100, 1.06], [150, 1.12], [184, 1.18], [216, 1.22], [236, 1.28], [266, 1.34], [W[49], 1.25], [W[51], 1.0], [400, 1.0]];
     var _q = new THREE.Quaternion(), _e = new THREE.Euler(), _v = new THREE.Vector3(), BACK = new THREE.Vector3(0.1, 0.1, 0.55), TINT_IN = new THREE.Vector3(0.93, 0.95, 0.985), ONE = new THREE.Vector3(1, 1, 1);
     var HINV = new THREE.Matrix4().copy(CROWN.hangar.M).invert();
@@ -64,13 +64,11 @@
       var r = placeCamera(tt, P);
       stormCam = FX.stormAt(camera.position); U.uStorm.value = stormCam; setSun(el, 262);
       var ph = FLIGHT.phobos(tt); U.uPhobos.value.set(ph[0], ph[1]);
-      if (Math.abs(el - lastEl) > 0.05) { lastEl = el; CROWN.aimMirrors(); }
-      // the Crown: its door, the Door, window light, the Orb's seams, the beam down the Sun Well
+      // the Crown: its door, the Door, window light, the Orb's glow
       var open = smooth(W[46] - 2.5, W[47] + 0.5, tt) * (1 - smooth(W[51] + 0.3, W[51] + 3.3, tt));
       CROWN.setDoor(open); CROWN.doorU.uOpen.value = smooth(W[51] + 4, W[51] + 7.5, tt);
       MAT.winCol.value.set(0.9, 0.56, 0.3).multiplyScalar(0.45 + 1.35 * smooth(4.5, 1.2, el));
       CROWN.orbU.uGlowOn.value = smooth(4.5, 1.6, el);
-      CROWN.beamU.uBeam.value = 1 - stormCam;
       // effects
       FX.update(tt, camera.position, P.v, stormCam, tt > 58 && tt < 106 ? 0.1 : 0);
       var sp = FX.stormAt(P.p); FX.updateArcs(U.uTime.value, smooth(0.35, 0.85, sp) * (0.5 + 0.5 * Math.sin(U.uTime.value * 23.0) * Math.sin(U.uTime.value * 5.3)));
@@ -111,7 +109,7 @@
   }
   var _rs = resize; resize = function () { _rs(); LIGHTS.resize(Math.round(VIEW.h * renderer.getPixelRatio())); };
   window.removeEventListener("resize", _rs); window.addEventListener("resize", resize);
-  resize(); setSun(10.5, 262); CROWN.aimMirrors(); CROWN.setDoor(0);
+  resize(); setSun(10.5, 262); CROWN.setDoor(0);
   var last = performance.now();
   function loop(now) { var ms = now - last; last = now; MAIN.step(ms / 1000); adapt(ms); requestAnimationFrame(loop); }
   // compile everything before the first frame, then show the start card

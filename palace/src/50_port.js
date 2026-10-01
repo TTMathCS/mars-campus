@@ -2,8 +2,8 @@
      Arcadia Spaceport, 30 km east of the Crown (sheet A-501). Plan coordinates on that sheet are
      metres east (x) and north (y) of the terminal; world = (30 000 + x, -y).
      Terminal, control tower, pod station with four pads, three ship pads behind berms with the
-     ship from Earth on Pad 2, fuel plant and tank farm, the ice mine with its conveyor, the solar
-     field, the buried reactor, the cargo yard, roads and lights.
+     ship from Earth on Pad 2, fuel plant and tank farm, the ice mine with its conveyor, the two
+     buried reactors, the cargo yard, roads and lights. No panels on the ground: power is nuclear.
      ========================================================================================== */
   var PORT = (function () {
     var OX = 30000;
@@ -21,7 +21,6 @@
     var mPad = MAT.make({ color: 0x9a8a7c, rough: 0.92, pat: 3, vcol: true });
     var mBerm = MAT.make({ color: 0x8e6d57, rough: 1.0 });
     var mGlass = MAT.make({ color: 0x0c1116, rough: 0.06, emis: [0.10, 0.07, 0.045] });
-    var mSolar = MAT.make({ color: 0xffffff, rough: 0.2, pat: 2 });
     var mCont = MAT.make({ color: 0xffffff, rough: 0.62, icol: true });
     var mIce = MAT.make({ color: 0xc8d4dc, rough: 0.3 });
 
@@ -208,25 +207,14 @@
     for (var ci = 0; ci <= cl; ci += 24) { var cx = c0[0] + (c1[0] - c0[0]) * ci / cl, cz = c0[1] + (c1[1] - c0[1]) * ci / cl; boxAt(g, cx, 2.2, cz, 0.6, 5, 2.2, ca); }
     mesh(g, mTi);
 
-    /* ---------------- solar field: 23 rows of panels facing south */
-    (function () {
-      var rows = 23, per = 101, n = rows * per, im = new THREE.InstancedMesh(BOXG, mSolar, n), m = new THREE.Matrix4(), q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), 35 * D2R), s = new THREE.Vector3(9.6, 0.09, 4.2), p = new THREE.Vector3(), k = 0;
-      var posts = new THREE.InstancedMesh(BOXG, mTi, n), mp = new THREE.Matrix4();
-      for (var r = 0; r < rows; r++) for (var i = 0; i < per; i++) {
-        var x = OX - 705 + i * 10 + 5, z = 660 + r * 22, h = gh(x, z);
-        p.set(x, h + 2.4, z); m.compose(p, q, s); im.setMatrixAt(k, m);
-        mp.makeScale(0.18, 2.4, 0.18).setPosition(x, h + 1.2, z); posts.setMatrixAt(k, mp); k++;
-      }
-      im.frustumCulled = false; posts.frustumCulled = false; grp.add(im); grp.add(posts);
-    })();
-
-    /* ---------------- buried reactor with radiators and its keep-out fence */
+    /* ---------------- two buried reactors with their radiators, inside a keep-out fence */
     g = new GB();
     var rp = W(-560, -380), rh = gh(rp[0], rp[1]);
     lathe(g, [[26, -1], [25.2, 2.4], [21.5, 4.3], [12, 5.3], [0, 5.6]], 64, rp[0], rh, rp[1]);
+    lathe(g, [[26, -1], [25.2, 2.4], [21.5, 4.3], [12, 5.3], [0, 5.6]], 64, rp[0] - 62, gh(rp[0] - 62, rp[1]), rp[1]);
     mesh(g, mWhite);
     g = new GB();
-    for (var rd = 0; rd < 6; rd++) boxAt(g, rp[0] + 45 + rd * 7, rh + 5, rp[1] - 30, 0.4, 10, 22, 0);
+    for (var rd = 0; rd < 6; rd++) { boxAt(g, rp[0] + 45 + rd * 7, rh + 5, rp[1] - 30, 0.4, 10, 22, 0); boxAt(g, rp[0] + 45 + rd * 7, rh + 5, rp[1] + 30, 0.4, 10, 22, 0); }
     mesh(g, MAT.make({ color: 0x34383c, rough: 0.35, metal: 0.6 }));
     (function () {
       var n = 80, im = new THREE.InstancedMesh(BOXG, mTi, n), m = new THREE.Matrix4();

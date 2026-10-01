@@ -102,13 +102,14 @@
 
     /* ---------------- the cockpit: canopy frame, dashboard with three screens */
     var ck = new THREE.Group(); cockpitScene.add(ck);
-    var mFrame = MAT.make({ color: 0x3a3b3e, rough: 0.5, ambK: 0.8, emis: [0.012, 0.014, 0.016] }), mDash = MAT.make({ color: 0x2a2b2f, rough: 0.7, ambK: 0.7, emis: [0.02, 0.024, 0.03] });
+    var mFrame = MAT.make({ color: 0x3e4044, rough: 0.55, metal: 0.35, ambK: 0.75, emis: [0.008, 0.009, 0.01] }), mDash = MAT.make({ color: 0x1e1f22, rough: 0.55, pat: 7, ambK: 0.75, emis: [0.016, 0.018, 0.022] });
     var fr = new GB();
     // windshield frame round the canopy opening, seen from the left seat
-    function bar(a, b, r) { var A = new THREE.Vector3().fromArray(a), B = new THREE.Vector3().fromArray(b), mid = A.clone().add(B).multiplyScalar(0.5), m = new THREE.Matrix4().lookAt(A, B, new THREE.Vector3(0, 1, 0)); m.setPosition(mid); m.multiply(new THREE.Matrix4().makeScale(r, r, A.distanceTo(B))); fr.add(BOXG, m); }
-    bar([0, 1.12, -2.9], [0, 1.24, -0.4], 0.07);
-    bar([-1.08, 0.56, -2.4], [-0.72, 1.12, -0.6], 0.06); bar([1.08, 0.56, -2.4], [0.72, 1.12, -0.6], 0.06);
-    bar([-1.1, 0.62, -0.55], [1.1, 0.62, -0.55], 0.05);
+    // round titanium tubes from a to b
+    function bar(a, b, r) { var A = new THREE.Vector3().fromArray(a), B = new THREE.Vector3().fromArray(b), mid = A.clone().add(B).multiplyScalar(0.5), m = new THREE.Matrix4().lookAt(A, B, new THREE.Vector3(0, 1, 0)); m.setPosition(mid); m.multiply(new THREE.Matrix4().makeRotationX(Math.PI / 2)).multiply(new THREE.Matrix4().makeScale(r, A.distanceTo(B), r)); fr.add(CYLG, m); }
+    bar([0, 1.12, -2.9], [0, 1.24, -0.4], 0.045);
+    bar([-1.08, 0.56, -2.4], [-0.72, 1.12, -0.6], 0.04); bar([1.08, 0.56, -2.4], [0.72, 1.12, -0.6], 0.04);
+    bar([-1.1, 0.62, -0.55], [1.1, 0.62, -0.55], 0.035);
     ck.add(new THREE.Mesh(fr.build(), mFrame));
     var dash = new GB();
     // the instrument panel faces the pilot; a glare shield on top, a console below
@@ -122,6 +123,13 @@
     var smat = new THREE.ShaderMaterial({ uniforms: { t: { value: stex }, k: { value: 1 } }, vertexShader: LOGV_PARS + "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); " + LOGV + " }", fragmentShader: LOGF_PARS + "uniform sampler2D t; uniform float k; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv).rgb; c = c * c * 1.6 * k; gl_FragColor = vec4(c, 1.0); " + LOGF + " }" });
     var screen = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.5), smat);
     screen.scale.set(1, 0.84, 1); screen.position.set(-0.05, 0.6978, -1.9193); screen.rotation.x = -0.52; ck.add(screen);
+    // a glossy black bezel round the screens, and a row of lit buttons on the console
+    var bez = new THREE.Mesh(BOXG, MAT.make({ color: 0x0b0c0e, rough: 0.12, ambK: 0.8 })); bez.scale.set(1.6, 0.5, 0.03); bez.rotation.x = -0.52;
+    bez.position.set(-0.05, 0.6978 - 0.018 * 0.497, -1.9193 - 0.018 * 0.868); ck.add(bez);
+    var btn = new GB(), btnLit = new GB();
+    for (var bi = 0; bi < 10; bi++) { var bx = -0.62 + bi * 0.11; (bi % 3 === 1 ? btnLit : btn).add(BOXG, new THREE.Matrix4().makeTranslation(bx, 0.487, -1.62).multiply(new THREE.Matrix4().makeScale(0.07, 0.014, 0.045))); }
+    ck.add(new THREE.Mesh(btn.build(), MAT.make({ color: 0x2c2d31, rough: 0.35, ambK: 0.8 })));
+    ck.add(new THREE.Mesh(btnLit.build(), MAT.make({ color: 0x2c2d31, rough: 0.35, ambK: 0.8, emis: [0.55, 0.32, 0.1] })));
     var EYE = new THREE.Vector3(-0.42, 1.0, -1.25);
 
     return { g: main.g, flames: main.flames, L: L, cockpit: ck, EYE: EYE, skin: mSkin, screen: { canvas: scr, ctx: sctx, tex: stex, mat: smat } };

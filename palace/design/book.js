@@ -4,10 +4,10 @@ var BOOK = (function () {
   var CH = [
     ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
-    ["crown", "02", "The Crown", "The floating house above ground, the Orb and the Stone Garden"],
+    ["crown", "02", "The Crown", "The floating house above ground, the Orb with the Universe Hall, and the Stone Garden"],
     ["pentagon", "03", "The Pentagon", "Five levels below ground, the atrium and how it is built"],
-    ["interiors", "04", "Interiors", "Every room, the materials, light and the Wormhole Gate"],
-    ["power", "05", "Power", "Solar field, reactors, storage and the grid, in sunshine and in storms"],
+    ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Universe Hall"],
+    ["power", "05", "Power", "Four reactors, storage and the grid, in sunshine and in storms"],
     ["transport", "06", "Transportation", "Ships from Earth, the pod, rovers, the maglev and the portals"],
     ["spaceport", "07", "Arcadia Spaceport", "Pads, terminal, the fuel plant and the ice mine"],
     ["life", "08", "Life support", "Air, water, food, warmth and protection from radiation and dust"],
@@ -51,8 +51,8 @@ var BOOK = (function () {
   function north(p, x, y) { var g = S("g", { transform: "translate(" + x + " " + y + ")" }, p); S("path", { d: "M0 -16L6 6L0 1L-6 6Z", "class": "inkf" }, g); T(g, 0, -21, "N", "disp", { "text-anchor": "middle", style: "font-size:14px;font-weight:600" }); return g; }
   /* Real Mars imagery for the map figures: the NASA/JPL/USGS Viking colour mosaic (MDIM 2.1), as 512 px tiles
      from Esri OnMars (geographic; level z has 2^(z+1) x 2^z tiles of 180/2^z degrees, origin 180 W, 90 N).
-     Plain SVG images, so no CORS is needed. The simplified map img/mars-map.jpg lies underneath, so the
-     figure still reads if the tiles can't be reached. proj(lat, lonE) must be linear in both. */
+     Plain SVG images, so no CORS is needed. A real but coarser colour map, img/mars-map.jpg (tools/fetch_marsmap.py),
+     lies underneath, so the figure still looks right if the tiles can't be reached. proj(lat, lonE) must be linear in both. */
   var TILE_URL = "https://astro.arcgis.com/arcgis/rest/services/OnMars/MDIM/MapServer/tile/";
   function marsImagery(p, proj, box, z) {
     var g = S("g", { "class": "imagery" }, p);
@@ -95,7 +95,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + (prev[0] === "index" ? "./" : prev[0] + ".html") + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + next[0] + '.html"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev C, 30 Sep 2026. Real science and engineering unless marked <b>future technology</b>.</div>';
+      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev D, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });
@@ -103,6 +103,74 @@ var BOOK = (function () {
     function focusScrolls() { document.querySelectorAll(".scroll").forEach(function (el) { if (el.scrollWidth <= el.clientWidth + 2) return; var f = parseFloat(el.getAttribute("data-focus") || "0.5"); el.scrollLeft = Math.max(0, f * el.scrollWidth - el.clientWidth / 2); }); }
     focusScrolls(); window.addEventListener("load", focusScrolls);
   }
+  // Labels stay readable in both themes. The drawings' materials (ice, soil, steel, water) are fixed tints, so in dark
+  // mode a light label can land on a light fill. For each label, find the shapes drawn under its centre, blend their
+  // colours, and if the label is hard to read there, switch it to the dark or light ink of its kind, whichever reads best.
+  var INK = { "": ["#1C2124", "#F2F4F1"], t2: ["#3E4649", "#E4E8E4"], t3: ["#4E575B", "#C9D0D1"], tr: ["#8F3520", "#F4A58C"],
+              ti: ["#1F5873", "#A6D6EC"], tg: ["#7A5A12", "#F1CF84"], tl: ["#475F25", "#BCD98F"] };
+  function rgba(c) { var m = (c || "").match(/rgba?\(([^)]+)\)/); if (!m) return null; var v = m[1].split(",").map(parseFloat); return [v[0], v[1], v[2], v.length > 3 ? v[3] : 1]; }
+  function hex(h) { return [parseInt(h.substr(1, 2), 16), parseInt(h.substr(3, 2), 16), parseInt(h.substr(5, 2), 16)]; }
+  function lum(c) { var f = function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function legible() {
+    document.querySelectorAll("figure svg").forEach(function (svg) {
+      var base = null;   // the first solid background behind the drawing
+      for (var e = svg; e && !base; e = e.parentElement) { var c = rgba(getComputedStyle(e).backgroundColor); if (c && c[3] > 0) base = c; }
+      base = base || [248, 249, 246, 1];
+      var seen = Array.prototype.slice.call(svg.querySelectorAll("rect,path,polygon,polyline,circle,ellipse,line,image"));
+      // the colour behind screen point p, blended from every shape there, topmost first; null over imagery or a gradient
+      function behind(p) {
+        var layers = [], cover = 0;
+        for (var i = seen.length - 1; i >= 0 && cover < 0.98; i--) {
+          var s = seen[i], ss = getComputedStyle(s);
+          if (ss.display === "none" || ss.visibility === "hidden") continue;
+          var sm = s.getScreenCTM(); if (!sm) continue;
+          var q = p.matrixTransform(sm.inverse());
+          if (s.tagName === "image") { var ib = s.getBBox(); if (q.x >= ib.x && q.x <= ib.x + ib.width && q.y >= ib.y && q.y <= ib.y + ib.height) return null; continue; }
+          var paint = null, op = 1;
+          if (s.isPointInStroke && ss.stroke !== "none" && parseFloat(ss.strokeWidth) >= 3 && s.isPointInStroke(q)) { paint = ss.stroke; op = parseFloat(ss.strokeOpacity); }   // a wide band drawn as a stroke
+          else if (ss.fill !== "none" && s.tagName !== "line" && s.isPointInFill && s.isPointInFill(q)) { paint = ss.fill; op = parseFloat(ss.fillOpacity); }
+          if (!paint) continue;
+          var sc = rgba(paint); if (!sc || paint.indexOf("url(") >= 0) return null;
+          var a = sc[3] * op * parseFloat(ss.opacity); if (a < 0.03) continue;
+          layers.push([sc, a]); cover = 1 - (1 - cover) * (1 - a);
+        }
+        var bg = base.slice(0, 3);
+        for (var j = layers.length - 1; j >= 0; j--) { var L = layers[j]; bg = [0, 1, 2].map(function (k) { return L[0][k] * L[1] + bg[k] * (1 - L[1]); }); }
+        return bg;
+      }
+      // the lower median of the contrasts over the sample points: a small feature under one letter does not decide,
+      // but a label half on a dark fill and half on a light one is judged by its worse half
+      function typical(c, bgs) { var r = bgs.map(function (g) { return contrast(c, g); }).sort(function (x, y) { return x - y; }); return r[(r.length - 1) >> 1]; }
+      svg.querySelectorAll("text").forEach(function (el) {
+        if (el.getAttribute("data-ink")) { el.style.fill = ""; el.removeAttribute("data-ink"); }
+        var cs = getComputedStyle(el), fc = rgba(cs.fill);
+        if (!fc || cs.display === "none" || cs.visibility === "hidden") return;
+        if (cs.paintOrder.indexOf("stroke") === 0 && cs.stroke !== "none" && parseFloat(cs.strokeWidth) > 1.5) return;   // has a halo
+        var b; try { b = el.getBBox(); } catch (e) { return; }
+        var m = el.getScreenCTM(); if (!m || !b.width) return;
+        var bgs = [];
+        for (var n = 0; n < 10; n++) {   // a spread of points across the label
+          var g = behind(new DOMPoint(b.x + (0.1 + 0.2 * (n % 5)) * b.width, b.y + (n < 5 ? 0.35 : 0.6) * b.height).matrixTransform(m));
+          if (!g) return;
+          bgs.push(g);
+        }
+        var now = typical(fc, bgs); if (now >= 2.6) return;
+        var kind = ""; ["t2", "t3", "tr", "ti", "tg", "tl"].forEach(function (k) { if (el.classList.contains(k)) kind = k; });
+        // the ink of the label's own kind if it reads well, else the strongest ink
+        var best = null, br = now;
+        INK[kind].forEach(function (h) { var r = typical(hex(h), bgs); if (r > br) { br = r; best = h; } });
+        if (br < 3) INK[""].forEach(function (h) { var r = typical(hex(h), bgs); if (r > br + 0.3) { br = r; best = h; } });
+        if (best) { el.style.fill = best; el.setAttribute("data-ink", "1"); }
+      });
+    });
+  }
+  function legibleSoon() { clearTimeout(legibleSoon.t); legibleSoon.t = setTimeout(legible, 60); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", legibleSoon); else legibleSoon();
+  window.addEventListener("load", legibleSoon);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(legibleSoon);
+  if (window.matchMedia) { var mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", legibleSoon); }
+  new MutationObserver(legibleSoon).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", furnish); else furnish();
   return { CH: CH, READY: READY, S: S, T: T, TL: TL, r1: r1, path: path, arrowDefs: arrowDefs, box: box, catmull: catmull, rng: rng, scalebar: scalebar, north: north, marsImagery: marsImagery, greatCircle: greatCircle, D2R: Math.PI / 180 };
 })();

@@ -3,7 +3,9 @@
      bounced off the ground, reflections of the sky, glow for lights and haze. Plus a geometry
      builder and the sun shadow map.
      Patterns (uPat): 0 plain, 1 white ceramic shell of the Crown (panel joints, window slots,
-     dust), 2 solar panel, 3 sintered pad or road, 4 steel with weld seams, 5 pod skin.
+     dust), 2 solar panel, 3 sintered pad or road, 4 steel with weld seams, 5 pod skin,
+     6 white ceramic panels on boxes, 7 soft-touch cockpit trim.
+     make({ envCube, envPos }) reflects a cube map (a reflection probe) instead of the sky alone.
      ========================================================================================== */
   var GLSL_MAT_V = [
     GLSL_COMMON, LOGV_PARS,
@@ -30,6 +32,9 @@
     GLSL_COMMON, GLSL_SHADOW, LOGF_PARS,
     "uniform vec3 uColor; uniform float uRough; uniform float uMetal; uniform vec3 uEmis; uniform float uPat; uniform float uAlpha;",
     "uniform float uWin; uniform vec3 uWinCol; uniform vec4 uWinRows; uniform float uAmbK;",
+    "#ifdef ENV_CUBE",
+    "uniform samplerCube uEnvCube; uniform vec4 uEnvPos;",   // probe centre, radius of the sphere the scene is projected on
+    "#endif",
     "varying vec3 vW; varying vec3 vN; varying vec2 vUv; varying vec3 vCol; varying vec3 vL;",
     "float lineAA(float x, float w){ float d = abs(fract(x) - 0.5) * 2.0; float fw = fwidth(x) * 2.0 + 1e-4; return 1.0 - smoothstep(1.0 - w - fw, 1.0 - w, d); }",
     "void main(){",
@@ -101,6 +106,13 @@
     "    float dm = smoothstep(0.35, 0.95, n.y) * (0.5 + 0.3 * vnoise(vW.xz / 3.0));",
     "    alb = mix(alb, alb * vec3(0.62, 0.44, 0.31) * 1.25, dm); rough = mix(rough, 0.9, dm);",
     "  }",
+    // 7: soft-touch cockpit trim: a fine grain, a slight sheen, and a stitched seam (in local metres and uv)
+    "  else if (uPat > 6.5 && uPat < 7.5){",
+    "    float gr = vnoise(vL.xz * 140.0 + vL.y * 37.0) * 0.5 + vnoise(vL.xy * 260.0 + 3.0) * 0.3 + vnoise(vL.zy * 90.0 + 7.0) * 0.2;",
+    "    alb *= 0.9 + 0.1 * gr; rough = clamp(rough + 0.1 * gr, 0.05, 1.0);",
+    "    float st = (1.0 - smoothstep(0.003, 0.007, abs(vUv.y - 0.1))) * step(0.45, fract(vUv.x * 140.0));",
+    "    alb = mix(alb, vec3(0.30, 0.29, 0.28), st * 0.7);",
+    "  }",
     "  float sh = shadowAt(vW + n * 0.06, 0.0012);",
     "  float ndl = max(dot(n, uSunDir), 0.0);",
     "  vec3 amb = mix(uAmbHor, uAmbUp, n.y * 0.5 + 0.5) * (0.55 + 0.45 * n.y * n.y + 0.3 * (1.0 - abs(n.y)));",
@@ -116,6 +128,10 @@
     "  vec3 r = reflect(-v, n);",
     "  vec3 grd = vec3(0.30, 0.19, 0.13) * (uSunCol * max(uSunDir.y, 0.0) + uAmbUp) * 0.5;",
     "  vec3 env = r.y > 0.0 ? skyColor(r) : mix(skyColor(normalize(vec3(r.x, 0.02, r.z))), grd, smoothstep(0.0, -0.12, r.y));",
+    "  #ifdef ENV_CUBE",
+    "  { vec3 o = vW - uEnvPos.xyz; float b = dot(o, r), c = dot(o, o) - uEnvPos.w * uEnvPos.w; float t = -b + sqrt(max(b * b - c, 0.0));",
+    "    env = textureCube(uEnvCube, normalize(o + r * t)).rgb; }",
+    "  #endif",
     "  env = mix(env, amb * 1.1, clamp(rough * 1.3, 0.0, 1.0));",
     "  vec3 Fe = f0 + (max(vec3(1.0 - rough), f0) - f0) * pow(1.0 - ndv, 5.0);",
     "  vec3 col = diff + spec + env * Fe * ao * uAmbK + emis * (uPat > 4.5 && uPat < 6.5 ? alb * 1.6 : vec3(1.0));",
@@ -138,7 +154,8 @@
       });
       // three.js keeps sRGB colours in hex; the shader works in linear light
       u.uColor.value.convertSRGBToLinear();
-      var m = new THREE.ShaderMaterial({ uniforms: u, vertexShader: GLSL_MAT_V, fragmentShader: GLSL_MAT_F, vertexColors: !!o.vcol, side: o.side || THREE.FrontSide, transparent: !!o.transparent, depthWrite: o.depthWrite !== undefined ? o.depthWrite : true, extensions: { derivatives: true } });
+      if (o.envCube) { u.uEnvCube = { value: o.envCube }; u.uEnvPos = { value: o.envPos }; }
+      var m = new THREE.ShaderMaterial({ uniforms: u, vertexShader: GLSL_MAT_V, fragmentShader: GLSL_MAT_F, defines: o.envCube ? { ENV_CUBE: 1 } : {}, vertexColors: !!o.vcol, side: o.side || THREE.FrontSide, transparent: !!o.transparent, depthWrite: o.depthWrite !== undefined ? o.depthWrite : true, extensions: { derivatives: true } });
       MAT.list.push(m);
       return m;
     },

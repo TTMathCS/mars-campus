@@ -18,7 +18,7 @@
     <h1>Arcadia Spaceport</h1>
     <p class="lede">Where the ships from Earth land, 30 km east of the house on landing site AP-1. It is an airport, a harbour and a refinery in one: three pads for ships, a terminal, a station for the pods, and a fuel plant that turns ground ice and the carbon dioxide in the air into rocket fuel for the trip home.</p>
   </div>
-  <figure class="hero"><img src="img/port-aerial.jpg" alt="Arcadia Spaceport from the air: the solar field, the terminal dome and tower, the pod station, the fuel plant and tank farm, the ice mine and the three landing pads in the distance" width="1600" height="900"><figcaption><b>The spaceport from the south-west</b>, in the demo: the solar field in front, the terminal dome and control tower, the pod station, the fuel plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out.</figcaption></figure>
+  <figure class="hero"><img src="img/port-aerial.jpg" alt="Arcadia Spaceport from the air: the terminal dome and tower, the pod station, the reactor domes, the fuel plant and tank farm, the ice mine and the three landing pads" width="1600" height="900"><figcaption><b>The spaceport from the south-west</b>, in the demo: the reactor domes in front, the terminal dome and control tower, the pod station, the fuel plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out.</figcaption></figure>
   <div class="nums">
     <div><b>3</b><span>Pads for ships from Earth, 1.6 km from the terminal behind earth berms</span></div>
     <div><b>1,200 t</b><span>Of methane and oxygen to send one ship home, made here</span></div>
@@ -37,7 +37,7 @@
       </div>
       <div>
         <p><b>The pod station</b> is a hangar with a barrel roof on the west side, facing home, with four pod pads outside its doors. <b>The cargo yard</b> takes containers from the ships; in phase 2 a maglev station opens under the terminal.</p>
-        <p><b>Power</b> comes from the solar field to the south and a reactor buried inside a 150 m keep-out fence to the south-west, with its radiators (chapter 05). The <b>fuel plant</b>, the <b>tank farm</b> and the <b>ice mine</b> lie to the north.</p>
+        <p><b>Power</b> comes from two reactors buried inside a 150 m keep-out fence to the south-west, with their radiators, and from the house along the 30 km cable (chapter 05). There are no panels on the ground. The <b>fuel plant</b>, the <b>tank farm</b> and the <b>ice mine</b> lie to the north.</p>
       </div>
     </div>
   </section>
@@ -107,13 +107,10 @@
     function road(pts, w) { S("path", { d: P(pts.map(function (p) { return M(p[0], p[1]); })), stroke: "#9b8a7c", "stroke-width": w || 3.4, fill: "none", "stroke-linecap": "round" }, svg); }
     road([[-900, 0], [-420, 0]], 4); road([[90, 0], [1386, 800]]); road([[90, 0], [1600, 0]]); road([[90, 0], [1386, -800]]); road([[0, 90], [455, 780]]); road([[-150, 90], [-300, 1000]]); road([[0, -90], [0, -640]]);
     T(svg, M(-880, 18)[0], M(0, 18)[1], "rover road to the house, 30 km →", "t2", { style: "font-size:12px" });
-    // solar field (south)
-    S("rect", { x: r1(M(-705, -660)[0]), y: r1(M(0, -660)[1]), width: r1(1010 * k), height: r1(484 * k), fill: "#2f3a55", "fill-opacity": .5 }, svg);
-    for (var r = 0; r < 23; r++) { var y = -660 - r * 22; S("line", { x1: r1(M(-705, y)[0]), y1: r1(M(0, y)[1]), x2: r1(M(305, y)[0]), y2: r1(M(0, y)[1]), stroke: "#8fa3c9", "stroke-width": .8 }, svg); }
-    T(svg, M(-200, -900)[0], M(0, -900)[1], "solar field, 94,000 m²", "halo", { "text-anchor": "middle", style: "font-size:13px;font-weight:600" });
-    // reactor and its fence
+    // two reactors and their fence; nothing else on the ground to the south
     var rp = M(-560, -380); S("circle", { cx: r1(rp[0]), cy: r1(rp[1]), r: r1(150 * k), fill: "none", stroke: "#d0694c", "stroke-width": 1.2, "stroke-dasharray": "4 3" }, svg); S("circle", { cx: r1(rp[0]), cy: r1(rp[1]), r: r1(26 * k), fill: "#e8e4de", stroke: "var(--ink)" }, svg);
-    T(svg, rp[0], rp[1] + 70, "reactor, 5 MWe, buried", "", { "text-anchor": "middle", style: "font-size:12px" });
+    var rp2 = M(-622, -380); S("circle", { cx: r1(rp2[0]), cy: r1(rp2[1]), r: r1(26 * k), fill: "#e8e4de", stroke: "var(--ink)", "stroke-width": 1 }, svg);
+    T(svg, rp[0] - 30, rp[1] + 70, "two reactors, 5 MWe each, buried", "", { "text-anchor": "middle", style: "font-size:12px" });
     // terminal, tower, pod station
     S("circle", { cx: X0, cy: Y0, r: r1(90 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg); S("circle", { cx: X0, cy: Y0, r: r1(55 * k), fill: "none", stroke: "var(--ink-2)" }, svg);
     T(svg, X0 + 40, Y0 + 44, "terminal", "halo", { style: "font-size:13px;font-weight:600" });

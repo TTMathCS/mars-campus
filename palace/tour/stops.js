@@ -20,10 +20,28 @@ window.TOUR_STOPS = [
     links: ["glass", "bridge"] },
   { id: "bridge", ready: false, name: "On the bridge", short: "Bridge", k: "L1 · The atrium, 24 m down", p: [0.0, -11.0], z: -0.02, az0: 140, img: "pano/bridge.jpg",
     d: "Halfway out to the portal column. The atrium goes on down 44 m to the sun court, past the garden level and the studios; the sky lens of the Sun Well is overhead. The portal at the end of the bridge goes to any level.",
-    links: ["terrace", { id: "court", at: [0.0, -18.6, 1.6], label: "Portal: down to the sun court" }] },
+    links: ["terrace", { id: "court", at: [0.6, -18.6, 1.4], label: "Portal: down to the sun court" }, { id: "crown_arrival", at: [-0.6, -18.6, 2.6], label: "Portal: up to the Crown" }] },
   { id: "court", ready: false, name: "The sun court", short: "Sun court", k: "L5 · 68 m down", p: [0.0, -35.6], z: -44.05, az0: 0, img: "pano/court.jpg",
     d: "The bottom of the atrium: a lawn with olive trees round a pool at the foot of the column, in the light of the sky lens 52 m above. Behind the glass all round are the halls of L5: the maglev, the freight portals, the seed vault and the rovers.",
-    links: [{ id: "bridge", at: [2.9, -28.1, -42.5], label: "Portal: up to L1" }] }
+    links: [{ id: "bridge", at: [2.9, -28.1, -42.5], label: "Portal: up to L1" }] },
+
+  /* The Crown, above ground: positions in metres from the ring's centre, x east, y north (the ring's rooms lie between
+     125 and 135 m out, the Glide along the inner wall); z from the main floor, 41 m up. */
+  { id: "crown_arrival", place: "crown", ready: false, name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.26, -27.00], az0: -12, img: "pano/crown_arrival.jpg",
+    d: "The first room above ground: 9 m tall, polished basalt, a long olive-wood bench, an olive tree, and slots through both walls; through the inner ones the mirror Orb floats over the garden. Behind you the Door, a ring of light that knows you; at the far end the portal.",
+    links: [{ id: "crown_bedroom", at: [122.25, -33.67, 0], label: "The Glide: to the master suite" }, { id: "bridge", at: [125.72, -39.40, 1.6], label: "Portal: down to the Pentagon" }] },
+  { id: "crown_bedroom", place: "crown", ready: false, name: "The master suite up", short: "Bedroom up", k: "The Crown · Master suite up", p: [108.79, -75.90], az0: 55, img: "pano/crown_bedroom.jpg",
+    d: "Pale oak walls, a floor of linen-coloured stone, and the bed facing the south-east slots: on a clear morning the sun rises straight across the room. A sitting corner by the slots, a desk at the far end.",
+    links: [{ id: "crown_arrival", at: [108.35, -65.87, 0], label: "The Glide: to the Arrival hall" }, { id: "crown_salon", at: [99.23, -78.93, 0], label: "The Glide: to the salon" }] },
+  { id: "crown_salon", place: "crown", ready: false, name: "The great salon", short: "Salon", k: "The Crown · Salon", p: [40.71, -125.30], az0: -162, img: "pano/crown_salon.jpg",
+    d: "45 m along the curve of the ring: linen sofas round wool rugs, olive-wood tables, olive trees, an oak ceiling lit from its coves, and the sun in blades through the slots. A hearth of lit mist at one end, the concert grand at the other.",
+    links: [{ id: "crown_bedroom", at: [46.68, -117.90, 0], label: "The Glide: to the master suite" }, { id: "crown_dining", at: [31.53, -122.82, 0], label: "The Glide: to the dining hall" }] },
+  { id: "crown_dining", place: "crown", ready: false, name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",
+    d: "A table of polished basalt for twenty under the Dining spire, glass globes over it, linen chairs, and the afternoon sun low through the slots.",
+    links: [{ id: "crown_salon", at: [-95.11, -83.85, 0], label: "The Glide: to the salon" }, { id: "crown_sunset", at: [-104.87, -71.27, 0], label: "The Glide: to the sunset lounge" }] },
+  { id: "crown_sunset", place: "crown", ready: false, name: "The sunset lounge", short: "Sunset lounge", k: "The Crown · Sunset lounge", p: [-131.75, 0.0], az0: 90, img: "pano/crown_sunset.jpg",
+    d: "The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight in for a few minutes while the sky round it turns blue, as the sky of Mars does.",
+    links: [{ id: "crown_dining", at: [-126.55, -7.96, 0], label: "The Glide: to the dining hall" }, { id: "crown_arrival", at: [-126.55, 7.96, 0], label: "The Glide: round to the Arrival hall" }] }
 ];
 window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },

@@ -118,11 +118,46 @@ def piano(loc, rot_z, M):
 
 
 # ---------------------------------------------------------------- books and bookcases
+import os
+SPINES = os.path.join(lib.ASSETS, "spines.png")      # the atlas of spines from make_spines.py
+
+
+def uv_book(bm, verts, rnd, lying=False):
+    """give one book (a box just added to bm) a spine from the atlas: its spine (the face looking at the room, -y)
+    the whole cell, read top to bottom; its head and tail the page edges; its covers plain cloth from the same cell"""
+    uv = bm.loops.layers.uv.verify()
+    k = rnd.randrange(127); cx, cy = k % 32, k // 32
+    u0, u1 = cx / 32.0, (cx + 1) / 32.0; v1 = 1.0 - cy / 4.0; v0 = v1 - 0.25
+    xs = [v.co.x for v in verts]; zs = [v.co.z for v in verts]; x0, x1, z0, z1 = min(xs), max(xs), min(zs), max(zs)
+    for f in {f for v in verts for f in v.link_faces}:
+        f.normal_update(); n = f.normal
+        for l in f.loops:
+            p = l.vert.co
+            if n.y < -0.7:
+                sx = (p.x - x0) / max(1e-6, x1 - x0); sz = (p.z - z0) / max(1e-6, z1 - z0)
+                s, t = (sz, 1.0 - sx) if lying else (sx, sz)
+                l[uv].uv = (u0 + (0.06 + 0.88 * s) * (u1 - u0), v0 + (0.015 + 0.97 * t) * (v1 - v0))
+            elif (abs(n.z) > 0.7 and not lying) or (abs(n.x) > 0.7 and lying):
+                l[uv].uv = (31.5 / 32.0, 0.125)                                 # the page edges' cell
+            else:
+                l[uv].uv = (u0 + 0.03 * (u1 - u0), v0 + 0.5 * (v1 - v0))     # plain cloth
+
+
 def book_material():
-    """one material for every book: each book (each island) picks a colour from a palette of real cloth bindings"""
+    """one material for every book: a spine from the atlas (spines.png, gold leaf where spines_gold.png is white), or
+    without the atlas, a colour per book from a palette of real cloth bindings"""
     m, nt = lib._mat("book bindings")
     if nt is None: return m
     L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.55
+    if os.path.exists(SPINES):
+        uvn = nt.nodes.new("ShaderNodeUVMap")
+        img = lib._tex(nt, SPINES); img.interpolation = "Cubic"; L.new(uvn.outputs["UV"], img.inputs["Vector"])
+        gold = lib._tex(nt, SPINES.replace("spines.png", "spines_gold.png"), "Non-Color"); L.new(uvn.outputs["UV"], gold.inputs["Vector"])
+        L.new(img.outputs["Color"], b.inputs["Base Color"]); L.new(gold.outputs["Color"], b.inputs["Metallic"])
+        rr = nt.nodes.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.62; rr.inputs["To Max"].default_value = 0.3; L.new(gold.outputs["Color"], rr.inputs["Value"]); L.new(rr.outputs["Result"], b.inputs["Roughness"])
+        tc = nt.nodes.new("ShaderNodeTexCoord"); n = nt.nodes.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = 900; L.new(tc.outputs["Object"], n.inputs["Vector"])
+        bmp = nt.nodes.new("ShaderNodeBump"); bmp.inputs["Strength"].default_value = 0.12; L.new(n.outputs["Fac"], bmp.inputs["Height"]); L.new(bmp.outputs["Normal"], b.inputs["Normal"])
+        return m
     geo = nt.nodes.new("ShaderNodeNewGeometry"); cr = nt.nodes.new("ShaderNodeValToRGB"); cr.color_ramp.interpolation = "CONSTANT"
     pal = [(0.22, 0.035, 0.03), (0.13, 0.03, 0.035), (0.025, 0.04, 0.10), (0.035, 0.08, 0.045), (0.42, 0.28, 0.09), (0.58, 0.52, 0.40), (0.018, 0.018, 0.018),
            (0.22, 0.22, 0.21), (0.33, 0.21, 0.11), (0.70, 0.67, 0.60), (0.035, 0.13, 0.13), (0.12, 0.06, 0.035), (0.50, 0.12, 0.05), (0.62, 0.58, 0.50), (0.05, 0.05, 0.06)]
@@ -150,17 +185,19 @@ def fill_shelf(bm, rnd, x0, x1, y_back, depth, z, gap, decor):
             w = rnd.uniform(0.2, 0.28); h = 0.0
             for k in range(rnd.randint(2, 5)):
                 t = rnd.uniform(0.025, 0.05); bw = w - rnd.uniform(0, 0.04); d = rnd.uniform(0.15, 0.22)
-                lib.bm_box(bm, (bw, d, t - 0.002), (x + w / 2 + rnd.uniform(-0.01, 0.01), y_back - 0.03 - d / 2, z + h + t / 2), rot_z=rnd.uniform(-0.05, 0.05)); h += t
+                vs = lib.bm_box(bm, (bw, d, t - 0.002), (x + w / 2 + rnd.uniform(-0.01, 0.01), y_back - 0.03 - d / 2, z + h + t / 2), rot_z=rnd.uniform(-0.05, 0.05)); h += t
+                uv_book(bm, vs, rnd, lying=True)
             x += w + 0.02; continue
         # a run of standing books
         for k in range(rnd.randint(6, 22)):
             t = rnd.uniform(0.018, 0.055); h = min(gap - 0.03, rnd.uniform(0.19, 0.33) if rnd.random() < 0.85 else rnd.uniform(0.33, 0.40))
             d = min(depth - 0.04, h * rnd.uniform(0.62, 0.75)); front = y_back - depth + rnd.uniform(0.015, 0.04)
             if x + t > x1: break
-            lib.bm_box(bm, (t - 0.0015, d, h), (x + t / 2, front + d / 2, z + h / 2)); x += t
+            vs = lib.bm_box(bm, (t - 0.0015, d, h), (x + t / 2, front + d / 2, z + h / 2)); x += t
+            uv_book(bm, vs, rnd)
         if rnd.random() < 0.35 and x < x1 - 0.1:              # the last one leaning
             t = rnd.uniform(0.02, 0.04); h = min(gap - 0.04, rnd.uniform(0.2, 0.3)); a = rnd.uniform(0.15, 0.3)
-            vs = lib.bm_box(bm, (t, min(depth - 0.05, 0.2), h), (0, 0, 0))
+            vs = lib.bm_box(bm, (t, min(depth - 0.05, 0.2), h), (0, 0, 0)); uv_book(bm, vs, rnd)
             bmesh.ops.transform(bm, matrix=Matrix.Translation((x + h * math.sin(a) / 2 + t / 2, y_back - depth / 2 - 0.02, z + h * math.cos(a) / 2 + t * math.sin(a) / 2)) @ Matrix.Rotation(-a, 4, "Y"), verts=vs)
             x += h * math.sin(a) + t + 0.01
         x += rnd.uniform(0.0, 0.08)

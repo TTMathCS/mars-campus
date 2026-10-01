@@ -174,7 +174,7 @@ def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, 
     o += wall("inner wall", R_IN, -1, b0 - 0.5, b1 + 0.5, M, wall_mat)
     o += wall("outer wall", R_OUT, 1, b0 - 0.5, b1 + 0.5, M, wall_mat)
     # the coves: a plaster ledge 0.6 m under the ceiling along both walls, with a strip of light on top washing the ceiling
-    glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 14.0); bs = steps(b0 - 0.5, b1 + 0.5)
+    glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 26.0); bs = steps(b0 - 0.5, b1 + 0.5)
     for (r0, r1, l0, l1) in ((R_IN, R_IN + 0.3, R_IN + 0.05, R_IN + 0.12), (R_OUT - 0.3, R_OUT, R_OUT - 0.12, R_OUT - 0.05)):
         bm = bmesh.new(); rings = []
         for b in bs:
@@ -195,6 +195,10 @@ def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, 
         for b in (b0, b1):
             th = 0.3 / 130.0 / D
             o.append(curved_box("partition", R_GL + 0.05, R_OUT, b - th / 2, b + th / 2, 0, 9, wall_mat, zf1=lambda bb: ceil_at(bb) + 0.01))
+    # where the model stops, close the Glide's lane too (the Glide runs on through the house, but not in this picture)
+    th = 0.3 / 130.0 / D
+    for b in (b0 - 0.5 + th, b1 + 0.5 - th):
+        o.append(curved_box("glide end", R_IN - 0.6, R_GL + 0.06, b - th / 2, b + th / 2, -0.3, 9, wall_mat, zf1=lambda bb: ceil_at(bb) + 0.4))
     return o
 
 

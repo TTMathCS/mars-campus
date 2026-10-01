@@ -140,8 +140,8 @@
       $("load").hidden = true;
       if (!from || instant) { cur.material.map = t; cur.material.needsUpdate = true; view.az = s.az0; view.el = 0; }
       else {
-        // keep facing the way you walked (a portal sets you down facing the column)
-        var level = Math.abs((from.z || 0) - (s.z || 0)) > 3;
+        // keep facing the way you walked (a portal, or the Glide to another room, sets you down facing the stop's view)
+        var level = Math.abs((from.z || 0) - (s.z || 0)) > 3 || placeOf(from) !== placeOf(s) || Math.hypot(from.p[0] - s.p[0], from.p[1] - s.p[1]) > 40;
         view.az = level ? s.az0 : bearing(from, s); if (level) view.el = 0;
         nxt.material.map = t; nxt.material.opacity = 0; nxt.material.needsUpdate = true; nxt.visible = true; fade = { t0: performance.now(), dur: 650 };
       }
@@ -182,25 +182,36 @@
     });
   }
 
-  /* ------------------------------------------------------------------ the little map */
-  var MAP = { x0: -26, x1: 26, y0: -56, y1: 16 };
+  /* ------------------------------------------------------------------ the little map: of the place you are in */
+  // the Pentagon's map is in the family room's frame (the atrium and Jim's rooms); the Crown's is the whole ring, 276 m
+  var MAPS = { pentagon: { x0: -26, x1: 26, y0: -56, y1: 16, cone: 9 }, crown: { x0: -142, x1: 142, y0: -142, y1: 142, cone: 40 } };
+  function placeOf(st) { return st.place || "pentagon"; }
   function drawMap() {
-    var svg = $("map"), s = 200 / (MAP.y1 - MAP.y0), h = (MAP.y1 - MAP.y0) * s, w = (MAP.x1 - MAP.x0) * s;
+    var pl = placeOf(here), MAP = MAPS[pl], svg = $("map"), s = 200 / (MAP.y1 - MAP.y0), h = (MAP.y1 - MAP.y0) * s, w = (MAP.x1 - MAP.x0) * s;
     function P(x, y) { return ((x - MAP.x0) * s).toFixed(1) + "," + ((MAP.y1 - y) * s).toFixed(1); }
     svg.setAttribute("viewBox", "0 0 " + w.toFixed(0) + " " + h.toFixed(0));
     var out = [];
-    // the atrium: the pentagon of the glass, the void, the column
-    var C = [0, -24.09], RA = 29.77, RV = 20.49 / Math.cos(36 * D), pa = [], pv = [];
-    for (var i = 0; i < 5; i++) { var a = (54 + 72 * i) * D; pa.push(P(C[0] + RA * Math.cos(a), C[1] + RA * Math.sin(a))); pv.push(P(C[0] + RV * Math.cos(a), C[1] + RV * Math.sin(a))); }
-    out.push('<polygon points="' + pa.join(" ") + '" fill="rgba(243,232,218,.06)" stroke="rgba(243,232,218,.35)" stroke-width="1"/>');
-    out.push('<polygon points="' + pv.join(" ") + '" fill="rgba(0,0,0,.35)" stroke="rgba(243,232,218,.2)" stroke-width=".8"/>');
-    var cc = P(C[0], C[1]).split(","); out.push('<circle cx="' + cc[0] + '" cy="' + cc[1] + '" r="' + (5 * s).toFixed(1) + '" fill="rgba(243,232,218,.25)"/>');
-    out.push('<polygon points="' + [P(-14.4, 0), P(14.4, 0), P(24.5, 13.9), P(-24.5, 13.9)].join(" ") + '" fill="rgba(255,155,107,.12)" stroke="rgba(255,155,107,.6)" stroke-width="1"/>');
+    if (pl === "pentagon") {
+      // the atrium: the pentagon of the glass, the void, the column; Jim's rooms
+      var C = [0, -24.09], RA = 29.77, RV = 20.49 / Math.cos(36 * D), pa = [], pv = [];
+      for (var i = 0; i < 5; i++) { var a = (54 + 72 * i) * D; pa.push(P(C[0] + RA * Math.cos(a), C[1] + RA * Math.sin(a))); pv.push(P(C[0] + RV * Math.cos(a), C[1] + RV * Math.sin(a))); }
+      out.push('<polygon points="' + pa.join(" ") + '" fill="rgba(243,232,218,.06)" stroke="rgba(243,232,218,.35)" stroke-width="1"/>');
+      out.push('<polygon points="' + pv.join(" ") + '" fill="rgba(0,0,0,.35)" stroke="rgba(243,232,218,.2)" stroke-width=".8"/>');
+      var cc = P(C[0], C[1]).split(","); out.push('<circle cx="' + cc[0] + '" cy="' + cc[1] + '" r="' + (5 * s).toFixed(1) + '" fill="rgba(243,232,218,.25)"/>');
+      out.push('<polygon points="' + [P(-14.4, 0), P(14.4, 0), P(24.5, 13.9), P(-24.5, 13.9)].join(" ") + '" fill="rgba(255,155,107,.12)" stroke="rgba(255,155,107,.6)" stroke-width="1"/>');
+    } else {
+      // the Crown: the ring 10 m wide, its ten parts, the Orb over the middle
+      var o = P(0, 0).split(",");
+      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (130 * s).toFixed(1) + '" fill="none" stroke="rgba(255,155,107,.45)" stroke-width="' + (10 * s).toFixed(1) + '"/>');
+      for (var k = 0; k < 10; k++) { var b = (36 * k) * D; out.push('<path d="M' + P(124 * Math.sin(b), 124 * Math.cos(b)) + " L" + P(136 * Math.sin(b), 136 * Math.cos(b)) + '" stroke="rgba(16,11,9,.8)" stroke-width="1.2"/>'); }
+      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (20 * s).toFixed(1) + '" fill="rgba(200,215,230,.25)" stroke="rgba(243,232,218,.4)" stroke-width=".8"/>');
+    }
     STOPS.forEach(function (st) {
-      var q = P(st.p[0], st.p[1]).split(","), on = here && st.id === here.id;
+      if (placeOf(st) !== pl) return;
+      var q = P(st.p[0], st.p[1]).split(","), on = here && st.id === here.id, cr = MAP.cone;
       if (on) {
-        var a1 = (view.az - 35) * D, a2 = (view.az + 35) * D, r = 9 * s;
-        var p1 = P(st.p[0] - Math.sin(a1) * 9, st.p[1] + Math.cos(a1) * 9), p2 = P(st.p[0] - Math.sin(a2) * 9, st.p[1] + Math.cos(a2) * 9);
+        var a1 = (view.az - 35) * D, a2 = (view.az + 35) * D, r = cr * s;
+        var p1 = P(st.p[0] - Math.sin(a1) * cr, st.p[1] + Math.cos(a1) * cr), p2 = P(st.p[0] - Math.sin(a2) * cr, st.p[1] + Math.cos(a2) * cr);
         out.push('<path id="cone" d="M' + q.join(",") + " L" + p1 + " A" + r.toFixed(1) + "," + r.toFixed(1) + " 0 0 0 " + p2 + ' Z" fill="rgba(159,211,238,.35)"/>');
       }
       out.push('<circle class="stop" data-id="' + st.id + '" cx="' + q[0] + '" cy="' + q[1] + '" r="' + (on ? 4.5 : 3.2) + '" fill="' + (on ? "#ff9b6b" : "#f3e8da") + '" stroke="#1a0f0a" stroke-width="1"><title>' + st.name + "</title></circle>");
@@ -229,8 +240,12 @@
   var hinted = false; function hint() { if (hinted) return; hinted = true; $("hint").style.opacity = 0; }
 
   /* ------------------------------------------------------------------ the bar and the photos */
+  var PLACES = { pentagon: "Pentagon", crown: "Crown" }, lastPlace = null;
   STOPS.forEach(function (s) {
     if (s.hidden) return;
+    if (placeOf(s) !== lastPlace && STOPS.some(function (t) { return placeOf(t) !== placeOf(s); })) {
+      lastPlace = placeOf(s); var l = document.createElement("span"); l.className = "lab"; l.textContent = PLACES[lastPlace] || lastPlace; $("stops").appendChild(l);
+    }
     var b = document.createElement("button"); b.type = "button"; b.dataset.id = s.id; b.textContent = s.short || s.name; b.addEventListener("click", function () { go(s.id); }); $("stops").appendChild(b);
   });
   $("stops").style.display = "contents";

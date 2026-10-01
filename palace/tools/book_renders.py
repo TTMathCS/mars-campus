@@ -2,13 +2,13 @@
 usage: python3 palace/tools/book_renders.py [name,name,...]    (default: all)
 Run ./build.sh debug first. Loads palace/palace-debug.html in headless Chromium (SwiftShader, so each
 frame takes several seconds), sets up each view through window.__crown and saves a 1600 x 900 JPEG to
-palace/design/img/<name>.jpg. Views are either a time in the flight video (the director's camera) or a
+palace/design/img/<name>.jpg (or RENDER_OUT). Views are either a time in the flight video (the director's camera) or a
 fixed camera. Takes about a minute to load and 20-40 s per picture."""
 import asyncio, sys, os, subprocess, time, io
 from playwright.async_api import async_playwright
 from PIL import Image
 TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
-IMG = os.path.join(REPO, "palace", "design", "img"); os.makedirs(IMG, exist_ok=True)
+IMG = os.environ.get("RENDER_OUT") or os.path.join(REPO, "palace", "design", "img"); os.makedirs(IMG, exist_ok=True)   # RENDER_OUT=dir to try views without touching the book
 THREE = os.path.join(TOOLS, "three.min.js")
 W, H = 1600, 900
 HIDE = "['load','shot','data','radar','bar','ctl','welcome','start','end'].forEach(function(id){ var e = document.getElementById(id); if (e) e.hidden = true; }); 1"

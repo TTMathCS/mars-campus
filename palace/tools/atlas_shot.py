@@ -1,7 +1,7 @@
 """Headless screenshots of the Mars Atlas (palace/design/atlas/).
 usage: python3 palace/tools/atlas_shot.py '[["name", "js", waitMs], ...]' [WxH] [tiles]
 tiles: "fake" (default) answers the OnMars tile requests with generated test tiles, so the tile
-maths can be checked offline; "none" makes them fail, to see the simplified stand-in map.
+maths can be checked offline; "none" makes them fail, to see the base map (img/mars-map.jpg) alone.
 The page exposes window.__atlas (see atlas.js) when window.__atlasDebug is set."""
 import asyncio, sys, os, json, subprocess, time, io
 from playwright.async_api import async_playwright

@@ -4,9 +4,9 @@ var BOOK = (function () {
   var CH = [
     ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
-    ["crown", "02", "The Crown", "The floating house above ground, the Orb and the Stone Garden"],
+    ["crown", "02", "The Crown", "The floating house above ground, the Orb with the Universe Hall, and the Stone Garden"],
     ["pentagon", "03", "The Pentagon", "Five levels below ground, the atrium and how it is built"],
-    ["interiors", "04", "Interiors", "Every room, the materials, light and the Wormhole Gate"],
+    ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Universe Hall"],
     ["power", "05", "Power", "Solar field, reactors, storage and the grid, in sunshine and in storms"],
     ["transport", "06", "Transportation", "Ships from Earth, the pod, rovers, the maglev and the portals"],
     ["spaceport", "07", "Arcadia Spaceport", "Pads, terminal, the fuel plant and the ice mine"],
@@ -51,8 +51,8 @@ var BOOK = (function () {
   function north(p, x, y) { var g = S("g", { transform: "translate(" + x + " " + y + ")" }, p); S("path", { d: "M0 -16L6 6L0 1L-6 6Z", "class": "inkf" }, g); T(g, 0, -21, "N", "disp", { "text-anchor": "middle", style: "font-size:14px;font-weight:600" }); return g; }
   /* Real Mars imagery for the map figures: the NASA/JPL/USGS Viking colour mosaic (MDIM 2.1), as 512 px tiles
      from Esri OnMars (geographic; level z has 2^(z+1) x 2^z tiles of 180/2^z degrees, origin 180 W, 90 N).
-     Plain SVG images, so no CORS is needed. The simplified map img/mars-map.jpg lies underneath, so the
-     figure still reads if the tiles can't be reached. proj(lat, lonE) must be linear in both. */
+     Plain SVG images, so no CORS is needed. A real but coarser colour map, img/mars-map.jpg (tools/fetch_marsmap.py),
+     lies underneath, so the figure still looks right if the tiles can't be reached. proj(lat, lonE) must be linear in both. */
   var TILE_URL = "https://astro.arcgis.com/arcgis/rest/services/OnMars/MDIM/MapServer/tile/";
   function marsImagery(p, proj, box, z) {
     var g = S("g", { "class": "imagery" }, p);
@@ -95,7 +95,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + (prev[0] === "index" ? "./" : prev[0] + ".html") + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + next[0] + '.html"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev C, 30 Sep 2026. Real science and engineering unless marked <b>future technology</b>.</div>';
+      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev D, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });

@@ -43,7 +43,7 @@
   function place(o) { P.push(o); return o; }
   // Jim's Mars
   place({ id: "house", kind: "jim", name: "Jim's house · the Crown", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
-    k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb with the Wormhole Gate hovers at its centre. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
+    k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre, with the Universe Hall and the Wormhole Gate inside. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
   place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of the house", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
     k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station, a solar field and a buried reactor. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
@@ -113,7 +113,7 @@
   // parts of the site, in the design frame
   var SITEP = [
     ["crown", "The Crown", 0, 0, 90, 4, "The house above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
-    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across with the Wormhole Gate inside, floating over the Sun Well."],
+    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across floating over the Sun Well. Inside is the Universe Hall: a 3D universe you zoom from your seat, Earth and Mars with their weather, rest rooms and the Wormhole Gate."],
     ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel, seven basalt stones and 224 mirrors that aim the sun at the Orb's underside."],
     ["pentagon", "The Pentagon", 118, -118, 0, 3, "Five levels below ground, from 24 to 68 m down, under 16 m of soil that stops radiation."],
     ["terminal", "Terminal", 30000, 0, 34, 8, "Arrivals, health check and lounge. A maglev station opens under it in phase 2."],
@@ -254,6 +254,12 @@
     return new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uLift: { value: lift || 0 }, uLight: LIGHT_U, uFade: { value: fade === undefined ? 1 : fade } }, vertexShader: TILE_V, fragmentShader: TILE_F, transparent: fade !== undefined, depthWrite: fade === undefined });
   }
   var FALL = fallbackMaps();
+  // the real colour map (Solar System Scope, CC BY 4.0, from NASA imagery; 0 to 360 E) replaces the simplified one as soon as it loads
+  (function () {
+    var im = new Image();
+    im.onload = function () { var c = FALL.MDIM.image, g = c.getContext("2d"); g.drawImage(im, -c.width / 2, 0, c.width, c.height); g.drawImage(im, c.width / 2, 0, c.width, c.height); FALL.MDIM.needsUpdate = true; };
+    im.src = "../img/mars-map.jpg";
+  })();
   // base sphere: 8 x 4 patches carrying the simplified map (shown until tiles arrive, and in any gaps)
   var base = [];
   for (var r0 = 0; r0 < 4; r0++) for (var c0 = 0; c0 < 8; c0++) {
@@ -312,7 +318,7 @@
   var imageryNoted = 0;
   function noteImagery(ok) {
     if (ok && imageryNoted !== 1 && tileOK > 3) { imageryNoted = 1; toast(""); }
-    if (!ok && tileFails > 6 && tileOK === 0 && imageryNoted !== 2) { imageryNoted = 2; toast("NASA imagery could not load, so a simplified map is shown. Check the connection and reload to try again.", 9000); }
+    if (!ok && tileFails > 6 && tileOK === 0 && imageryNoted !== 2) { imageryNoted = 2; toast("NASA's detailed imagery could not load, so a coarser colour map is shown. Check the connection and reload to try again.", 9000); }
   }
   // pick the tiles to draw: split from level 2 down while a tile's pixels look bigger than about 1.5 screen pixels
   var _v = new THREE.Vector3(), frustum = new THREE.Frustum(), projView = new THREE.Matrix4(), _sph = new THREE.Sphere();

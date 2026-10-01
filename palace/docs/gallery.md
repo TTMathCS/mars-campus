@@ -14,6 +14,25 @@ on the [design pages](design/README.md) and the plan sheets on [Floor plans](pla
 | [<img src="../design/img/flight-west.jpg" alt="Heading west">](#2-heading-west) | [<img src="../design/img/flight-dunes.jpg" alt="The Dune Sea">](#3-the-dune-sea) | [<img src="../design/img/flight-crater.jpg" alt="Over the crater">](#4-over-the-crater) |
 | [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="../design/img/orb-universe.jpg" alt="Inside the Orb">](#inside-the-orb-the-universe-switched-on) | [<img src="../design/img/atlas-teaser.jpg" alt="Mars from orbit">](#mars-from-orbit) |
 
+## Jim's rooms on L1: the photo tour
+
+These two are path-traced in Blender Cycles from the scripts in `palace/tools/render/`, with furniture scanned from
+real things, after Jim found the real-time 3D cartoonish. They and seven 360° views are in the
+[photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/) ([README](../tour/README.md)).
+
+### The family room, looking out to the atrium
+
+![The family room from the fireplace end, looking out through the glass to the atrium](../tour/photos/hero.jpg)
+
+From the fireplace end: the curved velvet sofa and the chairs round a travertine table, the oak-slat ceiling with its
+downlights and skylight, and through the glass the terrace's olive trees, vines over the glass and the portal column.
+
+### The family room, by the fire
+
+![The family room: the fire, the books and a skylight](../tour/photos/living.jpg)
+
+The fire in a travertine chimney breast, walnut shelves lit from within, the doors to the street either side.
+
 ## The Crown
 
 ### Coming home at sunset

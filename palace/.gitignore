@@ -3,3 +3,5 @@ tools/shots*/
 tools/node_modules/
 tools/three.min.js
 tools/out/
+tools/render/assets/
+tools/render/__pycache__/

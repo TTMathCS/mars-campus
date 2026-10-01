@@ -84,6 +84,7 @@
   <button type="button" data-lv="0">L1 Residence</button><button type="button" data-lv="1">L2 Garden</button><button type="button" data-lv="2">L3 Studio</button><button type="button" data-lv="3">L4 Life support</button><button type="button" data-lv="4">L5 Sun court</button>
   <button type="button" id="bTour" aria-pressed="false">Take the tour</button>
   <span class="sp"></span>
+  <a href="../tour/">Photo tour</a>
   <a href="../crown/">Up to the Crown</a>
 </div>
 <div id="stick" hidden><i></i><span>MOVE</span></div>
@@ -103,7 +104,7 @@
     <h1>The Pentagon</h1>
     <p>You came down by portal to L1, 24 m under the Stone Garden. You are on a bridge in the atrium: a five-sided shaft 35 m across and 68 m deep, with the sky lens of the Sun Well at the top and the sun court at the bottom.</p>
     <p>Walk the bridges and the terraces of hanging gardens. On this level, the glass door on the south-east side opens into Jim's family room: play the piano, watch Earth on the screen over the fire, take a book from the shelves, then cross the street to the master suite down. The portal column takes you to any level in one step: L2, under a sky of lamps, with its lake, forest, orchard and meadow, or the sun court on L5.</p>
-    <div class="row"><button type="button" class="go" id="bEnter">Look round the atrium</button><a href="../crown/">Up to the Crown</a><a href="../design/pentagon.html">The design</a></div>
+    <div class="row"><button type="button" class="go" id="bEnter">Look round the atrium</button><a href="../tour/">The photo tour</a><a href="../crown/">Up to the Crown</a><a href="../design/pentagon.html">The design</a></div>
     <div class="small">Drag to look round · W A S D or arrows to walk · E (or the orange button) to play, watch or read · click the map to go to a place · or take the tour · the buttons below are the portal column: one step to any level</div>
   </div>
 </div>
@@ -153,6 +154,19 @@
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(66, 1, 0.08, 1200);
   var U = { uTime: { value: 0 }, uCam: { value: new THREE.Vector3() } };
+
+  /* ---- the light probe's changes fade over 1.5 s instead of jumping (a sudden swap of the image-based light flashes):
+     every standard material blends the old environment map into the new one */
+  var ENVB = { prev: { value: null }, mix: { value: 1 }, cur: null, old: null, T: 1.5 };
+  ENVB.chunk = "#if defined( USE_ENVMAP ) && defined( ENVMAP_TYPE_CUBE_UV )\nuniform sampler2D envPrev; uniform float envMix;\nvec4 envBlendUV( vec3 d, float r ) { return mix( textureCubeUV( envPrev, d, r ), textureCubeUV( envMap, d, r ), envMix ); }\n#endif\n" +
+    THREE.ShaderChunk.envmap_physical_pars_fragment.split("textureCubeUV( envMap, ").join("envBlendUV( ");
+  ENVB.patch = function (sh) { sh.uniforms.envPrev = ENVB.prev; sh.uniforms.envMix = ENVB.mix; sh.fragmentShader = sh.fragmentShader.replace("#include <envmap_physical_pars_fragment>", ENVB.chunk); };
+  THREE.MeshStandardMaterial.prototype.onBeforeCompile = ENVB.patch;
+  ENVB.swap = function (env, now) {
+    if (ENVB.old) ENVB.old.dispose(); ENVB.old = ENVB.cur; ENVB.cur = env; scene.environment = env.texture;
+    var fade = ENVB.old && !now; ENVB.prev.value = fade ? ENVB.old.texture : env.texture; ENVB.mix.value = fade ? 0 : 1;
+  };
+  ENVB.step = function (dt) { if (ENVB.mix.value < 1) ENVB.mix.value = Math.min(1, ENVB.mix.value + dt / ENVB.T); };
 
   /* ------------------------------------------------------------------ textures and materials */
   function canvasTex(w, h, draw, rep) { var c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d"), w, h); var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; if (rep) t.repeat.set(rep[0], rep[1]); return t; }
@@ -206,7 +220,7 @@
 
   function grassMat(lake) {
     var m = mat({ color: 0xffffff, map: TX.grass, roughness: 0.95 });
-    m.onBeforeCompile = function (sh) {
+    m.onBeforeCompile = function (sh) { ENVB.patch(sh);
       sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
       sh.fragmentShader = sh.fragmentShader.replace("#include <common>", [
         "#include <common>", "varying vec3 vWp;",
@@ -601,7 +615,7 @@
   // water: a still surface with a slow ripple, reflecting what is round it
   function water(w, d) {
     var m = new THREE.MeshStandardMaterial({ color: 0x041214, roughness: 0.035, metalness: 0.0, transparent: true, opacity: 0.95, envMapIntensity: 1.0 });
-    m.onBeforeCompile = function (sh) { sh.uniforms.uTime = U.uTime; sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+    m.onBeforeCompile = function (sh) { ENVB.patch(sh); sh.uniforms.uTime = U.uTime; sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
       sh.fragmentShader = "uniform float uTime; varying vec3 vWp;\n" + sh.fragmentShader.replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\n vec2 wq = vWp.xz; float w1 = sin(dot(wq, vec2(1.7, 0.9)) * 2.0 + uTime * 1.1) + sin(dot(wq, vec2(-0.8, 1.9)) * 2.7 - uTime * 1.4); float w2 = cos(dot(wq, vec2(1.7, 0.9)) * 2.0 + uTime * 1.1) + cos(dot(wq, vec2(-0.8, 1.9)) * 2.7 - uTime * 1.4);\n normal = normalize(normal + vec3(w1 * 0.015, w2 * 0.015, 0.0));"); };
     var o = new THREE.Mesh(new THREE.PlaneGeometry(w, d), m); o.rotation.x = -Math.PI / 2; o.receiveShadow = true; return o;
   }
@@ -1304,8 +1318,10 @@
   PROBE.cam = new THREE.CubeCamera(0.3, 2000, PROBE.rt); scene.add(PROBE.cam);
   function probe(force) {
     var p = camera.position, lim = ME.lv === 0 && RES.isIn(ME.x, ME.z) ? 5 : 12; if (!force && PROBE.last && PROBE.last.distanceTo(p) < lim) return;
+    var jump = !PROBE.last;                                                                // after a portal jump: no fade
+    if (!force && !jump && ENVB.mix.value < 1) return;                                     // let the last change finish fading first
     PROBE.last = p.clone(); PROBE.cam.position.copy(p); var au = renderer.shadowMap.autoUpdate; renderer.shadowMap.autoUpdate = false; PROBE.cam.update(renderer, scene); renderer.shadowMap.autoUpdate = au;
-    var env = PROBE.pm.fromCubemap(PROBE.rt.texture); if (PROBE.env) PROBE.env.dispose(); PROBE.env = env; scene.environment = env.texture;
+    var env = PROBE.pm.fromCubemap(PROBE.rt.texture); PROBE.env = env; ENVB.swap(env, force || jump);
   }
 
   /* ------------------------------------------------------------------ you: levels, walking where there is floor */
@@ -1452,13 +1468,14 @@
     if (ME.started && !GO && !TOUR) walk(dt); goStep(dt); tourStep(dt);
     var p = new THREE.Vector3(ME.x, floorY() + 1.65, ME.z); camera.position.copy(p); camera.rotation.set(ME.pitch, ME.yaw, 0, "YXZ"); camera.updateMatrixWorld(true); U.uCam.value.copy(p);
     var garden = ME.lv === 1 && apo(ME.x, ME.z) > APA - 1, sd = garden ? SUNDIR.garden : SUNDIR.atrium, inRes = ME.lv === 0 && RES.isIn(ME.x, ME.z);
-    hemi.intensity = LIGHT.hemi * (inRes ? 1.35 : 1); POST.u.uExp.value = LIGHT.exp * (inRes ? 0.96 : 1);
+    LIGHT.k = (LIGHT.k || 0) + ((inRes ? 1 : 0) - (LIGHT.k || 0)) * Math.min(1, dt * 2.5);
+    hemi.intensity = LIGHT.hemi * (1 + 0.35 * LIGHT.k); POST.u.uExp.value = LIGHT.exp * (1 - 0.04 * LIGHT.k);
     var c = garden ? p.clone() : new THREE.Vector3(0, -40, 0);
     sun.position.copy(c).addScaledVector(sd, 120); sun.target.position.copy(c); sun.target.updateMatrixWorld();
     var ext = garden ? 55 : ME.lv === 0 ? 64 : 38; SC.left = SC.bottom = -ext; SC.right = SC.top = ext; SC.updateProjectionMatrix();
     beam.motes.rotation.y = T * 0.01;
     TICK.forEach(function (f) { f(dt, T); });
-    PROBE.t += dt; if (PROBE.t > 0.6) { PROBE.t = 0; probe(false); }
+    ENVB.step(dt); PROBE.t += dt; if (PROBE.t > 0.6) { PROBE.t = 0; probe(false); }
     TV.render(dt); actStep();
     POST.render(); wT += dt; if (wT > 0.25) { wT = 0; where(); MAP.draw(); }
   }

@@ -16,6 +16,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
 | Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3 has started: **the Pentagon** at `palace/pentagon/` (the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level with the lake, forest, orchard, farm and meadow; the sun court; Jim's residence on L1 to walk into, with the piano, the TV and the books). Next: the rest of L1. |
+| Demo 2, photo tour | `palace/tour/` | **Live since 1 Oct 2026.** Jim found the real-time 3D pages cartoonish ("WTH IS THIS? CATOON? nothing is real or feel real at all"), so the house is now shown as path-traced 360° photographs (Blender Cycles, scanned furniture). He likes them ("so great and almost perfect. i need all rooms to be like this"): **every room is to be rendered this way.** Live: the family room. Rendering: the rest of Jim's L1 rooms, the atrium, the sun court; next the master suite down, the Crown's rooms (the great salon first), then the Orb. The scenes are scripts in `palace/tools/render/`. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -220,7 +221,20 @@ row by row, `BLOCK` holds what you can't walk through); its sky shader also draw
 with the Crown's furniture kit) and `ACTS` the things to do there. Static meshes are merged by material at the end
 (`mergeStatic`; the residence separately, so its shell can stop casting shadows on L2). The render
 target has a 24-bit depth buffer (three r128 gives render targets 16 bits otherwise, and surfaces 2 cm apart flicker).
-Test with `python3 palace/tools/pentagon_shot.py` (`?debug` exposes `window.__pent`).
+Test with `python3 palace/tools/pentagon_shot.py` (`?debug` exposes `window.__pent`). The probe's re-captures fade in
+over 1.5 s (`ENVB`: every standard material's shader blends the previous environment map into the new one); a sudden
+swap made the rooms flash every few seconds as you walked (Jim, 1 Oct 2026). The Crown has the same `ENVB`.
+
+**Demo 2, the photo tour** (`palace/tour/`): read `palace/tour/README.md` first. The viewer `index.html` (three.js r128,
+no build step) puts each 360° JPEG from `pano/` on the inside of a sphere; `stops.js` lists the stops (where each was
+taken in the family room's frame, where you look first, the rings it shows; a ring can sit at a portal). The pictures
+are rendered by Blender 4.2 (the `bpy` wheel from PyPI, Python 3.11) from the scripts in `palace/tools/render/`:
+`lib.py` (materials, modelling, lights, cameras), `furn.py` (the piano, bookcases and books, lamps, rugs, paintings,
+olive trees), `atrium.py` (the atrium on every level, the column, the sun court, the roof and sky lens), `family.py`
+(Jim's rooms and their lighting; `CAMS` are the stills), `pano.py` (`STOPS` are the 360s, with their exposure) and
+`final.py` (renders a list of both). Fetch the models and textures with `fetch_assets.py` first. Look at a quick
+preview (1024 px, 12 samples, about a minute) before a final (4096 px, 32 samples, about 25 minutes on 4 cores), and
+look at every final critically before it goes up.
 
 **Demo 2, first palace**: the built page is `palace/archive/old-palace/index.html`; its source is in git history
 (before commit 0f7a717, `palace/src_old/`; build script at commit c2e231b).
@@ -281,6 +295,7 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 
 - Show plans before building details, and wait for his approval.
 - It must look real: real materials, never cartoon. Every picture is judged on that; replace or drop one that isn't.
+  On 1 Oct 2026 he rejected the real-time 3D pages as cartoon; path-traced renders (the photo tour) are the standard.
 - Keep the ground clean: no fields of panels or mirrors ("so ugly", "very messy").
 - Docs must be easy to navigate: several short files, tables and bullets, pictures visible on GitHub.
 - Don't leave answered questions on any page. Record his answer in the decision log and move on.
@@ -289,6 +304,7 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 - Before anything opens on his screen, say what it is and how to use it.
 - He views the demos on his laptop. Share links; don't drive a browser on his machine.
 - He prefers short, direct answers.
+- "Try again" from him has meant "the session stopped; carry on" as well as "redo it": check whether work stalled.
 - A possible future Scotiabank demo needs branding permission, or an "unofficial concept" label.
 
 ## 5. File map
@@ -312,6 +328,8 @@ palace/                       demo 2
 ├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
 ├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
 ├── pentagon/                 the Pentagon, phase 3: index.html (self-contained), README.md
+├── tour/                     the photo tour: index.html (viewer), stops.js, pano/ (360s), photos/, README.md
+├── tools/render/             Blender scenes for the photo tour: lib, furn, atrium, family, pano, final, fetch_assets
 ├── tools/                    crown_shot.py, crown_in_shot.py, orb_shot.py, pentagon_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
 │                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js

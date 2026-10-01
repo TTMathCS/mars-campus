@@ -7,11 +7,12 @@ Every question put to Jim, his answer in his own words, and what it changed. New
 
 ## For Jim's review
 
-Nothing is waiting for an answer: Jim answered every question on 1 Oct 2026, and where he said "do your best
-judgment" the choice is recorded below. One item is shown for review:
+**One question for Jim (1 Oct 2026): how to fit rooms into the Orb.** Where he said "do your best judgment" the
+choice is recorded below. Shown for review:
 
 | What | Drawn from | Where |
 | --- | --- | --- |
+| **The Orb, Rev F: rooms in the middle of the ring, a visitors' lane on each side.** Five rooms between the lanes on each floor; the outer lane looks out over the plain, the inner lane in onto the Gate. Rooms of a useful depth need 10 m between the Gate's round space and the shell, and the Orb has 6 m. **Question:** grow the Orb from 40 m to 48 m and keep the Gate at 18 m (recommended), or keep the Orb at 40 m and make the Gate 12 m? | Jim's words, 1 Oct 2026 (below) | [The plan](img/book/orb-rev-f.png) · OR-1 to OR-8 |
 | **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
 | **The ground, Rev E: built, with a dock for the Orb.** A paved pentagon over the Pentagon, 4 m wider than it, shows where the house lies; the Stone Garden is the circle inside it; glass over the five avenues and a glass pavilion over each corner stair hint at the house below; the Orb's dock round the Sun Well is where the Orb lands. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 01, the site plan](design/01-site-and-city.md#the-site-plan) · GN-13, OR-9 |
 
@@ -26,6 +27,55 @@ judgment" the choice is recorded below. One item is shown for review:
 | The columns on the garden level | 55 slender columns about 30 m apart, each with a flared head, planted from foot to head like a vertical garden (as Singapore's Supertrees) | In Mars gravity the level above weighs little, and the soil on the roof balances the air inside, so few columns are needed; planted, they read as part of the garden |
 | The residence rooms on the atrium (L1) | The guest lounge and the family room are two storeys of 4 m within L1's 8 m, with the guest suites and Jim's study above them; the cinema, the thermal pools and the great library are full height. Each room's sky ceiling is a panel in a plaster ceiling | Rooms 8 m tall would feel like halls; the plan's rooms keep their places |
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
+| The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
+
+## 1 Oct 2026: the Orb's rooms, and a flash while walking
+
+Jim, in the Orb:
+
+> "in the orb, I don't like it be all open area. there should be seprate rooms in the middle of the circle, while
+> leaving outer and inner circle to be visitor lanes so they can see the view outer or inner."
+
+**Drawn for his review, Rev F** ([the plan](img/book/orb-rev-f.png)): on each of the three floors, five rooms in the
+middle of the ring (on +72 two universe lounges, the bar, a sky library and a gallery; on +80 the rest rooms; on +64
+the portals), a lane 2.4 m wide along the windows and one along the glass onto the Gate, and five passages between the
+lanes. It needs a bigger Orb or a smaller Gate (the question above). → OR-1 to OR-8
+
+Jim, walking the house:
+
+> "when I walk in the building it flashes every few seconds. not sure why"
+
+**Fixed.** The Crown and the Pentagon light each room partly from a probe: a picture of the room round you, taken
+again every 5 to 14 m as you walk. The new picture replaced the old one at once, and the whole room jumped in
+brightness, by up to a seventh in one frame. Now the old picture fades into the new over 1.5 s, and stepping in or
+out of Jim's residence changes the light over a second. Measured on a walk across the family room: the biggest jump
+at a new probe went from 17 levels (of 255) to 1.5.
+
+![The Orb, Rev F: the +72 floor and a section](img/book/orb-rev-f.png)
+
+## 1 Oct 2026: it must look real, so a photo tour
+
+Jim, opening the Pentagon in 3D:
+
+> "WTH IS THIS? CATOON? nothing is real or feel real at all"
+>
+> "Try again"
+
+**What changed.** The real-time 3D pages draw with a game engine in the browser, and they look like a game. The house
+is now shown the way an architect or an estate agent shows one: **path-traced photographs** of the 3D model (Blender
+Cycles: real bounced light, real glass, furniture scanned from real things), and a **360° tour** you can walk through
+by clicking from place to place. Live at [palace/tour/](https://ttmathcs.github.io/mars-campus/palace/tour/), with its
+[README](../tour/README.md), starting with **the family room on L1**, by the fire and at the glass, and two stills in
+the tour's **Photos**. → DM-9, DM-10
+
+Jim, seeing the first two stills:
+
+> "the new images of indoor are so great and almost perfect. i need all rooms to be like this."
+
+**So every room is being rendered the same way**, and added to the tour as it finishes: next Jim's music room and
+dining room, the terrace, the bridge and the sun court; then the street and the master suite down (the moss garden,
+the bedroom, the bath); then the Crown's rooms, starting with the great salon; then the Orb, once its plan is settled.
+The real-time pages stay up for walking about.
 
 ## 1 Oct 2026: the Pentagon in 3D
 

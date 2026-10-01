@@ -185,6 +185,19 @@
   var SUN = { dir: new THREE.Vector3(), col: new THREE.Color(), el: 0, az: 0, storm: 0, night: 0 };
   var U = { uSun: { value: SUN.dir }, uSunEl: { value: 0 }, uStorm: { value: 0 }, uTime: { value: 0 }, uCam: { value: new THREE.Vector3() } };
 
+  /* ---- the light probe's changes fade over 1.5 s instead of jumping (a sudden swap of the image-based light flashes):
+     every standard material blends the old environment map into the new one */
+  var ENVB = { prev: { value: null }, mix: { value: 1 }, cur: null, old: null, T: 1.5 };
+  ENVB.chunk = "#if defined( USE_ENVMAP ) && defined( ENVMAP_TYPE_CUBE_UV )\nuniform sampler2D envPrev; uniform float envMix;\nvec4 envBlendUV( vec3 d, float r ) { return mix( textureCubeUV( envPrev, d, r ), textureCubeUV( envMap, d, r ), envMix ); }\n#endif\n" +
+    THREE.ShaderChunk.envmap_physical_pars_fragment.split("textureCubeUV( envMap, ").join("envBlendUV( ");
+  ENVB.patch = function (sh) { sh.uniforms.envPrev = ENVB.prev; sh.uniforms.envMix = ENVB.mix; sh.fragmentShader = sh.fragmentShader.replace("#include <envmap_physical_pars_fragment>", ENVB.chunk); };
+  THREE.MeshStandardMaterial.prototype.onBeforeCompile = ENVB.patch;
+  ENVB.swap = function (env, now) {
+    if (ENVB.old) ENVB.old.dispose(); ENVB.old = ENVB.cur; ENVB.cur = env; scene.environment = env.texture;
+    var fade = ENVB.old && !now; ENVB.prev.value = fade ? ENVB.old.texture : env.texture; ENVB.mix.value = fade ? 0 : 1;
+  };
+  ENVB.step = function (dt) { if (ENVB.mix.value < 1) ENVB.mix.value = Math.min(1, ENVB.mix.value + dt / ENVB.T); };
+
   /* ------------------------------------------------------------------ textures drawn here: plaster, basalt, oak, linen, the Glide's belt */
   function canvasTex(w, h, draw, rep) { var c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d"), w, h); var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; if (rep) t.repeat.set(rep[0], rep[1]); return t; }
   function speckle(g, w, h, n, cols, seed, smin, smax) { var r = rng(seed); for (var i = 0; i < n; i++) { g.fillStyle = cols[Math.floor(r() * cols.length)]; var s = smin + r() * (smax - smin); g.globalAlpha = 0.25 + 0.5 * r(); g.fillRect(r() * w, r() * h, s, s); } g.globalAlpha = 1; }
@@ -577,7 +590,7 @@
   }
   function water(w, d) {
     var m = new THREE.MeshStandardMaterial({ color: 0x1f5a63, roughness: 0.06, metalness: 0.0, transparent: true, opacity: 0.92, envMapIntensity: 1.4 });
-    m.onBeforeCompile = function (sh) { sh.uniforms.uTime = U.uTime; sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+    m.onBeforeCompile = function (sh) { ENVB.patch(sh); sh.uniforms.uTime = U.uTime; sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
       sh.fragmentShader = "uniform float uTime; varying vec3 vWp;\n" + sh.fragmentShader.replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\n vec2 wq = vWp.xz; float w1 = sin(dot(wq, vec2(1.7, 0.9)) * 3.0 + uTime * 1.1) + sin(dot(wq, vec2(-0.8, 1.9)) * 4.1 - uTime * 1.4); float w2 = cos(dot(wq, vec2(1.7, 0.9)) * 3.0 + uTime * 1.1) + cos(dot(wq, vec2(-0.8, 1.9)) * 4.1 - uTime * 1.4);\n normal = normalize(normal + vec3(w1 * 0.02, w2 * 0.02, 0.0));"); };
     var o = new THREE.Mesh(new THREE.PlaneGeometry(w, d), m); o.rotation.x = -Math.PI / 2; o.receiveShadow = true; return o;
   }
@@ -926,10 +939,12 @@
   PROBE.cam = new THREE.CubeCamera(0.3, 2000, PROBE.rt); scene.add(PROBE.cam);
   function probe(force) {
     var p = mePos(); if (!force && PROBE.last && PROBE.last.distanceTo(p) < 14) return;
+    var jump = !PROBE.last;                                                                // after a portal jump: no fade
+    if (!force && !jump && ENVB.mix.value < 1) return;                                     // let the last change finish fading first
     PROBE.last = p.clone(); PROBE.cam.position.set(p.x, FL + 2.2, p.z); var au = renderer.shadowMap.autoUpdate; renderer.shadowMap.autoUpdate = false; PROBE.cam.update(renderer, scene); renderer.shadowMap.autoUpdate = au;
-    var env = PROBE.pm.fromCubemap(PROBE.rt.texture); if (PROBE.env) PROBE.env.dispose(); PROBE.env = env; scene.environment = env.texture;
+    var env = PROBE.pm.fromCubemap(PROBE.rt.texture); PROBE.env = env; ENVB.swap(env, force || jump);
   }
-  TICK.push(function (dt) { PROBE.t += dt; if (PROBE.t > 0.5) { PROBE.t = 0; probe(false); } });
+  TICK.push(function (dt) { ENVB.step(dt); PROBE.t += dt; if (PROBE.t > 0.5) { PROBE.t = 0; probe(false); } });
   var _setTime = setTime; setTime = function (k) { _setTime(k); if (PROBE.last) setTimeout(function () { probe(true); }, 30); };
   resize(); setTime("sunset");
   ME.b = 88.6; lookAlong(2);

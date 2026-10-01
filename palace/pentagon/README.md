@@ -39,7 +39,8 @@ mapping (`ROOMS`, `ROOM_FS`): the ray from your eye is followed into a box behin
 and the furniture standing about halfway back, so they move as rooms do when you walk past. Everything that never
 moves is merged into one mesh per material (`mergeStatic`); trees, shrubs, flowers, ferns and wheat are instanced.
 Light: a 4096 shadow map, the lens or the sky of lamps as the sun, and a probe of the space round you turned into
-image-based light.
+image-based light; when the probe is taken again as you walk, the new light fades in over 1.5 s (`ENVB`), as a sudden
+change made the rooms flash.
 
 Test with `python3 palace/tools/pentagon_shot.py` (see its docstring): `?debug` exposes `window.__pent` with
 `enter()`, `on(level, bearing)`, `at(level, x, z, yaw, pitch)`, `look(yaw, pitch)`, `step(n)` and `ev("js")`.

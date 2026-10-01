@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0706">
+<title>The tour · Jim's house on Mars</title>
+<meta name="description" content="A 360° tour of Jim's house on Mars, path-traced as photographs: the family room by the fire, the piano by the glass, the table for eight, and the atrium of the Pentagon outside.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #f3e8da; --dim: #c9b39c; --line: rgba(243, 232, 218, 0.18);
+    --panel: rgba(16, 11, 9, 0.6); --panel2: rgba(16, 11, 9, 0.86); --hot: #ff9b6b; --ice: #9fd3ee;
+    --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; height: 100%; background: #0b0706; color: var(--ink); font-family: var(--body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  canvas#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  canvas#view.drag { cursor: grabbing; }
+  button { font: inherit; color: inherit; }
+  a { color: var(--ice); }
+  .hud { position: fixed; z-index: 2; }
+  #where { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 62vw); pointer-events: none; }
+  #where .k { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); text-shadow: 0 1px 8px rgba(0,0,0,.9); }
+  #where .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 14px rgba(0,0,0,.75); }
+  #where .d { margin-top: 6px; font-size: 14px; line-height: 1.45; text-shadow: 0 1px 8px rgba(0,0,0,.95); max-width: 46ch; }
+  #map { right: calc(env(safe-area-inset-right, 0px) + 14px); top: calc(env(safe-area-inset-top, 0px) + 12px); width: 190px; height: auto; background: rgba(16, 11, 9, 0.55); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  #map .stop { cursor: pointer; }
+  #bar { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); width: min(1000px, calc(100vw - 28px)); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 14px; padding: 9px 11px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  #bar button { background: rgba(243,232,218,.06); border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; font: 500 13px/1 var(--body); cursor: pointer; }
+  #bar button:hover { background: rgba(243,232,218,.14); }
+  #bar button[aria-current="true"] { background: var(--ink); color: #1a0f0a; border-color: var(--ink); }
+  #bar .lab { font: 500 11px var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+  #bar .sp { flex: 1; }
+  #bar a { font-size: 13px; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+  #spots { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+  .spot { position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 0; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .spot i { display: block; width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(255,255,255,.9); background: rgba(255,255,255,.14); box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 4px 18px rgba(0,0,0,.35); transition: transform .2s, background .2s; }
+  .spot:hover i, .spot:focus-visible i { transform: scale(1.12); background: rgba(255,155,107,.45); }
+  .spot span { font: 600 13px/1 var(--body); padding: 5px 8px; border-radius: 6px; background: rgba(16,11,9,.72); white-space: nowrap; }
+  .spot.far i { width: 30px; height: 30px; }
+  #load { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 500 13px var(--mono); color: var(--dim); letter-spacing: .08em; z-index: 6; pointer-events: none; }
+  #hint { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 78px); transform: translateX(-50%); font: 500 11.5px var(--mono); letter-spacing: .1em; color: var(--ink); text-shadow: 0 1px 6px rgba(0,0,0,.95); pointer-events: none; z-index: 2; transition: opacity 1.2s; text-transform: uppercase; }
+  .card { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(10,6,5,.9); z-index: 5; }
+  .card .box { max-width: 1200px; width: 100%; max-height: calc(100vh - 40px); overflow: auto; background: var(--panel2); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .card .k { font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  .card h2 { margin: 6px 0 12px; font: 700 clamp(28px, 4vw, 40px)/1 var(--display); }
+  .card figure { margin: 0 0 18px; }
+  .card img { width: 100%; height: auto; display: block; border-radius: 10px; }
+  .card figcaption { font-size: 14px; line-height: 1.5; margin-top: 8px; opacity: .9; }
+  .card .row { display: flex; gap: 8px; margin-top: 6px; }
+  .card .row button { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--hot); background: var(--hot); color: #1a0f0a; font: 600 15px/1 var(--body); cursor: pointer; }
+  @media (max-width: 760px) {
+    #where .d { display: none; }
+    #map { width: 120px; }
+    #where { max-width: calc(100vw - 150px); }
+    .spot span { font-size: 12px; }
+    #bar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 8px; gap: 6px; }
+    #bar::-webkit-scrollbar { display: none; }
+    #bar .lab, #bar .sp { display: none; }
+    #bar button, #bar a { flex: none; white-space: nowrap; }
+    #hint { bottom: calc(env(safe-area-inset-bottom, 0px) + 66px); }
+  }
+</style>
+</head>
+<body>
+<canvas id="view" aria-label="A 360-degree photograph: drag to look round"></canvas>
+<div id="spots"></div>
+<div id="load">Opening the house…</div>
+<div class="hud" id="where"><div class="k" id="wK"></div><div class="t" id="wT"></div><div class="d" id="wD"></div></div>
+<svg class="hud" id="map" viewBox="0 0 200 200" role="img" aria-label="Where you are"></svg>
+<div id="hint">Drag to look round · click a ring to walk there</div>
+<div class="hud" id="bar">
+  <span class="lab">The tour</span>
+  <span id="stops"></span>
+  <button type="button" id="bPhotos">Photos</button>
+  <span class="sp"></span>
+  <a href="../">Demo 2 home</a>
+</div>
+<div class="card" id="photos" hidden>
+  <div class="box">
+    <div class="k">Jim's house on Mars · photographs of the 3D model</div>
+    <h2>Photos</h2>
+    <div id="gallery"></div>
+    <div class="row"><button type="button" id="bPhotosClose">Back to the tour</button></div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="stops.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var D = Math.PI / 180, EYE = 1.55;
+  /* Each stop is a 360° render (equirectangular, its middle looking along +y of the family room's frame: x along the
+     glass, y into the room). p is where it was taken, az0 where you look first (degrees, 0 = +y, 90 = -x). */
+  var STOPS = (window.TOUR_STOPS || []).filter(function (s) { return s.ready !== false; });   // stops still rendering wait
+  var PHOTOS = window.TOUR_PHOTOS || [];
+  var byId = {}; STOPS.forEach(function (s) { byId[s.id] = s; });
+
+  /* ------------------------------------------------------------------ three.js: a sphere seen from inside */
+  var canvas = $("view");
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, preserveDrawingBuffer: /[?&]debug/.test(location.search) });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  var scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(75, 1, 1, 2000);
+  var geo = new THREE.SphereGeometry(500, 96, 48); geo.scale(-1, 1, 1);
+  function sphereMesh(order) { var m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ transparent: true, opacity: 1, depthTest: false, depthWrite: false })); m.renderOrder = order; scene.add(m); return m; }
+  var cur = sphereMesh(0), nxt = sphereMesh(1); nxt.visible = false;
+  // a direction in the room's frame (azimuth from +y towards -x, elevation) as a point on the sphere
+  function dir3(az, el, r) { var u = 0.5 - az / 360, ph = 2 * Math.PI * u; r = r || 1; return new THREE.Vector3(Math.cos(ph) * Math.cos(el * D) * r, Math.sin(el * D) * r, Math.sin(ph) * Math.cos(el * D) * r); }
+
+  var view = { az: 0, el: 0, fov: 75 }, here = null, fade = null, cache = {};
+  var loader = new THREE.TextureLoader();
+  function tex(stop, cb) {
+    if (cache[stop.id]) { if (cache[stop.id].image) cb(cache[stop.id]); else cache[stop.id].cbs.push(cb); return; }
+    var entry = { image: null, cbs: [cb] }; cache[stop.id] = entry;
+    loader.load(stop.img, function (t) {
+      t.minFilter = THREE.LinearMipmapLinearFilter; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      cache[stop.id] = t; t.cbs = null; entry.cbs.forEach(function (f) { f(t); });
+    }, undefined, function () { $("load").textContent = "Could not load " + stop.img; });
+  }
+  function preload(stop) { (stop.links || []).forEach(function (ln) { var id = typeof ln === "string" ? ln : ln.id; if (byId[id]) tex(byId[id], function () {}); }); }
+
+  /* ------------------------------------------------------------------ moving between stops */
+  function bearing(a, b) { return Math.atan2(-(b.p[0] - a.p[0]), b.p[1] - a.p[1]) / D; }
+  function go(id, instant) {
+    var s = byId[id]; if (!s || (here && here.id === id && !instant)) return;
+    var from = here; $("load").hidden = !!cache[id] && !!cache[id].image; if (!$("load").hidden) $("load").textContent = "Walking…";
+    tex(s, function (t) {
+      $("load").hidden = true;
+      if (!from || instant) { cur.material.map = t; cur.material.needsUpdate = true; view.az = s.az0; view.el = 0; }
+      else {
+        // keep facing the way you walked (a portal sets you down facing the column)
+        var level = Math.abs((from.z || 0) - (s.z || 0)) > 3;
+        view.az = level ? s.az0 : bearing(from, s); if (level) view.el = 0;
+        nxt.material.map = t; nxt.material.opacity = 0; nxt.material.needsUpdate = true; nxt.visible = true; fade = { t0: performance.now(), dur: 650 };
+      }
+      here = s; setHud(); spots(); preload(s); drawMap();
+      if (history.replaceState) history.replaceState(null, "", "#" + s.id);
+    });
+  }
+  function setHud() {
+    $("wK").textContent = here.k; $("wT").textContent = here.name; $("wD").textContent = here.d || "";
+    Array.prototype.forEach.call(document.querySelectorAll("#stops button"), function (b) {
+      var on = b.dataset.id === here.id; b.setAttribute("aria-current", on ? "true" : "false");
+      if (on && b.scrollIntoView) b.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+  }
+
+  /* ------------------------------------------------------------------ rings on the floor where you can walk */
+  var SPOTS = [];
+  function spots() {
+    var box = $("spots"); box.innerHTML = ""; SPOTS = [];
+    (here.links || []).forEach(function (ln) {
+      var id = typeof ln === "string" ? ln : ln.id, t = byId[id]; if (!t) return;
+      // the ring goes where you would stand at the next stop, or where the link says (a portal)
+      var at = ln.at || [t.p[0], t.p[1], t.z || 0], eye = (here.z || 0) + EYE;
+      var dx = at[0] - here.p[0], dy = at[1] - here.p[1], dist = Math.hypot(dx, dy);
+      var el = Math.atan2(at[2] - eye, dist) / D, az = Math.atan2(-dx, dy) / D;
+      var b = document.createElement("button"); b.type = "button"; b.className = "spot" + (dist > 9 ? " far" : ""); b.innerHTML = "<i></i><span></span>"; b.querySelector("span").textContent = ln.label || t.name;
+      b.addEventListener("click", function (e) { e.stopPropagation(); go(id); });
+      box.appendChild(b); SPOTS.push({ el: b, v: dir3(az, Math.max(-60, el), 400) });
+    });
+  }
+  function placeSpots() {
+    var w = canvas.clientWidth, h = canvas.clientHeight, v = new THREE.Vector3();
+    SPOTS.forEach(function (s) {
+      v.copy(s.v).project(camera);
+      var on = v.z < 1 && Math.abs(v.x) < 1.2 && Math.abs(v.y) < 1.2 && !fade;
+      s.el.style.display = on ? "" : "none";
+      if (on) s.el.style.transform = "translate(" + ((v.x + 1) / 2 * w) + "px," + ((1 - v.y) / 2 * h) + "px) translate(-50%,-50%)";
+    });
+  }
+
+  /* ------------------------------------------------------------------ the little map */
+  var MAP = { x0: -26, x1: 26, y0: -56, y1: 16 };
+  function drawMap() {
+    var svg = $("map"), s = 200 / (MAP.y1 - MAP.y0), h = (MAP.y1 - MAP.y0) * s, w = (MAP.x1 - MAP.x0) * s;
+    function P(x, y) { return ((x - MAP.x0) * s).toFixed(1) + "," + ((MAP.y1 - y) * s).toFixed(1); }
+    svg.setAttribute("viewBox", "0 0 " + w.toFixed(0) + " " + h.toFixed(0));
+    var out = [];
+    // the atrium: the pentagon of the glass, the void, the column
+    var C = [0, -24.09], RA = 29.77, RV = 20.49 / Math.cos(36 * D), pa = [], pv = [];
+    for (var i = 0; i < 5; i++) { var a = (54 + 72 * i) * D; pa.push(P(C[0] + RA * Math.cos(a), C[1] + RA * Math.sin(a))); pv.push(P(C[0] + RV * Math.cos(a), C[1] + RV * Math.sin(a))); }
+    out.push('<polygon points="' + pa.join(" ") + '" fill="rgba(243,232,218,.06)" stroke="rgba(243,232,218,.35)" stroke-width="1"/>');
+    out.push('<polygon points="' + pv.join(" ") + '" fill="rgba(0,0,0,.35)" stroke="rgba(243,232,218,.2)" stroke-width=".8"/>');
+    var cc = P(C[0], C[1]).split(","); out.push('<circle cx="' + cc[0] + '" cy="' + cc[1] + '" r="' + (5 * s).toFixed(1) + '" fill="rgba(243,232,218,.25)"/>');
+    out.push('<polygon points="' + [P(-14.4, 0), P(14.4, 0), P(24.5, 13.9), P(-24.5, 13.9)].join(" ") + '" fill="rgba(255,155,107,.12)" stroke="rgba(255,155,107,.6)" stroke-width="1"/>');
+    STOPS.forEach(function (st) {
+      var q = P(st.p[0], st.p[1]).split(","), on = here && st.id === here.id;
+      if (on) {
+        var a1 = (view.az - 35) * D, a2 = (view.az + 35) * D, r = 9 * s;
+        var p1 = P(st.p[0] - Math.sin(a1) * 9, st.p[1] + Math.cos(a1) * 9), p2 = P(st.p[0] - Math.sin(a2) * 9, st.p[1] + Math.cos(a2) * 9);
+        out.push('<path id="cone" d="M' + q.join(",") + " L" + p1 + " A" + r.toFixed(1) + "," + r.toFixed(1) + " 0 0 0 " + p2 + ' Z" fill="rgba(159,211,238,.35)"/>');
+      }
+      out.push('<circle class="stop" data-id="' + st.id + '" cx="' + q[0] + '" cy="' + q[1] + '" r="' + (on ? 4.5 : 3.2) + '" fill="' + (on ? "#ff9b6b" : "#f3e8da") + '" stroke="#1a0f0a" stroke-width="1"><title>' + st.name + "</title></circle>");
+    });
+    svg.innerHTML = out.join("");
+  }
+  $("map").addEventListener("click", function (e) { var id = e.target && e.target.getAttribute && e.target.getAttribute("data-id"); if (id) go(id); });
+
+  /* ------------------------------------------------------------------ looking round */
+  var drag = null, lastMove = performance.now();
+  canvas.addEventListener("pointerdown", function (e) { drag = { x: e.clientX, y: e.clientY, az: view.az, el: view.el }; canvas.setPointerCapture(e.pointerId); canvas.classList.add("drag"); hint(); });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drag) return; var k = view.fov / canvas.clientHeight;
+    view.az = drag.az + (e.clientX - drag.x) * k; view.el = Math.max(-85, Math.min(85, drag.el + (e.clientY - drag.y) * k)); lastMove = performance.now();
+  });
+  function up() { drag = null; canvas.classList.remove("drag"); }
+  canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
+  canvas.addEventListener("wheel", function (e) { e.preventDefault(); view.fov = Math.max(35, Math.min(100, view.fov + e.deltaY * 0.04)); }, { passive: false });
+  var pinch = null;
+  canvas.addEventListener("touchstart", function (e) { if (e.touches.length === 2) { drag = null; pinch = { d: Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY), fov: view.fov }; } }, { passive: true });
+  canvas.addEventListener("touchmove", function (e) { if (pinch && e.touches.length === 2) { var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); view.fov = Math.max(35, Math.min(100, pinch.fov * pinch.d / d)); } }, { passive: true });
+  canvas.addEventListener("touchend", function (e) { if (e.touches.length < 2) pinch = null; });
+  var keys = {};
+  window.addEventListener("keydown", function (e) { if (e.target.tagName === "BUTTON" && (e.key === "Enter" || e.key === " ")) return; keys[e.key] = true; if (/^Arrow/.test(e.key)) e.preventDefault(); });
+  window.addEventListener("keyup", function (e) { keys[e.key] = false; });
+  var hinted = false; function hint() { if (hinted) return; hinted = true; $("hint").style.opacity = 0; }
+
+  /* ------------------------------------------------------------------ the bar and the photos */
+  STOPS.forEach(function (s) {
+    if (s.hidden) return;
+    var b = document.createElement("button"); b.type = "button"; b.dataset.id = s.id; b.textContent = s.short || s.name; b.addEventListener("click", function () { go(s.id); }); $("stops").appendChild(b);
+  });
+  $("stops").style.display = "contents";
+  if (!PHOTOS.length) $("bPhotos").hidden = true;
+  $("bPhotos").addEventListener("click", function () {
+    if (!$("gallery").childElementCount) PHOTOS.forEach(function (p) { var f = document.createElement("figure"); f.innerHTML = '<img loading="lazy" alt=""><figcaption></figcaption>'; f.querySelector("img").src = p.img; f.querySelector("img").alt = p.alt || p.caption; f.querySelector("figcaption").textContent = p.caption; $("gallery").appendChild(f); });
+    $("photos").hidden = false;
+  });
+  $("bPhotosClose").addEventListener("click", function () { $("photos").hidden = true; });
+  window.addEventListener("keydown", function (e) { if (e.key === "Escape") $("photos").hidden = true; });
+
+  /* ------------------------------------------------------------------ the frame loop */
+  function resize() { var w = canvas.clientWidth, h = canvas.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  window.addEventListener("resize", resize); resize();
+  var last = performance.now(), mapAz = null;
+  function frame(now) {
+    var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (keys.ArrowLeft) view.az += 60 * dt; if (keys.ArrowRight) view.az -= 60 * dt;
+    if (keys.ArrowUp) view.el = Math.min(85, view.el + 40 * dt); if (keys.ArrowDown) view.el = Math.max(-85, view.el - 40 * dt);
+    if (fade) {
+      var t = Math.min(1, (now - fade.t0) / fade.dur), e = t * t * (3 - 2 * t);
+      nxt.material.opacity = e; camera.fov = view.fov * (1 - 0.12 * Math.sin(Math.PI * t));
+      if (t >= 1) { cur.material.map = nxt.material.map; cur.material.needsUpdate = true; nxt.visible = false; fade = null; }
+    } else camera.fov = view.fov;
+    camera.updateProjectionMatrix();
+    camera.lookAt(dir3(view.az, view.el, 100));
+    renderer.render(scene, camera); placeSpots();
+    if (here && (mapAz === null || Math.abs(mapAz - view.az) > 2)) { mapAz = view.az; drawMap(); }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  window.__tour = { go: go, view: view, stops: STOPS, here: function () { return here && here.id; } };
+  var start = (location.hash || "").slice(1);
+  go(byId[start] ? start : (STOPS[0] && STOPS[0].id), true);
+})();
+</script>
+</body>
+</html>

@@ -16,6 +16,7 @@ sunset. A city will grow around it.
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
+| 📸 | **The photo tour**: Jim's rooms on L1 and the Pentagon's atrium in path-traced 360° photographs; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
 | ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
 | 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |
 | 🌌 | **The Orb**, phase 2: switch the universe on, zoom from the cosmic web to Mars and the house, step into the Wormhole Gate | [orb/](orb/) | [The Orb](https://ttmathcs.github.io/mars-campus/palace/orb/) |
@@ -38,12 +39,13 @@ sunset. A city will grow around it.
 | Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, the ball as the Wormhole Gate, the Orb's dock and the built ground | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
 | Mars Atlas | Live, over a real colour map of Mars | — |
+| Photo tour | **Live**, 1 Oct 2026, because Jim found the real-time 3D cartoonish; he likes the result ("so great and almost perfect. i need all rooms to be like this"). The family room is in; the rest of L1, the atrium and the sun court are rendering | Every room, the same way: the rest of L1, the Crown's rooms, the Orb |
 | 3D demo | **Phase 1 live**, 1 Oct 2026 (Jim: "please go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from outside, with the new ground | **Phase 2 live:** the Crown's main floor and the Orb. **Phase 3 started:** the Pentagon's atrium, the rooms behind its glass, the garden level and the sun court; next, walking into the rooms of L1 |
 | First palace | Archived | — |
 
-**Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb, Rev E (the universe
-in VR, the ball as the Wormhole Gate, the Orb's dock) and the built ground, drawn from his words. See the
-[decision log](docs/decisions.md).
+**One question for Jim:** the Orb, Rev F (rooms in the middle of the ring with a visitors' lane on each side, as he
+asked): grow the Orb to 48 m, or keep 40 m and make the Gate 12 m? Also for his review: the Orb's Rev E and the built
+ground. See the [decision log](docs/decisions.md).
 
 ## The design at a glance
 

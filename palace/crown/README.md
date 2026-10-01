@@ -18,4 +18,5 @@ and the floor plans:
 - **Portals** in the five spires (bronze rings, "UP TO THE ORB") take you to the Orb.
 
 One self-contained page, `index.html`, three.js r128. Shadows are a 4096 map that follows you; the probe is a cube
-camera turned into image-based light every 14 m. Test with `python3 palace/tools/crown_in_shot.py` (see its docstring).
+camera turned into image-based light every 14 m; each new one fades in over 1.5 s (`ENVB`), as a sudden swap made the
+rooms flash. Test with `python3 palace/tools/crown_in_shot.py` (see its docstring).

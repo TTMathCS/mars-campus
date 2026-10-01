@@ -1,171 +1,204 @@
-# Arcadia Palace: Requirements
+# Jim's retirement house on Mars: requirements
 
-Demo 2 of [Mars Campus](../README.md) · live at https://ttmathcs.github.io/mars-campus/palace/ · owner: Jim
+Demo 2 of [Mars Campus](../README.md) · owner: Jim (TTMath) · last updated 1 Oct 2026
 
-This file is the source of truth for this demo. It collects what was asked for in the design rounds
-so far. Every requirement has an ID so it can be referenced, changed or retired later.
+**[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
 
-> **Status, 1 Oct 2026: design book in progress, 3D build paused.** Jim found the palace below "far from
-> satisfactory" and asked to start again. Round 3 (section 10) replaces it. Jim approved the Rev B floor plans
-> (https://ttmathcs.github.io/mars-campus/palace/plans/) with "Approve. Go". Phase 1 (the landscape, the spaceport
-> and the flight to the Crown) was built in `palace/src/` until Jim paused it on 30 Sep 2026 to finish the design
-> first. Round 4 (section 11) is the design book at https://ttmathcs.github.io/mars-campus/palace/design/.
-> Sections 2 to 9 describe the current palace, which stays live until the new demo replaces it at the same link.
+This file lists everything Jim has asked for in demo 2. Each requirement has an ID, a priority, a status and a
+link to where the design answers it. It is the source of truth for the demo: when Jim asks for something new, it
+goes here first.
 
-## 1. Vision and scope
+> **Where things stand, 1 Oct 2026**
+> - Floor plans **Rev B approved** by Jim on 30 Sep ("Approve. Go").
+> - **Design book Rev D** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
+>   are written. Chapters 08 Life support, 09 Communications and space, and 10 Building it are still to write.
+> - **Waiting for Jim:** the Orb's new design, the Universe Hall (OR-2 to OR-6), and where the Gate opens in the
+>   demo (OR-7).
+> - **3D build paused** at phase 1 (the landscape, the spaceport and the flight video work in a test build). It
+>   resumes when Jim approves the design book.
 
-A private retirement palace on Mars, built for one person to live in, not for business. It is bigger
-than the TTMath campus in demo 1, futuristic, luxurious and full of detail, with many rooms. The visitor
-arrives the way a resident would: a ship lands at a spaceport, an air taxi flies them home, the house
-recognises them at the door, and then they walk in to explore, read, watch TV and enjoy life on Mars.
-Because Mars weather is harsh, most of the house is underground.
+## How to read the tables
 
-- **Site:** a mesa rim above Arcadia Planitia, 44.2° N, facing a canyon to the west. The landscape is
-  procedural; unlike demo 1 it does not use the NASA Dingo Gap tiles.
-- **Look:** real materials, never cartoon style. "Real is so important. I want everything to be so impressive."
-- **Priority key:** Must = the demo fails without it · Should = expected · Could = nice to have.
+| Priority | Meaning |
+| --- | --- |
+| **Must** | The demo fails without it |
+| **Should** | Expected |
+| **Could** | Nice to have |
 
-## 2. The palace above ground (round 1)
+| Status | Meaning |
+| --- | --- |
+| ✅ Approved | Jim approved it (Rev B, 30 Sep 2026) |
+| ☑️ Decided | Jim answered, or asked us to decide with our best judgment |
+| 🟡 Proposed | Designed and waiting for Jim's OK |
+| 📐 Designed | In the design book; Jim reviews the whole book at the end |
+| ⏳ To design | A design book chapter still to write |
+| 🎬 Built | Works in the 3D test build (phase 1); not published yet |
+| 🔧 In progress | Being worked on now |
 
-| ID | Requirement | Priority | Status |
+**Ch 02** links open a design book chapter on the live site. **Summary** links open the chapter's page in this
+repo, with its diagrams and pictures.
+
+## Contents
+
+1. [The vision and the rules](#1-the-vision-and-the-rules)
+2. [Site and city](#2-site-and-city)
+3. [The Crown, above ground](#3-the-crown-above-ground)
+4. [The Orb and the Universe Hall](#4-the-orb-and-the-universe-hall)
+5. [The Pentagon, below ground](#5-the-pentagon-below-ground)
+6. [Living in the house](#6-living-in-the-house)
+7. [Getting home](#7-getting-home)
+8. [Systems](#8-systems)
+9. [What you can do in the demo](#9-what-you-can-do-in-the-demo)
+10. [Open questions](#10-open-questions)
+11. [History and old IDs](#11-history-and-old-ids)
+
+## 1. The vision and the rules
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| GN-1 | A private retirement house on Mars for one person, Jim, not for business | Must | ✅ | [Cover](https://ttmathcs.github.io/mars-campus/palace/design/) · [Summary](docs/design/README.md) |
+| GN-2 | Start again: the new demo replaces the old palace at the same link, and the homepage shows one demo 2 | Must | ✅ The old palace is archived ([page](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/), [requirements](docs/archive/old-palace.md)). `palace/` opens the design book until phase 1 is published | [Status](README.md#status) |
+| GN-3 | "Future-proof, the bravest designs", "only exist in dreams", and then "even wilder" | Must | ✅ Rev B: a floating crown, a mirror Orb, portals | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html) · [Summary](docs/design/02-crown.md) |
+| GN-4 | It must look real: real materials, never cartoon. "Real is so important. I want everything to be so impressive." | Must | Applies to every design, picture and 3D view | [Pictures](docs/gallery.md) |
+| GN-5 | Real science and engineering with worked numbers. Dreams are marked as future technology, with a real fallback | Must | ✅ Done in every chapter | [Summary](docs/design/README.md#real-or-future) |
+| GN-6 | Show the plans before building any detail, and wait for Jim's approval | Must | ✅ Rev A and Rev B shown; Rev B approved | [Floor plans](docs/plans.md) |
+| GN-7 | Design and document every plan, what it looks like and how it works, before more 3D work | Must | 🔧 Chapters 01–07 written; 08–10 to write | [Design](docs/design/README.md) |
+| GN-8 | Keep all progress in this GitHub repo and on the live site, never as a chat artifact, so another account or AI can continue | Must | ✅ | [HANDOFF.md](../HANDOFF.md) |
+| GN-9 | Organised documents: requirements, plans and maps easy to move between, with the diagrams and pictures visible in the repo | Must | ✅ Done 1 Oct 2026: this file, [Demo 2 home](README.md) and [docs/](docs/design/README.md) | [Demo 2 home](README.md) |
+| GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | 🔧 Diagrams exported; weak pictures being re-rendered | [Pictures](docs/gallery.md) |
+| GN-11 | Works on Jim's laptop, and on a phone | Should | Design book checked at desktop and phone size | [HANDOFF.md](../HANDOFF.md) |
+
+## 2. Site and city
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| ST-1 | The house on the plains of Arcadia Planitia, with the spaceport "30 km east of your house" | Must | ✅ | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#corridor) · [Summary](docs/design/01-site-and-city.md) |
+| ST-2 | Use the real, studied landing zone AP-1: the house at 39.80° N 201.44° E, the spaceport at 39.80° N 202.10° E | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"). Rev B's "about 44° N" is replaced | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#why) · [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=house) |
+| ST-3 | Phase 1 is the spaceport and the house; then more houses, a small city and connections | Should | 📐 Homes on a sunflower spiral, civic buildings on the Fibonacci seeds, four phases | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#city) · [Summary](docs/design/01-site-and-city.md#the-city) |
+| ST-4 | A full map of Mars, with terrain and space, marking the city, the house and the spaceport, zoomable "like Google Earth" | Must | ✅ The Mars Atlas | [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) · [Summary](docs/design/01-site-and-city.md#the-mars-atlas) |
+
+## 3. The Crown, above ground
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with window slots instead of glass walls | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
+| CR-2 | It floats on anti-gravity: no legs, and nothing touches the ground | Must | ✅ A drive in each of the five spires, with fallback pads | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#float) · [Summary](docs/design/02-crown.md#how-it-floats) |
+| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,100 m², 5.6 times the campus (Rev D; Rev B had 20,100 m²) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
+| CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-the-house-portals) |
+
+## 4. The Orb and the Universe Hall
+
+From Jim's answer on 1 Oct 2026: *"I don't need the universe to be displayed in the ball ... I need to sit in some
+rooms in the Orb, so I can see the spaces in the big circle ... I should have some switch to turn it on and off.
+When I turn it on I can do 3D projection of the universe so I can zoom in and zoom out ... like a 3D dashboard. At
+the corner somewhere, there's always our home planet Earth, and our current immigration planet Mars ... small icons
+showing dynamic weather ... I can turn it off. I can turn it back on if I need to."*
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| OR-1 | A wormhole device that takes Jim to any time and any place | Must | ✅ Rev B: the Wormhole Gate. Rev D: on a bridge into the Universe Hall | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-and-the-universe-hall) |
+| OR-2 | A 3D projection of the whole universe that Jim zooms in and out, down to a solar system and a place, to choose where the Gate goes | Must | 🟡 Rev D: the universe fills the Orb's hollow centre, the Universe Hall, 24 m across | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-and-the-universe-hall) |
+| OR-3 | Sit in rooms in the Orb and see the projection in the big round space, not inside a closed ball that blocks the view | Must | 🟡 Rev D: three rings of rooms round the hall, each with a glass front onto it | [Section drawing](docs/img/book/crown-orb-inside.png) |
+| OR-4 | A switch to turn the projection on and off | Must | 🟡 Rev D: a switch in every room, and voice anywhere. Off, the hall's wall shows the real sky | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | 🟡 Rev D: a panel in the corner of every glass front | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
+| OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev D: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-7 | Where the Gate opens in the demo | Should | 🟡 Proposed: zoom out to the whole universe, back in to the TTMath campus in Gale crater, then step into demo 1 | [Decisions](docs/decisions.md#waiting-for-jim) |
+
+## 5. The Pentagon, below ground
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| PG-1 | Most of the house underground because of the weather: about 10 times the area above ground | Must | ✅ 209,700 m², 11 times the Crown | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html) · [Summary](docs/design/03-pentagon.md) |
+| PG-2 | Underground, "the pentagon shape solid design" | Must | ✅ One solid pentagon, 160 m sides, five levels from 24 to 68 m down under 16 m of soil | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#plan) · [Summary](docs/design/03-pentagon.md#the-plan) |
+| PG-3 | "All crazy ideas and future-proof tech" below ground (round 2) | Should | 📐 Residence, a garden level with a lake and a forest, studio and workshops, life support, and the transit halls | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#levels) · [Summary](docs/design/03-pentagon.md#the-five-levels) |
+
+## 6. Living in the house
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| LV-1 | Many rooms, each detailed: living room, bedroom, bath, study, dining, kitchen, library, cellar, pool, sauna, gym, guest suites, gardens, hangar (round 1) | Must | 📐 All of them, in the Crown and on levels L1 and L2 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html) · [Summary](docs/design/04-interiors.md) |
+| LV-2 | Two master suites, "one up and one down" | Must | ✅ Master suite up in the Crown's south-east dip; master suite down on L1, sector 1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#suites) · [Summary](docs/design/04-interiors.md#two-master-suites) |
+| LV-3 | Sleep below ground most nights, to limit radiation | Must | ☑️ Decided 1 Oct (Jim: true). About 20 mSv a year, with about 6 hours a day in the Crown and rest in the Orb (OR-6) | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#why) · Ch 08 (to write) |
+| LV-4 | Watch TV (round 2) | Should | 📐 The 40-seat cinema and the family room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
+| LV-5 | Read books (round 2) | Should | 📐 The Library spire in the Crown and the Great library on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
+| LV-6 | Play the piano, and other things to use (round 2) | Could | 📐 The piano room in the Salon spire, a music room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
+| LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed unless Jim wants fewer ([question](docs/decisions.md#waiting-for-jim)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
+
+## 7. Getting home
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of the house | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
+| TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 37 km scenic route, 4 min 40 s, ten shots | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-3 | "Arrival land on sunset, but animation can go through Mars storm etc." | Must | ✅ 🎬 A dust storm after the Ice Cliffs, then a breakout into the blue sunset with Phobos crossing the sun | [Pictures](docs/gallery.md#the-flight-home) |
+| TR-4 | The journey can be skipped (round 2) | Should | 🎬 "Skip to arrival" | [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-5 | The door is private and opens by itself for Jim, by key or future authentication (round 2) | Must | 📐 The Door: an iris of light that knows Jim by face, eyes and walk | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) · [Summary](docs/design/04-interiors.md#coming-home) |
+| TR-6 | An airlock between outside and inside (round 2) | Should | 📐 The pod hangar is the airlock; suits stay outside at suit ports | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) |
+
+## 8. Systems
+
+| ID | Requirement | Priority | Status | Where |
+| --- | --- | --- | --- | --- |
+| SY-1 | The power station design: what it looks like and how it works | Must | 📐 Three 5 MWe fission microreactors, a solar field, batteries and a 30 km DC cable | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
+| SY-2 | The transportation design | Must | 📐 Ships, the pod, the bus, the maglev (phase 2) and portals | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
+| SY-3 | The air inside | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"): 70 kPa with 27% oxygen, which breathes like Calgary | Ch 08 (to write) |
+| SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | ⏳ Chapter 08 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
+| SY-5 | Communications and space: the radio delay, relay satellites, the moons, Mars time | Should | ⏳ Chapter 09 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
+| SY-6 | When Jim moves in, so the building timeline has dates | Must | ☑️ Decided 1 Oct: 2027. He launches in the Nov–Dec 2026 window and lands in mid-2027. ⏳ Chapter 10 | [Decisions](docs/decisions.md#1-oct-2026-jims-answers) |
+
+## 9. What you can do in the demo
+
+You play Jim, coming home. Jim expects few visitors (LV-7), so the demo is his own arrival and his own house, not a
+guided tour for guests. It is built in three phases. Each phase replaces the old palace at
+`palace/`, at the same link.
+
+| Phase | What it adds | State |
+| --- | --- | --- |
+| 1 | The 30 km landscape, the spaceport and the flight video | 🎬 Works in the test build (`palace/src/`), paused |
+| 2 | The Crown and the Orb | Waits for the design book |
+| 3 | The Pentagon, one level at a time | Waits for the design book |
+
+| ID | You can … | Priority | Phase | Status |
+| --- | --- | --- | --- | --- |
+| DM-1 | Fly home: watch the flight video, switch between three cameras (director, cockpit, chase), pause, jump between the ten shots, skip | Must | 1 | 🎬 |
+| DM-2 | After landing, look around the Crown from outside | Should | 1 | 🎬 |
+| DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 📐 |
+| DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 📐 |
+| DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 📐 |
+| DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and the house, see Earth and Mars with their weather, then switch it off | Must | 2 | 🟡 |
+| DM-7 | Step through the Wormhole Gate to the chosen place (proposed: the TTMath campus, demo 1) | Should | 2 | 🟡 |
+| DM-8 | Rest in a rest room in the Orb and look out over the plain | Could | 2 | 🟡 |
+| DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 📐 |
+| DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 📐 |
+| DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 📐 |
+| DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 📐 |
+| DM-13 | Suggested extras for Jim to pick: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | 🟡 Suggested 1 Oct |
+
+## 10. Open questions
+
+These wait for Jim. The [decision log](docs/decisions.md#waiting-for-jim) has the details and what each choice changes.
+
+1. **The Orb, Rev D:** is the Universe Hall what Jim imagined (OR-2 to OR-6)?
+2. **The Gate in the demo:** the TTMath campus in demo 1, or somewhere else (OR-7)?
+3. **Guest rooms:** keep them as designed, or fewer now that visitors are rare (LV-7)?
+4. **Extras:** which of the suggested things to do should the demo have (DM-13)?
+
+## 11. History and old IDs
+
+| Round | Dates | What happened | Where it is now |
 | --- | --- | --- | --- |
-| PA-1 | Futuristic luxury palace, bigger than the TTMath campus | Must | Done: about 10,800 m² above ground |
-| PA-2 | Many rooms, each detailed: living room, bedroom, bath, study, dining, kitchen, library, cellar, pool, sauna, gym, guest suites, gardens, hangar | Must | Done: 26 surface tour stops |
-| PA-3 | Great Dome as the living room: conversation pit, plasma hearth, piano, bar, mezzanine, meteorite mobile, garden and fountain | Must | Done |
-| PA-4 | Built for Mars: buried wings, shielded bedroom, storm shelter, own water, air and power | Should | Done |
-| PA-5 | Guided tour, free walking, cutaway and floor plan | Must | Done |
-| PA-6 | Mars clock: sunrise, noon, blue sunset, night, dust storm | Should | Done |
+| 1 and 2 | before 29 Sep 2026 | The first palace on a mesa, with the Deep below it | [Archive](docs/archive/old-palace.md) and [the archived page](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
+| 3 | 29–30 Sep 2026 | Start again: the Crown and the Pentagon, floor plans Rev A and Rev B | [Floor plans](docs/plans.md) |
+| 4 | 30 Sep 2026 onwards | The design book and the Mars Atlas (Rev C), then Jim's answers (Rev D) | [Design](docs/design/README.md) |
 
-## 3. The journey (round 2)
+The rounds 3 and 4 IDs used until 1 Oct 2026 map to the new IDs like this:
 
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| JR-1 | Start at a transport centre where rockets land | Must | Done: Arcadia Spaceport, 1.4 km east, three pads, terminal, tower |
-| JR-2 | Watch a rocket land | Should | Done: steel ship lands on its engines |
-| JR-3 | Board a futuristic flying transport; an animation flies you to the palace | Must | Done: four-fan air taxi, cockpit and chase views, live flight display |
-| JR-4 | When you step out, the flying machine flies back | Must | Done |
-| JR-5 | Finish the journey on foot and discover the palace | Must | Done: land at the Gatehouse pad, walk to the door |
-| JR-6 | The journey can be skipped | Should | Done: Esc or Skip |
-
-## 4. The door (round 2)
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| DR-1 | The house is private: the door is not public | Must | Done |
-| DR-2 | It unlocks automatically by key or future authentication | Must | Done: face, iris and gait scan, then the doors open inside a ring of light |
-| DR-3 | Airlock between outside and inside | Should | Done: pressurise and depressurise cycle, glass inner doors |
-
-## 5. Living inside (round 2)
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| LV-1 | Walk around inside the house | Must | Done |
-| LV-2 | TV room: watch TV | Must | Done: four channels (Earth live, palace cameras, Mars weather, night sky); sit on the sofa to watch |
-| LV-3 | Book room: read books | Must | Done: two-storey library, readable books |
-| LV-4 | Other things to use: piano, lifts, rain room, cinema | Could | Done |
-
-## 6. The Deep: underground expansion (round 2)
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| DP-1 | Keep the existing luxury structure above ground | Must | Done |
-| DP-2 | Much more underground, about 10 times bigger | Must | Done: about 115,000 m² below ground, 10.7 times the surface |
-| DP-3 | "All crazy ideas and future-proof tech" | Must | Done: see the five levels below |
-| DP-4 | L1 Salon (−14 m): media lounge, cinema, grand library, music room, holodeck, jazz bar, Sky Hall, sculpture court, thermal baths, sports hall | Must | Done |
-| DP-5 | L2 Grotto (−40 m): lagoon, beach, palms, waterfall, hot springs under an LED sky | Should | Done |
-| DP-6 | L3 Living Earth (−64 m): forest with a stream, rain room, vertical farms | Should | Done |
-| DP-7 | L4 Engine (−88 m): fusion plant, robot fabrication, water and air works, AI core, seed vault and medical bay | Should | Done |
-| DP-8 | L5 Transit (−104 m): maglev to the spaceport, storm reserves | Should | Done |
-| DP-9 | A 104 m atrium with glass lifts to every level | Must | Done |
-
-## 7. Look and feel
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| LK-1 | Real materials, not cartoon: wood grain, marble, leather, fabric, brushed metal, rock, sand, bark | Must | Done: procedural PBR textures |
-| LK-2 | Realistic light: HDR, film tone curve, bloom, reflections from the sky and rooms, a sun in each cavern | Must | Done |
-| LK-3 | Impressive on arrival and in every room | Must | In progress: see known gaps |
-| LK-4 | Works on a phone | Should | Done: tested portrait and landscape |
-
-## 8. Known gaps
-
-- The sunset loggia and observatory glare at the default late-afternoon time.
-- The rocket's exhaust flame and dust cloud are faint.
-- The sports hall and holodeck are plainer than the other rooms.
-- Frame rate has only been checked in a headless software renderer, not on a real graphics card.
-  The heaviest view draws about 1 million triangles in 212 calls.
-
-## 9. How it is built
-
-- `src/` holds the source, split by part: `a_head.html` (page and UI), `b_core.js` (renderer, sky,
-  terrain, materials), `c_tex.js` (procedural textures), `c_build.js` (furniture), `d_*.js` (palace,
-  gatehouse, the Deep, stops, spaceport), `e*.js` (HDR pipeline, world, journey, UI and frame loop).
-- `./build.sh` joins them into `index.html`. `./build.sh debug` writes `palace-debug.html` with test hooks.
-- `tools/` has headless Playwright scripts for screenshots (`shot.js`), probes (`probe.js`) and contact
-  sheets (`grid.js`).
-- The same page is also published as a private Claude artifact: https://claude.ai/artifact/BbTsfVb3svKSs8Er7un1W2
-
-## 10. Round 3: the redesign (plans in review)
-
-Direction from Jim, 29 Sep 2026: start from the beginning. "Future-proof, the bravest designs." "Before
-you jump into details, show me the plans." "I like the pentagon shape solid design underground, and above
-the ground I like most future proof design, not necessary glasses due to strong sun lights." "Above the
-ground design doesn't need to be pentagon shape … like what you can imagine in the dream", "only exist in
-dreams design". The spaceport is "30 km east of your house", and "when the flying pod carry me to my house I
-need impressive video to show the flight on the way". A small city will grow from the house.
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| RD-1 | Start again; the new demo replaces the current palace at the same link | Must | Agreed |
-| RD-2 | Show the floor plans before building any detail | Must | Done: plans Rev A at `palace/plans/` |
-| RD-3 | Above ground: the most future-proof, dream-like design; not a pentagon; no big glass because of the strong sun | Must | Proposed: the Crown, a solid white ring 280 m across floating 40 m up on five legs, with five points rising to 66 m and narrow window slots |
-| RD-4 | The part above ground is much bigger than the TTMath campus | Must | Proposed: about 20,900 m², 6 times the campus |
-| RD-5 | Most of the house underground because of the weather: 10 times the surface | Must | Proposed: about 209,700 m², 10.0 times the Crown |
-| RD-6 | Underground: a solid pentagon | Must | Proposed: the Pentagon, 160 m sides, five levels from 24 m to 68 m down, five rings and five sectors around an atrium |
-| RD-7 | A rocket transportation centre where Earth–Mars ships land, 30 km east of the house | Must | Proposed: Arcadia Spaceport, three pads, terminal, fuel plant, pod station |
-| RD-8 | A flying pod carries Jim home, with an impressive video of the flight | Must | Proposed: 37 km scenic route, about 4 min 30 s, nine shots |
-| RD-9 | Phase 1 is the spaceport and the house; then more houses, a city and connections | Should | Proposed: homes added on a sunflower spiral, phases 1 to 4 |
-
-Jim's answers to the plans Rev A, 30 Sep 2026: "even wilder"; "master suites one up and one down"; add a
-"warm hole transformation device which can transfer me to anytime any space"; "Arrival land on sunset, but
-animation can go through mar storm etc."; "keep all the progress in the repo, so I can switch account or ai to
-continue there". He also asked how the Crown can float: "is it supported by anti gravity device?", and then
-chose: "use anti gravity. No elevator. From crown to underground is by use warm hole or any transmission device."
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| RD-10 | Above ground even wilder, "only exist in dreams" | Must | Rev B: the mirror Orb floats over the Sun Well, the five points are spires to +90 m, the ring is 16 m wide |
-| RD-11 | Two master suites, one up in the Crown and one down in the Pentagon | Must | Rev B: "Master suite up" in the Crown's SE dip, "Master suite down" on L1 sector 1 |
-| RD-12 | A wormhole device that takes Jim to any time and any place | Must | Rev B: the Wormhole Gate hall on the Orb's +72 floor |
-| RD-13 | Land at sunset; the flight video can pass through a Mars dust storm and more | Must | Rev B: storm wall after the Ice Cliffs, breakout into the sunset with Phobos crossing the sun, then into the hangar; 10 shots, about 4 min 40 s |
-| RD-15 | The Crown floats on anti-gravity; no legs | Must | Rev B: an anti-gravity drive in each spire; nothing touches the ground |
-| RD-16 | No elevators; the Crown and the underground are linked by wormhole or another transmission device | Must | Rev B: portals in the five spires, the Orb, the Pentagon's corner cores and a portal column in the atrium; stairs only between Pentagon levels |
-| RD-14 | Keep all progress in the repo so another account or AI can continue | Must | Done: `HANDOFF.md`, demo 1 sources in `ttmath/src/`, tests in `ttmath/tools/`, plans in `palace/plans/` |
-
-Rev B numbers: Crown 20,100 m² (ring 13,070 including the Glide, upper floors 3,630, Orb 3,370); Pentagon
-209,700 m², 10.4 times the Crown. Rev B approved 30 Sep 2026. Open for Jim: where the Wormhole Gate should take
-him in the demo (for example the TTMath campus in demo 1).
-
-## 11. Round 4: the design book (in progress)
-
-Direction from Jim, 30 Sep 2026: "before the detailed html implementation, I really like to put efforts on the design
-and figure out all the plans. I need you to organize those plans well, including all the plans like: architecure,
-interior, power station design, transportation design/etc with details on its outlook/how it works ... we need to
-finish this before we move the impelmentation." And: "in the design doc, I need full map of mars, terrain and space
-maps. also mark where are the city/my house/spaceport are located ... better like google earth design so that we can
-zoom in/out to find overall."
-
-On 1 Oct 2026, answering where the Wormhole Gate should take him: "I don't know because you have the crystal ball in
-the middle. And what I'm thinking is actually I need something like 3D projector to project the center of the dome.
-Because that's project the whole universe. For example, I can zoom in, zoom out to find a certain space in the
-universe. For example, solar systems ... But I don't know where to put the ball. So let's say I need some plan to
-figure it out."
-
-| ID | Requirement | Priority | Status |
-| --- | --- | --- | --- |
-| DB-1 | Design and document every plan before more 3D work: what each part looks like and how it works | Must | In progress: `palace/design/`, chapters 01–07 done (site and city, the Crown, the Pentagon, interiors, power, transportation, the spaceport); 08 life support, 09 communications and space, 10 building it still to write |
-| DB-2 | A full map of Mars with terrain and space, the house, the spaceport and the city marked, zoomable like Google Earth | Must | Done: the Mars Atlas, `palace/design/atlas/` |
-| DB-3 | Real science and engineering with worked numbers; dreams marked as future technology with a real fallback | Must | Done in every chapter so far |
-| DB-4 | A 3D projection of the whole universe, zoomable down to a solar system and a place, at the centre of a dome, to choose where the Wormhole Gate goes | Must | Proposed 1 Oct 2026, waiting for Jim's OK: an 8 m ball of light at the centre of the Orb (+72 m) with three open balconies (+64 portal ring, +72 Gate bridge, +80 gallery) and the inner shell as a sky screen. See HANDOFF.md section 2 |
-| DB-5 | Publish to the GitHub repo and the live site, not as a chat artifact | Must | Done |
-
+| Old | New | Old | New | Old | New |
+| --- | --- | --- | --- | --- | --- |
+| RD-1 | GN-2 | RD-7 | ST-1, TR-1 | RD-13 | TR-3 |
+| RD-2 | GN-6 | RD-8 | TR-2 | RD-14 | GN-8 |
+| RD-3 | CR-1 | RD-9 | ST-3 | RD-15 | CR-2 |
+| RD-4 | CR-3 | RD-10 | GN-3 | RD-16 | CR-4 |
+| RD-5 | PG-1 | RD-11 | LV-2 | DB-1 | GN-7 |
+| RD-6 | PG-2 | RD-12 | OR-1 | DB-2 | ST-4 |
+| DB-3 | GN-5 | DB-4 | OR-2 | DB-5 | GN-8 |

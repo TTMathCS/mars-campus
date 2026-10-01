@@ -39,12 +39,12 @@
     "  vec2 dir = vec2(0.93, 0.37);",
     "  float u = dot(p, dir) + 190.0 * vnoise(p / 1500.0 + 3.0) + 105.0 * vnoise(p / 520.0) + 38.0 * vnoise(p / 170.0);",
     "  float lam = 230.0 * (0.85 + 0.25 * vnoise(p / 2600.0 + 5.0)); float along = dot(p, vec2(-dir.y, dir.x));",
-    "  float f = fract(u / lam); float prof = f < 0.78 ? f / 0.78 : (1.0 - f) / 0.22; prof = pow(prof, 1.25);",
+    "  float f = fract(u / lam); float prof = sminT(f / 0.78, (1.0 - f) / 0.22, clamp(14.6 * sp / lam, 0.14, 1.2)); prof = pow(max(prof, 0.0), 1.25);",
     "  float crest = clamp(0.62 + 0.5 * vnoise(vec2(u / 520.0, along / 210.0)) + 0.25 * vnoise(vec2(u / 160.0, along / 85.0)), 0.12, 1.2);",
-    "  float u3 = dot(p, vec2(0.80, 0.60)) + 30.0 * vnoise(p / 260.0 + 2.0); float f3 = fract(u3 / 47.0);",
-    "  float prof3 = (f3 < 0.7 ? f3 / 0.7 : (1.0 - f3) / 0.3) * (1.0 - smoothstep(4.0, 12.0, sp)) * smoothstep(0.1, 0.6, vnoise(p / 380.0 + 9.0));",
+    "  float u3 = dot(p, vec2(0.80, 0.60)) + 30.0 * vnoise(p / 260.0 + 2.0) + 12.0 * vnoise(p / 75.0 + 6.0); float f3 = fract(u3 / 47.0), a3 = dot(p, vec2(-0.6, 0.8));",
+    "  float prof3 = max(sminT(f3 / 0.7, (1.0 - f3) / 0.3, clamp(0.253 * sp, 0.3, 1.5)), 0.0) * (1.0 - smoothstep(4.0, 12.0, sp)) * smoothstep(0.1, 0.6, vnoise(p / 380.0 + 9.0)) * smoothstep(0.25, 0.65, vnoise(vec2(u3 / 110.0, a3 / 55.0) + 4.0));",
     "  vec2 d2 = vec2(0.62, -0.78); float u2 = dot(p, d2) + 50.0 * vnoise(p / 400.0 + 7.0); float f2 = fract(u2 / 410.0);",
-    "  float prof2 = f2 < 0.8 ? f2 / 0.8 : (1.0 - f2) / 0.2;",
+    "  float prof2 = max(sminT(f2 / 0.8, (1.0 - f2) / 0.2, clamp(0.038 * sp, 0.16, 1.2)), 0.0);",
     "  float h = 17.0 * prof * crest + 6.0 * prof2 + 2.2 * prof3 * (1.0 - prof * crest);",
     "  return mix(h, 8.5, smoothstep(20.0, 70.0, sp)) * m; }",
     // signed distance to the cliff line (positive on the low, south-east side) and position along it
@@ -135,12 +135,12 @@
       var m = duneMask(x, z); if (m <= 0) return 0;
       var u = x * 0.93 + z * 0.37 + 190 * vnoise(x / 1500 + 3, z / 1500 + 3) + 105 * vnoise(x / 520, z / 520) + 38 * vnoise(x / 170, z / 170);
       var lam = 230 * (0.85 + 0.25 * vnoise(x / 2600 + 5, z / 2600 + 5)), along = x * -0.37 + z * 0.93;
-      var f = fract(u / lam), prof = f < 0.78 ? f / 0.78 : (1 - f) / 0.22; prof = Math.pow(prof, 1.25);
+      var f = fract(u / lam), prof = smin(f / 0.78, (1 - f) / 0.22, clamp(14.6 * sp / lam, 0.14, 1.2)); prof = Math.pow(Math.max(prof, 0), 1.25);
       var crest = clamp(0.62 + 0.5 * vnoise(u / 520, along / 210) + 0.25 * vnoise(u / 160, along / 85), 0.12, 1.2);
-      var u3 = x * 0.80 + z * 0.60 + 30 * vnoise(x / 260 + 2, z / 260 + 2), f3 = fract(u3 / 47);
-      var prof3 = (f3 < 0.7 ? f3 / 0.7 : (1 - f3) / 0.3) * (1 - smooth(4, 12, sp)) * smooth(0.1, 0.6, vnoise(x / 380 + 9, z / 380 + 9));
+      var u3 = x * 0.80 + z * 0.60 + 30 * vnoise(x / 260 + 2, z / 260 + 2) + 12 * vnoise(x / 75 + 6, z / 75 + 6), f3 = fract(u3 / 47), a3 = x * -0.6 + z * 0.8;
+      var prof3 = Math.max(smin(f3 / 0.7, (1 - f3) / 0.3, clamp(0.253 * sp, 0.3, 1.5)), 0) * (1 - smooth(4, 12, sp)) * smooth(0.1, 0.6, vnoise(x / 380 + 9, z / 380 + 9)) * smooth(0.25, 0.65, vnoise(u3 / 110 + 4, a3 / 55 + 4));
       var u2 = x * 0.62 - z * 0.78 + 50 * vnoise(x / 400 + 7, z / 400 + 7), f2 = fract(u2 / 410);
-      var prof2 = f2 < 0.8 ? f2 / 0.8 : (1 - f2) / 0.2;
+      var prof2 = Math.max(smin(f2 / 0.8, (1 - f2) / 0.2, clamp(0.038 * sp, 0.16, 1.2)), 0);
       var h = 17 * prof * crest + 6 * prof2 + 2.2 * prof3 * (1 - prof * crest);
       return lerp(h, 8.5, smooth(20, 70, sp)) * m;
     }
@@ -256,11 +256,11 @@
       "  float vis = 1.0;",
       "  if (uLevel < 8.5 && uSunDir.y > -0.02){",
       "    vec2 sd = normalize(uSunDir.xz + 1e-6); float tanE = uSunDir.y / max(length(uSunDir.xz), 1e-4);",
-      "    float dist = 14.0;",
+      "    float dist = 14.0, dmV = duneMask(p);",   // in the dunes a softer edge, so the vertices can follow it without zigzags
       "    for (int i = 0; i < 11; i++){",
       "      vec2 q = p + sd * dist; float ray = h + 1.5 + dist * tanE;",
       "      float th = terrainH(q, max(sp, dist * 0.12));",
-      "      vis = min(vis, clamp((ray - th) / (dist * 0.035 + 1.0) + 0.5, 0.0, 1.0));",
+      "      vis = min(vis, clamp((ray - th) / (mix(dist * 0.035 + 1.0, dist * 0.12 + 3.0 * sp, dmV)) + 0.5, 0.0, 1.0));",
       "      dist *= 1.63;",
       "    }",
       "  }",
@@ -307,6 +307,12 @@
       "  float peb = step(0.35, hash12(pc + 8.0)) * (1.0 - smoothstep(pr * 0.7, pr, pdist)) * graded0 * (1.0 - smoothstep(6.0, 45.0, dist));",
       "  float grit = (vnoise(pw * 3.1) * 0.5 + vnoise(pw * 7.3 + 3.0) * 0.3) * graded0 * (1.0 - smoothstep(4.0, 30.0, dist));",
       "  float dm = duneMask(pw);",
+      // the dunes' slopes per pixel: with the sun low, the line where a crest turns into shadow is sharper than the
+      // grid, and vertex normals draw it in zigzags. Same height function and grid level as the vertices.
+      "  if (dm > 0.01 && dist < 7000.0){ float eF = max(0.6, vSp * 0.35); float h0F = dunesF(pw, vSp);",
+      "    vec2 gF = vec2(dunesF(pw + vec2(eF, 0.0), vSp) - h0F, dunesF(pw + vec2(0.0, eF), vSp) - h0F) / eF;",
+      "    vec3 nV = normalize(vN); vec3 nF = normalize(vec3(-gF.x, 1.0, -gF.y));",
+      "    n = normalize(mix(nV, nF, dm * (1.0 - smoothstep(5000.0, 7000.0, dist)))); }",
       "  float rip = sin(dot(pw, vec2(0.93, 0.37)) * 6.2832 / 1.4 + vnoise(pw / 6.0) * 3.0);",
       "  float ripF = 1.0 - smoothstep(12.0, 70.0, dist);",
       "  vec2 gr = vec2(0.93, 0.37) * cos(dot(pw, vec2(0.93, 0.37)) * 6.2832 / 1.4 + vnoise(pw / 6.0) * 3.0) * 0.35 * dm * ripF;",
@@ -399,8 +405,8 @@
       "  float stripM = 0.0, glassM = 0.0, padM = 0.0, rimM = 0.0;",
       "  for (int k = 0; k < 5; k++){ float bk = (18.0 + 72.0 * float(k)) * 0.0174533; vec2 uk = vec2(sin(bk), cos(bk));",
       "    float al = dot(qp, uk), ac = abs(dot(qp, vec2(-uk.y, uk.x))), inA = smoothstep(15.0, 15.4, al) * (1.0 - smoothstep(110.8, 111.2, al));",
-      "    stripM = max(stripM, (1.0 - smoothstep(1.25, 1.35, ac)) * inA); glassM = max(glassM, (1.0 - smoothstep(0.33, 0.39, ac)) * inA);",
-      "    float pd = length(qp - uk * 130.0); padM = max(padM, 1.0 - smoothstep(6.9, 7.1, pd)); rimM = max(rimM, smoothstep(6.35, 6.5, pd) * (1.0 - smoothstep(6.8, 6.95, pd))); }",
+      "    float aw = fwidth(ac) + 1e-4; stripM = max(stripM, (1.0 - smoothstep(1.3 - aw * 0.5 - 0.05, 1.3 + aw * 0.5 + 0.05, ac)) * inA); glassM = max(glassM, (1.0 - smoothstep(0.36 - aw * 0.5, 0.36 + aw * 0.5, ac)) * min(1.0, 0.72 / aw) * inA);",
+      "    float pd = length(qp - uk * 130.0), pw2 = fwidth(pd) + 1e-4; padM = max(padM, 1.0 - smoothstep(6.9, 7.1, pd)); rimM = max(rimM, (1.0 - smoothstep(0.22 - pw2 * 0.5, 0.22 + pw2 * 0.5, abs(pd - 6.65))) * min(1.0, 0.44 / pw2)); }",
       "  float rh = length(pw); float garO = 1.0 - smoothstep(111.6, 112.2, rh); float gard = garO * (1.0 - stripM);",
       "  float rfw = clamp(1.0 - fwidth(rh / 0.9) * 1.5, 0.0, 1.0); float rake = sin(rh * 6.2832 / 0.9) * rfw;",
       "  float terr = (1.0 - smoothstep(-0.12, 0.12, sdT)) * (1.0 - garO);",
@@ -412,8 +418,8 @@
       "  pave = mix(pave, vec3(0.36, 0.24, 0.16), 0.35 * pdust + 0.3 * joint);",
       "  alb = mix(alb, pave * (1.0 - 0.22 * joint), max(terr, stripM * garO));",
       "  alb = mix(alb, vec3(0.34, 0.25, 0.185) * (0.92 + 0.08 * rake), gard);",
-      "  float kerb = (1.0 - smoothstep(-0.05, 0.12, sdT)) * smoothstep(-1.65, -1.45, sdT); float kline = (1.0 - smoothstep(0.0, 0.09 + fwidth(sdT), abs(sdT + 0.8))) * kerb;",
-      "  alb = mix(alb, vec3(0.085, 0.075, 0.068), kerb); alb = mix(alb, vec3(0.62, 0.56, 0.48), kline * 0.6);",
+      "  float kerb = (1.0 - smoothstep(-0.05, 0.12, sdT)) * smoothstep(-1.65, -1.45, sdT); float kpx = fwidth(sdT) + 1e-4; float kline = (1.0 - smoothstep(0.09 - kpx * 0.5, 0.09 + kpx * 0.5, abs(sdT + 0.8))) * min(1.0, 0.18 / kpx) * kerb;",
+      "  alb = mix(alb, vec3(0.085, 0.075, 0.068), kerb); alb = mix(alb, vec3(0.62, 0.56, 0.48), kline * 0.35);",
       "  alb = mix(alb, vec3(0.028, 0.034, 0.042), glassM);",
       "  alb = mix(alb, vec3(0.105, 0.09, 0.08) * (0.9 + 0.1 * vnoise(pw * 0.6)), padM); alb = mix(alb, vec3(0.44, 0.31, 0.17), rimM);",
       "  n = normalize(n + vec3(pw.x / max(rh, 1.0), 0.0, pw.y / max(rh, 1.0)) * cos(rh * 6.2832 / 0.9) * 0.12 * gard * near * rfw);",
@@ -432,7 +438,7 @@
       "  float spec = pow(max(dot(reflect(-uSunDir, n), normalize(uCam - vW)), 0.0), 60.0) * (cliff * 0.5 + frost * 0.08 + (glassM + padM * 0.3) * 1.5);",
       // the glass over the avenues and the kerb's light line: a little sky by day, warm light from below at dusk
       "  if (glassM + kline > 0.0){ vec3 vg = normalize(vW - uCam); vec3 rg = reflect(vg, vec3(0.0, 1.0, 0.0)); float fg = 0.04 + 0.6 * pow(1.0 - max(-vg.y, 0.0), 5.0);",
-      "    float dusk = smoothstep(0.16, -0.02, uSunDir.y); col += skyColor(rg) * fg * glassM * 0.6 + vec3(1.0, 0.74, 0.44) * (glassM * 0.55 + kline * 0.9) * (0.08 + 0.92 * dusk); }",
+      "    float dusk = smoothstep(0.16, -0.02, uSunDir.y); col += skyColor(rg) * fg * glassM * 0.3 + vec3(1.0, 0.64, 0.34) * (glassM * 0.12 + kline * 0.1) * (0.03 + 0.97 * dusk); }",
       "  col += uSunCol * spec * sh;",
       // the anti-gravity fields under the Crown's five spires: slow rings of pale light on the ground
       "  if (uAG > 0.0 && dot(pw, pw) < 40000.0){",

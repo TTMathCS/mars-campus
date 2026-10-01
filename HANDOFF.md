@@ -9,13 +9,13 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html` | Live. One card per demo; the demo 2 card opens the design book. |
+| Hub page | `index.html` | Live. One card per demo; the demo 2 card opens the 3D demo, whose cards link the design book. |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` | **Paused at Jim's request** until he approves the design book. Phase 1 works end to end in the debug build: terrain, sky, spaceport, pod, the Crown with the Orb, storm, the 10-shot flight, cameras and UI. Not published: `palace/index.html` is a small page that opens the design book. |
+| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 (the Orb, then the Crown's rooms) is next. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -89,9 +89,9 @@ the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
    01–07), add its figures to `BOOK` in `docs_export.py` and export, add its requirements' links in
    `REQUIREMENTS.md`, check it with `book_shot.py` (desktop, phone and dark), commit, push and tell Jim what it is
    before he opens it.
-6. When Jim approves the whole design book: redraw the floor plans' Orb with the Gate and the rings of rooms (Rev C of the plans), then resume
-   the paused 3D build, starting with the flight polish, and publish phase 1 at `palace/`, then the Crown and the Orb
-   (with the universe in VR and the Gate), then the Pentagon.
+6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`. Next, phase 2: the Orb
+   (the universe in VR, the dashboard, the Gate sending you to demo 1), then the Crown's rooms; then phase 3, the
+   Pentagon. When Jim approves Rev E, redraw the floor plans' Orb and ground (Rev C of the plans).
 
 ## 2c. Numbers used across the design book
 
@@ -168,8 +168,8 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
 **Demo 2, 3D build** (`palace/src/`): plain JavaScript on three.js r128, no build tools beyond `sh`.
 - `palace/build.sh` joins `src/00_head.html` and `src/[1-9]*.js` (in name order, inside one function) into one page.
   - `sh palace/build.sh debug` writes `palace/palace-debug.html` (git-ignored) with test hooks. Use this while working.
-  - `sh palace/build.sh` writes the published `palace/index.html`. **Don't run it until phase 1 is approved for
-    publishing**, because it replaces the page that opens the design book.
+  - `sh palace/build.sh` writes the published `palace/index.html` (phase 1 is live). Run it after every change to
+    `src/` and commit the result with the source.
 - Source files: `10_core.js` renderer, shared uniforms, shader chunks, HDR bloom and tone mapping; `20_sky.js` sun,
   sky, Phobos, stars; `30_terrain.js` the height function (GLSL and a JS twin that must match), ground detail (dunes,
   speckle pebbles, frost, dust) and ten nested terrain grids; `40_mat.js` building material (patterns 1 shell, 2 solar
@@ -279,12 +279,12 @@ palace/                       demo 2
 │   ├── img/                  renders, thumbnails and mars-map.jpg (README.md lists them)
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
 ├── plans/                    floor plans Rev B (index.html, self-contained)
-├── src/                      the new 3D build, phase 1 (paused); build.sh builds it
+├── src/                      the 3D demo's source; build.sh builds it
 ├── tools/                    crown_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
 │                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js
 ├── archive/old-palace/       the first palace, kept for reference
 ├── build.sh                  builds src/ into palace-debug.html or index.html
-└── index.html                opens the design book until phase 1 is published here
+└── index.html                the published 3D demo, built from src/ by build.sh
 .github/workflows/pages.yml   deploys to GitHub Pages on every push to main
 ```

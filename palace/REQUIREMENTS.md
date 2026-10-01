@@ -15,8 +15,9 @@ goes here first.
 > - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, Rev E (OR-1 to
 >   OR-9): the universe in VR, the ball as the Wormhole Gate and the Orb's dock, and the built ground (GN-13) are
 >   drawn from his words and shown for his review.
-> - **3D build paused** at phase 1 (the landscape, the spaceport and the flight video work in a test build). It
->   resumes when Jim approves the design book.
+> - **3D demo phase 1 is live** at [palace/](https://ttmathcs.github.io/mars-campus/palace/) (1 Oct 2026; Jim: "please
+>   go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from
+>   outside. Phase 2 starts with the Orb.
 
 ## How to read the tables
 
@@ -33,7 +34,7 @@ goes here first.
 | 🟡 For review | Drawn from Jim's answer and shown for his review |
 | 📐 Designed | In the design book; Jim reviews the whole book at the end |
 | ⏳ To design | A design book chapter still to write |
-| 🎬 Built | Works in the 3D test build (phase 1); not published yet |
+| 🎬 Built | Works in the 3D demo |
 | 🔧 In progress | Being worked on now |
 
 **Ch 02** links open a design book chapter on the live site. **Summary** links open the chapter's page in this
@@ -142,9 +143,9 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
 | TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of the house | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
-| TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 37 km scenic route, 4 min 40 s, ten shots | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 Live: 37 km scenic route, 4 min 40 s, ten shots | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-flight-home) |
 | TR-3 | "Arrival land on sunset, but animation can go through Mars storm etc." | Must | ✅ 🎬 A dust storm after the Ice Cliffs, then a breakout into the blue sunset with Phobos crossing the sun | [Pictures](docs/gallery.md#the-flight-home) |
-| TR-4 | The journey can be skipped (round 2) | Should | 🎬 "Skip to arrival" | [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-4 | The journey can be skipped (round 2) | Should | ✅ 🎬 Live: "Skip to arrival" | [Summary](docs/design/06-transport.md#the-flight-home) |
 | TR-5 | The door is private and opens by itself for Jim, by key or future authentication (round 2) | Must | 📐 The Door: an iris of light that knows Jim by face, eyes and walk | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) · [Summary](docs/design/04-interiors.md#coming-home) |
 | TR-6 | An airlock between outside and inside (round 2) | Should | 📐 The pod hangar is the airlock; suits stay outside at suit ports | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) |
 
@@ -167,14 +168,14 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 
 | Phase | What it adds | State |
 | --- | --- | --- |
-| 1 | The 30 km landscape, the spaceport and the flight video | 🎬 Works in the test build (`palace/src/`), paused |
-| 2 | The Crown and the Orb | Waits for the design book |
-| 3 | The Pentagon, one level at a time | Waits for the design book |
+| 1 | The 30 km landscape, the spaceport and the flight video | ✅ Live, 1 Oct 2026, at [palace/](https://ttmathcs.github.io/mars-campus/palace/) |
+| 2 | The Crown and the Orb | 🔧 Started: the Orb first |
+| 3 | The Pentagon, one level at a time | Next |
 
 | ID | You can … | Priority | Phase | Status |
 | --- | --- | --- | --- | --- |
-| DM-1 | Fly home: watch the flight video, switch between three cameras (director, cockpit, chase), pause, jump between the ten shots, skip | Must | 1 | 🎬 |
-| DM-2 | After landing, look around the Crown from outside | Should | 1 | 🎬 |
+| DM-1 | Fly home: watch the flight video, switch between three cameras (director, cockpit, chase), pause, jump between the ten shots, skip | Must | 1 | ✅ Live |
+| DM-2 | After landing, look around the Crown from outside | Should | 1 | ✅ Live |
 | DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 📐 |
 | DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 📐 |
 | DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 📐 |

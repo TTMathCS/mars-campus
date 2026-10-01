@@ -16,6 +16,7 @@ sunset. A city will grow around it.
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
+| ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design book](https://ttmathcs.github.io/mars-campus/palace/design/) |
@@ -30,15 +31,16 @@ sunset. A city will grow around it.
 | Part | State | Next |
 | --- | --- | --- |
 | Requirements | Updated 1 Oct 2026 with Jim's answers | — |
-| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb once Jim approves Rev E |
-| Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, and the ball as the Wormhole Gate | Write 08 Life support, 09 Communications and space, 10 Building it |
+| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb and the ground once Jim approves Rev E |
+| Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, the ball as the Wormhole Gate, the Orb's dock and the built ground | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
 | Mars Atlas | Live, over a real colour map of Mars | — |
-| 3D demo | Phase 1 (landscape, spaceport, flight video) works in a test build; **paused** at Jim's request | Resume when Jim approves the design book |
+| 3D demo | **Phase 1 live**, 1 Oct 2026 (Jim: "please go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from outside, with the new ground | Phase 2: the Orb, then the Crown's rooms |
 | First palace | Archived | — |
 
 **Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb, Rev E (the universe
-in VR, the ball as the Wormhole Gate), drawn from his words. See the [decision log](docs/decisions.md).
+in VR, the ball as the Wormhole Gate, the Orb's dock) and the built ground, drawn from his words. See the
+[decision log](docs/decisions.md).
 
 ## The design at a glance
 

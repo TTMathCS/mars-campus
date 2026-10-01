@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0706">
+<title>The Pentagon · Jim's house on Mars</title>
+<meta name="description" content="Go down to the Pentagon, the house below ground: the atrium 68 m deep under the sky lens, the portal column and its bridges, the sun court, and the garden level with its lake and forest.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #f3e8da; --dim: #c9b39c; --line: rgba(243, 232, 218, 0.18);
+    --panel: rgba(16, 11, 9, 0.6); --panel2: rgba(16, 11, 9, 0.84); --hot: #ff9b6b; --ice: #9fd3ee;
+    --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; height: 100%; background: #0b0706; color: var(--ink); font-family: var(--body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  canvas#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  canvas#view:active { cursor: grabbing; }
+  button, select { font: inherit; color: inherit; }
+  a { color: var(--ice); }
+  .hud { position: fixed; z-index: 2; }
+  #where { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 62vw); pointer-events: none; }
+  #where .k { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  #where .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+  #where .s { font: 500 12.5px/1.4 var(--mono); color: var(--ice); letter-spacing: .04em; margin-top: 2px; }
+  #where .d { margin-top: 6px; font-size: 14px; line-height: 1.45; opacity: .92; text-shadow: 0 1px 8px rgba(0,0,0,.85); max-width: 46ch; transition: opacity 1s; }
+  #map { right: calc(env(safe-area-inset-right, 0px) + 14px); top: calc(env(safe-area-inset-top, 0px) + 12px); width: 176px; height: 176px; border-radius: 50%; background: rgba(16, 11, 9, 0.55); border: 1px solid var(--line); cursor: pointer; }
+  #bar { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); width: min(1000px, calc(100vw - 28px)); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+  #bar button, #bar select { background: rgba(243,232,218,.06); border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; font: 500 13px/1 var(--body); cursor: pointer; }
+  #bar button:hover { background: rgba(243,232,218,.14); }
+  #bar button[aria-pressed="true"] { background: var(--ink); color: #1a0f0a; border-color: var(--ink); }
+  #bar .lab { font: 500 11px var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+  #bar .sep { width: 1px; align-self: stretch; background: var(--line); }
+  #bar .sp { flex: 1; }
+  #bar a { font-size: 13px; }
+  button:focus-visible, select:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+  .card { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: radial-gradient(ellipse at 50% 60%, rgba(10,6,5,.35), rgba(10,6,5,.84)); z-index: 5; }
+  .card .box { max-width: 580px; width: 100%; background: var(--panel2); border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 22px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .card .k { font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  .card h1 { margin: 6px 0 8px; font: 700 clamp(34px, 6vw, 52px)/1 var(--display); letter-spacing: .01em; }
+  .card p { margin: 0 0 12px; font-size: 15px; line-height: 1.55; opacity: .92; }
+  .card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .card .row button, .card .row a { display: inline-flex; align-items: center; padding: 11px 16px; border-radius: 10px; border: 1px solid var(--line); background: rgba(243,232,218,.07); font: 600 15px/1 var(--body); color: var(--ink); text-decoration: none; cursor: pointer; }
+  .card .row .go { background: var(--hot); color: #1a0f0a; border-color: var(--hot); }
+  .card .small { font: 400 12.5px/1.55 var(--mono); color: var(--dim); margin-top: 14px; }
+  #load { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 500 13px var(--mono); color: var(--dim); letter-spacing: .08em; z-index: 6; }
+  #flash { position: fixed; inset: 0; background: #f4f8ff; opacity: 0; pointer-events: none; z-index: 4; }
+  #say { position: fixed; left: 50%; top: 20%; transform: translateX(-50%); text-align: center; pointer-events: none; z-index: 3; opacity: 0; transition: opacity 1s; }
+  #say .t { font: 600 clamp(28px, 5vw, 56px)/1.05 var(--display); letter-spacing: .02em; text-shadow: 0 2px 22px rgba(0,0,0,.7); }
+  #say .d { margin-top: 8px; font: 500 12.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ice); }
+  #hint { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); transform: translateX(-50%); font: 500 11.5px var(--mono); letter-spacing: .1em; color: var(--dim); text-shadow: 0 1px 6px rgba(0,0,0,.9); pointer-events: none; z-index: 2; transition: opacity .8s; text-align: center; max-width: 90vw; }
+  #stick { position: fixed; left: calc(env(safe-area-inset-left, 0px) + 22px); bottom: calc(env(safe-area-inset-bottom, 0px) + 150px); width: 104px; height: 104px; border-radius: 50%; border: 1px solid var(--line); background: rgba(16, 11, 9, 0.35); z-index: 2; touch-action: none; }
+  #stick i { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: rgba(243,232,218,.25); border: 1px solid var(--line); }
+  #stick span { position: absolute; left: 0; right: 0; bottom: -18px; text-align: center; font: 500 10px var(--mono); letter-spacing: .12em; color: var(--dim); }
+  @media (max-width: 760px) {
+    #where .d { display: none; }
+    #map { width: 120px; height: 120px; }
+    #where { max-width: calc(100vw - 160px); }
+    #hint { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
+  }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="flash"></div>
+<div id="load">Going down to the Pentagon…</div>
+<div class="hud" id="where" hidden><div class="k" id="wK">The Pentagon</div><div class="t" id="wT"></div><div class="s" id="wS"></div><div class="d" id="wD"></div></div>
+<div class="hud" id="bar" hidden>
+  <span class="lab">Portal column</span>
+  <button type="button" data-lv="0">L1 Residence</button><button type="button" data-lv="1">L2 Garden</button><button type="button" data-lv="2">L3 Studio</button><button type="button" data-lv="3">L4 Life support</button><button type="button" data-lv="4">L5 Sun court</button>
+  <span class="sp"></span>
+  <a href="../crown/">Up to the Crown</a>
+</div>
+<div id="stick" hidden><i></i><span>MOVE</span></div>
+<div id="hint" hidden></div>
+<div id="say"><div class="t" id="sayT"></div><div class="d" id="sayD"></div></div>
+<div class="card" id="intro" hidden>
+  <div class="box">
+    <div class="k">Mars Campus · Demo 2 · The Pentagon</div>
+    <h1>The Pentagon</h1>
+    <p>You came down by portal to L1, 24 m under the Stone Garden. You are on a bridge in the atrium: a five-sided shaft 35 m across and 68 m deep, with the sky lens of the Sun Well at the top and the sun court at the bottom.</p>
+    <p>Walk the bridges and the terraces of hanging gardens. The portal column in the middle takes you to any level in one step: go down to L2, 16 m tall under a sky of lamps, with its lake, forest, orchard and meadow, or to the sun court on L5.</p>
+    <div class="row"><button type="button" class="go" id="bEnter">Look round the atrium</button><a href="../crown/">Up to the Crown</a><a href="../design/pentagon.html">The design</a></div>
+    <div class="small">Drag to look round · W A S D or arrows to walk · the buttons below are the portal column: one step to any level</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* The Pentagon, as drawn in chapter 03: one solid pentagon 160 m on a side (circumradius 136.1 m), five levels (L1 floor
+   -24 m, L2 -41 m and 16 m tall, L3 -50, L4 -59, L5 -68) under 16 m of soil. The atrium in the middle is a pentagon
+   35 m on a side (circumradius 29.8 m), from the roof at -16 m down to the sun court on L5; the Sun Well's sky lens
+   is above it at the surface, 20.4 m across. The portal column, 10 m across, stands in the atrium with five bridges to
+   it on every level, along the avenues from the atrium's corners (bearings 18 + 72k). World: metres, x east, z south,
+   y up, the centre of the house on the surface at the origin; a bearing b is the point (r sin b, y, -r cos b). */
+(function () {
+  "use strict";
+  var D = Math.PI / 180, DEBUG = /[?&]debug\b/.test(location.search);
+  var $ = function (id) { return document.getElementById(id); };
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function smooth(a, b, x) { var t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); }
+  function ease(t) { t = clamp(t, 0, 1); return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function fract(x) { return x - Math.floor(x); }
+  function rng(seed) { var s = seed >>> 0; return function () { s = (s + 0x6D2B79F5) >>> 0; var t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function vnoise(x, z) { var ix = Math.floor(x), iz = Math.floor(z), fx = x - ix, fz = z - iz; function hh(a, b) { var t = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return t - Math.floor(t); } fx = fx * fx * (3 - 2 * fx); fz = fz * fz * (3 - 2 * fz); return lerp(lerp(hh(ix, iz), hh(ix + 1, iz), fx), lerp(hh(ix, iz + 1), hh(ix + 1, iz + 1), fx), fz); }
+  function P(r, b, y) { return new THREE.Vector3(r * Math.sin(b * D), y, -r * Math.cos(b * D)); }
+  function bearing(x, z) { return (Math.atan2(x, -z) / D + 360) % 360; }
+
+  var R = 160 / (2 * Math.sin(36 * D)), AP = R * Math.cos(36 * D), RA = 35 / (2 * Math.sin(36 * D)), APA = RA * Math.cos(36 * D);
+  var CN = [18, 90, 162, 234, 306];
+  var LV = [
+    { id: "L1", name: "Residence", floor: -24, top: -16, d: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema, the thermal baths, the great library and the guest suites. Every room has a sky ceiling." },
+    { id: "L2", name: "Garden", floor: -41, top: -25, d: "Sixteen metres tall under a sky of lamps: the orchard, the farm, the lake that is also the house's water reserve, the forest with its stream, and the meadow." },
+    { id: "L3", name: "Studio", floor: -50, top: -42, d: "Where things are made and run: Jim's studio and workshops, the robot foundry, the laboratories and the medical centre, the house mind and the control rooms." },
+    { id: "L4", name: "Life support", floor: -59, top: -51, d: "The machine room of the house: the two reactors, water from ice, the air plant, the storm reserve and recycling." },
+    { id: "L5", name: "Transit · the sun court", floor: -68, top: -60, d: "The sun court is a garden of 2,100 m² under the sky lens: lawns, fruit trees and a pool round the column, lit like a clear Mars noon. Round it: the maglev station, the cargo halls, the seed vault and the rover hall." }
+  ];
+  var ROOF = -16, TER = 3.6;
+  var SUNDIR = { atrium: new THREE.Vector3(0.18, 1, 0.12).normalize(), garden: new THREE.Vector3(-0.42, 0.78, 0.46).normalize() };   // the atrium's top; how far the terraces reach into the atrium
+  // apothem distance of a point from the centre, for the pentagon whose corners are at bearings 18 + 72k
+  function apo(x, z) { var q = new THREE.Vector2(x, -z), m = -1e9; for (var k = 0; k < 5; k++) { var be = (54 + 72 * k) * D; m = Math.max(m, q.x * Math.sin(be) + q.y * Math.cos(be)); } return m; }
+
+  /* ------------------------------------------------------------------ renderer */
+  var canvas = $("view");
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: DEBUG });
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  var GL2 = renderer.capabilities.isWebGL2;
+  var VIEW = { w: 1, h: 1, dpr: 1, scale: 1 };
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(66, 1, 0.08, 1200);
+  var U = { uTime: { value: 0 }, uCam: { value: new THREE.Vector3() } };
+
+  /* ------------------------------------------------------------------ textures and materials */
+  function canvasTex(w, h, draw, rep) { var c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d"), w, h); var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; if (rep) t.repeat.set(rep[0], rep[1]); return t; }
+  function speckle(g, w, h, n, cols, seed, smin, smax) { var r = rng(seed); for (var i = 0; i < n; i++) { g.fillStyle = cols[Math.floor(r() * cols.length)]; var s = smin + r() * (smax - smin); g.globalAlpha = 0.25 + 0.5 * r(); g.fillRect(r() * w, r() * h, s, s); } g.globalAlpha = 1; }
+  var TX = {
+    plaster: canvasTex(512, 512, function (g, w, h) { g.fillStyle = "#808080"; g.fillRect(0, 0, w, h); speckle(g, w, h, 26000, ["#6d6d6d", "#939393", "#7a7a7a", "#888"], 3, 1, 3); }),
+    stone: canvasTex(1024, 1024, function (g, w, h) { g.fillStyle = "#c9bfb0"; g.fillRect(0, 0, w, h); speckle(g, w, h, 18000, ["#d3c9ba", "#bfb4a4", "#c4b9a9", "#d8cfc2"], 7, 1, 5); g.strokeStyle = "rgba(90,80,70,0.35)"; g.lineWidth = 1.5; for (var x = 0; x <= w; x += 341) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); } for (var y = 0; y <= h; y += 341) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); } }),
+    basalt: canvasTex(1024, 1024, function (g, w, h) { g.fillStyle = "#2a2826"; g.fillRect(0, 0, w, h); speckle(g, w, h, 22000, ["#34312e", "#23211f", "#3b3733", "#1e1c1b"], 5, 1, 4); g.strokeStyle = "rgba(0,0,0,0.55)"; g.lineWidth = 2; for (var x = 0; x <= w; x += 256) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); } }),
+    grass: canvasTex(1024, 1024, function (g, w, h) { g.fillStyle = "#4b6b2c"; g.fillRect(0, 0, w, h); speckle(g, w, h, 120000, ["#5a7d34", "#3f5c24", "#6b8c3e", "#4f7030", "#7a9645", "#364f1f"], 23, 1, 3); }),
+    moss: canvasTex(512, 512, function (g, w, h) { g.fillStyle = "#3b4a26"; g.fillRect(0, 0, w, h); speckle(g, w, h, 30000, ["#4f6230", "#2c3a1c", "#5d7238", "#33421f", "#6b7d3e"], 12, 2, 7); }),
+    sand: canvasTex(512, 512, function (g, w, h) { g.fillStyle = "#b9a483"; g.fillRect(0, 0, w, h); speckle(g, w, h, 40000, ["#a8936f", "#c8b593", "#9c8664", "#d2c09e"], 17, 1, 3); })
+  };
+  TX.grass.repeat.set(1, 1);
+  function mat(o) { var m = new THREE.MeshStandardMaterial(o); m.shadowSide = THREE.DoubleSide; return m; }
+  var M = {
+    plaster: mat({ color: 0xece4d7, roughness: 0.92, bumpMap: TX.plaster, bumpScale: 0.004 }),
+    concrete: mat({ color: 0xd6cdbf, roughness: 0.85, bumpMap: TX.plaster, bumpScale: 0.006 }),
+    stone: mat({ color: 0xffffff, map: TX.stone, roughness: 0.6 }),
+    basalt: mat({ color: 0xffffff, map: TX.basalt, roughness: 0.32 }),
+    bronze: mat({ color: 0x9c7446, roughness: 0.32, metalness: 0.95 }),
+    ti: mat({ color: 0xa9abae, roughness: 0.3, metalness: 0.9 }),
+    glass: new THREE.MeshPhysicalMaterial({ color: 0xdfe8ee, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.18, depthWrite: false }),
+    grass: mat({ color: 0xffffff, map: TX.grass, roughness: 1.0 }),
+    moss: mat({ color: 0xffffff, map: TX.moss, roughness: 1.0 }),
+    sand: mat({ color: 0xffffff, map: TX.sand, roughness: 0.95 }),
+    walnut: mat({ color: 0x5a3e2b, roughness: 0.5 }), oak: mat({ color: 0xb08a62, roughness: 0.58 }),
+    bark: mat({ color: 0x5e4c3c, roughness: 0.95 }),
+    soil: mat({ color: 0x3a2c22, roughness: 1.0, map: TX.moss }),
+    path: mat({ color: 0x9a9286, map: TX.stone, roughness: 0.75 }),
+    hedge: mat({ color: 0x46663a, map: TX.moss, bumpMap: TX.moss, bumpScale: 0.06, roughness: 1.0 }),
+    colG: mat({ color: 0xe2dbcf, roughness: 0.7 })
+  };
+  // the portal column: travertine in courses 1.3 m tall, fluted, 60 flutes round it
+  (function () {
+    var tex = canvasTex(256, 256, function (g, w, h) { g.fillStyle = "#cdbfa9"; g.fillRect(0, 0, w, h); var r = rng(41); for (var i = 0; i < 90; i++) { g.fillStyle = "rgba(" + (r() < 0.5 ? "150,130,105," : "228,216,196,") + (0.1 + 0.2 * r()) + ")"; g.fillRect(0, r() * h, w, 0.6 + r() * 2.2); } speckle(g, w, h, 3000, ["#b8a68e", "#d8cab4", "#a8957c"], 43, 1, 2); g.fillStyle = "rgba(80,68,55,0.6)"; g.fillRect(0, h - 2, w, 2); });
+    var cv = document.createElement("canvas"); cv.width = 256; cv.height = 256; var g = cv.getContext("2d"), im = g.createImageData(256, 256);
+    for (var y = 0; y < 256; y++) for (var x = 0; x < 256; x++) {
+      var u = (x % 64) / 64, w = (u - 0.5) / 0.44, nx = 0, ny = 0;
+      if (Math.abs(w) < 0.999) nx = -w * 0.45 / Math.sqrt(1 - w * w * 0.98); nx = clamp(nx, -0.9, 0.9);
+      if (y >= 253) ny = y === 253 ? 0.7 : -0.7;
+      var nz = Math.sqrt(Math.max(0.05, 1 - nx * nx - ny * ny)), o = (y * 256 + x) * 4;
+      im.data[o] = (nx * 0.5 + 0.5) * 255; im.data[o + 1] = (ny * 0.5 + 0.5) * 255; im.data[o + 2] = nz * 255; im.data[o + 3] = 255;
+    }
+    g.putImageData(im, 0, 0); var nrm = new THREE.CanvasTexture(cv); nrm.wrapS = nrm.wrapT = THREE.RepeatWrapping; nrm.anisotropy = 8;
+    tex.repeat.set(15, 40); nrm.repeat.set(15, 40);
+    M.trav = mat({ color: 0xffffff, map: tex, normalMap: nrm, normalScale: new THREE.Vector2(0.9, 0.9), roughness: 0.55 });
+  })();
+
+  function grassMat(lake) {
+    var m = mat({ color: 0xffffff, map: TX.grass, roughness: 0.95 });
+    m.onBeforeCompile = function (sh) {
+      sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+      sh.fragmentShader = sh.fragmentShader.replace("#include <common>", [
+        "#include <common>", "varying vec3 vWp;",
+        "float gh(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+        "float gn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(gh(i), gh(i + vec2(1.0, 0.0)), f.x), mix(gh(i + vec2(0.0, 1.0)), gh(i + vec2(1.0, 1.0)), f.x), f.y); }",
+        "float apoG(vec2 xz){ vec2 q = vec2(xz.x, -xz.y); float m = -1e9; for (int k = 0; k < 5; k++){ float be = radians(54.0 + 72.0 * float(k)); m = max(m, q.x * sin(be) + q.y * cos(be)); } return m; }",
+        "float lakeG(vec2 xz){ float b = mod(degrees(atan(xz.x, -xz.y)) + 360.0, 360.0), a = apoG(xz), db = mod(b - 270.0 + 540.0, 360.0) - 180.0, e = 22.0 + 6.0 * sin(radians(b) * 7.0) + 4.0 * sin(radians(b) * 13.0 + 1.0); return max(abs(db) / 31.0, abs(a - 54.0) / e); }"].join("\n"))
+        .replace("#include <map_fragment>", [
+          "vec2 wq = vWp.xz; float n1 = gn(wq * 0.07) * 0.6 + gn(wq * 0.19 + 3.1) * 0.4, n2 = gn(wq * 0.6 + 7.7), n3 = gn(wq * 2.3 + 1.3);",
+          "vec3 g = mix(vec3(0.07, 0.12, 0.032), vec3(0.12, 0.175, 0.045), n1); g = mix(g, vec3(0.19, 0.2, 0.075), smoothstep(0.62, 0.9, n2) * 0.45);",
+          "vec4 texelColor = texture2D(map, vUv); g *= (0.78 + 0.44 * n3) * (0.62 + 0.76 * dot(texelColor.rgb, vec3(0.333)));",
+          lake ? "float ld = lakeG(wq); g = mix(mix(vec3(0.05, 0.045, 0.035), vec3(0.16, 0.14, 0.11) * (0.8 + 0.4 * n3), smoothstep(0.985, 1.02, ld)), g, smoothstep(1.06, 1.12, ld));" : "",
+          "diffuseColor.rgb *= g;"].join("\n"));
+    };
+    return m;
+  }
+
+  /* ------------------------------------------------------------------ geometry helpers */
+  function GB() { this.p = []; this.n = []; this.u = []; }
+  GB.prototype.quad = function (a, b, c, d, want, uv) {
+    var n = new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).normalize();
+    if (want && n.dot(want) < 0) { var t = b; b = d; d = t; n.negate(); if (uv) uv = [uv[0], uv[3], uv[2], uv[1]]; }
+    var self = this; uv = uv || [[0, 0], [1, 0], [1, 1], [0, 1]];
+    [[a, uv[0]], [b, uv[1]], [c, uv[2]], [a, uv[0]], [c, uv[2]], [d, uv[3]]].forEach(function (v) { self.p.push(v[0].x, v[0].y, v[0].z); self.n.push(n.x, n.y, n.z); self.u.push(v[1][0], v[1][1]); });
+  };
+  GB.prototype.build = function () { var g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(this.p, 3)); g.setAttribute("normal", new THREE.Float32BufferAttribute(this.n, 3)); g.setAttribute("uv", new THREE.Float32BufferAttribute(this.u, 2)); return g; };
+  function mesh(gb, m, cast, recv) { var x = new THREE.Mesh(gb.build(), m); x.castShadow = cast !== false; x.receiveShadow = recv !== false; scene.add(x); return x; }
+  var UP = new THREE.Vector3(0, 1, 0), DOWN = new THREE.Vector3(0, -1, 0);
+  // a point on the pentagon of apothem a, along side k (0..4) at fraction t (0..1) from one corner to the next
+  function onSide(a, k, t, y) { var c = a / Math.cos(36 * D), b0 = CN[k], b1 = CN[(k + 1) % 5]; return P(c, b0, y).lerp(P(c, b1, y), t); }
+  function sideNormal(k) { var be = (54 + 72 * k) * D; return new THREE.Vector3(Math.sin(be), 0, -Math.cos(be)); }   // outward
+  function rbox(w, h, d, r) {
+    r = Math.min(r, w / 2 - 0.001, h / 2 - 0.001, d / 2 - 0.001);
+    var s = new THREE.Shape(), x = -w / 2 + r, y = -h / 2 + r, ww = w - 2 * r, hh = h - 2 * r;
+    s.moveTo(x, y - r); s.lineTo(x + ww, y - r); s.quadraticCurveTo(x + ww + r, y - r, x + ww + r, y); s.lineTo(x + ww + r, y + hh); s.quadraticCurveTo(x + ww + r, y + hh + r, x + ww, y + hh + r);
+    s.lineTo(x, y + hh + r); s.quadraticCurveTo(x - r, y + hh + r, x - r, y + hh); s.lineTo(x - r, y); s.quadraticCurveTo(x - r, y - r, x, y - r);
+    var g = new THREE.ExtrudeGeometry(s, { depth: Math.max(0.001, d - 2 * r), bevelEnabled: true, bevelThickness: r, bevelSize: r * 0.98, bevelSegments: 3, curveSegments: 5 });
+    g.translate(0, 0, -(d - 2 * r) / 2); return g;
+  }
+
+  /* ------------------------------------------------------------------ the atrium: terraces, glass fronts onto ring A, hanging gardens */
+  // ring A's rooms behind the glass, as on the plans of each level: a room behind each bay, drawn by interior mapping
+  // (the ray from your eye is followed into a box behind the glass: walls, floor, ceiling and its lights, and the
+  // furniture standing about halfway back). s is the kind of room, v a variant, w the width of one room, d its depth.
+  var ROOMS = [
+    [{ s: 0, w: 35 / 3, d: 9, n: 2, nm: "the guest lounge, and guest suites above it" }, { s: 0, w: 35 / 3, d: 9, v: 1, n: 2, nm: "the family room, and Jim's study above it" }, { s: 3, w: 35, d: 12, nm: "the cinema" }, { s: 2, w: 35, d: 12, nm: "the thermal pools" }, { s: 1, w: 35, d: 12, nm: "the great library" }],
+    null,
+    [{ s: 5, w: 35, d: 12, nm: "the city control room" }, { s: 4, w: 35 / 2, d: 11, nm: "Jim's workshop" }, { s: 4, w: 35, d: 13, v: 1, nm: "the robot foundry" }, { s: 4, w: 35 / 2, d: 11, v: 2, nm: "the laboratories" }, { s: 5, w: 35, d: 12, v: 1, nm: "the AI core of the house mind" }],
+    [{ s: 6, w: 35, d: 13, nm: "waste to soil" }, { s: 6, w: 35, d: 13, v: 1, nm: "the two fission microreactors" }, { s: 6, w: 35, d: 13, v: 2, nm: "the ice melt" }, { s: 6, w: 35, d: 13, v: 3, nm: "the oxygen plant" }, { s: 8, w: 35, d: 13, nm: "food for two years" }],
+    [{ s: 7, w: 35, d: 13, nm: "the rover hall" }, { s: 7, w: 35, d: 13, v: 1, nm: "the maglev hall" }, { s: 7, w: 35, d: 13, v: 2, nm: "the freight hall" }, { s: 8, w: 35, d: 13, v: 1, nm: "the seed vault" }, { s: 6, w: 35, d: 13, v: 4, nm: "the tunnel boring machines" }]
+  ];
+  var ROOM_VS = "attribute vec3 aT; varying vec3 vW; varying vec3 vT; varying vec3 vNo; varying vec2 vUv; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; vT = aT; vNo = normal; vUv = uv; gl_Position = projectionMatrix * viewMatrix * w; }";
+  var ROOM_FS = [
+    "uniform vec3 uCam; uniform float uS, uV, uN, uW, uD, uSeed, uTime;",
+    "varying vec3 vW; varying vec3 vT; varying vec3 vNo; varying vec2 vUv;",
+    "float W_, H_, D_, SD, LS, CJ; vec3 LC;",
+    "float h1(float n){ return fract(sin(n * 91.3458 + 47.13) * 43758.5453); }",
+    "float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+    "float sdB(vec2 p, vec2 b){ vec2 d = abs(p) - b; return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0); }",
+    "float sdR(vec2 p, vec2 b, float r){ return sdB(p, b - r) - r; }",
+    "bool skyRoom(){ return uS < 0.5 || (uS > 1.5 && uS < 2.5); }",
+    // the light falling on a point p (x across, y up, z back from the glass) with normal n
+    "vec3 lightAt(vec3 p, vec3 n){",
+    "  if (skyRoom()) return LC * (0.42 + 0.34 * max(n.y, 0.0) + 0.26 * smoothstep(0.0, H_, p.y) * (1.0 - abs(n.y))) * (1.0 - 0.25 * smoothstep(0.0, D_, p.z));",
+    "  float E = 0.0, i0 = floor(clamp(p.x, 0.01, W_ - 0.01) / LS);",
+    "  for (int i = -1; i <= 1; i++){ float lx = (i0 + float(i) + 0.5) * LS; if (lx < 0.0 || lx > W_) continue;",
+    "    for (int j = 0; j < 3; j++){ float lz = D_ * (0.2 + 0.3 * float(j)); vec3 L = vec3(lx, H_ - 0.05, lz) - p; float d2 = dot(L, L) + 0.3; vec3 l = L * inversesqrt(d2);",
+    "      E += max(dot(n, l), 0.0) * smoothstep(0.25, 0.85, l.y) / d2; } }",
+    "  return LC * (0.1 + E * H_ * H_ * 0.15);",
+    "}",
+    "vec3 tiles(vec2 q, vec2 s, vec3 a){ vec2 f = fract(q / s), id = floor(q / s); float g = step(0.985, max(f.x, f.y)); return a * (0.9 + 0.2 * h2(id)) * (1.0 - 0.35 * g); }",
+    "vec3 wood(vec2 q, vec3 a, vec3 b){ float id = floor(q.x / 0.19), o = h1(id) * 3.0, k = floor((q.y + o) / 2.4); vec3 c = mix(a, b, h2(vec2(id, k))); float seam = max(step(0.965, fract(q.x / 0.19)), step(0.994, fract((q.y + o) / 2.4))); return c * (0.92 + 0.08 * sin(q.y * 37.0 + id)) * (1.0 - 0.22 * seam); }",
+    "vec3 books(vec2 q){ float row = floor(q.y / 0.38), fy = fract(q.y / 0.38); if (fy < 0.08) return vec3(0.20, 0.12, 0.07); float id = floor(q.x / 0.047) + row * 131.0, r = h1(id), hh = 0.6 + 0.32 * h1(id + 0.37);",
+    "  if (fy > 0.08 + 0.92 * hh || h1(id + 0.91) < 0.06) return vec3(0.04, 0.03, 0.02);",
+    "  vec3 c = r < 0.22 ? vec3(0.42, 0.10, 0.08) : r < 0.42 ? vec3(0.12, 0.18, 0.28) : r < 0.56 ? vec3(0.16, 0.25, 0.14) : r < 0.8 ? vec3(0.60, 0.50, 0.36) : vec3(0.32, 0.20, 0.11);",
+    "  return c * (0.7 + 0.55 * h1(id + 0.71)) * (1.0 - 0.35 * step(0.88, fract(q.x / 0.047))) * (1.0 - 0.5 * step(abs(fy - 0.08 - 0.75 * hh), 0.012)); }",
+    "float leafy(vec2 f, vec2 c, float r0, float s){ float hit = 0.0; for (int i = 0; i < 26; i++){ float fi = float(i), a = h1(fi + s) * 6.2832, rr = r0 * sqrt(h1(fi * 1.7 + s)); vec2 q = f - c - vec2(cos(a), sin(a) * 0.9) * rr; float an = h1(fi * 2.3 + s) * 3.1416, ca = cos(an), sa = sin(an);",
+    "  q = vec2(ca * q.x + sa * q.y, ca * q.y - sa * q.x); if (length(q / (vec2(0.15, 0.065) * r0 / 0.5)) < 1.0) hit = 0.55 + 0.45 * h1(fi * 3.1 + s); } return hit; }",
+    "vec3 picture(vec2 q, float s){ float hz = 0.1 * sin(q.x * 3.0 + s * 20.0) + 0.05 * sin(q.x * 9.0 + s * 7.0);",
+    "  vec3 sky = mix(vec3(0.62, 0.70, 0.78), vec3(0.85, 0.70, 0.52), s), land = mix(vec3(0.30, 0.36, 0.22), vec3(0.52, 0.33, 0.20), fract(s * 7.0));",
+    "  return mix(land, sky, smoothstep(-0.03, 0.03, q.y - hz)) * (0.88 + 0.12 * sin(q.x * 40.0 + q.y * 23.0) * sin(q.y * 31.0)); }",
+    // the walls: q is (along the wall, height); back is 1 on the back wall
+    "vec3 wallAt(vec2 q, float back, out vec3 emi){ emi = vec3(0.0); float st = uS, va = uV;",
+    "  if (st < 0.5){ vec3 c = mix(vec3(0.80, 0.76, 0.68), vec3(0.62, 0.58, 0.52), step(0.62, SD)); if (q.y < 0.14) c = vec3(0.86, 0.84, 0.80);",
+    "    if (back > 0.5 && uN > 1.5 && CJ > 0.5 && va > 0.5 && q.y > 0.14 && q.y < 3.5) return books(q);",
+    "    if (back < 0.5){ float sx = mod(q.x, 40.0), sy = q.y - 2.3; for (int i = 0; i < 2; i++){ float d = sx - D_ * (0.3 + 0.4 * float(i)); if (abs(d) < 0.07 && abs(sy) < 0.12) emi = vec3(1.0, 0.82, 0.6) * 3.0; emi += vec3(1.0, 0.72, 0.45) * 0.22 * exp(-(d * d * 2.5 + sy * sy * (sy > 0.0 ? 0.9 : 0.35))); } }",
+    "    if (back > 0.5 && va > 0.5 && CJ < 0.5){ float fx = q.x - W_ * 0.5; if (abs(fx) < 0.75 && q.y > 0.25 && q.y < 1.05){ float fl = clamp(1.0 - (q.y - 0.25) / 0.6 - 0.35 * abs(sin(fx * 7.0 + uTime * 3.1)) - 0.2 * sin(fx * 13.0 - uTime * 4.7), 0.0, 1.0); emi = mix(vec3(0.9, 0.25, 0.05), vec3(1.0, 0.75, 0.35), fl) * fl * 2.2; return vec3(0.03); }",
+    "      if (abs(fx) < 1.15 && q.y < 1.4){ return abs(q.y - 1.37) < 0.035 ? vec3(0.25, 0.16, 0.1) : vec3(0.70, 0.68, 0.64) * (0.92 + 0.08 * h2(floor(q * 6.0))); } }",
+    "    if (back > 0.5){ vec2 pc = q - vec2(W_ * (va > 0.5 && CJ < 0.5 ? 0.5 : 0.36 + 0.28 * h1(SD * 9.0)), 2.4); if (abs(pc.x) < 1.25 && abs(pc.y) < 0.8) c = (abs(pc.x) > 1.18 || abs(pc.y) > 0.73) ? vec3(0.10, 0.08, 0.06) : picture(pc, SD); }",
+    "    else if (h1(SD * 5.0 + floor(q.x / 40.0)) < 0.5 && mod(q.x, 40.0) > 1.5 && mod(q.x, 40.0) < D_ - 1.5 && q.y < 4.0) c = books(q);",
+    "    return c; }",
+    "  if (st < 1.5){ if (abs(q.y - 4.1) < 0.2) return vec3(0.16, 0.10, 0.06); if (abs(q.y - 5.05) < 0.03) return vec3(0.7, 0.55, 0.25); if (q.y < H_ - 0.6) return books(q); return vec3(0.52, 0.40, 0.28); }",
+    "  if (st < 2.5) return tiles(q, vec2(1.2, 0.6), vec3(0.78, 0.70, 0.58));",
+    "  if (st < 3.5){ if (back > 0.5 && abs(q.x - W_ * 0.5) < W_ * 0.3 && q.y > 1.8 && q.y < 6.9){ vec2 u = vec2((q.x - W_ * 0.5) / (W_ * 0.3), (q.y - 4.35) / 2.55);",
+    "      float hz = -0.15 + 0.12 * sin(u.x * 3.0) + 0.05 * sin(u.x * 11.0); vec3 m = mix(vec3(0.75, 0.42, 0.22), mix(vec3(0.95, 0.75, 0.5), vec3(0.35, 0.5, 0.75), smoothstep(-0.1, 0.9, u.y)), smoothstep(hz - 0.02, hz + 0.02, u.y));",
+    "      emi = m * 1.3 * (0.75 + 0.25 * sin(uTime * 0.3)); return vec3(0.0); }",
+    "    return vec3(0.07, 0.05, 0.05) * (0.8 + 0.2 * step(0.5, fract(q.x * 0.8))); }",
+    "  if (st < 4.5){ if (va > 0.5 && va < 1.5){ if (q.y < 0.6) return mix(vec3(0.75, 0.6, 0.08), vec3(0.06), step(0.5, fract((q.x + q.y) * 1.4))); return vec3(0.55, 0.56, 0.57); }",
+    "    if (va < 0.5 && back > 0.5 && q.y > 1.3 && q.y < 2.6){ vec2 g = floor(q * vec2(7.0, 6.0)); float k = h2(g); return k < 0.3 ? vec3(0.12, 0.13, 0.15) : k < 0.38 ? vec3(0.65, 0.18, 0.1) : vec3(0.62, 0.5, 0.36) * (1.0 - 0.6 * step(0.75, fract(q.x * 25.0)) * step(0.75, fract(q.y * 25.0))); }",
+    "    return vec3(0.85, 0.85, 0.83); }",
+    "  if (st < 5.5){ if (va < 0.5 && back > 0.5 && q.y > 1.6 && q.y < 6.4){ vec2 g = floor(vec2(q.x / 1.9, (q.y - 1.6) / 1.2)), f = fract(vec2(q.x / 1.9, (q.y - 1.6) / 1.2)); if (f.x > 0.02 && f.y > 0.03){ float k = h2(g);",
+    "        vec3 m = k < 0.5 ? mix(vec3(0.04, 0.16, 0.26), vec3(0.15, 0.55, 0.6), smoothstep(0.3, 0.7, sin(f.x * 9.0 + k * 20.0) * sin(f.y * 7.0 + k * 9.0) + 0.5)) : mix(vec3(0.05, 0.1, 0.2), vec3(0.9, 0.6, 0.2), step(0.96, fract(f.x * 8.0 + k)) + step(f.y, 0.3 + 0.4 * h1(floor(f.x * 12.0) + k * 9.0)) * 0.4);",
+    "        emi = m * 1.4; return vec3(0.0); } }",
+    "    if (va > 0.5 && q.y < 2.4 && fract(q.x / 0.9) > 0.06){ vec2 g = floor(vec2(q.x * 22.0, q.y * 14.0)); emi = mix(vec3(0.1, 0.5, 1.0), vec3(0.2, 1.0, 0.5), h2(g + 0.5)) * step(0.85, h2(g + floor(uTime * 2.0 + h2(g) * 4.0))) * 1.6; return vec3(0.04, 0.045, 0.05); }",
+    "    return vec3(0.10, 0.11, 0.13); }",
+    "  if (st < 6.5){ if (back > 0.5){ if (abs(q.y - 6.2) < 0.13) return vec3(0.18, 0.32, 0.58); if (abs(q.y - 6.65) < 0.13) return vec3(0.25, 0.48, 0.28); if (abs(q.y - 5.75) < 0.1) return vec3(0.8, 0.62, 0.14); }",
+    "    return q.y < 2.0 ? vec3(0.34, 0.40, 0.38) : vec3(0.52, 0.56, 0.54); }",
+    "  if (st < 7.5){ if (va > 1.5 && back > 0.5){ float c = (floor(q.x / 8.75) + 0.5) * 8.75; float r = length(q - vec2(c, 3.6)); if (r < 2.9 && r > 2.45){ emi = vec3(0.35, 0.6, 1.0) * 2.2; return vec3(0.0); } if (r < 2.45){ emi = vec3(0.03, 0.06, 0.14) * (0.8 + 0.2 * sin(r * 5.0 - uTime * 1.5)) + vec3(0.25, 0.4, 0.8) * pow(r / 2.45, 6.0); return vec3(0.02); } }",
+    "    return tiles(q, vec2(2.4, 1.2), vec3(0.78, 0.75, 0.70)); }",
+    "  return vec3(0.86, 0.88, 0.90); }",
+    // the floor: q is (across, back)
+    "vec3 floorAt(vec2 q){ float st = uS, va = uV;",
+    "  if (st < 0.5) return (abs(q.x - W_ * 0.5) < 2.4 && abs(q.y - D_ * 0.45) < 1.8) ? mix(vec3(0.62, 0.55, 0.46), vec3(0.35, 0.30, 0.28), step(0.5, SD)) * (0.92 + 0.08 * sin(q.x * 30.0)) : wood(q, vec3(0.44, 0.29, 0.17), vec3(0.60, 0.42, 0.26));",
+    "  if (st < 1.5) return wood(q, vec3(0.30, 0.18, 0.10), vec3(0.42, 0.26, 0.14));",
+    "  if (st < 2.5){ if (q.x > 2.0 && q.x < W_ - 2.0 && q.y > 2.2 && q.y < D_ - 1.8){ float c = sin(q.x * 3.1 + uTime * 0.9 + sin(q.y * 2.3)) * sin(q.y * 2.7 - uTime * 0.7 + sin(q.x * 1.7)); return mix(vec3(0.10, 0.34, 0.38), vec3(0.24, 0.52, 0.54), smoothstep(0.75, 0.98, c)); } return tiles(q, vec2(1.2, 1.2), vec3(0.80, 0.73, 0.62)); }",
+    "  if (st < 3.5) return vec3(0.09, 0.05, 0.05);",
+    "  if (st < 4.5) return va < 0.5 ? wood(q, vec3(0.50, 0.38, 0.24), vec3(0.62, 0.48, 0.30)) : vec3(0.46, 0.48, 0.49) * (0.95 + 0.05 * h2(floor(q * 2.0)));",
+    "  if (st < 5.5) return vec3(0.07, 0.075, 0.08);",
+    "  if (st < 6.5){ float ln = step(abs(q.y - 1.6), 0.05) + step(abs(q.y - D_ + 1.6), 0.05); return mix(vec3(0.46, 0.46, 0.45) * (0.9 + 0.1 * h2(floor(q * 0.5))), vec3(0.85, 0.68, 0.1), min(ln, 1.0)); }",
+    "  if (st < 7.5) return tiles(q, vec2(1.8, 1.8), vec3(0.60, 0.58, 0.55));",
+    "  return vec3(0.55, 0.57, 0.58); }",
+    // the ceiling and its lamps: a sky ceiling in the residence, lights elsewhere
+    "vec3 ceilAt(vec2 q, out vec3 emi){ emi = vec3(0.0); float st = uS;",
+    "  if (skyRoom()){ vec2 e = abs(q - vec2(W_, D_) * 0.5) - vec2(W_, D_) * vec2(0.24, 0.22); if (max(e.x, e.y) > 0.0) return vec3(0.86, 0.84, 0.80) * (1.0 - 0.25 * step(max(e.x, e.y), 0.12));",
+    "    float cl = sin(q.x * 0.9 + SD * 9.0) * sin(q.y * 1.3 + q.x * 0.3) + 0.5 * sin(q.x * 2.3 - q.y * 1.7 + SD * 3.0); emi = mix(vec3(0.42, 0.62, 0.95), vec3(0.92, 0.94, 0.98), smoothstep(0.3, 1.2, cl)) * 1.25; return vec3(0.0); }",
+    "  vec3 c = st > 0.5 && st < 1.5 ? vec3(0.30, 0.20, 0.13) * (1.0 - 0.4 * step(0.9, max(fract(q.x / 1.4), fract(q.y / 1.4)))) : st > 2.5 && st < 3.5 ? vec3(0.03) : st > 4.5 && st < 6.5 ? vec3(0.25, 0.26, 0.27) : vec3(0.85, 0.85, 0.84);",
+    "  float lx = (floor(q.x / LS) + 0.5) * LS, best = 1e3; for (int j = 0; j < 3; j++){ float lz = D_ * (0.2 + 0.3 * float(j)); best = min(best, (st > 3.5 && st < 4.5) || st > 6.5 ? max(abs(q.x - lx) * 14.3, abs(q.y - lz)) * 0.1 : length(q - vec2(lx, lz))); }",
+    "  float rad = st > 5.5 && st < 6.5 ? 0.32 : 0.1; if (best < rad) emi = LC * 7.0; else if (st > 5.5 && st < 6.5 && abs(fract(q.y / 3.0) - 0.5) < 0.05) c = vec3(0.12);",
+    "  return c; }",
+    // what stands in the room, seen where the ray crosses a plane about halfway back: f is (across, up)
+    "float furn(vec2 f, out vec3 alb, out vec3 emi){ alb = vec3(0.0); emi = vec3(0.0); float st = uS, va = uV;",
+    "  if (st < 0.5){ float cx = W_ * (0.4 + 0.2 * h1(SD * 3.0)), kind = h1(SD * 13.0 + va);",
+    "    if (uN > 1.5 && CJ > 0.5){",
+    "      if (va < 0.5){ if (sdR(f - vec2(cx, 0.27), vec2(1.05, 0.27), 0.06) < 0.0){ alb = vec3(0.88, 0.86, 0.82) * (0.8 + 0.25 * smoothstep(0.0, 0.54, f.y)); return 1.0; }",
+    "        if (sdR(vec2(abs(f.x - cx) - 0.5, f.y - 0.62), vec2(0.36, 0.12), 0.06) < 0.0){ alb = vec3(0.93, 0.92, 0.9); return 1.0; }",
+    "        if (sdR(f - vec2(cx, 0.65), vec2(1.15, 0.65), 0.05) < 0.0){ alb = (SD < 0.5 ? vec3(0.45, 0.40, 0.34) : vec3(0.22, 0.26, 0.30)) * (0.85 + 0.15 * step(0.5, fract(f.x * 3.0))); return 1.0; }",
+    "        vec2 nq = vec2(abs(f.x - cx) - 1.55, f.y); if (sdB(nq - vec2(0.0, 0.28), vec2(0.25, 0.28)) < 0.0){ alb = vec3(0.35, 0.24, 0.16); return 1.0; } if (sdR(nq - vec2(0.0, 0.8), vec2(0.14, 0.13), 0.05) < 0.0){ alb = vec3(0.9, 0.85, 0.75); emi = vec3(1.0, 0.8, 0.55) * 1.6; return 1.0; }",
+    "        return 0.0; }",
+    "      vec2 cq = f - vec2(cx + 0.1, 0.0); if (sdR(cq - vec2(0.0, 0.85), vec2(0.26, 0.28), 0.08) < 0.0 || sdB(cq - vec2(0.0, 0.45), vec2(0.27, 0.05)) < 0.0 || sdB(cq - vec2(0.0, 0.2), vec2(0.03, 0.2)) < 0.0){ alb = vec3(0.12, 0.1, 0.09); return 1.0; }",
+    "      if (sdB(f - vec2(cx, 0.75), vec2(1.0, 0.03)) < 0.0 || sdB(vec2(abs(f.x - cx) - 0.9, f.y - 0.37), vec2(0.03, 0.37)) < 0.0){ alb = vec3(0.35, 0.22, 0.13); return 1.0; }",
+    "      if (sdB(f - vec2(cx - 0.6, 1.0), vec2(0.01, 0.22)) < 0.0){ alb = vec3(0.6, 0.45, 0.2); return 1.0; } if (sdR(f - vec2(cx - 0.6, 1.26), vec2(0.15, 0.07), 0.05) < 0.0){ alb = vec3(0.1, 0.25, 0.12); emi = vec3(1.0, 0.85, 0.6) * 1.4 * step(f.y, 1.22); return 1.0; }",
+    "      return 0.0; }",
+    "    if (kind < 0.55){",
+    "      if (min(sdR(f - vec2(cx, 0.31), vec2(1.35, 0.31), 0.07), sdR(f - vec2(cx, 0.44), vec2(1.1, 0.44), 0.1)) < 0.0){ vec3 k = SD < 0.3 ? vec3(0.74, 0.69, 0.60) : SD < 0.55 ? vec3(0.42, 0.46, 0.38) : SD < 0.8 ? vec3(0.30, 0.30, 0.31) : vec3(0.58, 0.36, 0.26);",
+    "        alb = k * (0.7 + 0.4 * smoothstep(0.0, 0.88, f.y)) * (1.0 - 0.3 * step(abs(abs(f.x - cx) - 0.37), 0.015) * step(f.y, 0.62)); return 1.0; }",
+    "      float lx = cx + 2.2; if (sdB(f - vec2(lx, 0.8), vec2(0.015, 0.8)) < 0.0){ alb = vec3(0.12, 0.10, 0.08); return 1.0; }",
+    "      if (sdB(f - vec2(lx, 1.68), vec2(0.22 - (f.y - 1.52) * 0.3, 0.16)) < 0.0){ alb = vec3(0.9, 0.85, 0.75); emi = vec3(1.0, 0.8, 0.55) * 2.2; return 1.0; }",
+    "    } else if (kind < 0.8){",
+    "      for (int k = 0; k < 4; k++){ float sx = cx - 1.2 + float(k) * 0.8; if (sdR(f - vec2(sx, 0.5), vec2(0.21, 0.5), 0.05) < 0.0){ alb = vec3(0.55, 0.47, 0.38); return 1.0; } }",
+"      if (sdB(f - vec2(cx, 0.75), vec2(1.7, 0.04)) < 0.0 || sdB(vec2(abs(f.x - cx) - 1.5, f.y - 0.37), vec2(0.05, 0.37)) < 0.0){ alb = vec3(0.30, 0.20, 0.12); return 1.0; }",
+        "      if (sdB(f - vec2(cx, 5.6), vec2(0.008, 3.4)) < 0.0 && f.y > 2.6){ alb = vec3(0.08); return 1.0; }",
+    "      if (sdR(f - vec2(cx, 2.45), vec2(0.6, 0.12), 0.08) < 0.0){ alb = vec3(0.7, 0.55, 0.3); emi = vec3(1.0, 0.82, 0.58) * 2.5 * step(f.y, 2.4); return 1.0; }",
+    "    } else {",
+    "      vec2 q = f - vec2(cx, 0.0); if (sdR(q - vec2(0.0, 0.86), vec2(1.05, 0.17), 0.06) < 0.0 || sdB(vec2(abs(q.x) - 0.85, q.y - 0.36), vec2(0.04, 0.36)) < 0.0){ alb = vec3(0.03); return 1.0; }",
+    "      vec2 lq = mat2(0.87, 0.5, -0.5, 0.87) * (q - vec2(0.05, 1.32)); if (sdB(lq, vec2(0.95, 0.02)) < 0.0 && q.x > -0.9){ alb = vec3(0.04); return 1.0; }",
+    "    }",
+    "    float px = cx - 2.5; if (sdR(f - vec2(px, 0.26), vec2(0.24, 0.26), 0.03) < 0.0){ alb = vec3(0.55, 0.36, 0.26); return 1.0; }",
+    "    float lf = leafy(f, vec2(px, 1.25), 0.5, SD * 10.0); if (lf > 0.0){ alb = vec3(0.13, 0.24, 0.08) * lf; return 1.0; } if (sdB(f - vec2(px, 0.75), vec2(0.018, 0.45)) < 0.0){ alb = vec3(0.3, 0.22, 0.14); return 1.0; }",
+    "    return 0.0; }",
+    "  if (st < 1.5){ float R = 5.83, c = (floor(f.x / R) + 0.5) * R;",
+    "    if (sdB(f - vec2(c, 0.76), vec2(1.2, 0.035)) < 0.0 || sdB(vec2(abs(f.x - c) - 1.08, f.y - 0.37), vec2(0.04, 0.37)) < 0.0){ alb = vec3(0.25, 0.15, 0.09); return 1.0; }",
+    "    for (int k = 0; k < 2; k++){ float lx = c + (float(k) - 0.5) * 1.1; if (sdR(f - vec2(lx, 0.99), vec2(0.17, 0.06), 0.04) < 0.0){ alb = vec3(0.04, 0.22, 0.10); emi = vec3(0.08, 0.4, 0.15) * 0.5; return 1.0; } if (sdB(f - vec2(lx, 0.87), vec2(0.012, 0.1)) < 0.0){ alb = vec3(0.6, 0.45, 0.2); return 1.0; } }",
+    "    vec2 cq = vec2(abs(f.x - c) - 1.7, f.y); if (sdR(cq - vec2(0.0, 0.8), vec2(0.23, 0.2), 0.06) < 0.0 || sdB(cq - vec2(0.0, 0.46), vec2(0.25, 0.04)) < 0.0){ alb = vec3(0.13, 0.22, 0.14); return 1.0; } if (sdB(vec2(abs(cq.x) - 0.2, cq.y - 0.23), vec2(0.022, 0.23)) < 0.0){ alb = vec3(0.18, 0.11, 0.06); return 1.0; }",
+    "    return 0.0; }",
+    "  if (st < 2.5){ float R = 4.4, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R);",
+    "    if (h1(i + uSeed * 3.0) < 0.6){ if (sdR(f - vec2(c, 0.36), vec2(0.95, 0.06), 0.04) < 0.0){ alb = vec3(0.86, 0.84, 0.80); return 1.0; } if (sdB(vec2(abs(f.x - c) - 0.8, f.y - 0.16), vec2(0.03, 0.16)) < 0.0){ alb = vec3(0.3); return 1.0; }",
+    "      vec2 q = mat2(0.8, -0.6, 0.6, 0.8) * (f - vec2(c - 0.78, 0.62)); if (sdR(q, vec2(0.36, 0.05), 0.04) < 0.0){ alb = vec3(0.86, 0.84, 0.80); return 1.0; } }",
+    "    else { if (sdR(f - vec2(c, 0.36), vec2(0.32, 0.36), 0.05) < 0.0){ alb = vec3(0.70, 0.66, 0.60); return 1.0; } if (sdB(f - vec2(c, 1.4), vec2(0.05, 0.7)) < 0.0){ alb = vec3(0.35, 0.27, 0.18); return 1.0; }",
+    "      float lf = leafy(f, vec2(c, 2.2), 0.85, i * 3.7); if (lf > 0.0){ alb = vec3(0.30, 0.36, 0.22) * lf; return 1.0; } }",
+    "    return 0.0; }",
+    "  if (st < 3.5){ float sx = mod(f.x, 0.72) - 0.36; if (f.x > 1.2 && f.x < W_ - 1.2 && sdR(vec2(sx, f.y - 0.6), vec2(0.3, 0.5), 0.14) < 0.0){ alb = vec3(0.30, 0.05, 0.06) * (0.5 + 0.7 * smoothstep(0.3, 1.1, f.y)); return 1.0; } return 0.0; }",
+    "  if (st < 4.5){",
+    "    if (va < 0.5){ float R = 4.0, c = (floor(f.x / R) + 0.5) * R;",
+    "      if (sdB(f - vec2(c, 0.9), vec2(1.1, 0.04)) < 0.0){ alb = vec3(0.55, 0.40, 0.25); return 1.0; } if (sdB(f - vec2(c, 0.45), vec2(1.0, 0.42)) < 0.0){ alb = vec3(0.22, 0.25, 0.27) * (0.85 + 0.15 * step(0.5, fract(f.y * 3.3))); return 1.0; }",
+    "      if (sdR(f - vec2(c - 0.5, 1.1), vec2(0.18, 0.16), 0.03) < 0.0 || sdR(f - vec2(c + 0.45, 1.05), vec2(0.35, 0.11), 0.03) < 0.0){ alb = vec3(0.16, 0.22, 0.27); return 1.0; }",
+    "      if (sdB(f - vec2(c, 5.3), vec2(0.008, 2.6)) < 0.0 && f.y > 2.65){ alb = vec3(0.1); return 1.0; } if (sdR(f - vec2(c, 2.55), vec2(0.3, 0.13), 0.06) < 0.0){ alb = vec3(0.2); emi = vec3(1.0, 0.92, 0.8) * 2.0 * step(f.y, 2.5); return 1.0; }",
+    "      return 0.0; }",
+    "    if (va < 1.5){ float R = 6.5, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R);",
+    "      if (abs(f.y - 0.85) < 0.08){ alb = vec3(0.2, 0.2, 0.22); return 1.0; } if (f.y < 0.78 && mod(f.x, 2.0) < 0.12){ alb = vec3(0.3); return 1.0; }",
+    "      float ph = uTime * 0.6 + i * 1.7, a1 = 0.5 + 0.2 * sin(ph), b2 = 2.1 + 0.3 * sin(ph * 1.3); vec2 b0 = vec2(c - 1.4, 0.0);",
+    "      if (sdR(f - b0 - vec2(0.0, 0.5), vec2(0.42, 0.5), 0.08) < 0.0){ alb = vec3(0.85, 0.42, 0.08); return 1.0; }",
+    "      vec2 j1 = b0 + vec2(0.0, 1.05), d1 = vec2(sin(a1), cos(a1)), j2 = j1 + d1 * 1.8, d2 = vec2(sin(b2), cos(b2)), q = f - j1;",
+    "      if (length(f - j1) < 0.26 || length(f - j2) < 0.22){ alb = vec3(0.22, 0.22, 0.24); return 1.0; }",
+    "      if (length(q - d1 * clamp(dot(q, d1), 0.0, 1.8)) < 0.2){ alb = vec3(0.9, 0.46, 0.1); return 1.0; } q = f - j2; if (length(q - d2 * clamp(dot(q, d2), 0.0, 1.5)) < 0.14){ alb = vec3(0.9, 0.46, 0.1); return 1.0; }",
+    "      if (sdB(f - j2 - d2 * 1.6, vec2(0.12, 0.12)) < 0.0){ alb = vec3(0.15); return 1.0; }",
+    "      return 0.0; }",
+    "    float R = 4.6, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R);",
+    "    if (sdB(f - vec2(c, 0.46), vec2(1.3, 0.46)) < 0.0){ alb = vec3(0.86, 0.87, 0.88) * (0.85 + 0.15 * step(0.02, abs(f.y - 0.5))); return 1.0; } if (sdB(f - vec2(c, 0.95), vec2(1.35, 0.025)) < 0.0){ alb = vec3(0.2, 0.22, 0.24); return 1.0; }",
+    "    if (abs(f.x - c) < 1.2 && f.y > 0.97 && f.y < 1.27){ float bi = floor(f.x * 9.0); if (h1(bi) < 0.45 && f.y < 1.0 + 0.27 * h1(bi + 0.3)){ alb = mix(vec3(0.3, 0.55, 0.75), vec3(0.85, 0.85, 0.8), h1(bi + 0.6)); return 1.0; } }",
+    "    if (h1(i + uSeed) < 0.5 && sdB(f - vec2(c + 2.05, 1.2), vec2(0.6, 1.2)) < 0.0){ alb = vec3(0.82, 0.84, 0.86) * (abs(f.y - 1.35) < 0.42 && abs(f.x - c - 2.05) < 0.5 ? 0.35 : 1.0); return 1.0; }",
+    "    return 0.0; }",
+    "  if (st < 5.5){",
+    "    if (va < 0.5){ float R = 3.2, c = (floor(f.x / R) + 0.5) * R;",
+    "      if (sdB(f - vec2(c, 0.74), vec2(1.3, 0.035)) < 0.0 || sdB(f - vec2(c, 0.37), vec2(1.2, 0.33)) < 0.0){ alb = vec3(0.16, 0.17, 0.19); return 1.0; }",
+    "      for (int k = 0; k < 3; k++){ vec2 sc = vec2(c + (float(k) - 1.0) * 0.82, 1.18); if (sdB(f - sc, vec2(0.38, 0.24)) < 0.0){ vec2 u = (f - sc) / vec2(0.38, 0.24); alb = vec3(0.02); emi = mix(vec3(0.05, 0.22, 0.42), vec3(0.2, 0.7, 0.8), smoothstep(-1.0, 1.0, u.y + 0.3 * sin(u.x * 6.0 + float(k)))) * 1.3 * step(0.06, 1.0 - max(abs(u.x), abs(u.y))); return 1.0; } }",
+    "      if (sdR(f - vec2(c, 0.55), vec2(0.28, 0.55), 0.1) < 0.0){ alb = vec3(0.08); return 1.0; }",
+    "      return 0.0; }",
+    "    float R = 0.9, c = (floor(f.x / R) + 0.5) * R; if (sdB(f - vec2(c, 1.15), vec2(0.4, 1.15)) < 0.0){ vec2 g = floor(vec2(f.x * 22.0, f.y * 14.0)); alb = vec3(0.05, 0.055, 0.06);",
+    "      emi = mix(vec3(0.1, 0.5, 1.0), vec3(0.2, 1.0, 0.5), h2(g + 0.5)) * step(0.82, h2(g + floor(uTime * 2.0 + h2(g) * 4.0))) * 1.8 * step(0.3, fract(f.y * 14.0)); return 1.0; }",
+    "    return 0.0; }",
+    "  if (st < 6.5){",
+    "    if (va < 0.5 || (va > 1.5 && va < 2.5)){ float R = 5.0, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R), hh = 3.0 + 2.0 * h1(i + uSeed);",
+    "      if (sdR(f - vec2(c, hh * 0.5 + 0.3), vec2(1.6, hh * 0.5), 1.0) < 0.0){ float sh = 0.5 + 0.5 * sqrt(max(0.0, 1.0 - pow((f.x - c) / 1.6, 2.0))); alb = (va > 1.5 ? vec3(0.72, 0.74, 0.76) : vec3(0.46, 0.53, 0.40)) * sh * (1.0 - 0.3 * step(abs(fract(f.y / 1.2) - 0.5), 0.02)); return 1.0; }",
+    "      if (sdB(f - vec2(c, 0.15), vec2(1.7, 0.15)) < 0.0){ alb = vec3(0.3); return 1.0; } return 0.0; }",
+    "    if (va < 1.5){ float R = W_ / 2.0, c = (floor(f.x / R) + 0.5) * R;",
+    "      if (sdR(f - vec2(c, 3.4), vec2(2.2, 3.2), 1.6) < 0.0){ float sh = 0.5 + 0.5 * sqrt(max(0.0, 1.0 - pow((f.x - c) / 2.2, 2.0))); alb = (abs(f.y - 4.6) < 0.18 ? vec3(0.12, 0.3, 0.6) : vec3(0.86, 0.87, 0.88)) * sh; return 1.0; }",
+    "      if (abs(f.x - c) < 3.3 && (abs(f.y - 2.6) < 0.04 || abs(f.y - 3.15) < 0.025 || (abs(fract((f.x - c) / 0.8) - 0.5) < 0.02 && f.y > 2.6 && f.y < 3.15))){ alb = vec3(0.85, 0.66, 0.1); return 1.0; }",
+    "      return 0.0; }",
+    "    if (va < 3.5){ float R = 0.24, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R), fr = mod(f.x, 4.0);",
+    "      if (f.y < 5.4 && (abs(f.y - 0.5) < 0.06 || abs(f.y - 5.3) < 0.06 || fr < 0.1)){ alb = vec3(0.75, 0.76, 0.78); return 1.0; }",
+    "      if (abs(f.x - c) < 0.055 && f.y > 0.5 && f.y < 5.3 && fr > 0.25){ float k = 1.0 - pow(abs(f.x - c) / 0.055, 2.0); alb = vec3(0.1, 0.3, 0.08); emi = vec3(0.16, 0.5, 0.1) * (0.5 + 0.6 * k) * (0.85 + 0.15 * sin(f.y * 3.0 + uTime + i)); return 1.0; }",
+    "      return 0.0; }",
+    "    float R = W_ / 2.0, c = (floor(f.x / R) + 0.5) * R; vec2 q = f - vec2(c, 3.95); float r = length(q), a = atan(q.y, q.x);",
+    "    if (r < 3.75){ float sp = abs(fract(a / 6.28318 * 6.0) - 0.5); alb = vec3(0.32, 0.31, 0.29) * (0.75 + 0.35 * step(0.06, sp)) * (1.0 + 0.3 * step(0.8, fract(r * 2.2 + floor(a * 3.0) * 0.3))); if (r < 0.6) alb = vec3(0.75, 0.55, 0.1); if (r > 3.5) alb = vec3(0.8, 0.6, 0.12); return 1.0; }",
+    "    if (sdB(f - vec2(c, 0.1), vec2(3.8, 0.1)) < 0.0){ alb = vec3(0.25); return 1.0; }",
+    "    return 0.0; }",
+    "  if (st < 7.5){",
+    "    if (va < 0.5){ float R = 9.0, c = (floor(f.x / R) + 0.5) * R;",
+    "      if (sdR(f - vec2(c, 1.95), vec2(2.6, 1.05), 0.7) < 0.0){ alb = vec3(0.86, 0.85, 0.82) * (0.75 + 0.3 * smoothstep(0.9, 3.0, f.y)); if (abs(f.y - 2.2) < 0.25 && abs(f.x - c) < 2.1) alb = vec3(0.08, 0.1, 0.12); if (abs(f.y - 1.35) < 0.05) alb = vec3(0.75, 0.35, 0.1); return 1.0; }",
+    "      for (int k = 0; k < 3; k++){ float d = length(f - vec2(c - 1.8 + float(k) * 1.8, 0.55)); if (d < 0.55){ alb = d < 0.25 ? vec3(0.4) : vec3(0.06); return 1.0; } }",
+    "      return 0.0; }",
+    "    if (va < 1.5){ if (f.y < 1.1){ alb = f.y > 1.0 ? vec3(0.85, 0.7, 0.1) : vec3(0.55, 0.54, 0.52); return 1.0; }",
+    "      if (sdR(f - vec2(W_ * 0.5, 2.7), vec2(W_ * 0.42, 1.5), 1.2) < 0.0){ alb = vec3(0.9) * (0.75 + 0.3 * smoothstep(1.2, 4.2, f.y)); if (abs(f.y - 3.0) < 0.36){ alb = vec3(0.05, 0.06, 0.08); emi = vec3(1.0, 0.85, 0.6) * 0.35 * step(0.15, fract(f.x / 1.6)); } if (abs(f.y - 1.7) < 0.05) alb = vec3(0.2, 0.45, 0.8); return 1.0; }",
+    "      return 0.0; }",
+    "    float R = 3.1, c = (floor(f.x / R) + 0.5) * R, i = floor(f.x / R), n2 = h1(i + 5.0) < 0.5 ? 2.0 : 1.0;",
+    "    if (abs(f.x - c) < 1.45 && f.y < 2.6 * n2 && h1(i + 9.0) < 0.8){ float lv = floor(f.y / 2.6), hh = h1(i * 3.0 + lv); vec3 k = hh < 0.33 ? vec3(0.2, 0.32, 0.5) : hh < 0.66 ? vec3(0.7, 0.4, 0.15) : vec3(0.55, 0.56, 0.55);",
+    "      alb = k * (0.8 + 0.2 * step(0.5, fract(f.x * 4.0))) * (step(0.04, fract(f.y / 2.6)) * 0.7 + 0.3); return 1.0; }",
+    "    return 0.0; }",
+    "  float R = 2.9, c = (floor(f.x / R) + 0.5) * R, sh = fract(f.y / 1.5);",
+    "  if (f.y < 6.0 && abs(f.x - c) > 1.36 && abs(f.x - c) < 1.45){ alb = va < 0.5 ? vec3(0.2, 0.35, 0.6) : vec3(0.85); return 1.0; }",
+    "  if (f.y < 6.0 && sh < 0.04){ alb = vec3(0.85, 0.5, 0.1); return 1.0; }",
+    "  if (f.y < 6.0 && abs(f.x - c) < 1.36){ float bi = floor(f.x / 0.45) + floor(f.y / 1.5) * 31.0, bh = 0.5 + 0.4 * h1(bi); if (sh < 0.04 + bh * 0.9 && h1(bi + 0.5) < 0.85 && fract(f.x / 0.45) > 0.06){ alb = va < 0.5 ? vec3(0.62, 0.47, 0.31) * (0.8 + 0.3 * h1(bi + 0.2)) : vec3(0.85, 0.87, 0.9) * (0.85 + 0.15 * h1(bi + 0.2)); return 1.0; } }",
+    "  return 0.0; }",
+    "void main(){",
+    "  vec3 V = normalize(vW - uCam), N = normalize(vNo), T = normalize(vT);",
+    "  float du = dot(V, T), dv = V.y, dd = max(-dot(V, N), 1e-3);",
+    "  W_ = uW; D_ = uD; H_ = 8.0 / uN; float ci = floor(vUv.x / W_), x = vUv.x - ci * W_; CJ = min(floor(vUv.y / H_), uN - 1.0); float y = clamp(vUv.y - CJ * H_, 0.0, H_);",
+    "  SD = h2(vec2(ci + uSeed * 7.31, CJ + uSeed * 3.17));",
+    "  LC = vec3(1.0, 0.80, 0.58); LS = 2.9;",
+    "  if (skyRoom()) LC = vec3(1.0, 0.93, 0.84);",
+    "  if (uS > 3.5) LC = vec3(1.0, 0.95, 0.88);",
+    "  if (uS > 7.5) LC = vec3(0.86, 0.93, 1.0);",
+    "  if (uS > 2.5 && uS < 3.5) LC = vec3(0.45, 0.5, 0.65) * 0.2;",
+    "  if (uS > 4.5 && uS < 5.5) LC = vec3(0.55, 0.7, 1.0) * 0.4;",
+    "  if (uS > 5.5) LS = 4.4;",
+    // the ray through the room: the first of the walls, the floor and the ceiling it meets
+    "  float tx = du > 0.0 ? (W_ - x) / du : x / max(-du, 1e-4), ty = dv > 0.0 ? (H_ - y) / dv : y / max(-dv, 1e-4), tz = D_ / dd, t = min(min(tx, ty), tz);",
+    "  vec3 p = vec3(x + du * t, y + dv * t, dd * t), n, alb, emi;",
+    "  if (t == tz){ n = vec3(0.0, 0.0, -1.0); alb = wallAt(p.xy, 1.0, emi); }",
+    "  else if (t == tx){ n = vec3(du > 0.0 ? -1.0 : 1.0, 0.0, 0.0); alb = wallAt(vec2(p.z + (du > 0.0 ? 40.0 : 0.0), p.y), 0.0, emi); }",
+    "  else if (dv > 0.0){ n = vec3(0.0, -1.0, 0.0); alb = ceilAt(p.xz, emi); }",
+    "  else { n = vec3(0.0, 1.0, 0.0); alb = floorAt(p.xz); emi = vec3(0.0); }",
+    "  vec3 c = alb * lightAt(p, n) + emi;",
+    "  if (n.y > 0.5){ float dz = abs(p.z - D_ * 0.45); if (dz < 0.9){ vec3 fa0, fe0; if (furn(vec2(p.x, 0.03), fa0, fe0) > 0.5) c *= 1.0 - 0.5 * (1.0 - dz / 0.9); } }",
+    // the furniture, where the ray crosses its plane before it meets a wall
+    "  float zf = D_ * 0.45, tf = zf / dd; if (tf < t){ vec2 f = vec2(x + du * tf, y + dv * tf); vec3 fa, fe; if (f.x > 0.15 && f.x < W_ - 0.15 && f.y > 0.0 && furn(f, fa, fe) > 0.5) c = fa * lightAt(vec3(f, zf), normalize(vec3(0.0, 0.6, -1.0))) + fe; }",
+    // sheer curtains drawn to one side in some of the residence's rooms
+    "  if (uS < 0.5){ float cw = 0.6 + 1.4 * h1(SD * 31.0); float inC = h1(SD * 17.0) < 0.5 ? step(W_ - cw, x) : step(x, cw); if (h1(SD * 23.0) < 0.6 && inC > 0.5) c = mix(c, vec3(0.92, 0.89, 0.83) * LC * (0.5 + 0.12 * sin(x * 26.0)), 0.7); }",
+    // the glass: a little darker, and a reflection of the atrium that grows at a glancing look
+    "  vec3 R = reflect(V, N); vec3 refl = mix(vec3(0.20, 0.18, 0.16), vec3(1.1, 1.02, 0.9), smoothstep(0.15, 0.9, R.y)); float F = 0.04 + 0.96 * pow(1.0 - dd, 5.0);",
+    "  gl_FragColor = vec4(mix(c * 0.8, refl, F), 1.0); }"
+  ].join("\n");
+  function roomMat(r, seed) {
+    return new THREE.ShaderMaterial({ uniforms: { uCam: U.uCam, uTime: U.uTime, uS: { value: r.s }, uV: { value: r.v || 0 }, uN: { value: r.n || 1 }, uW: { value: r.w }, uD: { value: r.d }, uSeed: { value: seed } }, vertexShader: ROOM_VS, fragmentShader: ROOM_FS });
+  }
+  function paneGeo(k, a, y0, y1) {
+    // one side of the atrium as one quad: u along the side from its first corner, v up from the floor, aT the side's direction
+    var A = onSide(a, k, 0, y0), B = onSide(a, k, 1, y0), C = onSide(a, k, 1, y1), Dd = onSide(a, k, 0, y1), n = sideNormal(k).negate();
+    var len = A.distanceTo(B), g = new THREE.BufferGeometry(), pos = [], nor = [], uv = [], at = [];
+    var tdir = B.clone().sub(A).normalize();
+    [[A, 0, 0], [B, len, 0], [C, len, y1 - y0], [A, 0, 0], [C, len, y1 - y0], [Dd, 0, y1 - y0]].forEach(function (v) { pos.push(v[0].x, v[0].y, v[0].z); nor.push(n.x, n.y, n.z); uv.push(v[1], v[2]); at.push(tdir.x, tdir.y, tdir.z); });
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3)); g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2)); g.setAttribute("aT", new THREE.Float32BufferAttribute(at, 3));
+    return g;
+  }
+  var vineTex = (function () {
+    var cv = document.createElement("canvas"); cv.width = 256; cv.height = 1024; var g = cv.getContext("2d"), r = rng(77); g.clearRect(0, 0, 256, 1024);
+    for (var st = 0; st < 10; st++) {
+      var x = 14 + r() * 228, len = 360 + r() * 650, ph = r() * 6, amp = 3 + r() * 9;
+      g.strokeStyle = "rgba(78,92,50,0.95)"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x, 0); for (var y = 0; y < len; y += 6) g.lineTo(x + Math.sin(y / 40 + ph) * amp, y); g.stroke();
+      for (var y2 = 3, n = 0; y2 < len; y2 += 8 + r() * 7, n++) {
+        var sx = x + Math.sin(y2 / 40 + ph) * amp, side = n % 2 ? 1 : -1, sz = (1 - 0.5 * y2 / len) * (7 + r() * 6), a = Math.PI / 2 - side * (0.5 + r() * 0.7);
+        var v = r(), cr = Math.floor(40 + 45 * v), cg = Math.floor(78 + 70 * v), cb = Math.floor(28 + 30 * v);
+        g.save(); g.translate(sx + side * sz * 0.55, y2); g.rotate(a);
+        g.fillStyle = "rgb(" + cr + "," + cg + "," + cb + ")"; g.beginPath(); g.moveTo(-sz, 0); g.quadraticCurveTo(-sz * 0.1, -sz * 0.8, sz, 0); g.quadraticCurveTo(-sz * 0.1, sz * 0.8, -sz, 0); g.fill();
+        g.fillStyle = "rgba(235,245,200,0.13)"; g.beginPath(); g.moveTo(-sz, 0); g.quadraticCurveTo(-sz * 0.1, -sz * 0.8, sz, 0); g.closePath(); g.fill();
+        g.strokeStyle = "rgba(25,40,15,0.45)"; g.lineWidth = 0.7; g.beginPath(); g.moveTo(-sz * 0.9, 0); g.lineTo(sz * 0.85, 0); g.stroke();
+        g.restore();
+      }
+    }
+    var t = new THREE.CanvasTexture(cv); t.anisotropy = 8; return t;
+  })();
+  var vineMat = new THREE.MeshStandardMaterial({ map: vineTex, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.8, color: 0xb8c4a6 });
+  var PLANTERS = [];
+  var vineDepth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map: vineTex, alphaTest: 0.4 });
+  (function () {
+    var slab = new GB(), terr = new GB(), plant = new GB(), soil = new GB(), soffit = new GB(), rail = new GB(), glassB = new GB(), vines = new GB(), mull = new GB(), band = new GB();
+    var aIn = APA - TER;   // the terrace edge, inside the atrium
+    LV.forEach(function (L, li) {
+      for (var k = 0; k < 5; k++) {
+        var n = sideNormal(k), ni = n.clone().negate();
+        // the glass front of ring A: L2 is open to the garden through tall glass with wide openings
+        if (ROOMS[li]) scene.add(new THREE.Mesh(paneGeo(k, APA, L.floor, L.top), roomMat(ROOMS[li][k], li * 5 + k + 1)));
+        for (var t = 0; t <= 1.0001; t += 1 / 12) { if (li === 1 && t > 0.42 && t < 0.58) continue; var p0 = onSide(APA - 0.02, k, t, L.floor), p1 = onSide(APA - 0.02, k, t, L.top); var tg = onSide(APA, k, 1, 0).sub(onSide(APA, k, 0, 0)).normalize().multiplyScalar(0.03); mull.quad(p0.clone().sub(tg), p0.clone().add(tg), p1.clone().add(tg), p1.clone().sub(tg), ni); }
+        if (ROOMS[li] && ROOMS[li][k].n === 2) band.quad(onSide(APA - 0.03, k, 0, L.floor + 3.8), onSide(APA - 0.03, k, 1, L.floor + 3.8), onSide(APA - 0.03, k, 1, L.floor + 4.2), onSide(APA - 0.03, k, 0, L.floor + 4.2), ni);
+        if (li === 1) { var gq = new GB(); [[0, 0.43], [0.57, 1]].forEach(function (s) { gq.quad(onSide(APA, k, s[0], L.floor), onSide(APA, k, s[1], L.floor), onSide(APA, k, s[1], L.top), onSide(APA, k, s[0], L.top), ni); }); gq.quad(onSide(APA, k, 0.43, L.floor + 4.2), onSide(APA, k, 0.57, L.floor + 4.2), onSide(APA, k, 0.57, L.top), onSide(APA, k, 0.43, L.top), ni); var gm = new THREE.Mesh(gq.build(), M.glass); gm.renderOrder = 3; scene.add(gm); }
+        // the terrace in front of it, and the slab's edge below it
+        terr.quad(onSide(aIn, k, 0, L.floor), onSide(aIn, k, 1, L.floor), onSide(APA, k, 1, L.floor), onSide(APA, k, 0, L.floor), UP, [[0, 0], [35 / 4, 0], [35 / 4, TER / 4], [0, TER / 4]]);
+        slab.quad(onSide(aIn, k, 0, L.floor), onSide(aIn, k, 1, L.floor), onSide(aIn, k, 1, L.floor - 1.0), onSide(aIn, k, 0, L.floor - 1.0), ni);
+        soffit.quad(onSide(aIn, k, 0, L.floor - 1.0), onSide(aIn, k, 1, L.floor - 1.0), onSide(APA, k, 1, L.floor - 1.0), onSide(APA, k, 0, L.floor - 1.0), DOWN);
+        if (li === 4) continue;   // on L5 the terrace is the paved walk round the sun court's lawn
+        // the planter along the edge, and the vines that hang from it
+        var a0 = aIn + 0.15, a1 = aIn + 0.85, ph = 0.55;
+        soil.quad(onSide(a0 + 0.07, k, 0.04, L.floor + ph - 0.04), onSide(a0 + 0.07, k, 0.96, L.floor + ph - 0.04), onSide(a1 - 0.07, k, 0.96, L.floor + ph - 0.04), onSide(a1 - 0.07, k, 0.04, L.floor + ph - 0.04), UP, [[0, 0], [30, 0], [30, 0.6], [0, 0.6]]);
+        plant.quad(onSide(a0, k, 0.04, L.floor + ph), onSide(a0, k, 0.96, L.floor + ph), onSide(a0 + 0.07, k, 0.96, L.floor + ph), onSide(a0 + 0.07, k, 0.04, L.floor + ph), UP); plant.quad(onSide(a1 - 0.07, k, 0.04, L.floor + ph), onSide(a1 - 0.07, k, 0.96, L.floor + ph), onSide(a1, k, 0.96, L.floor + ph), onSide(a1, k, 0.04, L.floor + ph), UP);
+        PLANTERS.push({ k: k, li: li, a: (a0 + a1) / 2, y: L.floor + ph - 0.04 });
+        plant.quad(onSide(a0, k, 0.04, L.floor), onSide(a0, k, 0.96, L.floor), onSide(a0, k, 0.96, L.floor + ph), onSide(a0, k, 0.04, L.floor + ph), ni);
+        var r = rng(li * 10 + k);
+        for (var vt = 0.05; vt < 0.95; vt += 0.035) { var len = 2.2 + 4.5 * Math.pow(r(), 1.5) + (li === 0 ? 1.5 : 0), w = 0.7 + 0.4 * r(), t0 = vt + r() * 0.02; var top = onSide(aIn - 0.02, k, t0, L.floor + ph * 0.8), t1 = onSide(aIn - 0.02, k, t0 + w / 35, L.floor + ph * 0.8);
+          vines.quad(top, t1, t1.clone().setY(top.y - len), top.clone().setY(top.y - len), ni, [[0, 1], [1, 1], [1, 1 - len / 6.5], [0, 1 - len / 6.5]]); }
+        // a glass balustrade with a bronze rail on the planter
+        glassB.quad(onSide(a0 - 0.1, k, 0, L.floor + ph), onSide(a0 - 0.1, k, 1, L.floor + ph), onSide(a0 - 0.1, k, 1, L.floor + 1.1), onSide(a0 - 0.1, k, 0, L.floor + 1.1), ni);
+        rail.quad(onSide(a0 - 0.16, k, 0, L.floor + 1.1), onSide(a0 - 0.16, k, 1, L.floor + 1.1), onSide(a0 - 0.04, k, 1, L.floor + 1.1), onSide(a0 - 0.04, k, 0, L.floor + 1.1), UP);
+      }
+    });
+    // the walls of the shaft between the levels' glass fronts (the slabs, 1 m), and above L1 up to the roof
+    var wall = new GB();
+    for (var k = 0; k < 5; k++) { var ni = sideNormal(k).negate(); [[-25, -24], [-42, -41], [-51, -50], [-60, -59]].forEach(function (s) { wall.quad(onSide(APA, k, 0, s[0]), onSide(APA, k, 1, s[0]), onSide(APA, k, 1, s[1]), onSide(APA, k, 0, s[1]), ni); }); }
+    mesh(slab, M.concrete); mesh(terr, M.stone); mesh(plant, M.concrete); mesh(soil, M.soil); mesh(soffit, M.plaster); mesh(rail, M.bronze, false); mesh(wall, M.concrete); mesh(mull, M.bronze, false); mesh(band, M.concrete, false);
+    var gb = new THREE.Mesh(glassB.build(), M.glass); gb.renderOrder = 3; scene.add(gb);
+    var vm = new THREE.Mesh(vines.build(), vineMat); vm.castShadow = true; vm.customDepthMaterial = vineDepth; scene.add(vm);
+  })();
+  // the roof over the atrium, at -16, with the Sun Well's opening; the well up to the lens; the lens
+  (function () {
+    var rf = new GB(), N = 96;
+    for (var i = 0; i < N; i++) {
+      var b0 = i / N * 360, b1 = (i + 1) / N * 360;
+      var o0 = P(RA / Math.cos(0) * 1.0, b0, ROOF), o1 = P(RA, b1, ROOF);
+      // from the lens's ring to the pentagon's edge: sample the pentagon edge along this bearing
+      function edge(b) { var a = apo(Math.sin(b * D), -Math.cos(b * D)); return APA / a; }
+      rf.quad(P(11.4, b0, ROOF), P(11.4, b1, ROOF), P(edge(b1) + 0.3, b1, ROOF), P(edge(b0) + 0.3, b0, ROOF), DOWN);
+    }
+    mesh(rf, M.plaster);
+    var well = new THREE.Mesh(new THREE.CylinderGeometry(11.4, 11.4, 16, 96, 1, true), mat({ color: 0xbfc2c5, roughness: 0.35, metalness: 0.8, side: THREE.BackSide })); well.position.y = -8; scene.add(well);
+    var lens = new THREE.Mesh(new THREE.CircleGeometry(11.4, 96), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.93, 0.80).multiplyScalar(2.6) })); lens.rotation.x = Math.PI / 2; lens.position.y = -0.3; scene.add(lens);
+  })();
+  // the light from the lens: a soft column of light in the air, and motes of dust drifting in it
+  var beam = (function () {
+    var m = new THREE.ShaderMaterial({ uniforms: { uTime: U.uTime, uCam: U.uCam }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+      vertexShader: "varying vec3 vW; varying vec3 vN; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * w; }",
+      fragmentShader: "uniform vec3 uCam; varying vec3 vW; varying vec3 vN; void main(){ float c = abs(dot(normalize(vN), normalize(uCam - vW))); float y = clamp((vW.y + 68.0) / 68.0, 0.0, 1.0); float a = pow(c, 2.0) * (0.012 + 0.03 * y); gl_FragColor = vec4(vec3(1.0, 0.92, 0.78) * a, 1.0); }" });
+    var b = new THREE.Mesh(new THREE.CylinderGeometry(10.2, 13.0, 68, 64, 1, true), m); b.position.y = -34; b.renderOrder = 6; scene.add(b);
+    var N = 1500, pos = new Float32Array(N * 3), r = rng(5); for (var i = 0; i < N; i++) { var a = r() * Math.PI * 2, rr = Math.sqrt(r()) * 11; pos[i * 3] = Math.cos(a) * rr; pos[i * 3 + 1] = -68 + r() * 66; pos[i * 3 + 2] = Math.sin(a) * rr; }
+    var g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    var motes = new THREE.Points(g, new THREE.PointsMaterial({ color: 0xfff2d8, size: 0.05, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending })); scene.add(motes);
+    return { motes: motes, mesh: b };
+  })();
+
+  /* ------------------------------------------------------------------ the portal column and the bridges */
+  var PORTALS = [];
+  var portalMat = new THREE.ShaderMaterial({ uniforms: { uTime: U.uTime }, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+    vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+    fragmentShader: "uniform float uTime; varying vec2 vUv; float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); } void main(){ vec2 q = (vUv - 0.5) * 2.0; float r = length(q); if (r > 1.0) discard; float a = atan(q.y, q.x); float sw = sin(a * 3.0 + r * 9.0 - uTime * 1.6) * 0.5 + 0.5; vec3 c = mix(vec3(0.05, 0.08, 0.16), vec3(0.35, 0.5, 0.9), pow(1.0 - r, 2.0) * 0.6 + sw * 0.15 * r); vec2 g = floor(q * 40.0); c += vec3(0.8, 0.9, 1.0) * step(0.985, h(g)) * (0.5 + 0.5 * sin(uTime * 3.0 + h(g + 1.0) * 6.28)); c += vec3(0.7, 0.8, 1.0) * smoothstep(0.86, 1.0, r) * 0.6; gl_FragColor = vec4(c, 1.0); }" });
+  (function () {
+    var col = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 68 + ROOF + 0.0 - ROOF + ROOF * 0 + 52, 96, 1, true), M.concrete); col.position.y = (-68 + ROOF) / 2; col.scale.y = (ROOF + 68) / (68 + 52); col.castShadow = true; col.receiveShadow = true; scene.add(col);
+    var col2 = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, ROOF + 68, 120, 1, true), M.trav); col2.position.y = (-68 + ROOF) / 2; col2.castShadow = true; col2.receiveShadow = true; scene.add(col2); scene.remove(col);
+    LV.forEach(function (L, li) {
+      var band = new THREE.Mesh(new THREE.CylinderGeometry(5.06, 5.06, 0.5, 96, 1, true), M.bronze); band.position.y = L.floor - 0.5; scene.add(band);
+      CN.forEach(function (b) {
+        // a portal in the column at the end of each bridge
+        var g = new THREE.Group(); g.position.copy(P(5.04, b, L.floor)); g.rotation.y = -b * D; scene.add(g);
+        var ring = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.1, 16, 64), M.bronze); ring.position.set(0, 1.55, 0.02); ring.scale.y = 1.12; g.add(ring);
+        var disc = new THREE.Mesh(new THREE.CircleGeometry(1.38, 48), portalMat); disc.position.set(0, 1.55, 0.03); disc.scale.y = 1.12; g.add(disc);
+        PORTALS.push(P(5.6, b, L.floor + 1.6));
+        // the bridge: a deck 3 m wide from the column to the terrace's corner, glass sides with a bronze rail
+        var bg = new GB(), bf = new GB(), bp = new GB(), bs = new GB(), br = new GB(), c0 = 5.0, c1 = li === 4 ? 10.2 : (APA - TER) / Math.cos(36 * D) + 0.4, tg = new THREE.Vector3(Math.cos(b * D), 0, Math.sin(b * D)).multiplyScalar(1.5);
+        var a0 = P(c0, b, L.floor), a1 = P(c1, b, L.floor);
+        bg.quad(a0.clone().sub(tg), a0.clone().add(tg), a1.clone().add(tg), a1.clone().sub(tg), UP, [[0, 0], [0.75, 0], [0.75, (c1 - c0) / 4], [0, (c1 - c0) / 4]]);
+        var dn = new THREE.Vector3(0, -0.6, 0);
+        bp.quad(a0.clone().sub(tg).add(dn), a0.clone().add(tg).add(dn), a1.clone().add(tg).add(dn), a1.clone().sub(tg).add(dn), DOWN);
+        var fz = new THREE.Vector3(0, -0.24, 0);
+        [-1, 1].forEach(function (sd) { var o = tg.clone().multiplyScalar(sd); bf.quad(a0.clone().add(o), a1.clone().add(o), a1.clone().add(o).add(fz), a0.clone().add(o).add(fz), o); bp.quad(a0.clone().add(o).add(fz), a1.clone().add(o).add(fz), a1.clone().add(o).add(dn), a0.clone().add(o).add(dn), o);
+          bs.quad(a0.clone().add(o.clone().multiplyScalar(0.95)), a1.clone().add(o.clone().multiplyScalar(0.95)), a1.clone().add(o.clone().multiplyScalar(0.95)).setY(L.floor + 1.1), a0.clone().add(o.clone().multiplyScalar(0.95)).setY(L.floor + 1.1), o);
+          var rr0 = a0.clone().add(o.clone().multiplyScalar(0.95)).setY(L.floor + 1.1), rr1 = a1.clone().add(o.clone().multiplyScalar(0.95)).setY(L.floor + 1.1), w = o.clone().normalize().multiplyScalar(0.06);
+          br.quad(rr0.clone().sub(w), rr1.clone().sub(w), rr1.clone().add(w), rr0.clone().add(w), UP); });
+        mesh(bg, M.stone); mesh(bf, M.bronze); mesh(bp, M.plaster); var gm = mesh(bs, M.glass, false, false); gm.renderOrder = 3; mesh(br, M.bronze, false);
+      });
+    });
+  })();
+
+  /* ------------------------------------------------------------------ the sun court on L5: lawn, paths, a pool round the column, fruit trees */
+  // water: a still surface with a slow ripple, reflecting what is round it
+  function water(w, d) {
+    var m = new THREE.MeshStandardMaterial({ color: 0x041214, roughness: 0.035, metalness: 0.0, transparent: true, opacity: 0.95, envMapIntensity: 1.0 });
+    m.onBeforeCompile = function (sh) { sh.uniforms.uTime = U.uTime; sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWp = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+      sh.fragmentShader = "uniform float uTime; varying vec3 vWp;\n" + sh.fragmentShader.replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\n vec2 wq = vWp.xz; float w1 = sin(dot(wq, vec2(1.7, 0.9)) * 2.0 + uTime * 1.1) + sin(dot(wq, vec2(-0.8, 1.9)) * 2.7 - uTime * 1.4); float w2 = cos(dot(wq, vec2(1.7, 0.9)) * 2.0 + uTime * 1.1) + cos(dot(wq, vec2(-0.8, 1.9)) * 2.7 - uTime * 1.4);\n normal = normalize(normal + vec3(w1 * 0.015, w2 * 0.015, 0.0));"); };
+    var o = new THREE.Mesh(new THREE.PlaneGeometry(w, d), m); o.rotation.x = -Math.PI / 2; o.receiveShadow = true; return o;
+  }
+  // trees, all of them in a few instanced meshes: a trunk, branches, and cards of leaves cut out by their alpha
+  var leafTex = canvasTex(256, 256, function (g, w, h) {
+    g.clearRect(0, 0, w, h); var r = rng(31);
+    g.strokeStyle = "rgba(90,85,60,0.8)"; g.lineWidth = 1; for (var tw = 0; tw < 6; tw++) { var a0 = r() * Math.PI * 2; g.beginPath(); g.moveTo(128, 128); g.lineTo(128 + Math.cos(a0) * 60, 128 + Math.sin(a0) * 60); g.stroke(); }
+    for (var i = 0; i < 720; i++) { var rr2 = 6 + Math.sqrt(r()) * 110, aa = r() * Math.PI * 2, x = 128 + Math.cos(aa) * rr2, y = 128 + Math.sin(aa) * rr2, a = r() * Math.PI * 2, L = 13 + r() * 9; g.save(); g.translate(x, y); g.rotate(a); var v = r(); g.fillStyle = "rgb(" + Math.floor(140 + 80 * v) + "," + Math.floor(155 + 80 * v) + "," + Math.floor(110 + 70 * v) + ")"; g.beginPath(); g.moveTo(-L / 2, 0); g.quadraticCurveTo(0, -L * 0.32, L / 2, 0); g.quadraticCurveTo(0, L * 0.32, -L / 2, 0); g.fill(); g.restore(); }
+  });
+  leafTex.wrapS = leafTex.wrapT = THREE.ClampToEdgeWrapping;
+  var TREES = (function () {
+    var list = [];
+    var KIND = {
+      olive: { trunk: 2.4, cr: 1.7, cy: 2.9, cards: 60, card: 1.05, col: [0.56, 0.64, 0.46], squash: 0.7 },
+      fruit: { trunk: 1.8, cr: 1.9, cy: 2.7, cards: 70, card: 1.1, col: [0.36, 0.54, 0.25], squash: 0.85, fruit: true },
+      forest: { trunk: 7.0, cr: 3.6, cy: 9.0, cards: 100, card: 1.9, col: [0.30, 0.47, 0.22], squash: 0.9 },
+      shrub: { trunk: 0.2, cr: 0.36, cy: 0.34, cards: 9, card: 0.42, col: [0.30, 0.44, 0.20], squash: 0.6, nob: true },
+      pine: { trunk: 9.5, cr: 2.6, cy: 6.5, cards: 64, card: 1.4, col: [0.20, 0.33, 0.20], cone: true }
+    };
+    function add(x, y, z, s, kind) { list.push({ x: x, y: y, z: z, s: s, k: kind }); }
+    function build() {
+      var nT = list.length, nC = 0, nF = 0; list.forEach(function (t) { nC += KIND[t.k].cards; if (KIND[t.k].fruit) nF += 24; });
+      var trunk = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.5, 1, 1, 9, 1), M.bark, nT * 4);
+      var leafM = new THREE.MeshStandardMaterial({ map: leafTex, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.82, color: 0xffffff });
+      var leaves = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), leafM, nC);
+      var fruit = new THREE.InstancedMesh(new THREE.SphereGeometry(0.06, 8, 6), mat({ color: 0xffffff, roughness: 0.5 }), Math.max(1, nF));
+      var m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), v = new THREE.Vector3(), sc = new THREE.Vector3(), col = new THREE.Color();
+      var it = 0, ic = 0, iF = 0;
+      list.forEach(function (t, ti) {
+        var K = KIND[t.k], r = rng(ti * 7919 + 13), s = t.s, lean = (r() - 0.5) * 0.12;
+        // trunk and three or four branches
+        q.setFromEuler(e.set(lean, 0, (r() - 0.5) * 0.12)); m4.compose(v.set(t.x, t.y + K.trunk * s / 2, t.z), q, sc.set(0.16 * s * (K.trunk > 5 ? 1.7 : 1), K.trunk * s, 0.16 * s * (K.trunk > 5 ? 1.7 : 1))); trunk.setMatrixAt(it++, m4);
+        for (var bI = 0; bI < 3 && !K.cone && !K.nob; bI++) { var a = r() * Math.PI * 2; q.setFromEuler(e.set(Math.cos(a) * 0.7, 0, Math.sin(a) * 0.7)); m4.compose(v.set(t.x + Math.sin(a) * 0.3 * s, t.y + (K.trunk * 0.85 + 0.5) * s, t.z + Math.cos(a) * 0.3 * s), q, sc.set(0.07 * s, 1.0 * s * (K.trunk > 5 ? 1.7 : 1), 0.07 * s)); trunk.setMatrixAt(it++, m4); }
+        for (var c = 0; c < K.cards; c++) {
+          var u = r() * 2 - 1, th = r() * Math.PI * 2, qq = Math.sqrt(1 - u * u), rr = (0.45 + 0.55 * Math.cbrt(r())) * K.cr * s, px, py, pz;
+          if (K.cone) { var hh = r(); rr = (1 - hh) * K.cr * s * (0.5 + 0.5 * r()); px = Math.cos(th) * rr; pz = Math.sin(th) * rr; py = (K.cy - 3.5 + hh * 7.5) * s; }
+          else { px = qq * Math.cos(th) * rr; pz = qq * Math.sin(th) * rr; py = K.cy * s + u * K.cr * s * (K.squash || 0.8); }
+          q.setFromEuler(e.set(r() * 3.1, r() * 3.1, r() * 3.1)); var cs = K.card * s * (0.75 + 0.5 * r());
+          m4.compose(v.set(t.x + px, t.y + py, t.z + pz), q, sc.set(cs, cs, cs)); leaves.setMatrixAt(ic, m4);
+          var k2 = 0.75 + 0.4 * r(); leaves.setColorAt(ic, col.setRGB(K.col[0] * k2, K.col[1] * k2, K.col[2] * k2)); ic++;
+        }
+        if (K.fruit) for (var f = 0; f < 24; f++) { var u2 = r() * 2 - 1, th2 = r() * Math.PI * 2, q2 = Math.sqrt(1 - u2 * u2), r2 = K.cr * s * (0.85 + 0.15 * r()); m4.compose(v.set(t.x + q2 * Math.cos(th2) * r2, t.y + K.cy * s + u2 * K.cr * s * 0.8, t.z + q2 * Math.sin(th2) * r2), q.identity(), sc.set(1, 1, 1)); fruit.setMatrixAt(iF, m4); fruit.setColorAt(iF, col.setHex(r() < 0.5 ? 0xe0702a : 0xc8322a)); iF++; }
+      });
+      trunk.count = it; leaves.count = ic; fruit.count = iF;
+      [trunk, leaves, fruit].forEach(function (m) { m.castShadow = true; m.receiveShadow = true; m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; m.frustumCulled = false; scene.add(m); });
+      leaves.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map: leafTex, alphaTest: 0.45 });
+    }
+    return { add: add, build: build };
+  })();
+  // shrubs and grasses in the planters along every terrace
+  PLANTERS.forEach(function (pl) { var r = rng(pl.li * 31 + pl.k * 7 + 3); for (var t = 0.06; t < 0.94; t += 0.03 + 0.025 * r()) { var p = onSide(pl.a + (r() - 0.5) * 0.3, pl.k, t, pl.y); TREES.add(p.x, p.y, p.z, 0.75 + 0.55 * r(), "shrub"); } });
+  (function () {
+    var y = -68, lawn = new GB(), path = new GB();
+    for (var i = 0; i < 120; i++) {
+      var b0 = i * 3, b1 = (i + 1) * 3; function e(b) { return (APA - TER) / apo(Math.sin(b * D), -Math.cos(b * D)); }
+      lawn.quad(P(9.5, b0, y + 0.02), P(9.5, b1, y + 0.02), P(e(b1), b1, y + 0.02), P(e(b0), b0, y + 0.02), UP, [[Math.sin(b0 * D) * 9.5 / 6, Math.cos(b0 * D) * 9.5 / 6], [Math.sin(b1 * D) * 9.5 / 6, Math.cos(b1 * D) * 9.5 / 6], [Math.sin(b1 * D) * e(b1) / 6, Math.cos(b1 * D) * e(b1) / 6], [Math.sin(b0 * D) * e(b0) / 6, Math.cos(b0 * D) * e(b0) / 6]]);
+    }
+    mesh(lawn, grassMat(false));
+    CN.forEach(function (b) { var tg = new THREE.Vector3(Math.cos(b * D), 0, Math.sin(b * D)).multiplyScalar(1.4), a0 = P(9.4, b, y + 0.04), a1 = P(RA - 0.2, b, y + 0.04); path.quad(a0.clone().sub(tg), a0.clone().add(tg), a1.clone().add(tg), a1.clone().sub(tg), UP, [[0, 0], [0.7, 0], [0.7, 4], [0, 4]]); });
+    mesh(path, M.stone);
+    var rim = new THREE.Mesh(new THREE.RingGeometry(9.0, 9.6, 96), M.basalt); rim.rotation.x = -Math.PI / 2; rim.position.y = y + 0.3; rim.receiveShadow = true; scene.add(rim);
+    var rimS = new THREE.Mesh(new THREE.CylinderGeometry(9.6, 9.6, 0.3, 96, 1, true), M.basalt); rimS.position.y = y + 0.15; scene.add(rimS);
+    var w = water(1, 1); w.geometry = new THREE.RingGeometry(5.0, 9.0, 96); w.position.y = y + 0.22; scene.add(w);
+    var r = rng(9);
+    for (var t = 0; t < 20; t++) { var b = r() * 360, rr = 12 + r() * 8; if (Math.abs(((b - 18) % 72 + 72) % 72 - 36) > 30) continue; if (apo(Math.sin(b * D) * rr, -Math.cos(b * D) * rr) > APA - 3) continue; var p = P(rr, b, y); TREES.add(p.x, p.y, p.z, 0.9 + 0.3 * r(), r() < 0.5 ? "fruit" : "olive"); }
+  })();
+  // water running down from the lake on L2, at the atrium's corners, into the sun court
+  (function () {
+    var m = new THREE.ShaderMaterial({ uniforms: { uTime: U.uTime }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+      vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+      fragmentShader: "uniform float uTime; varying vec2 vUv; float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); } float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); } void main(){ float s = n(vec2(vUv.x * 14.0, vUv.y * 6.0 + uTime * 3.5)) * n(vec2(vUv.x * 30.0 + 7.0, vUv.y * 2.0 + uTime * 2.0)); float a = (0.12 + 0.5 * s) * smoothstep(0.0, 0.15, vUv.x) * smoothstep(1.0, 0.85, vUv.x); gl_FragColor = vec4(vec3(0.75, 0.85, 0.95) * a * 0.9, 1.0); }" });
+    CN.forEach(function (b) { var c = (APA - 0.05) / Math.cos(36 * D), p = P(c, b, -54), sh = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 28), m); sh.position.copy(p); sh.lookAt(0, -54, 0); scene.add(sh); });
+  })();
+
+  /* ------------------------------------------------------------------ L2, the garden level: sixteen metres under a sky of lamps */
+  var PIER = null;
+  var GARDEN = (function () {
+    var Y = -41, TOP = -25, AOUT = AP - 3.5;
+    var SECT = [
+      { name: "The orchard", d: "Citrus, apples and pears, olives and figs, and a vineyard, in rows under the sky of lamps." },
+      { name: "The farm", d: "The market garden and the vertical farm: most of the house's food grows here, and the seed store keeps the rest." },
+      { name: "The lake", d: "The lake is also the house's water reserve, about 30,000 m³. Fish live in it; water runs from it down the atrium's walls to the sun court." },
+      { name: "The forest", d: "A walk through tall trees, ferns and moss, along a stream with falls. It smells like a forest on Earth." },
+      { name: "The meadow", d: "Grass and wild flowers with bees, a flower garden and a tea house." }
+    ];
+    function sectorOf(x, z) { var b = bearing(x, z); return Math.floor(((b - 90 + 360) % 360) / 72); }   // 0 = sector 1, south-east
+    function sideT(x, z) { var q = new THREE.Vector2(x, -z), best = -1e9, kk = 0; for (var k = 0; k < 5; k++) { var be = (54 + 72 * k) * D, d = q.x * Math.sin(be) + q.y * Math.cos(be); if (d > best) { best = d; kk = k; } } var be2 = (54 + 72 * kk) * D, s = q.x * Math.cos(be2) - q.y * Math.sin(be2); return { k: kk, a: best, t: (s / (best * Math.tan(36 * D)) + 1) / 2 }; }
+    // the lake: an irregular shape in sector 3 (west), rings A to C
+    function lakeD(x, z) { var b = bearing(x, z), a = apo(x, z), db = ((b - 270 + 540) % 360) - 180; var edge = 22 + 6 * Math.sin(b * D * 7.0) + 4 * Math.sin(b * D * 13.0 + 1.0); var cx = Math.abs(db) / 31, ca = Math.abs(a - 54) / edge; return Math.max(cx, ca); }   // < 1 inside
+    function inLake(x, z) { return lakeD(x, z) < 1.0; }
+    function walkable(x, z) {
+      var a = apo(x, z); if (a > AOUT - 2.0) return false;
+      if (a < APA + 0.4) { var st = sideT(x, z); return st.t > 0.43 && st.t < 0.57; }   // only through the openings in the glass
+      return !inLake(x, z) && !blocked(x, z);
+    }
+    var BLOCK = [], r0 = rng(99), TEA = P(67, 54, Y);
+    function blocked(x, z) { for (var i = 0; i < BLOCK.length; i++) { var o = BLOCK[i]; if (Math.hypot(x - o[0], z - o[1]) < o[2]) return true; } return false; }
+
+    /* ---- the floor: grass, with the avenues and the streets paved, and a sandy shore round the lake */
+    var grassG = new GB(), pathG = new GB(), shoreG = new GB(), N = 240;
+    // the ground as a polar mesh from the atrium's glass to the outer wall, cut along the pentagons
+    for (var i = 0; i < N; i++) {
+      var b0 = i / N * 360, b1 = (i + 1) / N * 360;
+      function edgeAt(b, a) { return a / apo(Math.sin(b * D), -Math.cos(b * D)); }
+      for (var j = 0; j < 24; j++) {
+        var f0 = j / 24, f1 = (j + 1) / 24, a0 = lerp(APA, AOUT, f0), a1 = lerp(APA, AOUT, f1);
+        var p00 = P(edgeAt(b0, a0), b0, Y), p10 = P(edgeAt(b1, a0), b1, Y), p11 = P(edgeAt(b1, a1), b1, Y), p01 = P(edgeAt(b0, a1), b0, Y);
+        var c = p00.clone().add(p11).multiplyScalar(0.5), ld = lakeD(c.x, c.z);
+        var uv = [[p00.x / 6, p00.z / 6], [p10.x / 6, p10.z / 6], [p11.x / 6, p11.z / 6], [p01.x / 6, p01.z / 6]];
+        grassG.quad(p00, p10, p11, p01, UP, uv);
+      }
+    }
+    // paths: the avenues from the atrium's corners, 5 m wide, and the four streets between the rings, 4 m wide
+    CN.forEach(function (b) { var tg = new THREE.Vector3(Math.cos(b * D), 0, Math.sin(b * D)).multiplyScalar(2.5), a0 = P(RA + 0.5, b, Y + 0.03), a1 = P(R - 6, b, Y + 0.03); pathG.quad(a0.clone().sub(tg), a0.clone().add(tg), a1.clone().add(tg), a1.clone().sub(tg), UP, [[0, 0], [1.2, 0], [1.2, 26], [0, 26]]); });
+    [40.1, 58.1, 76.1, 94.1].forEach(function (a) { for (var k = 0; k < 5; k++) { var a0 = a - 2, a1 = a + 2, L = 2 * a * Math.tan(36 * D); for (var q = 0; q < 24; q++) { var t0 = q / 24, t1 = (q + 1) / 24, m = onSide(a, k, (t0 + t1) / 2, Y); if (lakeD(m.x, m.z) < 1.08) continue; pathG.quad(onSide(a0, k, t0, Y + 0.025), onSide(a0, k, t1, Y + 0.025), onSide(a1, k, t1, Y + 0.025), onSide(a1, k, t0, Y + 0.025), UP, [[t0 * L / 4, 0], [t1 * L / 4, 0], [t1 * L / 4, 1], [t0 * L / 4, 1]]); } } });
+    mesh(grassG, grassMat(true)); mesh(pathG, M.path);
+    // the lake's water, a little below the shore
+    (function () {
+      var shape = new THREE.Shape(), first = true;
+      for (var b = 230; b <= 310; b += 1) { var best = null; for (var a = 90; a > 24; a -= 0.5) { var p = P(a / apo(Math.sin(b * D), -Math.cos(b * D)), b, 0); if (lakeD(p.x, p.z) < 1.0) { best = p; break; } } if (best) { first ? shape.moveTo(best.x, -best.z) : shape.lineTo(best.x, -best.z); first = false; } }
+      for (var b2 = 310; b2 >= 230; b2 -= 1) { var best2 = null; for (var a2 = 24; a2 < 90; a2 += 0.5) { var p2 = P(a2 / apo(Math.sin(b2 * D), -Math.cos(b2 * D)), b2, 0); if (lakeD(p2.x, p2.z) < 1.0) { best2 = p2; break; } } if (best2) shape.lineTo(best2.x, -best2.z); }
+      var wm = water(1, 1); wm.geometry = new THREE.ShapeGeometry(shape, 4); wm.position.y = Y + 0.06; scene.add(wm);
+    })();
+    // the sky of lamps: a ceiling that shows a blue sky and a sun, drawn for where you look from
+    var skyC = new THREE.ShaderMaterial({ uniforms: { uCam: U.uCam, uSun: { value: SUNDIR.garden } },
+      vertexShader: "varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }",
+      fragmentShader: [
+        "uniform vec3 uCam, uSun; varying vec3 vW;",
+        "float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
+        "float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }",
+        "void main(){ vec3 v = normalize(vW - uCam); float el = v.y, e = max(el, 0.0), mu = max(dot(v, uSun), 0.0);",
+        "  vec3 c = mix(vec3(0.68, 0.79, 0.94), vec3(0.20, 0.42, 0.86), pow(e, 0.55));",
+        "  c += vec3(1.0, 0.95, 0.85) * (pow(mu, 12.0) * 0.4 + pow(mu, 160.0) * 1.2) + vec3(12.0, 11.0, 9.0) * smoothstep(0.9993, 0.9997, mu);",
+        "  vec2 cp = v.xz / max(v.y, 0.05) * 3.0; float cl = smoothstep(0.55, 0.85, n(cp * 0.6) * 0.6 + n(cp * 1.7) * 0.4) * 0.35 * smoothstep(0.03, 0.2, el); c = mix(c, vec3(0.95, 0.96, 0.98), cl);",
+        // the walls show what lies beyond: low hills and woods in the haze, then fields
+        "  vec2 d2 = normalize(v.xz + 1e-5); float hill = 0.006 + 0.026 * n(d2 * 2.2 + 3.0) + 0.01 * n(d2 * 7.0 + 1.0) + 0.006 * step(0.45, n(d2 * 24.0)) * n(d2 * 60.0);",
+        "  if (el < hill){ float k = smoothstep(-0.1, 0.02, el); vec3 land = mix(vec3(0.15, 0.21, 0.11), vec3(0.27, 0.34, 0.27), k) * (0.9 + 0.2 * n(d2 * 90.0)); c = mix(land, vec3(0.62, 0.71, 0.80), 0.25 + 0.5 * k * k); }",
+        // the seams between the lamp panels, faint, only when you look up close
+        "  vec2 g = abs(fract(vW.xz / 6.0) - 0.5); float seam = smoothstep(0.495, 0.5, max(g.x, g.y)) * 0.12 * exp(-length(vW - uCam) / 40.0) * step(-25.2, vW.y);",
+        "  gl_FragColor = vec4(c * (1.0 - seam) * 1.35, 1.0); }"].join("\n") });
+    (function () { var g = new GB(); for (var i3 = 0; i3 < 120; i3++) { var b0 = i3 * 3, b1 = b0 + 3; function e(b, a) { return a / apo(Math.sin(b * D), -Math.cos(b * D)); } g.quad(P(e(b0, APA), b0, TOP), P(e(b1, APA), b1, TOP), P(e(b1, AOUT + 0.1), b1, TOP), P(e(b0, AOUT + 0.1), b0, TOP), DOWN); } var m = new THREE.Mesh(g.build(), skyC); scene.add(m); })();
+    // the outer walls, a soft warm plaster, and the walls between L2's ceiling and the atrium's glass
+    (function () { var w = new GB(), lip = new GB(), hg = new GB(), ha = AOUT - 1.4, hy = Y + 1.45;
+      for (var k = 0; k < 5; k++) { var n = sideNormal(k); w.quad(onSide(AOUT, k, 0, Y), onSide(AOUT, k, 1, Y), onSide(AOUT, k, 1, TOP), onSide(AOUT, k, 0, TOP), n.clone().negate()); lip.quad(onSide(APA + 0.02, k, 0, Y), onSide(APA + 0.02, k, 1, Y), onSide(APA + 0.02, k, 1, Y + 0.05), onSide(APA + 0.02, k, 0, Y + 0.05), n);
+        hg.quad(onSide(ha, k, 0, Y), onSide(ha, k, 1, Y), onSide(ha, k, 1, hy), onSide(ha, k, 0, hy), n.clone().negate(), [[0, 0], [50, 0], [50, 1], [0, 1]]); hg.quad(onSide(ha, k, 0, hy), onSide(ha, k, 1, hy), onSide(AOUT, k, 1, hy), onSide(AOUT, k, 0, hy), UP, [[0, 0], [50, 0], [50, 1], [0, 1]]);
+        for (var t = 0.01; t < 0.99; t += 1.7 / (2 * ha * Math.tan(36 * D))) { var hp = onSide(ha + 0.1, k, t, Y + 0.25); TREES.add(hp.x, hp.y, hp.z, 1.5 + 0.5 * r0(), "shrub"); } }
+      scene.add(new THREE.Mesh(w.build(), skyC)); mesh(lip, mat({ color: 0xd9d1c2, roughness: 0.95 })); mesh(hg, M.hedge); })();
+    // columns along the streets, carrying the levels above, wrapped in ivy at the foot
+    (function () {
+      var prof = [[0, 0], [0.62, 0], [0.62, 0.32], [0.46, 0.4], [0.42, 1.0], [0.37, 11.2], [0.42, 12.4], [0.7, 13.9], [1.3, 15.2], [2.1, 15.82], [2.1, 16.0], [0, 16.0]].map(function (q) { return new THREE.Vector2(q[0], q[1] * (TOP - Y) / 16); });
+      var cg = new THREE.LatheGeometry(prof, 28), list = [];
+      [40.1, 58.1, 76.1, 94.1].forEach(function (a) { for (var k = 0; k < 5; k++) { var L = 2 * a * Math.tan(36 * D), n = Math.max(2, Math.round(L / 36)); for (var i4 = 0; i4 < n; i4++) { var p = onSide(a, k, i4 / n, Y); if (lakeD(p.x, p.z) < 1.15) continue; list.push(p); } } });
+      // the columns are planted: a skin of climbers and ferns over the shaft and the head, like a vertical garden
+      var ivyTex = (function () { var cv = document.createElement("canvas"); cv.width = 256; cv.height = 256; var g = cv.getContext("2d"), rr = rng(314); g.clearRect(0, 0, 256, 256);
+        for (var i6 = 0; i6 < 1500; i6++) { var x = rr() * 256, y = rr() * 256, sz = 4 + rr() * 7, a = rr() * 6.283, v = rr(); g.save(); g.translate(x, y); g.rotate(a); g.fillStyle = "rgb(" + Math.floor(34 + 50 * v) + "," + Math.floor(66 + 76 * v) + "," + Math.floor(24 + 34 * v) + ")";
+          g.beginPath(); g.moveTo(-sz, 0); g.quadraticCurveTo(-sz * 0.1, -sz * 0.75, sz, 0); g.quadraticCurveTo(-sz * 0.1, sz * 0.75, -sz, 0); g.fill(); g.restore(); }
+        for (var i7 = 0; i7 < 60; i7++) { var x2 = rr() * 256, y2 = rr() * 256; g.clearRect(x2, y2, 3 + rr() * 8, 3 + rr() * 8); }
+        var t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; t.repeat.set(5, 9); return t; })();
+      var ivyM = new THREE.MeshStandardMaterial({ map: ivyTex, alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.85, color: 0xb0c0a0 });
+      var skin = prof.slice(1, prof.length - 1).map(function (q2) { return new THREE.Vector2(q2.x + 0.1, q2.y); }), even = [], tot = 0, segs = [];
+      for (var i8 = 1; i8 < skin.length; i8++) { var dl = skin[i8].distanceTo(skin[i8 - 1]); segs.push(dl); tot += dl; }
+      for (var i9 = 0; i9 <= 40; i9++) { var want = tot * i9 / 40, acc = 0, kk = 0; while (kk < segs.length - 1 && acc + segs[kk] < want) { acc += segs[kk]; kk++; } even.push(skin[kk].clone().lerp(skin[kk + 1], clamp((want - acc) / segs[kk], 0, 1))); }
+      var ivyG = new THREE.LatheGeometry(even.slice(2, 39), 24);
+      var cols = new THREE.InstancedMesh(cg, M.colG, list.length), ivy = new THREE.InstancedMesh(ivyG, ivyM, list.length), m4 = new THREE.Matrix4(), rq = rng(12);
+      list.forEach(function (p, i5) { m4.makeTranslation(p.x, Y, p.z); cols.setMatrixAt(i5, m4); m4.compose(new THREE.Vector3(p.x, Y, p.z), new THREE.Quaternion().setFromAxisAngle(UP, rq() * 6.28), new THREE.Vector3(1, 1, 1)); ivy.setMatrixAt(i5, m4); BLOCK.push([p.x, p.z, 1.0]); });
+      M.colG.color.setHex(0x6f6a5f);
+      cols.castShadow = true; cols.receiveShadow = true; ivy.castShadow = true; ivy.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map: ivyTex, alphaTest: 0.45 }); scene.add(cols); scene.add(ivy);
+    })();
+
+    /* ---- what grows in each sector */
+    var r = rng(2026);
+    function each(sector, aMin, aMax, step, fn) {
+      var bc = 126 + 72 * sector;
+      for (var a = aMin; a < aMax; a += step) { var half = a * Math.tan(36 * D) - 3.5, n = Math.floor(2 * half / step); for (var i6 = 0; i6 <= n; i6++) { var s = -half + i6 * (2 * half) / Math.max(1, n); var q = P(a, bc, Y), tg = new THREE.Vector3(Math.cos(bc * D), 0, Math.sin(bc * D)); var p = q.clone().addScaledVector(tg, s); fn(p, a, s); } }
+    }
+    function nearPath(p) { var a = apo(p.x, p.z); for (var i7 = 0; i7 < 4; i7++) if (Math.abs(a - [40.1, 58.1, 76.1, 94.1][i7]) < 3.5) return true; var b = bearing(p.x, p.z), rr = Math.hypot(p.x, p.z); for (var k = 0; k < 5; k++) { if (Math.abs(Math.sin((((b - CN[k] + 540) % 360) - 180) * D) * rr) < 4.5) return true; } return false; }
+    // 1 · the orchard: rows of fruit trees and olives
+    each(0, 30, 104, 7, function (p, a) { if (nearPath(p)) return; TREES.add(p.x + (r() - 0.5), Y, p.z + (r() - 0.5), 0.9 + 0.25 * r(), a < 70 ? "fruit" : "olive"); BLOCK.push([p.x, p.z, 0.5]); });
+    // 2 · the farm: raised beds of lettuce in rows, green and red, and a vertical farm under pink grow lights
+    (function () {
+      function crop(red, side) { return canvasTex(256, side ? 64 : 96, function (g, w, h) { if (side) g.clearRect(0, 0, w, h); else { g.fillStyle = "#33251a"; g.fillRect(0, 0, w, h); speckle(g, w, h, 1500, ["#2a1e14", "#45331f"], 81, 1, 2); }
+        var rr = rng(red ? 18 : 8); (side ? [h - 4] : [18, 48, 78]).forEach(function (y0) { for (var x = 8; x < w; x += (side ? 12 : 19) + rr() * 5) { var cx = x + (rr() - 0.5) * 4, cy = y0 + (side ? 0 : (rr() - 0.5) * 4), R0 = 8 + rr() * 3;
+          for (var k = 0; k < 11; k++) { var a = side ? Math.PI + (k / 10) * Math.PI : k / 11 * 6.283 + rr(), v = rr(); g.fillStyle = red ? "rgb(" + Math.floor(95 + 50 * v) + "," + Math.floor(38 + 30 * v) + "," + Math.floor(45 + 25 * v) + ")" : "rgb(" + Math.floor(70 + 60 * v) + "," + Math.floor(118 + 70 * v) + "," + Math.floor(40 + 30 * v) + ")";
+            g.beginPath(); g.ellipse(cx + Math.cos(a) * R0 * 0.5, cy + Math.sin(a) * R0 * (side ? 0.9 : 0.5), R0 * 0.62, R0 * 0.36, a, 0, 6.3); g.fill(); }
+          g.fillStyle = red ? "rgba(180,120,110,0.5)" : "rgba(200,230,140,0.55)"; g.beginPath(); g.arc(cx, cy - (side ? R0 * 0.4 : 0), R0 * 0.28, 0, 6.3); g.fill(); } }); }); }
+      var tops = [crop(false), crop(true)].map(function (t) { return mat({ color: 0xffffff, map: t, roughness: 0.9 }); }), wood = mat({ color: 0x6e5038, roughness: 0.85 }), beds = [[], []];
+      each(1, 27, 37, 4.2, function (p, a, s2) { if (nearPath(p) || Math.abs(s2) % 12 > 9) return; beds[Math.round(a / 4.2) % 2].push(p); });
+      var m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), sc = new THREE.Vector3(1, 1, 1);
+      beds.forEach(function (list, kind) {
+        var bg = new THREE.InstancedMesh(new THREE.BoxGeometry(3.4, 0.5, 1.3), wood, list.length), tg2 = new THREE.InstancedMesh(new THREE.PlaneGeometry(3.3, 1.2), tops[kind], list.length);
+        list.forEach(function (p, i9) { q.setFromEuler(e.set(0, -198 * D, 0)); m4.compose(new THREE.Vector3(p.x, Y + 0.25, p.z), q, sc); bg.setMatrixAt(i9, m4); q.setFromEuler(e.set(-Math.PI / 2, 0, -198 * D)); m4.compose(new THREE.Vector3(p.x, Y + 0.51, p.z), q, sc); tg2.setMatrixAt(i9, m4); BLOCK.push([p.x, p.z, 1.6]); });
+        [bg, tg2].forEach(function (m) { m.castShadow = true; m.receiveShadow = true; scene.add(m); });
+      });
+      // grain in ring C: a field of ripe wheat
+      var wheat = canvasTex(128, 128, function (g, w, h) { g.clearRect(0, 0, w, h); var rr = rng(23); for (var i = 0; i < 26; i++) { var x = 4 + rr() * 120, top = 10 + rr() * 30, lean = (rr() - 0.5) * 14, v = rr();
+          g.strokeStyle = "rgb(" + Math.floor(170 + 40 * v) + "," + Math.floor(140 + 35 * v) + "," + Math.floor(70 + 20 * v) + ")"; g.lineWidth = 1.3; g.beginPath(); g.moveTo(x, h); g.quadraticCurveTo(x + lean * 0.3, (h + top) / 2, x + lean, top + 16); g.stroke();
+          g.fillStyle = "rgb(" + Math.floor(196 + 40 * v) + "," + Math.floor(160 + 40 * v) + "," + Math.floor(80 + 30 * v) + ")"; for (var k = 0; k < 7; k++) { g.beginPath(); g.ellipse(x + lean + (k % 2 ? 1.6 : -1.6), top + 16 - k * 2.6, 1.7, 2.6, k % 2 ? 0.4 : -0.4, 0, 6.3); g.fill(); } } });
+      wheat.wrapS = wheat.wrapT = THREE.ClampToEdgeWrapping;
+      var wl = []; each(1, 61, 73, 0.75, function (p) { if (nearPath(p)) return; wl.push([p.x + (r() - 0.5) * 0.7, p.z + (r() - 0.5) * 0.7]); });
+      var wm2 = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.75, 1.0), new THREE.MeshStandardMaterial({ map: wheat, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.85 }), wl.length * 2), wn = 0;
+      wl.forEach(function (f) { var a = r() * Math.PI, s3 = 0.85 + 0.3 * r(); for (var c = 0; c < 2; c++) { q.setFromEuler(e.set(0, a + c * Math.PI / 2, 0)); m4.compose(new THREE.Vector3(f[0], Y + 0.5 * s3, f[1]), q, new THREE.Vector3(s3, s3, s3)); wm2.setMatrixAt(wn++, m4); } BLOCK.push([f[0], f[1], 0.3]); });
+      wm2.count = wn; wm2.receiveShadow = true; scene.add(wm2);
+      // the vertical farm: racks six shelves high in ring B, the plants lit pink from the bar over each shelf
+      var rackM = mat({ color: 0xcfd2d4, roughness: 0.45, metalness: 0.6 }), glowM = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.42, 0.85).multiplyScalar(2.2) }), sideT2 = crop(false, true); sideT2.wrapT = THREE.ClampToEdgeWrapping; sideT2.repeat.set(3, 1);
+      var leafM2 = new THREE.MeshStandardMaterial({ map: sideT2, alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.8, emissive: 0x401030, emissiveIntensity: 0.6 }), topM2 = mat({ color: 0xd8c0d0, map: tops[0].map, roughness: 0.85, emissive: 0x401030, emissiveIntensity: 0.4 });
+      for (var vr = 0; vr < 8; vr++) { var vb = 198 - 18 + vr * 5.2, p = P(49, vb, Y), g = new THREE.Group(); g.position.copy(p); g.rotation.y = Math.PI - vb * D; scene.add(g);
+        [-3.0, 3.0].forEach(function (z) { var en = new THREE.Mesh(new THREE.BoxGeometry(1.5, 6.4, 0.06), rackM); en.position.set(0, 3.2, z); g.add(en); });
+        for (var sh = 0; sh < 8; sh++) { var y = 0.3 + sh * 0.76, tray = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.06, 6), rackM); tray.position.y = y; g.add(tray);
+          var top = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 5.8), topM2); top.rotation.x = -Math.PI / 2; top.position.y = y + 0.035; g.add(top);
+          [-0.6, -0.2, 0.2, 0.6].forEach(function (x) { var lf = new THREE.Mesh(new THREE.PlaneGeometry(5.8, 0.36), leafM2); lf.rotation.y = Math.PI / 2; lf.position.set(x, y + 0.2, 0); g.add(lf); });
+          var l1 = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.025, 5.6), glowM); l1.position.y = y + 0.7; g.add(l1); }
+        BLOCK.push([p.x, p.z, 3.3]); }
+    })();
+    // 3 · the lake: reeds along the shore, a timber pier
+    (function () {
+      var reedTex = canvasTex(64, 256, function (g, w, h) { g.clearRect(0, 0, w, h); var rr = rng(3); for (var i10 = 0; i10 < 18; i10++) { g.strokeStyle = "rgb(" + Math.floor(90 + 50 * rr()) + "," + Math.floor(110 + 40 * rr()) + "," + Math.floor(50 + 20 * rr()) + ")"; g.lineWidth = 2; var x = 6 + rr() * 52; g.beginPath(); g.moveTo(x, h); g.quadraticCurveTo(x + (rr() - 0.5) * 20, h / 2, x + (rr() - 0.5) * 30, 10 + rr() * 60); g.stroke(); } });
+      reedTex.wrapS = reedTex.wrapT = THREE.ClampToEdgeWrapping;
+      var reeds = [], rm = new THREE.MeshStandardMaterial({ map: reedTex, alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.9 });
+      for (var b = 232; b < 308; b += 0.6) for (var a = 24; a < 96; a += 1.0) { var p = P(a / apo(Math.sin(b * D), -Math.cos(b * D)), b, Y); var ld = lakeD(p.x, p.z); if (ld > 0.94 && ld < 1.03 && r() < 0.35) reeds.push(p); }
+      var rd = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.8, 1.6), rm, reeds.length * 2), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), n = 0;
+      reeds.forEach(function (p) { for (var c2 = 0; c2 < 2; c2++) { q.setFromEuler(e.set(0, r() * Math.PI + c2 * Math.PI / 2, 0)); var s2 = 0.8 + 0.6 * r(); m4.compose(new THREE.Vector3(p.x, Y + 0.8 * s2, p.z), q, new THREE.Vector3(s2, s2, s2)); rd.setMatrixAt(n++, m4); } });
+      rd.count = n; rd.castShadow = true; scene.add(rd);
+      var pier = new THREE.Group(); scene.add(pier); var pb = 270, plen = 26, wood2 = mat({ color: 0x8a6a4a, roughness: 0.85 });
+      var start = P(76, pb, Y); for (var a3 = 76; a3 > 76 - plen; a3 -= 0.5) { if (Math.round(a3 * 2) % 6 === 0) [-1.2, 1.2].forEach(function (o) { var pp2 = P(a3, pb, Y - 0.2), po = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.7, 8), wood2); po.position.copy(pp2).add(new THREE.Vector3(Math.cos(pb * D), 0, Math.sin(pb * D)).multiplyScalar(o)); pier.add(po); }); var pp = P(a3, pb, Y + 0.2); var plank = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.06, 0.42), wood2); plank.position.copy(pp); plank.rotation.y = -pb * D; plank.castShadow = true; plank.receiveShadow = true; pier.add(plank); }
+      PIER = { b: pb, a0: 76 - plen, a1: 77 };
+    })();
+    // 4 · the forest: tall trees and pines, ferns, moss
+    each(3, 28, 104, 6.5, function (p) { if (nearPath(p)) return; var j = new THREE.Vector3((r() - 0.5) * 4, 0, (r() - 0.5) * 4); p.add(j); if (inLake(p.x, p.z)) return; TREES.add(p.x, Y, p.z, 0.75 + 0.35 * r(), r() < 0.35 ? "pine" : "forest"); BLOCK.push([p.x, p.z, 0.7]); });
+    (function () {
+      var fern = canvasTex(128, 128, function (g, w, h) { g.clearRect(0, 0, w, h); var rr = rng(5); for (var f = 0; f < 9; f++) { var a = -Math.PI / 2 + (f / 8 - 0.5) * 2.4 + (rr() - 0.5) * 0.2, L = 50 + rr() * 14, x0 = w / 2, y0 = h - 2;
+        for (var t = 0; t < 1; t += 0.06) { var bend = t * t * 0.9 * Math.sign(Math.cos(a)), ax = Math.cos(a + bend), ay = Math.sin(a + bend) + t * 0.6, x = x0 + ax * L * t, y = y0 + ay * L * t, ll = (1 - t) * 9 + 2, v = rr(); g.strokeStyle = "rgb(" + Math.floor(52 + 40 * v) + "," + Math.floor(96 + 55 * v) + "," + Math.floor(34 + 22 * v) + ")"; g.lineWidth = 2.2; g.beginPath(); g.moveTo(x - ay * ll, y + ax * ll); g.lineTo(x + ay * ll, y - ax * ll); g.stroke(); } } });
+      fern.wrapS = fern.wrapT = THREE.ClampToEdgeWrapping;
+      var list = []; each(3, 27, 105, 1.6, function (p) { if (nearPath(p) || inLake(p.x, p.z) || vnoise(p.x / 9, p.z / 9) < 0.4 || r() < 0.3) return; list.push(new THREE.Vector3(p.x + (r() - 0.5) * 1.5, Y, p.z + (r() - 0.5) * 1.5)); });
+      var fm = new THREE.InstancedMesh(new THREE.PlaneGeometry(1.3, 1.1), new THREE.MeshStandardMaterial({ map: fern, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.85, color: 0xc8d8b8 }), list.length * 2), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), n = 0;
+      list.forEach(function (p) { var a = r() * Math.PI, s2 = 0.7 + 0.6 * r(); for (var c = 0; c < 2; c++) { q.setFromEuler(e.set(0, a + c * Math.PI / 2, 0)); m4.compose(new THREE.Vector3(p.x, Y + 0.5 * s2, p.z), q, new THREE.Vector3(s2, s2, s2)); fm.setMatrixAt(n++, m4); } });
+      fm.count = n; fm.receiveShadow = true; scene.add(fm);
+    })();
+    // 5 · the meadow: drifts of wild flowers, a few olives, and a tea house
+    (function () {
+      var FL = [["#f2d24a", "#e9b62e"], ["#f7f4ee", "#e8e2d4"], ["#b06ad8", "#8c4cbc"], ["#e0485a", "#c23249"], ["#5a8ae8", "#4070d0"]].map(function (cc, ci) {
+        var t = canvasTex(128, 128, function (g, w, h) { g.clearRect(0, 0, w, h); var rr = rng(60 + ci); for (var i = 0; i < 16; i++) { var x = 8 + rr() * 112, top = 18 + rr() * 76;
+          g.strokeStyle = "rgb(" + Math.floor(52 + 30 * rr()) + "," + Math.floor(92 + 40 * rr()) + ",40)"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x + (rr() - 0.5) * 10, h); g.quadraticCurveTo(x + (rr() - 0.5) * 16, (h + top) / 2, x, top); g.stroke();
+          g.fillStyle = "rgb(62,104,42)"; g.beginPath(); g.ellipse(x + 4, (h + top) / 2 + 10, 6, 2, 0.6, 0, 6.3); g.fill();
+          var pr = 3.5 + rr() * 3.5; for (var k = 0; k < 6; k++) { var a = k / 6 * 6.283 + rr() * 0.3; g.fillStyle = cc[rr() < 0.5 ? 0 : 1]; g.beginPath(); g.ellipse(x + Math.cos(a) * pr * 0.7, top + Math.sin(a) * pr * 0.55, pr * 0.62, pr * 0.32, a, 0, 6.3); g.fill(); }
+          g.fillStyle = ci === 1 ? "#e8c040" : "#4a3020"; g.beginPath(); g.arc(x, top, pr * 0.32, 0, 6.3); g.fill(); } });
+        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; return new THREE.MeshStandardMaterial({ map: t, alphaTest: 0.5, side: THREE.DoubleSide, roughness: 0.8 });
+      });
+      var spots = FL.map(function () { return []; });
+      each(4, 27, 105, 0.8, function (p, a) { if (nearPath(p)) return; var d = vnoise(p.x / 13, p.z / 13), dens = a < 60 ? 0.35 + 0.65 * smooth(0.3, 0.65, d) : 0.25 * smooth(0.45, 0.8, d); if (r() > dens) return; var ci = Math.min(4, Math.floor(vnoise(p.x / 8 + 9, p.z / 8 - 3) * 5.5)); spots[ci].push([p.x + (r() - 0.5) * 1.2, p.z + (r() - 0.5) * 1.2]); });
+      var m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
+      spots.forEach(function (list, ci) { var im = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.6, 0.55), FL[ci], list.length * 2), n = 0;
+        list.forEach(function (f) { var a = r() * Math.PI, s2 = 0.7 + 0.6 * r(); for (var c = 0; c < 2; c++) { q.setFromEuler(e.set(0, a + c * Math.PI / 2, 0)); m4.compose(new THREE.Vector3(f[0], Y + 0.27 * s2, f[1]), q, new THREE.Vector3(s2, s2, s2)); im.setMatrixAt(n++, m4); } });
+        im.count = n; im.receiveShadow = true; scene.add(im); });
+      var tuft = canvasTex(128, 128, function (g, w, h) { g.clearRect(0, 0, w, h); var rr = rng(17); for (var i = 0; i < 46; i++) { var x = 30 + rr() * 68, lean = (rr() - 0.5) * 70, top = 8 + rr() * 60, v = rr(); g.strokeStyle = "rgb(" + Math.floor(80 + 60 * v) + "," + Math.floor(110 + 50 * v) + "," + Math.floor(40 + 30 * v) + ")"; g.lineWidth = 1.4 + rr(); g.beginPath(); g.moveTo(x, h); g.quadraticCurveTo(x + lean * 0.2, (h + top) / 2, x + lean, top); g.stroke(); } });
+      tuft.wrapS = tuft.wrapT = THREE.ClampToEdgeWrapping;
+      var tl = []; each(4, 26, 106, 1.6, function (p) { if (nearPath(p) || r() < 0.45) return; tl.push([p.x + (r() - 0.5) * 1.6, p.z + (r() - 0.5) * 1.6]); });
+      each(0, 26, 106, 3.2, function (p) { if (nearPath(p) || r() < 0.5) return; tl.push([p.x + (r() - 0.5) * 3, p.z + (r() - 0.5) * 3]); });
+      var tm = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.9, 0.75), new THREE.MeshStandardMaterial({ map: tuft, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.9 }), tl.length * 2), tn = 0;
+      tl.forEach(function (f) { var a = r() * Math.PI, s2 = 0.6 + 0.7 * r(); for (var c = 0; c < 2; c++) { q.setFromEuler(e.set(0, a + c * Math.PI / 2, 0)); m4.compose(new THREE.Vector3(f[0], Y + 0.36 * s2, f[1]), q, new THREE.Vector3(s2, s2, s2)); tm.setMatrixAt(tn++, m4); } });
+      tm.count = tn; tm.receiveShadow = true; scene.add(tm);
+      each(4, 60, 104, 16, function (p) { if (nearPath(p) || Math.hypot(p.x - TEA.x, p.z - TEA.z) < 9) return; TREES.add(p.x, Y, p.z, 1.1, "olive"); BLOCK.push([p.x, p.z, 0.5]); });
+      // the tea house: cedar on a stone plinth, paper screens on two sides, a hipped roof of dark tiles with deep eaves
+      var th = new THREE.Group(), tp = TEA; th.position.copy(tp); th.rotation.y = -54 * D; scene.add(th);
+      var dark = mat({ color: 0x34302c, roughness: 0.75 }), cedar = mat({ color: 0x8a6446, roughness: 0.7 });
+      var shoji = canvasTex(256, 256, function (g, w, h) { g.fillStyle = "#fff"; g.fillRect(0, 0, w, h); g.fillStyle = "#6a4a30"; for (var i = 0; i <= 4; i++) g.fillRect(i * 64 - 2, 0, 4, h); for (var j = 0; j <= 8; j++) g.fillRect(0, j * 32 - 2, w, 4); });
+      var paper = new THREE.MeshStandardMaterial({ color: 0xf0e8d8, map: shoji, roughness: 0.9, emissive: 0xffe0b0, emissiveMap: shoji, emissiveIntensity: 0.3, side: THREE.DoubleSide });
+      var plinth = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.36, 8.4), M.basalt); plinth.position.y = 0.18; th.add(plinth);
+      var deck = new THREE.Mesh(new THREE.BoxGeometry(7.8, 0.1, 7.8), cedar); deck.position.y = 0.41; th.add(deck);
+      [-3.4, 0, 3.4].forEach(function (x) { [-3.4, 0, 3.4].forEach(function (z) { if (x === 0 && z === 0) return; var pst = new THREE.Mesh(new THREE.BoxGeometry(0.16, 2.75, 0.16), cedar); pst.position.set(x, 0.46 + 1.375, z); th.add(pst); }); });
+      [[0, -3.4, 0], [-3.4, 0, Math.PI / 2]].forEach(function (w2) { var sj = new THREE.Mesh(new THREE.PlaneGeometry(6.8, 2.5), paper); sj.position.set(w2[0], 0.46 + 1.25, w2[1]); sj.rotation.y = w2[2]; th.add(sj); });
+      var beam = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.2, 7.2), cedar); beam.position.y = 3.2; th.add(beam);
+      var rg = new GB(), ee = 4.7, ey = 3.3, ry = 4.9, rl = 1.5, c4 = [[-ee, -ee], [ee, -ee], [ee, ee], [-ee, ee]].map(function (c) { return new THREE.Vector3(c[0], ey, c[1]); }), t0 = new THREE.Vector3(-rl, ry, 0), t1 = new THREE.Vector3(rl, ry, 0);
+      rg.quad(c4[0], c4[1], t1, t0, UP); rg.quad(c4[2], c4[3], t0, t1, UP); rg.quad(c4[1], c4[2], t1, t1, UP); rg.quad(c4[3], c4[0], t0, t0, UP);
+      var rf = new THREE.Mesh(rg.build(), dark); th.add(rf);
+      var und = new THREE.Mesh(new THREE.PlaneGeometry(2 * ee, 2 * ee), cedar); und.rotation.x = Math.PI / 2; und.position.y = ey - 0.01; th.add(und);
+      var tbl = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.3, 0.9), M.walnut); tbl.position.set(0.6, 0.61, 0.6); th.add(tbl);
+      th.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } }); BLOCK.push([tp.x, tp.z, 4.6]);
+    })();
+    // the stream: from the outer wall in the forest down to the lake, with small falls
+    (function () {
+      var pts = [], g = new GB(); for (var t2 = 0; t2 <= 1; t2 += 0.02) { var b = lerp(330, 302, t2), a = lerp(102, 62, t2) + Math.sin(t2 * 9) * 3; pts.push(P(a / apo(Math.sin(b * D), -Math.cos(b * D)), b, Y + 0.05)); }
+      for (var i12 = 0; i12 < pts.length - 1; i12++) { var a0 = pts[i12], a1 = pts[i12 + 1], dir = a1.clone().sub(a0).normalize(), sd = new THREE.Vector3(-dir.z, 0, dir.x).multiplyScalar(1.1); g.quad(a0.clone().sub(sd), a0.clone().add(sd), a1.clone().add(sd), a1.clone().sub(sd), UP); }
+      var sm = new THREE.Mesh(g.build(), water(1, 1).material); scene.add(sm);
+    })();
+    TREES.build();
+    function zoneAt(x, z) { var s = sectorOf(x, z), S = SECT[s]; return { name: S.name, sector: "sector " + (s + 1), d: S.d }; }
+    return { walkable: function (x, z) { if (PIER && Math.abs(((bearing(x, z) - PIER.b + 540) % 360) - 180) * Math.hypot(x, z) * D < 1.2 && Math.hypot(x, z) > PIER.a0 && Math.hypot(x, z) < PIER.a1) return true; return walkable(x, z); }, zoneAt: zoneAt, inLake: inLake };
+  })();
+
+  // everything that never moves, merged into one mesh for each material, to keep the draw calls down
+  (function mergeStatic(root) {
+    root.updateMatrixWorld(true); var by = {}, kill = [];
+    root.traverse(function (o) {
+      var m = o.material, add = m && m.transparent && m.blending === THREE.AdditiveBlending && !o.geometry.attributes.aT;
+      if (!o.isMesh || o.isInstancedMesh || !o.geometry || !m || o.customDepthMaterial || o === beam.mesh || (m.isShaderMaterial && !add) || (m.transparent && !add && m !== M.glass)) return;
+      var g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone(); g.applyMatrix4(o.matrixWorld);
+      if (!g.attributes.normal) g.computeVertexNormals();
+      if (!g.attributes.uv) g.setAttribute("uv", new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
+      var k = o.material.uuid + (o.castShadow ? "c" : "n"); (by[k] = by[k] || { m: o.material, c: o.castShadow, g: [] }).g.push(g); kill.push(o);
+    });
+    kill.forEach(function (o) { o.parent.remove(o); });
+    Object.keys(by).forEach(function (k) {
+      var L = by[k].g, n = 0; L.forEach(function (g) { n += g.attributes.position.count; });
+      var pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), o = 0;
+      L.forEach(function (g) { pos.set(g.attributes.position.array, o * 3); nor.set(g.attributes.normal.array, o * 3); uv.set(g.attributes.uv.array, o * 2); o += g.attributes.position.count; g.dispose(); });
+      var mg = new THREE.BufferGeometry(); mg.setAttribute("position", new THREE.BufferAttribute(pos, 3)); mg.setAttribute("normal", new THREE.BufferAttribute(nor, 3)); mg.setAttribute("uv", new THREE.BufferAttribute(uv, 2)); mg.computeBoundingSphere();
+      var me = new THREE.Mesh(mg, by[k].m); me.castShadow = by[k].c; me.receiveShadow = true; if (by[k].m === M.glass) me.renderOrder = 3; scene.add(me);
+    });
+  })(scene);
+
+  /* ------------------------------------------------------------------ light: the lens over the atrium, the sky ceiling on L2, lamps */
+  var sun = new THREE.DirectionalLight(0xfff0dc, 2.2); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
+  var SC = sun.shadow.camera; SC.left = -60; SC.right = 60; SC.top = 60; SC.bottom = -60; SC.near = 1; SC.far = 300; scene.add(sun); scene.add(sun.target);
+  var hemi = new THREE.HemisphereLight(0xfff2e0, 0x5a4a3a, 0.14); scene.add(hemi);
+
+  /* ------------------------------------------------------------------ post and the probe, as in the Crown */
+  var POST = (function () {
+    var type = THREE.HalfFloatType, rt, mips = [], tmps = [], N = 5, PW = 2, PH = 2;
+    var ocam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1), qs = new THREE.Scene(), quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); quad.frustumCulled = false; qs.add(quad);
+    var VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }";
+    function pm(fs, uni) { return new THREE.ShaderMaterial({ uniforms: uni, vertexShader: VS, fragmentShader: fs, depthTest: false, depthWrite: false }); }
+    var bright = pm("uniform sampler2D t; uniform float uTh; varying vec2 vUv; void main(){ vec3 c = clamp(texture2D(t, vUv).rgb, 0.0, 60.0); float l = max(max(c.r, c.g), c.b); float k = max(l - uTh, 0.0); k = k * k / (k + 0.6); gl_FragColor = vec4(c * (k / max(l, 1e-4)), 1.0); }", { t: { value: null }, uTh: { value: 1.0 } });
+    var down = pm("uniform sampler2D t; uniform vec2 uTx; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv + uTx * vec2(-1.0, -1.0)).rgb + texture2D(t, vUv + uTx * vec2(1.0, -1.0)).rgb + texture2D(t, vUv + uTx * vec2(-1.0, 1.0)).rgb + texture2D(t, vUv + uTx * vec2(1.0, 1.0)).rgb; gl_FragColor = vec4(c * 0.25, 1.0); }", { t: { value: null }, uTx: { value: new THREE.Vector2() } });
+    var blur = pm("uniform sampler2D t; uniform vec2 uD; varying vec2 vUv; void main(){ vec3 c = texture2D(t, vUv).rgb * 0.2270270; c += (texture2D(t, vUv + uD * 1.3846154).rgb + texture2D(t, vUv - uD * 1.3846154).rgb) * 0.3162162; c += (texture2D(t, vUv + uD * 3.2307692).rgb + texture2D(t, vUv - uD * 3.2307692).rgb) * 0.0702703; gl_FragColor = vec4(c, 1.0); }", { t: { value: null }, uD: { value: new THREE.Vector2() } });
+    var cu = { tS: { value: null }, uBloom: { value: 0.5 }, uExp: { value: 1 }, uGrain: { value: 0.02 }, uVig: { value: 0.3 }, uFade: { value: 1 } };
+    for (var b = 0; b < N; b++) cu["tB" + b] = { value: null };
+    var comp = pm([
+      "uniform sampler2D tS, tB0, tB1, tB2, tB3, tB4; uniform float uBloom, uExp, uGrain, uVig, uFade; varying vec2 vUv;",
+      "vec3 fit(vec3 v){ return (v * (v + 0.0245786) - 0.000090537) / (v * (0.983729 * v + 0.4329510) + 0.238081); }",
+      "vec3 aces(vec3 c){ const mat3 I = mat3(0.59719, 0.07600, 0.02840, 0.35458, 0.90834, 0.13383, 0.04823, 0.01566, 0.83777); const mat3 O = mat3(1.60475, -0.10208, -0.00327, -0.53108, 1.10813, -0.07276, -0.07367, -0.00605, 1.07602); return clamp(O * fit(I * c), 0.0, 1.0); }",
+      "vec3 srgb(vec3 c){ return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }",
+      "float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }",
+      "void main(){ vec3 c = max(texture2D(tS, vUv).rgb, 0.0);",
+      "  vec3 bl = texture2D(tB0, vUv).rgb * 0.3 + texture2D(tB1, vUv).rgb * 0.26 + texture2D(tB2, vUv).rgb * 0.2 + texture2D(tB3, vUv).rgb * 0.14 + texture2D(tB4, vUv).rgb * 0.1;",
+      "  c = (c + bl * uBloom) * uExp; vec3 a = aces(c); float m = max(max(c.r, c.g), c.b); vec3 hp = aces(vec3(m)) * c / max(m, 1e-4); c = mix(a, hp, 0.3);",
+      "  vec2 q = vUv - 0.5; c *= 1.0 - uVig * dot(q, q) * 2.2; c = srgb(clamp(c, 0.0, 1.0)) * uFade;",
+      "  c += (h(vUv * 1000.0) - 0.5) * uGrain * (1.0 - c * 0.6); c += (h(vUv * 731.0 + 3.0) - 0.5) / 255.0; gl_FragColor = vec4(c, 1.0); }"].join("\n"), cu);
+    function size(w, h) {
+      if (w === PW && h === PH && rt) return; PW = w; PH = h;
+      [rt].concat(mips, tmps).forEach(function (t) { if (t) t.dispose(); }); mips = []; tmps = [];
+      var opts = { type: type, format: THREE.RGBAFormat, depthBuffer: true, stencilBuffer: false };
+      rt = GL2 ? new THREE.WebGLMultisampleRenderTarget(w, h, opts) : new THREE.WebGLRenderTarget(w, h, opts); if (GL2) { rt.samples = 4; rt.depthTexture = new THREE.DepthTexture(w, h, THREE.UnsignedIntType); }
+      var bopt = { type: type, format: THREE.RGBAFormat, depthBuffer: false, stencilBuffer: false, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter };
+      for (var i = 0; i < N; i++) { var bw = Math.max(2, (w >> 1) >> i), bh = Math.max(2, (h >> 1) >> i); mips.push(new THREE.WebGLRenderTarget(bw, bh, bopt)); tmps.push(new THREE.WebGLRenderTarget(bw, bh, bopt)); }
+    }
+    function pass(m, target) { quad.material = m; renderer.setRenderTarget(target); renderer.render(qs, ocam); }
+    function render() {
+      var sz = new THREE.Vector2(); renderer.getDrawingBufferSize(sz); size(sz.x, sz.y);
+      renderer.setRenderTarget(rt); renderer.setClearColor(0x000000, 1); renderer.clear(true, true, true); renderer.render(scene, camera);
+      bright.uniforms.t.value = rt.texture; pass(bright, mips[0]);
+      for (var i = 0; i < N; i++) {
+        if (i > 0) { down.uniforms.t.value = mips[i - 1].texture; down.uniforms.uTx.value.set(0.5 / mips[i - 1].width, 0.5 / mips[i - 1].height); pass(down, mips[i]); }
+        blur.uniforms.t.value = mips[i].texture; blur.uniforms.uD.value.set(1 / mips[i].width, 0); pass(blur, tmps[i]);
+        blur.uniforms.t.value = tmps[i].texture; blur.uniforms.uD.value.set(0, 1 / mips[i].height); pass(blur, mips[i]);
+      }
+      cu.tS.value = rt.texture; for (var j = 0; j < N; j++) cu["tB" + j].value = mips[j].texture;
+      pass(comp, null);
+    }
+    return { render: render, u: cu };
+  })();
+
+  var PROBE = { rt: new THREE.WebGLCubeRenderTarget(128, { type: THREE.HalfFloatType, format: THREE.RGBAFormat, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter }), last: null, pm: new THREE.PMREMGenerator(renderer), env: null, t: 0 };
+  PROBE.cam = new THREE.CubeCamera(0.3, 2000, PROBE.rt); scene.add(PROBE.cam);
+  function probe(force) {
+    var p = camera.position; if (!force && PROBE.last && PROBE.last.distanceTo(p) < 12) return;
+    PROBE.last = p.clone(); PROBE.cam.position.copy(p); var au = renderer.shadowMap.autoUpdate; renderer.shadowMap.autoUpdate = false; PROBE.cam.update(renderer, scene); renderer.shadowMap.autoUpdate = au;
+    var env = PROBE.pm.fromCubemap(PROBE.rt.texture); if (PROBE.env) PROBE.env.dispose(); PROBE.env = env; scene.environment = env.texture;
+  }
+
+  /* ------------------------------------------------------------------ you: levels, walking where there is floor */
+  var ME = { lv: 0, x: 0, z: 0, yaw: 0, pitch: -0.25, keys: {}, started: false };
+  function startOn(li, b) { ME.lv = li; var p = P(APA - TER + 0.2 - 1.2, b, 0); var q = P(14, b, 0); ME.x = q.x; ME.z = q.z; var d = new THREE.Vector3(-q.x, 0, -q.z); ME.yaw = Math.atan2(-d.x, -d.z) + 0.55; ME.pitch = li === 4 ? 0.25 : -0.3; }
+  function floorY() { return LV[ME.lv].floor; }
+  function canStand(lv, x, z) {
+    var a = apo(x, z), r = Math.hypot(x, z), b = bearing(x, z);
+    if (lv === 4) { for (var k4 = 0; k4 < 5; k4++) { var d4 = ((b - CN[k4] + 540) % 360) - 180; if (Math.abs(d4) < 60 && Math.abs(Math.sin(d4 * D) * r) < 1.25 && r > 5.6 && r < 10.5) return true; } return a < APA - 0.5 && r > 9.8; }   // the sun court, round the pool, and the causeways to the column
+    if (a > APA - TER + 0.9 && a < APA - 0.4) return true;                               // the terrace
+    for (var k = 0; k < 5; k++) { var d = ((b - CN[k] + 540) % 360) - 180; var off = Math.abs(Math.sin(d * D) * r); if (Math.abs(d) < 60 && off < 1.25 && r > 5.6 && Math.cos(d * D) > 0) return true; }   // a bridge
+    if (lv === 1 && a >= APA - 0.4) return GARDEN.walkable(x, z);                      // out into the garden level
+    return false;
+  }
+  function walk(dt) {
+    var f = (ME.keys.w || ME.keys.arrowup ? 1 : 0) - (ME.keys.s || ME.keys.arrowdown ? 1 : 0) + STICK.y, s = (ME.keys.d || ME.keys.arrowright ? 1 : 0) - (ME.keys.a || ME.keys.arrowleft ? 1 : 0) + STICK.x;
+    if (!f && !s) return;
+    var sp = ME.lv === 1 && apo(ME.x, ME.z) > APA ? 3.2 : 2.2;
+    var dx = (-Math.sin(ME.yaw) * f + Math.cos(ME.yaw) * s) * sp * dt, dz = (-Math.cos(ME.yaw) * f - Math.sin(ME.yaw) * s) * sp * dt;
+    if (canStand(ME.lv, ME.x + dx, ME.z + dz)) { ME.x += dx; ME.z += dz; }
+    else if (canStand(ME.lv, ME.x + dx, ME.z)) ME.x += dx; else if (canStand(ME.lv, ME.x, ME.z + dz)) ME.z += dz;
+  }
+  /* ------------------------------------------------------------------ input */
+  var STICK = { x: 0, y: 0 }, pts = {};
+  canvas.addEventListener("pointerdown", function (e) { pts[e.pointerId] = [e.clientX, e.clientY]; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener("pointermove", function (e) { var p = pts[e.pointerId]; if (!p) return; ME.yaw -= (e.clientX - p[0]) * 0.0042; ME.pitch = clamp(ME.pitch - (e.clientY - p[1]) * 0.0042, -1.4, 1.4); pts[e.pointerId] = [e.clientX, e.clientY]; });
+  function up(e) { delete pts[e.pointerId]; } canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
+  window.addEventListener("keydown", function (e) { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; ME.keys[e.key.toLowerCase()] = true; var n = parseInt(e.key, 10); if (n >= 1 && n <= 5 && ME.started) go(n - 1); });
+  window.addEventListener("keyup", function (e) { ME.keys[e.key.toLowerCase()] = false; });
+  (function () {
+    var st = $("stick"), knob = st.firstElementChild, id = null, c = null;
+    st.addEventListener("pointerdown", function (e) { id = e.pointerId; st.setPointerCapture(id); var r = st.getBoundingClientRect(); c = [r.left + r.width / 2, r.top + r.height / 2]; move(e); });
+    function move(e) { if (e.pointerId !== id) return; var dx = clamp((e.clientX - c[0]) / 40, -1, 1), dy = clamp((e.clientY - c[1]) / 40, -1, 1); STICK.x = dx; STICK.y = -dy; knob.style.transform = "translate(" + dx * 30 + "px," + dy * 30 + "px)"; }
+    st.addEventListener("pointermove", move);
+    function end(e) { if (e.pointerId !== id) return; id = null; STICK.x = STICK.y = 0; knob.style.transform = ""; }
+    st.addEventListener("pointerup", end); st.addEventListener("pointercancel", end);
+  })();
+  function say(t, d) { $("sayT").textContent = t || ""; $("sayD").textContent = d || ""; $("say").style.opacity = t ? 1 : 0; }
+  // the portal column: one step to any level
+  var GO = null;
+  function go(li) { if (GO) return; GO = { t: 0, li: li }; say(LV[li].id + " · " + LV[li].name, "Through the portal column"); }
+  document.querySelectorAll("[data-lv]").forEach(function (b) { b.addEventListener("click", function () { go(+b.dataset.lv); }); });
+  function goStep(dt) {
+    if (!GO) return; GO.t += dt; $("flash").style.opacity = GO.t < 0.5 ? GO.t / 0.5 : Math.max(0, 1 - (GO.t - 0.5) / 0.7);
+    if (GO.t >= 0.5 && !GO.done) { GO.done = true; startOn(GO.li, GO.li === 1 ? 234 : 90); PROBE.last = null; setLight(); }
+    if (GO.t > 1.3) { GO = null; say(""); }
+  }
+  function setLight() {
+    var garden = ME.lv === 1;
+    sun.intensity = garden ? 2.0 : ME.lv === 4 ? 1.7 : 1.4; sun.color.set(garden ? 0xfff4e6 : 0xfff0dc); hemi.intensity = garden ? 0.3 : ME.lv === 4 ? 0.34 : 0.24; POST.u.uExp.value = garden ? 0.92 : 0.8; hemi.color.set(garden ? 0xcfe3ff : 0xfff2e0); hemi.groundColor.set(garden ? 0x4a5a32 : 0x5a4a3a);
+    document.querySelectorAll("[data-lv]").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.lv === ME.lv ? "true" : "false"); });
+  }
+  function where() {
+    var L = LV[ME.lv], a = apo(ME.x, ME.z), inG = ME.lv === 1 && a > APA, t = L.id + " · " + L.name, s = "floor " + L.floor + " m · " + (L.top - L.floor) + " m tall", d = L.d;
+    if (inG) { var z = GARDEN.zoneAt(ME.x, ME.z); t = z.name; s = "L2 · the garden level · " + z.sector; d = z.d; }
+    else if (a < APA - TER + 0.9 && ME.lv !== 4) { t = "The atrium"; s = L.id + " bridge · 35 m across, 68 m deep"; d = "The Sun Well's sky lens is " + (-L.floor) + " m above you; the sun court is " + (68 + L.floor) + " m below. The portal column takes you to any level."; }
+    else if (ROOMS[ME.lv] && ME.lv !== 4 && a > APA - TER + 0.9) { var k = Math.floor(((bearing(ME.x, ME.z) - 18 + 360) % 360) / 72); t = ROOMS[ME.lv][k].nm.charAt(0).toUpperCase() + ROOMS[ME.lv][k].nm.slice(1); s = L.id + " · " + L.name + " · the terrace"; d = "Behind the glass: " + ROOMS[ME.lv][k].nm + ". " + L.d; }
+    if (Math.hypot(ME.x, ME.z) < 7.2) { s = L.id + " · at the portal column"; d = "Choose a level below, or press 1 to 5: the portal takes you there in one step."; }
+    $("wT").textContent = t; $("wS").textContent = s; $("wD").textContent = d;
+  }
+
+  /* ------------------------------------------------------------------ frame */
+  function resize() { VIEW.w = innerWidth; VIEW.h = innerHeight; VIEW.dpr = Math.min(window.devicePixelRatio || 1, 1.6); renderer.setPixelRatio(VIEW.dpr * VIEW.scale); renderer.setSize(VIEW.w, VIEW.h, false); camera.aspect = VIEW.w / VIEW.h; camera.updateProjectionMatrix(); }
+  window.addEventListener("resize", resize);
+  var T = 0, TICK = [], wT = 0;
+  function frame(dt) {
+    T += dt; U.uTime.value = T;
+    if (ME.started && !GO) walk(dt); goStep(dt);
+    var p = new THREE.Vector3(ME.x, floorY() + 1.65, ME.z); camera.position.copy(p); camera.rotation.set(ME.pitch, ME.yaw, 0, "YXZ"); camera.updateMatrixWorld(true); U.uCam.value.copy(p);
+    var garden = ME.lv === 1 && apo(ME.x, ME.z) > APA - 1, sd = garden ? SUNDIR.garden : SUNDIR.atrium;
+    var c = garden ? p.clone() : new THREE.Vector3(0, -40, 0);
+    sun.position.copy(c).addScaledVector(sd, 120); sun.target.position.copy(c); sun.target.updateMatrixWorld();
+    SC.left = SC.bottom = garden ? -55 : -38; SC.right = SC.top = garden ? 55 : 38; SC.updateProjectionMatrix();
+    beam.motes.rotation.y = T * 0.01;
+    TICK.forEach(function (f) { f(dt, T); });
+    PROBE.t += dt; if (PROBE.t > 0.6) { PROBE.t = 0; probe(false); }
+    POST.render(); wT += dt; if (wT > 0.25) { wT = 0; where(); }
+  }
+  var PERF = { acc: 0, n: 0, last: 0 };
+  function adapt(ms) { PERF.acc += ms; PERF.n++; if (PERF.n < 40) return; var avg = PERF.acc / PERF.n, now = performance.now(); PERF.acc = PERF.n = 0; if (now - PERF.last < 2500) return; if (avg > 26 && VIEW.scale > 0.5) { VIEW.scale = Math.max(0.5, VIEW.scale - 0.12); PERF.last = now; resize(); } else if (avg < 17 && VIEW.scale < 1) { VIEW.scale = Math.min(1, VIEW.scale + 0.05); PERF.last = now; resize(); } }
+  $("bEnter").addEventListener("click", function () { $("intro").hidden = true; ["where", "bar"].forEach(function (id) { $(id).hidden = false; }); if (matchMedia("(pointer: coarse)").matches) $("stick").hidden = false; ME.started = true; var h = $("hint"); h.textContent = "Walk with W A S D or drag to look · the bridges lead to the column · press 1 to 5, or the buttons below, to take the portal to a level"; h.hidden = false; setTimeout(function () { h.style.opacity = 0; }, 9000); });
+  resize(); startOn(0, 90); setLight();
+  try { renderer.compile(scene, camera); } catch (e) { }
+  frame(0); probe(true);
+  var last = performance.now();
+  function loop(now) { var ms = now - last; last = now; frame(Math.min(ms / 1000, 0.1)); adapt(ms); requestAnimationFrame(loop); }
+  $("load").hidden = true; $("intro").hidden = false;
+  if (DEBUG) {
+    window.__pent = {
+      enter: function () { $("bEnter").click(); return 1; },
+      at: function (lv, x, z, yawDeg, pitchDeg) { ME.lv = lv; ME.x = x; ME.z = z; if (yawDeg != null) ME.yaw = yawDeg * D; if (pitchDeg != null) ME.pitch = pitchDeg * D; setLight(); PROBE.last = null; return 1; },
+      on: function (lv, b) { startOn(lv, b); setLight(); PROBE.last = null; return 1; },
+      look: function (yawDeg, pitchDeg) { ME.yaw = yawDeg * D; ME.pitch = pitchDeg * D; return 1; },
+      step: function (n, dt) { for (var i = 0; i < (n || 1); i++) frame(dt == null ? 1 / 60 : dt); return 1; },
+      ev: function (s) { return eval(s); }
+    };
+    window.__pentReady = true;
+  } else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

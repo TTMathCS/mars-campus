@@ -15,9 +15,10 @@ goes here first.
 > - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, Rev E (OR-1 to
 >   OR-9): the universe in VR, the ball as the Wormhole Gate and the Orb's dock, and the built ground (GN-13) are
 >   drawn from his words and shown for his review.
-> - **3D demo phase 1 is live** at [palace/](https://ttmathcs.github.io/mars-campus/palace/) (1 Oct 2026; Jim: "please
+> - **3D demo phases 1 and 2 are live** at [palace/](https://ttmathcs.github.io/mars-campus/palace/) (1 Oct 2026; Jim: "please
 >   go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from
->   outside. Phase 2 starts with the Orb.
+>   outside; the Crown's main floor; the Orb. **Phase 3 has started:** the Pentagon's atrium, the rooms behind its
+>   glass on every level, the garden level and the sun court, at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/).
 
 ## How to read the tables
 
@@ -170,7 +171,7 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | --- | --- | --- |
 | 1 | The 30 km landscape, the spaceport and the flight video | ✅ Live, 1 Oct 2026, at [palace/](https://ttmathcs.github.io/mars-campus/palace/) |
 | 2 | The Crown and the Orb | 🎬 Live, 1 Oct 2026: the Crown's main floor at [palace/crown/](https://ttmathcs.github.io/mars-campus/palace/crown/) and the Orb at [palace/orb/](https://ttmathcs.github.io/mars-campus/palace/orb/). Still to come: the spires' upper floors and the rest rooms |
-| 3 | The Pentagon, one level at a time | Next |
+| 3 | The Pentagon, one level at a time | 🎬 Started, 1 Oct 2026, at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/): the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level (L2) and the sun court (L5). Next: walking into the rooms of L1, then L3 to L5 |
 
 | ID | You can … | Priority | Phase | Status |
 | --- | --- | --- | --- | --- |
@@ -178,15 +179,15 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-2 | After landing, look around the Crown from outside | Should | 1 | ✅ Live |
 | DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 🎬 Live at [palace/crown/](https://ttmathcs.github.io/mars-campus/palace/crown/): you start by the pod in the hangar; the iris of light opens and you walk into the Arrival hall |
 | DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 🎬 Live: the whole main floor, 30 furnished rooms in ten parts; the Glide carries you round; the sun comes in through the slots |
-| DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 🔧 Portals in the five spires go up to the Orb; the Orb's link comes back down. To the Pentagon in phase 3 |
+| DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 🎬 Portals in the five spires go up to the Orb; the Orb's link comes back down; the Crown's portal goes down to the Pentagon, and the portal column takes you to any of its five levels in one step |
 | DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and the house, see Earth and Mars with their weather, then switch it off | Must | 2 | 🎬 Live: the switch; six steps from the cosmic web to the Milky Way, the solar system today, Mars, Arcadia and the house, and Earth; the Earth and Mars dashboard with the Mars clock and live Earth weather |
 | DM-7 | Use the Wormhole Gate: choose the place in the universe, walk into the ball, press send and arrive there in a beam of light (default: the TTMath campus, demo 1) | Should | 2 | 🎬 Live: set the time, press send, walk across the bridge into the ball, and the beam takes you to demo 1 |
 | DM-8 | Rest in a rest room in the Orb and look out over the plain | Could | 2 | 🟡 |
-| DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 📐 |
+| DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 🔧 Live at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/): the atrium with its terraces and bridges; the rooms of ring A seen through the glass (on L1 the guest lounge, the family room, the cinema, the thermal pools and the great library); the garden level with the orchard, the farm, the lake, the forest and the meadow; the sun court. Next: walking into the residence and the master suite down |
 | DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 📐 |
 | DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 🎬 Live in the Crown: all five |
 | DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 🔧 The Crown has a map of the ring: click a part to glide there; walk freely or ride the Glide |
-| DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment) |
+| DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment). 🎬 The forest on L2 is live |
 
 ## 10. Open questions
 

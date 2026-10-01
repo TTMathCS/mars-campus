@@ -19,6 +19,7 @@ sunset. A city will grow around it.
 | ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
 | 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |
 | 🌌 | **The Orb**, phase 2: switch the universe on, zoom from the cosmic web to Mars and the house, step into the Wormhole Gate | [orb/](orb/) | [The Orb](https://ttmathcs.github.io/mars-campus/palace/orb/) |
+| 🌳 | **The Pentagon**, phase 3: the atrium 68 m deep with rooms behind glass on every level, the garden level with its lake, forest and meadow, and the sun court | [pentagon/](pentagon/) | [The Pentagon](https://ttmathcs.github.io/mars-campus/palace/pentagon/) |
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design book](https://ttmathcs.github.io/mars-campus/palace/design/) |
@@ -37,7 +38,7 @@ sunset. A city will grow around it.
 | Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, the ball as the Wormhole Gate, the Orb's dock and the built ground | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
 | Mars Atlas | Live, over a real colour map of Mars | — |
-| 3D demo | **Phase 1 live**, 1 Oct 2026 (Jim: "please go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from outside, with the new ground | **Phase 2 live:** the Crown's main floor and the Orb; next, phase 3, the Pentagon |
+| 3D demo | **Phase 1 live**, 1 Oct 2026 (Jim: "please go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from outside, with the new ground | **Phase 2 live:** the Crown's main floor and the Orb. **Phase 3 started:** the Pentagon's atrium, the rooms behind its glass, the garden level and the sun court; next, walking into the rooms of L1 |
 | First palace | Archived | — |
 
 **Nothing waits for an answer:** Jim answered every question on 1 Oct 2026. For his review: the Orb, Rev E (the universe
@@ -79,10 +80,13 @@ palace/
 ├── design/              the design book and the Mars Atlas (live pages)
 │   └── img/             pictures rendered from the 3D build, and the maps
 ├── plans/               the floor plans Rev B (one live page)
-├── src/                 the new 3D build, phase 1 (paused); build.sh builds it
+├── src/                 the 3D demo's phase 1 (the flight); build.sh builds it into index.html
+├── crown/               the Crown's main floor, phase 2 (one self-contained page)
+├── orb/                 the Orb, phase 2 (one self-contained page, and its planet maps)
+├── pentagon/            the Pentagon, phase 3 (one self-contained page)
 ├── tools/               headless tests, renders and exports
 ├── archive/old-palace/  the first palace, kept for reference
-└── index.html           opens the design book until the 3D demo is published here
+└── index.html           the published 3D demo: the flight home
 ```
 
 The diagrams in `docs/img/` are exported from the live pages by `python3 palace/tools/docs_export.py`. Run it again

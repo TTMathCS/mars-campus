@@ -2,7 +2,7 @@
 
 [← 02 The Crown](02-crown.md) · [Design](README.md) · **03 The Pentagon** · [04 Interiors →](04-interiors.md)
 
-**[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html)**
+**[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html)** · **[Walk it in the 3D demo ↗](https://ttmathcs.github.io/mars-campus/palace/pentagon/)**
 
 The house below ground. One solid five-sided block, 160 m on each side and five levels deep, lies under the Stone
 Garden with 16 m of soil on top. It is the night house and the working house: where Jim sleeps, where the gardens and

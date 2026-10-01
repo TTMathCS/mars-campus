@@ -15,7 +15,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
 | Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
 | Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3, the Pentagon, is next. |
+| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3 has started: **the Pentagon** at `palace/pentagon/` (the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level with the lake, forest, orchard, farm and meadow; the sun court). Next: walking into the rooms of L1. |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -89,9 +89,11 @@ the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
    01–07), add its figures to `BOOK` in `docs_export.py` and export, add its requirements' links in
    `REQUIREMENTS.md`, check it with `book_shot.py` (desktop, phone and dark), commit, push and tell Jim what it is
    before he opens it.
-6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`. Next, phase 2: the Orb
-   (the universe in VR, the dashboard, the Gate sending you to demo 1), then the Crown's rooms; then phase 3, the
-   Pentagon. When Jim approves Rev E, redraw the floor plans' Orb and ground (Rev C of the plans).
+6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`, phase 2 (the Crown's main
+   floor and the Orb) at `palace/crown/` and `palace/orb/`, and phase 3 has started at `palace/pentagon/`. Next in
+   the Pentagon: rooms you can walk into on L1 (the residence and the master suite down), then the corner cores and
+   the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. When Jim
+   approves Rev E, redraw the floor plans' Orb and ground (Rev C of the plans).
 
 ## 2c. Numbers used across the design book
 
@@ -208,6 +210,16 @@ two globes into the canvas behind the dashboard and fetches Earth's weather (Ope
 `localStorage`. The send sequence is `sending()`. Test with `python3 palace/tools/orb_shot.py` (`?debug` exposes
 `window.__orb`); the planet maps come from `python3 palace/tools/fetch_textures.py`.
 
+**Demo 2, the Pentagon** (`palace/pentagon/index.html`): one self-contained page, no build step, three.js r128. Read
+`palace/pentagon/README.md` first. `LV` holds the five levels; the atrium is built side by side (`onSide(a, k, t, y)`:
+the point at apothem `a` on side `k`, a fraction `t` along it). The rooms behind the glass are interior-mapped: `ROOMS`
+lists them per level and side as on the plans, and `ROOM_FS` draws each kind (walls, floor, ceiling, lights, then the
+furniture on a plane halfway back). `GARDEN` builds L2 (`lakeD` is the lake's shape, `each(sector, ...)` plants a sector
+row by row, `BLOCK` holds what you can't walk through); its sky shader also draws the far horizon on the outer walls.
+`canStand` decides where you can walk. Static meshes are merged by material at the end (`mergeStatic`). The render
+target has a 24-bit depth buffer (three r128 gives render targets 16 bits otherwise, and surfaces 2 cm apart flicker).
+Test with `python3 palace/tools/pentagon_shot.py` (`?debug` exposes `window.__pent`).
+
 **Demo 2, first palace**: the built page is `palace/archive/old-palace/index.html`; its source is in git history
 (before commit 0f7a717, `palace/src_old/`; build script at commit c2e231b).
 
@@ -297,7 +309,8 @@ palace/                       demo 2
 ├── src/                      the 3D demo's source; build.sh builds it
 ├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
 ├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
-├── tools/                    crown_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
+├── pentagon/                 the Pentagon, phase 3: index.html (self-contained), README.md
+├── tools/                    crown_shot.py, crown_in_shot.py, orb_shot.py, pentagon_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
 │                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js
 ├── archive/old-palace/       the first palace, kept for reference

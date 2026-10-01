@@ -22,6 +22,26 @@ judgment" the choice is recorded below. One item is shown for review:
 | Where the Gate opens in the demo (OR-7) | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 | It links the two demos, and the campus is real NASA ground |
 | Guest rooms, now that visitors are rare (LV-7) | Keep them as designed | Visitors from Earth come only once every 26 months and stay until the next launch window, so the few who come need real apartments. They take one of L1's five sectors and two suites in one dip of the Crown |
 | Extras in the demo (DM-13) | All four, as nice-to-haves: the pool in low gravity, Earth as the evening star from the Observatory, a message home with the delay shown, the forest on L2 | Each is one small scene in phase 2 or 3 |
+| How far the garden level seems to go (PG-3, DM-9) | The sky of lamps carries on down L2's outer walls to a far horizon of low hills in the haze, with a clipped hedge along the foot of the walls | Under a sky that stops at a bare wall the garden feels like a room; with a horizon it feels like the country, which is what the sky of lamps is for |
+| The columns on the garden level | 55 slender columns about 30 m apart, each with a flared head, planted from foot to head like a vertical garden (as Singapore's Supertrees) | In Mars gravity the level above weighs little, and the soil on the roof balances the air inside, so few columns are needed; planted, they read as part of the garden |
+| The residence rooms on the atrium (L1) | The guest lounge and the family room are two storeys of 4 m within L1's 8 m, with the guest suites and Jim's study above them; the cinema, the thermal pools and the great library are full height. Each room's sky ceiling is a panel in a plaster ceiling | Rooms 8 m tall would feel like halls; the plan's rooms keep their places |
+| The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
+
+## 1 Oct 2026: the Pentagon in 3D
+
+Phase 3 of the demo has started, under Jim's pre-approval ("please go ahead to build, you have my pre approve"). Live
+at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/):
+
+- **The atrium**, 35 m across and 68 m deep, with its terraces of hanging plants, five bridges on every level and the
+  portal column, which takes you to any level in one step. → DM-5, DM-9
+- **The rooms of ring A behind the atrium's glass**, on every level, as on the plans: on L1 the guest lounge, the family
+  room, the cinema, the thermal pools and the great library; the studio's rooms on L3, the machine rooms on L4 and the
+  transit halls on L5. You see into them as you walk the terraces; walking into them comes next.
+- **The garden level (L2)**: the orchard, the market garden, the vertical farm and a wheat field, the lake with a pier,
+  the forest with ferns and the stream, and the meadow with wild flowers and the tea house. → DM-13 (the forest)
+- **The sun court (L5)**: the lawn, fruit trees and the pool round the foot of the column.
+
+Four choices made while building are in the table above, for Jim's review.
 
 ## 1 Oct 2026: a built ground, and a dock for the Orb
 

@@ -12,6 +12,8 @@ Live at **https://ttmathcs.github.io/mars-campus/palace/orb/**. A lounge on the 
 - **The dashboard**, top right (D hides it): Earth and Mars as small globes lit as they are now. Mars shows the house's
   weather from a model of the season and the time of day there (the Mars clock is real: Mars24's algorithm), Earth the
   live weather of a home town Jim sets (Open-Meteo), "as of" the radio delay between the planets today.
+  **Send a message home**: it goes at the speed of light, so the dashboard shows when it reaches Earth (about 14
+  minutes in October 2026; 3 to 22 minutes over the two years) and the earliest a reply can come back.
 - **The Wormhole Gate**: choose a time, press *Send me there*; you walk across the bridge into the ball, and the beam
   takes you to the TTMath campus in Gale crater, demo 1.
 

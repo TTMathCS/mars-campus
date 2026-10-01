@@ -187,7 +187,7 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-10 | Everyday things: watch TV, read a book, play the piano | Should | 2–3 | 🎬 In the family room on L1: the piano plays the opening of Für Elise, the screen over the fire shows Earth as it is now, and a book from the shelves opens at its first page |
 | DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 🎬 Live in the Crown: all five |
 | DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 🔧 The Crown has a map of the ring: click a part to glide there; walk freely or ride the Glide. The Pentagon has a map of the level you are on (the garden's five sectors and the lake on L2, Jim's rooms on L1): click a place to go there |
-| DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment). 🎬 The forest on L2 is live |
+| DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment). 🎬 The forest on L2 is live; in the Orb, send a message home and see when it reaches Earth and when a reply can come |
 
 ## 10. Open questions
 

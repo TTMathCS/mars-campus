@@ -48,6 +48,12 @@
   #dash .n { font: 600 16px/1.1 var(--display); letter-spacing: .02em; }
   #dash .v { font-size: 12.5px; line-height: 1.35; color: var(--ink); }
   #dash .m { font: 400 10.5px/1.35 var(--mono); color: var(--dim); }
+  #dash .msg { margin: 2px 0 4px 68px; }
+  #dash .msg > button { background: rgba(159,211,238,.12); border: 1px solid rgba(159,211,238,.35); border-radius: 7px; color: var(--ink); font: 500 12px/1 var(--body); padding: 6px 9px; cursor: pointer; }
+  #dash .msg .mt { font-size: 12px; line-height: 1.35; margin-top: 6px; font-style: italic; }
+  #dash .msg .bar { height: 3px; background: rgba(159,211,238,.18); border-radius: 2px; margin: 5px 0 3px; overflow: hidden; }
+  #dash .msg .bar i { display: block; height: 100%; width: 0; background: var(--ice); }
+  #dash .msg .mm { font: 400 10.5px/1.35 var(--mono); color: var(--dim); }
   #dash .v button { background: none; border: 0; padding: 0; color: var(--ice); text-decoration: underline; cursor: pointer; font-size: 12.5px; }
   #dashShow { right: calc(env(safe-area-inset-right, 0px) + 14px); top: calc(env(safe-area-inset-top, 0px) + 12px); background: rgba(8, 10, 14, 0.5); border: 1px solid rgba(159, 211, 238, 0.25); border-radius: 999px; padding: 6px 12px; font: 500 11px var(--mono); letter-spacing: .1em; color: var(--dim); cursor: pointer; }
 
@@ -127,6 +133,7 @@
 <div class="hud" id="dash" hidden>
   <div class="hd"><span>EARTH AND MARS · LIVE</span><button type="button" id="bDashHide" aria-label="Hide Earth and Mars">hide ✕</button></div>
   <div class="row"><div class="globe" id="gEarth"></div><div><div class="n">Earth · home</div><div class="v" id="eV"></div><div class="m" id="eM"></div></div></div>
+  <div class="msg"><button type="button" id="bMsg">Send a message home</button><div id="msgS" hidden><div class="mt" id="msgT"></div><div class="bar"><i id="msgB"></i></div><div class="mm" id="msgM"></div></div></div>
   <div class="row"><div class="globe" id="gMars"></div><div><div class="n">Mars · Arcadia</div><div class="v" id="mV"></div><div class="m" id="mM"></div></div></div>
 </div>
 <button type="button" class="hud" id="dashShow" hidden>EARTH · MARS</button>
@@ -1022,8 +1029,22 @@
       });
       renderer.setScissorTest(false); renderer.autoClear = true; renderer.setViewport(0, 0, innerWidth, innerHeight);
     }
-    text(); globes(); fetchWx();
-    setInterval(function () { text(); globes(); }, 15000); setInterval(fetchWx, 15 * 60000);
+    // a message home: it goes at the speed of light, so it reaches Earth minutes later, and a reply takes as long again
+    var MSG = null; try { MSG = JSON.parse(localStorage.getItem("orbMsg") || "null"); } catch (e) { }
+    function msgShow() {
+      var on = !!MSG; $("msgS").hidden = !on; if (!on) return;
+      var now = Date.now(), d = MSG.delay * 60000, k = Math.min(1, (now - MSG.t0) / d);
+      function hm(t) { var x = new Date(t); return (x.getHours() < 10 ? "0" : "") + x.getHours() + ":" + (x.getMinutes() < 10 ? "0" : "") + x.getMinutes(); }
+      $("msgT").textContent = "“" + MSG.text + "”"; $("msgB").style.width = (k * 100).toFixed(1) + "%";
+      $("msgM").textContent = k < 1 ? "sent " + hm(MSG.t0) + " · on its way: reaches Earth at " + hm(MSG.t0 + d) + ", in " + Math.ceil((MSG.t0 + d - now) / 60000) + " min · a reply can't come before " + hm(MSG.t0 + 2 * d)
+        : now < MSG.t0 + 2 * d ? "reached Earth at " + hm(MSG.t0 + d) + " · a reply can't come before " + hm(MSG.t0 + 2 * d) : "reached Earth at " + hm(MSG.t0 + d) + " · a reply could be here now";
+    }
+    $("bMsg").addEventListener("click", function () {
+      var t = prompt("A message home. It goes at the speed of light, " + Math.round(ASTRO.earthMarsAU(Date.now()) * 149597870.7 / 299792.458 / 60) + " minutes to Earth today:", "Home safe. The view from the Orb is something."); if (!t) return;
+      MSG = { text: t.slice(0, 140), t0: Date.now(), delay: ASTRO.earthMarsAU(Date.now()) * 149597870.7 / 299792.458 / 60 }; try { localStorage.setItem("orbMsg", JSON.stringify(MSG)); } catch (e) { } msgShow();
+    });
+    text(); globes(); fetchWx(); msgShow();
+    setInterval(function () { text(); globes(); msgShow(); }, 15000); setInterval(msgShow, 2000); setInterval(fetchWx, 15 * 60000);
     return { render: render, text: text, globes: globes, mars: mars };
   })();
 

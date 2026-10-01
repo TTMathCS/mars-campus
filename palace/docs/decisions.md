@@ -13,6 +13,7 @@ judgment" the choice is recorded below. One item is shown for review:
 | What | Drawn from | Where |
 | --- | --- | --- |
 | **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
+| **The ground, Rev E: built, with a dock for the Orb.** A paved pentagon over the Pentagon, 4 m wider than it, shows where the house lies; the Stone Garden is the circle inside it; glass over the five avenues and a glass pavilion over each corner stair hint at the house below; the Orb's dock round the Sun Well is where the Orb lands. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 01, the site plan](design/01-site-and-city.md#the-site-plan) · GN-13, OR-9 |
 
 **Decided with our best judgment, 1 Oct 2026** (Jim can change any of them):
 
@@ -21,6 +22,33 @@ judgment" the choice is recorded below. One item is shown for review:
 | Where the Gate opens in the demo (OR-7) | Zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 | It links the two demos, and the campus is real NASA ground |
 | Guest rooms, now that visitors are rare (LV-7) | Keep them as designed | Visitors from Earth come only once every 26 months and stay until the next launch window, so the few who come need real apartments. They take one of L1's five sectors and two suites in one dip of the Crown |
 | Extras in the demo (DM-13) | All four, as nice-to-haves: the pool in low gravity, Earth as the evening star from the Observatory, a message home with the delay shown, the forest on L2 | Each is one small scene in phase 2 or 3 |
+
+## 1 Oct 2026: a built ground, and a dock for the Orb
+
+Jim, looking at the ground under the Crown:
+
+> "also there should be some interface when orb can land on the ground. the ground is raw and need some
+> construction/design as well. and at least some hints that there is big part underground, instead of raw
+> ground/soil"
+
+**Done, Rev E, for his review:**
+
+- **The Orb's dock.** A ring of dark basalt round the Sun Well, 30.8 m across and 5.5 m high, with a bronze band and
+  five bronze pads on top. The Orb comes down onto the pads, about 50 m, for service or if its drive ever stops.
+  Seated there it clears the ring by 20 cm and the lens by 1.4 m. A hatch in its base opens onto the dock, and a stair
+  and a lift inside the ring go down into the atrium. → OR-9
+- **A paved pentagon over the Pentagon.** Sintered-regolith slabs, 166 m on a side, 4 m wider all round than the
+  Pentagon below, so the ground shows from the air where the house lies. A dark basalt kerb edges it, with a line of
+  light that glows warm at dusk. → GN-13
+- **The Stone Garden** stays, raked gravel and seven stones, as the circle inscribed in the paving.
+- **Hints of what is below.** Five strips of dark glass, lit warm from below at dusk, trace the five avenues from the
+  dock to the corners. Where each avenue ends, a low glass pavilion under a thin white roof holds the corner core's
+  stair and airlock. Under each spire lies a basalt pad 14 m across with a bronze rim, where the Crown would settle
+  (chapter 02 said 24 m; the pads now fit inside the paving's corners).
+- Still nothing spread over the ground: no panels and no mirrors (GN-12).
+- The 3D build, four pictures, the site plan, the Crown's elevation and the Pentagon's section were redone; the
+  picture under the ring is now taken from the terrace by a corner pavilion. →
+  [Ch 01](design/01-site-and-city.md#the-site-plan), [Ch 02](design/02-crown.md), [Pictures](gallery.md).
 
 ## 1 Oct 2026: the universe in VR, the ball is the Gate
 

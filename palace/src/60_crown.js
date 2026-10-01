@@ -4,7 +4,8 @@
      50 + 40·c^6 with c = (1 + cos 5(b - 18°)) / 2, so spires reach +90 m at bearings 18, 90, 162,
      234 and 306. Window slots 1.2 m tall at +44 m (and +55 m in the spires), a titanium rim, the
      pod hangar behind a door on the garden side of the east spire, the mirror Orb over the Sun
-     Well, and the Stone Garden of raked gravel and seven stones round the Sun Well's sky lens.
+     Well, and the Stone Garden of raked gravel and seven stones round the Sun Well's sky lens, inscribed in the paved
+     pentagon over the Pentagon below, with the Orb's dock round the Sun Well and the corner pavilions.
      Bearings are compass bearings: 0 = north (-z), 90 = east (+x).
      ========================================================================================== */
   var CROWN = (function () {
@@ -135,8 +136,12 @@
         "void main(){",
         "  float r = length(vW.xz);",
         "  vec3 alb = mix(vec3(0.24, 0.15, 0.10), vec3(0.34, 0.22, 0.145), 0.5 + 0.5 * vnoise(vW.xz / 900.0));",
-        "  float gard = 1.0 - smoothstep(108.0, 114.0, r);",
+        "  vec2 q = vec2(vW.x, -vW.z); float sdT = -1e5; for (int k = 0; k < 5; k++){ float be = (54.0 + 72.0 * float(k)) * 0.0174533; sdT = max(sdT, dot(q, vec2(sin(be), cos(be)))); } sdT -= 114.1;",
+        "  alb = mix(alb, vec3(0.50, 0.43, 0.355), 1.0 - smoothstep(-0.2, 0.2, sdT));",
+        "  alb = mix(alb, vec3(0.085, 0.075, 0.068), (1.0 - smoothstep(-0.1, 0.1, sdT)) * smoothstep(-1.7, -1.4, sdT));",
+        "  float gard = 1.0 - smoothstep(111.0, 112.5, r);",
         "  alb = mix(alb, vec3(0.34, 0.25, 0.185) * (0.92 + 0.08 * sin(r * 6.9813)), gard);",
+        "  alb = mix(alb, vec3(0.16, 0.135, 0.12), smoothstep(11.8, 12.1, r) * (1.0 - smoothstep(15.2, 15.5, r)));",
         "  float sh = shadowAt(vec3(vW.x, 0.0, vW.z), 0.004);",
         "  vec3 col = alb * (uSunCol * max(uSunDir.y, 0.0) * sh + mix(uAmbHor, uAmbUp, 0.75) * 0.85);",
         "  col += vec3(1.0, 0.85, 0.62) * 3.0 * (1.0 - smoothstep(9.0, 10.5, r));",
@@ -191,6 +196,31 @@
     var well = new GB(); lathe(well, [[11.4, -0.5], [11.4, 0.4], [10.2, 0.5]], 64, 0, TER.h(0, 0), 0); add(well, mTi, false);
     var lens = new THREE.Mesh(new THREE.CircleGeometry(10.2, 64).rotateX(-Math.PI / 2), MAT.make({ color: 0x0d1418, rough: 0.02, emis: [0.9, 0.72, 0.5] }));
     lens.position.y = TER.h(0, 0) + 0.3; grp.add(lens); lens.layers.enable(2);
+    // the Orb's dock: a ring of dark basalt round the Sun Well, 30.8 m across and 5.5 m high, a bronze band and five bronze
+    // pads on top. The Orb comes down onto the pads for service, or if its drive stops; a hatch in its base then opens onto the
+    // dock, and a stair and a lift inside the ring go down into the atrium. Seated on the pads (tops 6.9 m up at r 13.5 m), the
+    // Orb clears the ring's inner edge by 0.2 m and its lowest point is 1.4 m above the lens.
+    var g0 = TER.h(0, 0), mBasalt = MAT.make({ color: 0x2b2623, rough: 0.55 }), mBronze = MAT.make({ color: 0x8c6642, rough: 0.32, metal: 1 });
+    var dock = new GB(); lathe(dock, [[15.4, -0.4], [15.0, 5.2], [14.75, 5.5], [12.25, 5.5], [12.0, 5.2], [12.0, -0.4]], 180, 0, g0, 0); add(dock, mBasalt);
+    var band = new GB(); lathe(band, [[14.72, 5.5], [14.72, 5.64], [12.28, 5.64], [12.28, 5.5]], 180, 0, g0, 0); add(band, mBronze);
+    var pads = new GB(); C.peaks.forEach(function (b) { var q = P(13.5, b, 0); lathe(pads, [[1.0, 5.64], [1.0, 6.6], [0.78, 6.9], [0.0, 6.9]], 32, q[0], g0, q[2]); }); add(pads, mBronze);
+    // the five corner cores of the Pentagon reach the surface here: low pavilions of glass under a white roof, each on a
+    // basalt plinth where an avenue ends, with the stair and airlock down to the core below the spire
+    var mRoof = MAT.make({ color: 0xede7dd, rough: 0.48 }), mPavGl = MAT.make({ color: 0x0c1116, rough: 0.05, emis: [0.16, 0.115, 0.07] });
+    var pv = new GB(), pr = new GB(), pt = new GB(), pb = new GB(), pd = new GB();
+    C.peaks.forEach(function (b) {
+      var q = P(116, b, 0), gy = TER.h(q[0], q[2]), ry = Math.PI - b * D2R;
+      var ax = [Math.cos(ry), 0, -Math.sin(ry)], az = [Math.sin(ry), 0, Math.cos(ry)];   // across, and out from the centre
+      function at(u, w) { return [q[0] + ax[0] * u + az[0] * w, q[2] + ax[2] * u + az[2] * w]; }
+      boxAt(pb, q[0], gy + 0.15, q[2], 9.6, 0.3, 12.0, ry);                       // basalt plinth
+      boxAt(pv, q[0], gy + 1.75, q[2], 6.2, 2.9, 8.2, ry);                        // glass box
+      boxAt(pr, q[0], gy + 3.3, q[2], 8.6, 0.22, 11.0, ry);                       // thin white roof with a deep overhang
+      boxAt(pt, q[0], gy + 3.15, q[2], 6.5, 0.12, 8.5, ry);                       // titanium fascia under the roof
+      for (var u = -3.1; u <= 3.11; u += 1.55) [-4.1, 4.1].forEach(function (w) { var c = at(u, w); boxAt(pt, c[0], gy + 1.75, c[1], 0.08, 2.9, 0.1, ry); });
+      for (var w = -4.1; w <= 4.11; w += 1.64) [-3.1, 3.1].forEach(function (u2) { var c = at(u2, w); boxAt(pt, c[0], gy + 1.75, c[1], 0.1, 2.9, 0.08, ry); });
+      var dc = at(0, -4.16); boxAt(pd, dc[0], gy + 1.45, dc[1], 1.8, 2.3, 0.06, ry);   // the airlock door, facing the garden
+    });
+    add(pb, mBasalt); add(pv, mPavGl, false); add(pr, mRoof); add(pt, mTi); add(pd, MAT.make({ color: 0x3a3632, rough: 0.4, metal: 0.6 }));
 
     /* ---------------- anti-gravity: a glowing emitter under each spire, a faint field column, floating dust */
     var agU = sharedUniforms({ uAG: { value: 1 } });

@@ -29,7 +29,7 @@ SHOT = """function SHOT(px, py, pz, tx, ty, tz, fov, el, az, podT, beam, ex) {
 RENDERS = [
     ["crown-sunset", "SHOT(-507, 20, 237, 0, 58, 0, 36, 7, 262, DIRECTOR.END, 0, 1.2)"],
     ["crown-day", "SHOT(262, 64, 430, 0, 52, 0, 40, 30, 262, DIRECTOR.END, 0, 1.0)"],
-    ["crown-garden", "SHOT(150, 1.7, 230, 0, 44, 0, 48, 10, 290, DIRECTOR.END, 0, 1.15)"],   # from the plain at sunset: the ring floats over the garden
+    ["crown-garden", "SHOT(19.7, 1.7, 124.4, 0, 21, 0, 62, 14, 262, DIRECTOR.END, 0, 1.1)"],   # on the paved terrace by a corner pavilion, under the ring, late afternoon
     ["site-aerial", "SHOT(-760, 460, 980, 40, 10, -20, 36, 18, 262, DIRECTOR.END, 0, 1.0)"],
     ["port-aerial", "SHOT(28300, 420, 1500, 30600, 10, -250, 40, 18, 262, DIRECTOR.END, 0, 1.0)"],
     ["port-liftoff", "__crown.at(5.5)"],

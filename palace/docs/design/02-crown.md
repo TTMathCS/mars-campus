@@ -34,7 +34,10 @@ nothing links it to the ground but portals and the pods. **Requirements:** CR-1 
 - **At night** the slots glow warm, a red beacon burns on each spire, and pale blue rings of light pulse on the ground
   under the anti-gravity drives.
 
-![Nothing holds it up: the Crown over the Stone Garden at sunset, from the plain](../../design/img/crown-garden.jpg)
+![Nothing holds it up: the Crown from the paved terrace by a corner pavilion, the Orb's dock on the ground](../../design/img/crown-garden.jpg)
+
+*Nothing holds it up. From the paved terrace by a corner pavilion: the ring floats 40 m overhead with the Orb in its
+middle, and on the ground stand the Orb's dock and the garden's stones.*
 
 ## The main floor
 
@@ -116,6 +119,12 @@ place at its other end; the wormhole in the film *Interstellar* was drawn that w
 it show the atrium the sky that is outside, the sun's place included, and keep it bright in a dust storm. There are no
 mirrors on the ground (Jim, 1 Oct 2026); Jim takes the real sun in the Crown's rooms and the Orb's rest rooms.
 
+**The Orb's dock** (Rev E, 1 Oct 2026; Jim: "there should be some interface when orb can land on the ground") is a
+ring of dark basalt round the Sun Well, 30.8 m across and 5.5 m high, with a bronze band and five bronze pads on top.
+The Orb can come down onto the pads, about 50 m below where it floats, for service or if its drive ever stops. Seated
+there it clears the ring by 20 cm and the lens by 1.4 m. A hatch in its base opens onto the dock, and a stair and a
+lift inside the ring go down into the atrium.
+
 | Future technology | Real fallback |
 | --- | --- |
 | The universe in VR, shown directly in the space of a room, in 3D, seen with bare eyes | Light VR glasses showing the same universe |
@@ -131,7 +140,8 @@ mirrors on the ground (Jim, 1 Oct 2026); Jim takes the real sun in the Crown's r
 *Future technology.* A drive in the tip of each spire makes a field that pushes against the ground, reaching down as
 a column about 70 m wide. The Crown weighs about 155,000 tonnes, so each drive carries 115 MN. Each drive can hold the
 whole Crown alone, with batteries for a day without power. If every drive failed, stored energy would let the Crown
-down slowly onto the five pads under the spires, which are real foundations 24 m across. Rev A stood on five legs;
+down slowly onto the five pads under the spires: basalt discs 14 m across with a bronze rim, set in the corners of
+the paved pentagon, on real foundations that go down into the ice. Rev A stood on five legs;
 Jim chose anti-gravity so that nothing touches the ground.
 
 ## How it is built
@@ -157,13 +167,16 @@ one 36° part at a time; then the drives switch on and lift it to +40 m.
 
 ![The Crown by day from the south-east](../../design/img/crown-day.jpg)
 
+*By day, from the south-east. Below the ring the paved pentagon shows where the Pentagon lies: the Stone Garden
+inside it, the Orb's dock at the centre and a pavilion at each corner.*
+
 | Mode | What happens |
 | --- | --- |
 | **Day** | Shutters open, daylight through the slots; the Sun Well's sky lens lights the atrium below. Daily life is up here: salon, dining, library, studio, the Orb's lounges. For a quiet hour, a rest room in the Orb |
 | **Sunset** | The sun sets straight down the Sunset lounge and shines in through the slots; the sky round it turns blue |
 | **Night** | The slots glow, the beacons turn on, the Observatory opens. Jim goes down by portal to sleep on L1 |
 | **Dust storm** | Titanium shutters close over the slots and the Orb's windows, the Sun Well's iris closes, pods stay in the hangar; life moves down to L1 |
-| **Emergency** | Every room is within 2 minutes of a portal; if portals fail, pods and escape capsules reach the ground |
+| **Emergency** | Every room is within 2 minutes of a portal; if portals fail, pods and escape capsules reach the ground, and the Orb comes down onto its dock |
 
 | Floor area | |
 | --- | --- |

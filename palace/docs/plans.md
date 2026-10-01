@@ -14,6 +14,9 @@ can be seen here. Areas are gross floor areas, rounded.
 > - **Nothing on the ground (B.1, 1 Oct 2026):** at Jim's request the garden mirrors and the spaceport's solar field
 >   are off the sheets (GN-12). The Stone Garden is raked gravel and seven stones; the Sun Well is a sky lens; two
 >   reactors at the port and two under the house supply the power.
+> - **A built ground (Rev E, 1 Oct 2026):** a paved pentagon over the Pentagon, the Orb's dock round the Sun Well, a
+>   glass pavilion at each corner and glass over the avenues (GN-13, OR-9). Shown in
+>   [chapter 01](design/01-site-and-city.md#the-site-plan); the sheets below do not show it yet.
 
 | Sheet | Drawing |
 | --- | --- |

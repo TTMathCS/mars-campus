@@ -27,23 +27,25 @@ the sky; the five spires hold the anti-gravity drives. *Used on the homepage and
 
 ![The Crown by day from the south-east](../design/img/crown-day.jpg)
 
-From the south-east at mid-morning. The Crown's shadow, with its five spires, falls across the plain; under the ring
-the Stone Garden is gravel and seven stones round the Sun Well. *[Chapter 02](design/02-crown.md#how-it-works-day-to-day).*
+From the south-east at mid-morning. The Crown's shadow, with its five spires, falls across the plain. Below the
+ring the paved pentagon shows where the Pentagon lies: the Stone Garden inside it, the Orb's dock at the centre and a
+pavilion at each corner. *[Chapter 02](design/02-crown.md#how-it-works-day-to-day).*
 
 ### Nothing holds it up
 
-![The Crown floating over the Stone Garden at sunset, seen from the plain](../design/img/crown-garden.jpg)
+![The Crown from the paved terrace by a corner pavilion](../design/img/crown-garden.jpg)
 
-From the plain at sunset: the ring floats 40 m over the Stone Garden, the Orb in its middle and the sky showing
-underneath. The garden is raked gravel and seven basalt stones; nothing else stands on the ground. *On the design
+From the paved terrace by a corner pavilion, late in the afternoon: the ring floats 40 m overhead with the Orb in its
+middle. On the ground stand the Orb's dock round the Sun Well and the garden's basalt stones; the glass pavilion is on
+the right. *On the design
 book's cover and in [chapter 02](design/02-crown.md).*
 
 ### The house from the air
 
 ![The Crown on the plain, seen from the air](../design/img/site-aerial.jpg)
 
-The Crown alone on the plain of Arcadia Planitia, with the rings of light under its spires where the anti-gravity
-fields touch the ground. *[Chapter 01](design/01-site-and-city.md#the-site-plan).*
+The Crown alone on the plain of Arcadia Planitia. Under it the paved pentagon shows where the Pentagon lies, with a
+pavilion at each corner. *[Chapter 01](design/01-site-and-city.md#the-site-plan).*
 
 ### Inside the Orb, the universe switched on
 

@@ -61,19 +61,42 @@ spire, 90 m up, the horizon is 25 km away, so on a clear evening Jim can see the
 
 ## The site plan
 
-![The site plan: the Crown, the Stone Garden and the Pentagon below](../img/book/site-plan.png)
+![The site plan: the Crown, the paved pentagon with the Stone Garden, the Orb's dock and the Pentagon below](../img/book/site-plan.png)
 
 *North up. The white ring is the Crown overhead with its rooms named round it; blue dashed lines are below ground.
-The red mark is the pod hangar door, facing the garden.*
+The red mark is the pod hangar door, facing the garden. The pale pentagon is the paving over the Pentagon, with a
+pavilion at each corner and glass over the five avenues.*
 
 ![The Crown alone on the plain, from the air](../../design/img/site-aerial.jpg)
 
-The ring floats 40 m up over the **Stone Garden**, a circle of raked gravel 224 m across. Nothing stands in it but
-**seven basalt stones**: no mirrors and no panels (Jim, 1 Oct 2026). At the centre, the **Sun Well**, a glass lens
-20 m across, is the sky lens over the Pentagon's atrium, 68 m below. Under each spire a ring of pale light shows where its
-anti-gravity field reaches; these are also the pads the Crown would settle on if its drives stopped. The only openings
-to the surface are the Sun Well and the rover tunnel from L5, which comes out 700 m east. The radiators stand 400 m
-north.
+The ground under the house is built, not left raw (Jim, 1 Oct 2026: "the ground is raw and need some
+construction/design as well. and at least some hints that there is big part underground"):
+
+- **A paved pentagon** of sintered-regolith slabs, 166 m on a side, 4 m wider all round than the Pentagon below, so the
+  ground shows from the air where the house lies. A dark basalt kerb edges it, with a line of light that glows warm at
+  dusk.
+- **The Stone Garden**, the circle inscribed in it: raked gravel 224 m across and **seven basalt stones**, no mirrors
+  and no panels.
+- **The Orb's dock** at the centre: a ring of dark basalt 30.8 m across and 5.5 m high with a bronze band and five
+  bronze pads, round the **Sun Well**, the glass sky lens 20 m across over the Pentagon's atrium, 68 m below. The Orb
+  comes down onto it for service or if its drive stops; a stair and a lift inside the ring go down into the atrium.
+- **Hints of what is below:** five strips of dark glass, lit warm from below at dusk, trace the five avenues from the
+  dock to the corners, and where each avenue ends a low **corner pavilion** of glass under a thin white roof holds the
+  corner core's stair and airlock.
+- **Pads under the spires:** basalt discs 14 m across with bronze rims, where the Crown would settle if its drives
+  stopped; rings of pale light pulse on them while the drives run.
+
+The other ways in are the Sun Well and the rover tunnel from L5, which comes out 700 m east. The radiators stand
+400 m north.
+
+| Ground | Size |
+| --- | --- |
+| Paved pentagon | 166 m sides, 141 m from the centre to each corner |
+| Stone Garden | Ø 224 m, seven stones of 2 to 4 m |
+| The Orb's dock | Ø 30.8 m, 5.5 m high, pads 6.9 m up |
+| Pads under the spires | 5, Ø 14 m, 130 m from the centre |
+| Corner pavilions | 5, 116 m from the centre; glass 6.2 × 8.2 m, roof 8.6 × 11 m, 3.4 m high |
+| Glass over the avenues | 5 strips, 15 to 111 m from the centre, in paved bands 2.6 m wide |
 
 ## The city
 

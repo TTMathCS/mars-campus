@@ -75,5 +75,6 @@ becomes the water store and the rocket fuel.*
 
 Robots dig an open pit about 70 m deep, about 3.1 million m³, in frozen ground whose walls stand steep on their own.
 Below 14 m most of it is ice, about 1.5 million tonnes: water, air and rocket fuel for decades. The walls, floors and
-roof are sintered-regolith panels made from the dug soil; then 16 m of soil goes back on top and the Stone Garden is
-laid over it. L4 and L5 are finished first; the gardens take the longest to grow.
+roof are sintered-regolith panels made from the dug soil; then 16 m of soil goes back on top. Over it go a paved pentagon
+4 m wider than the block, so the ground shows where the house lies, the Stone Garden inside it, the Orb's dock round
+the Sun Well, a glass pavilion over each corner stair, and the Crown's pads. L4 and L5 are finished first; the gardens take the longest to grow.

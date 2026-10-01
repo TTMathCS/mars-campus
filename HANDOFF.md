@@ -33,9 +33,13 @@ The full record is in `palace/docs/decisions.md` (every question, Jim's words, w
   beam of light to that place and time, instantly ("this is how wormhole works"). The far end is a ball too, for the
   way back. Rooms on three rings round it: +64 portal ring, +72 Universe lounges and the bridge, +80 five rest rooms
   behind radiation glass.
-- **The Stone Garden:** raked gravel 224 m across with seven basalt stones, and **nothing else on the ground**: no
-  mirrors and no solar panels (Jim, 1 Oct 2026, GN-12). The **Sun Well** at its centre is a sky lens over the
-  Pentagon's atrium: lamps behind the glass show the sky that is outside.
+- **The ground, Rev E (1 Oct 2026, for Jim's review): built, not raw** (Jim: "the ground is raw and need some
+  construction/design as well. and at least some hints that there is big part underground", GN-13). A **paved
+  pentagon** 4 m wider than the Pentagon shows where the house lies; the **Stone Garden** (raked gravel 224 m across,
+  seven basalt stones) is the circle inside it; five strips of glass trace the avenues; a glass **corner pavilion**
+  holds each corner stair; basalt pads lie under the spires. At the centre the **Orb's dock** (Jim: "some interface
+  when orb can land on the ground", OR-9) rings the **Sun Well**, the sky lens over the Pentagon's atrium. Still
+  **nothing spread over the ground**: no mirrors and no solar panels (GN-12).
 - **Below ground: the Pentagon.** One solid pentagon, 160 m sides, five levels 24 to 68 m down under 16 m of soil,
   eleven times the Crown's floor area. Jim sleeps here (the master suite down on L1).
 - **Arcadia Spaceport**, 30 km due east on landing zone AP-1: three pads, terminal, pod station, fuel plant, ice mine.
@@ -102,8 +106,14 @@ Keep new pages consistent with these (sources and working are in the chapters):
 - The Orb: Ø 40 m, +52 to +92; a round space Ø 24 m from +60 to +84 with the Wormhole Gate in it, a ball Ø 18 m; a
   bridge 3 m wide from the +72 floor to the Gate; rings at +64, +72 and +80 of 804 m² each; five rest rooms on the top
   ring.
-- The Stone Garden: Ø 224 m, raked gravel and seven basalt stones of 2 to 4 m; no mirrors, no panels. The Sun Well
-  lens Ø 20.4 m, a sky lens with lamps; it closes under an iris in a storm.
+- The Stone Garden: Ø 224 m (gravel to r 112 m), raked gravel and seven basalt stones of 2 to 4 m; no mirrors, no
+  panels. The Sun Well lens Ø 20.4 m, a sky lens with lamps; it closes under an iris in a storm.
+- The built ground: paved pentagon with inradius 114.1 m and circumradius 141.0 m (166 m sides), corners at bearings
+  18 + 72k like the Pentagon's, slabs 3 × 1.5 m, a basalt kerb 1.6 m wide with a light line 0.8 m in; the Orb's dock
+  a basalt lathe ring r 12–15.4 m, 5.5 m high, bronze band at 5.5–5.64, five bronze pads at r 13.5 m with tops at
+  6.9 m (a seated Orb clears the ring by 0.23 m); spire pads r 7 m at r 130 m with bronze rims; glass strips 0.72 m
+  wide in paved bands 2.6 m wide from r 15 to 111 m along bearings 18 + 72k; corner pavilions at r 116 m (plinth
+  9.6 × 12 m, glass 6.2 × 8.2 × 2.9 m, roof 8.6 × 11 m at 3.3 m, door facing the garden).
 - The Pentagon: 160 m sides, circumradius 136.1 m, atrium 35 m sides, rings A–E 14 m deep with 4 m streets, 5 m
   avenues, levels L1 −24 (top −16), L2 −41 (16 m tall), L3 −50, L4 −59, L5 −68; 41,940 m² a level, 209,700 m² in all
   (11 times the Crown); 16 m of soil; the dig 3.1 million m³ and 1.5 million t of ice.
@@ -165,7 +175,8 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
   speckle pebbles, frost, dust) and ten nested terrain grids; `40_mat.js` building material (patterns 1 shell, 2 solar
   (unused now), 3 pad, 4 steel, 5 pod skin, 6 white ceramic, 7 soft-touch trim; optional `ENV_CUBE` reflections) and
   shadow map; `45_lights.js` point lights; `50_port.js` spaceport (two reactor domes, no solar field); `55_pod.js` pod
-  and cockpit; `60_crown.js` the Crown, the Orb and the Stone Garden (`STONES`, smooth-normal boulders, no mirrors);
+  and cockpit; `60_crown.js` the Crown, the Orb, the Stone Garden (`STONES`, smooth-normal boulders, no mirrors), the
+  Orb's dock and the corner pavilions (the paving, kerb, glass strips and pads are drawn in the terrain shader);
   `70_fx.js` dust devils, storm, sparks; `80_flight.js` the path, the ten shots and the cameras; `90_ui.js` HUD,
   cards, look-around, sound; `99_main.js` the main loop.
 - World: metres, x east, z south, y up, the Crown's centre at the origin, the spaceport terminal at x = 30 000. Plan

@@ -13,7 +13,8 @@ goes here first.
 > - **Design book Rev E** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
 >   are written. Chapters 08 Life support, 09 Communications and space, and 10 Building it are still to write.
 > - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, Rev E (OR-1 to
->   OR-8): the universe in VR and the ball as the Wormhole Gate, is drawn from his words and shown for his review.
+>   OR-9): the universe in VR, the ball as the Wormhole Gate and the Orb's dock, and the built ground (GN-13) are
+>   drawn from his words and shown for his review.
 > - **3D build paused** at phase 1 (the landscape, the spaceport and the flight video work in a test build). It
 >   resumes when Jim approves the design book.
 
@@ -68,6 +69,7 @@ repo, with its diagrams and pictures.
 | GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | ✅ Done 1 Oct 2026: 39 diagrams exported, all ten pictures re-rendered; the cockpit view did not look real and was taken out | [Pictures](docs/gallery.md) |
 | GN-11 | Works on Jim's laptop, and on a phone | Should | Design book checked at desktop and phone size | [HANDOFF.md](../HANDOFF.md) |
 | GN-12 | Nothing spread over the ground: no solar panels and no mirrors. "It is bit scary to have so many panels on the ground… better to remove them all if no good design." | Must | ☑️ Decided 1 Oct 2026: the garden mirrors and the solar field are gone; the Stone Garden is gravel and seven stones; reactors supply all the power | [Decisions](docs/decisions.md#1-oct-2026-nothing-on-the-ground) · [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) |
+| GN-13 | A designed ground, not raw soil, with hints of the big part underground. "the ground is raw and need some construction/design as well. and at least some hints that there is big part underground, instead of raw ground/soil" | Must | 🟡 Rev E, 1 Oct 2026: a paved pentagon 4 m wider than the Pentagon below, kerbed in basalt with a line of light; the Stone Garden inside it; glass over the five avenues; a glass pavilion over each corner stair; basalt pads under the spires. Still no panels and no mirrors (GN-12) | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#plan) · [Summary](docs/design/01-site-and-city.md#the-site-plan) · [Decisions](docs/decisions.md#1-oct-2026-a-built-ground-and-a-dock-for-the-orb) |
 
 ## 2. Site and city
 
@@ -101,7 +103,7 @@ cool and I am not sure where to put it for maybe different purpose? but not for 
 the ball as the Gate: *"I like the idea. it is wormhole gate, it can send people/object to specified time (also time
 machine) and specified area of universe instantly. but how object can go into the ball?"* and *"when time/space
 configured and press send, the ball will shoot the object like a light directly to the VR 3d space and this is how
-wormhole works"*.
+wormhole works"*. And on the ground: *"also there should be some interface when orb can land on the ground"*.
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
@@ -113,6 +115,7 @@ wormhole works"*.
 | OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev E: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
 | OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 | [Decisions](docs/decisions.md#for-jims-review) |
 | OR-8 | Keep the ball, which "looks pretty cool", for a purpose other than the universe | Should | 🟡 Rev E: the ball is the Wormhole Gate (OR-1) | [Decisions](docs/decisions.md#1-oct-2026-the-universe-in-vr-the-ball-is-the-gate) |
+| OR-9 | An interface where the Orb can land on the ground | Must | 🟡 Rev E, 1 Oct 2026: the Orb's dock, a basalt ring 30.8 m across and 5.5 m high round the Sun Well with five bronze pads. The Orb comes down onto it for service or if its drive stops; a hatch in its base opens onto the dock, and a stair and a lift inside the ring go down into the atrium | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#dock) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
 
 ## 5. The Pentagon, below ground
 
@@ -187,8 +190,8 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 ## 10. Open questions
 
 None. Jim answered every question on 1 Oct 2026; where he asked us to use our best judgment, the choice and the
-reason are in the [decision log](docs/decisions.md#for-jims-review). One item is shown for his review: the Orb,
-Rev E (OR-1 to OR-8). If it looks right, nothing is needed.
+reason are in the [decision log](docs/decisions.md#for-jims-review). Two items are shown for his review: the Orb,
+Rev E (OR-1 to OR-9), and the built ground (GN-13). If they look right, nothing is needed.
 
 ## 11. History and old IDs
 

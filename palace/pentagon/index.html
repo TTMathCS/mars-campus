@@ -29,7 +29,7 @@
   button, select { font: inherit; color: inherit; }
   a { color: var(--ice); }
   .hud { position: fixed; z-index: 2; }
-  #where { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 62vw); pointer-events: none; }
+  #where { transition: opacity .6s; left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 62vw); pointer-events: none; }
   #where .k { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
   #where .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 12px rgba(0,0,0,.6); }
   #where .s { font: 500 12.5px/1.4 var(--mono); color: var(--ice); letter-spacing: .04em; margin-top: 2px; }
@@ -82,6 +82,7 @@
 <div class="hud" id="bar" hidden>
   <span class="lab">Portal column</span>
   <button type="button" data-lv="0">L1 Residence</button><button type="button" data-lv="1">L2 Garden</button><button type="button" data-lv="2">L3 Studio</button><button type="button" data-lv="3">L4 Life support</button><button type="button" data-lv="4">L5 Sun court</button>
+  <button type="button" id="bTour" aria-pressed="false">Take the tour</button>
   <span class="sp"></span>
   <a href="../crown/">Up to the Crown</a>
 </div>
@@ -103,7 +104,7 @@
     <p>You came down by portal to L1, 24 m under the Stone Garden. You are on a bridge in the atrium: a five-sided shaft 35 m across and 68 m deep, with the sky lens of the Sun Well at the top and the sun court at the bottom.</p>
     <p>Walk the bridges and the terraces of hanging gardens. On this level, the glass door on the south-east side opens into Jim's family room: play the piano, watch Earth on the screen over the fire, take a book from the shelves, then cross the street to the master suite down. The portal column takes you to any level in one step: L2, under a sky of lamps, with its lake, forest, orchard and meadow, or the sun court on L5.</p>
     <div class="row"><button type="button" class="go" id="bEnter">Look round the atrium</button><a href="../crown/">Up to the Crown</a><a href="../design/pentagon.html">The design</a></div>
-    <div class="small">Drag to look round · W A S D or arrows to walk · E (or the orange button) to play, watch or read · click the map to go to a place · the buttons below are the portal column: one step to any level</div>
+    <div class="small">Drag to look round · W A S D or arrows to walk · E (or the orange button) to play, watch or read · click the map to go to a place · or take the tour · the buttons below are the portal column: one step to any level</div>
   </div>
 </div>
 
@@ -1330,14 +1331,14 @@
   }
   /* ------------------------------------------------------------------ input */
   var STICK = { x: 0, y: 0 }, pts = {};
-  canvas.addEventListener("pointerdown", function (e) { pts[e.pointerId] = [e.clientX, e.clientY]; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener("pointerdown", function (e) { pts[e.pointerId] = [e.clientX, e.clientY]; canvas.setPointerCapture(e.pointerId); if (TOUR) tourStop("Tour stopped"); });
   canvas.addEventListener("pointermove", function (e) { var p = pts[e.pointerId]; if (!p) return; ME.yaw -= (e.clientX - p[0]) * 0.0042; ME.pitch = clamp(ME.pitch - (e.clientY - p[1]) * 0.0042, -1.4, 1.4); pts[e.pointerId] = [e.clientX, e.clientY]; });
   function up(e) { delete pts[e.pointerId]; } canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
-  window.addEventListener("keydown", function (e) { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; ME.keys[e.key.toLowerCase()] = true; var n = parseInt(e.key, 10); if (n >= 1 && n <= 5 && ME.started) go(n - 1); if (e.key.toLowerCase() === "e" && ACT && ME.started) ACT.act(); if (e.key === "Escape") $("book").hidden = true; });
+  window.addEventListener("keydown", function (e) { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; ME.keys[e.key.toLowerCase()] = true; if (TOUR && /^(w|a|s|d|arrow)/.test(e.key.toLowerCase())) tourStop("Tour stopped"); var n = parseInt(e.key, 10); if (n >= 1 && n <= 5 && ME.started) go(n - 1); if (e.key.toLowerCase() === "e" && ACT && ME.started) ACT.act(); if (e.key === "Escape") $("book").hidden = true; });
   window.addEventListener("keyup", function (e) { ME.keys[e.key.toLowerCase()] = false; });
   (function () {
     var st = $("stick"), knob = st.firstElementChild, id = null, c = null;
-    st.addEventListener("pointerdown", function (e) { id = e.pointerId; st.setPointerCapture(id); var r = st.getBoundingClientRect(); c = [r.left + r.width / 2, r.top + r.height / 2]; move(e); });
+    st.addEventListener("pointerdown", function (e) { if (TOUR) tourStop("Tour stopped"); id = e.pointerId; st.setPointerCapture(id); var r = st.getBoundingClientRect(); c = [r.left + r.width / 2, r.top + r.height / 2]; move(e); });
     function move(e) { if (e.pointerId !== id) return; var dx = clamp((e.clientX - c[0]) / 40, -1, 1), dy = clamp((e.clientY - c[1]) / 40, -1, 1); STICK.x = dx; STICK.y = -dy; knob.style.transform = "translate(" + dx * 30 + "px," + dy * 30 + "px)"; }
     st.addEventListener("pointermove", move);
     function end(e) { if (e.pointerId !== id) return; id = null; STICK.x = STICK.y = 0; knob.style.transform = ""; }
@@ -1347,12 +1348,12 @@
   function say(t, d, ms) { clearTimeout(SAYT); $("sayT").textContent = t || ""; $("sayD").textContent = d || ""; $("say").style.opacity = t ? 1 : 0; if (t && ms) SAYT = setTimeout(function () { say(""); }, ms); }
   // the portal column: one step to any level
   var GO = null;
-  function go(li) { if (GO) return; GO = { t: 0, li: li }; say(LV[li].id + " · " + LV[li].name, "Through the portal column"); }
+  function go(li) { if (GO) return; if (TOUR) tourStop(); GO = { t: 0, li: li }; say(LV[li].id + " · " + LV[li].name, "Through the portal column"); }
   function jumpTo(x, z) { if (GO) return; GO = { t: 0, li: ME.lv, x: x, z: z }; }
   document.querySelectorAll("[data-lv]").forEach(function (b) { b.addEventListener("click", function () { go(+b.dataset.lv); }); });
   function goStep(dt) {
     if (!GO) return; GO.t += dt; $("flash").style.opacity = GO.t < 0.5 ? GO.t / 0.5 : Math.max(0, 1 - (GO.t - 0.5) / 0.7);
-    if (GO.t >= 0.5 && !GO.done) { GO.done = true; if (GO.x !== undefined) { var d = new THREE.Vector3(GO.x - ME.x, 0, GO.z - ME.z); ME.x = GO.x; ME.z = GO.z; if (d.length() > 1) ME.yaw = Math.atan2(-d.x, -d.z); } else startOn(GO.li, GO.li === 1 ? 234 : 90); PROBE.last = null; setLight(); where(); }
+    if (GO.t >= 0.5 && !GO.done) { GO.done = true; if (GO.x !== undefined) { var d = new THREE.Vector3(GO.x - ME.x, 0, GO.z - ME.z); ME.lv = GO.li; ME.x = GO.x; ME.z = GO.z; if (GO.yaw !== undefined) { ME.yaw = GO.yaw; ME.pitch = GO.pitch; } else if (d.length() > 1) ME.yaw = Math.atan2(-d.x, -d.z); } else startOn(GO.li, GO.li === 1 ? 234 : 90); PROBE.last = null; setLight(); where(); }
     if (GO.t > 1.3) { GO = null; say(""); }
   }
   var LIGHT = { hemi: 0.24, exp: 0.8 };
@@ -1370,6 +1371,48 @@
     if (Math.hypot(ME.x, ME.z) < 7.2) { s = L.id + " · at the portal column"; d = "Choose a level below, or press 1 to 5: the portal takes you there in one step."; }
     $("wT").textContent = t; $("wS").textContent = s; $("wD").textContent = d;
   }
+
+  /* ------------------------------------------------------------------ the guided tour: from the atrium into Jim's rooms, down to the garden and the sun court */
+  var TOUR = null, STOPS = (function () {
+    function r(a, u, yaw, pitch, hold, t, d, act) { var q = RES.RP(a, u, 0); return { lv: 0, x: q.x, z: q.z, yaw: yaw, pitch: pitch, hold: hold, t: t, d: d, act: act }; }
+    function w(lv, x, z, yaw, pitch, hold, t, d) { return { lv: lv, x: x, z: z, yaw: yaw, pitch: pitch, hold: hold, t: t, d: d }; }
+    var b90 = P(14, 90, 0);
+    return [
+      w(0, b90.x, b90.z, 250, -6, 6, "The atrium", "A five-sided shaft 35 m across and 68 m deep, under the Sun Well's sky lens. The rooms of ring A look into it through glass on every level."),
+      r(22.6, 0, 234, 0, 5, "Jim's family room", "On L1, 24 m down, behind the glass on the south-east side. The door opens as you come."),
+      r(30.9, 0, 234, 4, 6, "By the fire", "Two sofas by the fire, and Earth on the screen above it, as it is now.", "tv"),
+      r(33.6, -3.5, 300, 0, 0), r(33.0, -9.6, 330, 0, 0),
+      r(32.2, -11.0, 54, -4, 8, "The piano", "Where Jim plays, looking out at the atrium.", "piano"),
+      r(35.6, -6.0, 234, 0, 0), r(37.4, -2.9, 234, 0, 0), r(39.4, -2.9, 234, 0, 0),
+      r(40.1, -5.0, 144, 2, 4, "The street", "Indoor streets 4 m wide run round every level, under sky ceilings, between the rings of rooms."),
+      r(40.1, 0, 234, 0, 0), r(43.6, 0, 234, -3, 5, "The master suite down", "Where Jim sleeps most nights: under 40 m of soil and building, about as much radiation as a night on Earth."),
+      w(1, P(14, 234, 0).x, P(14, 234, 0).z, 290, -2, 4, "L2 · The garden level", "Sixteen metres tall under a sky of lamps that carries on down the walls to a far horizon."),
+      w(1, 16.2, -42.2, -100, 2, 5, "The meadow", "Wild flowers in drifts, the planted columns that carry the levels above, and the tea house."),
+      w(1, -32.4, 23.5, 90, 2, 5, "The lake", "The house's water reserve, about 30,000 m³, with a pier and reeds."),
+      w(1, -48.5, -35.3, -54, 2, 5, "The forest", "Tall trees and ferns along a stream: a walk that smells like a forest on Earth."),
+      w(4, -16, -8, -117, 14, 6, "L5 · The sun court", "A garden at the bottom of the atrium, round the pool at the foot of the portal column, lit like a clear Mars noon."),
+      w(0, b90.x, b90.z, 250, -6, 3, "The end of the tour", "Walk anywhere, or take the portal column to any level.")
+    ];
+  })();
+  function tourStart() {
+    if (!ME.started || GO) return; try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { }
+    TOUR = { i: -1 }; $("bTour").setAttribute("aria-pressed", "true"); $("bTour").textContent = "Stop the tour"; $("where").style.opacity = 0; tourNext();
+  }
+  function tourStop(msg) { if (!TOUR) return; TOUR = null; $("bTour").setAttribute("aria-pressed", "false"); $("bTour").textContent = "Take the tour"; $("where").style.opacity = 1; say(msg || "", "", 2200); }
+  function tourNext() {
+    TOUR.i++; if (TOUR.i >= STOPS.length) { tourStop(); return; } var st = STOPS[TOUR.i], dist = Math.hypot(st.x - ME.x, st.z - ME.z);
+    TOUR.hold = -1; TOUR.glide = null;
+    if (st.lv !== ME.lv || dist > 45) { GO = { t: 0, li: st.lv, x: st.x, z: st.z, yaw: st.yaw * D, pitch: st.pitch * D }; TOUR.jump = true; }
+    else { var y0 = ME.yaw, y1 = st.yaw * D; y1 = y0 + Math.atan2(Math.sin(y1 - y0), Math.cos(y1 - y0)); TOUR.glide = { x0: ME.x, z0: ME.z, y0: y0, p0: ME.pitch, x1: st.x, z1: st.z, y1: y1, p1: st.pitch * D, t: 0, dur: clamp(dist / 1.7, 1.2, 9) }; }
+  }
+  function tourStep(dt) {
+    if (!TOUR) return; var st = STOPS[TOUR.i];
+    if (TOUR.jump) { if (GO) return; TOUR.jump = false; TOUR.hold = 0; }
+    else if (TOUR.glide) { var g = TOUR.glide; g.t += dt; var k = ease(g.t / g.dur); ME.x = lerp(g.x0, g.x1, k); ME.z = lerp(g.z0, g.z1, k); ME.yaw = lerp(g.y0, g.y1, k); ME.pitch = lerp(g.p0, g.p1, k); if (g.t >= g.dur) { TOUR.glide = null; TOUR.hold = 0; } return; }
+    if (TOUR.hold === 0 && st.t) { if (st.act === "tv" && !RES_TV.on) TV.toggle(); if (st.act === "piano") playPiano(); say(st.t, st.d, Math.max(2500, st.hold * 1000)); }
+    TOUR.hold += dt; if (TOUR.hold >= st.hold) tourNext();
+  }
+  $("bTour").addEventListener("click", function () { if (TOUR) tourStop("Tour stopped"); else tourStart(); });
 
   /* ------------------------------------------------------------------ the map of the level you are on: click a place to go there */
   var MAP = (function () {
@@ -1393,7 +1436,7 @@
       g.restore();
     }
     cv.addEventListener("click", function (e) {
-      if (!ME.started || GO) return; var r = cv.getBoundingClientRect(), x = ((e.clientX - r.left) / r.width * W - c) / s, z = ((e.clientY - r.top) / r.height * W - c) / s;
+      if (!ME.started || GO) return; if (TOUR) tourStop(); var r = cv.getBoundingClientRect(), x = ((e.clientX - r.left) / r.width * W - c) / s, z = ((e.clientY - r.top) / r.height * W - c) / s;
       for (var rad = 0; rad < 9; rad += 0.75) { for (var t = 0; t < 12; t++) { var a = t / 12 * Math.PI * 2, px = x + Math.cos(a) * rad, pz = z + Math.sin(a) * rad; if (canStand(ME.lv, px, pz)) { jumpTo(px, pz); return; } if (rad === 0) break; } }
       say("No floor there", "Choose a place you can stand", 2200);
     });
@@ -1406,7 +1449,7 @@
   var T = 0, TICK = [], wT = 0;
   function frame(dt) {
     T += dt; U.uTime.value = T;
-    if (ME.started && !GO) walk(dt); goStep(dt);
+    if (ME.started && !GO && !TOUR) walk(dt); goStep(dt); tourStep(dt);
     var p = new THREE.Vector3(ME.x, floorY() + 1.65, ME.z); camera.position.copy(p); camera.rotation.set(ME.pitch, ME.yaw, 0, "YXZ"); camera.updateMatrixWorld(true); U.uCam.value.copy(p);
     var garden = ME.lv === 1 && apo(ME.x, ME.z) > APA - 1, sd = garden ? SUNDIR.garden : SUNDIR.atrium, inRes = ME.lv === 0 && RES.isIn(ME.x, ME.z);
     hemi.intensity = LIGHT.hemi * (inRes ? 1.35 : 1); POST.u.uExp.value = LIGHT.exp * (inRes ? 0.96 : 1);

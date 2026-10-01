@@ -27,6 +27,8 @@ floor plans. You come down by portal to L1, onto a bridge in the atrium.
   screen over the fire (Earth as it is now, turning), or at the shelves to read the first page of The War of the Worlds.
   Two doors beside the fire lead to the street, 4 m wide and 8 m tall under a sky ceiling, and across it is the master
   suite down: the bedroom, the bath with a freestanding tub, and the dressing room.
+- **The tour**: *Take the tour* in the bar is a guided walk of two minutes, from the atrium through Jim's rooms (the
+  piano plays, the screen shows Earth) to the garden level and the sun court. Drag, walk or press a level to take over.
 - **The map**, top right: the level you are on, with the garden's sectors and the lake on L2 and Jim's rooms on L1;
   click a place to go there.
 - **L5, the sun court.** A lawn with fruit trees round the pool at the foot of the column, a paved walk round it and

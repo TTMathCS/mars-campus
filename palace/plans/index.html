@@ -67,6 +67,8 @@ h1 { margin: 0; font: 600 clamp(38px, 6.4vw, 68px)/1 var(--f-display); letter-sp
 .phone-hint { display: none; margin: 0; font-size: 14px; color: var(--ink-2); }
 .newer { margin: 4px 0 0; max-width: 78ch; padding: 9px 13px; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); border: 1px solid var(--ink-3); background: var(--sheet); }
 .newer b { color: var(--ink); font-weight: 600; }
+.since { margin-top: 10px; padding-left: 11px; border-left: 3px solid var(--ink-3); color: var(--ink-2); font-size: 14px; }
+.since b { color: var(--ink); font-weight: 600; }
 @media (max-width: 760px) { .phone-hint { display: block; } }
 .concept { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px 32px; margin-block: 8px 22px; }
 .concept p { margin: 0; max-width: 62ch; }
@@ -191,11 +193,11 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
 <body>
 <div class="wrap">
   <header class="top">
-    <p class="eyebrow"><a href="../../">Mars Campus</a> · Demo 2 · Floor plans · Rev B, approved 30 Sep 2026</p>
+    <p class="eyebrow"><a href="../../">Mars Campus</a> · Demo 2 · Floor plans · Rev B, approved 30 Sep 2026 · B.1, 1 Oct 2026</p>
     <h1>The Crown and the Pentagon</h1>
     <p class="lede">Jim's retirement house on Arcadia Planitia, Mars, and the spaceport 30 km east where the ships from Earth land. Rev B is drawn from your answers to Rev A, and you approved it on 30 Sep 2026.</p>
     <p class="phone-hint">On a phone, swipe sideways across a drawing to see all of it.</p>
-    <p class="newer"><b>Newer: the design book.</b> Rev B is approved and kept here as drawn. Since then the <a href="../design/">design book</a> has moved the site to the landing zone AP-1 at 39.8° N, and Rev D redesigns the inside of the Orb as the Universe Hall (<a href="../design/crown.html#orb">chapter 02</a>), so the Crown's floor area there is 19,100 m².</p>
+    <p class="newer"><b>Newer: the design book.</b> Rev B is approved and kept here as drawn, with one change, B.1 on 1 Oct 2026: at Jim's request nothing stands on the ground any more, so the garden mirrors and the solar field are off the sheets; the Stone Garden is gravel and seven stones, and the spaceport runs on two reactors. Since then the <a href="../design/">design book</a> has also moved the site to the landing zone AP-1 at 39.8° N, and Rev D redesigns the inside of the Orb as the Universe Hall (<a href="../design/crown.html#orb">chapter 02</a>), so the Crown's floor area there is 19,100 m².</p>
   </header>
 
   <div class="concept">
@@ -230,7 +232,8 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     <div class="draw"><svg id="svg-elev" viewBox="0 0 1080 530" role="img" aria-label="Bird's-eye view of the Crown floating with no supports over the Stone Garden, with the mirror Orb at its centre and the TTMath dome at the same scale"></svg></div>
     <div class="notes">
       <p>Nothing touches the ground. Anti-gravity drives in the five spires hold the ring 40 m above the plain; the rings drawn on the ground show where their fields reach. The spires rise to 90 m and the dips between them to 50 m.</p>
-      <p>The Orb floats on its own over the Sun Well, from 52 m to 92 m up. Its mirror skin is also the Sun Well's top mirror: the garden mirrors aim sunlight at its underside and it bounces the light down into the Pentagon.</p>
+      <p>The Orb floats on its own over the Sun Well, from 52 m to 92 m up. Below, the Stone Garden is raked gravel and seven dark basalt stones, and nothing else.</p>
+      <p class="since"><b>B.1, 1 Oct 2026:</b> at Jim's request the garden mirrors were taken off this sheet, and the light they sent down the Sun Well. The Sun Well is now a sky lens. See the <a href="../design/site.html">design book</a>.</p>
       <p>The dashed lines are the window slots, one row along the main floor and a second row in each spire. Everything else is solid white shell. The small dome at the front right is the TTMath campus dome from demo 1, drawn at the same scale.</p>
     </div>
   </section>
@@ -312,7 +315,8 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
       <p>Three landing pads for ships from Earth stand 1.6 km from the terminal. A landing rocket throws rocks, so each pad has a berm and nothing else is near.</p>
       <p>The fuel plant turns ground ice and the CO₂ in the air into methane and oxygen, so the ships refuel here for the trip back.</p>
       <p>Arriving passengers ride a pressurised bus from the pad to the terminal, then walk through to the pod station on the west side, facing home.</p>
-      <p>Power comes from a solar field and a buried reactor. In phase 2 a maglev station for cargo opens under the terminal.</p>
+      <p>Power comes from two buried reactors, with no panels on the ground. In phase 2 a maglev station for cargo opens under the terminal.</p>
+      <p class="since"><b>B.1, 1 Oct 2026:</b> at Jim's request the solar field was taken off this sheet; a second reactor replaces it. See <a href="../design/power.html">chapter 05</a>.</p>
     </div>
   </section>
 
@@ -434,6 +438,8 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
   PG.Ra = PG.aside / (2 * Math.sin(36 * D2R)); PG.apA = PG.Ra * Math.cos(36 * D2R);
   PG.ring = (PG.ap - PG.apA - 4 * PG.street) / 5;
   var CORNERS = [18, 90, 162, 234, 306];
+  // the Stone Garden's seven basalt stones: [distance from the centre m, bearing deg, size m], as in the design book and the 3D build
+  var STONES = [[26, 40, 3.2], [22, 150, 2.4], [30, 230, 4.1], [18, 300, 2.0], [38, 330, 2.8], [104, 200, 3.4], [100, 20, 2.6]];
   function ringA(k) { return PG.apA + k * (PG.ring + PG.street); }   // inner apothem of ring k (0 = A)
 
   var SEGS = [
@@ -507,12 +513,9 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     function ring(r, h, b0, b1, st) { var o = []; for (var b = b0; b <= b1 + 1e-6; b += st || 3) o.push(pol(r, b, h)); return o; }
     var defs = S("defs", null, svg), og = S("radialGradient", { id: "orbShade", cx: "36%", cy: "30%", r: "78%" }, defs);
     [["0%", "var(--shell)"], ["58%", "var(--ink-3)"], ["100%", "var(--ink-2)"]].forEach(function (q) { S("stop", { offset: q[0], style: "stop-color:" + q[1] }, og); });
-    // ground: the Stone Garden, its mirrors, the Sun Well and the Pentagon outline below
+    // ground: the Stone Garden (raked gravel and seven basalt stones, nothing else), the Sun Well and the Pentagon outline below
     S("path", { d: path(ring(112, 0, 0, 360), true), "class": "tint" }, svg);
-    [42, 54, 66, 78, 90, 102].forEach(function (r, ri) {
-      var n = Math.round(2 * Math.PI * r / 8);
-      for (var i = 0; i < n; i++) { var p = pol(r, (i + (ri % 2) * .5) * 360 / n, 0); S("ellipse", { cx: r1(p[0]), cy: r1(p[1]), rx: 2.5, ry: 1.1, "class": "icet2" }, svg); }
-    });
+    STONES.forEach(function (st) { var p = pol(st[0], st[1], 0.4 * st[2]); S("ellipse", { cx: r1(p[0]), cy: r1(p[1]), rx: r1(1.3 * st[2] * sc), ry: r1((st[2] * sa + 0.45 * st[2] * ca) * sc), "class": "ink2f", "fill-opacity": .8 }, svg); });
     S("path", { d: path(CORNERS.map(function (b) { return pol(PG.Ra, b, 0); }), true), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
     S("path", { d: path(CORNERS.map(function (b) { return pol(PG.R, b, 0); }), true), "class": "icel dash", "stroke-width": 1 }, svg);
     // anti-gravity fields: rings on the ground under the five spires; nothing solid reaches down
@@ -531,10 +534,6 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     S("path", { d: path(base, true), "class": "ln2 dash", "stroke-width": .8 }, svg);
     var dl = pr(dc[0], dc[1], 15);
     TL(svg, dl[0], dl[1] - 14, [["TTMATH DOME", "cap"], ["demo 1, same scale", "xs"]], "halo", 11, "middle");
-    // light: the garden mirrors aim at the Orb's underside, which sends a beam down the Sun Well
-    var ob = pr(0, 0, ORB.h - ORB.r);
-    [20, 92, 164, 236, 308].forEach(function (b) { var p = pol(84, b, 0); S("line", { x1: r1(p[0]), y1: r1(p[1]), x2: r1(ob[0]), y2: r1(ob[1]), "class": "icel dots", "stroke-width": 1 }, svg); });
-    S("path", { d: path([pr(-10, 0, 0), pr(10, 0, 0), pr(8, 0, ORB.h - ORB.r + 1.5), pr(-8, 0, ORB.h - ORB.r + 1.5)], true), "class": "icet" }, svg);
     // painter's algorithm: ring segments and the Orb, far to near
     var items = [{ d: 0.001, orb: true }], st = 2;
     for (var b0 = 0; b0 < 360; b0 += st) items.push({ d: CR.rc * Math.cos((b0 + st / 2) * D2R), seg: b0 });
@@ -753,15 +752,11 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     // under the ring: the Stone Garden and the Pentagon outline below
     S("circle", { cx: cx, cy: cy, r: 110 * k, "class": "tint" }, g0);
     S("path", { d: path(CORNERS.map(function (b) { return P(PG.R, b); }), true), "class": "icel dash", "stroke-width": 1.1 }, g0);
-    var nHel = 0;
-    [42, 54, 66, 78, 90, 102].forEach(function (r, ri) {
-      var n = Math.round(2 * Math.PI * r / 8);
-      for (var i = 0; i < n; i++) { var b = (i + (ri % 2) * .5) * 360 / n, p = P(r, b); nHel++; S("rect", { x: r1(p[0] - 3), y: r1(p[1] - 2), width: 6, height: 4, "class": "icet2", transform: "rotate(" + r1(b) + " " + r1(p[0]) + " " + r1(p[1]) + ")" }, g0); }
-    });
+    STONES.forEach(function (st) { var p = P(st[0], st[1]); S("ellipse", { cx: r1(p[0]), cy: r1(p[1]), rx: r1(1.3 * st[2] * k), ry: r1(st[2] * k), "class": "ink2f", "fill-opacity": .8, transform: "rotate(" + st[1] + " " + r1(p[0]) + " " + r1(p[1]) + ")" }, g0); });
     S("path", { d: path(CORNERS.map(function (b) { return P(PG.Ra, b); }), true), "class": "icet2", style: "stroke: var(--ice); stroke-width: 1.4" }, g0);
     S("circle", { cx: cx, cy: cy, r: PG.Ra * k * .78, "class": "icel", "stroke-width": 1 }, g0);
     TL(g0, cx, cy - 4, [["SUN WELL", "cap ti"], ["lens under an iris", "xs"]], "halo", 12, "middle");
-    TL(g0, cx, cy - 150, [["STONE GARDEN", "cap"], ["about " + (Math.round(nHel / 10) * 10) + " sun-tracking mirrors", "xs"]], "halo", 12, "middle");
+    TL(g0, cx, cy - 150, [["STONE GARDEN", "cap"], ["raked gravel and seven stones", "xs"]], "halo", 12, "middle");
     T(g0, cx - 96 * k, cy + 4, "Pentagon below", "xs ti halo", { "text-anchor": "start" });
     // the ring
     var g1 = G(svg), N = 720, o = [], inn = [], pe = [];
@@ -1015,15 +1010,16 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     S("line", { x1: dx0, y1: Y(0), x2: dx0, y2: Y(-16), "class": "ln2" }, svg);
     [0, -16].forEach(function (y) { S("line", { x1: dx0 - 5, y1: Y(y), x2: dx0 + 5, y2: Y(y), "class": "ln2" }, svg); });
     TL(svg, dx0 + 8, Y(-6), [["16 m of soil", "sm"], ["balances the air inside", "xs"]], "halo", 11, "start");
-    // ground line and the garden mirrors
+    // ground line and the Stone Garden's stones beyond the cut: the four of the seven that stand north of it
     S("line", { x1: X(-190), y1: Y(0), x2: X(190), y2: Y(0), "class": "ln", "stroke-width": 1.8 }, svg);
-    for (var hx = -100; hx <= 100; hx += 11) { if (Math.abs(hx) < 34) continue; var x = X(hx), y = Y(0); S("line", { x1: x, y1: y, x2: x, y2: y - 4, "class": "ln2" }, svg); S("line", { x1: x - 4, y1: y - 2.5, x2: x + 4, y2: y - 6.5, "class": "icel", "stroke-width": 1.6 }, svg); }
-    T(svg, X(-66), Y(0) - 12, "sun-tracking mirrors", "xs halo", { "text-anchor": "middle" });
+    STONES.forEach(function (st) {
+      var e = st[0] * Math.sin(st[1] * D2R), n = st[0] * Math.cos(st[1] * D2R); if (n <= 0) return;
+      var w = 1.3 * st[2], h = 0.95 * st[2];
+      S("path", { d: "M" + r1(X(e - w)) + " " + r1(Y(0)) + "C" + r1(X(e - w)) + " " + r1(Y(h * 0.9)) + " " + r1(X(e - w * 0.35)) + " " + r1(Y(h * 1.05)) + " " + r1(X(e + w * 0.1)) + " " + r1(Y(h)) + "C" + r1(X(e + w * 0.6)) + " " + r1(Y(h * 0.95)) + " " + r1(X(e + w)) + " " + r1(Y(h * 0.6)) + " " + r1(X(e + w)) + " " + r1(Y(0)) + "Z", "class": "ink2f", "fill-opacity": .8 }, svg);
+    });
+    T(svg, X(-66), Y(0) - 12, "Stone Garden: gravel and stones", "xs halo", { "text-anchor": "middle" });
     T(svg, X(-160), Y(0) - 6, "WEST", "cap", { "text-anchor": "middle" });
     T(svg, X(168), Y(0) - 6, "EAST", "cap", { "text-anchor": "middle" });
-    // light: mirrors to the Orb's underside, then a beam down the Sun Well
-    [-90, -60, 60, 90].forEach(function (mx) { S("line", { x1: X(mx), y1: Y(5), x2: X(mx * .1), y2: Y(ORB.h - ORB.r + 1), "class": "icel dots", "stroke-width": 1 }, svg); });
-    S("path", { d: path([[X(-9), Y(ORB.h - ORB.r + 1)], [X(9), Y(ORB.h - ORB.r + 1)], [X(11), Y(0)], [X(-11), Y(0)]], true), "class": "icet" }, svg);
     // the Crown beyond the cut: silhouette of the ring
     var fr = [], bk = [];
     for (var b = 90; b <= 270; b += 1) fr.push([X(CR.rc * Math.sin(b * D2R)), Y(crownTop(b))]);
@@ -1081,14 +1077,11 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     var M = function (x, y) { return [X(x), Y(y)]; };
     var defs = S("defs", null, svg), pat = S("pattern", { id: "hatch", width: 6, height: 6, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, defs);
     S("line", { x1: 0, y1: 0, x2: 0, y2: 6, style: "stroke: var(--ice); stroke-width: 1.2" }, pat);
-    // solar field
-    S("rect", { x: X(-720), y: Y(-640), width: r1(1040 * k), height: r1(520 * k), "class": "tint" }, svg);
-    for (var sy = -660; sy >= -1150; sy -= 22) S("line", { x1: X(-705), y1: Y(sy), x2: X(305), y2: Y(sy), "class": "hl" }, svg);
-    TL(svg, X(-200), Y(-890), [["SOLAR FIELD", "cap halo"], ["0.5 km²", "xs halo"]], "", 12, "middle");
-    // reactor
+    // two buried reactors inside one keep-out ring; no panels on the ground
     S("circle", { cx: X(-560), cy: Y(-380), r: 150 * k, "class": "hl dash" }, svg);
     S("circle", { cx: X(-560), cy: Y(-380), r: 26 * k, "class": "ink2f" }, svg);
-    TL(svg, X(-560), Y(-380) + 26, [["Buried reactor", "sm"], ["keep-out ring", "xs"]], "halo", 11, "middle");
+    S("circle", { cx: X(-622), cy: Y(-380), r: 26 * k, "class": "ink2f" }, svg);
+    TL(svg, X(-590), Y(-380) + 26, [["Two buried reactors", "sm"], ["keep-out ring", "xs"]], "halo", 11, "middle");
     // ice mine and fuel plant
     S("rect", { x: X(-460), y: Y(1150), width: r1(320 * k), height: r1(200 * k), fill: "url(#hatch)", style: "stroke: var(--ice); stroke-width: 1.2" }, svg);
     TL(svg, X(-300), Y(1150) - 8, [["ICE MINE", "cap ti"]], "halo", 12, "middle");
@@ -1174,13 +1167,13 @@ svg .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.2px; stro
     T(svg, X(tmax), Y(0) + 18, "min:s", "mono", { "text-anchor": "end" });
     var shots = [
       ["0:00", "Lift-off", "The pod rises from the pod station. Behind it, the ship you came on stands on Pad 2, venting white vapour.", "chase camera, low"],
-      ["0:30", "Over the spaceport", "It pitches over and turns west into the low sun. Pads, fuel tanks and the solar field slide by below.", "drone camera, high"],
+      ["0:30", "Over the spaceport", "It pitches over and turns west into the low sun. Pads, fuel tanks and the reactor domes slide by below.", "drone camera, high"],
       ["1:02", "Dune Sea", "Down to 55 m over black dunes. Dust devils march across the plain and the pod banks between two of them.", "side camera, tracking"],
       ["1:48", "Crater", "A climb over the rim of a 3 km crater. Frost fog still lies in its shadows.", "high, looking down"],
       ["2:28", "Ice Cliffs", "The pod drops to 45 m and follows a 100 m scarp of layered ice, blue in the shade.", "close along the cliff"],
       ["3:08", "Dust storm", "A wall of dust 2 km high rolls across the plain and the pod dives in. The sky turns dark red, static sparks crawl over the canopy and the cockpit switches to radar.", "cockpit, then chase through the dust"],
       ["3:40", "Breakout", "The pod bursts out into clear air. The sunset glows blue, Phobos crosses the sun, and ahead the Crown floats over the plain with the Orb shining at its centre.", "over your shoulder, through the cockpit"],
-      ["4:00", "Orbit, under the ring", "One circle around the Crown, then in under the ring, 30 m above the Stone Garden, where nothing holds it up. The pod loops once round the Orb as the mirrors flash.", "pod-front camera"],
+      ["4:00", "Orbit, under the ring", "One circle around the Crown, then in under the ring, 30 m above the Stone Garden, where nothing holds it up. The pod loops once round the Orb, the sunset glinting on it.", "pod-front camera"],
       ["4:28", "Into the hangar", "The hangar door in the east spire opens on the garden side and the pod flies straight in as the sunset turns deep blue.", "wide, from the Observatory spire"],
       ["4:42", "Welcome home", "The hangar closes and fills with air. The Door recognises you and opens onto the Arrival hall.", "inside"]
     ];

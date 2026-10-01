@@ -57,10 +57,10 @@ below the master suite up, and the sectors are numbered clockwise.
 
 ## The atrium and the sun court
 
-A five-sided shaft 35 m across and 68 m deep. Sunlight from the Sun Well falls down its middle, about 500 kW at a
-clear noon; its walls are terraces of hanging gardens, with water running down from the lake on L2. At the bottom,
-the **sun court** is a garden of 2,100 m² in real sunlight, the only place on Mars where Jim can sit in the sun without
-a suit. In a storm, lamps in the lens take over.
+A five-sided shaft 35 m across and 68 m deep. Light from the Sun Well's sky lens falls down its middle; its walls are
+terraces of hanging gardens, with water running down from the lake on L2. At the bottom, the **sun court** is a garden
+of 2,100 m² lit with the colour and warmth of a clear Mars noon. The lens shows the sky that is outside, and keeps it
+bright through a dust storm.
 
 *Future technology: portals.* Step through the one in a corner core and you are in the spire above, or on another
 level. **Real fallback:** a stair in every corner core from L5 to L1, robot carriers on spiral ramps for goods, and a

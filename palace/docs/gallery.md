@@ -3,15 +3,16 @@
 [Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Floor plans](plans.md) · **Pictures**
 
 Every picture of demo 2. They are rendered from the new 3D build (`palace/src/`), the same scene the flight video
-plays, so they show the design as it will look in the demo. They are simulations, not photographs. The diagrams are
+plays, so they show the design as it will look in the demo. They are simulations, not photographs. On 1 Oct 2026 the
+weak ones were redone so they look real; the cockpit view did not, so it was taken out. The diagrams are
 on the [design pages](design/README.md) and the plan sheets on [Floor plans](plans.md).
 
 | | | |
 | --- | --- | --- |
-| [<img src="../design/img/crown-sunset.jpg" alt="The Crown at sunset">](#coming-home-at-sunset) | [<img src="../design/img/crown-day.jpg" alt="The Crown by day">](#the-crown-by-day) | [<img src="../design/img/crown-garden.jpg" alt="Under the ring">](#under-the-ring) |
+| [<img src="../design/img/crown-sunset.jpg" alt="The Crown at sunset">](#coming-home-at-sunset) | [<img src="../design/img/crown-day.jpg" alt="The Crown by day">](#the-crown-by-day) | [<img src="../design/img/crown-garden.jpg" alt="Nothing holds it up">](#nothing-holds-it-up) |
 | [<img src="../design/img/site-aerial.jpg" alt="The house from the air">](#the-house-from-the-air) | [<img src="../design/img/port-aerial.jpg" alt="Arcadia Spaceport">](#arcadia-spaceport) | [<img src="../design/img/port-liftoff.jpg" alt="Lift-off">](#1-lift-off) |
 | [<img src="../design/img/flight-west.jpg" alt="Heading west">](#2-heading-west) | [<img src="../design/img/flight-dunes.jpg" alt="The Dune Sea">](#3-the-dune-sea) | [<img src="../design/img/flight-crater.jpg" alt="Over the crater">](#4-over-the-crater) |
-| [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="../design/img/flight-breakout.jpg" alt="In the cockpit">](#7-in-the-cockpit-after-the-storm) | [<img src="img/atlas/house.jpg" alt="The Mars Atlas at the house">](#the-mars-atlas) |
+| [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="img/atlas/mars.jpg" alt="Mars in the Atlas">](#the-mars-atlas) | [<img src="img/atlas/house.jpg" alt="The Mars Atlas at the house">](#the-mars-atlas) |
 
 ## The Crown
 
@@ -26,16 +27,16 @@ the sky; the five spires hold the anti-gravity drives. *Used on the homepage and
 
 ![The Crown by day from the south-east](../design/img/crown-day.jpg)
 
-From the south-east at mid-morning. The mirrors in the Stone Garden follow the sun, and the Crown's shadow, with its
-five spires, falls across the plain. *[Chapter 02](design/02-crown.md#how-it-works-day-to-day).*
+From the south-east at mid-morning. The Crown's shadow, with its five spires, falls across the plain; under the ring
+the Stone Garden is gravel and seven stones round the Sun Well. *[Chapter 02](design/02-crown.md#how-it-works-day-to-day).*
 
-### Under the ring
+### Nothing holds it up
 
-![Looking up at the ring and the Orb from the Stone Garden](../design/img/crown-garden.jpg)
+![The Crown floating over the Stone Garden at sunset, seen from the plain](../design/img/crown-garden.jpg)
 
-Standing in the Stone Garden: the ring's underside is 40 m overhead and nothing holds it up. The garden mirrors aim
-sunlight at the Orb, which sends it down the Sun Well to the gardens below. *On the design book's cover and in
-[chapter 02](design/02-crown.md).*
+From the plain at sunset: the ring floats 40 m over the Stone Garden, the Orb in its middle and the sky showing
+underneath. The garden is raked gravel and seven basalt stones; nothing else stands on the ground. *On the design
+book's cover and in [chapter 02](design/02-crown.md).*
 
 ### The house from the air
 
@@ -50,8 +51,8 @@ fields touch the ground. *[Chapter 01](design/01-site-and-city.md#the-site-plan)
 
 ![Arcadia Spaceport from the air](../design/img/port-aerial.jpg)
 
-From the south-west: the solar field in front, the terminal dome and the control tower, the pod station, the fuel plant
-with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out. *[Chapter 07](design/07-spaceport.md).*
+From the south-west: the two reactor domes in front, the terminal dome and the control tower, the pod station, the
+fuel plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out. No panels on the ground. *[Chapter 07](design/07-spaceport.md).*
 
 ## The flight home
 
@@ -89,13 +90,6 @@ The climb over the rim of a crater 3.2 km across, with frost in its shadows. *[C
 
 45 m above the foot of a 100 m scarp of layered ice, blue in the shade, a minute before the dust storm.
 *[Chapter 06](design/06-transport.md).*
-
-### 7 In the cockpit, after the storm
-
-![The cockpit after the breakout into the sunset](../design/img/flight-breakout.jpg)
-
-Out of the storm into clear air: speed, height, the route home and the time to landing on the cockpit screens, the
-blue sunset ahead. *[Chapter 06](design/06-transport.md#the-flight-home).*
 
 ## The Mars Atlas
 

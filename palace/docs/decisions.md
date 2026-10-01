@@ -22,6 +22,37 @@ judgment" the choice is recorded below. One item is shown for review:
 | Guest rooms, now that visitors are rare (LV-7) | Keep them as designed | Visitors from Earth come only once every 26 months and stay until the next launch window, so the few who come need real apartments. They take one of L1's five sectors and two suites in one dip of the Crown |
 | Extras in the demo (DM-13) | All four, as nice-to-haves: the pool in low gravity, Earth as the evening star from the Observatory, a message home with the delay shown, the forest on L2 | Each is one small scene in phase 2 or 3 |
 
+## 1 Oct 2026: nothing on the ground
+
+**The panels.** Jim, looking at the pictures of the spaceport and the garden:
+
+> "are those solar panels on the ground? so ugly. if you need to put solar panels at least they should be much good
+> looking and looks future proof"
+
+and then:
+
+> "it is bit scary to have so many panels on the ground. vvvvery messy. better to remove them all if no good design."
+
+**Decided:** remove them all. A tidier design was tried first, panels raised on stalks like flowers, but it still
+filled the ground, so it was not used. **What changed:**
+
+- The 224 mirrors in the Stone Garden are gone. The garden is raked gravel and seven dark basalt stones, nothing else.
+- The Sun Well stays as a **sky lens**: lamps behind the glass show the atrium the sky that is outside and keep it
+  bright through a dust storm. Jim has the real sun in the Crown's rooms and the Orb's rest rooms.
+- The 94,000 m² solar field at the spaceport is gone. A fourth reactor takes its place: **four 5 MWe reactors**, two
+  on the Pentagon's L4 and two in a buried vault at the port, 20 MWe for an average demand of 8 MW. A dust storm
+  changes nothing.
+- The 3D build, all ten pictures and the power chapter were redone. → GN-12, SY-1,
+  [Ch 05 Power](design/05-power.md).
+
+**The garden picture.** Jim: "this image looks so strange, far away from real. even for diagram I don't know what it
+means." **Done:** it is now a view from the plain at sunset, the Crown floating over the Stone Garden. The cockpit
+picture still looked like a game after two tries, so it was taken out. → GN-4, GN-10, [Pictures](gallery.md).
+
+**The questions.** Jim: "Decisions still open all items I think i have answered. why you still put all those
+questions there?" **Done:** the questions are gone from the cover and every page; his answers are in this log. Only
+the Orb's new design is shown for review, because it is drawn from his answer and not yet seen.
+
 ## 1 Oct 2026: Jim's answers
 
 The design book asked five questions. Jim answered all five, then asked to organise the documents and pictures.
@@ -68,8 +99,8 @@ a [Demo 2 home](../README.md), this log, the design chapter by chapter with ever
 the floor plans sheet by sheet, and a [picture gallery](gallery.md). → GN-9.
 
 **Diagrams and pictures.** Jim: "I really like those diagrams and graphs to show how it works ... I want to use this
-as much as possible to illustrate ... if not real please make it real, at least look real." → GN-10. The weak
-renders are being redone, and the maps now use a real colour map of Mars.
+as much as possible to illustrate ... if not real please make it real, at least look real." → GN-10. **Done:** 39
+diagrams exported as images, all ten renders redone so they look real, and the maps use a real colour map of Mars.
 
 **The homepage.** Jim: "there are 3 demo 2s on the page ... very confusing. delete old ones or ... archive old ones,
 only keep one demo 2 on the homepage." **Done:** one demo 2 card, which opens the design book. The first palace moved

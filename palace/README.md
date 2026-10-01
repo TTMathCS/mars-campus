@@ -17,7 +17,7 @@ sunset. A city will grow around it.
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
-| ✅ | **Decisions**: every question to Jim, his answers, and what is still open | [docs/decisions.md](docs/decisions.md) | |
+| ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design book](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🗺️ | **Floor plans Rev B**: the approved sheets | [docs/plans.md](docs/plans.md) | [Floor plans](https://ttmathcs.github.io/mars-campus/palace/plans/) |
 | 🌍 | **Mars Atlas**: zoom from the solar system to the house, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
@@ -30,9 +30,10 @@ sunset. A city will grow around it.
 | Part | State | Next |
 | --- | --- | --- |
 | Requirements | Updated 1 Oct 2026 with Jim's answers | — |
-| Floor plans | **Rev B approved** by Jim, 30 Sep 2026 | Redraw the Orb once Jim approves Rev D |
+| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb once Jim approves Rev D |
 | Design book | **Rev D**: chapters 01–07 written; the Orb redesigned as the Universe Hall | Write 08 Life support, 09 Communications and space, 10 Building it |
-| Mars Atlas | Live | — |
+| Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
+| Mars Atlas | Live, over a real colour map of Mars | — |
 | 3D demo | Phase 1 (landscape, spaceport, flight video) works in a test build; **paused** at Jim's request | Resume when Jim approves the design book |
 | First palace | Archived | — |
 
@@ -54,6 +55,7 @@ sunset. A city will grow around it.
 | 209,700 m² | The Pentagon's floor area, 11 times the Crown |
 | 24 m | The Universe Hall across, inside the 40 m Orb |
 | 30 km | To Arcadia Spaceport, due east |
+| 20 MWe | Four reactors, two at the house and two at the port; no panels or mirrors on the ground |
 | 4 min 40 s | The pod flight home, 37 km |
 | 0 | Lifts: portals link every part of the house |
 
@@ -64,7 +66,7 @@ palace/
 ├── README.md            this page
 ├── REQUIREMENTS.md      what Jim wants: the source of truth
 ├── docs/                the docs in this repo
-│   ├── decisions.md     questions to Jim, his answers, what is open
+│   ├── decisions.md     questions to Jim, his answers, what they changed
 │   ├── design/          the design book chapter by chapter, with its diagrams
 │   ├── plans.md         the floor plans Rev B, sheet by sheet
 │   ├── gallery.md       every rendered picture

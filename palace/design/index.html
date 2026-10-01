@@ -75,11 +75,11 @@
         <p><b>Below ground, the Pentagon</b> is for safety and abundance. Sixteen metres of soil stop the radiation, hold the air pressure in and keep the temperature steady. Its five levels hold Jim's residence, a garden level with orchards, a lake and a forest, his studio and workshops, the plant that makes air and water, and the halls where cargo, rovers and later a maglev train arrive.</p>
         <p><b>Around it grows Arcadia City.</b> Each new home takes the next seed of a sunflower spiral. The spaceport, 30 km east, is where ships from Earth land, refuel with fuel made on Mars and fly home.</p>
       </div>
-      <figure class="fig"><img src="img/crown-garden.jpg" alt="The Crown seen from its Stone Garden: the underside of the ring, the mirror Orb and the garden mirrors" width="1600" height="900" loading="lazy"><figcaption><b>Under the ring.</b> Nothing holds the Crown up. The mirrors in the Stone Garden aim sunlight at the Orb, which sends it down the Sun Well to the gardens below.</figcaption></figure>
+      <figure class="fig"><img src="img/crown-garden.jpg" alt="The Crown floating 40 m over the Stone Garden at sunset, seen from the plain, the Orb in the middle and the sky showing under the ring" width="1600" height="900" loading="lazy"><figcaption><b>Nothing holds it up.</b> From the plain at sunset: the ring floats 40 m over the Stone Garden, raked gravel and seven stones, with the Orb in its middle.</figcaption></figure>
     </div>
     <h3>Real, or future?</h3>
     <div class="realfut">
-      <div><h4>Real science and engineering</h4><p>Almost everything in the book uses what is known today: the site and its ice, the air and radiation on Mars, making fuel from ice and air, fission reactors, solar fields, shielding with soil, rocket-powered flight in thin air, farming under lights, the 26-month launch windows. The numbers are worked out and shown.</p></div>
+      <div><h4>Real science and engineering</h4><p>Almost everything in the book uses what is known today: the site and its ice, the air and radiation on Mars, making fuel from ice and air, fission reactors, shielding with soil, rocket-powered flight in thin air, farming under lights, the 26-month launch windows. The numbers are worked out and shown.</p></div>
       <div class="f"><h4>Future technology</h4><p>A few things are dreams, on purpose, because Jim asked for them: the <b>anti-gravity drives</b> that hold the Crown up, the <b>portals</b> that replace lifts, the <b>Wormhole Gate</b>, the <b>universe image</b> that floats in the Orb's hall and the <b>radiation glass</b> of its rest rooms. They are marked like this box wherever they appear, with a real fallback where safety needs one.</p></div>
     </div>
   </section>
@@ -113,14 +113,14 @@
       <tr><td class="n">A</td><td class="n">30 Sep 2026</td><td>First floor plans of the Crown and the Pentagon, the site and the flight.</td></tr>
       <tr><td class="n">B</td><td class="n">30 Sep 2026</td><td>From Jim's answers: the Crown floats on anti-gravity, sharper spires, the Orb and the Wormhole Gate, portals instead of lifts, master suites up and down, a dust storm in the flight. <b>Approved.</b></td></tr>
       <tr><td class="n">C</td><td class="n">30 Sep 2026</td><td>This design book: the Mars Atlas, the real site coordinates, and the systems designed in detail: structure, interiors, power, transport, the spaceport and fuel plant, life support, communications and the building sequence.</td></tr>
-      <tr><td class="n">D</td><td class="n">1 Oct 2026</td><td>From Jim's answers: the Orb becomes the Universe Hall, with lounges, rest rooms behind radiation glass, the corner dashboard of Earth and Mars, and the Gate on a bridge. Decided: the site on AP-1, air at 70 kPa, sleeping below ground, moving in in 2027. <b>The Orb is shown for Jim's review.</b></td></tr>
+      <tr><td class="n">D</td><td class="n">1 Oct 2026</td><td>From Jim's answers: the Orb becomes the Universe Hall, with lounges, rest rooms behind radiation glass, the corner dashboard of Earth and Mars, and the Gate on a bridge. Decided: the site on AP-1, air at 70 kPa, sleeping below ground, moving in in 2027. At Jim's request, nothing on the ground: no garden mirrors and no solar field, so four reactors supply the power. <b>The Orb is shown for Jim's review.</b></td></tr>
     </tbody></table>
   </section>
 </main>
 <script src="book.js"></script>
 <script>
 (function () {
-  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.jpg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
   BOOK.CH.slice(1).forEach(function (c) {
     var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[0] + ".html";
     a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";

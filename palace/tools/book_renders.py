@@ -12,13 +12,13 @@ IMG = os.environ.get("RENDER_OUT") or os.path.join(REPO, "palace", "design", "im
 THREE = os.path.join(TOOLS, "three.min.js")
 W, H = 1600, 900
 HIDE = "['load','shot','data','radar','bar','ctl','welcome','start','end'].forEach(function(id){ var e = document.getElementById(id); if (e) e.hidden = true; }); 1"
-# A fixed camera: SHOT(camera x, y, z, target x, y, z, fov, sun elevation, sun azimuth, flight time for the pod, beam 0/1, exposure)
+# A fixed camera: SHOT(camera x, y, z, target x, y, z, fov, sun elevation, sun azimuth, flight time for the pod, unused, exposure)
 SHOT = """function SHOT(px, py, pz, tx, ty, tz, fov, el, az, podT, beam, ex) {
   UI.st.started = true; UI.st.playing = false; UI.st.look = false; UI.st.mode = "director";
   MAIN.seek(podT); MAIN.step(0);
-  setSun(el, az); CROWN.aimMirrors();
+  setSun(el, az);
   MAT.winCol.value.set(0.9, 0.56, 0.3).multiplyScalar(0.45 + 1.35 * smooth(4.5, 1.2, el));
-  CROWN.orbU.uGlowOn.value = smooth(4.5, 1.6, el); CROWN.beamU.uBeam.value = beam; U.uStorm.value = 0;
+  CROWN.orbU.uGlowOn.value = smooth(4.5, 1.6, el); U.uStorm.value = 0;
   camera.position.set(px, py, pz); camera.up.set(0, 1, 0); camera.lookAt(tx, ty, tz); camera.fov = fov; camera.updateProjectionMatrix(); camera.updateMatrixWorld();
   SHADOW.set(tx * 0.5, 50, tz * 0.5, 260);
   U.uCam.value.copy(camera.position); TERRAIN.update(camera.position); SKYMESH.position.copy(camera.position);
@@ -29,9 +29,7 @@ SHOT = """function SHOT(px, py, pz, tx, ty, tz, fov, el, az, podT, beam, ex) {
 RENDERS = [
     ["crown-sunset", "SHOT(-507, 20, 237, 0, 58, 0, 36, 7, 262, DIRECTOR.END, 0, 1.2)"],
     ["crown-day", "SHOT(262, 64, 430, 0, 52, 0, 40, 30, 262, DIRECTOR.END, 0, 1.0)"],
-    ["crown-garden", "SHOT(-40, 1.8, 66, 4, 60, -14, 74, 28, 262, DIRECTOR.END, 0, 1.05)"],
-    ["crown-hangar", "__crown.at(FLIGHT.WT[46] - 1.0)"],
-    ["crown-hangar2", "__crown.at(FLIGHT.WT[46] + 0.4)"],
+    ["crown-garden", "SHOT(150, 1.7, 230, 0, 44, 0, 48, 10, 290, DIRECTOR.END, 0, 1.15)"],   # from the plain at sunset: the ring floats over the garden
     ["site-aerial", "SHOT(-760, 460, 980, 40, 10, -20, 36, 18, 262, DIRECTOR.END, 0, 1.0)"],
     ["port-aerial", "SHOT(28300, 420, 1500, 30600, 10, -250, 40, 18, 262, DIRECTOR.END, 0, 1.0)"],
     ["port-liftoff", "__crown.at(5.5)"],
@@ -39,7 +37,6 @@ RENDERS = [
     ["flight-dunes", "__crown.at(77)"],
     ["flight-crater", "__crown.at(FLIGHT.WT[16] + 4)"],
     ["flight-cliffs", "__crown.at(FLIGHT.WT[22] + 3)"],
-    ["flight-breakout", "__crown.at(FLIGHT.WT[31] + 1.5)"],
 ]
 async def main():
     want = sys.argv[1].split(",") if len(sys.argv) > 1 else None

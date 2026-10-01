@@ -38,11 +38,14 @@
     "  float m = duneMask(p); if (m <= 0.0) return 0.0;",
     "  vec2 dir = vec2(0.93, 0.37);",
     "  float u = dot(p, dir) + 190.0 * vnoise(p / 1500.0 + 3.0) + 105.0 * vnoise(p / 520.0) + 38.0 * vnoise(p / 170.0);",
-    "  float f = fract(u / 230.0); float prof = f < 0.78 ? f / 0.78 : (1.0 - f) / 0.22; prof = pow(prof, 1.25);",
-    "  float crest = 0.72 + 0.38 * vnoise(vec2(u / 700.0, dot(p, vec2(-dir.y, dir.x)) / 260.0));",
+    "  float lam = 230.0 * (0.85 + 0.25 * vnoise(p / 2600.0 + 5.0)); float along = dot(p, vec2(-dir.y, dir.x));",
+    "  float f = fract(u / lam); float prof = f < 0.78 ? f / 0.78 : (1.0 - f) / 0.22; prof = pow(prof, 1.25);",
+    "  float crest = clamp(0.62 + 0.5 * vnoise(vec2(u / 520.0, along / 210.0)) + 0.25 * vnoise(vec2(u / 160.0, along / 85.0)), 0.12, 1.2);",
+    "  float u3 = dot(p, vec2(0.80, 0.60)) + 30.0 * vnoise(p / 260.0 + 2.0); float f3 = fract(u3 / 47.0);",
+    "  float prof3 = (f3 < 0.7 ? f3 / 0.7 : (1.0 - f3) / 0.3) * (1.0 - smoothstep(4.0, 12.0, sp)) * smoothstep(0.1, 0.6, vnoise(p / 380.0 + 9.0));",
     "  vec2 d2 = vec2(0.62, -0.78); float u2 = dot(p, d2) + 50.0 * vnoise(p / 400.0 + 7.0); float f2 = fract(u2 / 410.0);",
     "  float prof2 = f2 < 0.8 ? f2 / 0.8 : (1.0 - f2) / 0.2;",
-    "  float h = 17.0 * prof * crest + 6.0 * prof2;",
+    "  float h = 17.0 * prof * crest + 6.0 * prof2 + 2.2 * prof3 * (1.0 - prof * crest);",
     "  return mix(h, 8.5, smoothstep(20.0, 70.0, sp)) * m; }",
     // signed distance to the cliff line (positive on the low, south-east side) and position along it
     "void cliffSD(vec2 p, out float s, out float T, out vec2 nn){",
@@ -131,11 +134,14 @@
     function dunesF(x, z, sp) {
       var m = duneMask(x, z); if (m <= 0) return 0;
       var u = x * 0.93 + z * 0.37 + 190 * vnoise(x / 1500 + 3, z / 1500 + 3) + 105 * vnoise(x / 520, z / 520) + 38 * vnoise(x / 170, z / 170);
-      var f = fract(u / 230), prof = f < 0.78 ? f / 0.78 : (1 - f) / 0.22; prof = Math.pow(prof, 1.25);
-      var crest = 0.72 + 0.38 * vnoise(u / 700, (x * -0.37 + z * 0.93) / 260);
+      var lam = 230 * (0.85 + 0.25 * vnoise(x / 2600 + 5, z / 2600 + 5)), along = x * -0.37 + z * 0.93;
+      var f = fract(u / lam), prof = f < 0.78 ? f / 0.78 : (1 - f) / 0.22; prof = Math.pow(prof, 1.25);
+      var crest = clamp(0.62 + 0.5 * vnoise(u / 520, along / 210) + 0.25 * vnoise(u / 160, along / 85), 0.12, 1.2);
+      var u3 = x * 0.80 + z * 0.60 + 30 * vnoise(x / 260 + 2, z / 260 + 2), f3 = fract(u3 / 47);
+      var prof3 = (f3 < 0.7 ? f3 / 0.7 : (1 - f3) / 0.3) * (1 - smooth(4, 12, sp)) * smooth(0.1, 0.6, vnoise(x / 380 + 9, z / 380 + 9));
       var u2 = x * 0.62 - z * 0.78 + 50 * vnoise(x / 400 + 7, z / 400 + 7), f2 = fract(u2 / 410);
       var prof2 = f2 < 0.8 ? f2 / 0.8 : (1 - f2) / 0.2;
-      var h = 17 * prof * crest + 6 * prof2;
+      var h = 17 * prof * crest + 6 * prof2 + 2.2 * prof3 * (1 - prof * crest);
       return lerp(h, 8.5, smooth(20, 70, sp)) * m;
     }
     function cliffSD(x, z) {
@@ -293,8 +299,13 @@
       "  vec2 sc = floor(pw / 2.3); vec2 so = hash22(sc + 41.0); float sr = 0.10 + 0.55 * pow(hash12(sc + 9.0), 3.0);",
       "  vec2 sdv = pw - (sc + 0.2 + 0.6 * so) * 2.3; float sdist = length(sdv);",
       "  float rockField = smoothstep(-0.2, 0.5, vnoise(pw / 55.0 + 3.0));",
-      "  float stone = step(0.72 - 0.3 * rockField, hash12(sc + 2.0)) * (1.0 - smoothstep(sr * 0.75, sr, sdist)) * (1.0 - smoothstep(40.0, 160.0, dist));",
-      "  float sz = sdist / max(sr, 1e-3); vec2 gst = -sdv / max(sdist, 1e-3) * stone * clamp(sz / sqrt(max(1.0 - sz * sz, 0.05)), 0.0, 2.5) * 0.6;",
+      "  float graded0 = max(1.0 - smoothstep(" + FEAT.port.r0.toFixed(1) + ", " + FEAT.port.r1.toFixed(1) + ", length(pw - PORT_C)), 1.0 - smoothstep(" + FEAT.home.r0.toFixed(1) + ", " + FEAT.home.r1.toFixed(1) + ", length(pw)));",
+      "  float stone = step(0.72 - 0.3 * rockField, hash12(sc + 2.0)) * (1.0 - smoothstep(sr * 0.75, sr, sdist)) * (1.0 - smoothstep(40.0, 160.0, dist)) * (1.0 - graded0);",
+      "  float sz = sdist / max(sr, 1e-3); vec2 gst = -sdv / max(sdist, 1e-3) * stone * clamp(sz / sqrt(max(1.0 - sz * sz, 0.05)), 0.0, 1.6) * 0.32;",
+      // rolled gravel on the graded ground: small pebbles, packed, lighter and darker
+      "  vec2 pc = floor(pw / 0.35); vec2 po = hash22(pc + 13.0); float pr = 0.03 + 0.05 * hash12(pc + 4.0); vec2 pdv = pw - (pc + 0.2 + 0.6 * po) * 0.35; float pdist = length(pdv);",
+      "  float peb = step(0.35, hash12(pc + 8.0)) * (1.0 - smoothstep(pr * 0.7, pr, pdist)) * graded0 * (1.0 - smoothstep(6.0, 45.0, dist));",
+      "  float grit = (vnoise(pw * 3.1) * 0.5 + vnoise(pw * 7.3 + 3.0) * 0.3) * graded0 * (1.0 - smoothstep(4.0, 30.0, dist));",
       "  float dm = duneMask(pw);",
       "  float rip = sin(dot(pw, vec2(0.93, 0.37)) * 6.2832 / 1.4 + vnoise(pw / 6.0) * 3.0);",
       "  float ripF = 1.0 - smoothstep(12.0, 70.0, dist);",
@@ -319,30 +330,32 @@
       "  }",
       "  reg *= 1.0 - 0.22 * trk;",
       // bright dust on the flats: rotated, warped noise so the patches don't line up with the axes
-      "  vec2 dq = rot * pw / 190.0; dq += vec2(vnoise(dq * 0.45 + 1.7), vnoise(dq * 0.45 + 6.3)) * 0.8;",
-      "  float dust = vnoise(dq + 5.0) * 0.68 + vnoise(rot * dq * 2.4 + 2.0) * 0.32;",
-      "  reg = mix(reg, vec3(0.37, 0.255, 0.175), smoothstep(0.05, 0.55, dust) * (1.0 - smoothstep(0.02, 0.12, bslope)) * 0.55);",
+      "  vec2 wdir = vec2(0.93, 0.37); vec2 dq = vec2(dot(pw, wdir) / 520.0, dot(pw, vec2(-wdir.y, wdir.x)) / 170.0); dq += vec2(vnoise(dq * 0.4 + 1.7), vnoise(dq * 0.4 + 6.3)) * 0.6;",
+      "  float dust = vnoise(dq + 5.0) * 0.6 + vnoise(dq * 2.3 + 2.0) * 0.28 + vnoise(rot * pw / 60.0 + 4.0) * 0.12;",
+      "  reg = mix(reg, vec3(0.37, 0.255, 0.175), smoothstep(-0.3, 0.8, dust) * (1.0 - smoothstep(0.02, 0.12, bslope)) * 0.34);",
       "  vec3 rock = vec3(0.155, 0.112, 0.090) * (0.8 + 0.4 * (vnoise(pw / 7.0) * 0.5 + 0.5));",
       "  vec3 alb = mix(reg, rock, smoothstep(0.18, 0.45, bslope));",
       "  vec3 sand = mix(vec3(0.105, 0.088, 0.078), vec3(0.16, 0.115, 0.088), 0.5 + 0.5 * vnoise(pw / 90.0));",
       "  alb = mix(alb, sand, dm * (0.9 + 0.1 * rip * ripF));",
-      "  alb = mix(alb, vec3(0.13, 0.10, 0.085), stone * (1.0 - dm) * 0.8);",
+      "  alb = mix(alb, vec3(0.20, 0.15, 0.12) * (0.85 + 0.3 * hash12(sc + 6.0)), stone * (1.0 - dm) * 0.7);",
+      "  alb = mix(alb, alb * (0.85 + 0.3 * hash12(pc + 1.0)), peb * 0.6); alb *= 1.0 + 0.08 * grit;",
       // polygon ground on the open plain
       "  float psz = 15.0;",
-      "  vec3 pe3 = polyEdge(pw / psz + vec2(vnoise(pw / 37.0), vnoise(pw / 37.0 + 9.0)) * 0.30 + vec2(vnoise(pw / 230.0 + 4.0), vnoise(pw / 230.0 + 1.0)) * 0.8); float pe = pe3.x;",
+      "  vec3 pe3 = polyEdge(pw / psz + vec2(vnoise(pw / 37.0), vnoise(pw / 37.0 + 9.0)) * 0.45 + vec2(vnoise(pw / 11.0 + 2.0), vnoise(pw / 11.0 + 5.0)) * 0.10 + vec2(vnoise(pw / 230.0 + 4.0), vnoise(pw / 230.0 + 1.0)) * 0.8); float pe = pe3.x;",
       "  float graded = max(1.0 - smoothstep(" + FEAT.port.r0.toFixed(1) + ", " + FEAT.port.r1.toFixed(1) + ", length(pw - PORT_C)), 1.0 - smoothstep(" + FEAT.home.r0.toFixed(1) + ", " + FEAT.home.r1.toFixed(1) + ", length(pw)));",
-      "  float polyA = (1.0 - dm) * (1.0 - smoothstep(0.08, 0.2, bslope)) * (0.45 + 0.55 * smoothstep(-0.3, 0.4, vnoise(pw / 150.0))) * (1.0 - 0.75 * graded);",
+      "  float polyA = (1.0 - dm) * (1.0 - smoothstep(0.08, 0.2, bslope)) * (0.25 + 0.5 * smoothstep(-0.3, 0.4, vnoise(pw / 150.0))) * (1.0 - 0.85 * graded);",
       "  float crack = (1.0 - smoothstep(0.02, 0.13, pe)) * polyA * (1.0 - smoothstep(180.0, 900.0, dist));",
-      "  float tq = clamp(pe / 0.16, 0.0, 1.0); vec2 gtr = pe3.yz * (6.0 * tq * (1.0 - tq) / 0.16) * 0.13 / psz * polyA * (1.0 - smoothstep(120.0, 800.0, dist));",
+      "  float tq = clamp(pe / 0.16, 0.0, 1.0); vec2 gtr = pe3.yz * (6.0 * tq * (1.0 - tq) / 0.16) * 0.05 * (0.5 + 0.5 * smoothstep(-0.4, 0.5, vnoise(pw / 23.0 + 6.0))) / psz * polyA * (1.0 - smoothstep(90.0, 600.0, dist));",
       "  n = normalize(n + vec3(-gtr.x, 0.0, -gtr.y));",
-      "  alb *= 1.0 - 0.07 * crack;",
+      "  alb *= 1.0 - 0.035 * crack;",
       // the crater: frost on its cold floor and in the shade of its walls
       "  float rc = length(pw - CR_C) / CR_R;",
       "  float frost = (1.0 - smoothstep(0.55, 0.8, rc)) * smoothstep(-150.0, -215.0, vW.y);",
-      "  float fpat = smoothstep(-0.35, 0.45, vnoise(pw / 40.0) + 0.5 * vnoise(pw / 11.0));",
-      "  frost = max(frost * (0.35 + 0.65 * fpat), (1.0 - smoothstep(0.2, 0.55, vSh)) * (1.0 - smoothstep(0.9, 1.0, rc)) * 0.45 * fpat);",
+      "  float fpat = smoothstep(-0.7, 0.9, vnoise(rot * pw / 55.0 + 2.0) + 0.45 * vnoise(rot * rot * pw / 17.0 + 7.0) + 0.2 * vnoise(rot * pw / 6.0));",
+      "  float shadeF = (1.0 - smoothstep(0.0, 0.85, vSh)) * smoothstep(-0.2, 0.6, vnoise(pw / 260.0 + 3.0));",
+      "  frost = max(frost * (0.55 + 0.45 * fpat), shadeF * (1.0 - smoothstep(0.85, 1.0, rc)) * 0.22 * fpat);",
       "  frost *= smoothstep(1.02, 0.9, rc);",
-      "  alb = mix(alb, vec3(0.62, 0.60, 0.58), clamp(frost, 0.0, 1.0) * 0.8);",
+      "  alb = mix(alb, vec3(0.56, 0.54, 0.52), clamp(frost, 0.0, 1.0) * 0.7);",
       // the Ice Cliffs: layers of clean and dusty ice on the steep scarp
       "  float cs, cT; vec2 cn; cliffSD(pw, cs, cT, cn);",
       "  vec2 cd = cs > -150.0 ? cliffDrop(pw, cs, cT, vSp) : vec2(0.0);",

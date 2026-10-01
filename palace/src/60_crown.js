@@ -4,7 +4,7 @@
      50 + 40·c^6 with c = (1 + cos 5(b - 18°)) / 2, so spires reach +90 m at bearings 18, 90, 162,
      234 and 306. Window slots 1.2 m tall at +44 m (and +55 m in the spires), a titanium rim, the
      pod hangar behind a door on the garden side of the east spire, the mirror Orb over the Sun
-     Well, and the Stone Garden's mirrors that aim the sun at the Orb's underside.
+     Well, and the Stone Garden of raked gravel and seven stones round the Sun Well's sky lens.
      Bearings are compass bearings: 0 = north (-z), 90 = east (+x).
      ========================================================================================== */
   var CROWN = (function () {
@@ -160,51 +160,37 @@
       orb.visible = true; SKYMESH.position.copy(sp); U.uCam.value.copy(cp);
     }
 
-    /* ---------------- the Stone Garden: mirrors aimed at the Orb's underside, big stones, the Sun Well */
-    var MIR = [];
-    [34, 46, 58, 70, 82, 94].forEach(function (r, ri) { var n = Math.round(2 * Math.PI * r / 10.5); for (var i = 0; i < n; i++) { var b = (i + (ri % 2) * 0.5) / n * 360; if (Math.abs(((b - 90 + 540) % 360) - 180) < 3.5) continue; MIR.push({ b: b, r: r }); } });
-    var mMirror = MAT.make({ color: 0xdfe3e6, rough: 0.035, metal: 1 }), mPost = MAT.make({ color: 0x55565a, rough: 0.5, metal: 0.6 });
-    var mirIM = new THREE.InstancedMesh(BOXG, mMirror, MIR.length), frameIM = new THREE.InstancedMesh(BOXG, mPost, MIR.length), postIM = new THREE.InstancedMesh(CYLG, mPost, MIR.length);
-    [mirIM, frameIM, postIM].forEach(function (m) { m.frustumCulled = false; grp.add(m); SHADOW.caster(m); m.layers.enable(2); });
-    var _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _p = new THREE.Vector3(), _s = new THREE.Vector3(), _n = new THREE.Vector3(), _t = new THREE.Vector3(), _z = new THREE.Vector3(0, 0, 1);
-    function aimMirrors() {
-      var sun = U.uSunDir.value;
-      MIR.forEach(function (mr, i) {
-        var p = P(mr.r, mr.b, 0), gy = TER.h(p[0], p[2]);
-        _p.set(p[0], gy + 3.2, p[2]);
-        _t.set(0, C.orbY - C.orbR, 0).sub(_p).normalize();
-        _n.copy(sun).add(_t).normalize();
-        _q.setFromUnitVectors(_z, _n);
-        _m.compose(_p, _q, _s.set(3.2, 3.2, 0.06)); mirIM.setMatrixAt(i, _m);
-        _m.compose(_p.clone().addScaledVector(_n, -0.08), _q, _s.set(3.4, 3.4, 0.1)); frameIM.setMatrixAt(i, _m);
-        _m.makeScale(0.12, 3.2, 0.12).setPosition(_p.x, gy + 1.6, _p.z); postIM.setMatrixAt(i, _m);
-      });
-      mirIM.instanceMatrix.needsUpdate = frameIM.instanceMatrix.needsUpdate = postIM.instanceMatrix.needsUpdate = true;
+    /* ---------------- the Stone Garden: raked gravel, seven big stones, the Sun Well */
+    // seven big basalt stones in the raked gravel (radius, bearing, size); nothing else stands in the garden
+    var STONES = [[26, 40, 3.2], [22, 150, 2.4], [30, 230, 4.1], [18, 300, 2.0], [38, 330, 2.8], [104, 200, 3.4], [100, 20, 2.6]];
+    // smooth normals for a non-indexed geometry: average the face normals of every corner at the same place
+    function smoothNormals(g) {
+      g.computeVertexNormals();
+      var pa = g.attributes.position, na = g.attributes.normal, acc = {};
+      function key(k) { return Math.round(pa.getX(k) * 1e4) + "," + Math.round(pa.getY(k) * 1e4) + "," + Math.round(pa.getZ(k) * 1e4); }
+      for (var k = 0; k < pa.count; k++) { var kk = key(k), a = acc[kk] || (acc[kk] = [0, 0, 0]); a[0] += na.getX(k); a[1] += na.getY(k); a[2] += na.getZ(k); }
+      for (k = 0; k < pa.count; k++) { var b = acc[key(k)], l = Math.hypot(b[0], b[1], b[2]) || 1; na.setXYZ(k, b[0] / l, b[1] / l, b[2] / l); }
+      na.needsUpdate = true;
     }
     // big dark stones set in the raked gravel
-    var stones = new GB(), mStone = MAT.make({ color: 0x3a302b, rough: 0.85 });
-    [[26, 40, 3.2], [22, 150, 2.4], [30, 230, 4.1], [18, 300, 2.0], [38, 330, 2.8], [104, 200, 3.4], [100, 20, 2.6]].forEach(function (s, i) {
+    var stones = new GB(), mStone = MAT.make({ color: 0x47392f, rough: 0.88 });
+    STONES.forEach(function (s, i) {
       var p = P(s[0] + 70 * (i > 4 ? 0 : 0), s[1], 0), gy = TER.h(p[0], p[2]);
-      var ico = new THREE.IcosahedronGeometry(1, 2), pa = ico.attributes.position;
-      for (var k = 0; k < pa.count; k++) { var x = pa.getX(k), y = pa.getY(k), z = pa.getZ(k), f = 1 + 0.18 * TER.vnoise(x * 2 + i * 7, z * 2 + y * 3) + 0.08 * TER.vnoise(x * 5 + i, y * 5); pa.setXYZ(k, x * f, y * f, z * f); }
-      ico.computeVertexNormals();
+      // a weathered boulder: a fine sphere pushed in and out by several octaves of noise, flattened where it sits
+      var ico = new THREE.IcosahedronGeometry(1, 4), pa = ico.attributes.position;
+      for (var k = 0; k < pa.count; k++) {
+        var x = pa.getX(k), y = pa.getY(k), z = pa.getZ(k);
+        var f = 1 + 0.2 * TER.vnoise(x * 1.6 + i * 7, z * 1.6 + y * 2.3) + 0.09 * TER.vnoise(x * 4.1 + i, y * 4.1 + z) + 0.035 * TER.vnoise(x * 11 + y * 3, z * 11 + i) + 0.015 * TER.vnoise(x * 27, y * 27 + z * 9);
+        var yy = y * f; pa.setXYZ(k, x * f, yy < -0.25 ? -0.25 - (-0.25 - yy) * 0.25 : yy, z * f);
+      }
+      smoothNormals(ico);
       stones.add(ico, new THREE.Matrix4().makeRotationY(i * 1.3).setPosition(p[0], gy + s[2] * 0.25, p[2]).multiply(new THREE.Matrix4().makeScale(s[2] * 1.3, s[2] * 0.7, s[2])));
     });
     add(stones, mStone);
-    // the Sun Well: a thick glass lens in a titanium ring, warm light rising from the atrium 68 m below
+    // the Sun Well: a thick glass lens in a titanium ring, the sky lens over the atrium, glowing warm from the light below
     var well = new GB(); lathe(well, [[11.4, -0.5], [11.4, 0.4], [10.2, 0.5]], 64, 0, TER.h(0, 0), 0); add(well, mTi, false);
     var lens = new THREE.Mesh(new THREE.CircleGeometry(10.2, 64).rotateX(-Math.PI / 2), MAT.make({ color: 0x0d1418, rough: 0.02, emis: [0.9, 0.72, 0.5] }));
     lens.position.y = TER.h(0, 0) + 0.3; grp.add(lens); lens.layers.enable(2);
-    // the beam: sunlight from the mirrors, bounced off the Orb's underside down into the Sun Well
-    var beamU = sharedUniforms({ uBeam: { value: 0 } });
-    var beam = new THREE.Mesh(new THREE.CylinderGeometry(9.5, 10.2, C.orbY - C.orbR + 1, 48, 1, true), new THREE.ShaderMaterial({
-      uniforms: beamU, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
-      vertexShader: GLSL_COMMON + LOGV_PARS + "varying vec3 vW; varying vec3 vN; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * vec4(curveW(w.xyz), 1.0); " + LOGV + " }",
-      fragmentShader: GLSL_COMMON + LOGF_PARS + "uniform float uBeam; varying vec3 vW; varying vec3 vN; void main(){ vec3 v = normalize(uCam - vW); float edge = pow(1.0 - abs(dot(normalize(vN), v)), 1.5); float y = vW.y / " + (C.orbY - C.orbR).toFixed(1) + ";" +
-        " float sh = 0.75 + 0.25 * vnoise(vec2(atan(vW.z, vW.x) * 8.0, vW.y * 0.2 - uTime * 0.6)); vec3 c = vec3(1.0, 0.86, 0.66) * (0.25 + 0.75 * edge) * sh * (0.45 + 0.55 * y) * uBeam * 0.18;" +
-        " gl_FragColor = vec4(c, 1.0); " + LOGF + " }"
-    }));
-    beam.position.y = (C.orbY - C.orbR + 1) / 2 - 1.2; beam.frustumCulled = false; grp.add(beam);
 
     /* ---------------- anti-gravity: a glowing emitter under each spire, a faint field column, floating dust */
     var agU = sharedUniforms({ uAG: { value: 1 } });
@@ -249,7 +235,7 @@
     orb.layers.disable(2);
 
     return {
-      C: C, grp: grp, orb: orb, updateOrb: updateOrb, aimMirrors: aimMirrors, setDoor: setDoor, doorU: doorU, orbU: orbU, beamU: beamU, agU: agU, AG: AG,
+      C: C, grp: grp, orb: orb, updateOrb: updateOrb, setDoor: setDoor, doorU: doorU, orbU: orbU, agU: agU, AG: AG,
       hangar: { M: HM, width: HW, depth: HD, y0: HY0, y1: HY1, bearing: HB, entry: new THREE.Vector3(hc[0], 45, hc[2]), inward: hr.clone().negate(), radial: hr.clone(), along: ht.clone() }
     };
   })();

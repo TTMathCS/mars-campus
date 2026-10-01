@@ -19,6 +19,7 @@
 :root[data-theme="dark"] {
   --bg: #101315; --sheet: #181D20; --ink: #E4E8E4; --ink-2: #A6AFB1; --ink-3: #6C777C; --rule: #313A3E;
   --route: #E77D5E; --ice: #6CB2D2; --gold: #D8AE5A; --leaf: #93B25E; --shell: #262D31; --panel: #1E2427;
+  --z1: #C9A04A; --z2: #86A052; --z3: #9A86B8; --z4: #5F9DBB; --z5: #7F898E;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }

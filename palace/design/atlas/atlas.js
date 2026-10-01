@@ -45,7 +45,7 @@
   place({ id: "house", kind: "jim", name: "Jim's house · the Crown", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
     k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre, with the Universe Hall and the Wormhole Gate inside. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
   place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of the house", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
-    k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station, a solar field and a buried reactor. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
+    k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station and two buried reactors, with no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
   place({ id: "city", kind: "jim", name: "Arcadia City", sub: "future · grows round the house", lat: cityLL.lat, lon: cityLL.lon, size: 9, prio: 90, view: { d: 11, tilt: 35, head: 0 },
     k: "Jim's Mars · the future city", d: "Homes take the seeds of a sunflower spiral round the Crown, 137.5° apart and about 450 m from their neighbours. The civic buildings fall on the Fibonacci seeds, which line up due north as one avenue. 233 homes reach 3.8 km out.", link: ["Site and city", BOOK + "site.html"] });
@@ -114,7 +114,7 @@
   var SITEP = [
     ["crown", "The Crown", 0, 0, 90, 4, "The house above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
     ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across floating over the Sun Well. Inside is the Universe Hall: a 3D universe you zoom from your seat, Earth and Mars with their weather, rest rooms and the Wormhole Gate."],
-    ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel, seven basalt stones and 224 mirrors that aim the sun at the Orb's underside."],
+    ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel and seven basalt stones round the Sun Well's sky lens. Nothing else stands on the ground."],
     ["pentagon", "The Pentagon", 118, -118, 0, 3, "Five levels below ground, from 24 to 68 m down, under 16 m of soil that stops radiation."],
     ["terminal", "Terminal", 30000, 0, 34, 8, "Arrivals, health check and lounge. A maglev station opens under it in phase 2."],
     ["podst", "Pod station", 29615, 0, 18, 6, "Four pod pads and a hangar, on the side facing home."],
@@ -125,8 +125,7 @@
     ["fuel", "Fuel plant", 30455, -840, 14, 8, "Turns ice and carbon dioxide into methane and oxygen for the ships."],
     ["tanks", "Tank farm", 30700, -810, 38, 8, "Six spheres of liquid methane and oxygen."],
     ["mine", "Ice mine", 29700, -1050, 0, 8, "An open pit into the ice-rich ground. Conveyors carry ice to the fuel plant."],
-    ["solar", "Solar field", 29800, 900, 3, 10, "0.5 km² of panels facing south."],
-    ["reactor", "Reactor", 29440, 380, 6, 8, "A fission reactor buried behind a keep-out ring, for nights and dust storms."],
+    ["reactor", "Reactors", 29440, 380, 6, 8, "Two fission reactors buried behind a keep-out ring: power for the port and the fuel plant, day and night, in storms too."],
     ["cargo", "Cargo yard", 30545, 290, 8, 8, "Containers from Earth and from the city's workshops."],
     ["dunes", "Dune Sea", 21300, -3300, 20, 40, "Dark sand dunes crossed by dust devils. Part of the demo's scenic route."],
     ["crater", "Crater, 3.2 km", 13800, -2300, 55, 30, "A crater with frost in its shadows. Part of the demo's scenic route."],
@@ -449,7 +448,7 @@
   })();
   var mWhite = new THREE.MeshLambertMaterial({ color: 0xf2ede4 }), mTi = new THREE.MeshLambertMaterial({ color: 0xaaa49c }), mDark = new THREE.MeshLambertMaterial({ color: 0x3a3a3c });
   var mSteel = new THREE.MeshPhongMaterial({ color: 0xc8cacc, shininess: 60, specular: 0x666666 }), mOrb = new THREE.MeshPhongMaterial({ color: 0xb9c0c6, shininess: 120, specular: 0xffffff, emissive: 0x2a2f36 });
-  var mPad = new THREE.MeshLambertMaterial({ color: 0xa89888 }), mSolar = new THREE.MeshLambertMaterial({ color: 0x1b2640 }), mGarden = new THREE.MeshLambertMaterial({ color: 0xc9b39a });
+  var mPad = new THREE.MeshLambertMaterial({ color: 0xa89888 }), mGarden = new THREE.MeshLambertMaterial({ color: 0xc9b39a });
   var planG = new THREE.Group(); siteG.add(planG);
   function add(geo, mat, x, y, z, g) { var me = new THREE.Mesh(geo, mat); me.position.set(x || 0, y || 0, z || 0); (g || planG).add(me); return me; }
   // the Crown: ring with five spires (roof 50 + 40 c^6), the Orb, the garden
@@ -490,7 +489,6 @@
     var fp = W(455, 840); add(new THREE.BoxGeometry(230, 12, 120), mWhite, fp[0], 6, fp[1]);
     for (var t = 0; t < 6; t++) { var tp = W(640 + (t % 3) * 60, 840 - Math.floor(t / 3) * 60); add(new THREE.SphereGeometry(18, 24, 16), mWhite, tp[0], 20.5, tp[1]); }
     add(new THREE.BoxGeometry(320, 1, 200), new THREE.MeshLambertMaterial({ color: 0xb8c4cc }), 29700, -4, -1050);
-    add(new THREE.BoxGeometry(1040, 1.2, 520), mSolar, OX - 200, 1.2, 900);
     var rp = W(-560, -380); add(new THREE.SphereGeometry(26, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2).scale(1, 0.22, 1), mWhite, rp[0], 0, rp[1]);
     add(new THREE.RingGeometry(148, 150, 96).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffd27a, transparent: true, opacity: 0.6 }), rp[0], 0.5, rp[1]);
     [196, 266, 336].forEach(function (z) { add(new THREE.BoxGeometry(150, 6, 40), new THREE.MeshLambertMaterial({ color: 0x9a7a5a }), OX + 545, 3, z + 22); });
@@ -759,7 +757,7 @@
 
   /* ---------------------------------------------------------------- the panel: search, places, card, layers, buttons */
   var listEl = $("list"), qEl = $("q"), selId = null;
-  var GROUPS = [["Jim's Mars", ["house", "port", "city", "ttmath", "ap9"]], ["At the site", ["crown", "orb", "garden", "pentagon", "terminal", "pad2", "fuel", "mine", "solar", "reactor", "dunes", "crater", "cliffs", "storm"]], ["Space", ["phobos", "deimos", "relay", "earth", "transfer", "sun"]], ["Landmarks", F.map(function (f) { return f[0]; })], ["Rovers and landers", L.map(function (l) { return l[0]; })]];
+  var GROUPS = [["Jim's Mars", ["house", "port", "city", "ttmath", "ap9"]], ["At the site", ["crown", "orb", "garden", "pentagon", "terminal", "pad2", "fuel", "mine", "reactor", "dunes", "crater", "cliffs", "storm"]], ["Space", ["phobos", "deimos", "relay", "earth", "transfer", "sun"]], ["Landmarks", F.map(function (f) { return f[0]; })], ["Rovers and landers", L.map(function (l) { return l[0]; })]];
   var BYID = {}; P.forEach(function (p) { BYID[p.id] = p; });
   function renderList(q) {
     q = (q || "").trim().toLowerCase(); listEl.innerHTML = "";

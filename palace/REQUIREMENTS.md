@@ -65,8 +65,9 @@ repo, with its diagrams and pictures.
 | GN-7 | Design and document every plan, what it looks like and how it works, before more 3D work | Must | 🔧 Chapters 01–07 written; 08–10 to write | [Design](docs/design/README.md) |
 | GN-8 | Keep all progress in this GitHub repo and on the live site, never as a chat artifact, so another account or AI can continue | Must | ✅ | [HANDOFF.md](../HANDOFF.md) |
 | GN-9 | Organised documents: requirements, plans and maps easy to move between, with the diagrams and pictures visible in the repo | Must | ✅ Done 1 Oct 2026: this file, [Demo 2 home](README.md) and [docs/](docs/design/README.md) | [Demo 2 home](README.md) |
-| GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | 🔧 Diagrams exported; weak pictures being re-rendered | [Pictures](docs/gallery.md) |
+| GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | ✅ Done 1 Oct 2026: 39 diagrams exported, all ten pictures re-rendered; the cockpit view did not look real and was taken out | [Pictures](docs/gallery.md) |
 | GN-11 | Works on Jim's laptop, and on a phone | Should | Design book checked at desktop and phone size | [HANDOFF.md](../HANDOFF.md) |
+| GN-12 | Nothing spread over the ground: no solar panels and no mirrors. "It is bit scary to have so many panels on the ground… better to remove them all if no good design." | Must | ☑️ Decided 1 Oct 2026: the garden mirrors and the solar field are gone; the Stone Garden is gravel and seven stones; reactors supply all the power | [Decisions](docs/decisions.md#1-oct-2026-nothing-on-the-ground) · [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) |
 
 ## 2. Site and city
 
@@ -139,7 +140,7 @@ showing dynamic weather ... I can turn it off. I can turn it back on if I need t
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| SY-1 | The power station design: what it looks like and how it works | Must | 📐 Three 5 MWe fission microreactors, a solar field, batteries and a 30 km DC cable | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
+| SY-1 | The power station design: what it looks like and how it works | Must | 📐 Four 5 MWe fission microreactors, two at the house and two at the spaceport, with batteries, fuel cells and a 30 km DC cable; no panels on the ground (GN-12) | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
 | SY-2 | The transportation design | Must | 📐 Ships, the pod, the bus, the maglev (phase 2) and portals | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
 | SY-3 | The air inside | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"): 70 kPa with 27% oxygen, which breathes like Calgary | Ch 08 (to write) |
 | SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | ⏳ Chapter 08 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |

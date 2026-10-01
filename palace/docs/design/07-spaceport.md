@@ -10,8 +10,8 @@ the carbon dioxide in the air into rocket fuel for the trip home. **Requirements
 
 ![Arcadia Spaceport from the south-west](../../design/img/port-aerial.jpg)
 
-*From the south-west: the solar field in front, the terminal dome and control tower, the pod station, the fuel plant
-with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out.*
+*From the south-west: the two reactor domes in front, the terminal dome and control tower, the pod station, the fuel
+plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out.*
 
 | | |
 | --- | --- |
@@ -29,7 +29,8 @@ with its six tanks, the ice mine on the left, and the three landing pads 1.6 km 
 
 The pads are 80 m across, of heat-resistant sintered regolith, each inside a ring berm 6 m high. The terminal is a
 low white dome 180 m across with a 77 m control tower. The pod station faces home, on the west side. Power comes from
-the solar field and a buried reactor; the fuel plant, the tank farm and the ice mine lie to the north. In phase 2 a
+two buried reactors inside a keep-out fence, with no panels on the ground; the fuel plant, the tank farm and the ice
+mine lie to the north. In phase 2 a
 maglev station opens under the terminal.
 
 ## The fuel plant

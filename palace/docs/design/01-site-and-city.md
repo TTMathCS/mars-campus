@@ -30,8 +30,8 @@ and rovers. Base map: Solar System Scope (CC BY 4.0, from NASA imagery); the liv
    shielding.
 3. **Flat and smooth.** Few boulders and gentle slopes make landings safe. Studies of Starship landing sites rated
    AP-1 the safest in Arcadia (Golombek and others, 2021). **Decided 1 Oct 2026:** the design uses AP-1.
-4. **Mid-latitude.** At 40° N there is enough sun for a solar field most of the year, and it is still cold enough for
-   the ice to last.
+4. **Mid-latitude.** At 40° N there is good daylight for the Crown's rooms most of the year, and it is still cold
+   enough for the ice to last.
 
 ![The ground at the site, in section](../img/book/site-ground.png)
 
@@ -68,9 +68,9 @@ The red mark is the pod hangar door, facing the garden.*
 
 ![The Crown alone on the plain, from the air](../../design/img/site-aerial.jpg)
 
-The ring floats 40 m up over the **Stone Garden**, a circle of raked gravel 224 m across with **224 mirrors** on six
-rings that aim sunlight at the Orb, and seven basalt stones. At the centre, the **Sun Well**, a glass lens 20 m
-across, takes that light 68 m down to the Pentagon's atrium. Under each spire a ring of pale light shows where its
+The ring floats 40 m up over the **Stone Garden**, a circle of raked gravel 224 m across. Nothing stands in it but
+**seven basalt stones**: no mirrors and no panels (Jim, 1 Oct 2026). At the centre, the **Sun Well**, a glass lens
+20 m across, is the sky lens over the Pentagon's atrium, 68 m below. Under each spire a ring of pale light shows where its
 anti-gravity field reaches; these are also the pads the Crown would settle on if its drives stopped. The only openings
 to the surface are the Sun Well and the rover tunnel from L5, which comes out 700 m east. The radiators stand 400 m
 north.
@@ -101,7 +101,7 @@ a small crown over a small pentagon, joined by tunnels; people move between home
 | Thin air | 870 Pa, under 1% of Earth's, mostly CO₂ | Every room pressurised; suits outside; the pod flies on rocket thrust |
 | Cold | −20 °C on a summer afternoon, −90 °C at night | Thick insulated shells; spare reactor heat warms the rooms |
 | Radiation | About 230 mSv a year on the open surface | 16 m of soil over the Pentagon; the Crown's shell cuts it to a third; sleep below ground |
-| Dust and storms | Dust devils in summer; a planet-wide storm every 5½ Earth years | Storm shutters, sealed suit ports, reactors that keep the power on |
+| Dust and storms | Dust devils in summer; a planet-wide storm every 5½ Earth years | Storm shutters, sealed suit ports, reactors that keep the power on; no panels to bury |
 | Low gravity | 38% of Earth's | A 50 m pool, a gym and walking everywhere |
 | Toxic soil | Perchlorate salts in the dust | Suits stay outside; farm soil is washed; the air is filtered |
 

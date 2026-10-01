@@ -34,7 +34,7 @@ nothing links it to the ground but portals and the pods. **Requirements:** CR-1 
 - **At night** the slots glow warm, a red beacon burns on each spire, and pale blue rings of light pulse on the ground
   under the anti-gravity drives.
 
-![Looking up from the Stone Garden at the ring and the Orb](../../design/img/crown-garden.jpg)
+![Nothing holds it up: the Crown over the Stone Garden at sunset, from the plain](../../design/img/crown-garden.jpg)
 
 ## The main floor
 
@@ -94,12 +94,9 @@ portal ring at +64, the lounges and the Gate at +72, and the rest rooms at +80 u
 | ![The corner dashboard: Earth and Mars with their weather](../img/book/crown-dashboard.png) | ![The zoom in nine steps](../img/book/crown-zoom.png) |
 | *On the glass front of a lounge, over the universe image. Readings are examples; Earth's weather arrives 3 to 22 minutes late, the time radio takes.* | *Nine steps, from 93 billion light-years to 276 m: about 3 × 10²⁴ times. The data are real: galaxy surveys, the Gaia star map, NASA's planet positions, the Mars Atlas.* |
 
-**How the sunlight still gets down.** The Orb's lower half is also the top mirror of the Sun Well. The 224 garden
-mirrors aim sunlight at a point inside the Orb; its curved underside bends the light down onto the Sun Well's lens and
-into the Pentagon's atrium, about 500 kW at a clear noon. This is a beam-down solar tower, like the one at Masdar in
-Abu Dhabi. The hall inside needs no daylight, so the two never meet.
-
-![Section through the Orb and the Sun Well, with the light path](../img/book/crown-orb-sunlight.png)
+**The Sun Well under the Orb** is a glass lens 20 m across over the Pentagon's atrium. It is a sky lens: lamps behind
+it show the atrium the sky that is outside, the sun's place included, and keep it bright in a dust storm. There are no
+mirrors on the ground (Jim, 1 Oct 2026); Jim takes the real sun in the Crown's rooms and the Orb's rest rooms.
 
 | Future technology | Real fallback |
 | --- | --- |
@@ -144,7 +141,7 @@ one 36° part at a time; then the drives switch on and lift it to +40 m.
 
 | Mode | What happens |
 | --- | --- |
-| **Day** | Shutters open, daylight through the slots, the garden mirrors follow the sun. Daily life is up here: salon, dining, library, studio, the Orb's lounges. For a quiet hour, a rest room in the Orb |
+| **Day** | Shutters open, daylight through the slots; the Sun Well's sky lens lights the atrium below. Daily life is up here: salon, dining, library, studio, the Orb's lounges. For a quiet hour, a rest room in the Orb |
 | **Sunset** | The sun sets straight down the Sunset lounge and shines in through the slots; the sky round it turns blue |
 | **Night** | The slots glow, the beacons turn on, the Observatory opens. Jim goes down by portal to sleep on L1 |
 | **Dust storm** | Titanium shutters close over the slots and the Orb's windows, the Sun Well's iris closes, pods stay in the hangar; life moves down to L1 |

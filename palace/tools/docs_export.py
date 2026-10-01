@@ -18,7 +18,7 @@ WHAT = sys.argv[1] if len(sys.argv) > 1 else "all"
 # chapter page -> [(svg id, file name)]; the Pentagon's level plan is exported once per level
 BOOK = {
     "site": [("fMars", "mars"), ("fGround", "ground"), ("fRegion", "region"), ("fCorridor", "corridor"), ("fSite", "plan"), ("fCity", "city")],
-    "crown": [("fElev", "elevation"), ("fPlan", "plan"), ("fOrbIn", "orb-inside"), ("fDash", "dashboard"), ("fZoom", "zoom"), ("fOrb", "orb-sunlight"), ("fField", "field"), ("fSection", "sections")],
+    "crown": [("fElev", "elevation"), ("fPlan", "plan"), ("fOrbIn", "orb-inside"), ("fDash", "dashboard"), ("fZoom", "zoom"), ("fField", "field"), ("fSection", "sections")],
     "pentagon": [("fSec", "section"), ("fPlan", "plan-L1"), ("fDose", "dose"), ("fDig", "dig")],
     "interiors": [("fMap", "map"), ("fSuites", "suites"), ("fArrive", "arrive"), ("fSol", "sol")],
     "power": [("fFlow", "flow"), ("fReactor", "reactor"), ("fSol", "sol"), ("fTrench", "trench"), ("fRad", "radiators")],

@@ -69,8 +69,8 @@ shots and skip to the arrival. Phase 1 of the 3D build plays it.
 | --- | --- | --- |
 | ![Lift-off](../../design/img/port-liftoff.jpg) | ![Heading west](../../design/img/flight-west.jpg) | ![The Dune Sea](../../design/img/flight-dunes.jpg) |
 | 1 Lift-off | 2 Heading west | 3 The Dune Sea |
-| ![Over the crater](../../design/img/flight-crater.jpg) | ![The Ice Cliffs](../../design/img/flight-cliffs.jpg) | ![In the cockpit](../../design/img/flight-breakout.jpg) |
-| 4 Over the crater | 5 The Ice Cliffs | 7 In the cockpit, after the storm |
+| ![Over the crater](../../design/img/flight-crater.jpg) | ![The Ice Cliffs](../../design/img/flight-cliffs.jpg) | ![The Crown ahead](../../design/img/crown-sunset.jpg) |
+| 4 Over the crater | 5 The Ice Cliffs | 7 The Crown ahead, after the storm |
 
 ## On the ground: the road and the maglev
 

@@ -11,6 +11,9 @@ can be seen here. Areas are gross floor areas, rounded.
 > - **The Orb:** Rev D opens its centre as the Universe Hall, with rooms on three rings round it, rest rooms and the
 >   Gate on a bridge ([chapter 02](design/02-crown.md#the-orb-and-the-universe-hall)). The Crown becomes 19,100 m²
 >   and the Pentagon 11 times its size. Shown for Jim's review; the sheets below still show the Rev B Orb.
+> - **Nothing on the ground (B.1, 1 Oct 2026):** at Jim's request the garden mirrors and the spaceport's solar field
+>   are off the sheets (GN-12). The Stone Garden is raked gravel and seven stones; the Sun Well is a sky lens; two
+>   reactors at the port and two under the house supply the power.
 
 | Sheet | Drawing |
 | --- | --- |
@@ -30,8 +33,11 @@ can be seen here. Areas are gross floor areas, rounded.
 
 Nothing touches the ground: anti-gravity drives in the five spires hold the ring 40 m above the plain, and the rings
 on the ground show where their fields reach. The spires rise to 90 m, the dips to 50 m. The Orb floats over the Sun
-Well from 52 to 92 m; its mirror underside bounces the garden mirrors' light down into the Pentagon. Dashed lines are
-the window slots. The small dome at the front right is the TTMath campus dome from demo 1, to the same scale.
+Well from 52 to 92 m. Dashed lines are the window slots. The small dome at the front right is the TTMath campus dome
+from demo 1, to the same scale.
+
+*B.1, 1 Oct 2026: the garden mirrors and the light they sent down the Sun Well were taken off this sheet; the Stone
+Garden is raked gravel and seven stones, and the Sun Well is a sky lens.*
 
 ## A-002 Size check
 
@@ -95,7 +101,10 @@ a solid iris; the atrium drops 68 m to the floor of L5.
 
 Three landing pads 1.6 km from the terminal, each behind a berm because landing rockets throw rocks. The fuel plant
 turns ground ice and the air's CO₂ into methane and oxygen. Passengers ride a bus from the pad to the terminal and walk
-through to the pod station facing home. Power from a solar field and a buried reactor.
+through to the pod station facing home.
+
+*B.1, 1 Oct 2026: the solar field was taken off this sheet. The port runs on two buried reactors, with no panels on the
+ground.*
 
 ## A-601 The pod flight home
 

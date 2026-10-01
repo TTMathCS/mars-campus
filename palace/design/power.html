@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Power · Arcadia Design Book</title>
+<meta name="description" content="How the house, the spaceport and the future city get their power on Mars: fission microreactors, a solar field, batteries, fuel cells, a 30 km DC link and radiators, through clear sols and global dust storms.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+</head>
+<body data-ch="power">
+<main class="wrap">
+  <div class="open">
+    <div class="no">Chapter 05</div>
+    <h1>Power</h1>
+    <p class="lede">On Mars, power is life: it makes the air, melts the water, lights the farms and fuels the ships home. Sunlight is weak and a global dust storm can hide it for weeks, so the house runs on nuclear power that never stops, with a solar field at the spaceport for the work that can wait for the sun.</p>
+  </div>
+  <figure class="hero"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fFlow" viewBox="0 0 1180 566" role="img" aria-label="Where the power comes from and where it goes, in megawatts"></svg></div></div><figcaption><b>The power system in phase 1</b>, average megawatts on a clear sol. Band widths are to scale. Electricity is orange, heat is red, and the 30 km cable joins the house and the spaceport into one grid.</figcaption></figure>
+  <div class="nums">
+    <div><b>8 MW</b><span>Average demand in phase 1: the house, the spaceport and the fuel plant</span></div>
+    <div><b>15 MWe</b><span>Three fission microreactors of 5 MWe, running day and night, in storms too</span></div>
+    <div><b>11 MW</b><span>The solar field at a clear noon; about 3.5 MW averaged over a sol</span></div>
+    <div><b>30 km</b><span>Buried DC cable linking the house and the spaceport</span></div>
+    <div><b>9 days</b><span>Full power from fuel cells alone, burning stored rocket fuel</span></div>
+  </div>
+
+  <section class="part" id="demand">
+    <h2><small>What needs power</small>Demand in phase 1</h2>
+    <div class="two">
+      <div>
+        <p>The biggest single user is light: the farms and gardens on L2 grow under lamps. The second is the <b>fuel plant</b> at the spaceport, which turns ice and air into methane and oxygen for the ships and pods (chapter 07). Everything else, the air and water plants, the rooms, the foundry and the port, adds up to about a third.</p>
+        <p>The fuel plant is the one load that can wait. It runs flat out while the sun shines and slows down at night and in storms, so it soaks up the solar power and nothing else has to.</p>
+        <div class="future"><div class="k">Future technology</div><p>The Crown's anti-gravity drives and the portals have no known physics, so their power needs are guesses. The design keeps 0.5 MW for them and has room to grow.</p></div>
+      </div>
+      <div class="tw"><table class="spec" id="tDemand"><thead><tr><th>Load</th><th>Average</th><th>Peak</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="part" id="supply">
+    <h2><small>Where it comes from</small>Reactors for the base, the sun for the extra</h2>
+    <div class="two flip">
+      <div>
+        <p><b>Fission microreactors.</b> Three units of 5 MWe each, the size of a shipping container, cooled by heat pipes with no pumps to fail. Two sit in the power sector of the Pentagon's L4, 59 m down; one sits in a buried vault at the spaceport, with room for a second. Each runs for about 8 years before it is refuelled. Reactors like this are being developed on Earth, and NASA is developing reactors to power bases on the Moon.</p>
+        <p><b>Solar field.</b> 94,000 m² of panels in 23 rows at the spaceport, tilted 35° to the south. Mars gets 43% of Earth's sunlight and dust settles on the panels, so small robots brush every row each night. The field gives about 11 MW at a clear noon and 3.5 MW on average, and next to nothing in a global dust storm.</p>
+        <p><b>Batteries</b> of 20 MWh at the house and 20 MWh at the port cover a reactor trip or the evening peak. <b>Fuel cells</b> can burn the methane and oxygen stored for the ships: 1,000 tonnes of propellant keeps 8 MW going for about 9 days.</p>
+      </div>
+      <figure class="fig"><svg id="fReactor" viewBox="0 0 620 400" role="img" aria-label="Section through a reactor vault on L4"></svg><figcaption><b>A reactor vault on L4</b>, in section. The core sits in a steel vessel inside a water-filled shield; heat pipes carry its heat to a gas turbine, and the waste heat goes up to the radiators.</figcaption></figure>
+    </div>
+    <div class="tw"><table class="spec" id="tSupply"><thead><tr><th>Source</th><th>Where</th><th>Capacity</th><th>Average, clear sol</th><th>In a global dust storm</th></tr></thead><tbody></tbody></table></div>
+    <div class="note"><div class="k">Real technology</div><p>Heat-pipe microreactors of about 5 MWe are in development on Earth; NASA's Kilopower test (KRUSTY, 2018) ran a small heat-pipe reactor at full power for 28 hours, and NASA's Fission Surface Power project is developing reactors for the Moon. Solar power on Mars is proven: Spirit, Opportunity and InSight all ran on it, and Opportunity was lost in the 2018 global dust storm, which is why this design doesn't depend on the sun.</p></div>
+  </section>
+
+  <section class="part" id="sol">
+    <h2><small>Through a sol</small>A clear day and a storm day</h2>
+    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fSol" viewBox="0 0 1180 400" role="img" aria-label="Power supply and demand through a clear sol and through a dust storm sol"></svg></div></div><figcaption><b>Supply and demand through a sol</b>, in megawatts. On a clear sol the solar field runs the fuel plant by day. In a global storm the sun is nearly gone for weeks; the reactors carry the house and the port, and the fuel plant waits.</figcaption></figure>
+  </section>
+
+  <section class="part" id="grid">
+    <h2><small>The grid</small>One cable, two ends</h2>
+    <div class="two">
+      <div>
+        <p>A buried <b>direct-current cable</b> runs 30 km beside the rover road, at ±20 kV, able to carry 15 MW either way; at full load about 1.5% is lost on the way, less in the cold ground. With it, the house and the spaceport act as one grid: the port's sunshine helps the house by day, and the house's reactors power the port at night.</p>
+        <p>An <b>optical fibre</b> runs in the same trench for data, as the backup to the radio links (chapter 09).</p>
+        <p>Inside the house, power is distributed as direct current too, because the panels, the batteries and most machines work on DC. The switchgear is on L4 next to the reactors.</p>
+        <table class="spec"><tbody>
+          <tr><td>Link</td><td class="n">30 km · ±20 kV DC</td></tr>
+          <tr><td>Capacity</td><td class="n">15 MW</td></tr>
+          <tr><td>Conductors</td><td class="n">2 × 1,200 mm² aluminium</td></tr>
+          <tr><td>Losses at full load</td><td class="n">about 1.5%</td></tr>
+          <tr><td>Depth</td><td class="n">1.5 m, beside the road</td></tr>
+        </tbody></table>
+      </div>
+      <figure class="fig"><svg id="fTrench" viewBox="0 0 620 360" role="img" aria-label="Cross-section of the cable trench beside the rover road"></svg><figcaption><b>The trench beside the road</b>, in section. The cables and the fibre lie in sand under a warning layer, deep enough that the daily swing of temperature at the surface doesn't reach them.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="part" id="heat">
+    <h2><small>Heat</small>Warmth for the house, the rest to the sky</h2>
+    <div class="two flip">
+      <div>
+        <p>A reactor makes about twice as much heat as electricity. The house uses some of it: warm water from the turbines heats the Pentagon's floors, melts ice for water and keeps the gardens warm, about 2 MW in all.</p>
+        <p>The rest, up to 20 MW, goes to the <b>radiator field</b> 400 m north of the house: 150 × 60 m of tall vertical fins that glow faintly warm against the −60 °C sky. The thin air carries little heat away, so the fins shed it mostly as infrared light. The spaceport's reactor has its own smaller radiators.</p>
+        <p>The radiators are north of the house so they never shade the Stone Garden's mirrors, and far enough away that their heat doesn't thaw the ground under the Pentagon.</p>
+      </div>
+      <figure class="fig"><svg id="fRad" viewBox="0 0 620 330" role="img" aria-label="The radiator field seen from the side and from above"></svg><figcaption><b>The radiator field</b>: 24 rows of fins 5 m tall, fed by a warm loop from L4.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="part" id="grow">
+    <h2><small>Growing</small>Power for the city</h2>
+    <div class="tw"><table class="spec"><thead><tr><th>Phase</th><th>Demand</th><th>What is added</th></tr></thead><tbody>
+      <tr><td class="n">1 · Port and home</td><td class="n">8 MW</td><td>Three 5 MWe reactors, the solar field, batteries, the 30 km cable.</td></tr>
+      <tr><td class="n">2 · First neighbours</td><td class="n">12 MW</td><td>The second reactor at the port; the maglev (about 1 MW while running); each new home adds about 0.25 MW, mostly for its garden lights.</td></tr>
+      <tr><td class="n">3 · Arcadia City</td><td class="n">60–70 MW</td><td>A bigger solar field, up to 1 km², and a larger power plant on L4's fusion-ready bay, fission until fusion is ready. The city's tunnels carry the cables to every home.</td></tr>
+      <tr><td class="n">4 · Connections</td><td class="n">—</td><td>Links to other Mars cities share power the way countries on Earth do.</td></tr>
+    </tbody></table></div>
+  </section>
+</main>
+<script src="book.js"></script>
+<script>
+(function () {
+  var S = BOOK.S, T = BOOK.T, P = BOOK.path, D = Math.PI / 180, r1 = BOOK.r1;
+  var DEM = [["Farms and gardens: lamps on L2", 2.0, 3.0], ["Fuel plant at the spaceport", 2.4, 6.0], ["Air, water and heat pumps", 0.6, 0.8], ["Rooms, lights and the house mind", 1.0, 1.6], ["Foundry and workshops, L3", 0.8, 2.0], ["Spaceport buildings, lights and rovers", 0.4, 0.7], ["Ice mine and water plant", 0.3, 0.5], ["Anti-gravity and portals (a guess)", 0.5, 0.5]];
+  var tb = document.querySelector("#tDemand tbody"), tot = [0, 0];
+  DEM.forEach(function (d) { tot[0] += d[1]; tot[1] += d[2]; var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + '</td><td class="n">' + d[1].toFixed(1) + ' MW</td><td class="n">' + d[2].toFixed(1) + " MW</td>"; tb.appendChild(tr); });
+  var tr0 = document.createElement("tr"); tr0.innerHTML = '<td><b>Total</b></td><td class="n"><b>' + tot[0].toFixed(1) + ' MW</b></td><td class="n"><b>about 14 MW</b><br><small>not all at once</small></td>'; tb.appendChild(tr0);
+  var SUP = [["2 fission microreactors", "Pentagon L4", "2 × 5 MWe", "9 MW", "9 MW"], ["1 fission microreactor", "Spaceport vault", "5 MWe", "4.5 MW", "4.5 MW"], ["Solar field, 94,000 m²", "Spaceport", "11 MW peak", "3.5 MW", "near 0"], ["Batteries", "House and port", "2 × 20 MWh", "evening peaks", "reactor trips"], ["Fuel cells on stored methane and oxygen", "Spaceport", "4 MW", "standby", "if a reactor is down"]];
+  var ts = document.querySelector("#tSupply tbody"); SUP.forEach(function (d) { var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + "</td><td>" + d[1] + '</td><td class="n">' + d[2] + '</td><td class="n">' + d[3] + '</td><td class="n">' + d[4] + "</td>"; ts.appendChild(tr); });
+
+  /* ---------------- flow diagram, band widths to scale (px per MW) */
+  (function () {
+    var svg = document.getElementById("fFlow"), k = 13, EL = "#e0a55b", HT = "#d0694c";
+    S("rect", { x: 0, y: 0, width: 1180, height: 560, "class": "paper" }, svg);
+    function band(x0, y0, x1, y1, w, col, op) { var mx = (x0 + x1) / 2; S("path", { d: "M" + x0 + " " + r1(y0) + "C" + mx + " " + r1(y0) + " " + mx + " " + r1(y1) + " " + x1 + " " + r1(y1), stroke: col, "stroke-width": r1(w), fill: "none", "stroke-opacity": op || .75 }, svg); }
+    function node(x, y, w, h, title, sub, fill) { S("rect", { x: x, y: r1(y), width: w, height: r1(h), rx: 3, fill: fill || "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.2 }, svg); T(svg, x + w / 2, y + h / 2 - (sub ? 4 : -5), title, "disp", { "text-anchor": "middle", style: "font-size:15px;font-weight:600" }); if (sub) (Array.isArray(sub) ? sub : [sub]).forEach(function (sl, i) { T(svg, x + w / 2, y + h / 2 + 13 + i * 14, sl, "t2", { "text-anchor": "middle", style: "font-size:12px" }); }); }
+    var xs = 40, ws = 170, xg = 470, wg = 190, xl = 880, wl = 200;
+    // sources
+    var SRC = [["Reactors · house", "2 × 5 MWe on L4", 3.3, 9, 50, 100], ["Reactor · port", "5 MWe vault", 1.2, 4.5, 190, 76], ["Solar field", "at the spaceport", 3.5, 3.5, 300, 70]];
+    node(xg, 120, wg, 280, "Grid", ["house and port,", "joined by the 30 km", "DC cable"], "#f6efe3");
+    var yin = 162;
+    SRC.forEach(function (s0) {
+      node(xs, s0[4], ws, s0[5], s0[0], s0[1]);
+      var w = s0[2] * k, yc = yin + w / 2; yin += w + 8;
+      band(xs + ws, s0[4] + s0[5] / 2, xg, yc, w, EL);
+      T(svg, xs + ws + 12, s0[4] + s0[5] / 2 - w / 2 - 8, s0[0] === "Solar field" ? "3.5 MW on average, all used by day" : s0[2].toFixed(1) + " MW used of " + s0[3] + " MW available", "t2", { style: "font-size:12px" });
+    });
+    // loads
+    var L = [["Farms and gardens", 2.0], ["Fuel plant", 2.4], ["Air, water, heat pumps", 0.6], ["Rooms and house mind", 1.0], ["Foundry", 0.8], ["Port, mine, rovers", 0.7], ["Anti-gravity, portals", 0.5]];
+    var y = 34, yout = 162;
+    L.forEach(function (l) {
+      var h = Math.max(24, l[1] * k + 10), w = l[1] * k;
+      node(xl, y, wl, h, l[0], "", "var(--sheet)"); T(svg, xl + wl + 8, y + h / 2 + 4, l[1].toFixed(1) + " MW", "mono t2", { style: "font-size:11.5px" });
+      band(xg + wg, yout + w / 2, xl, y + h / 2, w, EL); yout += w + 4; y += h + 8;
+    });
+    // heat, its own row at the bottom
+    node(xs, 420, ws + 40, 96, "Reactor heat · house", ["about 7 MW on a clear sol,", "up to 20 MW at full power"], "#f3ddd3");
+    node(xg, 416, wg, 44, "Heating the house", "", "#f3ddd3");
+    node(xl, 468, wl, 50, "Radiators", "400 m north", "#f3ddd3");
+    band(xs + ws + 40, 442, xg, 438, 2 * k, HT, .55); T(svg, 300, 424, "2 MW", "mono tr", { style: "font-size:12px" });
+    band(xs + ws + 40, 486, xl, 493, 5 * k, HT, .55); T(svg, 700, 480, "5 MW", "mono tr", { style: "font-size:12px" });
+    T(svg, 20, 556, "Band widths: " + k + " px = 1 MW. On a clear sol the reactors run at about a third of their power; the rest is kept for storms, repairs and growth.", "t2", { style: "font-size:12.5px" });
+  })();
+
+  /* ---------------- a reactor vault on L4 */
+  (function () {
+    var svg = document.getElementById("fReactor"), k = 21, X0 = 172, Y0 = 330;   // metres; floor of L4 at Y0
+    function E(x, h) { return [X0 + x * k, Y0 - h * k]; }
+    S("rect", { x: 0, y: 0, width: 620, height: 400, "class": "paper" }, svg);
+    // the vault: 8 m tall level, rock round it
+    S("rect", { x: 0, y: r1(E(0, 9.5)[1]), width: 620, height: 400, fill: "#a8968a", "fill-opacity": .35 }, svg);
+    S("rect", { x: r1(E(-8, 0)[0]), y: r1(E(0, 8)[1]), width: r1(26 * k), height: r1(8 * k), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    // shield pool with the reactor vessel
+    S("rect", { x: r1(E(-6.5, 0)[0]), y: r1(E(0, 6.2)[1]), width: r1(8 * k), height: r1(6.2 * k), fill: "#cfe1ea", stroke: "var(--ice)", "stroke-width": 1.2 }, svg);
+    S("rect", { x: r1(E(-4.2, 0)[0]), y: r1(E(0, 4.6)[1]), width: r1(3.4 * k), height: r1(4 * k), rx: 6, fill: "#b9bdc1", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    S("rect", { x: r1(E(-3.4, 0)[0]), y: r1(E(0, 3.9)[1]), width: r1(1.8 * k), height: r1(2.6 * k), fill: "#e0a55b", "fill-opacity": .8 }, svg);
+    T(svg, E(-2.5, 0)[0], E(0, 2.4)[1], "core", "", { "text-anchor": "middle", style: "font-size:12px;font-weight:600" });
+    // heat pipes up and across to the turbine
+    for (var i = 0; i < 5; i++) { var x = -3.9 + i * 0.7; S("path", { d: P([E(x, 4.6), E(x, 6.6 + i * 0.12), E(4.6, 6.6 + i * 0.12)]), stroke: "var(--route)", "stroke-width": 2, fill: "none" }, svg); }
+    // turbine and generator
+    S("rect", { x: r1(E(4.6, 0)[0]), y: r1(E(0, 7.4)[1]), width: r1(5.4 * k), height: r1(3.2 * k), rx: 4, fill: "#e6e0d6", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    T(svg, E(7.3, 0)[0], E(0, 5.8)[1] + 4, "gas turbine", "", { "text-anchor": "middle", style: "font-size:12px" });
+    S("rect", { x: r1(E(10.6, 0)[0]), y: r1(E(0, 7)[1]), width: r1(3.2 * k), height: r1(2.4 * k), rx: 4, fill: "#f3e6b5", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    T(svg, E(12.2, 0)[0], E(0, 5.8)[1] + 4, "generator", "", { "text-anchor": "middle", style: "font-size:12px" });
+    // cooling loop up to the radiators, and heat to the house
+    S("path", { d: P([E(8, 7.4), E(8, 8.6), E(8, 14.4)]), stroke: "#d0694c", "stroke-width": 4, fill: "none" }, svg);
+    T(svg, E(8.5, 13.4)[0], E(0, 13.4)[1], "warm loop to the radiators", "tr", { style: "font-size:12px" });
+    S("path", { d: P([E(14, 5), E(17.6, 5)]), stroke: "var(--route)", "stroke-width": 3, fill: "none", "marker-end": BOOK.arrowDefs(svg, "ar1", "routef") }, svg);
+    T(svg, E(14.1, 6.3)[0], E(0, 6.3)[1], "to the grid", "tr", { style: "font-size:12px" });
+    S("path", { d: P([E(6, 4.2), E(6, 2), E(17.6, 2)]), stroke: "#d0694c", "stroke-width": 2.4, "stroke-dasharray": "5 4", fill: "none" }, svg);
+    T(svg, E(10.5, 2.4)[0], E(0, 2.4)[1] - 4, "warm water to heat the house", "", { style: "font-size:12px;fill:#b0503a" });
+    T(svg, E(-6.5, 0)[0], E(0, 6.6)[1] - 4, "water shield", "ti", { style: "font-size:12px" });
+    T(svg, E(-8, 0)[0], E(0, 8)[1] - 10, "POWER SECTOR, L4 · 59 m below the garden", "mono t2", { style: "font-size:11.5px;letter-spacing:.06em" });
+    BOOK.scalebar(svg, 360, 376, k, [0, 5, 10], "m");
+  })();
+
+  /* ---------------- through a sol: clear and storm */
+  (function () {
+    var svg = document.getElementById("fSol"), SOL = 24.66;
+    S("rect", { x: 0, y: 0, width: 1180, height: 400, "class": "paper" }, svg);
+    function panel(ox, title, storm) {
+      var x0 = ox + 50, x1 = ox + 540, y0 = 330, y1 = 60, maxMW = 16;
+      function X(h) { return x0 + h / SOL * (x1 - x0); } function Y(v) { return y0 - v / maxMW * (y0 - y1); }
+      S("rect", { x: x0, y: y1, width: x1 - x0, height: y0 - y1, fill: "var(--panel)", stroke: "var(--rule)" }, svg);
+      [0, 4, 8, 12, 16].forEach(function (v) { S("line", { x1: x0, y1: r1(Y(v)), x2: x1, y2: r1(Y(v)), "class": "ink3", "stroke-width": .5, "stroke-dasharray": "2 4" }, svg); T(svg, x0 - 8, Y(v) + 4, v + "", "mono t3", { "text-anchor": "end", style: "font-size:10.5px" }); });
+      [0, 6, 12, 18, 24].forEach(function (h) { T(svg, X(h), y0 + 16, (h < 10 ? "0" : "") + h + ":00", "mono t3", { "text-anchor": "middle", style: "font-size:10.5px" }); });
+      // supply: reactors flat 13.5 MW available (dashed), solar bell
+      var pts = [], sol = [], dem = [], fuel = [];
+      for (var i = 0; i <= 120; i++) {
+        var h = i / 120 * SOL, day = Math.max(0, Math.sin((h - 6.2) / 12.3 * Math.PI)), s = storm ? 0.25 * day : 11 * Math.pow(day, 1.3);
+        var base = 5.2 + 0.7 * Math.exp(-Math.pow((h - 19.5) / 1.8, 2)) + 0.5 * Math.exp(-Math.pow((h - 8) / 1.5, 2)) + (h > 6.5 && h < 22 ? 0.8 : 0);
+        var f = storm ? 0.4 : 0.6 + Math.min(6, s * 0.62);
+        sol.push([X(h), Y(s)]); dem.push([X(h), Y(base)]); fuel.push([X(h), Y(base + f)]);
+      }
+      S("path", { d: P(sol.concat([[X(SOL), Y(0)], [X(0), Y(0)]]), true), fill: "#f2c46b", "fill-opacity": .55 }, svg);
+      S("path", { d: P(fuel.concat(dem.slice().reverse()), true), fill: "#e0a55b", "fill-opacity": .35 }, svg);
+      S("path", { d: P(dem), stroke: "var(--ink)", "stroke-width": 1.6, fill: "none" }, svg);
+      S("path", { d: P(fuel), stroke: "var(--route)", "stroke-width": 1.6, fill: "none" }, svg);
+      S("line", { x1: x0, y1: r1(Y(13.5)), x2: x1, y2: r1(Y(13.5)), stroke: "var(--ice)", "stroke-width": 2, "stroke-dasharray": "7 4" }, svg);
+      T(svg, x1 - 6, Y(13.5) - 6, "reactors available, 13.5 MW", "ti", { "text-anchor": "end", style: "font-size:12px" });
+      T(svg, x0, 40, title, "disp", { style: "font-size:17px;font-weight:600" });
+      if (!storm) { T(svg, X(12.3), Y(11) - 8, "solar", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" }); T(svg, X(15.5), Y(9.5) + 4, "fuel plant runs on the sun", "tr halo", { style: "font-size:12px" }); }
+      else { T(svg, X(12.3), Y(1.2) - 6, "solar: almost nothing", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" }); T(svg, X(9), Y(6.9) - 8, "fuel plant waits", "tr halo", { style: "font-size:12px" }); }
+      T(svg, X(1.2), Y(5.6) - 6, "house and port", "halo", { style: "font-size:12px" });
+      T(svg, x0 - 36, y1 - 8, "MW", "mono t3", { style: "font-size:10.5px" });
+    }
+    panel(20, "A clear sol", false);
+    panel(600, "A sol in a global dust storm", true);
+  })();
+
+  /* ---------------- cable trench */
+  (function () {
+    var svg = document.getElementById("fTrench"), k = 90, X0 = 310, Y0 = 70;
+    function E(x, d) { return [X0 + x * k, Y0 + d * k]; }
+    S("rect", { x: 0, y: 0, width: 620, height: Y0, "class": "paper" }, svg);
+    S("rect", { x: 0, y: Y0, width: 620, height: 290, fill: "#b9c9cf", "fill-opacity": .5 }, svg);
+    S("rect", { x: 0, y: Y0, width: 620, height: r1(0.3 * k), fill: "#b98c6a", "fill-opacity": .6 }, svg);
+    // the road on the left
+    S("rect", { x: 0, y: Y0 - 6, width: r1(E(-1.4, 0)[0]), height: 10, fill: "#8f7d70", stroke: "var(--ink)", "stroke-width": 1 }, svg);
+    T(svg, 60, Y0 - 14, "rover road", "t2", { style: "font-size:12px" });
+    // trench
+    S("path", { d: P([E(-0.6, 0), E(-0.45, 1.8), E(0.45, 1.8), E(0.6, 0)], true), fill: "#e9dccb", stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    S("line", { x1: r1(E(-0.5, 0.9)[0]), y1: r1(E(0, 0.9)[1]), x2: r1(E(0.5, 0.9)[0]), y2: r1(E(0, 0.9)[1]), stroke: "#e0a55b", "stroke-width": 4, "stroke-dasharray": "6 3" }, svg);
+    [[-0.18, "+"], [0.18, "−"]].forEach(function (c) { var p = E(c[0], 1.5); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 14, fill: "#3a3a3c", stroke: "var(--ink)" }, svg); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 9, fill: "#c9cbcd" }, svg); T(svg, p[0], p[1] + 4, c[1], "", { "text-anchor": "middle", style: "font-size:13px;font-weight:700" }); });
+    var fb = E(0, 1.25); S("circle", { cx: r1(fb[0]), cy: r1(fb[1]), r: 5, fill: "var(--ice)" }, svg);
+    T(svg, E(0.7, 1.5)[0], E(0, 1.5)[1] + 4, "DC cables, ±20 kV", "", { style: "font-size:12.5px" });
+    T(svg, E(0.7, 1.22)[0], E(0, 1.22)[1] + 4, "optical fibre", "ti", { style: "font-size:12.5px" });
+    T(svg, E(0.7, 0.9)[0], E(0, 0.9)[1] + 4, "warning tape", "", { style: "font-size:12.5px;fill:#9a6a10" });
+    T(svg, E(-0.75, 1.3)[0], E(0, 1.3)[1], "sand bed", "t2", { "text-anchor": "end", style: "font-size:12px" });
+    [0, 0.5, 1, 1.5].forEach(function (d) { var p = E(-3.2, d); T(svg, p[0] + 4, p[1] + 4, d.toFixed(1) + " m", "mono t3", { style: "font-size:10.5px" }); });
+    T(svg, 20, 340, "The top half metre warms and cools every sol; below it the ground stays near −60 °C.", "t2", { style: "font-size:12px" });
+  })();
+
+  /* ---------------- radiator field */
+  (function () {
+    var svg = document.getElementById("fRad");
+    S("rect", { x: 0, y: 0, width: 620, height: 330, "class": "paper" }, svg);
+    // plan above
+    T(svg, 20, 26, "PLAN, 150 × 60 m", "mono t2", { style: "font-size:11.5px;letter-spacing:.06em" });
+    var px = 40, py = 40, k = 3.5;
+    S("rect", { x: px, y: py, width: 150 * k, height: 60 * k * 0.5, fill: "#c9a58a", "fill-opacity": .2, stroke: "var(--ink-3)" }, svg);
+    for (var i = 0; i < 24; i++) { var x = px + 4 + i * (150 * k - 8) / 23; S("line", { x1: r1(x), y1: py + 6, x2: r1(x), y2: py + 60 * k * 0.5 - 6, stroke: "#5a5f64", "stroke-width": 2 }, svg); }
+    S("path", { d: P([[px - 4, py + 52], [px + 150 * k + 4, py + 52]]), stroke: "#d0694c", "stroke-width": 3, fill: "none" }, svg);
+    T(svg, px + 150 * k + 10, py + 56, "warm loop", "tr", { style: "font-size:12px" });
+    // elevation below
+    T(svg, 20, 176, "SIDE VIEW", "mono t2", { style: "font-size:11.5px;letter-spacing:.06em" });
+    var gy = 300; S("line", { x1: 20, y1: gy, x2: 600, y2: gy, "class": "ink", "stroke-width": 1.4 }, svg);
+    for (var j = 0; j < 24; j++) { var xx = 40 + j * 22.5; S("rect", { x: r1(xx), y: gy - 5 * 17, width: 5, height: 5 * 17, fill: "#5a5f64" }, svg); S("path", { d: "M" + r1(xx + 2.5) + " " + (gy - 90) + "q -6 -10 0 -20 q 6 -10 0 -20", stroke: "#d0694c", "stroke-opacity": .45, fill: "none", "stroke-width": 1.2 }, svg); }
+    T(svg, 590, gy - 94, "infrared to the sky", "tr", { "text-anchor": "end", style: "font-size:12px" });
+    T(svg, 20, gy + 20, "fins 5 m tall", "t2", { style: "font-size:12px" });
+  })();
+})();
+</script>
+</body>
+</html>

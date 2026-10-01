@@ -5,10 +5,11 @@ Demo 2 of [Mars Campus](../README.md) · live at https://ttmathcs.github.io/mars
 This file is the source of truth for this demo. It collects what was asked for in the design rounds
 so far. Every requirement has an ID so it can be referenced, changed or retired later.
 
-> **Status, 30 Sep 2026: plans Rev B approved, 3D build in progress.** Jim found the palace below "far from
+> **Status, 1 Oct 2026: design book in progress, 3D build paused.** Jim found the palace below "far from
 > satisfactory" and asked to start again. Round 3 (section 10) replaces it. Jim approved the Rev B floor plans
 > (https://ttmathcs.github.io/mars-campus/palace/plans/) with "Approve. Go". Phase 1 (the landscape, the spaceport
-> and the flight to the Crown) is being built in `palace/src/`.
+> and the flight to the Crown) was built in `palace/src/` until Jim paused it on 30 Sep 2026 to finish the design
+> first. Round 4 (section 11) is the design book at https://ttmathcs.github.io/mars-campus/palace/design/.
 > Sections 2 to 9 describe the current palace, which stays live until the new demo replaces it at the same link.
 
 ## 1. Vision and scope
@@ -144,3 +145,27 @@ chose: "use anti gravity. No elevator. From crown to underground is by use warm 
 Rev B numbers: Crown 20,100 m² (ring 13,070 including the Glide, upper floors 3,630, Orb 3,370); Pentagon
 209,700 m², 10.4 times the Crown. Rev B approved 30 Sep 2026. Open for Jim: where the Wormhole Gate should take
 him in the demo (for example the TTMath campus in demo 1).
+
+## 11. Round 4: the design book (in progress)
+
+Direction from Jim, 30 Sep 2026: "before the detailed html implementation, I really like to put efforts on the design
+and figure out all the plans. I need you to organize those plans well, including all the plans like: architecure,
+interior, power station design, transportation design/etc with details on its outlook/how it works ... we need to
+finish this before we move the impelmentation." And: "in the design doc, I need full map of mars, terrain and space
+maps. also mark where are the city/my house/spaceport are located ... better like google earth design so that we can
+zoom in/out to find overall."
+
+On 1 Oct 2026, answering where the Wormhole Gate should take him: "I don't know because you have the crystal ball in
+the middle. And what I'm thinking is actually I need something like 3D projector to project the center of the dome.
+Because that's project the whole universe. For example, I can zoom in, zoom out to find a certain space in the
+universe. For example, solar systems ... But I don't know where to put the ball. So let's say I need some plan to
+figure it out."
+
+| ID | Requirement | Priority | Status |
+| --- | --- | --- | --- |
+| DB-1 | Design and document every plan before more 3D work: what each part looks like and how it works | Must | In progress: `palace/design/`, chapters 01–07 done (site and city, the Crown, the Pentagon, interiors, power, transportation, the spaceport); 08 life support, 09 communications and space, 10 building it still to write |
+| DB-2 | A full map of Mars with terrain and space, the house, the spaceport and the city marked, zoomable like Google Earth | Must | Done: the Mars Atlas, `palace/design/atlas/` |
+| DB-3 | Real science and engineering with worked numbers; dreams marked as future technology with a real fallback | Must | Done in every chapter so far |
+| DB-4 | A 3D projection of the whole universe, zoomable down to a solar system and a place, at the centre of a dome, to choose where the Wormhole Gate goes | Must | Proposed 1 Oct 2026, waiting for Jim's OK: an 8 m ball of light at the centre of the Orb (+72 m) with three open balconies (+64 portal ring, +72 Gate bridge, +80 gallery) and the inner shell as a sky screen. See HANDOFF.md section 2 |
+| DB-5 | Publish to the GitHub repo and the live site, not as a chat artifact | Must | Done |
+

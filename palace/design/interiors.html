@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Interiors · Arcadia Design Book</title>
+<meta name="description" content="Every room of Jim's house on Mars: the design language, the materials, the two master suites, the arrival sequence, light through the sol, and what low gravity and thin air change inside.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+<style>
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 10px 14px 0; font-size: 13.5px; color: var(--ink-2); }
+  .legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgba(0,0,0,.15); }
+  .room .ic { float: right; width: 10px; height: 10px; margin: 5px 0 0 8px; border-radius: 2px; }
+</style>
+</head>
+<body data-ch="interiors">
+<main class="wrap">
+  <div class="open">
+    <div class="no">Chapter 04</div>
+    <h1>Interiors</h1>
+    <p class="lede">The rooms of the house, what they look like and what they are made of. The Crown is for daylight, views, music and guests; the Pentagon for sleep, water, gardens and work. Everywhere the aim is the same: calm rooms of real materials that feel like Earth, in a house that could only be on Mars.</p>
+  </div>
+  <figure class="hero"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fMap" viewBox="0 0 1180 600" role="img" aria-label="Where the rooms are: the Crown's main floor and the Pentagon's level L1, coloured by use"></svg></div></div>
+    <div class="legend" id="legend"></div>
+    <figcaption><b>Where the rooms are.</b> Left, the Crown's main floor at +41 m; right, the Pentagon's residence level L1, 24 m down, drawn at the same scale and turned the same way. The two master suites (outlined) are one above the other, in the south-east.</figcaption></figure>
+
+  <section class="part" id="language">
+    <h2><small>Design language</small>Earth materials, Mars light</h2>
+    <div class="two">
+      <div>
+        <p>The house uses a small palette of <b>real materials</b>, most of them made on Mars: stone and ceramic from the ground, glass from its sand, metals from its rocks, wood from the trees on L2. Surfaces are matt and warm; colour comes from the materials themselves, never from paint.</p>
+        <p><b>Light</b> sets the mood. In the Crown it comes through the window slots: soft by day, a blade of gold at sunrise and sunset. In the Pentagon every room has a <b>sky ceiling</b>, an artificial skylight that shows a sun and a blue sky with real optics. Products that do this exist on Earth today. It follows the time of day and can show Mars, Earth or the stars.</p>
+        <p><b>Water and plants</b> are in almost every room, for the air, the sound and the smell. <b>Quiet</b> comes free: 3 m walls in the Crown and 16 m of soil over the Pentagon keep out every outside sound.</p>
+        <p>No room shows its machines. Air comes in through slots along the floor and leaves through the ceiling edge; power, data and water run in the walls; robots use their own service corridors behind the rooms.</p>
+      </div>
+      <div class="swatches" style="margin:0">
+        <div class="sw"><i style="background:linear-gradient(135deg,#2d2a28,#46403c 55%,#2a2624)"></i><b>Polished basalt</b><span>Floors of the halls, the dining table, the pool deck</span></div>
+        <div class="sw"><i style="background:#e9dccb"></i><b>Regolith plaster</b><span>Curved walls, warm white with a fine sand texture</span></div>
+        <div class="sw"><i style="background:linear-gradient(90deg,#8a6a45,#a7835a 30%,#7d5e3d 60%,#9d7a52)"></i><b>Olive and walnut</b><span>Grown in the L2 orchard and forest: benches, shelves, doors</span></div>
+        <div class="sw"><i style="background:#d9cfbf"></i><b>Linen</b><span>Curtains, sofas and bedding, from flax grown on L2</span></div>
+        <div class="sw"><i style="background:linear-gradient(90deg,#6e4f2a,#b3864c 45%,#7a5830)"></i><b>Bronze</b><span>Slot reveals, handrails, the library's ladders</span></div>
+        <div class="sw"><i style="background:linear-gradient(90deg,#8f8a84,#c9c4bd 45%,#9d9892)"></i><b>Titanium</b><span>Fittings, kitchen, bathroom metal</span></div>
+        <div class="sw"><i style="background:linear-gradient(180deg,#dfe9ee,#b9cfd8)"></i><b>Mars glass</b><span>Screens, shower walls, the atrium balustrades</span></div>
+        <div class="sw"><i style="background:radial-gradient(circle at 30% 30%,#8ea65a,#5e7d33 60%,#3f5a22)"></i><b>Moss and ferns</b><span>Living walls in the baths, the suites and the Glide</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="part" id="crown">
+    <h2><small>The Crown</small>Rooms of light and view</h2>
+    <p class="intro">The ten parts of the ring, from the Arrival spire clockwise. Each room runs along the outer wall with the window slot at eye level; the Glide runs along the garden side.</p>
+    <div class="rooms" id="crownRooms"></div>
+  </section>
+
+  <section class="part" id="orb">
+    <h2><small>The Orb</small>The portal hall, the Gate and the library</h2>
+    <div class="three">
+      <div class="room"><div class="k">+64 m · 1,056 m²</div><h4>Portal hall</h4><p>A round hall with five portals in a ring, one to each spire, framed in bronze. Between them, the floor is a disc of polished basalt with the Sun Well's glow coming up through a glass centre.</p><div class="tags">basalt · bronze · light from below</div></div>
+      <div class="room"><div class="k">+72 m · 1,257 m²</div><h4>Wormhole Gate hall</h4><p>One round room under a dome that shows the sky outside. In the middle stands the Gate, a ring of blue-white light 6 m across; through it you see the place it will take you to. The black stone floor mirrors it.</p><div class="tags">the Gate · sky dome · black stone</div></div>
+      <div class="room"><div class="k">+80 m · 1,056 m²</div><h4>Destination library</h4><p>Every place and time the Gate can reach, as models, films and books: Earth's cities, the TTMath campus in Gale crater, the sea floor, ancient Rome. You choose here, then walk down to the Gate.</p><div class="tags">models · films · walnut shelves</div></div>
+    </div>
+    <div class="future"><div class="k">Future technology</div><p>The Gate and the portals are dreams, as in chapter 02. In the demo, stepping into the Gate plays the chosen destination; Jim still has to choose which one (see the decisions on the cover).</p></div>
+  </section>
+
+  <section class="part" id="suites">
+    <h2><small>Two master suites</small>One up for mornings, one down for nights</h2>
+    <p class="intro">Jim asked for two master suites, one up and one down. They sit one above the other in the south-east: the Crown's suite in the dip between the Arrival and Salon spires, the Pentagon's in sector 1 of L1, 65 m below.</p>
+    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fSuites" viewBox="0 0 1180 520" role="img" aria-label="Plans of the two master suites"></svg></div></div><figcaption><b>The two master suites</b>, plans at the same scale. Up: a long room along the outer wall of the ring, with the window slot facing the sunrise. Down: a wide suite round a moss garden under a sky ceiling, off the street between rings A and B.</figcaption></figure>
+    <div class="pair">
+      <div><h4>Master suite up · the Crown</h4><p>995 m² along the ring. The bed faces the south-east window slot, so on a clear morning the sun rises straight across the room. The walls are lined in pale oak; the floor is linen-coloured stone. The private spa has a soaking pool with the same view. Dressing room and bath are at either end. The portals in the Arrival and Salon spires are a short ride along the Glide.</p></div>
+      <div><h4>Master suite down · L1</h4><p>About 900 m² in ring B, sector 1. The bedroom opens onto a moss garden with a still pool, under a sky ceiling that dims to stars at night and brightens slowly before waking. Under 24 m of ground it is the quietest, safest room on Mars, and where Jim sleeps most nights (chapter 08). The family room and the kitchen are next door; a corner core with a portal is two minutes away.</p></div>
+    </div>
+  </section>
+
+  <section class="part" id="arrive">
+    <h2><small>Coming home</small>From the pod to the Arrival hall</h2>
+    <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fArrive" viewBox="0 0 1180 300" role="img" aria-label="The arrival sequence, from the pod hangar to the Arrival hall"></svg></div></div><figcaption><b>Arrival, step by step</b>, in the Arrival spire. The hangar is the house's airlock; nobody wears a suit to come home.</figcaption></figure>
+    <div class="two even">
+      <div>
+        <p><b>The hangar</b> takes the pod straight in from the garden side. The door closes, and the hangar fills with air in about 90 seconds while fans and brushes blow the dust off the pod. Then the pod's door opens onto a floor of warm stone.</p>
+        <p><b>The suit room</b> beside it is for trips outside on foot. Suits hang in ports in the outer wall and never come in: you climb into a suit from inside and it seals behind you, so no Mars dust enters the house. NASA has built and tested suit ports like this for rovers.</p>
+      </div>
+      <div>
+        <p><b>The Door</b> is a round opening 5 m across at the back of the hangar, closed by an iris of light. It recognises you by face, eyes and the way you walk, and opens only for Jim and his guests.</p>
+        <p><b>The Arrival hall</b> is the first room: 9 m tall, a basalt floor, a long olive-wood bench, and the first window slot, looking back across the garden to the Orb. From here the Glide leads round the ring, and a portal leads down to L1.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="part" id="pentagon">
+    <h2><small>The Pentagon</small>Rooms below ground</h2>
+    <p class="intro">Every room below ground has a sky ceiling, and the rooms in ring A look through glass onto the atrium's hanging gardens and real sunlight. The main rooms by level:</p>
+    <div class="rooms" id="pentRooms"></div>
+  </section>
+
+  <section class="part" id="light">
+    <h2><small>Light through the sol</small>A day of 24 h 40 min</h2>
+    <div class="two flip">
+      <div>
+        <p>A Mars day, a <b>sol</b>, lasts 24 hours 40 minutes, so the house keeps Mars time and the sky ceilings follow the real sun. People adapt to the extra 40 minutes easily; Mars rover teams have lived on Mars time for months.</p>
+        <p>The ceilings follow the pattern our bodies expect: warm light at waking, bright cool light at midday, warm and dim in the evening, then darkness and stars. Bright blue-rich light in the morning sets the body clock; amber light at night lets you sleep.</p>
+        <p>In the Crown the real sun comes through the slots, and the rooms' own lamps only fill in. In a dust storm, when the sky outside turns dark for weeks, the house keeps the same bright sols indoors.</p>
+      </div>
+      <figure class="fig"><svg id="fSol" viewBox="0 0 620 380" role="img" aria-label="Brightness and colour of the indoor light through one sol"></svg><figcaption><b>Indoor light through one sol</b>, from midnight to midnight. The line is the brightness of the sky ceilings; its colour is the colour of the light.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="part" id="mars">
+    <h2><small>Living with Mars indoors</small>What low gravity and lighter air change</h2>
+    <div class="tw"><table class="spec"><thead><tr><th style="width:20%">Mars</th><th style="width:34%">What you notice inside</th><th>How the rooms deal with it</th></tr></thead><tbody>
+      <tr><td>Gravity 38% of Earth's</td><td>You weigh 38%; you bounce when you walk fast; water pours and splashes slowly.</td><td>Stairs have taller, deeper steps and handrails both sides. Furniture is heavier than it looks so it doesn't slide. Showers use a curtain of air to keep the water falling. The gym trains against springs and flywheels, not weights.</td></tr>
+      <tr><td>Air at 70 kPa, 27% oxygen</td><td>It breathes like Calgary. Water boils at 90 °C.</td><td>The kitchen cooks pasta and rice in pressure cookers. Every material is chosen not to burn in the richer oxygen; there are no open flames, and the hearths burn cold mist lit from below.</td></tr>
+      <tr><td>Dust with perchlorate salts</td><td>None, if the design works.</td><td>Suits stay outside at the suit ports; the pod is cleaned in the hangar; the air is filtered everywhere.</td></tr>
+      <tr><td>Radiation</td><td>Nothing you can feel.</td><td>Sleep and long hours below ground; day life in the Crown behind 3 m of ice (chapter 08).</td></tr>
+      <tr><td>Distance from Earth</td><td>Calls lag 3 to 22 minutes each way.</td><td>Messages instead of calls; the Earth archive holds films, music and books locally; the house mind keeps the news up to date (chapter 09).</td></tr>
+    </tbody></table></div>
+  </section>
+</main>
+<script src="book.js"></script>
+<script>
+(function () {
+  var S = BOOK.S, T = BOOK.T, P = BOOK.path, D = Math.PI / 180, r1 = BOOK.r1;
+  var USE = { arrive: ["#c9a26a", "Arrival"], live: ["#e3b35a", "Living"], sleep: ["#b79ad1", "Sleeping"], food: ["#d98d64", "Food and dining"], well: ["#6fb3cf", "Wellness and water"], culture: ["#8fae5b", "Books, music and art"], work: ["#9aa4aa", "Work and making"], guest: ["#e7a3a3", "Guests"], sky: ["#7d93c9", "Sky and stars"] };
+  var CROWN = [
+    [90, "Arrival", "arrive", [["Suit room", .18], ["Pod hangar", .36], ["The Door", .12], ["Arrival hall", .34]], "Dock control"],
+    [126, "Master suite up", "sleep", [["Dressing room", .24], ["Bedroom", .38], ["Bath", .18], ["Private spa", .2]]],
+    [162, "Salon", "live", [["Hearth room", .22], ["Great salon", .56], ["Piano room", .22]], "Sky lounge"],
+    [198, "Wellness", "well", [["Spa and sauna", .3], ["Pool, 25 m", .45], ["Gym", .25]]],
+    [234, "Dining", "food", [["Wine room", .2], ["Dining hall", .5], ["Chef's kitchen", .3]], "Sky bar"],
+    [270, "Sunset lounge", "guest", [["Guest suite", .25], ["Sunset lounge", .5], ["Guest suite", .25]]],
+    [306, "Library", "culture", [["Study", .25], ["Library, two floors", .55], ["Map room", .2]], "Reading gallery"],
+    [342, "Studio", "work", [["Music room", .3], ["Art studio", .4], ["Workshop", .3]]],
+    [18, "Observatory", "sky", [["Star lounge", .6], ["Planetarium", .4]], "Telescope dome"],
+    [54, "Garden room", "food", [["Tea house", .2], ["Breakfast room", .3], ["Sky garden", .5]]]
+  ];
+  var L1 = [["Jim's residence", "sleep", ["Family room", "Master suite down", "Kitchen and dining", "Private spa", "Wardrobes and store"]], ["Club", "culture", ["Cinema, 40 seats", "Music room", "Games and billiards", "Bar", "Wine vault"]], ["Baths", "well", ["Thermal pools", "Pool, 50 m", "Sauna and steam", "Gym", "Treatment rooms"]], ["Library", "culture", ["Great library", "Archive of Earth", "Reading rooms", "Film and music archive", "Book stacks"]], ["Guests", "guest", ["Guest lounge", "Guest suites 1–4", "Guest suites 5–8", "Family apartments", "Staff and robots"]]];
+  var lg = document.getElementById("legend");
+  Object.keys(USE).forEach(function (k) { var s = document.createElement("span"); s.innerHTML = '<i style="background:' + USE[k][0] + '"></i>' + USE[k][1]; lg.appendChild(s); });
+
+  /* ---------------- where the rooms are: the Crown and L1 at the same scale */
+  (function () {
+    var svg = document.getElementById("fMap"), k = 1.66;
+    S("rect", { x: 0, y: 0, width: 1180, height: 600, "class": "panelf" }, svg);
+    // the Crown, left
+    var c1 = [352, 300];
+    function pl(c, b, r) { return [c[0] + r * k * Math.sin(b * D), c[1] - r * k * Math.cos(b * D)]; }
+    S("circle", { cx: c1[0], cy: c1[1], r: r1(112 * k), fill: "#d9c6b3", "fill-opacity": .35 }, svg);
+    CROWN.forEach(function (sg) {
+      var b0 = sg[0] - 18, acc = 0;
+      sg[3].forEach(function (rm) {
+        var s0 = b0 + acc * 36, s1 = s0 + rm[1] * 36, o = [], i = []; acc += rm[1];
+        for (var b = s0; b <= s1 + 1e-6; b += 0.5) { o.push(pl(c1, b, 138)); i.push(pl(c1, b, 126)); }
+        var col = rm[0] === "The Door" || rm[0] === "Pod hangar" || rm[0] === "Suit room" ? USE.arrive[0] : rm[0].indexOf("Guest") === 0 ? USE.guest[0] : rm[0] === "Sunset lounge" ? USE.live[0] : USE[sg[2]][0];
+        S("path", { d: P(o.concat(i.reverse()), true), fill: col, stroke: "var(--sheet)", "stroke-width": .8 }, svg);
+      });
+      var g0 = [], g1 = []; for (var b = b0; b <= b0 + 36 + 1e-6; b += 1) { g0.push(pl(c1, b, 126)); g1.push(pl(c1, b, 122)); }
+      S("path", { d: P(g0.concat(g1.reverse()), true), fill: "#efe6d6", stroke: "none" }, svg);
+      var t = pl(c1, sg[0], 150), an = Math.sin(sg[0] * D), cs = Math.cos(sg[0] * D);
+      T(svg, t[0], t[1] + 4 + (cs > .8 ? -4 : cs < -.8 ? 8 : 0), sg[1], sg[4] ? "disp" : "", { "text-anchor": an > .3 ? "start" : an < -.3 ? "end" : "middle", style: sg[4] ? "font-size:14.5px;font-weight:600" : "font-size:12.5px" });
+    });
+    // outline of the master suite up
+    var mo = [], mi = []; for (var b = 108; b <= 144; b += 1) { mo.push(pl(c1, b, 139.5)); mi.push(pl(c1, b, 124.5)); }
+    S("path", { d: P(mo.concat(mi.reverse()), true), fill: "none", stroke: "var(--ink)", "stroke-width": 2.2 }, svg);
+    S("circle", { cx: c1[0], cy: c1[1], r: r1(20 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    T(svg, c1[0], c1[1] + 4, "Orb", "t2", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, c1[0], 28, "THE CROWN · +41 m", "mono t2", { "text-anchor": "middle", style: "font-size:12px;letter-spacing:.1em" });
+    // the Pentagon L1, right
+    var c2 = [905, 300], R = 160 / (2 * Math.sin(36 * D)), RA = 35 / (2 * Math.sin(36 * D)), AP = R * Math.cos(36 * D), APA = RA * Math.cos(36 * D), RING = (AP - APA - 16) / 5;
+    function W(u, v, th) { var s = Math.sin(th * D), co = Math.cos(th * D); return [c2[0] + (v * s + u * co) * k, c2[1] + (-v * co + u * s) * k]; }
+    var CN = [18, 90, 162, 234, 306];
+    S("path", { d: P(CN.map(function (b) { return [c2[0] + R * k * Math.sin(b * D), c2[1] - R * k * Math.cos(b * D)]; }), true), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.6 }, svg);
+    L1.forEach(function (sc, si) {
+      var th = (126 + 72 * si) % 360;
+      sc[2].forEach(function (zn, q) {
+        var v0 = APA + q * (RING + 4), v1 = v0 + RING, off = 2.5 / Math.sin(54 * D), u0 = v0 * Math.tan(36 * D) - off, u1 = v1 * Math.tan(36 * D) - off;
+        var col = zn === "Master suite down" ? USE.sleep[0] : zn.indexOf("Kitchen") === 0 || zn === "Bar" || zn === "Wine vault" ? USE.food[0] : zn === "Family room" ? USE.live[0] : zn === "Private spa" ? USE.well[0] : zn.indexOf("Staff") === 0 || zn.indexOf("Wardrobes") === 0 || zn === "Book stacks" ? USE.work[0] : USE[sc[1]][0];
+        S("path", { d: P([W(-u0, v0, th), W(u0, v0, th), W(u1, v1, th), W(-u1, v1, th)], true), fill: col, stroke: "var(--sheet)", "stroke-width": .8 }, svg);
+        if (zn === "Master suite down") S("path", { d: P([W(-u0 - 1, v0 - 1, th), W(u0 + 1, v0 - 1, th), W(u1 + 1, v1 + 1, th), W(-u1 - 1, v1 + 1, th)], true), fill: "none", stroke: "var(--ink)", "stroke-width": 2.2 }, svg);
+      });
+      var lp = W(0, AP + 14, th), rot = th > 90 && th < 270 ? th - 180 : th;
+      T(svg, lp[0], lp[1] + 5, sc[0], "disp", { "text-anchor": "middle", transform: "rotate(" + r1(rot) + " " + r1(lp[0]) + " " + r1(lp[1]) + ")", style: "font-size:14.5px;font-weight:600" });
+    });
+    S("path", { d: P(CN.map(function (b) { return [c2[0] + RA * k * Math.sin(b * D), c2[1] - RA * k * Math.cos(b * D)]; }), true), fill: "#fbf4e6", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
+    T(svg, c2[0], c2[1] + 4, "atrium", "t2", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, c2[0], 28, "THE PENTAGON · L1 · −24 m", "mono t2", { "text-anchor": "middle", style: "font-size:12px;letter-spacing:.1em" });
+    BOOK.north(svg, 1146, 64); BOOK.scalebar(svg, 540, 584, k, [0, 50, 100], "m");
+  })();
+
+  /* ---------------- room cards */
+  var CR = {
+    "Arrival": ["The hangar, the suit room, the Door and a 9 m tall hall of basalt and plaster, with the first view back over the garden to the Orb.", "basalt · regolith plaster · olive wood"],
+    "Master suite up": ["A long bedroom facing the sunrise through the south-east slot, a dressing room, a bath and a private spa with a soaking pool.", "pale oak · linen · stone"],
+    "Salon": ["The great salon is 45 m long, with deep bronze-lined slots, wool rugs and low sofas; a hearth of cold, lit mist at one end, a concert grand piano at the other. Upstairs, the Sky lounge.", "wool · bronze · walnut"],
+    "Wellness": ["A 25 m pool along the ring, where low gravity makes every wave rise high and fall slowly; a sauna, steam room and a gym.", "basalt · cedar · moss walls"],
+    "Dining": ["A dining hall for 24 at one basalt table, a chef's kitchen with pressure cookers, a wine room of Mars glass. Upstairs, the Sky bar in the spire.", "basalt · titanium · glass"],
+    "Sunset lounge": ["The sun sets straight down the length of this room. Low sofas face the west slot; a guest suite at each end.", "linen · olive wood · warm light"],
+    "Library": ["Two floors of walnut shelves round a spiral stair, bronze ladders, a study, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery.", "walnut · bronze · leather"],
+    "Studio": ["A music room tuned for sound, an art studio with steady north light, and a workshop with tools and printers.", "birch · felt · steel"],
+    "Observatory": ["A star lounge with reclining seats under the northern sky and a planetarium dome. Upstairs, a telescope dome with a 1 m telescope.", "dark oak · black stone · star light"],
+    "Garden room": ["A tea house, a breakfast room in the morning light, and a sky garden of fruit trees and herbs under the slots.", "bamboo · paper screens · plants"]
+  };
+  var cr = document.getElementById("crownRooms");
+  CROWN.forEach(function (sg) { var d = document.createElement("div"); d.className = "room"; var c = CR[sg[1]]; d.innerHTML = '<span class="ic" style="background:' + USE[sg[2]][0] + '"></span><div class="k">' + (sg[4] ? "Spire" : "Dip") + " · bearing " + sg[0] + "° · 995 m²" + (sg[4] ? " + 726 m² up" : "") + "</div><h4>" + sg[1] + "</h4><p>" + c[0] + '</p><div class="tags">' + c[1] + "</div>"; cr.appendChild(d); });
+  var PR = [
+    ["L1 · Residence", "Jim's residence", "sleep", "The master suite down, a family room behind glass onto the atrium gardens, a kitchen and dining room, a private spa, and the wardrobes.", "sky ceilings · oak · moss"],
+    ["L1 · Residence", "Club", "culture", "A 40-seat cinema with an Earth-sized screen, a music room, games and billiards, a bar, and a wine vault cut into the rock.", "velvet · walnut · brass"],
+    ["L1 · Residence", "Baths", "well", "Thermal pools at three temperatures, a 50 m pool under a sky ceiling, sauna and steam, a gym and treatment rooms.", "basalt · cedar · warm water"],
+    ["L1 · Residence", "Library", "culture", "The great library, the Archive of Earth with copies of the world's books, films and music, and quiet reading rooms.", "walnut · leather · green lamps"],
+    ["L1 · Residence", "Guests", "guest", "A guest lounge, eight guest suites and two family apartments, and rooms for the house's staff and robots.", "linen · olive wood · sky ceilings"],
+    ["L2 · Garden", "The garden level", "culture", "Sixteen metres tall under a sky of lamps: an orchard, a vineyard, a farm, a lake with a beach, a forest with a stream and falls, and a meadow with bees. Wind fans move the leaves; mist brings rain at night.", "soil · water · trees"],
+    ["L3 · Studio", "Jim's studio", "work", "A large workshop, an art studio and a model hall where the city is planned at 1:500 before the robots build it.", "maple · steel · daylight lamps"]
+  ];
+  var pr = document.getElementById("pentRooms");
+  PR.forEach(function (p) { var d = document.createElement("div"); d.className = "room"; d.innerHTML = '<span class="ic" style="background:' + USE[p[2]][0] + '"></span><div class="k">' + p[0] + "</div><h4>" + p[1] + "</h4><p>" + p[3] + '</p><div class="tags">' + p[4] + "</div>"; pr.appendChild(d); });
+
+  /* ---------------- the two master suites */
+  (function () {
+    var svg = document.getElementById("fSuites"), k = 6.2;
+    S("rect", { x: 0, y: 0, width: 1180, height: 520, "class": "panelf" }, svg);
+    // UP: the SE dip part, bearings 108 to 144, the ring centre far below the figure, bearing 126 pointing up
+    var C = [590, 80 + 138 * k], rot = -126;
+    function U(b, r) { var a = (b + rot) * D; return [C[0] + r * k * Math.sin(a), C[1] - r * k * Math.cos(a)]; }
+    function band(b0, b1, r0, r1_, fill, st) { var o = [], i = []; for (var b = b0; b <= b1 + 1e-6; b += 0.25) { o.push(U(b, r1_)); i.push(U(b, r0)); } return S("path", { d: P(o.concat(i.reverse()), true), fill: fill, stroke: st || "var(--ink)", "stroke-width": st ? .8 : 1.3 }, svg); }
+    band(108, 144, 122, 138, "#cfe1ea");
+    band(108, 144, 125, 135, "var(--sheet)");
+    band(108, 144, 125, 128.5, "#efe6d6", "var(--ink-3)");
+    var rooms = [["Dressing room", 108, 116.64], ["Bedroom", 116.64, 130.32], ["Bath", 130.32, 136.8], ["Private spa", 136.8, 144]];
+    rooms.forEach(function (rm, i) {
+      if (i) { var a = U(rm[1], 128.5), b = U(rm[1], 135); S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(b[0]), y2: r1(b[1]), "class": "ink", "stroke-width": 1.2 }, svg); }
+      var m = U((rm[1] + rm[2]) / 2, 140.2), an = ((rm[1] + rm[2]) / 2 + rot);
+      T(svg, m[0], m[1], rm[0], "disp", { "text-anchor": "middle", transform: "rotate(" + r1(an) + " " + r1(m[0]) + " " + r1(m[1]) + ")", style: "font-size:14px;font-weight:600" });
+      var dr = U((rm[1] + rm[2]) / 2, 128.5); S("rect", { x: r1(dr[0] - 7), y: r1(dr[1] - 2), width: 14, height: 4, fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": .8 }, svg);
+    });
+    var sl = []; for (var b = 108.5; b <= 143.5; b += 0.25) sl.push(U(b, 136.5)); S("path", { d: P(sl), stroke: "var(--ice)", "stroke-width": 3, "stroke-dasharray": "10 4", fill: "none" }, svg);
+    function box(b, r, w, d, fill, lab) { var p = U(b, r), a = (b + rot); S("rect", { x: r1(p[0] - w * k / 2), y: r1(p[1] - d * k / 2), width: r1(w * k), height: r1(d * k), rx: 2, fill: fill, stroke: "var(--ink-2)", "stroke-width": .8, transform: "rotate(" + r1(a) + " " + r1(p[0]) + " " + r1(p[1]) + ")" }, svg); if (lab) T(svg, p[0], p[1] + 3.5, lab, "t2", { "text-anchor": "middle", style: "font-size:10px" }); }
+    box(123.5, 132.4, 2.4, 2.4, "#f3ecdf", "bed"); box(119.8, 132, 4.2, 1.6, "#e9e0d2", "sofa"); box(140.4, 132, 5.2, 3, "#bfe0ee", "pool"); box(133.6, 132.2, 2.6, 1.2, "#e8f2f6", "tub");
+    for (var w = 109.6; w < 116; w += 1.35) box(w, 133.8, 1.1, 0.7, "#d8cbb8");
+    var gl = U(122, 126.75); T(svg, gl[0], gl[1] + 4, "the Glide", "t3", { "text-anchor": "middle", transform: "rotate(" + r1(122 + rot) + " " + r1(gl[0]) + " " + r1(gl[1]) + ")", style: "font-size:11px" });
+    T(svg, 22, 30, "UP · THE CROWN, +41 m", "mono t2", { style: "font-size:12px;letter-spacing:.08em" });
+    T(svg, 22, 48, "Master suite up, 995 m² gross", "", { style: "font-size:13px" });
+    T(svg, 22, 66, "blue dashes: the window slot, facing south-east", "ti", { style: "font-size:12px" });
+    T(svg, 22, 84, "blue band: 3 m walls of ice", "ti", { style: "font-size:12px" });
+    // DOWN: ring B of L1 sector 1, a trapezoid 14 m deep, the atrium side at the top
+    var X0 = 590, R = 160 / (2 * Math.sin(36 * D)), RA = 35 / (2 * Math.sin(36 * D)), APA = RA * Math.cos(36 * D), RING = (R * Math.cos(36 * D) - APA - 16) / 5;
+    var v0 = APA + RING + 4, v1 = v0 + RING, off = 2.5 / Math.sin(54 * D);
+    function uE(v) { return v * Math.tan(36 * D) - off; }
+    function Dn(u, v) { return [X0 + u * k, 372 + (v - v0) * k]; }
+    S("path", { d: P([Dn(-uE(v0), v0), Dn(uE(v0), v0), Dn(uE(v1), v1), Dn(-uE(v1), v1)], true), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    var va = v0 + 1, vb = v1 - 1;
+    function room(x0, x1, lab) {
+      var pts;
+      if (x0 === "edgeL") pts = [Dn(-uE(va) + 0.6, va), Dn(x1, va), Dn(x1, vb), Dn(-uE(vb) + 0.6, vb)];
+      else if (x1 === "edgeR") pts = [Dn(x0, va), Dn(uE(va) - 0.6, va), Dn(uE(vb) - 0.6, vb), Dn(x0, vb)];
+      else pts = [Dn(x0, va), Dn(x1, va), Dn(x1, vb), Dn(x0, vb)];
+      S("path", { d: P(pts, true), fill: "none", stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+      var cx = pts.reduce(function (s, p) { return s + p[0]; }, 0) / 4, cy = pts.reduce(function (s, p) { return s + p[1]; }, 0) / 4;
+      T(svg, cx, cy + 4, lab, "disp", { "text-anchor": "middle", style: "font-size:13.5px;font-weight:600" });
+    }
+    room("edgeL", -26, "Bath"); room(-26, -9, "Bedroom"); room(9, 26, "Lounge"); room(26, "edgeR", "Dressing");
+    var g0 = Dn(-8.5, v0 + 2), g1 = Dn(8.5, v1 - 2);
+    S("rect", { x: r1(g0[0]), y: r1(g0[1]), width: r1(g1[0] - g0[0]), height: r1(g1[1] - g0[1]), fill: "#8ea65a", "fill-opacity": .5, stroke: "var(--leaf)" }, svg);
+    var pc = Dn(0, (v0 + v1) / 2); S("ellipse", { cx: r1(pc[0]), cy: r1(pc[1]), rx: r1(4.5 * k), ry: r1(2.2 * k), fill: "#bfe0ee", stroke: "var(--ice)" }, svg);
+    T(svg, pc[0], g0[1] + 14, "moss garden", "tl", { "text-anchor": "middle", style: "font-size:11.5px" });
+    var bd = Dn(-17.5, v1 - 4.5); S("rect", { x: r1(bd[0] - 1.2 * k), y: r1(bd[1] - 1.2 * k), width: r1(2.4 * k), height: r1(2.4 * k), rx: 2, fill: "#f3ecdf", stroke: "var(--ink-2)" }, svg);
+    T(svg, bd[0], bd[1] + 3.5, "bed", "t2", { "text-anchor": "middle", style: "font-size:10px" });
+    T(svg, X0, Dn(0, v0)[1] - 8, "street to ring A: the family room and the atrium gardens", "t3", { "text-anchor": "middle", style: "font-size:11px" });
+    T(svg, X0, Dn(0, v1)[1] + 18, "street to ring C: the kitchen and dining room", "t3", { "text-anchor": "middle", style: "font-size:11px" });
+    T(svg, 22, 300, "DOWN · THE PENTAGON, L1, −24 m", "mono t2", { style: "font-size:12px;letter-spacing:.08em" });
+    T(svg, 22, 318, "Master suite down, ring B of sector 1, about 900 m²", "", { style: "font-size:13px" });
+    T(svg, 22, 336, "a sky ceiling over every room", "t2", { style: "font-size:12px" });
+    BOOK.scalebar(svg, 1010, 500, k, [0, 10, 20], "m");
+  })();
+
+  /* ---------------- arrival sequence */
+  (function () {
+    var svg = document.getElementById("fArrive");
+    var steps = [["Pod flies in", "through the hangar door on the garden side", "#e0a55b"], ["Hangar fills with air", "90 s; the dust is blown off the pod", "#c9a26a"], ["Step out", "onto warm stone; no suit needed", "#d9c6b3"], ["The Door", "a round iris of light recognises you", "#6b9cff"], ["Arrival hall", "9 m tall; first view of the Orb", "#e3b35a"], ["The Glide or a portal", "round the ring, or down to L1", "#9aa4aa"]];
+    var w = 176, g = 18, x0 = 22;
+    steps.forEach(function (s, i) {
+      var x = x0 + i * (w + g);
+      S("rect", { x: x, y: 60, width: w, height: 150, rx: 6, fill: "var(--sheet)", stroke: "var(--rule)" }, svg);
+      S("rect", { x: x, y: 60, width: w, height: 8, fill: s[2] }, svg);
+      T(svg, x + 14, 100, (i + 1) + "", "disp", { style: "font-size:30px;font-weight:700;fill:var(--route)" });
+      T(svg, x + 14, 132, s[0], "disp", { style: "font-size:17px;font-weight:600" });
+      var words = s[1].split(" "), line = "", ly = 154; words.forEach(function (wd) { if ((line + " " + wd).length > 24) { T(svg, x + 14, ly, line.trim(), "t2", { style: "font-size:12.5px" }); ly += 16; line = ""; } line += " " + wd; }); T(svg, x + 14, ly, line.trim(), "t2", { style: "font-size:12.5px" });
+      if (i < steps.length - 1) S("path", { d: "M" + (x + w + 3) + " 135 l 12 0 m -5 -5 l 5 5 l -5 5", "class": "ink2", "stroke-width": 1.6, fill: "none" }, svg);
+    });
+    T(svg, 22, 36, "IN THE ARRIVAL SPIRE, EAST SIDE OF THE CROWN", "mono t2", { style: "font-size:12px;letter-spacing:.08em" });
+    T(svg, 22, 250, "Time from the hangar door closing to the Arrival hall: about 3 minutes.", "t2", { style: "font-size:13px" });
+  })();
+
+  /* ---------------- indoor light through one sol */
+  (function () {
+    var svg = document.getElementById("fSol"), x0 = 56, x1 = 596, y0 = 320, y1 = 40, SOL = 24.66;
+    function X(h) { return x0 + h / SOL * (x1 - x0); }
+    function Y(v) { return y0 - v * (y0 - y1); }
+    S("rect", { x: x0, y: y1, width: x1 - x0, height: y0 - y1, "class": "paper", stroke: "var(--rule)" }, svg);
+    for (var h = 0; h <= 24; h += 6) { S("line", { x1: r1(X(h)), y1: y0, x2: r1(X(h)), y2: y1, "class": "ink3", "stroke-width": .5, "stroke-dasharray": "2 4" }, svg); T(svg, X(h), y0 + 18, (h < 10 ? "0" : "") + h + ":00", "mono t3", { "text-anchor": "middle", style: "font-size:11px" }); }
+    T(svg, X(SOL), y0 + 34, "24:40", "mono t3", { "text-anchor": "middle", style: "font-size:11px" });
+    // brightness and colour temperature keys
+    var K = [[0, 0.02, 2000], [5.8, 0.02, 2000], [6.2, 0.25, 2700], [7.5, 0.7, 4000], [10, 0.95, 5000], [13, 1, 5500], [16.5, 0.85, 4500], [19, 0.45, 3000], [21, 0.18, 2200], [22.5, 0.03, 1900], [24.66, 0.02, 2000]];
+    function col(kv) { var t = (kv - 1900) / (5500 - 1900); var r = 255, gg = Math.round(170 + 80 * t), b = Math.round(90 + 160 * t); return "rgb(" + r + "," + gg + "," + b + ")"; }
+    var defs = S("defs", {}, svg), lg = S("linearGradient", { id: "solg", x1: "0", x2: "1", y1: "0", y2: "0" }, defs);
+    K.forEach(function (kk) { S("stop", { offset: (kk[0] / SOL).toFixed(3), "stop-color": col(kk[2]) }, lg); });
+    // smooth between the keys without overshooting (cosine easing)
+    var sm = []; for (var i = 0; i < K.length - 1; i++) for (var j = 0; j < 12; j++) { var t = j / 12, e = (1 - Math.cos(Math.PI * t)) / 2; sm.push([X(K[i][0] + (K[i + 1][0] - K[i][0]) * t), Y(K[i][1] + (K[i + 1][1] - K[i][1]) * e)]); }
+    sm.push([X(K[K.length - 1][0]), Y(K[K.length - 1][1])]);
+    S("path", { d: P(sm.concat([[X(SOL), y0], [X(0), y0]]), true), fill: "url(#solg)", "fill-opacity": .55 }, svg);
+    S("path", { d: P(sm), fill: "none", stroke: "var(--ink)", "stroke-width": 1.6 }, svg);
+    [["wake: warm light rises", 6.4, 0.3, "start"], ["midday: bright and cool", 12.3, 1.04, "middle"], ["evening: amber, dimmer", 19.2, 0.52, "start"], ["night: stars", 23.2, 0.1, "end"]].forEach(function (a) { T(svg, X(a[1]), Y(a[2]) - 6, a[0], "halo", { "text-anchor": a[3], style: "font-size:12px" }); });
+    T(svg, x0 - 8, y1 + 4, "bright", "t3", { "text-anchor": "end", style: "font-size:11px" }); T(svg, x0 - 8, y0, "dark", "t3", { "text-anchor": "end", style: "font-size:11px" });
+  })();
+})();
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@ var BOOK = (function () {
     ["phases", "10", "Building it", "Robots first: the order of work, from the first landing to the city"]
   ];
   // chapters that are written; the others show as "coming" and are not linked yet
-  var READY = { index: 1, site: 1, crown: 1, pentagon: 1 };
+  var READY = { index: 1, site: 1, crown: 1, pentagon: 1, interiors: 1, power: 1, transport: 1, spaceport: 1 };
   var NS = "http://www.w3.org/2000/svg";
   function S(tag, a, parent) { var e = document.createElementNS(NS, tag); for (var k in (a || {})) e.setAttribute(k, a[k]); if (parent) parent.appendChild(e); return e; }
   function T(p, x, y, txt, cls, a) { var t = S("text", Object.assign({ x: r1(x), y: r1(y), "class": cls || "" }, a || {}), p); t.textContent = txt; return t; }

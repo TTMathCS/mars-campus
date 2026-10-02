@@ -242,7 +242,9 @@ diagrams exported as images, all ten renders redone so they look real, and the m
 
 **The homepage.** Jim: "there are 3 demo 2s on the page ... very confusing. delete old ones or ... archive old ones,
 only keep one demo 2 on the homepage." **Done:** one demo 2 card, which opens the design book. The first palace moved
-to the [archive](archive/old-palace.md). → GN-2.
+to the [archive](archive/old-palace.md). → GN-2. On 2 Oct 2026 the photo tour had been given a card of its own, and
+Jim had to say it again: "why I have 2 demo 2? you kept making such mistake. multiple demo 2". **Done:** the tour is
+a link inside the one demo 2 card; the rule is in the handoff notes.
 
 ## 30 Sep 2026: design first
 

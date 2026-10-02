@@ -305,6 +305,10 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 - He views the demos on his laptop. Share links; don't drive a browser on his machine.
 - He prefers short, direct answers.
 - "Try again" from him has meant "the session stopped; carry on" as well as "redo it": check whether work stalled.
+- **The homepage has one card per demo, never more.** A new part of a demo (the photo tour, a new page) is a link
+  inside that demo's card. He has had to say this twice ("why I have 2 demo 2? you kept making such mistake").
+- Long renders die when the container restarts: render 360s in bands (`lib.render_pano`) and publish each finished
+  picture at once, so a restart costs minutes, not the night.
 - A possible future Scotiabank demo needs branding permission, or an "unofficial concept" label.
 
 ## 5. File map

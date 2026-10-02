@@ -64,6 +64,12 @@
   .card h3 { font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.05; margin: 0; }
   .card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
   .card .go { margin-top: 6px; font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow); }
+  a.thumb { display: block; }
+  .card .links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 6px; }
+  .card .links a { font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow); text-decoration: none; padding: 4px 0; }
+  .card .links a:hover { text-decoration: underline; }
+  .card .links a:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+  div.card:hover { border-color: rgba(156, 201, 234, 0.6); }
   .card.soon { border-style: dashed; }
   .card.soon .thumb { background: repeating-linear-gradient(135deg, rgba(244,230,212,0.04) 0 12px, transparent 12px 24px), #1a110d; }
   .notes { margin-top: 36px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
@@ -94,22 +100,15 @@
         <span class="go">Enter demo →</span>
       </div>
     </a>
-    <a class="card" href="palace/">
-      <div class="thumb book"><img src="palace/design/img/crown-sunset.jpg" alt="" loading="lazy"><span class="tag live">Demo 2 · Live, in progress</span></div>
+    <div class="card">
+      <a class="thumb book" href="palace/" tabindex="-1" aria-hidden="true"><img src="palace/design/img/crown-sunset.jpg" alt="" loading="lazy"><span class="tag live">Demo 2 · Live, in progress</span></a>
       <div class="body">
         <h3>Jim's retirement house</h3>
         <p>Fly home from Arcadia Spaceport to the Crown, a white crown floating on anti-gravity over Arcadia Planitia: 37 km over dunes, a crater, ice cliffs and a dust storm, landing at sunset. Step through the Door and walk the Crown's main floor, or ride the Glide past every room. Go up to the Orb, switch the universe on, zoom from the whole universe down to Mars and your house, and step into the Wormhole Gate. Then go down to the Pentagon: a five-sided atrium 68 m deep with rooms behind glass on every level, a garden level under a sky of lamps with a lake, a forest and a meadow, and a sun court at the bottom.</p>
-        <span class="go">Fly home →</span>
+        <p>Or see Jim's rooms in the photo tour: 360° photographs path-traced from the same model, with furniture scanned from real things. More rooms go in as they finish rendering.</p>
+        <div class="links"><a href="palace/">Fly home →</a><a href="palace/tour/">Photo tour →</a></div>
       </div>
-    </a>
-    <a class="card" href="palace/tour/">
-      <div class="thumb book"><img src="palace/tour/photos/hero.jpg" alt="" loading="lazy"><span class="tag live">Demo 2 · Photo tour · New</span></div>
-      <div class="body">
-        <h3>Jim's house, in photographs</h3>
-        <p>Jim's house in 360°, path-traced like an architect's photographs, with furniture scanned from real things. It starts in the family room on L1, by the fire and at the glass onto the atrium; more rooms are added as they finish rendering.</p>
-        <span class="go">Take the tour →</span>
-      </div>
-    </a>
+    </div>
   </div>
   <div class="notes">
     <div>

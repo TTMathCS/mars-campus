@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 662" width="980" height="662" font-family="Helvetica, Arial, sans-serif">
+<title>L1 sector 1, Rev G</title>
+<rect width="980" height="662" fill="#F7F5F0"/>
+<polygon points="400.7,96.0 579.3,96.0 642.4,182.8 337.6,182.8" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="319.6,207.6 660.4,207.6 723.5,294.5 256.5,294.5" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="238.5,319.3 741.5,319.3 804.6,406.1 175.4,406.1" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="157.3,430.9 822.7,430.9 885.7,517.7 94.3,517.7" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="76.2,542.5 903.8,542.5 966.8,629.3 13.2,629.3" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="400.7,96.0 440.4,96.0 440.4,182.8 337.6,182.8" fill="#DCE7CF" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="440.4,96.0 539.6,96.0 539.6,182.8 440.4,182.8" fill="#E9D8BC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="539.6,96.0 579.3,96.0 642.4,182.8 539.6,182.8" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="319.6,207.6 393.9,207.6 393.9,294.5 256.5,294.5" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="393.9,207.6 446.6,207.6 446.6,294.5 393.9,294.5" fill="#D5E0EC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="446.6,207.6 533.4,207.6 533.4,294.5 446.6,294.5" fill="#C9E0B5" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="533.4,207.6 586.1,207.6 586.1,266.7 533.4,266.7" fill="#D5E0EC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="533.4,266.7 586.1,266.7 586.1,294.5 533.4,294.5" fill="#D5E0EC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="586.1,207.6 660.4,207.6 723.5,294.5 586.1,294.5" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="238.5,319.3 415.6,319.3 415.6,406.1 175.4,406.1" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="415.6,319.3 564.4,319.3 564.4,406.1 415.6,406.1" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="564.4,319.3 741.5,319.3 804.6,406.1 564.4,406.1" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="157.3,430.9 822.7,430.9 885.7,517.7 94.3,517.7" fill="#DCE7CF" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="76.2,542.5 490.0,542.5 490.0,629.3 13.2,629.3" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="490.0,542.5 903.8,542.5 966.8,629.3 490.0,629.3" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="440.4,96.0 539.6,96.0 539.6,182.8 440.4,182.8" fill="none" fill-opacity="1.00" stroke="#2A6E8E" stroke-width="1.60" stroke-dasharray="6 4"/>
+<text x="404.8" y="139.4" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-01</text>
+<text x="404.8" y="150.7" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Music room</text>
+<text x="404.8" y="164.4" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">160 m²</text>
+<text x="490.0" y="139.4" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-02</text>
+<text x="490.0" y="150.7" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Family room</text>
+<text x="490.0" y="164.4" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">220 m²</text>
+<text x="575.2" y="139.4" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-03</text>
+<text x="575.2" y="164.4" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">160 m²</text>
+<text x="490.0" y="110.9" font-size="10.5" font-weight="700" fill="#2A6E8E" text-anchor="middle" dominant-baseline="middle">L1-04 Study, upstairs</text>
+<text x="341.0" y="251.0" font-size="11.6" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-05</text>
+<text x="341.0" y="260.6" font-size="9.5" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Laundry and linen</text>
+<text x="341.0" y="276.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">240 m²</text>
+<text x="420.2" y="251.0" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-06</text>
+<text x="420.2" y="262.3" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Bath</text>
+<text x="490.0" y="251.0" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-07</text>
+<text x="490.0" y="262.3" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Moss garden</text>
+<text x="490.0" y="276.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">200 m²</text>
+<text x="559.8" y="237.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-08</text>
+<text x="559.8" y="248.4" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Bedroom</text>
+<text x="559.8" y="280.6" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-09</text>
+<text x="639.0" y="251.0" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-10</text>
+<text x="639.0" y="262.3" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Kitchen</text>
+<text x="639.0" y="276.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">240 m²</text>
+<text x="311.3" y="362.7" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-11</text>
+<text x="311.3" y="373.9" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Pantry and cold store</text>
+<text x="311.3" y="387.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">470 m²</text>
+<text x="490.0" y="362.7" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-12</text>
+<text x="490.0" y="373.9" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Robot bay</text>
+<text x="490.0" y="387.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">340 m²</text>
+<text x="668.7" y="362.7" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-13</text>
+<text x="668.7" y="373.9" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Household stores</text>
+<text x="668.7" y="387.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">470 m²</text>
+<text x="490.0" y="474.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-14</text>
+<text x="490.0" y="485.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Memory rooms</text>
+<text x="490.0" y="499.3" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">1650 m²</text>
+<text x="267.4" y="585.9" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-15</text>
+<text x="267.4" y="597.2" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Wardrobe and stores</text>
+<text x="267.4" y="610.9" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">1010 m²</text>
+<text x="712.6" y="585.9" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-16</text>
+<text x="712.6" y="597.2" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Residence plant room</text>
+<text x="712.6" y="610.9" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">1010 m²</text>
+<line x1="400.7" y1="94.0" x2="579.3" y2="94.0" stroke="#2A6E8E" stroke-width="3"/>
+<text x="490.0" y="80.0" font-size="11.5" font-weight="700" fill="#2A6E8E" text-anchor="middle" dominant-baseline="middle">Atrium · glass wall, terrace and bridge (L1-AT)</text>
+<text x="321.4" y="139.4" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring A</text>
+<text x="490.0" y="195.2" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="240.3" y="251.0" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring B</text>
+<text x="490.0" y="306.9" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="159.2" y="362.7" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring C</text>
+<text x="490.0" y="418.5" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="78.1" y="474.3" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring D</text>
+<text x="490.0" y="530.1" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="-3.0" y="585.9" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring E</text>
+<text x="24.0" y="28.0" font-size="18.0" font-weight="700" fill="#1C2124" text-anchor="start" dominant-baseline="middle">L1 · sector 1 · Jim&#x27;s residence</text>
+<text x="24.0" y="47.0" font-size="10.5" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">Drawn straight: the atrium at the top, the outer wall at the bottom; left to right is clockwise, seen from above</text>
+<polygon points="950.5,32.4 933.6,53.3 940.0,40.0 925.4,42.0" fill="#1C2124" fill-opacity="1.00" stroke="#1C2124" stroke-width="0.50"/>
+<text x="959.4" y="25.9" font-size="12.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">N</text>
+<line x1="28.0" y1="636.0" x2="152.0" y2="636.0" stroke="#1C2124" stroke-width="2"/>
+<line x1="28.0" y1="631.0" x2="28.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="90.0" y1="631.0" x2="90.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="152.0" y1="631.0" x2="152.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<text x="28.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">0</text>
+<text x="90.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="152.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">20 m</text>
+</svg>

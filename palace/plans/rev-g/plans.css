@@ -1,0 +1,69 @@
+/* Floor plans Rev G: the review pages written by palace/tools/draw_plans.py. Light drafting paper, like the design plan. */
+:root {
+  color-scheme: light;
+  --bg: #E4E7E3; --sheet: #F8F9F6; --ink: #1C2124; --ink-2: #4E575B; --ink-3: #8A9395; --rule: #CBD1CD;
+  --route: #AE4329; --ice: #2A6E8E;
+  --display: "Saira Condensed", "Arial Narrow", sans-serif;
+  --body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: var(--ice); }
+.top { position: sticky; top: 0; z-index: 5; background: rgba(248, 249, 246, 0.96); border-bottom: 1px solid var(--rule); }
+.top .in { max-width: 1180px; margin: 0 auto; padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.top .crumb { flex: 1 1 auto; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; color: var(--ink-2); }
+.top .crumb a { color: var(--ink); text-decoration: none; }
+.top .crumb b { color: var(--route); font-weight: 600; }
+.top nav { display: flex; flex-wrap: wrap; gap: 2px; }
+.top nav.sub { flex-wrap: nowrap; }
+.top nav a { font: 600 13.5px/1 var(--body); color: var(--ink-2); text-decoration: none; padding: 7px 9px; border-radius: 5px; }
+.top nav a:hover { background: #ECEEEA; color: var(--ink); }
+.top nav a.on { background: var(--ink); color: #fff; }
+.top .sub { max-width: 1180px; margin: 0 auto; padding: 0 16px 8px; display: flex; gap: 4px; overflow-x: auto; }
+.top .sub a { flex: none; font: 500 13px/1 var(--body); color: var(--ink-2); text-decoration: none; padding: 6px 9px; border: 1px solid var(--rule); border-radius: 999px; background: var(--sheet); white-space: nowrap; }
+.top .sub a.on { border-color: var(--route); color: var(--route); }
+main { max-width: 1180px; margin: 0 auto; padding: 22px 16px 40px; }
+h1 { font: 700 clamp(30px, 5vw, 44px)/1.05 var(--display); margin: 6px 0 10px; }
+h1 small { display: block; font: 500 15px/1.4 var(--body); color: var(--ink-2); margin-top: 6px; }
+h2 { font: 700 24px/1.15 var(--display); margin: 30px 0 10px; }
+.lede { font-size: 17.5px; max-width: 78ch; margin: 0 0 16px; }
+.note { font-size: 14.5px; color: var(--ink-2); max-width: 90ch; }
+ul { padding-left: 20px; } li { margin: 0 0 6px; max-width: 80ch; }
+.two { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+figure.plan { margin: 0 0 18px; background: var(--sheet); border: 1px solid var(--rule); padding: 8px; }
+figure.plan img { display: block; width: 100%; height: auto; }
+figure.plan figcaption { font-size: 14px; color: var(--ink-2); padding: 8px 4px 2px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 10px; }
+.cards.one { grid-template-columns: 1fr; }
+a.card { display: block; padding: 11px 13px; background: var(--sheet); border: 1px solid var(--rule); text-decoration: none; color: var(--ink); }
+a.card:hover { border-color: var(--route); }
+a.card b { display: block; font: 700 18px/1.2 var(--display); }
+a.card span { display: block; font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+.tw { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); margin: 0 0 18px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.4; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-top: 1px solid var(--rule); }
+thead th { border-top: 0; font: 600 11.5px/1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); background: #EEF0EC; }
+td.code { white-space: nowrap; font: 700 13.5px/1.4 var(--mono); }
+td.code .k { display: inline-block; width: 11px; height: 11px; border: 1px solid #33302C; margin-right: 6px; vertical-align: -1px; }
+td.n { white-space: nowrap; color: var(--ink-2); }
+tr:target { background: #FFF2D6; }
+a.seen { font-size: 12px; font-weight: 600; color: var(--route); text-decoration: none; margin-left: 4px; white-space: nowrap; }
+table.pairs td { width: 50%; }
+table.pairs td span { color: var(--ink-2); font-size: 13.5px; }
+footer { max-width: 1180px; margin: 0 auto; padding: 16px 16px 32px; font-size: 13px; color: var(--ink-2); border-top: 1px solid var(--rule); }
+@media (max-width: 640px) {
+  .top { position: static; }
+  /* each room a short block instead of six squeezed columns */
+  table.rooms, table.rooms tbody, table.rooms tr, table.rooms td { display: block; }
+  table.rooms thead { display: none; }
+  table.rooms tr { padding: 10px 12px; border-top: 1px solid var(--rule); }
+  table.rooms tr:first-child { border-top: 0; }
+  table.rooms td { border: 0; padding: 2px 0; }
+  table.rooms td.code, table.rooms td.code + td { display: inline-block; margin-right: 8px; }
+  table.rooms td:nth-child(4):not(:empty)::before { content: "Also: "; font-weight: 600; color: var(--ink-2); }
+  table.rooms td:nth-child(6):not(:empty)::before { content: "Two of a kind: "; font-weight: 600; color: var(--ink-2); }
+  table.rooms td:empty { display: none; }
+}

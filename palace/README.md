@@ -40,6 +40,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
+| 🗺️ | **Floor plans Rev G**, for Jim's review: every room designed, with a code | [docs/plans-rev-g/](docs/plans-rev-g/README.md) | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/) |
 | 🗺️ | **Floor plans Rev B**: the approved sheets | [docs/plans.md](docs/plans.md) | [Floor plans](https://ttmathcs.github.io/mars-campus/palace/plans/) |
 | 🌍 | **Mars Atlas**: zoom from the solar system to the house, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
 | 🖼️ | **Pictures**: every picture rendered from the 3D build | [docs/gallery.md](docs/gallery.md) | |
@@ -51,7 +52,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | Part | State | Next |
 | --- | --- | --- |
 | Requirements | Updated 1 Oct 2026 with Jim's answers | — |
-| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground | Redraw the Orb and the ground once Jim approves Rev E |
+| Floor plans | **Rev B approved** by Jim, 30 Sep 2026; B.1, 1 Oct: nothing on the ground. **Rev G** (2 Oct), every room with a code, for his review | Jim approves Rev G; then the room pictures carry on, one at a time |
 | Design book | **Rev E**: chapters 01–07 written; the Orb's universe in VR, the ball as the Wormhole Gate, the Orb's dock and the built ground | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | All ten re-rendered on 1 Oct 2026 so they look real; no panels or mirrors on the ground | — |
 | Mars Atlas | Live, over a real colour map of Mars | — |
@@ -92,12 +93,13 @@ palace/
 │   ├── decisions.md     questions to Jim, his answers, what they changed
 │   ├── design/          the design book chapter by chapter, with its diagrams
 │   ├── plans.md         the floor plans Rev B, sheet by sheet
+│   ├── plans-rev-g/     the floor plans Rev G, one short file per sheet
 │   ├── gallery.md       every rendered picture
 │   ├── img/             diagrams, plan sheets and Atlas views exported for these docs
 │   └── archive/         the first palace's requirements
 ├── design/              the design book and the Mars Atlas (live pages)
 │   └── img/             pictures rendered from the 3D build, and the maps
-├── plans/               the floor plans Rev B (one live page)
+├── plans/               the floor plans Rev B (one live page); rev-g/, Rev G (a page per sheet)
 ├── src/                 the 3D demo's phase 1 (the flight); build.sh builds it into index.html
 ├── crown/               the Crown's main floor, phase 2 (one self-contained page)
 ├── orb/                 the Orb, phase 2 (one self-contained page, and its planet maps)

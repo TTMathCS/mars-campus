@@ -12,6 +12,7 @@ choice is recorded below. Shown for review:
 
 | What | Drawn from | Where |
 | --- | --- | --- |
+| **Floor plans Rev G: every room designed, with a code.** 179 rooms and areas, each with what it is for, what else it can be used for, where it is and how big: L1-01 to L5-21 in the Pentagon, C-01 to C-34 in the Crown, O-00 to O-17 in the Orb, G-01 to G-08 on the ground. Two of a kind only where each has its own job, most by the house's rule *by day up in the Crown, by night down in the Pentagon*; the duplicates with no second job are taken out. The 360s and pictures made so far already follow it. **Please approve or say what to change**; no more room pictures until then | Jim's words, 2 Oct 2026 (below) | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/) · [summary](plans-rev-g/README.md) · GN-16 |
 | **The Orb, Rev F: rooms in the middle of the ring, a visitors' lane on each side.** Five rooms between the lanes on each floor; the outer lane looks out over the plain, the inner lane in onto the Gate. Rooms of a useful depth need 10 m between the Gate's round space and the shell, and the Orb has 6 m. **Question:** grow the Orb from 40 m to 48 m and keep the Gate at 18 m (recommended), or keep the Orb at 40 m and make the Gate 12 m? | Jim's words, 1 Oct 2026 (below) | [The plan](img/book/orb-rev-f.png) · OR-1 to OR-8 |
 | **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
 | **The ground, Rev E: built, with a dock for the Orb.** A paved pentagon over the Pentagon, 4 m wider than it, shows where the house lies; the Stone Garden is the circle inside it; glass over the five avenues and a glass pavilion over each corner stair hint at the house below; the Orb's dock round the Sun Well is where the Orb lands. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 01, the site plan](design/01-site-and-city.md#the-site-plan) · GN-13, OR-9 |
@@ -31,6 +32,30 @@ choice is recorded below. Shown for review:
 
 ## 2 Oct 2026: the whole house to explore, plans in full, travel by the Gate
 
+- **Design every room before drawing it.** Jim: "your photo images don't follow the floor plan? I think the floor
+  plan is not designed properly. there are duplicates like theaters and other rooms. I like you to design it and
+  plan it well before draw the images", then "I mean for certain facilities you can have mltiiples. it is OK to have
+  duplicates but just need to design well as long as they could be used for multiple purpose". **Done, for his
+  review:** floor plans Rev G. Every room and area has a purpose, a second use where it can, a place and a size;
+  each pair has two different jobs (most: by day up in the Crown, by night down in the Pentagon); the duplicates
+  with no second job are gone: the planetarium (the Orb shows the universe better), two of the four music rooms, the
+  club's bar, the two private spas, the Crown's workshop, the second tea house, the reading rooms, and the guest
+  suites in the Crown (guests sleep below ground, like Jim). The room program is `palace/tools/room_program.py`, drawn by `palace/tools/draw_plans.py`.
+  Room pictures wait for his approval. → GN-16.
+- **A code for every room.** Jim: "each room / area give it some code which can be easily referenced, like
+  L1-A1/etc.", "not ncessary L1-A1 but just like this. you can rename it with best naming conventions", "L1-01?".
+  **Done:** level and number, as he suggested: L1-01 is the Pentagon's level 1, room 01, numbered sector by sector
+  from the atrium outwards; C-10 is the Crown's room 10, clockwise from the Arrival part; O-07 the Orb; G-01 the
+  ground; shared areas have letters (L1-AT the atrium terrace, CC1 to CC5 the corner cores, C-GL the Glide).
+  Named Rev G because one set of letters runs through the whole design (Rev C to E are the design book, Rev F the
+  Orb's question).
+- **The pool steps.** Jim: "the bath pool, the stairs are upside down I think?". **Fixed:** the steps are solid
+  blocks standing on the pool floor, the top step the shortest, in the thermal baths and in the Crown's pool; the
+  thermal baths' 360 is published again.
+- **Turning the house.** Jim: "drag to turn the house. the turnning is not smooth at all". **Better now:** the
+  pictures are drawn on a canvas and blended between frames as you drag, and the house glides to rest when you let
+  go. A smoother turn needs more frames (72 instead of 24); they are rendered after Rev G is approved, in the one
+  render queue.
 - **Separate pages, as a global rule.** Jim: "I don't like the way you build things. You always build everything on
   the same page, but i would like to separate things into different pages/files … for exaample, mars facts you put
   eerything on the same page, while I like a separate page for those, and probably divide that subpage into nested

@@ -2,6 +2,9 @@
 
 [Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Rooms](rooms.md) · **Floor plans** · [Pictures](gallery.md)
 
+> **Newer, for Jim's review: [floor plans Rev G](plans-rev-g/README.md)**, every room designed and given a code
+> (2 Oct 2026). Rev B below stays as approved.
+
 The review set Jim **approved on 30 Sep 2026** ("Approve. Go."). These are the drawings from the live page
 [ttmathcs.github.io/mars-campus/palace/plans/](https://ttmathcs.github.io/mars-campus/palace/plans/), exported so they
 can be seen here. Areas are gross floor areas, rounded.

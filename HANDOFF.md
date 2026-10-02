@@ -5,7 +5,7 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## 0. Where the work stopped (2 Oct 2026, about 21:00 UTC) — read this first
+## 0. Where the work stopped (2 Oct 2026, about 23:59 UTC) — read this first
 
 The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
 pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
@@ -46,6 +46,21 @@ pages are unlinked. The render scenes and tools are in `palace/tools/render/` (c
    is global** (see `CLAUDE.md`): separate pages and files, big topics split into nested subpages, hubs short.
 7. *"build other images or 3d images for other rooms one after another. don't run in parallel"*. **Done:** one render
    queue only (below); lane B was stopped and its jobs moved into lane A's list.
+8. *"the bath pool, the stairs are upside down I think?"*. **Fixed** in both pool scenes (solid steps standing on
+   the floor, the top one shortest); the thermal baths' 360 is republished.
+9. *"your photo images don't follow the floor plan? ... I like you to design it and plan it well before draw the
+   images"*, *"it is OK to have duplicates but just need to design well as long as they could be used for multiple
+   purpose"*, *"each room / area give it some code"* (he suggested L1-01). **Done, waiting for his approval:**
+   **floor plans Rev G**, <https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/>. 179 rooms and areas, each
+   with a code, a purpose, a second use, a place and a size; the pairs and why; what changed from Rev B. Source of
+   truth: `palace/tools/room_program.py` (one entry per room); `palace/tools/draw_plans.py` draws the SVGs and writes
+   the pages (`palace/plans/rev-g/`, one per sheet, per Crown part and per L1 sector, with `plans.css`) and the short
+   docs (`palace/docs/plans-rev-g/`). A room's "◉ 360°" or "◉ picture" mark appears only when the tour has it.
+   Named **Rev G** because the letters run through the whole design (C–E the design book, F the Orb's question).
+   **Rule (CLAUDE.md): no picture of a room before it is in the room program.**
+10. *"drag to turn the house. the turnning is not smooth at all"*. **Better:** `explorer.js` draws the frames on a
+   canvas, blends between neighbours as you drag and glides to rest. Smooth for real needs 72 frames instead of 24
+   (queue them after Rev G is approved).
 
 **Renders: how to carry on after a restart.** From the scratch folder (with `bvenv` = Python 3.11 + `bpy==4.2.0` +
 Pillow, and the assets): **one job list, `blend/queue_a.txt`, run by one runner** (`setsid nohup python3
@@ -56,9 +71,12 @@ stay empty. Publish a finished room 360 or still with `pub.py`, then `python3 pa
 push. 360s rendered before 2 Oct 21:00 had a black last column; `fix_seam.py` fills it (all published ones are done)
 and `lib.render_pano` now does it itself.
 
-**Next:** carry on with every room, one at a time (the queue holds the Crown's dining hall 360, the Crown pool's
-still, the master suite down, the Arrival hall, the fire patch, the sunset lounge, the terrace, bridge and court
-360s, the music and dining room stills, the Crown bedroom's plan); the Orb's Rev F question to Jim is still open.
+**Next:** wait for Jim's answer on Rev G. **The render queue is paused** (every job after the thermal baths is
+commented out in `queue_a.txt`, "# paused"). When he approves: rename what Rev G renamed in `gen_plan.py` and the
+explorer (the piano room is the recital room, C-11; the codes on every room page), re-check each queued job against
+the room program, un-comment them and restart the runner; then the 72 turntable frames; then the rooms not drawn
+yet, one at a time. If he asks for changes, edit `room_program.py` and re-run `python3 palace/tools/draw_plans.py`.
+The Orb's Rev F question to Jim is still open.
 
 ## 1. Status
 
@@ -150,8 +168,8 @@ the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
 6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`, phase 2 (the Crown's main
    floor and the Orb) at `palace/crown/` and `palace/orb/`, and phase 3 has started at `palace/pentagon/`. Next in
    the Pentagon: the rest of L1 (the club and cinema, the baths and the 50 m pool, the great library, the guests),
-   then the corner cores and the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. When Jim
-   approves Rev E, redraw the floor plans' Orb and ground (Rev C of the plans).
+   then the corner cores and the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. The floor
+   plans' rooms are now Rev G (for Jim's review); its Orb sheet follows Rev E until Jim answers Rev F.
 
 ## 2c. Numbers used across the design book
 
@@ -326,7 +344,13 @@ look at every final critically before it goes up.
   `window.__atlas` has `jump(k)`, `select(id)`, `flyTo({...})` and `CAM`. Links can open a view:
   `atlas/#place=house` or `atlas/#@lat,lon,distkm,...`.
 
-**Demo 2 plans**: edit `palace/plans/index.html` directly. It is one self-contained page, and every drawing is SVG
+**Demo 2 plans Rev G** (the rooms, for Jim's review): edit the room in `palace/tools/room_program.py`, then run
+`python3 palace/tools/draw_plans.py`; it rewrites `palace/plans/rev-g/` (pages, `svg/`, `rooms.json`) and
+`palace/docs/plans-rev-g/`. Don't edit the generated pages by hand. Codes: `L1-01` (level, room, numbered sector by
+sector from the atrium out), `C-01` to `C-34` (Crown, clockwise from Arrival), `O-00` to `O-17` (Orb), `G-01` to
+`G-08` (ground), letters for shared areas (`L1-AT`, `CC1`, `C-GL`).
+
+**Demo 2 plans Rev B** (approved, kept as drawn): edit `palace/plans/index.html` directly. It is one self-contained page, and every drawing is SVG
 built by its script. The geometry constants sit near the top of the script:
 - `CR` is the Crown.
 - `PG` is the Pentagon.
@@ -396,13 +420,14 @@ palace/                       demo 2
 ├── design/                   the design book: index.html (cover), site/crown/pentagon/... .html, book.css, book.js
 │   ├── img/                  renders, thumbnails and mars-map.jpg (README.md lists them)
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
-├── plans/                    floor plans Rev B (index.html, self-contained)
+├── plans/                    floor plans Rev B (index.html, self-contained); rev-g/, Rev G written by tools/draw_plans.py
 ├── src/                      the 3D demo's source; build.sh builds it
 ├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
 ├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
 ├── pentagon/                 the Pentagon, phase 3: index.html (self-contained), README.md
 ├── tour/                     the photo tour: index.html (viewer), stops.js, pano/ (360s), photos/, README.md
 ├── tools/render/             Blender scenes for the photo tour: lib, furn, atrium, family, pano, final, fetch_assets
+├── tools/room_program.py     every room and area with its code (Rev G); tools/draw_plans.py draws it
 ├── tools/                    crown_shot.py, crown_in_shot.py, orb_shot.py, pentagon_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
 │                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
 │                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js

@@ -13,5 +13,10 @@ Publishing is a push to `main` (GitHub Pages).
   keep this as global rule."
 - **Renders run one at a time**, in one queue, never in parallel: a restart kills every running process and wastes
   the work. Jim, 2 Oct 2026: "don't run in parallel since if hit limit and restarted, all processes could be gone".
+- **Design before drawing.** Every room gets a code (L1-01, C-10, O-07 …), a purpose, a second use where it can,
+  a place and a size in the room program (`palace/tools/room_program.py`) before any picture of it is made, and the
+  pictures follow the plan. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it
+  and plan it well before draw the images"; "it is OK to have duplicates but just need to design well as long as
+  they could be used for multiple purpose".
 - The homepage has **one card per demo**, never more; the science has its own section and pages.
 - It must **look real**, never cartoon. Push to `main` only.

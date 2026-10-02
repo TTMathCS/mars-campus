@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 662" width="980" height="662" font-family="Helvetica, Arial, sans-serif">
+<title>L1 sector 2, Rev G</title>
+<rect width="980" height="662" fill="#F7F5F0"/>
+<polygon points="400.7,96.0 579.3,96.0 642.4,182.8 337.6,182.8" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="319.6,207.6 660.4,207.6 723.5,294.5 256.5,294.5" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="238.5,319.3 741.5,319.3 804.6,406.1 175.4,406.1" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="157.3,430.9 822.7,430.9 885.7,517.7 94.3,517.7" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="76.2,542.5 903.8,542.5 966.8,629.3 13.2,629.3" fill="#EDE9E1" fill-opacity="1.00" stroke="#B9B2A6" stroke-width="0.60"/>
+<polygon points="400.7,96.0 579.3,96.0 642.4,182.8 337.6,182.8" fill="#DCE7CF" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="319.6,207.6 660.4,207.6 723.5,294.5 256.5,294.5" fill="#E9D8BC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="238.5,319.3 741.5,319.3 804.6,406.1 175.4,406.1" fill="#E9D8BC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="157.3,430.9 822.7,430.9 885.7,517.7 94.3,517.7" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<polygon points="76.2,542.5 903.8,542.5 966.8,629.3 13.2,629.3" fill="#E3E1DC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="490.0" y="139.4" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-17</text>
+<text x="490.0" y="150.7" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Cinema</text>
+<text x="490.0" y="164.4" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">550 m²</text>
+<text x="490.0" y="251.0" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-18</text>
+<text x="490.0" y="262.3" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Games room</text>
+<text x="490.0" y="276.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">910 m²</text>
+<text x="490.0" y="362.7" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-19</text>
+<text x="490.0" y="373.9" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Ballroom</text>
+<text x="490.0" y="387.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">1280 m²</text>
+<text x="490.0" y="474.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-20</text>
+<text x="490.0" y="485.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Wine cellar</text>
+<text x="490.0" y="499.3" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">1650 m²</text>
+<text x="490.0" y="585.9" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">L1-21</text>
+<text x="490.0" y="597.2" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Club stores</text>
+<text x="490.0" y="610.9" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">2010 m²</text>
+<line x1="400.7" y1="94.0" x2="579.3" y2="94.0" stroke="#2A6E8E" stroke-width="3"/>
+<text x="490.0" y="80.0" font-size="11.5" font-weight="700" fill="#2A6E8E" text-anchor="middle" dominant-baseline="middle">Atrium · glass wall, terrace and bridge (L1-AT)</text>
+<text x="321.4" y="139.4" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring A</text>
+<text x="490.0" y="195.2" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="240.3" y="251.0" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring B</text>
+<text x="490.0" y="306.9" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="159.2" y="362.7" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring C</text>
+<text x="490.0" y="418.5" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="78.1" y="474.3" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring D</text>
+<text x="490.0" y="530.1" font-size="8.5" font-weight="400" font-style="italic" fill="#8A9395" text-anchor="middle" dominant-baseline="middle">street</text>
+<text x="-3.0" y="585.9" font-size="10.5" font-weight="700" fill="#6C777C" text-anchor="end" dominant-baseline="middle">Ring E</text>
+<text x="24.0" y="28.0" font-size="18.0" font-weight="700" fill="#1C2124" text-anchor="start" dominant-baseline="middle">L1 · sector 2 · The club</text>
+<text x="24.0" y="47.0" font-size="10.5" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">Drawn straight: the atrium at the top, the outer wall at the bottom; left to right is clockwise, seen from above</text>
+<polygon points="936.0,27.6 950.7,50.2 940.0,40.0 937.4,54.5" fill="#1C2124" fill-opacity="1.00" stroke="#1C2124" stroke-width="0.50"/>
+<text x="932.6" y="17.2" font-size="12.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">N</text>
+<line x1="28.0" y1="636.0" x2="152.0" y2="636.0" stroke="#1C2124" stroke-width="2"/>
+<line x1="28.0" y1="631.0" x2="28.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="90.0" y1="631.0" x2="90.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="152.0" y1="631.0" x2="152.0" y2="641.0" stroke="#1C2124" stroke-width="1.4"/>
+<text x="28.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">0</text>
+<text x="90.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="152.0" y="651.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">20 m</text>
+</svg>

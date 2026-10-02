@@ -78,6 +78,7 @@ repo, with its diagrams and pictures.
 | GN-13 | A designed ground, not raw soil, with hints of the big part underground. "the ground is raw and need some construction/design as well. and at least some hints that there is big part underground, instead of raw ground/soil" | Must | 🟡 Rev E, 1 Oct 2026: a paved pentagon 4 m wider than the Pentagon below, kerbed in basalt with a line of light; the Stone Garden inside it; glass over the five avenues; a glass pavilion over each corner stair; basalt pads under the spires. Still no panels and no mirrors (GN-12) | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#plan) · [Summary](docs/design/01-site-and-city.md#the-site-plan) · [Decisions](docs/decisions.md#1-oct-2026-a-built-ground-and-a-dock-for-the-orb) |
 | GN-14 | The Mars science on the homepage, beside the two demos: "show these are science facts of mars and research on how to build on mars. consider weather/etc... all factors" (Jim, 2 Oct 2026) | Must | ✅ A *The science* section on the homepage with a card each for Mars facts and Building on Mars; the pages themselves are separate (GN-15) | [Homepage](https://ttmathcs.github.io/mars-campus/#science) · [The science](../science/README.md) |
 | GN-15 | Separate pages and files, as a global rule: each topic its own page, big topics split into nested subpages ("like surface/core/weather/space/resources/etc. please keep this as global rule", Jim, 2 Oct 2026) | Must | ✅ Applied to the science (`science/`, 20 subject pages under two hubs); written into `CLAUDE.md`, `AGENTS.md` and the handoff for every page to come | [CLAUDE.md](../CLAUDE.md) · [Decisions](docs/decisions.md) |
+| GN-16 | Every room designed before it is drawn, with a code to refer to it: what it is for, what else it can be used for, where it is and how big. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it and plan it well before draw the images"; "it is OK to have duplicates but just need to design well as long as they could be used for multiple purpose"; "each room / area give it some code which can be easily referenced" | Must | 🟡 Floor plans Rev G, for Jim's review: 179 rooms and areas, codes L1-01 to L5-21, C-01 to C-34, O-00 to O-17 and G-01 to G-08; no new room pictures until he approves | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/) · [Summary](docs/plans-rev-g/README.md) |
 
 ## 2. Site and city
 
@@ -200,9 +201,10 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 
 ## 10. Open questions
 
-None. Jim answered every question on 1 Oct 2026; where he asked us to use our best judgment, the choice and the
-reason are in the [decision log](docs/decisions.md#for-jims-review). Two items are shown for his review: the Orb,
-Rev E (OR-1 to OR-9), and the built ground (GN-13). If they look right, nothing is needed.
+One question is open: the Orb, Rev F (grow the Orb to 48 m, or make the Gate 12 m), in the
+[decision log](docs/decisions.md#for-jims-review). Shown for Jim's review: **floor plans Rev G** (GN-16), every room
+with a code, which must be approved before more room pictures are made; the Orb, Rev E (OR-1 to OR-9); and the built
+ground (GN-13). Where Jim asked us to use our best judgment, the choice and the reason are in the decision log.
 
 ## 11. History and old IDs
 
@@ -211,6 +213,7 @@ Rev E (OR-1 to OR-9), and the built ground (GN-13). If they look right, nothing 
 | 1 and 2 | before 29 Sep 2026 | The first palace on a mesa, with the Deep below it | [Archive](docs/archive/old-palace.md) and [the archived page](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
 | 3 | 29–30 Sep 2026 | Start again: the Crown and the Pentagon, floor plans Rev A and Rev B | [Floor plans](docs/plans.md) |
 | 4 | 30 Sep 2026 onwards | The design book and the Mars Atlas (Rev C), then Jim's answers (Rev D) and his words on the Orb (Rev E) | [Design](docs/design/README.md) |
+| 5 | 1–2 Oct 2026 | The Orb's rooms as a question (Rev F), then floor plans Rev G: every room designed, with a code | [Floor plans Rev G](docs/plans-rev-g/README.md) |
 
 The rounds 3 and 4 IDs used until 1 Oct 2026 map to the new IDs like this:
 

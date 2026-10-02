@@ -31,6 +31,16 @@ choice is recorded below. Shown for review:
 
 ## 2 Oct 2026: the whole house to explore, plans in full, travel by the Gate
 
+- **The science on the homepage.** Jim: "those Mars science should be put on directly on the homepage ... in
+  parrellel with 2 demos. create spearate section like 'mars facts'/etc. to show these are sience facts of mars and
+  research on how to build on mars. consider weather/etc... all factors". **Done:** the homepage now has three
+  sections, *Demos* (still one card per demo), *Mars facts* (the numbers next to Earth's, the weather measured by the
+  Viking landers, dust storms, dust devils, wind, cold, clouds and snow, seasons; the geography, ice, soil, sky and
+  moons; the hazards: thin air, radiation, ultraviolet, toxic dust, marsquakes, meteorites) and *Building on Mars*
+  (a table of 17 factors, each with the answer, then twelve topics from getting there to talking to Earth), with
+  sources. The design plan's two science chapters gained the weather, the hazards, the table of factors, health and
+  planetary protection. → GN-14.
+
 - **The overall construction.** Jim: "in the design homepage, it should show overall construction (real or better
   3d). when click on each components like crown, petagon/etc. it shows the building plan. by clicking on each
   room/area, it pop up window to show real image or 3d", "I need you really put focus on the overall constrution

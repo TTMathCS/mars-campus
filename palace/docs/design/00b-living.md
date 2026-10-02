@@ -23,3 +23,6 @@ and water, reactors for power.*
 | **Radiation** | 0.64 mSv a day on the ground, 1.8 in flight; about 1 Sv for a round trip with 500 days on Mars. Soil and water shield best. | Sleep under 16 m of soil: about 20 mSv a year |
 | **Rocket fuel** | CO₂ + 2 H₂O → CH₄ + 2 O₂ (electrolysis and the Sabatier reaction). | 1,200 t per ship from 585 t of water and 715 t of CO₂ |
 | **Talking to Earth** | 3 to 22 minutes each way; two weeks without contact every 26 months; lasers carry far more than radio. | Relays and a laser link (chapter 09) |
+| **Every factor** | A table of 17 conditions and the answer to each: thin air, unbreathable air, cold, daily swings, wind, dust, dust storms, weak sunlight, radiation, ultraviolet, toxic soil, marsquakes, meteorites, frozen ground, low gravity, distance, keeping Mars clean. | 16 m of soil, insulated walls in the ice, four reactors, two years of food; slots in the Crown |
+| **Health** | Bone loss of 1–1.5% a month in weightlessness; 0.38 g's long-term effect unknown; no evacuation; isolation tested by Mars-500 (520 days) and NASA's CHAPEA (378 days). | Gym, 50 m pool and baths on L1, gardens on L2, the medical centre on L3 |
+| **Protecting Mars** | The Outer Space Treaty (1967) and COSPAR's rules: cleaned spacecraft, no special regions; rules for crewed missions being drafted. | A sealed house that lets nothing living out |

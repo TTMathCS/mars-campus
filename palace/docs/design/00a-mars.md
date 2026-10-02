@@ -42,3 +42,26 @@ about the same as all of Earth's dry land.*
   craters show clean ice tens of metres thick across Arcadia Planitia, where the house is.
 - **Radiation:** no global magnetic field and thin air; Curiosity measured 0.64 mSv a day on the ground. A few metres
   of soil stop most of it.
+
+## The weather
+
+- **Measured by the Viking landers (1976–1982):** air from −89 °C before dawn to −31 °C in the afternoon (Viking 1,
+  22° N); wind 2–7 m/s in summer, 5–10 m/s in autumn, 17–30 m/s in a dust storm; air pressure 690–900 Pa through the
+  year; water vapour about 0.02% of the air.
+- **Wind** pushes weakly: the air is 1.6% as dense as Earth's, so a 100 km/h storm presses like a 13 km/h breeze.
+- **Dust devils** cross the plains on spring and summer afternoons; one in Amazonis Planitia, next to Arcadia, stood
+  about 20 km high (HiRISE, 2012).
+- **Dust storms:** local ones every year; every few Mars years one covers the planet for weeks (2018 ended the
+  Opportunity rover).
+- **Clouds, fog, frost and snow:** water-ice and carbon-dioxide clouds, morning fog in canyons, winter frost (Viking 2,
+  48° N); Phoenix saw snow falling from clouds; carbon-dioxide snow falls on the poles in winter.
+- **Seasons** twice as long as Earth's; each winter the pole freezes about a quarter of the air out.
+
+## Other hazards
+
+- **Ultraviolet:** almost no ozone, so ultraviolet down to about 200 nm reaches the ground and sterilises surfaces.
+- **Toxic dust:** about 0.5% perchlorate at the Phoenix site, harmful to the thyroid; the dust clings and gets into
+  seals and lungs.
+- **Marsquakes:** InSight recorded 1,319 from 2018 to 2022, the largest magnitude 4.7: a small load for buildings.
+- **Meteorites:** more than 200 new craters 4 m or wider a year; in December 2021 one dug a 150 m crater in Amazonis
+  Planitia and threw out blocks of ice.

@@ -29,6 +29,12 @@ pages are unlinked. The render scenes and tools are in `palace/tools/render/` (c
    with sources; summaries `docs/design/00a-mars.md` and `00b-living.md`. The Earth–Mars picture is
    `palace/tools/render/planets.py`. The NASA fact-sheet site is blocked from the container: numbers come from the
    published values cited on each page.
+5. *"those Mars science should be put on directly on the homepage ... in parrellel with 2 demos ... consider
+   weather/etc... all factors"*. **Done:** the homepage (`index.html`) has three sections: *Demos* (the two cards),
+   *Mars facts* (numbers, the Viking weather station, weather, the planet, hazards) and *Building on Mars* (a table
+   of 17 factors with the answer to each, then twelve topics), with sources in a fold at the end. Each tile links to
+   its section in `design/mars.html` (new `#weather`, `#hazards`) or `design/living.html` (new `#conditions`,
+   `#health`, `#protect`). The science sections are not demo cards: keep one card per demo.
 
 **Renders: how to carry on after a restart.** From the scratch folder (with `bvenv` = Python 3.11 + `bpy==4.2.0` +
 Pillow, and the assets): three job lists run by `runner.py`: `queue_c.txt` (the whole house: `hero`, `turn<i>of24`,
@@ -44,7 +50,7 @@ to Jim is still open.
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. |
+| Hub page | `index.html` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, the science in two sections of its own: *Mars facts* and *Building on Mars* (Jim, 2 Oct 2026). |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
@@ -347,6 +353,7 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
   floor plan and pictures/360s: edit the room data in `palace/tools/gen_plan.py` and re-run it after each render.
 - **The homepage has one card per demo, never more.** A new part of a demo (the photo tour, a new page) is a link
   inside that demo's card. He has had to say this twice ("why I have 2 demo 2? you kept making such mistake").
+  The science sections below the demos (*Mars facts*, *Building on Mars*) are his request too, and are not demo cards.
 - **Floor plans always show in full**, never cropped round a room ("the L1 floor plan doesn't show full"): the room is
   shaded on the whole sheet (`palace/tools/plan_maps.py`), and a click enlarges it.
 - Long renders die when the container restarts: render 360s in bands (`lib.render_pano`) and publish each finished

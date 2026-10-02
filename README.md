@@ -15,6 +15,8 @@ Walkable 3D places on Mars that run in the browser. Each demo is an imagined pla
 
 **Demo 2 is in design.** Its home in this repo is [palace/README.md](palace/README.md): requirements, decisions, the design chapter by chapter with every diagram and picture, and the floor plans. The first palace from rounds 1 and 2 is archived at [palace/archive/old-palace/](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/).
 
+The homepage also carries the science, in two sections of its own beside the demos: **Mars facts** (the planet, the weather, the hazards) and **Building on Mars** (every factor a building must stand up to and the answer, then how it is done), with sources. The full chapters are in the design plan: [Mars, the planet](https://ttmathcs.github.io/mars-campus/palace/design/mars.html) and [Living on Mars](https://ttmathcs.github.io/mars-campus/palace/design/living.html).
+
 More demos will be added in their own folders. Each demo folder keeps its own `REQUIREMENTS.md`, the source of truth for that demo.
 
 ## Controls
@@ -39,7 +41,7 @@ More demos will be added in their own folders. Each demo folder keeps its own `R
 
 ```
 HANDOFF.md        status, open decisions and how to continue: read this first
-index.html        landing page that lists the demos
+index.html        landing page: the two demos, then the science (Mars facts, Building on Mars)
 data/             NASA terrain shared by every demo (manifest + tiles packed as base64 text)
 ttmath/           Demo 1: TTMath on Mars (page, logo, REQUIREMENTS.md)
 ttmath/src/       Demo 1 source: page.html, blocks/*.js, assemble.py, build.py

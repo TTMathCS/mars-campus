@@ -1,11 +1,11 @@
 /* The house explorer on the design plan's home page: the whole house in section, path-traced from the model in
-   24 frames round it. Drag (or ◀ ▶, or the arrow keys) to turn it; click a label to open that part: the Crown and L1
+   frames round it. Drag (or ◀ ▶, or the arrow keys) to turn it; click a label to open that part: the Crown and L1
    open their floor plans, where every room can be clicked for its pictures, 360° views and facts.
    Frames and label positions: img/house/ (palace/tools/render/overall.py); rooms and plan shapes:
    explorer-rooms.json (palace/tools/gen_plan.py). */
 (function () {
   var stage = document.getElementById("exStage"); if (!stage) return;
-  var N = 24, cur = 0, frames = [], spots = null, data = null, have = [0];        // have: the frames published so far
+  var cur = 0, spots = null, data = null, have = [0];        // have: the frames published so far
   var img = stage.querySelector(".ex-frame"), labs = stage.querySelector(".ex-labels");
   var LABELS = { crown: "The Crown", orb: "The Orb", garden: "Stone Garden", sunwell: "Sun Well", soil: "16 m of soil",
     pentagon: "The Pentagon", l1: "L1 · Residence", l2: "L2 · Garden", l3: "L3 · Studio", l4: "L4 · Life support", l5: "L5 · Transit", court: "Sun court" };
@@ -40,55 +40,91 @@
   function src(i) { return "img/house/f" + (i < 10 ? "0" : "") + i + ".jpg"; }
 
   // ---------------------------------------------------------------- turning
-  function show(i) {
-    if (wimg && !wimg.hidden && i !== 0) { wimg.hidden = true; labs.hidden = false; wb.textContent = "Without the cut"; stage.classList.remove("whole"); }
-    var n = have.length; cur = ((i % n) + n) % n;
-    var best = null;
-    for (var d = 0; d < n && best === null; d++) {                 // the nearest frame already loaded
-      [cur + d, cur - d].forEach(function (j) { j = have[((j % n) + n) % n]; if (best === null && frames[j] && frames[j].ok) best = j; });
-    }
-    if (best === null) best = have[0];
-    if (img.getAttribute("src") !== src(best)) img.setAttribute("src", src(best));
-    place(best);
+  // The frames are decoded once and drawn on a canvas. While you drag, the two nearest frames are blended by how far
+  // you are between them; let go and it glides on, slows down and comes to rest on a whole frame.
+  var cv = document.createElement("canvas"), ctx = cv.getContext("2d"), bmp = {};
+  cv.className = "ex-canvas"; stage.insertBefore(cv, labs);
+  var pos = 0, target = 0, vel = 0, raf = 0, drag = null;
+  function mod(i) { var n = have.length; return ((i % n) + n) % n; }
+  function fit() {
+    var r = stage.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2), w = Math.round(r.width * d), h = Math.round(r.height * d);
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
   }
-  function place(i) {
+  function nearest(i) {                                           // the nearest frame already decoded
+    for (var d = 0; d < have.length; d++) { var a = have[mod(i + d)], b = have[mod(i - d)]; if (bmp[a]) return a; if (bmp[b]) return b; }
+    return null;
+  }
+  function draw(p) {
+    var i0 = Math.floor(p), f = p - i0, a = bmp[have[mod(i0)]] ? have[mod(i0)] : nearest(i0), b = have[mod(i0 + 1)];
+    if (a === null) return;
+    f = f < 0.3 ? 0 : f > 0.7 ? 1 : (f - 0.3) / 0.4; f = f * f * (3 - 2 * f);     // each frame stays sharp; blend only near the middle
+    fit(); ctx.globalAlpha = 1; ctx.drawImage(bmp[a], 0, 0, cv.width, cv.height);
+    if (f >= 0.998 && bmp[b]) { a = b; f = 0; ctx.drawImage(bmp[a], 0, 0, cv.width, cv.height); }
+    else if (f > 0.002 && bmp[b] && b !== a) { ctx.globalAlpha = f; ctx.drawImage(bmp[b], 0, 0, cv.width, cv.height); ctx.globalAlpha = 1; } else { b = a; f = 0; }
+    if (img.style.visibility !== "hidden") img.style.visibility = "hidden";
+    place(a, b, f);
+  }
+  function place(a, b, f) {                                       // the labels, slid between the two frames' positions
     if (!spots) return;
-    var s = spots.frames[i] || spots.frames[0];
+    var A = spots.frames[a] || spots.frames[0], B = spots.frames[b] || A;
     Object.keys(LABELS).forEach(function (k) {
-      var b = labs.querySelector('[data-part="' + k + '"]'); if (!b || !s[k]) return;
-      var x = s[k][0], y = s[k][1], vis = x > 0.02 && x < 0.98 && y > 0.03 && y < 0.97;
-      b.style.left = (x * 100) + "%"; b.style.top = (y * 100) + "%"; b.hidden = !vis;
-      b.classList.toggle("left", x > 0.78);
+      var el = labs.querySelector('[data-part="' + k + '"]'); if (!el || !A[k]) return;
+      var q = B[k] || A[k], x = A[k][0] + (q[0] - A[k][0]) * f, y = A[k][1] + (q[1] - A[k][1]) * f;
+      var vis = x > 0.02 && x < 0.98 && y > 0.03 && y < 0.97;
+      el.style.left = (x * 100) + "%"; el.style.top = (y * 100) + "%"; el.hidden = !vis;
+      el.classList.toggle("left", x > 0.78);
     });
   }
-  function preload() {
-    var n = have.length, order = [];
-    for (var d = 1; d <= n / 2; d++) { order.push(have[d % n]); if (n - d !== d) order.push(have[(n - d) % n]); }
-    frames[have[0]] = { ok: true };
-    (function next() {
-      var j = order.shift(); if (j === undefined) return;
-      var im = new Image(); frames[j] = { ok: false };
-      im.onload = function () { frames[j].ok = true; if (have[cur] === j) show(cur); next(); };
-      im.onerror = function () { next(); };
-      im.src = src(j);
-    })();
+  function tick() {
+    raf = 0;
+    if (!drag) {
+      if (Math.abs(vel) > 0.004) { target += vel; vel *= 0.9; }   // glide on after you let go
+      else { vel = 0; target = Math.round(target); }              // then settle on a whole frame
+    }
+    var d = target - pos;
+    pos = Math.abs(d) < 0.002 ? target : pos + d * (drag ? 0.5 : 0.18);
+    draw(pos); cur = mod(Math.round(pos));
+    if (drag || vel || pos !== target) raf = requestAnimationFrame(tick);
   }
-  var drag = null;
+  function go() { if (!raf) raf = requestAnimationFrame(tick); }
+  function leaveWhole() { if (wimg && !wimg.hidden) { wimg.hidden = true; labs.hidden = false; wb.textContent = "Without the cut"; stage.classList.remove("whole"); } }
+  function turnBy(k) { leaveWhole(); vel = 0; target = Math.round(target) + k; go(); }
+  function show(i) {                                              // to frame i the short way round
+    var n = have.length; vel = 0; target = i + n * Math.round((pos - i) / n); go();
+  }
+  function preload() {
+    have.forEach(function (j) {
+      var im = new Image(); im.decoding = "async";
+      im.onload = function () {
+        function done(x) { bmp[j] = x; if (!raf) draw(pos); }
+        if (window.createImageBitmap) createImageBitmap(im).then(done, function () { done(im); }); else done(im);
+      };
+      im.src = src(j);
+    });
+  }
   stage.addEventListener("pointerdown", function (e) {
-    if (e.target.closest(".ex-lab, .ex-ctrl")) return;
-    drag = { x: e.clientX, f: cur, moved: false }; stage.setPointerCapture(e.pointerId); stage.classList.add("dragging");
+    if (e.target.closest(".ex-lab, .ex-ctrl") || have.length < 2) return;
+    leaveWhole(); vel = 0;
+    drag = { x: e.clientX, t0: target, lx: e.clientX, lt: performance.now(), v: 0 };
+    stage.setPointerCapture(e.pointerId); stage.classList.add("dragging"); go();
   });
   stage.addEventListener("pointermove", function (e) {
     if (!drag) return;
-    var step = Math.max(10, stage.clientWidth / 40), df = Math.round((drag.x - e.clientX) / step);
-    if (df !== 0) drag.moved = true;
-    var n = have.length; if (cur !== ((drag.f + df) % n + n) % n) show(drag.f + df);
+    var step = Math.max(12, stage.clientWidth / 32), now = performance.now(), dt = Math.max(1, now - drag.lt);
+    target = drag.t0 + (drag.x - e.clientX) / step;
+    drag.v = 0.7 * drag.v + 0.3 * ((drag.lx - e.clientX) / step) / dt * 16.7;      // frames per tick at 60 Hz
+    drag.lx = e.clientX; drag.lt = now; go();
   });
-  function end() { drag = null; stage.classList.remove("dragging"); }
+  function end() {
+    if (!drag) return;
+    vel = performance.now() - drag.lt > 90 ? 0 : Math.max(-0.5, Math.min(0.5, drag.v));
+    drag = null; stage.classList.remove("dragging"); go();
+  }
   stage.addEventListener("pointerup", end); stage.addEventListener("pointercancel", end);
-  stage.querySelectorAll(".ex-ctrl button").forEach(function (b) { b.addEventListener("click", function () { show(cur + (+b.getAttribute("data-step"))); }); });
+  window.addEventListener("resize", function () { draw(pos); });
+  stage.querySelectorAll(".ex-ctrl button[data-step]").forEach(function (b) { b.addEventListener("click", function () { turnBy(+b.getAttribute("data-step")); }); });
   stage.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowLeft") { show(cur - 1); e.preventDefault(); } else if (e.key === "ArrowRight") { show(cur + 1); e.preventDefault(); }
+    if (e.key === "ArrowLeft") { turnBy(-1); e.preventDefault(); } else if (e.key === "ArrowRight") { turnBy(1); e.preventDefault(); }
   });
 
   // ---------------------------------------------------------------- the labels and the panel
@@ -177,7 +213,7 @@
     spots = s; have = s.have && s.have.length ? s.have : [0];
     if (s.whole) wholeButton();
     stage.classList.toggle("still", have.length < 2);                // one frame so far: nothing to turn yet
-    show(0); if (img.complete) preload(); else img.addEventListener("load", preload, { once: true });
+    place(have[0], have[0], 0); preload();
   }).catch(function () {});
   fetch("explorer-rooms.json").then(function (r) { return r.json(); }).then(function (d) { data = d; var k = panel.getAttribute("data-part"); if (!panel.hidden && k && PARTS[k] && PARTS[k].plan) openPart(k); }).catch(function () {});
 })();

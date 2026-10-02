@@ -44,6 +44,13 @@
   .sun { position: absolute; left: 22%; bottom: 50px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 18px 8px rgba(190, 220, 255, 0.8), 0 0 80px 30px rgba(150, 190, 255, 0.35); }
   .ridge { position: absolute; left: 0; right: 0; bottom: 0; height: 70px; background: #1a100c; clip-path: polygon(0 55%, 9% 48%, 17% 58%, 28% 44%, 36% 52%, 47% 40%, 58% 50%, 66% 36%, 72% 38%, 78% 30%, 84% 31%, 90% 44%, 100% 40%, 100% 100%, 0 100%); }
   .wrap { position: relative; max-width: 960px; margin: 0 auto; }
+  .sky .wrap { padding-right: 300px; }
+  .atlas { position: absolute; right: 0; top: 0; width: 280px; display: block; border: 1px solid rgba(244, 230, 212, 0.28); border-radius: 10px; overflow: hidden; background: #0b0d10; text-decoration: none; color: var(--ink); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); transition: border-color 0.2s, transform 0.2s; }
+  .atlas:hover { border-color: rgba(156, 201, 234, 0.7); transform: translateY(-2px); }
+  .atlas img { width: 100%; height: auto; display: block; }
+  .atlas span { display: block; padding: 8px 12px 10px; font-size: 13px; line-height: 1.4; color: var(--ink-dim); }
+  .atlas b { display: block; font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink); letter-spacing: 0.02em; }
+  @media (max-width: 760px) { .sky .wrap { padding-right: 0; } .atlas { position: relative; width: 100%; max-width: 360px; margin-top: 18px; } }
   .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 8px; }
   h1 { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 9vw, 76px); line-height: 0.95; margin: 0 0 14px; letter-spacing: 0.01em; }
   .lead { max-width: 56ch; margin: 0; font-size: 18px; color: var(--ink); opacity: 0.92; text-wrap: pretty; }
@@ -87,6 +94,7 @@
     <p class="eyebrow">Gale Crater · Arcadia Planitia · Mars</p>
     <h1>Mars Campus</h1>
     <p class="lead">Walkable 3D places on Mars, each one imagined and built to discover on foot, from a campus on real NASA ground in Gale Crater to a retirement house in Arcadia Planitia. They run in the browser on a computer or a phone.</p>
+    <a class="atlas" href="palace/design/atlas/"><img src="palace/design/img/atlas-teaser.jpg" alt="Mars from orbit: the north polar cap, Arcadia Planitia with a marker at Jim's house" width="1200" height="760"><span><b>Mars Atlas</b>Zoom from the solar system down to the house, on real NASA imagery →</span></a>
   </div>
 </header>
 <main>

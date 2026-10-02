@@ -46,7 +46,7 @@ window.TOUR_STOPS = [
   { id: "baths", ready: false, rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
     d: "Grey-green quartzite laid in thin courses, blades of daylight through slots in the ceiling, and three pools: a long warm pool, a round hot pool and a cold plunge. Loungers along the glass look out at the atrium's gardens.",
     links: [{ id: "bridge", at: [13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "library", label: "Next door: the great library" }, { id: "cinema", label: "Next door: the cinema" }] },
-  { id: "cinema", ready: false, rot: 288, name: "The cinema", short: "Cinema", k: "L1 · The club", p: [24.43, -16.15], z: 1.26, az0: 0, img: "pano/cinema.jpg",
+  { id: "cinema", rot: 288, name: "The cinema", short: "Cinema", k: "L1 · The club", p: [24.43, -16.15], z: 1.26, az0: 0, img: "pano/cinema.jpg",
     d: "Forty velvet seats in four rows under a ceiling of stars, walnut walls, curtains drawn across the glass, and a screen 12 m wide. Tonight: the Earth.",
     links: [{ id: "bridge", at: [22.34, -16.83, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
 
@@ -86,5 +86,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_library.jpg", caption: "The Crown's Library: two floors of walnut shelves along the curve of the ring, a gallery reached by a spiral stair, reading tables under brass pendants, the window slots between the shelves." },
   { img: "photos/crown_maproom.jpg", caption: "The map room in the Crown's Library: a globe of Mars 3 m across in a bronze meridian, chests of map drawers, the afternoon sun through the slots." },
   { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." },
-  { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." }
+  { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." },
+  { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." }
 ];

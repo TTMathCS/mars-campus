@@ -80,6 +80,17 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
   stone bench with towels; the 50 m pool, the sauna and the gym are further back in the same sector.
 - **Walk round it:** its 360° view is rendering.
 
+### The cinema
+
+![The cinema: forty claret velvet seats in four rising rows, walnut slats, sconces, a ceiling of stars](../tour/photos/cinema.jpg)
+
+- **The room:** ring A of sector 2, in the club next to Jim's residence: 16 m wide, 13.9 m deep, 7.6 m high.
+- **Made of:** walnut slats on the side walls, black velvet round the screen, a carpet of charcoal wool, seats in
+  claret velvet.
+- **In it:** four rows of ten seats, each row a step higher, with lights in the steps; a screen 12 m by 5 m; curtains
+  drawn across the glass onto the atrium; a ceiling of 700 points of light, like stars.
+- **Walk round it:** [in the cinema](https://ttmathcs.github.io/mars-campus/palace/tour/#cinema)
+
 ## The Crown
 
 The Crown's rooms run round the ring, 41 m above the plain, between the garden-side wall with the Glide along it and

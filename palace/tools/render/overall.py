@@ -616,7 +616,7 @@ def anchors(az):
     Well, the soil, each level and the sun court in the section's face"""
     right = bdir(az - 90)
     a = {"crown": BP(130.0, az + 38, 60.0), "orb": Vector((0, 0, 80.0)), "garden": BP(45.0, az + 180 - 60, 0.5), "sunwell": Vector((0, 0, 0.6)),
-         "soil": right * (-70.0) + Vector((0, 0, -8.0)), "court": right * 13.0 + Vector((0, 0, -66.0))}
+         "soil": right * (-70.0) + Vector((0, 0, -8.0)), "court": right * 13.0 + Vector((0, 0, -66.0)), "pentagon": right * (-64.0) + Vector((0, 0, -46.0))}
     for (name, f, t, kind) in LEVELS: a[name.lower()] = right * 64.0 + Vector((0, 0, (f + t) / 2))
     return a
 

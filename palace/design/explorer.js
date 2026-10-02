@@ -8,7 +8,7 @@
   var N = 24, cur = 0, frames = [], spots = null, data = null, have = [0];        // have: the frames published so far
   var img = stage.querySelector(".ex-frame"), labs = stage.querySelector(".ex-labels");
   var LABELS = { crown: "The Crown", orb: "The Orb", garden: "Stone Garden", sunwell: "Sun Well", soil: "16 m of soil",
-    l1: "L1 · Residence", l2: "L2 · Garden", l3: "L3 · Studio", l4: "L4 · Life support", l5: "L5 · Transit", court: "Sun court" };
+    pentagon: "The Pentagon", l1: "L1 · Residence", l2: "L2 · Garden", l3: "L3 · Studio", l4: "L4 · Life support", l5: "L5 · Transit", court: "Sun court" };
   var PARTS = {
     crown: { kick: "Above ground · 276 m across", title: "The Crown", plan: "crown", more: [["rooms-crown.html", "The Crown, room by room"], ["crown.html", "Chapter 02: the Crown"]],
       text: "A white ring of fired Mars soil 276 m across, floating 40 m over the Stone Garden on five anti-gravity drives. Its ten parts run round the ring and the Glide, a moving walkway, links them in a 779 m loop. Five spires rise to 90 m, each with a portal. Click a part of the plan to look inside." },
@@ -20,6 +20,8 @@
       text: "A lens 34 m across under an iris. It sends the daylight 68 m down the atrium to the sun court, and keeps it bright through a dust storm." },
     soil: { kick: "Over the roof of L1", title: "16 m of soil", fig: ["../docs/img/book/pentagon-dose.png", "Radiation in mSv a year, by place."], more: [["pentagon.html#why", "Why underground"]],
       text: "The soil on the roof stops the radiation (about 230 mSv a year on the open plain; below it, less than people get on Earth), holds the air pressure down and keeps the warmth steady. The ground round the walls stays frozen, as under buildings on permafrost." },
+    pentagon: { kick: "Below ground · five levels, 24 to 68 m down", title: "The Pentagon", levels: true, fig: ["../docs/img/book/pentagon-section.png", "Section east to west through the middle, to scale: the five levels round the atrium, the Sun Well above, the sun court at the bottom."], more: [["pentagon.html", "Chapter 03: the Pentagon"]],
+      text: "One solid five-sided block, 160 m on each side and five levels deep, dug into thick ice under 16 m of soil: 209,700 m², eleven times the Crown. Round the atrium run five rings of rooms with streets between them, and avenues lead out to the corner cores under the spires. Choose a level." },
     l1: { kick: "The Pentagon · 24 m down · 8 m high", title: "L1 · Residence", plan: "l1", more: [["rooms-residence.html", "Jim's residence, room by room"], ["rooms-atrium.html", "Round the atrium"]],
       text: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema and a bar, thermal baths and a 50 m pool, the great library and the guest suites. Click a room on the plan." },
     l2: { kick: "The Pentagon · 41 m down · 16 m high", title: "L2 · Garden", sheet: "../docs/img/plans/a301-pentagon-L2.png", more: [["pentagon.html#levels", "Chapter 03: the five levels"]],
@@ -122,6 +124,7 @@
   }
   function openPart(k) {
     var P = PARTS[k], h = '<div class="xp-kick">' + E(P.kick) + "</div><h2>" + E(P.title) + '</h2><p class="xp-text">' + E(P.text) + "</p>";
+    if (P.levels) h += '<div class="xp-levels">' + ["l1", "l2", "l3", "l4", "l5"].map(function (l) { return '<button type="button" data-part="' + l + '"><b>' + E(PARTS[l].title) + "</b><span>" + E(PARTS[l].kick.replace("The Pentagon · ", "")) + "</span></button>"; }).join("") + "</div>";
     if (P.plan) h += data ? planHtml(P.plan) : "<p>Loading the plan…</p>";
     else if (P.sheet) h += '<figure class="xp-fig"><a href="' + P.sheet + '" target="_blank" rel="noopener"><img src="' + P.sheet + '" alt="Floor plan of ' + E(P.title) + '"></a><figcaption>The floor plan, sheet A301. Its rooms and pictures are still to make.</figcaption></figure>';
     else if (P.fig) h += '<figure class="xp-fig"><img src="' + P.fig[0] + '" alt=""><figcaption>' + E(P.fig[1]) + "</figcaption></figure>";
@@ -147,7 +150,7 @@
   }
   function wire() {
     body.querySelectorAll("[data-room]").forEach(function (el) { el.addEventListener("click", function () { openRoom(el.getAttribute("data-room")); }); });
-    body.querySelectorAll(".xp-back").forEach(function (el) { el.addEventListener("click", function () { openPart(el.getAttribute("data-part")); }); });
+    body.querySelectorAll(".xp-back, .xp-levels button").forEach(function (el) { el.addEventListener("click", function () { openPart(el.getAttribute("data-part")); }); });
     body.querySelectorAll(".pano button[data-stop]").forEach(function (b) {
       b.addEventListener("click", function () {
         var box = b.closest(".pano"), f = document.createElement("iframe");

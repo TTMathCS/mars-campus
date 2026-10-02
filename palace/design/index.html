@@ -72,6 +72,11 @@
   .xp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin: 0 0 14px; }
   .xp-media figure { margin: 0; background: var(--sheet); border: 1px solid var(--rule); }
   .xp-media img { width: 100%; height: auto; display: block; }
+  .xp-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin: 0 0 14px; }
+  .xp-levels button { text-align: left; padding: 10px 12px; background: var(--sheet); border: 1px solid var(--rule); cursor: pointer; font: inherit; color: var(--ink); }
+  .xp-levels button:hover { border-color: var(--route); }
+  .xp-levels b { display: block; font: 600 17px/1.15 var(--f-display); }
+  .xp-levels span { display: block; font-size: 13px; color: var(--ink-2); margin-top: 2px; }
   .xp-pending { padding: 16px; margin: 0 0 14px; background: var(--panel); border: 1px dashed var(--rule); color: var(--ink-2); }
   .xp-more a { display: inline-block; margin: 0 18px 6px 0; font-weight: 600; }
   .xp-back { border: 0; background: none; color: var(--route); font: 600 15px var(--f-body); cursor: pointer; padding: 0; margin: 0 0 10px; }
@@ -129,7 +134,7 @@
       <div class="ex-ctrl"><button type="button" data-step="-1" aria-label="Turn left">◀</button><button type="button" data-step="1" aria-label="Turn right">▶</button></div>
     </div>
     <div class="ex-parts" aria-label="Parts of the house">
-      <button type="button" data-part="crown">The Crown</button><button type="button" data-part="orb">The Orb</button><button type="button" data-part="garden">Stone Garden</button><button type="button" data-part="sunwell">Sun Well</button><button type="button" data-part="soil">16 m of soil</button><button type="button" data-part="l1">L1 Residence</button><button type="button" data-part="l2">L2 Garden</button><button type="button" data-part="l3">L3 Studio</button><button type="button" data-part="l4">L4 Life support</button><button type="button" data-part="l5">L5 Transit</button><button type="button" data-part="court">Atrium and sun court</button>
+      <button type="button" data-part="crown">The Crown</button><button type="button" data-part="orb">The Orb</button><button type="button" data-part="garden">Stone Garden</button><button type="button" data-part="sunwell">Sun Well</button><button type="button" data-part="soil">16 m of soil</button><button type="button" data-part="pentagon">The Pentagon</button><button type="button" data-part="l1">L1 Residence</button><button type="button" data-part="l2">L2 Garden</button><button type="button" data-part="l3">L3 Studio</button><button type="button" data-part="l4">L4 Life support</button><button type="button" data-part="l5">L5 Transit</button><button type="button" data-part="court">Atrium and sun court</button>
     </div>
     <p class="ex-cap">The whole house, path-traced from the design model and cut through the middle, as in an architect's section: the Crown and the Orb above, the Stone Garden on the plain, and under 16 m of soil the Pentagon's five levels round the atrium, from Jim's residence on L1 down to the halls of L5. The cut turns with you.</p>
     <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>

@@ -377,6 +377,9 @@ def render_pano(path, width, samples, exposure=0.0, bands=6, overlap=48, threads
             ramp = Image.linear_gradient("L").rotate(90, expand=True).resize((2 * overlap, H))      # 0 at its left, 255 at its right
             m.paste(ramp, (0, 0))
         out.paste(im, (x0, 0), m)
+    # the border render leaves the last column black, a thin line where the 360 wraps round: fill it from its
+    # neighbours on either side of the wrap
+    out.paste(Image.blend(out.crop((W - 2, 0, W - 1, H)), out.crop((0, 0, 1, H)), 0.5), (W - 1, 0))
     tmp = base + ".part.jpg"; out.save(tmp, "JPEG", quality=93); os.replace(tmp, path)
     for (_, _, bp) in parts: os.remove(bp)
 

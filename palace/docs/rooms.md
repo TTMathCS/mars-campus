@@ -78,7 +78,9 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
   of daylight between them.
 - **In it:** a warm pool at 36 °C, a round hot pool at 40 °C and a cold plunge at 14 °C, loungers along the glass, a
   stone bench with towels; the 50 m pool, the sauna and the gym are further back in the same sector.
-- **Walk round it:** its 360° view is rendering.
+- **Walk round it:** [in the baths](https://ttmathcs.github.io/mars-campus/palace/tour/#baths)
+
+![The thermal baths from above, the ceiling taken off: the hot pool, the warm pool with its steps, the cold plunge, loungers along the glass](../design/img/above/l1-baths.jpg)
 
 ### The cinema
 

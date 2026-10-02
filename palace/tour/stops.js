@@ -43,7 +43,7 @@ window.TOUR_STOPS = [
   { id: "library", rot: 144, name: "The great library", short: "Library", k: "L1 · The great library", p: [-18.69, -45.73], az0: 20, img: "pano/library.jpg",
     d: "Two storeys of books on three walls, 49 m along the back: walnut shelves washed with warm light, a gallery all round reached by a spiral stair, rolling ladders, long reading tables with brass lamps, leather chairs by the glass and a globe of the Earth.",
     links: [{ id: "bridge", at: [-13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
-  { id: "baths", ready: false, rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
+  { id: "baths", rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
     d: "Grey-green quartzite laid in thin courses, blades of daylight through slots in the ceiling, and three pools: a long warm pool, a round hot pool and a cold plunge. Loungers along the glass look out at the atrium's gardens.",
     links: [{ id: "bridge", at: [13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "library", label: "Next door: the great library" }, { id: "cinema", label: "Next door: the cinema" }] },
   { id: "cinema", rot: 288, name: "The cinema", short: "Cinema", k: "L1 · The club", p: [24.43, -16.15], z: 1.26, az0: 0, img: "pano/cinema.jpg",

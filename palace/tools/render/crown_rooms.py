@@ -530,8 +530,8 @@ def wellness(M, rnd):
     crown.sector("pool water", pr0, pr1, ps0, ps1, -0.07, water)
     for r in (pr0 + 0.02, pr1 - 0.02): crown.curved_box("pool light", r - 0.005, r + 0.005, ps0 + 0.3, ps1 - 0.3, -0.36, -0.33, glow)
     crown.curved_box("pool edge", pr0 - 0.3, pr0, ps0, ps1, -0.005, 0.012, M["stone_linen"]); crown.curved_box("pool edge", pr1, pr1 + 0.3, ps0, ps1, -0.005, 0.012, M["stone_linen"])
-    for k in range(5):     # steps down at the near end
-        crown.curved_box("pool step", pr0, pr1, ps0, ps0 + tang(0.35 * (5 - k), 132), -dz, -0.07 - 0.28 * (k + 1), tile)      # every tread under the water
+    for k in range(5):     # steps down at the near end: each a block standing on the floor, the top one shortest
+        crown.curved_box("pool step", pr0, pr1, ps0, ps0 + tang(0.35 * (k + 1), 132), -dz, -dz / 6 * (k + 1), tile)      # every tread under the water (at -0.07)
     # loungers along the Glide side, towels
     for bb in crown.steps(ps0 + 0.8, ps1 - 0.8, 1.0 / tang(2.6, R_GL + 0.9)):
         M.setdefault("towel", lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5))

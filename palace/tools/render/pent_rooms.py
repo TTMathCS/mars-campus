@@ -315,10 +315,11 @@ def pool_rect(name, x0, x1, y0, y1, depth, M, glow, cutters, steps_at=None):
     lib.box(name + " water", (x1 - x0, y1 - y0, 0.002), ((x0 + x1) / 2, (y0 + y1) / 2, -0.06), M["pool water"])
     for yy in (y0 + 0.03, y1 - 0.03):
         lib.box(name + " light", (x1 - x0 - 0.6, 0.01, 0.03), ((x0 + x1) / 2, yy, -0.32), glow)
-    if steps_at is not None:     # steps down along the x0 end
-        n = int(depth / 0.2)
+    if steps_at is not None:     # steps down from the x0 end: each a block standing on the floor, the top one shortest,
+        n = int(round(depth / 0.2)) - 1; h = depth / (n + 1); tread = 0.32      # so the treads go down as you walk out
         for i in range(n):
-            lib.box(name + " step", (0.32 * (n - i), y1 - y0 - 2.4, 0.2), (x0 + 0.16 * (n - i), (y0 + y1) / 2, -0.06 - 0.2 * (i + 1) - 0.1), M["basin"])      # every tread under the water
+            top = -h * (i + 1)      # every tread under the water (at -0.06)
+            lib.box(name + " step", (tread * (i + 1), y1 - y0 - 2.4, top + depth), (x0 + tread * (i + 1) / 2, (y0 + y1) / 2, (top - depth) / 2), M["basin"])
 
 
 def pool_round(name, cx, cy, r, depth, M, glow, cutters):

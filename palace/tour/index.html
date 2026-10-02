@@ -103,7 +103,8 @@
   var $ = function (id) { return document.getElementById(id); };
   var D = Math.PI / 180, EYE = 1.55;
   /* Each stop is a 360° render (equirectangular, its middle looking along +y of the family room's frame: x along the
-     glass, y into the room). p is where it was taken, az0 where you look first (degrees, 0 = +y, 90 = -x). */
+     glass, y into the room). p is where it was taken, az0 where you look first (degrees, 0 = +y, 90 = -x). A room on
+     another side of the atrium is rendered in its own frame: rot is the map direction of its picture's middle. */
   var STOPS = (window.TOUR_STOPS || []).filter(function (s) { return s.ready !== false; });   // stops still rendering wait
   var PHOTOS = window.TOUR_PHOTOS || [];
   var byId = {}; STOPS.forEach(function (s) { byId[s.id] = s; });
@@ -133,6 +134,7 @@
 
   /* ------------------------------------------------------------------ moving between stops */
   function bearing(a, b) { return Math.atan2(-(b.p[0] - a.p[0]), b.p[1] - a.p[1]) / D; }
+  function rotOf(s) { return s.rot || 0; }
   function go(id, instant) {
     var s = byId[id]; if (!s || (here && here.id === id && !instant)) return;
     var from = here; $("load").hidden = !!cache[id] && !!cache[id].image; if (!$("load").hidden) $("load").textContent = "Walking…";
@@ -142,7 +144,7 @@
       else {
         // keep facing the way you walked (a portal, or the Glide to another room, sets you down facing the stop's view)
         var level = Math.abs((from.z || 0) - (s.z || 0)) > 3 || placeOf(from) !== placeOf(s) || Math.hypot(from.p[0] - s.p[0], from.p[1] - s.p[1]) > 40;
-        view.az = level ? s.az0 : bearing(from, s); if (level) view.el = 0;
+        view.az = level ? s.az0 : bearing(from, s) - rotOf(s); if (level) view.el = 0;
         nxt.material.map = t; nxt.material.opacity = 0; nxt.material.needsUpdate = true; nxt.visible = true; fade = { t0: performance.now(), dur: 650 };
       }
       here = s; setHud(); spots(); preload(s); drawMap();
@@ -166,7 +168,7 @@
       // the ring goes where you would stand at the next stop, or where the link says (a portal)
       var at = ln.at || [t.p[0], t.p[1], t.z || 0], eye = (here.z || 0) + EYE;
       var dx = at[0] - here.p[0], dy = at[1] - here.p[1], dist = Math.hypot(dx, dy);
-      var el = Math.atan2(at[2] - eye, dist) / D, az = Math.atan2(-dx, dy) / D;
+      var el = Math.atan2(at[2] - eye, dist) / D, az = Math.atan2(-dx, dy) / D - rotOf(here);
       var b = document.createElement("button"); b.type = "button"; b.className = "spot" + (dist > 9 ? " far" : ""); b.innerHTML = "<i></i><span></span>"; b.querySelector("span").textContent = ln.label || t.name;
       b.addEventListener("click", function (e) { e.stopPropagation(); go(id); });
       box.appendChild(b); SPOTS.push({ el: b, v: dir3(az, Math.max(-60, el), 400) });
@@ -184,7 +186,7 @@
 
   /* ------------------------------------------------------------------ the little map: of the place you are in */
   // the Pentagon's map is in the family room's frame (the atrium and Jim's rooms); the Crown's is the whole ring, 276 m
-  var MAPS = { pentagon: { x0: -26, x1: 26, y0: -56, y1: 16, cone: 9 }, crown: { x0: -142, x1: 142, y0: -142, y1: 142, cone: 40 } };
+  var MAPS = { pentagon: { x0: -40, x1: 40, y0: -66, y1: 16, cone: 9 }, crown: { x0: -142, x1: 142, y0: -142, y1: 142, cone: 40 } };
   function placeOf(st) { return st.place || "pentagon"; }
   function drawMap() {
     var pl = placeOf(here), MAP = MAPS[pl], svg = $("map"), s = 200 / (MAP.y1 - MAP.y0), h = (MAP.y1 - MAP.y0) * s, w = (MAP.x1 - MAP.x0) * s;
@@ -198,7 +200,11 @@
       out.push('<polygon points="' + pa.join(" ") + '" fill="rgba(243,232,218,.06)" stroke="rgba(243,232,218,.35)" stroke-width="1"/>');
       out.push('<polygon points="' + pv.join(" ") + '" fill="rgba(0,0,0,.35)" stroke="rgba(243,232,218,.2)" stroke-width=".8"/>');
       var cc = P(C[0], C[1]).split(","); out.push('<circle cx="' + cc[0] + '" cy="' + cc[1] + '" r="' + (5 * s).toFixed(1) + '" fill="rgba(243,232,218,.25)"/>');
-      out.push('<polygon points="' + [P(-14.4, 0), P(14.4, 0), P(24.5, 13.9), P(-24.5, 13.9)].join(" ") + '" fill="rgba(255,155,107,.12)" stroke="rgba(255,155,107,.6)" stroke-width="1"/>');
+      // the rooms of ring A on L1, one behind each side's glass (Jim's family room is side 0, the others turned round C)
+      for (var k = 4; k >= 0; k--) {
+        var be = 72 * k * D, rp = [[-14.4, 0], [14.4, 0], [24.5, 13.9], [-24.5, 13.9]].map(function (q) { var yy = q[1] + 24.09; return P(C[0] + q[0] * Math.cos(be) + yy * Math.sin(be), C[1] - q[0] * Math.sin(be) + yy * Math.cos(be)); });
+        out.push('<polygon points="' + rp.join(" ") + '" fill="rgba(255,155,107,' + (k ? '.05' : '.12') + ')" stroke="rgba(255,155,107,' + (k ? '.3' : '.6') + ')" stroke-width="1"/>');
+      }
     } else {
       // the Crown: the ring 10 m wide, its ten parts, the Orb over the middle
       var o = P(0, 0).split(",");
@@ -210,7 +216,7 @@
       if (placeOf(st) !== pl) return;
       var q = P(st.p[0], st.p[1]).split(","), on = here && st.id === here.id, cr = MAP.cone;
       if (on) {
-        var a1 = (view.az - 35) * D, a2 = (view.az + 35) * D, r = cr * s;
+        var a1 = (view.az + rotOf(st) - 35) * D, a2 = (view.az + rotOf(st) + 35) * D, r = cr * s;
         var p1 = P(st.p[0] - Math.sin(a1) * cr, st.p[1] + Math.cos(a1) * cr), p2 = P(st.p[0] - Math.sin(a2) * cr, st.p[1] + Math.cos(a2) * cr);
         out.push('<path id="cone" d="M' + q.join(",") + " L" + p1 + " A" + r.toFixed(1) + "," + r.toFixed(1) + " 0 0 0 " + p2 + ' Z" fill="rgba(159,211,238,.35)"/>');
       }

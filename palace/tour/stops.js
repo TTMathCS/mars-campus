@@ -20,10 +20,24 @@ window.TOUR_STOPS = [
     links: ["glass", "bridge"] },
   { id: "bridge", ready: false, name: "On the bridge", short: "Bridge", k: "L1 · The atrium, 24 m down", p: [0.0, -11.0], z: -0.02, az0: 140, img: "pano/bridge.jpg",
     d: "Halfway out to the portal column. The atrium goes on down 44 m to the sun court, past the garden level and the studios; the sky lens of the Sun Well is overhead. The portal at the end of the bridge goes to any level.",
-    links: ["terrace", { id: "court", at: [0.6, -18.6, 1.4], label: "Portal: down to the sun court" }, { id: "crown_arrival", at: [-0.6, -18.6, 2.6], label: "Portal: up to the Crown" }] },
+    links: ["terrace", { id: "court", at: [0.6, -18.6, 1.4], label: "Portal: down to the sun court" }, { id: "crown_arrival", at: [-0.6, -18.6, 2.6], label: "Portal: up to the Crown" },
+      { id: "library", at: [-14.16, -43.58, 0], label: "Across the atrium: the great library" }, { id: "baths", at: [14.16, -43.58, 0], label: "Across the atrium: the thermal baths" }, { id: "cinema", at: [22.91, -16.65, 0], label: "Across the atrium: the cinema" }] },
   { id: "court", ready: false, name: "The sun court", short: "Sun court", k: "L5 · 68 m down", p: [0.0, -35.6], z: -44.05, az0: 0, img: "pano/court.jpg",
     d: "The bottom of the atrium: a lawn with olive trees round a pool at the foot of the column, in the light of the sky lens 52 m above. Behind the glass all round are the halls of L5: the maglev, the freight portals, the seed vault and the rovers.",
     links: [{ id: "bridge", at: [2.9, -28.1, -42.5], label: "Portal: up to L1" }] },
+
+  /* The other rooms of ring A on L1, each behind the glass of another side of the atrium. They are rendered in their
+     own frame (the family room's, turned round the atrium's middle), so rot gives the map direction of the picture's
+     middle; p is on the map. Full height, 7.6 m: the library, the baths and the cinema. */
+  { id: "library", ready: false, rot: 144, name: "The great library", short: "Library", k: "L1 · The great library", p: [-18.69, -45.73], az0: 20, img: "pano/library.jpg",
+    d: "Two storeys of books on three walls, 49 m along the back: walnut shelves washed with warm light, a gallery all round reached by a spiral stair, rolling ladders, long reading tables with brass lamps, leather chairs by the glass and a globe of the Earth.",
+    links: [{ id: "bridge", at: [-13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
+  { id: "baths", ready: false, rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
+    d: "Grey-green quartzite laid in thin courses, blades of daylight through slots in the ceiling, and three pools: a long warm pool, a round hot pool and a cold plunge. Loungers along the glass look out at the atrium's gardens.",
+    links: [{ id: "bridge", at: [13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "library", label: "Next door: the great library" }, { id: "cinema", label: "Next door: the cinema" }] },
+  { id: "cinema", ready: false, rot: 288, name: "The cinema", short: "Cinema", k: "L1 · The club", p: [24.43, -16.15], z: 1.26, az0: 0, img: "pano/cinema.jpg",
+    d: "Forty velvet seats in four rows under a ceiling of stars, walnut walls, curtains drawn across the glass, and a screen 12 m wide. Tonight: the Earth.",
+    links: [{ id: "bridge", at: [22.34, -16.83, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
 
   /* The Crown, above ground: positions in metres from the ring's centre, x east, y north (the ring's rooms lie between
      125 and 135 m out, the Glide along the inner wall); z from the main floor, 41 m up. */

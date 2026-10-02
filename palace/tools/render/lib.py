@@ -354,6 +354,33 @@ def render(path, res=(1600, 900), samples=192, threads=4, exposure=0.0):
     bpy.ops.render.render(write_still=True)
 
 
+def render_pano(path, width, samples, exposure=0.0, bands=6, overlap=48, threads=4):
+    """a 360 (width x width/2) rendered in vertical bands, each kept as a file as soon as it is done, then joined with
+    feathered seams: if the machine restarts, only the band being rendered is lost. Same pixels, same seed, so the
+    bands match; the feathering hides what the denoiser does at a band's edges."""
+    from PIL import Image
+    sc = bpy.context.scene; W, H = width, width // 2; base = os.path.splitext(path)[0]; parts = []
+    fmt = sc.render.image_settings.file_format
+    for i in range(bands):
+        x0 = max(0, i * W // bands - overlap); x1 = min(W, (i + 1) * W // bands + overlap)
+        bp = "%s.band%d.png" % (base, i); parts.append((x0, x1, bp))
+        if os.path.exists(bp): print("band", i, "already done", flush=True); continue
+        sc.render.use_border = True; sc.render.use_crop_to_border = True
+        sc.render.border_min_x, sc.render.border_max_x = x0 / W, x1 / W; sc.render.border_min_y, sc.render.border_max_y = 0.0, 1.0
+        sc.render.image_settings.file_format = "PNG"; tmp = bp[:-4] + ".part.png"
+        render(tmp, (W, H), samples, threads, exposure); os.replace(tmp, bp); print("band", i, "of", bands, "done", flush=True)
+    sc.render.use_border = False; sc.render.use_crop_to_border = False; sc.render.image_settings.file_format = fmt
+    out = Image.new("RGB", (W, H))
+    for i, (x0, x1, bp) in enumerate(parts):
+        im = Image.open(bp).convert("RGB"); m = Image.new("L", im.size, 255)
+        if i > 0:       # fade in across the overlap with the band before
+            ramp = Image.linear_gradient("L").rotate(90, expand=True).resize((2 * overlap, H))      # 0 at its left, 255 at its right
+            m.paste(ramp, (0, 0))
+        out.paste(im, (x0, 0), m)
+    tmp = base + ".part.jpg"; out.save(tmp, "JPEG", quality=93); os.replace(tmp, path)
+    for (_, _, bp) in parts: os.remove(bp)
+
+
 def photo_finish(glow=0.35, vignette=0.18):
     """what a camera adds: a soft glow round the brightest things and a little darkening towards the corners"""
     sc = bpy.context.scene; sc.use_nodes = True; nt = sc.node_tree

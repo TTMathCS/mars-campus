@@ -426,7 +426,7 @@ def furnish(M, rnd):
     lib.instance_of(lc, (-14.9, 3.4, 0.0), math.radians(-115), name="music chair 2")
     # plants
     pl = lib.import_glb(os.path.join(A, "DiffuseTransmissionPlant.glb"), (-13.3, 1.2, 0.0), 0.5, 1.7, name="plant")
-    lib.instance_of(pl, (13.4, 1.2, 0.0), 2.1, 1.8); lib.instance_of(pl, (-17.6, 12.6, 0.0), 1.0, 1.9); lib.instance_of(pl, (6.9, 0.9, 0.0), 3.0, 1.4); lib.instance_of(pl, (-7.0, 0.9, 0.0), 4.0, 1.5)
+    lib.instance_of(pl, (13.4, 1.2, 0.0), 2.1, 1.8); lib.instance_of(pl, (-23.05, 12.95, 0.0), 1.0, 1.9); lib.instance_of(pl, (6.9, 0.9, 0.0), 3.0, 1.4); lib.instance_of(pl, (-7.0, 0.9, 0.0), 4.0, 1.5)
     # paintings
     p1 = furn.painting_material("painting oxblood", (0.30, 0.05, 0.03), [(0.08, 0.92, 0.52, 0.92, (0.62, 0.22, 0.05)), (0.08, 0.92, 0.08, 0.46, (0.12, 0.02, 0.02))])
     p2 = furn.painting_material("painting slate", (0.12, 0.14, 0.17), [(0.08, 0.92, 0.58, 0.92, (0.55, 0.50, 0.40)), (0.08, 0.92, 0.08, 0.52, (0.05, 0.06, 0.09))])
@@ -435,7 +435,7 @@ def furnish(M, rnd):
         p = Vector((sgn * (HW0 + HW1) / 2, DEP / 2)); n = Vector((-sgn * 0.809, 0.588)); q = p + n * 0.05
         pw, ph, pz = (2.2, 2.6, 1.85) if sgn < 0 else (1.9, 2.1, 2.1)
         furn.painting("painting", pw, ph, (q.x, q.y, pz), math.radians(-sgn * 126), mat, M["frame"])
-    for sgn in (-1, 1): furn.painting("painting", 1.8, 2.2, (sgn * 18.6, DEP - 0.05, 1.75), 0.0, p3 if sgn < 0 else p2, M["frame"])
+    furn.painting("painting", 1.8, 2.2, (-18.9, DEP - 0.05, 2.38), 0.0, p3, M["frame"])     # over the records (the bar is at the other end)
     p4 = furn.painting_material("painting dusk", (0.20, 0.10, 0.06), [(0.07, 0.93, 0.56, 0.93, (0.58, 0.36, 0.16)), (0.07, 0.93, 0.07, 0.5, (0.22, 0.05, 0.03))])
     p5 = furn.painting_material("painting moss", (0.10, 0.12, 0.08), [(0.08, 0.92, 0.55, 0.92, (0.36, 0.42, 0.22)), (0.08, 0.92, 0.08, 0.48, (0.62, 0.55, 0.38))])
     for sgn, mat in ((-1, p5), (1, p2)):
@@ -452,6 +452,201 @@ def furnish(M, rnd):
     return o
 
 
+# ---------------------------------------------------------------- the far ends of the music room and the dining room
+def palette_material(name, pal, rough=0.5, var=0.5, coat=0.0, per_object=False):
+    """one material for many small things (the records in one mesh, or copies of a label): a colour per piece, or per
+    object, from a palette"""
+    m, nt = lib._mat(name)
+    if nt is None: return m
+    L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = rough; b.inputs["Coat Weight"].default_value = coat
+    rnd_out = nt.nodes.new("ShaderNodeObjectInfo").outputs["Random"] if per_object else nt.nodes.new("ShaderNodeNewGeometry").outputs["Random Per Island"]
+    cr = nt.nodes.new("ShaderNodeValToRGB"); cr.color_ramp.interpolation = "CONSTANT"
+    els = cr.color_ramp.elements; els[0].position = 0.0; els[0].color = (*pal[0], 1); els[1].position = 1 / len(pal); els[1].color = (*pal[1], 1)
+    for i in range(2, len(pal)): e = els.new(i / len(pal)); e.color = (*pal[i], 1)
+    L.new(rnd_out, cr.inputs["Fac"])
+    hs = nt.nodes.new("ShaderNodeHueSaturation"); L.new(cr.outputs["Color"], hs.inputs["Color"])
+    wn = nt.nodes.new("ShaderNodeTexWhiteNoise"); wn.noise_dimensions = "1D"; L.new(lib._math(nt, "MULTIPLY", rnd_out, 37.3), wn.inputs["W"])
+    L.new(lib._math(nt, "ADD", lib._math(nt, "MULTIPLY", wn.outputs["Value"], var), 1.0 - var / 2), hs.inputs["Value"])
+    L.new(hs.outputs["Color"], b.inputs["Base Color"])
+    return m
+
+
+SLEEVES = [(0.80, 0.78, 0.72), (0.015, 0.015, 0.015), (0.50, 0.05, 0.03), (0.05, 0.10, 0.26), (0.70, 0.50, 0.08), (0.28, 0.28, 0.27), (0.60, 0.57, 0.50),
+           (0.08, 0.20, 0.15), (0.40, 0.16, 0.25), (0.86, 0.84, 0.80), (0.14, 0.09, 0.05), (0.18, 0.30, 0.45), (0.75, 0.30, 0.10), (0.03, 0.03, 0.04)]
+
+
+def record_console(M, rnd, x0, x1, nb=8):
+    """a long low walnut console on the back wall: two rows of open bays full of LPs, a cupboard at each end, a marble
+    top; the records' sleeves edge on, each its own colour"""
+    yb = DEP; d = 0.44; yc = yb - d / 2; bw = (x1 - x0) / nb; xm = (x0 + x1) / 2
+    lib.box("console plinth", (x1 - x0 - 0.1, d - 0.08, 0.08), (xm, yc + 0.02, 0.04), M["bronze_dark"])
+    for (z0, z1) in ((0.08, 0.10), (0.44, 0.46), (0.80, 0.83)):
+        lib.box("console board", (x1 - x0, d, z1 - z0), (xm, yc, (z0 + z1) / 2), M["walnut"], bevel=0.003)
+    lib.box("console back", (x1 - x0, 0.02, 0.73), (xm, yb - 0.01, 0.465), M["walnut_v"])
+    for i in range(nb + 1):
+        lib.box("console divider", (0.025, d, 0.73), (x0 + i * bw, yc, 0.465), M["walnut_v"], bevel=0.002)
+    lib.box("console top", (x1 - x0 + 0.04, d + 0.03, 0.025), (xm, yc - 0.01, 0.8425), M["marble"], bevel=0.004)
+    rec = bmesh.new()
+    for i in range(nb):
+        bx0 = x0 + i * bw + 0.0125; bx1 = x0 + (i + 1) * bw - 0.0125
+        for (z0, z1) in ((0.10, 0.44), (0.46, 0.80)):
+            if i in (0, nb - 1):
+                lib.box("console door", (bx1 - bx0 - 0.006, 0.02, z1 - z0 - 0.006), ((bx0 + bx1) / 2, yb - d + 0.01, (z0 + z1) / 2), M["walnut_v"], bevel=0.002)
+                continue
+            x = bx0 + 0.008; end = bx1 - rnd.uniform(0.0, 0.14)
+            while x < end - 0.006:
+                t = rnd.uniform(0.0025, 0.006); s = 0.312
+                lib.bm_box(rec, (t, s, s), (x + t / 2, yb - 0.025 - s / 2 - rnd.uniform(0.0, 0.03), z0 + s / 2 + 0.001), rot_z=rnd.uniform(-0.02, 0.02))
+                x += t + rnd.uniform(0.0, 0.0012)
+    lib.mesh_obj("records", rec, palette_material("record sleeves", SLEEVES, 0.45, 0.5))
+
+
+def turntable(loc, rot_z, M):
+    P = furn.empty("turntable", loc, rot_z)
+    vinyl = lib.principled("vinyl", (0.008, 0.008, 0.009), 0.22, **{"Coat Weight": 0.6, "Coat Roughness": 0.1})
+    label = lib.principled("record label", (0.45, 0.06, 0.03), 0.6)
+    parts = [lib.box("turntable plinth", (0.46, 0.36, 0.07), (0, 0, 0.035), M["walnut"], bevel=0.008),
+             lib.cyl("platter", 0.15, 0.025, (-0.05, 0.0, 0.07), M["bronze_dark"], verts=96, bevel=0.003),
+             lib.cyl("record", 0.149, 0.003, (-0.05, 0.0, 0.095), vinyl, verts=96), lib.cyl("record label", 0.045, 0.001, (-0.05, 0.0, 0.098), label, verts=48),
+             lib.cyl("tonearm base", 0.025, 0.047, (0.16, 0.12, 0.07), M["brass"], verts=32),
+             lib.cyl("tonearm", 0.005, 0.25, (0.16, 0.12, 0.112), M["brass"], verts=12, rot=(0, math.pi / 2, math.radians(-128))),
+             lib.box("cartridge", (0.02, 0.03, 0.014), (0.006, -0.077, 0.106), M["bronze_dark"])]
+    for (x, y) in ((-0.2, -0.15), (0.2, -0.15), (-0.2, 0.15), (0.2, 0.15)): parts.append(lib.cyl("turntable foot", 0.02, 0.01, (x, y, -0.008), M["bronze_dark"], verts=16))
+    for o in parts: o.parent = P
+    return P
+
+
+def amplifier(loc, rot_z, M):
+    P = furn.empty("amplifier", loc, rot_z)
+    alu = lib.principled("brushed aluminium", (0.72, 0.72, 0.70), 0.28, 1.0)
+    meter = lib.emission("amp meter", (1.0, 0.62, 0.25), 3.0)
+    parts = [lib.box("amp body", (0.44, 0.36, 0.14), (0, 0.01, 0.075), M["lacquer"], bevel=0.004), lib.box("amp face", (0.44, 0.012, 0.15), (0, -0.172, 0.075), alu, bevel=0.003)]
+    for (x, r) in ((-0.15, 0.024), (0.15, 0.024), (0.0, 0.012)):
+        parts.append(lib.cyl("amp knob", r, 0.025, (x, -0.178, 0.06), alu, verts=32, rot=(math.pi / 2, 0, 0)))
+    for x in (-0.06, 0.06): parts.append(lib.box("amp meter", (0.07, 0.004, 0.035), (x, -0.179, 0.11), meter))
+    for o in parts: o.parent = P
+    return P
+
+
+def speaker(name, loc, rot_z, M):
+    """a tall floor-standing loudspeaker in walnut, its drivers bare on a black baffle, facing local -y"""
+    P = furn.empty(name, loc, rot_z)
+    cone = lib.principled("speaker cone", (0.06, 0.06, 0.065), 0.45); dome = lib.principled("tweeter dome", (0.12, 0.12, 0.12), 0.3)
+    parts = [lib.box(name + " cabinet", (0.26, 0.40, 1.06), (0, 0, 0.58), M["walnut_v"], bevel=0.018),
+             lib.box(name + " plinth", (0.32, 0.46, 0.04), (0, 0, 0.02), M["bronze_dark"], bevel=0.004),
+             lib.box(name + " baffle", (0.235, 0.012, 1.02), (0, -0.197, 0.58), M["felt"], bevel=0.004)]
+    for (z, r) in ((1.0, 0.016), (0.84, 0.072), (0.60, 0.092), (0.34, 0.092)):
+        parts.append(lib.cyl(name + " surround", r + 0.011, 0.01, (0, -0.2, z), M["bronze_dark"], verts=48, rot=(math.pi / 2, 0, 0)))
+        parts.append(lib.cyl(name + " cone", r, 0.004, (0, -0.209, z), dome if r < 0.03 else cone, verts=48, r2=r * 0.9, rot=(math.pi / 2, 0, 0)))
+    for o in parts: o.parent = P
+    return P
+
+
+BOTTLES = {   # profiles (r, z) of bottles turned round z, from the bottom
+    "wine": [(0.0, 0.0), (0.035, 0.0), (0.037, 0.008), (0.037, 0.20), (0.033, 0.226), (0.019, 0.256), (0.0145, 0.272), (0.014, 0.30), (0.0158, 0.304), (0.0158, 0.316), (0.0, 0.316)],
+    "spirit": [(0.0, 0.0), (0.041, 0.0), (0.043, 0.01), (0.043, 0.17), (0.031, 0.193), (0.017, 0.204), (0.015, 0.245), (0.019, 0.25), (0.019, 0.27), (0.0, 0.27)],
+    "squat": [(0.0, 0.0), (0.05, 0.0), (0.052, 0.012), (0.052, 0.128), (0.036, 0.15), (0.02, 0.16), (0.019, 0.185), (0.023, 0.19), (0.023, 0.205), (0.0, 0.205)],
+    "tall": [(0.0, 0.0), (0.032, 0.0), (0.034, 0.01), (0.034, 0.26), (0.021, 0.29), (0.0135, 0.31), (0.0125, 0.342), (0.0145, 0.346), (0.0145, 0.356), (0.0, 0.356)],
+}
+
+
+def bottles(M, rnd, spots):
+    """bottles in the colours of what is in them, standing at spots [(x, y, z)]; a few kinds of bottle, each kind one
+    mesh shared by all its copies"""
+    glass = {k: lib.principled("bottle " + k, c, 0.03, **{"Transmission Weight": 1.0, "IOR": 1.5}) for k, c in
+             (("amber", (0.75, 0.40, 0.10)), ("green", (0.10, 0.24, 0.09)), ("clear", (0.93, 0.95, 0.93)), ("smoke", (0.40, 0.30, 0.24)), ("ruby", (0.50, 0.06, 0.05)))}
+    labels = palette_material("bottle labels", [(0.82, 0.78, 0.68), (0.05, 0.05, 0.05), (0.70, 0.62, 0.45), (0.50, 0.08, 0.05), (0.88, 0.86, 0.80), (0.12, 0.16, 0.28)], 0.55, 0.2, per_object=True)
+    foil = lib.principled("capsule", (0.30, 0.05, 0.04), 0.35, 0.8)
+    masters = {}
+    for kind, prof in BOTTLES.items():
+        for gname in glass:
+            o = furn.lathe("bottle " + kind, prof, glass[gname], 40); o.hide_render = True; o.hide_viewport = True
+            masters[(kind, gname)] = o
+    label_mesh = {}
+    for kind, prof in BOTTLES.items():
+        r = prof[3][0] + 0.0008; z0, z1 = (0.05, 0.15) if kind != "squat" else (0.03, 0.10)
+        o = furn.lathe("label " + kind, [(r, z0), (r, z1)], labels, 40, smooth=True); o.hide_render = True; o.hide_viewport = True; label_mesh[kind] = o
+    for (x, y, z) in spots:
+        kind = rnd.choice(("wine", "wine", "spirit", "spirit", "squat", "tall"))
+        gname = rnd.choice(("green", "green", "ruby")) if kind == "wine" else rnd.choice(("amber", "amber", "clear", "smoke"))
+        b = masters[(kind, gname)].copy(); lib.link(b); b.hide_render = False; b.hide_viewport = False; b.location = (x, y, z); b.rotation_euler = (0, 0, rnd.uniform(0, 6.28))
+        if rnd.random() < 0.8:
+            lb = label_mesh[kind].copy(); lib.link(lb); lb.hide_render = False; lb.hide_viewport = False; lb.location = (x, y, z); lb.rotation_euler = (0, 0, rnd.uniform(0, 6.28))
+        if kind == "wine":
+            lib.cyl("capsule", 0.0162, 0.045, (x, y, z + 0.272), foil, verts=24)
+
+
+def bar(M, rnd, x0, x1):
+    """a bar at the back of the dining room: a back bar of bottles on bronze shelves before an antique mirror, a
+    counter of walnut and marble with a brass foot rail, four stools, three glass pendants"""
+    yb = DEP; xm = (x0 + x1) / 2; L_ = x1 - x0
+    mirror = lib.principled("antique mirror", (0.66, 0.56, 0.45), 0.05, 1.0)
+    lib.box("back bar", (L_, 0.55, 0.9), (xm, yb - 0.275, 0.45), M["walnut_v"], bevel=0.004)
+    for i in range(1, 8): lib.box("back bar reveal", (0.006, 0.01, 0.78), (x0 + i * L_ / 8, yb - 0.552, 0.47), M["shadow"])
+    lib.box("back bar top", (L_ + 0.04, 0.58, 0.03), (xm, yb - 0.285, 0.915), M["marble"], bevel=0.004)
+    lib.box("mirror", (L_, 0.01, 2.25), (xm, yb - 0.006, 0.93 + 1.125), mirror)
+    strip = lib.emission("bar strip", (1.0, 0.78, 0.52), 9.0)
+    spots = []
+    for z in (1.32, 1.77, 2.22, 2.67):
+        lib.box("bar shelf", (L_ - 0.1, 0.27, 0.02), (xm, yb - 0.145, z), M["bronze_dark"], bevel=0.003)
+        lib.box("bar strip", (L_ - 0.14, 0.01, 0.004), (xm, yb - 0.25, z - 0.012), strip)
+        x = x0 + 0.12
+        while x < x1 - 0.12:
+            if rnd.random() < 0.12: x += rnd.uniform(0.2, 0.45); continue
+            spots.append((x, yb - 0.14 + rnd.uniform(-0.03, 0.03), z + 0.01)); x += rnd.uniform(0.09, 0.13)
+    for k in range(int(L_ / 1.2) + 1): lib.box("shelf rod", (0.012, 0.012, 1.4), (x0 + 0.1 + k * (L_ - 0.2) / int(L_ / 1.2), yb - 0.03, 1.32 + 0.7), M["brass"])
+    x = x0 + 0.3
+    while x < x1 - 0.3:
+        if rnd.random() < 0.5: spots.append((x, yb - 0.38 + rnd.uniform(-0.05, 0.05), 0.93))
+        x += rnd.uniform(0.25, 0.6)
+    bottles(M, rnd, spots)
+    # the counter
+    cy0, cy1 = 11.3, 11.9; cx0, cx1 = x0 + 1.2, x1 - 1.2; cm = (cx0 + cx1) / 2
+    lib.box("bar counter", (cx1 - cx0, cy1 - cy0, 1.02), (cm, (cy0 + cy1) / 2, 0.51), M["walnut_v"], bevel=0.006)
+    for i in range(1, int((cx1 - cx0) / 0.12)):
+        lib.box("counter reed", (0.012, 0.006, 0.9), (cx0 + i * 0.12, cy0 - 0.002, 0.53), M["shadow"])
+    lib.box("counter top", (cx1 - cx0 + 0.1, 0.74, 0.04), (cm, (cy0 + cy1) / 2 - 0.07, 1.04), M["marble"], bevel=0.005)
+    lib.box("counter kick", (cx1 - cx0 - 0.04, 0.03, 0.1), (cm, cy0 + 0.04, 0.05), M["bronze_dark"])
+    lib.cyl("foot rail", 0.022, cx1 - cx0 - 0.3, (cx0 + 0.15, cy0 - 0.17, 0.2), M["brass"], verts=24, rot=(0, math.pi / 2, 0))
+    x = cx0 + 0.3
+    while x <= cx1 - 0.3 + 1e-6:
+        lib.box("rail bracket", (0.03, 0.17, 0.03), (x, cy0 - 0.085, 0.2), M["brass"]); x += (cx1 - cx0 - 0.6) / 3
+    for i in range(4):
+        sx = cx0 + 0.6 + i * (cx1 - cx0 - 1.2) / 3; sy = cy0 - 0.45
+        lib.cyl("stool base", 0.21, 0.02, (sx, sy, 0.0), M["bronze_dark"], verts=48, bevel=0.005)
+        lib.cyl("stool column", 0.026, 0.7, (sx, sy, 0.02), M["brass"], verts=24)
+        bpy.ops.mesh.primitive_torus_add(major_radius=0.17, minor_radius=0.011, major_segments=48, minor_segments=8, location=(sx, sy, 0.3))
+        ring = bpy.context.active_object; ring.data.materials.append(M["brass"])
+        for k in range(3):
+            a = k * 2 * math.pi / 3 + 0.4; sp = lib.cyl("stool spoke", 0.007, 0.17, (sx, sy, 0.3), M["brass"], verts=8, rot=(0, math.pi / 2, a))
+        lib.cyl("stool seat", 0.2, 0.07, (sx, sy, 0.71), M["leather"], verts=48, bevel=0.022)
+    # pendants over the counter
+    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15); bulb = lib.emission("bulb", (1.0, 0.72, 0.45), 60)
+    for i in range(3):
+        gx = cm + (i - 1) * 1.5; gy = (cy0 + cy1) / 2; gz = 2.2
+        furn.lathe("pendant", [(0.0, -0.13), (0.075, -0.11), (0.125, -0.04), (0.13, 0.0), (0.125, 0.05), (0.09, 0.1), (0.025, 0.128), (0.0, 0.13)], globe, 48, (gx, gy, gz))
+        lib.cyl("pendant bulb", 0.02, 0.045, (gx, gy, gz - 0.02), bulb, verts=16)
+        lib.cyl("pendant cap", 0.03, 0.04, (gx, gy, gz + 0.12), M["brass"], verts=24)
+        lib.cyl("pendant cable", 0.002, HT - gz - 0.16, (gx, gy, gz + 0.16), M["shadow"], verts=8)
+        lib.point_light("pendant light", (gx, gy, gz), 30, (1.0, 0.75, 0.5), 0.05)
+
+
+def far_ends(M):
+    """what the 360s see at the far ends: in the music room a wall of records, a turntable, two tall speakers and two
+    chairs to listen from; in the dining room a bar"""
+    rnd = random.Random(23)
+    record_console(M, rnd, -22.5, -15.3)
+    turntable((-19.55, DEP - 0.24, 0.855), 0.0, M); amplifier((-18.75, DEP - 0.25, 0.855), 0.0, M)
+    speaker("speaker", (-21.7, 12.85, 0.0), math.radians(20), M); speaker("speaker", (-16.1, 12.85, 0.0), math.radians(-20), M)
+    lc = lib.import_glb(os.path.join(A, "SheenChair.glb"), (-20.1, 9.35, 0.0), math.radians(165), name="listening chair")
+    tint_fabric(lc, (0.44, 0.23, 0.11))
+    lib.instance_of(lc, (-17.7, 9.35, 0.0), math.radians(195), name="listening chair 2")
+    furn.side_table("side table", (-18.9, 9.6, 0.014), M, r=0.26, h=0.52); furn.table_lamp("table lamp", (-18.9, 9.6, 0.52), M, watts=60, shade_r=0.17)
+    furn.floor_lamp("floor lamp", (-21.2, 10.45, 0.0), M, watts=70)
+    furn.rug("listening rug", (4.0, 3.0), (-18.7, 10.5), M)
+    bar(M, rnd, 15.3, 22.5)
+
+
 def lights():
     lib.sun(SUN_ELEV, SUN_AZ, 20.0, angle_deg=2.5, color=(1.0, 0.93, 0.84))
     lib.sky_world(SUN_ELEV, SUN_AZ, 0.6)
@@ -464,8 +659,8 @@ def room_lights(M):
     warm = (1.0, 0.80, 0.60); lens = lib.emission("downlight lens", warm, 35.0)
     y = 1.8
     while y < DEP - 0.8:
-        x = -13.2
-        while x <= 13.2:
+        x = -22.8
+        while x <= 22.8:
             ok = abs(x) < half_w(y) - 1.0 and not any(abs(x - cx) < sx / 2 + 0.5 and abs(y - cy) < sy / 2 + 0.5 for (cx, cy, sx, sy) in SKY)
             if ok:
                 lib.cyl("downlight trim", 0.05, 0.012, (x, y, HT - 0.06), M["bronze_dark"], verts=24)
@@ -501,7 +696,7 @@ CAMS = {
 
 def build(hedges=True, far=True, with_suite=True):
     sc = lib.reset(); rnd = random.Random(7)
-    M = materials(); room(M, rnd); partitions(M); back_wall(M, rnd); furnish(M, rnd); room_lights(M); atrium.build(M, random.Random(11), hedges, far); atrium.build_lower(M, random.Random(13))
+    M = materials(); room(M, rnd); partitions(M); back_wall(M, rnd); furnish(M, rnd); far_ends(M); room_lights(M); atrium.build(M, random.Random(11), hedges, far); atrium.build_lower(M, random.Random(13))
     if with_suite: suite.build(M, random.Random(17))
     lights()
     return sc

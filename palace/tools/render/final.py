@@ -20,7 +20,8 @@ for j in todo:
         n = j[5:]; x, y, z = pano.STOPS[n]
         lib.photo_finish(glow=0.25, vignette=0.0)
         lib.camera("pano " + n, (x, y, z + pano.EYE), yaw_deg=0.0, pano=True)
-        lib.render(tmp, (pw, pw // 2), pspp, exposure=-0.05 + pano.EXPOSURE.get(n, 0.0))
+        lib.render_pano(target(j), pw, pspp, exposure=-0.05 + pano.EXPOSURE.get(n, 0.0))
+        print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue
     else:
         c = family.CAMS[j]
         lib.photo_finish(glow=0.3, vignette=0.15)

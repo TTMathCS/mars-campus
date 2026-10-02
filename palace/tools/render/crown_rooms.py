@@ -436,7 +436,7 @@ if __name__ == "__main__":
         tmp = paths[j].replace(".jpg", ".part.jpg")
         if j.startswith("pano:"):
             x, y, z = R["stops"][j[5:]]; lib.camera(j, (x, y, z + 1.55), yaw_deg=0.0, pano=True); lib.photo_finish(0.25, 0.0)
-            t = time.time(); lib.render(tmp, (pw, pw // 2), pspp, exposure=ex)
+            t = time.time(); lib.render_pano(paths[j], pw, pspp, exposure=ex); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue
         else:
             c = R["cams"][j]; lib.camera(j, c["loc"], c["target"], lens=c["lens"]); lib.photo_finish(0.3, 0.15)
             t = time.time(); lib.render(tmp, (w, h), spp, exposure=ex)

@@ -227,6 +227,10 @@ CSS = """
   .toc a .nm small { display: block; font: 500 11px var(--f-mono); color: var(--ink-3); letter-spacing: .04em; margin-bottom: 2px; }
   .toc a .noimg { display: grid; place-items: center; aspect-ratio: 16 / 9; background: var(--panel); color: var(--ink-3); font: 500 12px var(--f-mono); }
   @media (max-width: 880px) { .rm .grid { grid-template-columns: minmax(0, 1fr); } }
+  img.zoom { cursor: zoom-in; }
+  .lightbox { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 48px 16px 16px; background: rgba(12, 13, 14, .92); cursor: zoom-out; }
+  .lightbox img { max-width: calc(100vw - 32px); max-height: calc(100vh - 64px); object-fit: contain; background: #f6f6f4; }
+  .lightbox span { position: absolute; right: 16px; top: 10px; padding: 5px 10px; background: rgba(16, 18, 20, .9); color: #f4efe8; font: 600 14px var(--f-body); }
 """
 
 JS = """
@@ -237,6 +241,16 @@ document.querySelectorAll('.pano button[data-stop]').forEach(function (b) {
     box.querySelectorAll('img, .tag').forEach(function (e) { e.remove(); }); b.remove(); box.appendChild(f);
   });
 });
+// a floor plan opens full size over the page; a click or Esc closes it
+function closeBox() { var l = document.querySelector('.lightbox'); if (l) l.remove(); }
+document.querySelectorAll('img.zoom').forEach(function (im) {
+  im.addEventListener('click', function () {
+    var l = document.createElement('div'); l.className = 'lightbox';
+    l.innerHTML = '<img alt=""><span>Close ✕</span>'; l.querySelector('img').src = im.src; l.querySelector('img').alt = im.alt;
+    l.addEventListener('click', closeBox); document.body.appendChild(l);
+  });
+});
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBox(); });
 """
 
 
@@ -253,7 +267,7 @@ def room_html(r):
         left.append('<div class="pending">%s</div>' % ("Pictures of this room are rendering, and appear here when they are done." if (r["views"] or r["photos"]) else "This room is designed; its pictures are still to make."))
     right = ['<table class="spec"><tbody>%s</tbody></table>' % "".join('<tr><th>%s</th><td>%s</td></tr>' % (E(k), E(v)) for k, v in r["facts"])]
     if r.get("plan"):
-        right.append('<figure><img src="%s" alt="Where %s is on the floor plan" loading="lazy"><figcaption><b>Where it is.</b> %s</figcaption></figure>' % (r["plan"][0], E(r["name"]), E(r["plan"][1])))
+        right.append('<figure><img class="zoom" src="%s" alt="Where %s is on the floor plan" loading="lazy"><figcaption><b>Where it is.</b> %s Click to enlarge.</figcaption></figure>' % (r["plan"][0], E(r["name"]), E(r["plan"][1])))
     return ('<section class="rm" id="%s"><small>%s</small><h2>%s</h2><p class="purpose">%s</p><div class="grid"><div>%s</div><div>%s</div></div></section>'
             % (r["id"], E(r["k"]), E(r["name"]), E(r["purpose"]), "".join(left), "".join(right)))
 
@@ -270,7 +284,7 @@ def toc_html(area):
 def page(area):
     plan_src, plan_cap = area["plan"]
     body = ('<main class="wrap"><div class="open"><div class="no">Design plan · %s</div><h1>%s</h1><p class="lede">%s</p></div>%s'
-            '<figure class="fig area-plan"><img src="%s" alt="Floor plan: %s" loading="lazy"><figcaption><b>The floor plan.</b> %s</figcaption></figure>%s</main>'
+            '<figure class="fig area-plan"><img class="zoom" src="%s" alt="Floor plan: %s" loading="lazy"><figcaption><b>The floor plan.</b> %s Click to enlarge.</figcaption></figure>%s</main>'
             % (E(area["no"]), E(area["title"]), E(area["lede"]), toc_html(area), plan_src, E(area["title"]), E(plan_cap), "".join(room_html(r) for r in area["rooms"])))
     return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>%s · Design plan</title>\n'
             '<meta name="description" content="%s">\n<link rel="icon" href="../../favicon.svg" type="image/svg+xml">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'

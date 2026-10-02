@@ -350,6 +350,8 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
   floor plan and pictures/360s: edit the room data in `palace/tools/gen_plan.py` and re-run it after each render.
 - **The homepage has one card per demo, never more.** A new part of a demo (the photo tour, a new page) is a link
   inside that demo's card. He has had to say this twice ("why I have 2 demo 2? you kept making such mistake").
+- **Floor plans always show in full**, never cropped round a room ("the L1 floor plan doesn't show full"): the room is
+  shaded on the whole sheet (`palace/tools/plan_maps.py`), and a click enlarges it.
 - Long renders die when the container restarts: render 360s in bands (`lib.render_pano`) and publish each finished
   picture at once, so a restart costs minutes, not the night.
 - A possible future Scotiabank demo needs branding permission, or an "unofficial concept" label.

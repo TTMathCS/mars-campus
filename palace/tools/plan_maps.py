@@ -1,4 +1,4 @@
-"""Where each room is: the plan sheet of its level with the room shaded, cropped round its part of the house.
+"""Where each room is: the whole plan sheet of its level, with the room shaded.
   python plan_maps.py [test]   -> palace/design/img/plan/<id>.jpg"""
 import math, os, sys
 from PIL import Image, ImageDraw, ImageFont
@@ -21,13 +21,13 @@ def trap(sector, x0, x1, y0, y1, follow=True):
     """a room in ring A or B: x0..x1 along it, y0..y1 out from the glass; the ends follow the sector's sides"""
     def cx(x, y): return max(-half_w(y), min(half_w(y), x)) if follow else x
     return [l1_pt(sector, cx(x0, y0), y0), l1_pt(sector, cx(x1, y0), y0), l1_pt(sector, cx(x1, y1), y1), l1_pt(sector, cx(x0, y1), y1)]
-def draw(sheet, polys, out, focus, label=None, size=(1000, 700)):
+def draw(sheet, polys, out, width=1400):
+    """the full sheet, never cropped (Jim, 2 Oct 2026: the plan must show in full), the room shaded orange"""
     im = Image.open(os.path.join(REPO, "docs/img/plans/%s.png" % sheet)).convert("RGB")
     ov = Image.new("RGBA", im.size, (0, 0, 0, 0)); d = ImageDraw.Draw(ov)
-    for p in polys: d.polygon(p, fill=(232, 98, 40, 105), outline=(200, 70, 20, 255), width=4)
+    for p in polys: d.polygon(p, fill=(232, 98, 40, 120), outline=(196, 64, 16, 255), width=6)
     im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
-    fx, fy = focus; w, h = size; x0 = int(max(0, min(im.width - w, fx - w / 2))); y0 = int(max(0, min(im.height - h, fy - h / 2)))
-    im.crop((x0, y0, x0 + w, y0 + h)).save(out, "JPEG", quality=88); print("wrote", out)
+    im.resize((width, round(im.height * width / im.width)), Image.LANCZOS).save(out, "JPEG", quality=88); print("wrote", out)
 def centroid(polys):
     pts = [p for poly in polys for p in poly]; return (sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts))
 SUITE = (-15.65, 15.65, 18.12, 31.92)
@@ -45,5 +45,5 @@ CR_ROOMS = {   # bearings from the Crown page (palace/crown/index.html); the roo
 }
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    for k, polys in L1_ROOMS.items(): draw(L1["sheet"], polys, os.path.join(OUT, "l1-%s.jpg" % k), centroid(polys) if k != "atrium" else L1["c"], size=(1000, 700) if k != "atrium" else (1300, 1100))
-    for k, polys in CR_ROOMS.items(): draw(CR["sheet"], polys, os.path.join(OUT, "crown-%s.jpg" % k), centroid(polys))
+    for k, polys in L1_ROOMS.items(): draw(L1["sheet"], polys, os.path.join(OUT, "l1-%s.jpg" % k))
+    for k, polys in CR_ROOMS.items(): draw(CR["sheet"], polys, os.path.join(OUT, "crown-%s.jpg" % k))

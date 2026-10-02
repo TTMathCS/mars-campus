@@ -16,14 +16,73 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="book.css">
 <style>
-  .cover { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 34px; align-items: end; padding: 42px 0 10px; }
-  .cover h1 { margin: 10px 0 14px; font: 700 clamp(46px, 7vw, 82px)/0.95 var(--f-display); }
+  .cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 30px; align-items: end; padding: 30px 0 16px; }
+  .cover h1 { margin: 8px 0 0; font: 700 clamp(36px, 5.6vw, 66px)/0.95 var(--f-display); }
   .cover .no { font: 600 13px var(--f-mono); letter-spacing: .14em; color: var(--route); text-transform: uppercase; }
-  .cover .lede { font-size: 20px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
-  .cover .go { display: flex; gap: 10px; flex-wrap: wrap; }
-  .cover .go a { font: 600 15.5px var(--f-body); padding: 11px 16px; border: 1px solid var(--ink); text-decoration: none; }
-  .cover .go a.main { background: var(--ink); color: var(--sheet); }
+  .cover .lede { font-size: 18.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
+  .go { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 0; }
+  .go a { font: 600 15.5px var(--f-body); padding: 11px 16px; border: 1px solid var(--ink); text-decoration: none; }
+  .go a.main { background: var(--ink); color: var(--sheet); }
+  @media (max-width: 700px) { .cover { padding: 20px 0 12px; gap: 10px; } .cover .lede { font-size: 16px; } .go a { font-size: 14px; padding: 9px 12px; } }
   @media (max-width: 880px) { .cover { grid-template-columns: 1fr; } }
+  .explore { margin: 0 0 8px; }
+  .ex-stage { position: relative; aspect-ratio: 16 / 9; background: #7a563c; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; border: 1px solid var(--rule); }
+  .ex-stage.dragging { cursor: grabbing; }
+  .ex-stage:focus-visible { outline: 3px solid var(--route); outline-offset: 2px; }
+  .ex-frame { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .ex-labels { position: absolute; inset: 0; pointer-events: none; }
+  .ex-lab { position: absolute; transform: translate(-7px, -50%); display: flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; font: 600 13.5px/1 var(--f-body); color: #f6f1ea; }
+  .ex-lab[hidden] { display: none; }
+  .ex-lab i { width: 14px; height: 14px; border-radius: 50%; background: #f6f1ea; border: 3px solid #c4521c; box-shadow: 0 0 0 3px rgba(0, 0, 0, .28); flex: none; }
+  .ex-lab span { padding: 6px 9px; background: rgba(16, 18, 20, .82); white-space: nowrap; }
+  .ex-lab:hover span, .ex-lab:focus-visible span { background: #b8461d; }
+  .ex-lab.left { flex-direction: row-reverse; transform: translate(calc(-100% + 7px), -50%); }
+  .ex-ctrl { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; }
+  .ex-ctrl button { width: 42px; height: 36px; border: 0; background: rgba(16, 18, 20, .82); color: #f6f1ea; font-size: 15px; cursor: pointer; }
+  .ex-hint { position: absolute; left: 12px; bottom: 12px; padding: 7px 10px; background: rgba(16, 18, 20, .72); color: #f6f1ea; font: 500 13px var(--f-body); pointer-events: none; }
+  .ex-parts { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+  .ex-parts button { font: 600 14px var(--f-body); padding: 7px 11px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); cursor: pointer; }
+  .ex-parts button:hover { border-color: var(--route); color: var(--route); }
+  .ex-whole { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .ex-ctrl .ex-wb { width: auto; padding: 0 12px; font: 600 13.5px var(--f-body); }
+  .ex-stage.still .ex-ctrl button[data-step], .ex-stage.still .ex-hint { display: none; }
+  .ex-stage.still { cursor: default; }
+  .ex-cap { margin: 10px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 95ch; }
+  @media (max-width: 700px) { .ex-lab span { display: none; } .ex-lab i { width: 16px; height: 16px; } .ex-hint { font-size: 12px; padding: 5px 8px; } .xp-box { padding: 16px 16px 20px; } .xp-media { grid-template-columns: minmax(0, 1fr); } }
+  .xp { position: fixed; inset: 0; z-index: 60; background: rgba(10, 11, 12, .74); display: grid; place-items: center; padding: 16px; }
+  .xp[hidden] { display: none; }
+  .xp-box { position: relative; width: min(1120px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--bg); border: 1px solid var(--rule); padding: 22px 26px 24px; }
+  .xp-x { position: sticky; top: 0; float: right; z-index: 2; margin: -6px -10px 0 12px; font: 600 14px var(--f-body); padding: 8px 12px; border: 0; background: var(--ink); color: var(--bg); cursor: pointer; }
+  .xp-kick { font: 600 12.5px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--route); }
+  .xp h2 { margin: 6px 0 10px; font: 700 clamp(28px, 4vw, 40px)/1.05 var(--f-display); }
+  .xp-text { margin: 0 0 14px; font-size: 17.5px; line-height: 1.55; color: var(--ink-2); max-width: 78ch; }
+  .xp-plan, .xp-fig { margin: 0 0 12px; background: var(--sheet); border: 1px solid var(--rule); }
+  .xp-sheet { position: relative; }
+  .xp-sheet img, .xp-fig img { width: 100%; height: auto; display: block; }
+  .xp-sheet svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .xp-sheet polygon { fill: rgba(232, 98, 40, .30); stroke: #c4401a; stroke-width: 5; cursor: pointer; }
+  .xp-sheet polygon:hover { fill: rgba(232, 98, 40, .65); }
+  .xp figcaption { padding: 8px 12px 10px; font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--rule); }
+  .xp-rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 0 0 14px; }
+  .xp-rooms button { text-align: left; background: var(--sheet); border: 1px solid var(--rule); padding: 0; cursor: pointer; font: inherit; color: var(--ink); }
+  .xp-rooms button:hover { border-color: var(--route); }
+  .xp-rooms img, .xp-rooms .noimg { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+  .xp-rooms .noimg { display: grid; place-items: center; background: var(--panel); color: var(--ink-3); font: 500 11px var(--f-mono); }
+  .xp-rooms b { display: block; padding: 7px 9px 9px; font: 600 16px/1.15 var(--f-display); }
+  .xp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin: 0 0 14px; }
+  .xp-media figure { margin: 0; background: var(--sheet); border: 1px solid var(--rule); }
+  .xp-media img { width: 100%; height: auto; display: block; }
+  .xp-pending { padding: 16px; margin: 0 0 14px; background: var(--panel); border: 1px dashed var(--rule); color: var(--ink-2); }
+  .xp-more a { display: inline-block; margin: 0 18px 6px 0; font-weight: 600; }
+  .xp-back { border: 0; background: none; color: var(--route); font: 600 15px var(--f-body); cursor: pointer; padding: 0; margin: 0 0 10px; }
+  .xp .pano { position: relative; aspect-ratio: 16 / 9; background: #0e1012; overflow: hidden; }
+  .xp .pano img { width: 100%; height: 100%; object-fit: cover; }
+  .xp .pano iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .xp .pano .play { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .xp .pano .play button, .xp .pano .play a { font: 600 14.5px var(--f-body); padding: 9px 14px; border: 0; background: rgba(16, 18, 20, .82); color: #f4efe8; cursor: pointer; text-decoration: none; }
+  .xp .pano .play button { background: #f4efe8; color: #16191b; }
+  .xp .pano .tag { position: absolute; left: 12px; top: 12px; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; background: rgba(16, 18, 20, .78); color: #f4efe8; }
+  body.xp-open { overflow: hidden; }
   .atlasfig { position: relative; display: block; background: #0b0d10; border: 1px solid var(--rule); overflow: hidden; text-decoration: none; }
   .atlasfig img { width: 100%; height: auto; opacity: .95; }
   .atlasfig .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; background: linear-gradient(to top, rgba(8,10,12,.92), rgba(8,10,12,0)); color: #f1ede6; }
@@ -58,21 +117,31 @@
     <div>
       <div class="no">Demo 2 · Design plan · Rev E</div>
       <h1>Jim's Retirement House</h1>
-      <p class="lede">Jim's retirement house on Mars, in Arcadia Planitia: a white crown floating over a stone garden, a five-level world below the ground, a spaceport 30 km to the east and a city that will grow around it. This book collects every plan in one place: <b>what each part looks like and how it works.</b></p>
-      <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
     </div>
-    <a class="atlasfig" href="atlas/" aria-label="Open the Mars Atlas">
-      <img src="img/atlas-teaser.jpg" alt="Mars from orbit: the north polar cap, Arcadia Planitia with a marker at Jim's house, and Olympus Mons" width="1200" height="760" loading="eager">
-      <div class="cap"><b>Mars Atlas</b><span>Zoom from the solar system to Mars, Arcadia Planitia and the house, on real NASA imagery.</span></div>
-    </a>
+    <p class="lede">A white crown floating over a stone garden, and a five-level world below the ground, in Arcadia Planitia on Mars. <b>Turn the whole house and click any part</b> for its floor plan, then any room for its pictures, 360° views and facts.</p>
   </div>
+
+  <section class="explore" id="house" aria-label="The whole house">
+    <div class="ex-stage" id="exStage" tabindex="0" aria-label="The whole house in section. Drag, or use the arrow keys, to turn it; click a label to open that part.">
+      <img class="ex-frame" src="img/house/f00.jpg" alt="The whole house in section: the Crown floating 40 m over the Stone Garden with the mirror Orb in its middle, and under 16 m of soil the Pentagon's five levels round the atrium and the sun court" width="1280" height="720" draggable="false">
+      <div class="ex-labels"></div>
+      <div class="ex-hint">Drag to turn the house · click a label</div>
+      <div class="ex-ctrl"><button type="button" data-step="-1" aria-label="Turn left">◀</button><button type="button" data-step="1" aria-label="Turn right">▶</button></div>
+    </div>
+    <div class="ex-parts" aria-label="Parts of the house">
+      <button type="button" data-part="crown">The Crown</button><button type="button" data-part="orb">The Orb</button><button type="button" data-part="garden">Stone Garden</button><button type="button" data-part="sunwell">Sun Well</button><button type="button" data-part="soil">16 m of soil</button><button type="button" data-part="l1">L1 Residence</button><button type="button" data-part="l2">L2 Garden</button><button type="button" data-part="l3">L3 Studio</button><button type="button" data-part="l4">L4 Life support</button><button type="button" data-part="l5">L5 Transit</button><button type="button" data-part="court">Atrium and sun court</button>
+    </div>
+    <p class="ex-cap">The whole house, path-traced from the design model and cut through the middle, as in an architect's section: the Crown and the Orb above, the Stone Garden on the plain, and under 16 m of soil the Pentagon's five levels round the atrium, from Jim's residence on L1 down to the halls of L5. The cut turns with you.</p>
+    <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
+  </section>
+  <div class="xp" id="exPanel" hidden role="dialog" aria-modal="true" aria-label="A part of the house"><div class="xp-box"><button type="button" class="xp-x">Close ✕</button><div class="xp-body"></div></div></div>
 
   <div class="nums">
     <div><b>39.8° N · 201.4° E</b><span>The house, on the ice-rich plains of Arcadia Planitia, 3.9 km below Mars' average height</span></div>
     <div><b>276 m</b><span>The Crown across, floating 40 m above the ground on five anti-gravity drives</span></div>
     <div><b>209,700 m²</b><span>The Pentagon: five levels 24 to 68 m below ground, under 16 m of soil</span></div>
     <div><b>30 km</b><span>East to Arcadia Spaceport, a real candidate landing site for SpaceX Starship</span></div>
-    <div><b>4 min 40 s</b><span>The pod flight home, over dunes, a crater and ice cliffs</span></div>
+    <div><b>4 min 40 s</b><span>The pod's scenic flight, over dunes, a crater and ice cliffs; the Wormhole Gate does the travelling</span></div>
     <div><b>0 lifts</b><span>Portals link the Crown, the Orb and every level below</span></div>
   </div>
 
@@ -86,13 +155,22 @@
     </div>
   </section>
 
+  <section class="part" id="science">
+    <h2><small>The science</small>Mars, and how to live on it</h2>
+    <p class="intro">Two pages of facts measured by spacecraft and published in studies, with their sources: the planet itself, and the engineering of getting there, building, water, air, food, energy, radiation and rocket fuel, each with how Jim's house does it.</p>
+    <div class="arealist">
+      <a href="mars.html"><img src="img/mars-earth.jpg" alt="" loading="lazy"><span><small>The science · 00·1</small><b>Mars, the planet</b><em>Size, gravity, the sol and the year, the air, cold and radiation; Olympus Mons, Valles Marineris, Hellas, the polar caps and the ice of Arcadia Planitia.</em></span></a>
+      <a href="living.html"><img src="img/house-hero.jpg" alt="" loading="lazy"><span><small>The science · 00·2</small><b>Living on Mars</b><em>What to bring and what to make, building with Mars soil, water from ice, oxygen from the air, food under lamps, fission power, shielding, fuel made on Mars.</em></span></a>
+    </div>
+  </section>
+
   <section class="part">
     <h2><small>The idea</small>A day house in the sky, a night house in the ground</h2>
     <div class="two">
       <div>
         <p><b>Above ground, the Crown</b> is for light and views. Its white ring of fired Mars soil floats 40 m up, with five spires, window slots that keep out the harsh sun, a mirror Orb at the centre, where the universe fills the rooms in 3D at a switch and the Wormhole Gate floats in the middle, and a pod hangar in the east spire. It is where Jim watches the blue sunsets, plays the piano in the salon and greets guests arriving from Earth.</p>
         <p><b>Below ground, the Pentagon</b> is for safety and abundance. Sixteen metres of soil stop the radiation, hold the air pressure in and keep the temperature steady. Its five levels hold Jim's residence, a garden level with orchards, a lake and a forest, his studio and workshops, the plant that makes air and water, and the halls where cargo, rovers and later a maglev train arrive.</p>
-        <p><b>Around it grows Arcadia City.</b> Each new home takes the next seed of a sunflower spiral. The spaceport, 30 km east, is where ships from Earth land, refuel with fuel made on Mars and fly home.</p>
+        <p><b>Around it grows Arcadia City.</b> Each new home takes the next seed of a sunflower spiral. The spaceport, 30 km east, sends ships on voyages to see space, refuelled with fuel made on Mars; the Wormhole Gate does the travelling.</p>
       </div>
       <figure class="fig"><img src="img/crown-garden.jpg" alt="The Crown seen from the paved terrace beside a corner pavilion: the ring and the mirror Orb overhead, and on the ground the Orb's dock and the basalt stones of the garden" width="1600" height="900" loading="lazy"><figcaption><b>Nothing holds it up.</b> From the paved terrace by a corner pavilion: the ring floats 40 m overhead with the Orb in its middle, over the Orb's dock and the Stone Garden.</figcaption></figure>
     </div>
@@ -138,9 +216,10 @@
   </section>
 </main>
 <script src="book.js"></script>
+<script src="explorer.js"></script>
 <script>
 (function () {
-  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  var C = document.getElementById("chapters"), IMG = { mars: "th-mars.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
   BOOK.CH.slice(1).forEach(function (c) {
     var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[0] + ".html";
     a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";

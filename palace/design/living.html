@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Living on Mars · Design Plan</title>
+<meta name="description" content="The science and engineering of living on Mars: getting there and what to bring, building with Mars soil, water from ice, air from carbon dioxide, food under lights, power, radiation shielding, rocket fuel made on Mars and talking to Earth, with sources.">
+<meta property="og:title" content="Living on Mars · Design Plan">
+<meta property="og:description" content="How people can live on Mars with today's science: building, water, air, food, energy, radiation and fuel, with sources.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+<style>
+  .topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; }
+  .topics a { font: 600 14.5px var(--f-body); padding: 7px 12px; border: 1px solid var(--rule); background: var(--sheet); text-decoration: none; }
+  .topics a:hover { border-color: var(--route); color: var(--route); }
+  .house { margin: 12px 0 4px; padding: 12px 16px 6px; background: color-mix(in srgb, var(--route) 7%, var(--sheet)); border-left: 4px solid var(--route); }
+  .house .k { font: 600 12px/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--route); margin-bottom: 6px; }
+  .eq { font: 500 15px/1.6 var(--f-mono); background: var(--panel); border: 1px solid var(--rule); padding: 10px 14px; margin: 8px 0 12px; overflow-x: auto; white-space: nowrap; }
+  .flow { width: 100%; height: auto; display: block; }
+  .flow rect { fill: var(--sheet); stroke: var(--ink-2); stroke-width: 1.2; }
+  .flow rect.in { fill: color-mix(in srgb, var(--route) 12%, var(--sheet)); }
+  .flow rect.out { fill: color-mix(in srgb, var(--ice) 14%, var(--sheet)); }
+  .flow text { font: 600 15px var(--f-body); fill: var(--ink); }
+  .flow text.s { font: 400 12.5px var(--f-body); fill: var(--ink-2); }
+  .flow path { fill: none; stroke: var(--ink-2); stroke-width: 1.6; }
+  .bars { display: grid; gap: 8px; margin: 6px 0 14px; }
+  .bars div { display: grid; grid-template-columns: 190px minmax(0, 1fr) 96px; gap: 10px; align-items: center; font-size: 15px; }
+  .bars i { display: block; height: 18px; background: var(--route); min-width: 2px; }
+  .bars i.e { background: var(--ice); }
+  .bars span { font: 500 13.5px var(--f-mono); color: var(--ink-2); text-align: right; }
+  @media (max-width: 640px) { .bars div { grid-template-columns: 120px minmax(0, 1fr) 76px; font-size: 13.5px; } }
+  ol.src { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); padding-left: 22px; }
+  ol.src li { margin: 0 0 6px; }
+</style>
+</head>
+<body data-ch="living">
+<main class="wrap">
+  <div class="open">
+    <div class="no">Chapter 00·2 · The science</div>
+    <h1>Living on Mars</h1>
+    <p class="lede">How people can live on Mars with the science we have: getting there and what to bring, building with Mars soil, finding water, making air, growing food, making power, stopping radiation, making rocket fuel and keeping in touch with Earth. Each topic ends with how Jim's house does it. The numbers come from missions and published studies, listed at the end; the few that are our own estimates say so.</p>
+    <nav class="topics" aria-label="Topics"><a href="#travel">Getting there</a><a href="#build">Building</a><a href="#water">Water</a><a href="#air">Air</a><a href="#food">Food</a><a href="#energy">Energy</a><a href="#radiation">Radiation</a><a href="#fuel">Rocket fuel</a><a href="#talk">Talking to Earth</a></nav>
+  </div>
+  <figure class="hero"><img src="img/house-hero.jpg" alt="Jim's house in section: the Crown floating over the Stone Garden, and under soil and thick ice the Pentagon's five levels: rooms, a garden level, studios, the plant and the transit halls" width="1600" height="900"><figcaption><b>Built the way Mars allows.</b> The Pentagon is dug into thick ice under 16 m of soil, which stops the radiation and holds the air pressure in; its garden level grows food under lamps, the plant below makes air and water from ice, and reactors make the power. The Crown above is for light and views.</figcaption></figure>
+  <div class="nums">
+    <div><b>26 months</b><span>Between launch windows to Mars; the trip takes six to nine months</span></div>
+    <div><b>98%</b><span>Of its water the Space Station recovers and uses again</span></div>
+    <div><b>12 g/h</b><span>Oxygen made from Mars air by MOXIE on Perseverance, at 98% purity</span></div>
+    <div><b>43%</b><span>Of Earth's sunlight reaches Mars, and dust storms can block most of it for weeks</span></div>
+    <div><b>16 m</b><span>Of soil both stops the radiation and balances a full atmosphere of air pressure</span></div>
+  </div>
+
+  <section class="part" id="travel">
+    <h2><small>Getting there</small>What to bring, and what to make on Mars</h2>
+    <div class="two">
+      <div>
+        <p><b>Windows.</b> Earth and Mars line up for an efficient trip once every 26 months. The cheapest path is half an ellipse round the Sun, about 260 days; most missions take six to nine months.</p>
+        <p><b>Landing is the hard part.</b> The air is thick enough to burn up a ship but too thin to slow it gently, so heavy landers must finish with rockets. The heaviest landed so far, Perseverance, weighs about a tonne. A settlement needs loads of a hundred tonnes: SpaceX's Starship is designed to land them, braking in the air and then on its engines, refuelled in Earth orbit on the way. It has not yet flown to Mars.</p>
+        <p><b>So you bring what Mars cannot make</b>, such as machines, electronics, reactors, medicines and seeds, and make the heavy, simple things there: water, air, rocket fuel, bricks and glass, and later metals from the iron in the soil. Engineers call it in-situ resource use. Fuel is the biggest saving: a ship fuelled on Mars does not have to carry its fuel home from Earth.</p>
+        <p><b>Robots go first.</b> They land in the windows before people, dig, build and start the machines, so that air, water and power are running when the crew arrives.</p>
+      </div>
+      <figure class="fig"><img src="../docs/img/book/transport-orbit.png" alt="The path from Earth to Mars seen from above the Sun: launch when Mars is 44 degrees ahead of Earth, arrive 259 days later" width="885" height="800" loading="lazy"><figcaption><b>The trip from Earth to Mars</b>, seen from above the Sun: launch when Mars is 44° ahead of Earth; the most efficient path, half an ellipse, arrives 259 days later.</figcaption></figure>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>The robots that build the house land two windows before Jim, who arrives in mid-2027. Since 2 October 2026 he travels by the Wormhole Gate, a future technology; the ships and the pod are for seeing the views. <a href="transport.html">Chapter 06 →</a></p></div>
+  </section>
+
+  <section class="part" id="build">
+    <h2><small>Building</small>With Mars soil, and under it</h2>
+    <div class="two flip">
+      <figure class="fig"><img src="../docs/img/book/pentagon-dig.png" alt="The Pentagon built in four stages, in section: dig the pit, keep the ice, build the levels, cover with soil" width="770" height="573" loading="lazy"><figcaption><b>Dig, keep the ice, build, cover.</b> The soil that comes out becomes the walls and the cover; the ice becomes the water store and rocket fuel.</figcaption></figure>
+      <div>
+        <p><b>What Mars soil is:</b> crushed basalt, grains of olivine, pyroxene and feldspar, with rusty iron oxides that make it red, and salts such as sulfates and perchlorates.</p>
+        <p><b>Ways to build with it,</b> all tested on Earth with copies of Mars soil:</p>
+        <ul>
+          <li><b>Sintering:</b> heat the soil to about 1,100 °C and its grains fuse into a hard ceramic, with microwaves, lasers or focused sunlight.</li>
+          <li><b>Sulfur concrete:</b> Mars soil has sulfur. Melted at about 130 °C and mixed with soil, it sets into a concrete that needs no water; tests reached about 50 MPa, as strong as good concrete.</li>
+          <li><b>3D printing:</b> NASA's 3D-Printed Habitat Challenge (2015–2019) ended with robots printing habitats; the winner, MARSHA by AI SpaceFactory, used basalt fibre in a plant-based plastic.</li>
+          <li><b>Burying:</b> soil on top is the simplest shield of all.</li>
+        </ul>
+        <p><b>The real load is the air inside.</b> A building at 70 kPa pushes up on each square metre of roof as hard as 7 tonnes would press down on Earth. Soil balances it: at Mars gravity a metre of soil (1.7 t/m³) presses down with 6.3 kPa, so 11 m of soil balances 70 kPa, and 16 m balances a full Earth atmosphere.</p>
+        <p><b>The cold:</b> a house in frozen ground must not melt the ice it stands in, so its walls are insulated, as buildings on permafrost are in Canada and Alaska.</p>
+      </div>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>Robots dig a pit about 70 m deep, 3.1 million m³, in ground whose walls stand steep because they are frozen. The Pentagon's walls, floors and roof are sintered panels made from the soil that came out, and 16 m of soil goes back on top. <a href="pentagon.html#build">Chapter 03 →</a></p></div>
+  </section>
+
+  <section class="part" id="water">
+    <h2><small>Water</small>Mined from ice, then used again and again</h2>
+    <div class="two">
+      <div>
+        <p><b>Where it is:</b> as ice, at the poles and under the ground of the middle latitudes. In Arcadia Planitia radar shows clean ice tens of metres thick close to the surface.</p>
+        <p><b>Two ways to get it out.</b> Dig ice-rich soil and bake the water out in a sealed oven; or drill into clean ice and melt a pool deep down, a "Rodwell", as the South Pole station has done for its water for years.</p>
+        <p><b>It takes energy:</b> warming a tonne of ice from −60 °C and melting it takes about 130 kWh (our sum: 2.1 kJ per kg and degree to warm it, 334 kJ per kg to melt it).</p>
+        <p><b>Cleaning:</b> Mars soil carries perchlorate salts, about half a percent at the Phoenix landing site, harmful to people; they are taken out by reverse osmosis or ion exchange before anyone drinks.</p>
+        <p><b>Recycling:</b> the International Space Station now recovers 98% of its water, from washing, breath and urine. A Mars house recycles the same way, so the ice mine only tops it up.</p>
+      </div>
+      <figure class="fig"><img src="../docs/img/book/spaceport-pit.png" alt="Section through the ice mine: a shallow open pit stepped down to 9 m, a bucket-wheel excavator and a haul truck in ice-rich soil" width="770" height="447" loading="lazy"><figcaption><b>The ice mine</b> at the spaceport: a shallow pit in soil that is up to half ice. A bucket wheel digs it and trucks carry it to the ovens. Heights drawn 5.5 times larger than widths.</figcaption></figure>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>Digging the Pentagon brings up about 1.5 million tonnes of ice: water, air and fuel for decades. The lake on L2 is also the house's water reserve, and every drop is recycled. <a href="spaceport.html#mine">Chapter 07 →</a></p></div>
+  </section>
+
+  <section class="part" id="air">
+    <h2><small>Air</small>Oxygen from carbon dioxide and from water</h2>
+    <div class="two">
+      <div>
+        <p>A person uses about <b>0.8 kg of oxygen a day</b> and breathes out about 1 kg of carbon dioxide.</p>
+        <p><b>From Mars air.</b> MOXIE, a box the size of a car battery on the rover Perseverance, split carbon dioxide into oxygen and carbon monoxide at about 800 °C. From 2021 to 2023 it made 122 g of oxygen in 16 runs, up to 12 g an hour at 98% purity: the first oxygen made on another planet. Scaled up many times over, the same method could make the oxygen for people and for a rocket's trip home.</p>
+        <p><b>From water.</b> Electrolysis splits water into hydrogen and oxygen: 1 kg of water gives 0.89 kg of oxygen.</p>
+        <p><b>The rest of the air.</b> Pure oxygen burns too easily, so nitrogen and argon, 4.5% of Mars air, are separated out and added, as nitrogen fills Earth's air. Plants help too: a lit garden turns carbon dioxide back into oxygen.</p>
+      </div>
+      <figure class="fig">
+        <svg class="flow" viewBox="0 0 620 330" role="img" aria-label="How air is made: Mars air to MOXIE-style electrolysis giving oxygen; ice to water to electrolysis giving oxygen and hydrogen; nitrogen and argon separated from Mars air; all mixed into the air of the house">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9Z" style="fill:var(--ink-2)"/></marker></defs>
+          <rect class="in" x="10" y="20" width="150" height="62" rx="3"/><text x="85" y="46" text-anchor="middle">Mars air</text><text class="s" x="85" y="66" text-anchor="middle">95% CO₂</text>
+          <rect x="235" y="20" width="160" height="62" rx="3"/><text x="315" y="46" text-anchor="middle">CO₂ electrolysis</text><text class="s" x="315" y="66" text-anchor="middle">as MOXIE, 800 °C</text>
+          <rect class="in" x="10" y="134" width="150" height="62" rx="3"/><text x="85" y="160" text-anchor="middle">Ice</text><text class="s" x="85" y="180" text-anchor="middle">melted and cleaned</text>
+          <rect x="235" y="134" width="160" height="62" rx="3"/><text x="315" y="160" text-anchor="middle">Water electrolysis</text><text class="s" x="315" y="180" text-anchor="middle">1 kg → 0.89 kg O₂</text>
+          <rect class="in" x="10" y="248" width="150" height="62" rx="3"/><text x="85" y="274" text-anchor="middle">Mars air</text><text class="s" x="85" y="294" text-anchor="middle">N₂ and Ar, 4.5%</text>
+          <rect x="235" y="248" width="160" height="62" rx="3"/><text x="315" y="274" text-anchor="middle">Separator</text><text class="s" x="315" y="294" text-anchor="middle">buffer gas</text>
+          <rect class="out" x="470" y="120" width="140" height="90" rx="3"/><text x="540" y="152" text-anchor="middle">The air inside</text><text class="s" x="540" y="174" text-anchor="middle">oxygen + nitrogen</text><text class="s" x="540" y="192" text-anchor="middle">and argon</text>
+          <path d="M160 51H233" marker-end="url(#ah)"/><path d="M160 165H233" marker-end="url(#ah)"/><path d="M160 279H233" marker-end="url(#ah)"/>
+          <path d="M395 51C440 51 430 140 468 145" marker-end="url(#ah)"/><path d="M395 165H468" marker-end="url(#ah)"/><path d="M395 279C440 279 430 190 468 185" marker-end="url(#ah)"/>
+          <text class="s" x="415" y="40">O₂</text><text class="s" x="420" y="157">O₂</text><text class="s" x="404" y="312">N₂, Ar</text>
+        </svg>
+        <figcaption><b>Making air.</b> Oxygen from carbon dioxide and from water; nitrogen and argon from the Mars air to dilute it. The hydrogen from water goes to rocket fuel.</figcaption>
+      </figure>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>The air inside is kept at 70 kPa with 27% oxygen, which breathes like Calgary's, halves the load on the walls and means no long wait before going out in a suit (decided 1 October 2026). The air plant is on L4; the gardens of L2 help. <a href="pentagon.html#levels">Chapter 03 →</a></p></div>
+  </section>
+
+  <section class="part" id="food">
+    <h2><small>Food</small>Grown indoors, under lamps</h2>
+    <div class="two">
+      <div>
+        <p><b>Why indoors:</b> Mars gets 43% of Earth's sunlight and dust cuts it further; plants also need warmth, air pressure and shelter from radiation. So Mars farms are greenhouses, or rooms underground lit by LEDs, which can give plants exactly the light they use.</p>
+        <p><b>Mars soil can grow plants once fixed.</b> It has no organic matter and little usable nitrogen, and its perchlorate salts must be washed out first. In experiments, crops grew in copies of Mars soil with nutrients added.</p>
+        <p><b>Most growing is soilless:</b> hydroponics, roots in flowing water with nutrients, gives the highest yields. NASA's crop studies found that about 40 to 50 m² of high-yield crops under strong light can feed one person.</p>
+        <p><b>Light is the big cost.</b> Our estimate: crops under strong light take about 400 µmol of light a second on each square metre, 16 hours a day, and LEDs make about 3 µmol per joule, so 45 m² takes about 6 kW while the lamps are on, about 100 kWh a day for each person fed.</p>
+        <p>Fish, insects and algae add protein; stores carry people through emergencies.</p>
+      </div>
+      <div>
+        <h3>To feed one person, our estimate</h3>
+        <div class="bars">
+          <div><b>Crops, high-yield</b><i style="width:90%"></i><span>40–50 m²</span></div>
+          <div><b>LED power, lamps on</b><i style="width:60%"></i><span>about 6 kW</span></div>
+          <div><b>Energy a day</b><i style="width:100%"></i><span>about 100 kWh</span></div>
+        </div>
+        <p class="lbl">Crop area from NASA's studies; the power is our sum, for comparison</p>
+        <div class="note"><div class="k">For scale</div><p>100 kWh a day is about three times the electricity an average Canadian home uses in a day. On Mars, power for food is a bigger job than power for the house.</p></div>
+      </div>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>L2 is the garden level, 16 m tall under a sky of lamps: orchards, a farm, a lake that is also the water reserve, a forest with a stream and a meadow with bees. The storm reserve on L4 holds two years of food. <a href="pentagon.html#levels">Chapter 03 →</a></p></div>
+  </section>
+
+  <section class="part" id="energy">
+    <h2><small>Energy</small>Why the house runs on fission</h2>
+    <div class="two flip">
+      <figure class="fig"><img src="../docs/img/book/power-sol.png" alt="Power through a clear sol and through a sol in a global dust storm: the house and port take about 6 MW and the four reactors give 18 MW either way" width="1707" height="581" loading="lazy"><figcaption><b>A clear sol and a sol in a dust storm.</b> With reactors, nothing changes when the Sun is hidden; the fuel plant takes what the house does not.</figcaption></figure>
+      <div>
+        <p><b>Sunlight</b> is 43% of Earth's above the air. Solar panels need dusting, give nothing in the 12-hour night, and a global dust storm can cut them to a few percent for weeks: the 2018 storm ended the Opportunity rover.</p>
+        <p><b>Wind</b> is weak: with air 1.6% as dense as Earth's, a turbine makes about a sixtieth of the power it would at home in the same wind.</p>
+        <p><b>Fission</b> works day and night, in any storm. NASA and the US Department of Energy tested KRUSTY, a small space reactor, in 2018, and NASA is developing 40 kW fission reactors for the Moon and Mars. Curiosity and Perseverance already run on nuclear heat, from plutonium generators of about 110 W.</p>
+        <p><b>Heat</b> matters as much as electricity on a cold planet, and a reactor's waste heat can warm a house.</p>
+      </div>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>Four 5 MWe fission microreactors, two on L4 and two at the spaceport, joined by a 30 km cable: 20 MWe, with no solar panels or mirrors on the ground. <a href="power.html">Chapter 05 →</a></p></div>
+  </section>
+
+  <section class="part" id="radiation">
+    <h2><small>Radiation</small>Shielding with soil and water</h2>
+    <div class="two">
+      <div>
+        <p>On the ground Curiosity measured about <b>0.64 mSv a day</b>, and 1.8 mSv a day on the way. Six months each way and 500 days on Mars add up to about 1 sievert, more than NASA's career limit of 600 mSv.</p>
+        <p><b>Light atoms shield best</b>: water, plastics and soil stop the particles without making many new ones. On the way, ships can put their water and food round a shelter for solar storms.</p>
+        <p><b>On the ground, soil:</b> a few metres remove most of the dose, and 16 m bring it below what people receive on Earth.</p>
+      </div>
+      <figure class="fig"><img src="../docs/img/book/pentagon-dose.png" alt="Radiation in mSv a year by place: the open plain, inside the Crown, under the Pentagon's soil, and Earth" width="770" height="548" loading="lazy"><figcaption><b>Radiation in mSv a year</b> by place, estimated from Curiosity's measurements.</figcaption></figure>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>Jim sleeps below ground, in the master suite down, and spends about six hours a day in the Crown, behind window slots that block the harsh sun: about 20 mSv a year. <a href="mars.html#radiation">The radiation on Mars →</a></p></div>
+  </section>
+
+  <section class="part" id="fuel">
+    <h2><small>Rocket fuel</small>Methane and oxygen from ice and air</h2>
+    <p>A ship refuelled on Mars can fly home or on. Methane and oxygen were chosen for Starship partly because both can be made on Mars, as Robert Zubrin and David Baker proposed in their Mars Direct plan of 1990. The chemistry is more than a century old; a Sabatier reactor has made water from waste carbon dioxide on the Space Station since 2010.</p>
+    <div class="eq">2 H₂O → 2 H₂ + O₂ (electrolysis)<br>CO₂ + 4 H₂ → CH₄ + 2 H₂O (Sabatier, nickel catalyst, about 300 °C)<br>overall: CO₂ + 2 H₂O → CH₄ + 2 O₂</div>
+    <figure class="fig"><img src="../docs/img/book/spaceport-fuel.png" alt="The fuel plant: ice mine and Mars air feed electrolysis, a CO2 freezer and a Sabatier reactor, then the oxygen and methane are chilled to liquid" width="1707" height="623" loading="lazy"><figcaption><b>The fuel plant</b> at Arcadia Spaceport, with the amounts for one ship's 1,200 t of propellant: 585 t of water and 715 t of carbon dioxide, and about 8.6 GWh of electricity in all.</figcaption></figure>
+    <div class="house"><div class="k">In Jim's house</div><p>The spaceport's fuel plant fuels the ships for their voyages to see space, and the pods for their scenic flights. <a href="spaceport.html#fuel">Chapter 07 →</a></p></div>
+  </section>
+
+  <section class="part" id="talk">
+    <h2><small>Talking to Earth</small>Minutes away, by radio and laser</h2>
+    <div class="two even">
+      <div>
+        <p>Radio takes <b>3 to 22 minutes</b> each way, depending on where the planets are, so there are no phone calls: messages, video letters and email. Every 26 months Mars passes behind the Sun as seen from Earth and contact drops for about two weeks.</p>
+      </div>
+      <div>
+        <p>Orbiters relay the rovers' data today. Lasers can carry far more: in 2023 NASA's DSOC experiment on the Psyche spacecraft sent high-definition video to Earth by laser from 31 million km away.</p>
+      </div>
+    </div>
+    <div class="house"><div class="k">In Jim's house</div><p>Relays round Mars and a laser link to Earth; chapter 09 is coming.</p></div>
+  </section>
+
+  <section class="part" id="sources">
+    <h2><small>Sources</small>Where the numbers come from</h2>
+    <ol class="src">
+      <li>NASA Goddard, <i>Mars Fact Sheet</i>: sunlight, air density and pressure, distances. nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html</li>
+      <li>NASA/JPL (2023), MOXIE completes its mission on Perseverance: 122 g of oxygen in 16 runs, up to 12 g an hour at 98% purity; M. Hecht and others (2021), Mars Oxygen ISRU Experiment (MOXIE). <i>Space Science Reviews</i> 217, 9. <a href="https://doi.org/10.1007/s11214-020-00782-8">doi:10.1007/s11214-020-00782-8</a></li>
+      <li>NASA (2023), the Space Station's life support reaches 98% water recovery.</li>
+      <li>M. H. Hecht and others (2009), Detection of perchlorate and the soluble chemistry of martian soil at the Phoenix lander site. <i>Science</i> 325, 64. <a href="https://doi.org/10.1126/science.1172466">doi:10.1126/science.1172466</a></li>
+      <li>G. W. W. Wamelink and others (2014), Can plants grow on Mars and the Moon: a growth experiment on Mars and Moon soil simulants. <i>PLOS ONE</i> 9, e103138. <a href="https://doi.org/10.1371/journal.pone.0103138">doi:10.1371/journal.pone.0103138</a></li>
+      <li>R. M. Wheeler (2017), Agriculture for space: people and places paving the way. <i>Open Agriculture</i> 2, 14. <a href="https://doi.org/10.1515/opag-2017-0002">doi:10.1515/opag-2017-0002</a> (crop area per person)</li>
+      <li>L. Wan, R. Wendner and G. Cusatis (2016), A novel material for in situ construction on Mars: experiments and numerical simulations. <i>Construction and Building Materials</i> 120, 222. <a href="https://doi.org/10.1016/j.conbuildmat.2016.05.046">doi:10.1016/j.conbuildmat.2016.05.046</a> (sulfur concrete)</li>
+      <li>NASA Centennial Challenges, 3D-Printed Habitat Challenge (2015–2019).</li>
+      <li>NASA and the US Department of Energy, Kilopower / KRUSTY reactor test (2018); NASA Fission Surface Power project.</li>
+      <li>D. M. Hassler and others (2014), <i>Science</i> 343, 1244797. <a href="https://doi.org/10.1126/science.1244797">doi:10.1126/science.1244797</a>; C. Zeitlin and others (2013), <i>Science</i> 340, 1080. <a href="https://doi.org/10.1126/science.1235989">doi:10.1126/science.1235989</a> (radiation); NASA-STD-3001 (2022), the 600 mSv career limit.</li>
+      <li>NASA, <i>Baseline Values and Assumptions Document</i> (life support): oxygen used and carbon dioxide made by a person each day.</li>
+      <li>R. Zubrin and D. Baker (1990), the Mars Direct plan: making the return fuel on Mars.</li>
+      <li>NASA/JPL (2023–2024), Deep Space Optical Communications (DSOC) on Psyche.</li>
+      <li>The design's own numbers (the pit, the ice, the fuel plant, the reactors, the doses in the house): chapters 03, 05 and 07 of this design plan.</li>
+    </ol>
+  </section>
+</main>
+<script src="book.js"></script>
+</body>
+</html>

@@ -293,9 +293,32 @@ def page(area):
             % (E(area["title"]), E(area["lede"][:200]), CSS, area["id"], body, JS))
 
 
+def explorer_json():
+    """for the explorer on the design plan's home page: every room's purpose, facts, pictures and 360s, and the
+    shapes to click on the floor plans (from plan_maps.py, as fractions of the sheet)"""
+    import json, sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import plan_maps as pm
+    rooms = {}
+    for a in AREAS:
+        for r in a["rooms"]:
+            key = ("crown:" if a is CROWN else "l1:") + r["id"]
+            rooms[key] = dict(name=r["name"], k=r["k"], purpose=r["purpose"], facts=r["facts"], page="%s.html#%s" % (a["id"], r["id"]),
+                              photos=[dict(src=ph[0], cap=ph[1]) for ph in r["photos"] if photo_ok(ph[0])],
+                              views=[dict(stop=v[0], label=v[1], poster=poster(v[0])) for v in r["views"] if stop_ready(v[0])])
+    def norm(polys): return [[[round(x / 1701.0, 5), round(y / 1271.0, 5)] for (x, y) in poly] for poly in polys]
+    l1 = {k: norm(v) for k, v in pm.L1_ROOMS.items() if "l1:" + k in rooms and k != "atrium"}      # the atrium shape covers four rooms
+    cr = {k: norm(v) for k, v in pm.CR_ROOMS.items() if "crown:" + k in rooms}
+    data = dict(rooms=rooms, plans=dict(l1=dict(sheet="../docs/img/plans/a301-pentagon-L1.png", shapes=l1, prefix="l1:"),
+                                        crown=dict(sheet="../docs/img/plans/a201-crown-main-floor.png", shapes=cr, prefix="crown:")))
+    open(os.path.join(DES, "explorer-rooms.json"), "w", encoding="utf-8").write(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
+    print("explorer-rooms.json", len(rooms), "rooms,", len(l1) + len(cr), "shapes")
+
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(DES, "img", "pano"), exist_ok=True)
     for a in AREAS:
         open(os.path.join(DES, a["id"] + ".html"), "w", encoding="utf-8").write(page(a))
         n_ph = sum(1 for r in a["rooms"] for p in r["photos"] if photo_ok(p[0])); n_v = sum(1 for r in a["rooms"] for v in r["views"] if stop_ready(v[0]))
         print(a["id"], "rooms", len(a["rooms"]), "photos", n_ph, "360s", n_v)
+    explorer_json()

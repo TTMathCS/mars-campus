@@ -48,6 +48,14 @@ choice is recorded below. Shown for review:
   crater and the Ice Cliffs, through a dust storm into the blue sunset. The spaceport's ships fly voyages to see
   space: orbit, Phobos and Deimos, and further. *Real fallback,* if the Gate stays a dream: the ships and the pod carry
   people and cargo as designed. Chapters 06 and 07, the README, TR-1, TR-2, SY-2 and a new TR-7. → TR-7.
+- **Mars, the science.** Jim: "I am thinking creating another subpage to introduce Mars with facts of geography. also
+  separate topics on the engineering on how to build / move materials to mars to build, how to get water and food /
+  energy/etc. this subpage should be based on science". **Done:** two new pages in the design plan,
+  [Mars, the planet](design/00a-mars.md) (00·1: the numbers next to Earth's, a labelled map, the air and weather, water
+  and ice, radiation, the moons, the site) and [Living on Mars](design/00b-living.md) (00·2: getting there and what to
+  bring, building, water, air, food, energy, radiation, rocket fuel, talking to Earth, each with how the house does
+  it). The numbers come from spacecraft and published studies, listed at the end of each page; our own estimates
+  say so. → SY-7.
 
 ## 2 Oct 2026: one demo 2, a new name, the design plan
 

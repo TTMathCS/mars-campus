@@ -3,6 +3,8 @@
 var BOOK = (function () {
   var CH = [
     ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
+    ["mars", "00·1", "Mars, the planet", "The facts and the geography, from spacecraft: size, gravity, air, cold, radiation, the great volcanoes, canyons and basins, and the ice"],
+    ["living", "00·2", "Living on Mars", "The science of getting there, building, water, air, food, energy, radiation, rocket fuel and talking to Earth"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
     ["crown", "02", "The Crown", "The floating house above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
     ["rooms-crown", "02·1", "The Crown, room by room", "Each part of the ring: what it is for, its plan, pictures and 360° views"],
@@ -18,7 +20,7 @@ var BOOK = (function () {
     ["phases", "10", "Building it", "Robots first: the order of work, from the first landing to the city"]
   ];
   // chapters that are written; the others show as "coming" and are not linked yet
-  var READY = { index: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, interiors: 1, power: 1, transport: 1, spaceport: 1 };
+  var READY = { index: 1, mars: 1, living: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, interiors: 1, power: 1, transport: 1, spaceport: 1 };
   var NS = "http://www.w3.org/2000/svg";
   function S(tag, a, parent) { var e = document.createElementNS(NS, tag); for (var k in (a || {})) e.setAttribute(k, a[k]); if (parent) parent.appendChild(e); return e; }
   function T(p, x, y, txt, cls, a) { var t = S("text", Object.assign({ x: r1(x), y: r1(y), "class": cls || "" }, a || {}), p); t.textContent = txt; return t; }

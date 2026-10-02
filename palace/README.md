@@ -4,7 +4,9 @@
 
 **Demo 2 home · [Requirements](REQUIREMENTS.md) · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
 
-![The Crown coming home at sunset, a dust storm behind it](design/img/crown-sunset.jpg)
+![The whole house in section: the Crown floating over the Stone Garden with the Orb, and the Pentagon's five levels in the ice below](design/img/house-hero.jpg)
+
+*The whole house, path-traced and cut through the middle: on the [design plan](https://ttmathcs.github.io/mars-campus/palace/design/) you can turn it and click any part.*
 
 A private house for one person, Jim, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
 ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb, where the
@@ -27,7 +29,8 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
-| 🏠 | **The design plan**: the house area by area and room by room, each with what it is for, its facts, its floor plan, and path-traced pictures and 360° views; this is what the homepage opens | [design/](design/) · [tools/gen_plan.py](tools/gen_plan.py) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
+| 🏠 | **The design plan**: opens on the whole house in section, path-traced, which you turn and click: each part opens its floor plan, each room its pictures, 360° views and facts; then the house area by area and room by room; this is what the homepage opens | [design/](design/) · [design/explorer.js](design/explorer.js) · [tools/render/overall.py](tools/render/overall.py) · [tools/gen_plan.py](tools/gen_plan.py) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
+| 🔭 | **Mars, the science**: the planet (facts and geography from spacecraft) and living on it (getting there, building, water, air, food, energy, radiation, rocket fuel), with sources | [docs/design/00a-mars.md](docs/design/00a-mars.md) · [00b-living.md](docs/design/00b-living.md) | [Mars, the planet](https://ttmathcs.github.io/mars-campus/palace/design/mars.html) · [Living on Mars](https://ttmathcs.github.io/mars-campus/palace/design/living.html) |
 | 🛋️ | **The rooms, in pictures**: every room path-traced, picture first, with what it is made of | [docs/rooms.md](docs/rooms.md) | |
 | 📸 | **The photo tour**: Jim's rooms on L1 and the Pentagon's atrium in path-traced 360° photographs; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
 | ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |

@@ -165,6 +165,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | ⏳ Chapter 08 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
 | SY-5 | Communications and space: the radio delay, relay satellites, the moons, Mars time | Should | ⏳ Chapter 09 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
 | SY-6 | When Jim moves in, so the building timeline has dates | Must | ☑️ Decided 1 Oct: 2027. He launches in the Nov–Dec 2026 window and lands in mid-2027. ⏳ Chapter 10 | [Decisions](docs/decisions.md#1-oct-2026-jims-answers) |
+| SY-7 | A page introducing Mars with facts of its geography, and topics on the engineering: building and moving materials to Mars, water, food, energy and the rest. Jim, 2 Oct 2026: "this subpage should be based on science" | Must | ✅ Two pages: *Mars, the planet* and *Living on Mars*, from spacecraft measurements and published studies, with sources | [Mars, the planet](https://ttmathcs.github.io/mars-campus/palace/design/mars.html) · [Living on Mars](https://ttmathcs.github.io/mars-campus/palace/design/living.html) · [Summary](docs/design/00a-mars.md) |
 
 ## 9. What you can do in the demo
 

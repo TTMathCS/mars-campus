@@ -5,44 +5,40 @@ Everything needed to continue is in this repo. Last updated 1 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## 0. Where the work stopped (2 Oct 2026, about 03:20 UTC) — read this first
+## 0. Where the work stopped (2 Oct 2026, about 13:00 UTC) — read this first
 
-The site is **Mars – No Way Home** (Jim's name). Demo 2 is now **the design plan** (`palace/design/`); the real-time
-3D pages are unlinked. Everything is pushed; the render scratch work lives in `palace/tools/render/`.
+The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
+pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
 
-**Jim's latest asks, in order (the top one is the priority):**
-1. *"I need you really put focus on the overall construction image (real and 3d)"*: the design plan's front page
-   must show the whole construction (the Crown floating over the Stone Garden, the Orb, the Pentagon's five levels
-   below in a cutaway), path-traced, and turnable in 3D; the homepage's demo 2 card shows the same picture (it shows
-   `palace/design/img/crown-sunset.jpg` until then).
-   - The model: `palace/tools/render/overall.py` (first draft written; a 960×540 test, `hero`, rendered in 53 s; its
-     look still to check). Jobs: `hero` (the picture), `turn<i>of24` (frames of a turntable, camera at bearing
-     234 + 15·i), `spots` (screen positions of the parts per frame, JSON, for clickable labels).
-   - Then the explorer (to build): on the design plan's front page the turntable with labels; click the Crown, the
-     Orb or the Pentagon to open its floor plan (the sheets in `palace/docs/img/plans/`, rooms as clickable polygons:
-     `palace/tools/plan_maps.py` already computes every room's polygon in sheet pixels); click a room for a pop-up
-     with its pictures, 360° view (`../tour/index.html?embed#<stop>`) and facts (the room data in
-     `palace/tools/gen_plan.py`).
-2. Every room path-traced (photos and 360s), each shown in the design plan with its purpose, facts and floor plan.
-   `python3 palace/tools/gen_plan.py` rebuilds the area pages (`rooms-crown`, `rooms-residence`, `rooms-atrium`)
-   from the room data and picks up every render that is in the tour.
+**Jim's asks today, newest last (all done or in hand):**
+1. *"I need you really put focus on the overall construction image (real and 3d)"*. **Done, frames rendering:** the
+   whole house path-traced as a section perspective (`palace/tools/render/overall.py`): everything under the plain
+   on the near side of a vertical plane through the middle is taken away, and the plane turns with the camera. The
+   ground follows chapter 01's section (dust 1 m, ice-rich soil to 14 m, thick ice to 60 m, old lava and sediments).
+   The design plan opens on it: `palace/design/explorer.js` turns 24 frames (`img/house/f00–f23.jpg`), places the
+   labels from `img/house/spots.json`, and opens a panel per part; the Crown and L1 open their floor plans with
+   clickable rooms, and each room opens with its pictures, 360s and facts (data: `explorer-rooms.json`, written by
+   `gen_plan.py`). The homepage's demo 2 card shows `img/house-hero.jpg`. Publish renders with `pub_house.py`
+   (scratch folder): it copies the hero, the frames done so far and the spots (its `have` list tells the explorer
+   which frames exist, so it can go live with one frame).
+2. *"the L1 floor plan doesn't show full"*. **Done:** every room plan is the whole sheet, the room shaded; click enlarges.
+3. *"if I have wormhole to do the transportation, then the pod / rockets will be the tool for travel and see the
+   views"*. **Done:** chapters 06 and 07, TR-7, the decision log.
+4. *"another subpage to introduce Mars with facts of geography ... separate topics on the engineering ... based on
+   science"*. **Done:** `design/mars.html` (00·1 Mars, the planet) and `design/living.html` (00·2 Living on Mars),
+   with sources; summaries `docs/design/00a-mars.md` and `00b-living.md`. The Earth–Mars picture is
+   `palace/tools/render/planets.py`. The NASA fact-sheet site is blocked from the container: numbers come from the
+   published values cited on each page.
 
-**Renders: how to carry on after a restart.** The scenes and tools are in `palace/tools/render/` (copy them into a
-scratch folder with `bvenv` = a Python 3.11 venv with `bpy==4.2.0` and Pillow, and the assets from
-`fetch_assets.py` + `make_spines.py`). Two job lists, one per lane, run by `runner.py` (each line a command; done
-lines drop off; 360s render in six bands kept on disk, so a restart loses one band):
-`queue_a.txt` (the Pentagon: the dining room 360 is next, then the library, the baths, the cinema, the master suite
-down, the fire 360's two openings, the atrium 360s, two stills) and `queue_b.txt` (the Crown: the bedroom 360, the
-salon 360 moved off the table, the library and map room, the pool, dining, arrival, sunset; and a floor plan from
-above for each room, `plan:<view>` jobs, see `plan_render.py`). Start: `python3 blend/runner.py a` and `... b` from
-the scratch folder. Publish a finished 360 or still with `pub.py` (`pano <file> <stop>` / `photo <file> <name>
-<caption>`), then re-run `gen_plan.py`, commit and push.
+**Renders: how to carry on after a restart.** From the scratch folder (with `bvenv` = Python 3.11 + `bpy==4.2.0` +
+Pillow, and the assets): three job lists run by `runner.py`: `queue_c.txt` (the whole house: `hero`, `turn<i>of24`,
+`whole`), `queue_a.txt` (the Pentagon's rooms) and `queue_b.txt` (the Crown's rooms). Start each with
+`setsid nohup python3 blend/runner.py <lane> &`. **Priorities:** `nice` alone does nothing between sessions (Linux
+groups each session); to let lane C go first, run `echo 19 > /proc/<pid>/autogroup` for a process of lanes A and B.
+Publish a finished room 360 or still with `pub.py`, then `python3 palace/tools/gen_plan.py`, commit and push.
 
-**Done today:** one demo 2 card (Jim: "you kept making such mistake"); the tour merged into the design plan; area
-pages with every room's purpose, facts, floor plan and pictures/360s playing in the page; the Mars Atlas as a
-picture in the homepage header; the music room's 360 (its far end furnished: records, turntable, speakers); the
-Crown's salon and bedroom stills; new rooms modelled and tested: the great library, the thermal baths, the cinema,
-the master suite down redone (suite.py), the Crown's library with a 3 m Mars globe and its 25 m pool.
+**Next:** finish and publish the 24 frames and the uncut view; carry on with every room (lanes A and B); the Orb's
+Rev F question to Jim is still open.
 
 ## 1. Status
 

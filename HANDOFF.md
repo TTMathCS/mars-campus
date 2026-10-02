@@ -11,7 +11,7 @@ The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan**
 pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
 
 **Jim's asks today, newest last (all done or in hand):**
-1. *"I need you really put focus on the overall construction image (real and 3d)"*. **Done, frames rendering:** the
+1. *"I need you really put focus on the overall construction image (real and 3d)"*. **Done and live** (hero, 24 frames, the uncut view behind *Without the cut*): the
    whole house path-traced as a section perspective (`palace/tools/render/overall.py`): everything under the plain
    on the near side of a vertical plane through the middle is taken away, and the plane turns with the camera. The
    ground follows chapter 01's section (dust 1 m, ice-rich soil to 14 m, thick ice to 60 m, old lava and sediments).
@@ -37,8 +37,8 @@ Pillow, and the assets): three job lists run by `runner.py`: `queue_c.txt` (the 
 groups each session); to let lane C go first, run `echo 19 > /proc/<pid>/autogroup` for a process of lanes A and B.
 Publish a finished room 360 or still with `pub.py`, then `python3 palace/tools/gen_plan.py`, commit and push.
 
-**Next:** finish and publish the 24 frames and the uncut view; carry on with every room (lanes A and B); the Orb's
-Rev F question to Jim is still open.
+**Next:** carry on with every room (lanes A and B, back at full speed; lane C is idle); the Orb's Rev F question
+to Jim is still open.
 
 ## 1. Status
 

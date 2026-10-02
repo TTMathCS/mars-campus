@@ -1,6 +1,6 @@
 # The photo tour · demo 2
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/tour/**. A tour of Jim's house in 360° photographs, like an
 estate agent's: drag to look round, click a ring to walk there, use the map (top right) or the buttons below. Each

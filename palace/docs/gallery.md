@@ -1,14 +1,17 @@
 # Pictures
 
-[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Floor plans](plans.md) · **Pictures**
+[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans.md) · **Pictures**
 
 Every picture of demo 2. They are rendered from the new 3D build (`palace/src/`), the same scene the flight video
 plays, so they show the design as it will look in the demo. They are simulations, not photographs. On 1 Oct 2026 the
 weak ones were redone so they look real; the cockpit view did not, so it was taken out. The diagrams are
 on the [design pages](design/README.md) and the plan sheets on [Floor plans](plans.md).
 
+**The rooms come first:** each is path-traced, with what it is made of, in **[The rooms, in pictures](rooms.md)**.
+
 | | | |
 | --- | --- | --- |
+| [<img src="../tour/photos/hero.jpg" alt="The family room">](rooms.md#the-family-room) | [<img src="../tour/photos/living.jpg" alt="By the fire">](rooms.md#the-family-room) | [<img src="../tour/photos/crown_salon.jpg" alt="The great salon">](rooms.md#the-great-salon) |
 | [<img src="../design/img/crown-sunset.jpg" alt="The Crown at sunset">](#coming-home-at-sunset) | [<img src="../design/img/crown-day.jpg" alt="The Crown by day">](#the-crown-by-day) | [<img src="../design/img/crown-garden.jpg" alt="Nothing holds it up">](#nothing-holds-it-up) |
 | [<img src="../design/img/site-aerial.jpg" alt="The house from the air">](#the-house-from-the-air) | [<img src="../design/img/port-aerial.jpg" alt="Arcadia Spaceport">](#arcadia-spaceport) | [<img src="../design/img/port-liftoff.jpg" alt="Lift-off">](#1-lift-off) |
 | [<img src="../design/img/flight-west.jpg" alt="Heading west">](#2-heading-west) | [<img src="../design/img/flight-dunes.jpg" alt="The Dune Sea">](#3-the-dune-sea) | [<img src="../design/img/flight-crater.jpg" alt="Over the crater">](#4-over-the-crater) |

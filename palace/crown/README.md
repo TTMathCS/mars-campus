@@ -1,6 +1,6 @@
 # The Crown · demo 2, phase 2
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/crown/**. The Crown's main floor at +41 m, as in chapter 02
 and the floor plans:

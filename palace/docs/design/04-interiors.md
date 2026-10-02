@@ -4,6 +4,10 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html)**
 
+![The family room on L1, path-traced: the sofa and chairs round a travertine table, the oak-slat ceiling, and through the glass the atrium](../../tour/photos/hero.jpg)
+
+*Jim's family room on L1, path-traced from the 3D model. Every room, picture first: **[The rooms, in pictures](../rooms.md)**.*
+
 The rooms of the house, what they look like and what they are made of. The Crown is for daylight, views, music and
 guests; the Pentagon for sleep, water, gardens and work. The aim everywhere: calm rooms of real materials that feel
 like Earth, in a house that could only be on Mars. **Requirements:** LV-1 to LV-7, TR-5, TR-6.
@@ -33,6 +37,10 @@ machines.
 | Moss and ferns | Living walls in the baths, the suites and the Glide |
 
 ## The Crown's rooms
+
+![The great salon in the Crown, path-traced: linen sofas, olive trees, an oak ceiling lit from its coves](../../tour/photos/crown_salon.jpg)
+
+*The great salon, 45 m along the ring under the Salon spire. [More rooms in pictures](../rooms.md#the-crown).*
 
 | Part | What it is like |
 | --- | --- |
@@ -84,6 +92,10 @@ and opens only for him and his guests. Then the Arrival hall: 9 m tall, basalt f
 first window slot looking back to the Orb.
 
 ## The Pentagon's rooms
+
+![The family room by the fire, path-traced: the hearth of lit mist, walnut shelves, a skylight](../../tour/photos/living.jpg)
+
+*The family room on L1, by the hearth. [More rooms in pictures](../rooms.md#the-pentagon-l1-jims-residence).*
 
 | Level | Area | What it is like |
 | --- | --- | --- |

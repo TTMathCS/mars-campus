@@ -1,6 +1,6 @@
 # The design, chapter by chapter
 
-[Demo 2 home](../../README.md) · [Requirements](../../REQUIREMENTS.md) · [Decisions](../decisions.md) · **Design** · [Floor plans](../plans.md) · [Pictures](../gallery.md)
+[Demo 2 home](../../README.md) · [Requirements](../../REQUIREMENTS.md) · [Decisions](../decisions.md) · **Design** · [Rooms](../rooms.md) · [Floor plans](../plans.md) · [Pictures](../gallery.md)
 
 The design book on the live site, **[ttmathcs.github.io/mars-campus/palace/design/](https://ttmathcs.github.io/mars-campus/palace/design/)**,
 is the full design: for each part, *what it looks like* and *how it works*, with drawings to scale and worked

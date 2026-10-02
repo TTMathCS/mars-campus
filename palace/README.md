@@ -2,7 +2,7 @@
 
 **The Crown and the Pentagon**, in Arcadia Planitia · owner: Jim (TTMath) · last updated 1 Oct 2026
 
-**Demo 2 home · [Requirements](REQUIREMENTS.md) · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
+**Demo 2 home · [Requirements](REQUIREMENTS.md) · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
 
 ![The Crown coming home at sunset, a dust storm behind it](design/img/crown-sunset.jpg)
 
@@ -12,10 +12,21 @@ universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the 
 Crown's floor area. **Arcadia Spaceport** stands 30 km east, and a pod flies Jim home through a dust storm into the
 sunset. A city will grow around it.
 
+## The rooms, in pictures
+
+| | | |
+| --- | --- | --- |
+| [<img src="tour/photos/hero.jpg" alt="The family room on L1">](docs/rooms.md#the-family-room)<br>**The family room**, L1 | [<img src="tour/photos/living.jpg" alt="The family room, by the fire">](docs/rooms.md#the-family-room)<br>**By the fire**, L1 | [<img src="tour/photos/crown_salon.jpg" alt="The great salon in the Crown">](docs/rooms.md#the-great-salon)<br>**The great salon**, the Crown |
+
+Path-traced like an architect's photographs, from the same model as the 3D demo, with furniture scanned from real
+things. **[Every room, picture first →](docs/rooms.md)** Walk round them in the
+**[photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/)**. More rooms are rendering and go in as they finish.
+
 ## Start here
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
+| 🛋️ | **The rooms, in pictures**: every room path-traced, picture first, with what it is made of | [docs/rooms.md](docs/rooms.md) | |
 | 📸 | **The photo tour**: Jim's rooms on L1 and the Pentagon's atrium in path-traced 360° photographs; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
 | ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
 | 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |

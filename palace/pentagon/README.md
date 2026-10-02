@@ -1,6 +1,6 @@
 # The Pentagon · demo 2, phase 3
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/pentagon/**. The house below ground, as in chapter 03 and the
 floor plans. You come down by portal to L1, onto a bridge in the atrium.

@@ -1,6 +1,6 @@
 # Decisions with Jim
 
-[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · **Decisions** · [Design](design/README.md) · [Floor plans](plans.md) · [Pictures](gallery.md)
+[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · **Decisions** · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans.md) · [Pictures](gallery.md)
 
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
@@ -28,6 +28,23 @@ choice is recorded below. Shown for review:
 | The residence rooms on the atrium (L1) | The guest lounge and the family room are two storeys of 4 m within L1's 8 m, with the guest suites and Jim's study above them; the cinema, the thermal pools and the great library are full height. Each room's sky ceiling is a panel in a plaster ceiling | Rooms 8 m tall would feel like halls; the plan's rooms keep their places |
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
 | The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
+
+## 2 Oct 2026: one demo 2, a new name, docs picture first
+
+- **The homepage.** Jim: "why I have 2 demo 2? you kept making such mistake. multiple demo 2". The photo tour had
+  been given a card of its own. **Done:** it is a link inside the one demo 2 card. → GN-2.
+- **The site's name.** Jim: "Mars Campus this title is not good. I like sth 'die on mars' but that is bit more
+  extreme I think?" Offered: *Grow Old on Mars* (recommended: it means the same, staying for the rest of your life,
+  and suits a retirement house), *Mars, for Good*, *One Way to Mars*, or *Die on Mars* itself. **Waiting for his
+  pick.**
+- **The docs.** Jim: "the new images created looks great. I am thinking you can organize the docs with the images
+  to illustrate first, which could be great resources along with final 3D". **Done:** a new page,
+  [The rooms, in pictures](rooms.md), shows every rendered room picture first, with what it is made of and a link to
+  its 360° view; it is in every page's menu, on the demo 2 home page, and the renders now open chapter 04 and the
+  design book's Interiors chapter. Each new render goes in as it finishes.
+- **Every room path-traced** (from 1 Oct): rendering the music room and the dining room (their far ends furnished:
+  a wall of records with a turntable and speakers; a bar), the great library, the thermal baths and the cinema on
+  L1, the master suite down redone, and the Crown's rooms.
 
 ## 1 Oct 2026: the Orb's rooms, and a flash while walking
 

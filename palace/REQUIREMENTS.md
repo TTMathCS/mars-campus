@@ -2,7 +2,7 @@
 
 Demo 2 of [Mars Campus](../README.md) · owner: Jim (TTMath) · last updated 1 Oct 2026
 
-**[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
+**[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
 
 This file lists everything Jim has asked for in demo 2. Each requirement has an ID, a priority, a status and a
 link to where the design answers it. It is the source of truth for the demo: when Jim asks for something new, it

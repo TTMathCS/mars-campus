@@ -91,6 +91,8 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
   drawn across the glass onto the atrium; a ceiling of 700 points of light, like stars.
 - **Walk round it:** [in the cinema](https://ttmathcs.github.io/mars-campus/palace/tour/#cinema)
 
+![The cinema from above, the ceiling taken off: the screen, four rows of ten seats on their steps, the curtained glass onto the atrium](../design/img/above/l1-cinema.jpg)
+
 ## The Crown
 
 The Crown's rooms run round the ring, 41 m above the plain, between the garden-side wall with the Glide along it and

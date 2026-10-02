@@ -1,0 +1,89 @@
+/* The homepage (index.html): the header, the demo cards, the science cards, the notes and the footer. */
+:root {
+  color-scheme: dark;
+  --bg: #120b09;
+  --ink: #f4e6d4;
+  --ink-dim: #cdb096;
+  --line: rgba(244, 230, 212, 0.16);
+  --panel: rgba(28, 17, 14, 0.72);
+  --glow: #9cc9ea;
+  --rust: #eea66f;
+  --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+a { color: var(--glow); }
+
+/* the header: a Mars sunset, the title, the jump links and the Atlas */
+.sky { position: relative; overflow: hidden; padding: calc(env(safe-area-inset-top, 0px) + 56px) 16px 108px;
+  background:
+    radial-gradient(ellipse 38% 55% at 22% 88%, rgba(170, 205, 255, 0.55), rgba(120, 160, 220, 0.18) 45%, transparent 70%),
+    radial-gradient(ellipse 90% 70% at 30% 100%, rgba(214, 150, 96, 0.55), transparent 70%),
+    linear-gradient(180deg, #2a1812 0%, #5b3624 55%, #8a573a 82%, #3a2218 100%); }
+.sky::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 90px;
+  background: linear-gradient(180deg, transparent, var(--bg));
+  -webkit-mask: radial-gradient(120% 90px at 50% 100%, #000 60%, transparent 61%); }
+.sun { position: absolute; left: 22%; bottom: 50px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 18px 8px rgba(190, 220, 255, 0.8), 0 0 80px 30px rgba(150, 190, 255, 0.35); }
+.ridge { position: absolute; left: 0; right: 0; bottom: 0; height: 70px; background: #1a100c; clip-path: polygon(0 55%, 9% 48%, 17% 58%, 28% 44%, 36% 52%, 47% 40%, 58% 50%, 66% 36%, 72% 38%, 78% 30%, 84% 31%, 90% 44%, 100% 40%, 100% 100%, 0 100%); }
+.wrap { position: relative; max-width: 960px; margin: 0 auto; }
+.sky .wrap { padding-right: 300px; }
+.atlas { position: absolute; right: 0; top: 0; width: 280px; display: block; border: 1px solid rgba(244, 230, 212, 0.28); border-radius: 10px; overflow: hidden; background: #0b0d10; text-decoration: none; color: var(--ink); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); transition: border-color 0.2s, transform 0.2s; }
+.atlas:hover { border-color: rgba(156, 201, 234, 0.7); transform: translateY(-2px); }
+.atlas img { width: 100%; height: auto; display: block; }
+.atlas span { display: block; padding: 8px 12px 10px; font-size: 13px; line-height: 1.4; color: var(--ink-dim); }
+.atlas b { display: block; font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink); letter-spacing: 0.02em; }
+@media (max-width: 760px) { .sky .wrap { padding-right: 0; } .atlas { position: relative; width: 100%; max-width: 360px; margin-top: 18px; } }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 8px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 9vw, 76px); line-height: 0.95; margin: 0 0 14px; letter-spacing: 0.01em; }
+.lead { max-width: 56ch; margin: 0; font-size: 18px; color: var(--ink); opacity: 0.92; text-wrap: pretty; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
+.jump a { font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(244, 230, 212, 0.34); border-radius: 999px; background: rgba(18, 11, 9, 0.35); transition: border-color 0.2s, background 0.2s; }
+.jump a:hover { border-color: rgba(156, 201, 234, 0.8); background: rgba(18, 11, 9, 0.6); }
+.jump a:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+
+/* the sections: the demos, then the science */
+main { max-width: 960px; margin: 0 auto; padding: 8px 16px 48px; }
+h2 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 12px; }
+.sec { scroll-margin-top: 12px; }
+.sec + .sec { margin-top: 56px; }
+.sec-h { margin: 0 0 18px; }
+.kick { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 6px; }
+.sci .kick { color: var(--rust); }
+.sec-h h2 { font-family: var(--display); font-size: clamp(36px, 6vw, 50px); font-weight: 700; line-height: 1; letter-spacing: 0.01em; text-transform: none; color: var(--ink); margin: 0; }
+.intro { max-width: 70ch; margin: 10px 0 0; color: var(--ink-dim); font-size: 16px; text-wrap: pretty; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.card { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+a.card:hover { border-color: rgba(156, 201, 234, 0.6); transform: translateY(-2px); }
+a.card:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+div.card:hover { border-color: rgba(156, 201, 234, 0.6); }
+.thumb { display: block; aspect-ratio: 16 / 9; position: relative; background:
+    radial-gradient(ellipse 30% 45% at 25% 78%, rgba(175, 210, 255, 0.7), transparent 70%),
+    linear-gradient(180deg, #3a2419, #7a4c33 70%, #2a1912 71%, #1c120d); }
+.thumb .tag { position: absolute; left: 12px; top: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; background: rgba(18, 11, 9, 0.7); border: 1px solid var(--line); color: var(--ink); }
+.thumb .tag.live { color: #bfe0ff; border-color: rgba(156, 201, 234, 0.5); }
+.thumb .tag.sci { color: #ffd2ad; border-color: rgba(238, 166, 111, 0.55); }
+.thumb.book { background: #1a110d; overflow: hidden; }
+.thumb.book img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.thumb.paper img { background: #f4f1ea; object-position: left top; }
+.card .body { padding: 14px 16px 16px; display: grid; gap: 6px; align-content: start; }
+.card h3 { font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.05; margin: 0; }
+.card h3 a { color: var(--ink); text-decoration: none; }
+.card h3 a:hover { text-decoration: underline; }
+.card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+.card .go { margin-top: 6px; font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow); text-decoration: none; }
+a.go:hover { text-decoration: underline; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.chips a { font-size: 13.5px; line-height: 1; color: var(--ink); text-decoration: none; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(18, 11, 9, 0.4); }
+.chips a:hover { border-color: rgba(156, 201, 234, 0.7); }
+.chips a:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+
+/* the notes and the footer */
+.notes { margin-top: 56px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.notes p { margin: 0; color: var(--ink-dim); font-size: 15px; max-width: 60ch; }
+footer { max-width: 960px; margin: 0 auto; padding: 24px 16px calc(env(safe-area-inset-bottom, 0px) + 32px); border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-dim); }
+footer p { margin: 0 0 6px; max-width: 80ch; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } a.card { transition: none; } a.card:hover { transform: none; } }

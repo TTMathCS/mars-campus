@@ -4,150 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mars – No Way Home</title>
-<meta name="description" content="Walkable 3D places on Mars to discover on foot, a campus on real NASA ground in Gale Crater and a retirement house in Arcadia Planitia, with the science of Mars: its facts and weather, and the research on how to build and live there.">
+<meta name="description" content="Walkable 3D places on Mars to discover on foot, a campus on real NASA ground in Gale Crater and a retirement house in Arcadia Planitia, with the science of Mars: Mars facts, and the research on building and living there.">
 <meta name="theme-color" content="#120b09">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mars – No Way Home">
-<meta property="og:description" content="Walkable 3D places on Mars, and the science: Mars facts and weather, and the research on how to build and live there.">
+<meta property="og:description" content="Walkable 3D places on Mars, and the science: Mars facts, and the research on how to build and live there.">
 <meta property="og:url" content="https://ttmathcs.github.io/mars-campus/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<style>
-  :root {
-    color-scheme: dark;
-    --bg: #120b09;
-    --ink: #f4e6d4;
-    --ink-dim: #cdb096;
-    --line: rgba(244, 230, 212, 0.16);
-    --panel: rgba(28, 17, 14, 0.72);
-    --panel-solid: #1b110d;
-    --glow: #9cc9ea;
-    --rust: #eea66f;
-    --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
-    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
-  a { color: var(--glow); }
-  .sky { position: relative; overflow: hidden; padding: calc(env(safe-area-inset-top, 0px) + 56px) 16px 108px;
-    background:
-      radial-gradient(ellipse 38% 55% at 22% 88%, rgba(170, 205, 255, 0.55), rgba(120, 160, 220, 0.18) 45%, transparent 70%),
-      radial-gradient(ellipse 90% 70% at 30% 100%, rgba(214, 150, 96, 0.55), transparent 70%),
-      linear-gradient(180deg, #2a1812 0%, #5b3624 55%, #8a573a 82%, #3a2218 100%); }
-  .sky::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 90px;
-    background: linear-gradient(180deg, transparent, var(--bg));
-    -webkit-mask: radial-gradient(120% 90px at 50% 100%, #000 60%, transparent 61%); }
-  .sun { position: absolute; left: 22%; bottom: 50px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 18px 8px rgba(190, 220, 255, 0.8), 0 0 80px 30px rgba(150, 190, 255, 0.35); }
-  .ridge { position: absolute; left: 0; right: 0; bottom: 0; height: 70px; background: #1a100c; clip-path: polygon(0 55%, 9% 48%, 17% 58%, 28% 44%, 36% 52%, 47% 40%, 58% 50%, 66% 36%, 72% 38%, 78% 30%, 84% 31%, 90% 44%, 100% 40%, 100% 100%, 0 100%); }
-  .wrap { position: relative; max-width: 960px; margin: 0 auto; }
-  .sky .wrap { padding-right: 300px; }
-  .atlas { position: absolute; right: 0; top: 0; width: 280px; display: block; border: 1px solid rgba(244, 230, 212, 0.28); border-radius: 10px; overflow: hidden; background: #0b0d10; text-decoration: none; color: var(--ink); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); transition: border-color 0.2s, transform 0.2s; }
-  .atlas:hover { border-color: rgba(156, 201, 234, 0.7); transform: translateY(-2px); }
-  .atlas img { width: 100%; height: auto; display: block; }
-  .atlas span { display: block; padding: 8px 12px 10px; font-size: 13px; line-height: 1.4; color: var(--ink-dim); }
-  .atlas b { display: block; font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink); letter-spacing: 0.02em; }
-  @media (max-width: 760px) { .sky .wrap { padding-right: 0; } .atlas { position: relative; width: 100%; max-width: 360px; margin-top: 18px; } }
-  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 8px; }
-  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 9vw, 76px); line-height: 0.95; margin: 0 0 14px; letter-spacing: 0.01em; }
-  .lead { max-width: 56ch; margin: 0; font-size: 18px; color: var(--ink); opacity: 0.92; text-wrap: pretty; }
-  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
-  .jump a { font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(244, 230, 212, 0.34); border-radius: 999px; background: rgba(18, 11, 9, 0.35); transition: border-color 0.2s, background 0.2s; }
-  .jump a:hover { border-color: rgba(156, 201, 234, 0.8); background: rgba(18, 11, 9, 0.6); }
-  .jump a:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
-  main { max-width: 960px; margin: 0 auto; padding: 8px 16px 48px; }
-  h2 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 12px; }
-  .sec { scroll-margin-top: 12px; }
-  .sec + .sec { margin-top: 64px; }
-  .sec-h { margin: 0 0 18px; }
-  .kick { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 6px; }
-  .sci .kick { color: var(--rust); }
-  .sec-h h2 { font-family: var(--display); font-size: clamp(36px, 6vw, 50px); font-weight: 700; line-height: 1; letter-spacing: 0.01em; text-transform: none; color: var(--ink); margin: 0; }
-  .intro { max-width: 70ch; margin: 10px 0 0; color: var(--ink-dim); font-size: 16px; text-wrap: pretty; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
-  .card { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
-  a.card:hover { border-color: rgba(156, 201, 234, 0.6); transform: translateY(-2px); }
-  a.card:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
-  .thumb { aspect-ratio: 16 / 9; position: relative; background:
-      radial-gradient(ellipse 30% 45% at 25% 78%, rgba(175, 210, 255, 0.7), transparent 70%),
-      linear-gradient(180deg, #3a2419, #7a4c33 70%, #2a1912 71%, #1c120d); }
-  .thumb .tag { position: absolute; left: 12px; top: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; background: rgba(18, 11, 9, 0.7); border: 1px solid var(--line); }
-  .thumb .tag.live { color: #bfe0ff; border-color: rgba(156, 201, 234, 0.5); }
-  .thumb.book { background: #1a110d; overflow: hidden; }
-  .thumb.book img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .card .body { padding: 14px 16px 16px; display: grid; gap: 6px; align-content: start; }
-  .card h3 { font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.05; margin: 0; }
-  .card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
-  .card .go { margin-top: 6px; font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow); }
-  /* the science */
-  .glance { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
-  .glance figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #000; display: flex; flex-direction: column; }
-  .glance .pic { flex: 1; display: flex; align-items: center; background: #000; }
-  .glance img { display: block; width: 100%; height: auto; }
-  .glance figcaption { padding: 10px 14px 12px; font-size: 14px; color: var(--ink-dim); background: var(--panel-solid); }
-  .glance figcaption b { color: var(--ink); font-weight: 600; }
-  .nums { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-  .nums > div { background: var(--panel-solid); padding: 11px 14px 12px; }
-  .nums dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); }
-  .nums dd { margin: 2px 0 0; font-size: 13.5px; line-height: 1.35; color: var(--ink-dim); }
-  .nums dd b { display: block; font-family: var(--display); font-size: 30px; font-weight: 600; line-height: 1.05; color: var(--ink); margin-bottom: 2px; }
-  @media (max-width: 760px) { .glance { grid-template-columns: 1fr; } }
-  .grp { display: flex; align-items: center; gap: 14px; font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.1; margin: 36px 0 12px; scroll-margin-top: 12px; }
-  .grp::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-  .station { border: 1px solid var(--line); border-radius: 10px; background: var(--panel-solid); padding: 14px 16px 16px; margin: 0 0 12px; }
-  .station .lbl { margin: 0 0 10px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rust); }
-  .station dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 20px; }
-  .station dt { font-size: 13px; font-weight: 600; color: var(--ink-dim); }
-  .station dd { margin: 2px 0 0; font-size: 13.5px; line-height: 1.4; color: var(--ink-dim); }
-  .station dd b { display: block; font-family: var(--display); font-size: 26px; font-weight: 600; line-height: 1.1; color: var(--ink); }
-  @media (max-width: 860px) { .station dl { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .station dl { grid-template-columns: 1fr; } }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 12px; }
-  .tile { margin: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 14px 16px 15px; display: flex; flex-direction: column; gap: 6px; }
-  .tile .n { order: -1; margin: 0; font-family: var(--display); font-size: 30px; font-weight: 600; line-height: 1; color: var(--rust); }
-  .tile h4 { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 600; line-height: 1.1; color: var(--ink); }
-  .tile p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); }
-  .tile a { margin-top: auto; padding-top: 4px; font-size: 14px; color: var(--glow); text-decoration: none; }
-  .tile a:hover { text-decoration: underline; }
-  .ftab { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-  .ftab table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.45; }
-  .ftab th, .ftab td { text-align: left; vertical-align: top; padding: 10px 14px; border-top: 1px solid var(--line); }
-  .ftab thead th { border-top: 0; background: var(--panel-solid); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); }
-  .ftab tbody tr { background: var(--panel); }
-  .ftab tbody tr:nth-child(even) { background: rgba(28, 17, 14, 0.4); }
-  .ftab tbody th { width: 18%; font-family: var(--display); font-size: 19px; font-weight: 600; line-height: 1.2; color: var(--ink); }
-  .ftab td { width: 38%; color: var(--ink-dim); }
-  .ftab td + td { width: auto; color: var(--ink); }
-  @media (max-width: 700px) {
-    .ftab thead { display: none; }
-    .ftab table, .ftab tbody, .ftab tr, .ftab th, .ftab td { display: block; width: auto !important; }
-    .ftab tbody tr { padding: 11px 14px 13px; border-top: 1px solid var(--line); }
-    .ftab tbody tr:first-child { border-top: 0; }
-    .ftab th, .ftab td { padding: 0; border: 0; }
-    .ftab td { margin-top: 6px; }
-    .ftab td::before { content: attr(data-l); display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); opacity: 0.8; }
-  }
-  .deeper { margin: 18px 0 0; }
-  .deeper a { font-family: var(--display); font-size: 17px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; }
-  .deeper a:hover { text-decoration: underline; }
-  details.src { margin-top: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-solid); padding: 0 16px; }
-  details.src summary { cursor: pointer; padding: 12px 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
-  details.src summary:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
-  details.src ol { margin: 0 0 16px; padding-left: 22px; font-size: 13.5px; line-height: 1.5; color: var(--ink-dim); }
-  details.src li { margin: 0 0 5px; }
-  details.src a { overflow-wrap: anywhere; }
-  .notes { margin-top: 56px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
-  .notes p { margin: 0; color: var(--ink-dim); font-size: 15px; max-width: 60ch; }
-  footer { max-width: 960px; margin: 0 auto; padding: 24px 16px calc(env(safe-area-inset-bottom, 0px) + 32px); border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-dim); }
-  footer p { margin: 0 0 6px; max-width: 80ch; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } a.card { transition: none; } a.card:hover { transform: none; } }
-</style>
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
 <header class="sky">
@@ -157,7 +26,7 @@
     <p class="eyebrow">Gale Crater · Arcadia Planitia · Mars</p>
     <h1>Mars – No Way Home</h1>
     <p class="lead">Walkable 3D places on Mars, each one imagined and built to discover on foot, from a campus on real NASA ground in Gale Crater to a retirement house in Arcadia Planitia. Beside them, the real science: Mars as spacecraft have measured it, and the research on how people could build and live there.</p>
-    <nav class="jump" aria-label="On this page"><a href="#demos">Demos</a><a href="#mars-facts">Mars facts</a><a href="#building">Building on Mars</a></nav>
+    <nav class="jump" aria-label="On this site"><a href="#demos">Demos</a><a href="science/mars-facts/">Mars facts</a><a href="science/building-on-mars/">Building on Mars</a></nav>
     <a class="atlas" href="palace/design/atlas/"><img src="palace/design/img/atlas-teaser.jpg" alt="Mars from orbit: the north polar cap, Arcadia Planitia with a marker at Jim's house" width="1200" height="760"><span><b>Mars Atlas</b>Zoom from the solar system down to the house, on real NASA imagery →</span></a>
   </div>
 </header>
@@ -187,143 +56,32 @@
     </div>
   </section>
 
-  <section class="sec sci" id="mars-facts" aria-labelledby="h-facts">
+  <section class="sec sci" id="science" aria-labelledby="h-science">
     <div class="sec-h">
-      <p class="kick">The science · measured by spacecraft</p>
-      <h2 id="h-facts">Mars facts</h2>
-      <p class="intro">Unlike the demos, everything here is real: measured by orbiters, landers and rovers, or published in peer-reviewed research. The sources are listed at the end of the page.</p>
+      <p class="kick">Real, with sources</p>
+      <h2 id="h-science">The science</h2>
+      <p class="intro">Unlike the demos, this part is real: Mars as orbiters, landers and rovers have measured it, and the research on how people could live there. Each has its own pages, one subject a page, with the sources at the end of every page.</p>
     </div>
-    <div class="glance">
-      <figure>
-        <div class="pic"><img src="palace/design/img/mars-earth.jpg" alt="Earth and Mars side by side to scale, lit by the Sun: Earth with Africa, Europe and clouds; Mars, half as wide, showing the Tharsis volcanoes and Valles Marineris" width="1600" height="900" loading="lazy"></div>
-        <figcaption><b>Earth and Mars, to scale.</b> Mars is 6,779 km across, about half as wide as Earth, yet its surface is about as large as all of Earth's dry land. Rendered from NASA's Blue Marble and a colour map of Mars from orbit.</figcaption>
-      </figure>
-      <dl class="nums">
-        <div><dt>Gravity</dt><dd><b>0.38 g</b>3.71 m/s²: you weigh 38% of what you weigh on Earth</dd></div>
-        <div><dt>A day, or sol</dt><dd><b>24 h 40 min</b>24 h 39 min 35 s, sunrise to sunrise</dd></div>
-        <div><dt>A year</dt><dd><b>687 days</b>668.6 sols; seasons twice as long as Earth's</dd></div>
-        <div><dt>Air pressure</dt><dd><b>0.6%</b>of Earth's: 636 Pa, and 95% carbon dioxide</dd></div>
-        <div><dt>Temperature</dt><dd><b>−63 °C</b>on average; 20 °C on a summer afternoon, −125 °C on a polar night</dd></div>
-        <div><dt>Sunlight</dt><dd><b>43%</b>of Earth's: 586 W/m² above the air, less through dust</dd></div>
-        <div><dt>Radiation</dt><dd><b>0.64 mSv</b>a day on the ground, about 100 times Earth's natural dose</dd></div>
-        <div><dt>Radio to Earth</dt><dd><b>3–22 min</b>each way, depending on where the planets are</dd></div>
-      </dl>
+    <div class="grid">
+      <div class="card">
+        <a class="thumb book" href="science/mars-facts/" tabindex="-1" aria-hidden="true"><img src="palace/design/img/mars-earth.jpg" alt="" loading="lazy"><span class="tag sci">The science · Mars facts</span></a>
+        <div class="body">
+          <h3><a href="science/mars-facts/">Mars facts</a></h3>
+          <p>The planet as spacecraft have measured it: its surface, its inside, its weather, its place in space, what it offers and what can kill you there.</p>
+          <div class="chips"><a href="science/mars-facts/surface.html">Surface</a><a href="science/mars-facts/inside.html">Inside Mars</a><a href="science/mars-facts/weather.html">Weather</a><a href="science/mars-facts/space.html">Mars in space</a><a href="science/mars-facts/resources.html">Resources</a><a href="science/mars-facts/hazards.html">Hazards</a><a href="science/mars-facts/numbers.html">The numbers</a><a href="science/mars-facts/exploration.html">Exploration</a></div>
+          <a class="go" href="science/mars-facts/">Open Mars facts →</a>
+        </div>
+      </div>
+      <div class="card">
+        <a class="thumb book paper" href="science/building-on-mars/" tabindex="-1" aria-hidden="true"><img src="palace/docs/img/book/site-ground.png" alt="" loading="lazy"><span class="tag sci">The science · Building on Mars</span></a>
+        <div class="body">
+          <h3><a href="science/building-on-mars/">Building on Mars</a></h3>
+          <p>How people could build and live there with today's science: every factor a building must stand up to and the answer, then each system in turn.</p>
+          <div class="chips"><a href="science/building-on-mars/factors.html">Every factor</a><a href="science/building-on-mars/getting-there.html">Getting there</a><a href="science/building-on-mars/construction.html">Construction</a><a href="science/building-on-mars/water.html">Water</a><a href="science/building-on-mars/air.html">Air</a><a href="science/building-on-mars/food.html">Food</a><a href="science/building-on-mars/energy.html">Energy</a><a href="science/building-on-mars/shielding.html">Shielding</a><a href="science/building-on-mars/health.html">Health</a><a href="science/building-on-mars/fuel.html">Rocket fuel</a><a href="science/building-on-mars/communication.html">Talking to Earth</a><a href="science/building-on-mars/protection.html">Protecting Mars</a></div>
+          <a class="go" href="science/building-on-mars/">Open Building on Mars →</a>
+        </div>
+      </div>
     </div>
-
-    <h3 class="grp" id="weather">The weather</h3>
-    <div class="station">
-      <p class="lbl">Measured on the ground by NASA's two Viking landers, 1976–1982</p>
-      <dl>
-        <div><dt>Air temperature in one sol</dt><dd><b>−89 to −31 °C</b>from before dawn to mid-afternoon, at Viking 1 (22° N)</dd></div>
-        <div><dt>Wind</dt><dd><b>2–7 m/s</b>in summer; 5–10 m/s in autumn; 17–30 m/s in a dust storm</dd></div>
-        <div><dt>Air pressure</dt><dd><b>690–900 Pa</b>through the year at Viking 1, as the winter pole freezes part of the air out</dd></div>
-        <div><dt>Water vapour</dt><dd><b>0.02%</b>of the air, yet frost whitened the ground at Viking 2 (48° N) in winter</dd></div>
-      </dl>
-    </div>
-    <div class="tiles">
-      <article class="tile"><h4>Dust storms</h4><p class="n">Weeks</p><p>Local storms rise every year, mostly in the southern spring and summer, when Mars is nearest the Sun. Every few Mars years one spreads round the whole planet for weeks: in 2018 one darkened the sky over the rover Opportunity until its solar panels could no longer keep it alive, after 14 years of work.</p><a href="palace/design/mars.html#weather">More on the weather →</a></article>
-      <article class="tile"><h4>Dust devils</h4><p class="n">20 km</p><p>Whirlwinds of dust cross the plains on spring and summer afternoons. One photographed from orbit in Amazonis Planitia, next to Arcadia, stood about 20 km high and only some 60 m wide. Their gusts have swept rovers' solar panels clean, giving Spirit and Opportunity years of extra life.</p><a href="palace/design/mars.html#weather">More on the weather →</a></article>
-      <article class="tile"><h4>Wind</h4><p class="n">1.6%</p><p>The air is 1.6% as dense as Earth's, so a 100 km/h storm wind pushes no harder than a 13 km/h breeze at home. Wind barely loads a building, but the dust and sand it carries scour surfaces, and orbiters have watched sand dunes creep across the plains.</p><a href="palace/design/mars.html#weather">More on the weather →</a></article>
-      <article class="tile"><h4>Cold</h4><p class="n">−125 °C</p><p>Thin air holds little heat. A summer afternoon near the equator reaches about 20 °C at the ground, and the same night falls below −80 °C. Polar winter nights reach −125 °C, cold enough for carbon dioxide to freeze out of the air as frost.</p><a href="palace/design/mars.html#air">The air and the cold →</a></article>
-      <article class="tile"><h4>Clouds, fog, frost and snow</h4><p class="n">Snow</p><p>Thin clouds of water ice, and higher up of carbon-dioxide ice; morning fog in the canyons; frost on the ground in winter. The Phoenix lander's laser watched snow falling from clouds at night, and on the poles carbon-dioxide snow falls in winter.</p><a href="palace/design/mars.html#weather">More on the weather →</a></article>
-      <article class="tile"><h4>Seasons</h4><p class="n">2×</p><p>Mars tilts 25°, close to Earth's 23°, so it has seasons, each about twice as long. Its oval orbit brings 45% more sunlight at its nearest to the Sun than at its farthest: southern summers are short and hot, northern ones long and mild. Each winter the pole freezes about a quarter of the air out of the sky.</p><a href="palace/design/mars.html#weather">More on the weather →</a></article>
-    </div>
-
-    <h3 class="grp">The planet</h3>
-    <div class="tiles">
-      <article class="tile"><h4>Geography</h4><p class="n">21.9 km</p><p>The north is a smooth lowland, the south old highland crowded with craters, a few kilometres higher. Olympus Mons rises about 22 km, two and a half times Everest; the canyons of Valles Marineris run over 4,000 km and drop 7 km; the Hellas basin is 2,300 km across.</p><a href="palace/design/mars.html#geography">See the map →</a></article>
-      <article class="tile"><h4>Water and ice</h4><p class="n">20 m</p><p>No liquid water lasts on the surface: at this pressure ice turns straight to vapour. But there is ice nearly everywhere. The polar caps hold enough to cover the planet about 20 m deep, and radar shows clean buried ice tens of metres thick across the northern plains, Arcadia Planitia among the richest.</p><a href="palace/design/mars.html#water">Where the ice is →</a></article>
-      <article class="tile"><h4>A wet past</h4><p class="n">Rivers and lakes</p><p>Dry riverbeds, deltas and lake beds show that more than three billion years ago, under thicker air, water flowed on Mars. Curiosity has driven across the mud of an old lake in Gale crater, where demo 1 stands; Perseverance is collecting rock samples from a river delta in Jezero crater.</p><a href="palace/design/mars.html#geography">More on the geography →</a></article>
-      <article class="tile"><h4>The soil</h4><p class="n">Basalt</p><p>Crushed volcanic rock, coloured red by rusty iron oxides, with salts such as sulfates and perchlorates. Its dust is as fine as smoke, a few thousandths of a millimetre, and hangs in the air. It is also the main building material.</p><a href="palace/design/living.html#build">Building with it →</a></article>
-      <article class="tile"><h4>Sky and light</h4><p class="n">Blue sunsets</p><p>By day the dusty sky is butterscotch. At sunset the fine dust scatters blue light forwards, so the sky round the Sun turns blue, as the rovers have photographed. The Sun looks about two-thirds as wide as from Earth.</p><a href="palace/design/mars.html#air">The air and the dust →</a></article>
-      <article class="tile"><h4>Two moons</h4><p class="n">7 h 39 min</p><p>Phobos, about 22 km across, circles Mars in 7 h 39 min, faster than Mars turns, so it rises in the west twice a day; tides will pull it apart into a ring in 30 to 50 million years. Deimos, about 12 km across, looks like a bright star.</p><a href="palace/design/mars.html#moons">Phobos and Deimos →</a></article>
-    </div>
-
-    <h3 class="grp">Hazards</h3>
-    <div class="tiles">
-      <article class="tile"><h4>Thin air</h4><p class="n">636 Pa</p><p>0.6% of Earth's air pressure, far below 6.3 kPa, where water boils at body temperature. Outside, people need a full pressure suit, not just an oxygen mask; inside, every building is a sealed pressure vessel.</p><a href="palace/design/living.html#conditions">Designing for it →</a></article>
-      <article class="tile"><h4>Radiation</h4><p class="n">0.64 mSv a day</p><p>Mars lost its global magnetic field about four billion years ago, and its air is a hundred times thinner than ours, so cosmic rays and bursts of particles from the Sun reach the ground. Curiosity measured about 100 times Earth's natural dose. A few metres of soil stops most of it.</p><a href="palace/design/mars.html#radiation">The radiation →</a></article>
-      <article class="tile"><h4>Ultraviolet</h4><p class="n">No ozone</p><p>Mars has almost no ozone layer, so the hard ultraviolet that ours blocks reaches the ground. It sterilises exposed surfaces, all the more with the perchlorate salts in the soil, and breaks down plastics and paints left outside.</p><a href="palace/design/mars.html#hazards">The hazards →</a></article>
-      <article class="tile"><h4>Toxic dust</h4><p class="n">0.5%</p><p>The soil at the Phoenix landing site was about half a percent perchlorate, a salt that upsets the thyroid. It must be washed out of water and farm soil, and the fine dust that clings to suits by static kept out of the rooms and the lungs.</p><a href="palace/design/mars.html#hazards">The hazards →</a></article>
-      <article class="tile"><h4>Marsquakes</h4><p class="n">M 4.7</p><p>NASA's InSight lander listened from 2018 to 2022 and recorded more than 1,300 marsquakes; the largest, in May 2022, was magnitude 4.7. Mars shakes far less than Earth, so quakes are a small load for its buildings.</p><a href="palace/design/mars.html#hazards">The hazards →</a></article>
-      <article class="tile"><h4>Meteorites</h4><p class="n">200+ a year</p><p>The thin air burns up fewer meteoroids: more than 200 new craters at least 4 m wide form every year. In December 2021 one dug a crater 150 m wide in Amazonis Planitia, felt by InSight as a magnitude 4 quake, and threw out boulders of buried ice. A hit on any one building is very unlikely.</p><a href="palace/design/mars.html#hazards">The hazards →</a></article>
-    </div>
-    <p class="deeper"><a href="palace/design/mars.html">Mars, the planet: the full chapter, with the map and the tables →</a></p>
-  </section>
-
-  <section class="sec sci" id="building" aria-labelledby="h-build">
-    <div class="sec-h">
-      <p class="kick">The science · the research</p>
-      <h2 id="h-build">Building on Mars</h2>
-      <p class="intro">How people could build and live on Mars with today's science and engineering: every condition a building must stand up to, and how it is answered; then getting there, building with Mars soil, water, air, food, power, shielding, fuel, health and keeping in touch. From missions, experiments and published studies; the few figures that are our own estimates say so.</p>
-    </div>
-
-    <h3 class="grp" id="factors">Every factor, and the answer</h3>
-    <div class="ftab">
-      <table>
-        <thead><tr><th scope="col">Factor</th><th scope="col">On Mars</th><th scope="col">The answer</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Thin air</th><td data-l="On Mars">636 Pa, 0.6% of Earth's: far below the 6.3 kPa at which water boils at body temperature</td><td data-l="The answer">Sealed buildings and airlocks; full pressure suits outside. The air pushing out is a building's biggest load, so soil on top balances it</td></tr>
-          <tr><th scope="row">Air you can't breathe</th><td data-l="On Mars">95% carbon dioxide, 0.16% oxygen</td><td data-l="The answer">Make oxygen from carbon dioxide or from water, add nitrogen and argon from the Mars air, and scrub out the carbon dioxide people breathe out</td></tr>
-          <tr><th scope="row">Cold</th><td data-l="On Mars">−63 °C on average; −125 °C on polar winter nights</td><td data-l="The answer">Thick insulation, and the waste heat of the power plant to warm the rooms</td></tr>
-          <tr><th scope="row">Daily swings</th><td data-l="On Mars">The air went from −89 to −31 °C in one sol at Viking 1, and the ground swings wider</td><td data-l="The answer">Joints, seals and glazing made to expand and shrink every sol, for decades</td></tr>
-          <tr><th scope="row">Wind</th><td data-l="On Mars">17–30 m/s in dust storms, but in air 1.6% as dense as Earth's</td><td data-l="The answer">Small wind loads; shield surfaces, machines and seals from blowing sand</td></tr>
-          <tr><th scope="row">Dust</th><td data-l="On Mars">As fine as smoke, clings by static, carries perchlorate</td><td data-l="The answer">Airlocks with dust rooms, or suitports that leave the suit outside; tight seals, filters and cleaning</td></tr>
-          <tr><th scope="row">Dust storms</th><td data-l="On Mars">Weeks of dim light, now and then over the whole planet</td><td data-l="The answer">Power that does not need the Sun; stores of food, water and spare parts</td></tr>
-          <tr><th scope="row">Weak sunlight</th><td data-l="On Mars">43% of Earth's above the air; none at night</td><td data-l="The answer">Fission for steady power, solar only with large storage; crops grown under LEDs</td></tr>
-          <tr><th scope="row">Radiation</th><td data-l="On Mars">0.64 mSv a day on the ground, about 100 times Earth's natural dose</td><td data-l="The answer">A few metres of soil or water overhead, above all where people sleep and work</td></tr>
-          <tr><th scope="row">Ultraviolet</th><td data-l="On Mars">Almost no ozone layer to stop it</td><td data-l="The answer">Glazing and coatings that block it; plastics kept out of the sun</td></tr>
-          <tr><th scope="row">Toxic soil</th><td data-l="On Mars">About 0.5% perchlorate at the Phoenix landing site</td><td data-l="The answer">Washed out of water and farm soil; dust kept out of the rooms</td></tr>
-          <tr><th scope="row">Marsquakes</th><td data-l="On Mars">The largest in four years of listening: magnitude 4.7</td><td data-l="The answer">A small design load; flexible joints for pipes, seals and glazing</td></tr>
-          <tr><th scope="row">Meteorites</th><td data-l="On Mars">Over 200 new craters 4 m or wider every year, planet-wide</td><td data-l="The answer">The risk to any one building is tiny, and soil cover protects</td></tr>
-          <tr><th scope="row">Frozen ground</th><td data-l="On Mars">Ice-rich soil and buried ice through the middle and high latitudes</td><td data-l="The answer">Insulated foundations, as on Earth's permafrost, so a warm building does not melt the ground under it; the ice is also the water supply</td></tr>
-          <tr><th scope="row">Low gravity</th><td data-l="On Mars">0.38 g; what years of it do to the body is unknown</td><td data-l="The answer">Daily exercise and medical checks; loads, cranes and people carry less weight</td></tr>
-          <tr><th scope="row">Distance</th><td data-l="On Mars">3–22 minutes by radio; a ship only every 26 months</td><td data-l="The answer">Self-reliance: spare parts, medicines, local manufacturing and robots, and crews trained to handle emergencies alone</td></tr>
-          <tr><th scope="row">Keeping Mars clean</th><td data-l="On Mars">Earth microbes could spread to the places where Martian life might be found</td><td data-l="The answer">Cleaned spacecraft kept away from places where liquid water might occur, under the COSPAR planetary protection rules; people carry microbes, so crewed bases need new rules, now being drafted</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 class="grp">How it is done</h3>
-    <div class="tiles">
-      <article class="tile"><h4>Getting there</h4><p class="n">26 months</p><p>Earth and Mars line up for an efficient trip once every 26 months, and the trip takes six to nine months. Landing is the hard part: the heaviest lander so far, Perseverance, is about a tonne. A settlement needs loads of a hundred tonnes, what SpaceX's Starship is designed to land; it has not yet flown to Mars.</p><a href="palace/design/living.html#travel">Getting there →</a></article>
-      <article class="tile"><h4>Bring little, make the rest</h4><p class="n">ISRU</p><p>Bring what Mars cannot make: machines, electronics, reactors, medicines, seeds. Make the heavy, simple things there: water, air, rocket fuel, bricks and glass, later iron from the soil. Engineers call it in-situ resource utilisation. Robots land first and start the plants, so air, water and power are running when people arrive.</p><a href="palace/design/living.html#travel">What to bring →</a></article>
-      <article class="tile"><h4>Building with soil</h4><p class="n">50 MPa</p><p>Tested on Earth with copies of Mars soil: heated to about 1,100 °C it fuses into a ceramic; mixed with melted sulfur, which Mars has, it sets into a concrete that needs no water and reached about 50 MPa, as strong as good concrete; robots can 3D-print it into walls, as in NASA's habitat challenge of 2015–2019.</p><a href="palace/design/living.html#build">Building →</a></article>
-      <article class="tile"><h4>Holding the air in</h4><p class="n">11 m</p><p>The biggest load on a Mars building is the air inside. At 70 kPa, the pressure 3,000 m up a mountain on Earth, it pushes up on each square metre of roof like 7 tonnes. A metre of Mars soil presses down with 6.3 kPa, so 11 m of soil balances it, and stops the radiation too: that is why so many designs are buried.</p><a href="palace/design/living.html#build">Building →</a></article>
-      <article class="tile"><h4>Water</h4><p class="n">98%</p><p>Dig ice-rich soil and bake the water out, or melt a well deep in clean ice, as the South Pole station does. Warming and melting a tonne of ice from −60 °C takes about 130 kWh (our sum). Take out the perchlorates, then use it again and again: the Space Station recovers 98% of its water.</p><a href="palace/design/living.html#water">Water →</a></article>
-      <article class="tile"><h4>Air</h4><p class="n">12 g an hour</p><p>A person breathes about 0.8 kg of oxygen a day. MOXIE, on the rover Perseverance, made oxygen from Mars air: 122 g in 16 runs from 2021 to 2023, up to 12 g an hour at 98% purity, the first made on another planet. Splitting water works too: 1 kg gives 0.89 kg of oxygen.</p><a href="palace/design/living.html#air">Air →</a></article>
-      <article class="tile"><h4>Food</h4><p class="n">40–50 m²</p><p>Grown indoors under LEDs, mostly with the roots in water rather than soil. NASA's studies found that 40 to 50 m² of high-yield crops can feed one person. Crops have grown in copies of Mars soil once nutrients were added; its salts must be washed out first. The lamps take about 100 kWh a day per person fed (our estimate).</p><a href="palace/design/living.html#food">Food →</a></article>
-      <article class="tile"><h4>Energy</h4><p class="n">Fission</p><p>Solar panels get 43% of Earth's sunlight, nothing at night and a few percent in a global dust storm; wind turbines barely turn in such thin air. A fission reactor works in any weather: NASA tested the small KRUSTY reactor in 2018 and aims to put a 100 kW reactor on the Moon by about 2030. Its waste heat warms the buildings.</p><a href="palace/design/living.html#energy">Energy →</a></article>
-      <article class="tile"><h4>Shielding</h4><p class="n">A few metres</p><p>Light atoms stop space radiation best without making more of it: water, plastics and soil. On the way, a ship can wrap its water and food round a shelter for solar storms. On the ground, a few metres of soil take away most of the dose, so people sleep and work under cover.</p><a href="palace/design/living.html#radiation">Shielding →</a></article>
-      <article class="tile"><h4>Rocket fuel</h4><p class="n">CH₄ + O₂</p><p>Both halves of a methane rocket's fuel can be made on Mars from ice and air: split water into hydrogen and oxygen, then join the hydrogen to carbon dioxide over a nickel catalyst, the Sabatier reaction, used on the Space Station since 2010. A ship fuelled on Mars need not carry its fuel home from Earth.</p><a href="palace/design/living.html#fuel">Rocket fuel →</a></article>
-      <article class="tile"><h4>Health</h4><p class="n">1–1.5% a month</p><p>In weightlessness astronauts lose 1 to 1.5% of their hip and spine bone a month without hard exercise; what 0.38 g does over years nobody knows. Medicine must manage without evacuation. Isolation has been tested on Earth: Mars-500 sealed six men in for 520 days, and NASA's CHAPEA crew lived 378 days in a 3D-printed mock Mars home.</p><a href="palace/design/living.html#health">Health →</a></article>
-      <article class="tile"><h4>Talking to Earth</h4><p class="n">3–22 min</p><p>Radio takes 3 to 22 minutes each way, so there are no live calls: messages, video letters and email. Every 26 months the Sun passes between the planets and cuts contact for about two weeks. Lasers carry far more than radio: in 2023 NASA's DSOC sent video by laser from 31 million km away.</p><a href="palace/design/living.html#talk">Talking to Earth →</a></article>
-    </div>
-    <p class="deeper"><a href="palace/design/living.html">Living on Mars: the full chapter, topic by topic →</a></p>
-
-    <details class="src">
-      <summary>Sources for Mars facts and Building on Mars</summary>
-      <ol>
-        <li>NASA Goddard Space Flight Center, <i>Mars Fact Sheet</i> (D. R. Williams): size, gravity, day and year, orbit, sunlight, air and its pressure, temperature, the Viking landers' weather (temperature range, winds, pressure), the moons.</li>
-        <li>D. E. Smith and others (2001), Mars Orbiter Laser Altimeter. <i>Journal of Geophysical Research</i> 106, 23689. <a href="https://doi.org/10.1029/2000JE001364">doi:10.1029/2000JE001364</a> (heights and depths)</li>
-        <li>P. R. Mahaffy and others (2013), Abundance and isotopic composition of gases in the martian atmosphere from the Curiosity rover. <i>Science</i> 341, 263. <a href="https://doi.org/10.1126/science.1237966">doi:10.1126/science.1237966</a></li>
-        <li>D. M. Hassler and others (2014), Mars' surface radiation environment measured with Curiosity. <i>Science</i> 343, 1244797. <a href="https://doi.org/10.1126/science.1244797">doi:10.1126/science.1244797</a>; C. Zeitlin and others (2013), radiation in transit to Mars. <i>Science</i> 340, 1080. <a href="https://doi.org/10.1126/science.1235989">doi:10.1126/science.1235989</a></li>
-        <li>J. J. Plaut and others (2007), radar sounding of the south polar deposits. <i>Science</i> 316, 92. <a href="https://doi.org/10.1126/science.1139672">doi:10.1126/science.1139672</a>; A. M. Bramson and others (2015), Widespread excess ice in Arcadia Planitia. <i>Geophysical Research Letters</i> 42, 6566. <a href="https://doi.org/10.1002/2015GL064844">doi:10.1002/2015GL064844</a>; G. A. Morgan and others (2021), subsurface water-ice resources in the northern mid-latitudes. <i>Nature Astronomy</i> 5, 230. <a href="https://doi.org/10.1038/s41550-020-01290-z">doi:10.1038/s41550-020-01290-z</a></li>
-        <li>P. H. Smith and others (2009), H₂O at the Phoenix landing site. <i>Science</i> 325, 58. <a href="https://doi.org/10.1126/science.1172339">doi:10.1126/science.1172339</a>; M. H. Hecht and others (2009), Detection of perchlorate at the Phoenix lander site. <i>Science</i> 325, 64. <a href="https://doi.org/10.1126/science.1172466">doi:10.1126/science.1172466</a>; J. A. Whiteway and others (2009), Mars water-ice clouds and precipitation. <i>Science</i> 325, 68. <a href="https://doi.org/10.1126/science.1172344">doi:10.1126/science.1172344</a></li>
-        <li>NASA/JPL-Caltech/University of Arizona (2012): HiRISE photograph of a dust devil about 20 km high in Amazonis Planitia. NASA/JPL (2019): Opportunity's mission ends after the 2018 global dust storm.</li>
-        <li>W. B. Banerdt and others (2020), Initial results from the InSight mission on Mars. <i>Nature Geoscience</i> 13, 183. <a href="https://doi.org/10.1038/s41561-020-0544-y">doi:10.1038/s41561-020-0544-y</a>; T. Kawamura and others (2023), S1222a, the largest marsquake detected by InSight. <i>Geophysical Research Letters</i> 50, e2022GL101543. <a href="https://doi.org/10.1029/2022GL101543">doi:10.1029/2022GL101543</a></li>
-        <li>I. J. Daubar and others (2013), The current martian cratering rate. <i>Icarus</i> 225, 506. <a href="https://doi.org/10.1016/j.icarus.2013.04.009">doi:10.1016/j.icarus.2013.04.009</a>; L. V. Posiolova and others (2022), Largest recent impact craters on Mars. <i>Science</i> 378, 412. <a href="https://doi.org/10.1126/science.abq7704">doi:10.1126/science.abq7704</a></li>
-        <li>C. S. Cockell and others (2000), The ultraviolet environment of Mars. <i>Icarus</i> 146, 343. <a href="https://doi.org/10.1006/icar.2000.6393">doi:10.1006/icar.2000.6393</a>; J. Wadsworth and C. S. Cockell (2017), Perchlorates on Mars enhance the bacteriocidal effects of UV light. <i>Scientific Reports</i> 7, 4662. <a href="https://doi.org/10.1038/s41598-017-04910-3">doi:10.1038/s41598-017-04910-3</a></li>
-        <li>M. Hecht and others (2021), Mars Oxygen ISRU Experiment (MOXIE). <i>Space Science Reviews</i> 217, 9. <a href="https://doi.org/10.1007/s11214-020-00782-8">doi:10.1007/s11214-020-00782-8</a>; NASA/JPL (2023), MOXIE completes its mission. NASA (2023), the Space Station's life support reaches 98% water recovery.</li>
-        <li>G. W. W. Wamelink and others (2014), Can plants grow on Mars and the Moon. <i>PLOS ONE</i> 9, e103138. <a href="https://doi.org/10.1371/journal.pone.0103138">doi:10.1371/journal.pone.0103138</a>; R. M. Wheeler (2017), Agriculture for space. <i>Open Agriculture</i> 2, 14. <a href="https://doi.org/10.1515/opag-2017-0002">doi:10.1515/opag-2017-0002</a></li>
-        <li>L. Wan, R. Wendner and G. Cusatis (2016), A novel material for in situ construction on Mars. <i>Construction and Building Materials</i> 120, 222. <a href="https://doi.org/10.1016/j.conbuildmat.2016.05.046">doi:10.1016/j.conbuildmat.2016.05.046</a>; NASA Centennial Challenges, 3D-Printed Habitat Challenge (2015–2019).</li>
-        <li>NASA and the US Department of Energy, the KRUSTY reactor test (2018); NASA (2025), plan for a fission reactor on the Moon by about 2030.</li>
-        <li>NASA Human Research Program, evidence on bone loss in spaceflight; M. Basner and others (2013), Mars 520-d mission simulation. <i>PNAS</i> 110, 2635. <a href="https://doi.org/10.1073/pnas.1212646110">doi:10.1073/pnas.1212646110</a>; NASA (2024), CHAPEA's first crew completes 378 days.</li>
-        <li>NASA/JPL (2023), Deep Space Optical Communications (DSOC) on Psyche. NASA, NASA-STD-3001 (2022): the career radiation limit; UNSCEAR (2008): Earth's average natural dose, 2.4 mSv a year.</li>
-        <li>United Nations, Outer Space Treaty (1967), Article IX; COSPAR, Policy on Planetary Protection.</li>
-        <li>R. Zubrin and D. Baker (1990), Mars Direct: making the fuel for the return on Mars.</li>
-      </ol>
-    </details>
   </section>
 
   <div class="notes">
@@ -333,12 +91,12 @@
     </div>
     <div>
       <h2>What's real</h2>
-      <p>In TTMath on Mars, the ground around the starting point, about 260 × 260 m, is NASA JPL's 3D model built from Curiosity rover photos. Everything else in the demos is imagined, including demo 2; the maps in its design plan use real NASA imagery. Mars facts and Building on Mars are real science, with sources.</p>
+      <p>In TTMath on Mars, the ground around the starting point, about 260 × 260 m, is NASA JPL's 3D model built from Curiosity rover photos. Everything else in the demos is imagined, including demo 2; the maps in its design plan use real NASA imagery. The science pages are real, with sources.</p>
     </div>
   </div>
 </main>
 <footer>
-  <p>Terrain: <a href="https://github.com/NASA-AMMOS/3DTilesSampleData">NASA-AMMOS 3DTilesSampleData</a> (msl-dingo-gap). Imagery: NASA/JPL-Caltech/MSSS, NASA/JPL-Caltech, NASA/JPL-Caltech/University of Arizona, USGS Astrogeology. Science: NASA, JPL, ESA and the studies listed under the sources. Rendered with Three.js.</p>
+  <p>Terrain: <a href="https://github.com/NASA-AMMOS/3DTilesSampleData">NASA-AMMOS 3DTilesSampleData</a> (msl-dingo-gap). Imagery: NASA/JPL-Caltech/MSSS, NASA/JPL-Caltech, NASA/JPL-Caltech/University of Arizona, USGS Astrogeology. Science: NASA, JPL, ESA and the studies listed on each science page. Rendered with Three.js.</p>
   <p><a href="https://github.com/TTMathCS/mars-campus">Source on GitHub</a></p>
 </footer>
 </body>

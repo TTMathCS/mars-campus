@@ -31,6 +31,19 @@ choice is recorded below. Shown for review:
 
 ## 2 Oct 2026: the whole house to explore, plans in full, travel by the Gate
 
+- **Separate pages, as a global rule.** Jim: "I don't like the way you build things. You always build everything on
+  the same page, but i would like to separate things into different pages/files … for exaample, mars facts you put
+  eerything on the same page, while I like a separate page for those, and probably divide that subpage into nested
+  subpages as well, like surface/core/weather/space/resources/etc. please keep this as global rule". **Done:** the
+  science is its own part of the site, `science/`, one subject a page: *Mars facts* (surface, inside Mars, weather,
+  Mars in space, resources, hazards, the numbers, exploration) and *Building on Mars* (every factor, getting there,
+  construction, water, air, food, energy, shielding, health, rocket fuel, talking to Earth, protecting Mars). The
+  homepage keeps a short science section with a card for each; the design plan's two science chapters redirect to
+  the new pages. The rule is written into `CLAUDE.md`, `AGENTS.md` and the handoff for every session. → GN-15.
+- **Renders one at a time.** Jim: "also build other images or 3d images for other rooms one after another. don't run
+  in parrelllel since if hit limit and restarted, all processes could be gone and token wasted". **Done:** one render
+  queue; the second lane was stopped and its jobs added to the first.
+
 - **The science on the homepage.** Jim: "those Mars science should be put on directly on the homepage ... in
   parrellel with 2 demos. create spearate section like 'mars facts'/etc. to show these are sience facts of mars and
   research on how to build on mars. consider weather/etc... all factors". **Done:** the homepage now has three

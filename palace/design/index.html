@@ -162,10 +162,10 @@
 
   <section class="part" id="science">
     <h2><small>The science</small>Mars, and how to live on it</h2>
-    <p class="intro">Two pages of facts measured by spacecraft and published in studies, with their sources: the planet itself, and the engineering of getting there, building, water, air, food, energy, radiation and rocket fuel, each with how Jim's house does it.</p>
+    <p class="intro">The science has its own pages on the site, one subject a page, with their sources: the planet itself, and the engineering of living there, each topic ending with how Jim's house does it.</p>
     <div class="arealist">
-      <a href="mars.html"><img src="img/mars-earth.jpg" alt="" loading="lazy"><span><small>The science · 00·1</small><b>Mars, the planet</b><em>Size, gravity, the sol and the year, the air, cold and radiation; Olympus Mons, Valles Marineris, Hellas, the polar caps and the ice of Arcadia Planitia.</em></span></a>
-      <a href="living.html"><img src="img/house-hero.jpg" alt="" loading="lazy"><span><small>The science · 00·2</small><b>Living on Mars</b><em>What to bring and what to make, building with Mars soil, water from ice, oxygen from the air, food under lamps, fission power, shielding, fuel made on Mars.</em></span></a>
+      <a href="../../science/mars-facts/"><img src="img/mars-earth.jpg" alt="" loading="lazy"><span><small>The science</small><b>Mars facts</b><em>The surface, inside Mars, the weather, Mars in space, its resources and hazards, the numbers next to Earth's, and the missions that measured them.</em></span></a>
+      <a href="../../science/building-on-mars/"><img src="img/house-hero.jpg" alt="" loading="lazy"><span><small>The science</small><b>Building on Mars</b><em>Every factor a building must stand up to, getting there, construction, water, air, food, energy, shielding, health, rocket fuel, talking to Earth, protecting Mars.</em></span></a>
     </div>
   </section>
 
@@ -226,7 +226,7 @@
 (function () {
   var C = document.getElementById("chapters"), IMG = { mars: "th-mars.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
   BOOK.CH.slice(1).forEach(function (c) {
-    var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[0] + ".html";
+    var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[4] || c[0] + ".html";
     a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";
     C.appendChild(a);
   });

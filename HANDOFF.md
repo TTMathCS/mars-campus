@@ -1,11 +1,11 @@
 # Handoff: where Mars Campus stands and how to continue
 
 Read this first if you are picking the project up in a new session, on another account or with another AI.
-Everything needed to continue is in this repo. Last updated 1 Oct 2026.
+Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## 0. Where the work stopped (2 Oct 2026, about 13:00 UTC) — read this first
+## 0. Where the work stopped (2 Oct 2026, about 21:00 UTC) — read this first
 
 The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
 pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
@@ -34,23 +34,38 @@ pages are unlinked. The render scenes and tools are in `palace/tools/render/` (c
    *Mars facts* (numbers, the Viking weather station, weather, the planet, hazards) and *Building on Mars* (a table
    of 17 factors with the answer to each, then twelve topics), with sources in a fold at the end. Each tile links to
    its section in `design/mars.html` (new `#weather`, `#hazards`) or `design/living.html` (new `#conditions`,
-   `#health`, `#protect`). The science sections are not demo cards: keep one card per demo.
+   `#health`, `#protect`). *Replaced the same evening by 6.*
+6. *"I would like to separate things into different pages/files … mars facts … a separate page for those, and
+   probably divide that subpage into nested subpages as well, like surface/core/weather/space/resources/etc. please
+   keep this as global rule"*. **Done:** the science is its own folder, `science/`, one subject a page (see
+   [science/README.md](science/README.md)): `mars-facts/` (hub + surface, inside, weather, space, resources, hazards,
+   numbers, exploration) and `building-on-mars/` (hub + factors, getting-there, construction, water, air, food,
+   energy, shielding, health, fuel, communication, protection), styled by `science/science.css`, with menus and page
+   turns from `science/science.js`. The homepage has a short *The science* section with two cards; its styles are in
+   `site.css`. `palace/design/mars.html` and `living.html` redirect to the new pages, section by section. **The rule
+   is global** (see `CLAUDE.md`): separate pages and files, big topics split into nested subpages, hubs short.
+7. *"build other images or 3d images for other rooms one after another. don't run in parallel"*. **Done:** one render
+   queue only (below); lane B was stopped and its jobs moved into lane A's list.
 
 **Renders: how to carry on after a restart.** From the scratch folder (with `bvenv` = Python 3.11 + `bpy==4.2.0` +
-Pillow, and the assets): three job lists run by `runner.py`: `queue_c.txt` (the whole house: `hero`, `turn<i>of24`,
-`whole`), `queue_a.txt` (the Pentagon's rooms) and `queue_b.txt` (the Crown's rooms). Start each with
-`setsid nohup python3 blend/runner.py <lane> &`. **Priorities:** `nice` alone does nothing between sessions (Linux
-groups each session); to let lane C go first, run `echo 19 > /proc/<pid>/autogroup` for a process of lanes A and B.
-Publish a finished room 360 or still with `pub.py`, then `python3 palace/tools/gen_plan.py`, commit and push.
+Pillow, and the assets): **one job list, `blend/queue_a.txt`, run by one runner** (`setsid nohup python3
+blend/runner.py a &`), one job after another, never in parallel (Jim's rule). Every job skips the pictures it has
+already made, and 360s keep their finished bands, so a restart loses only the picture in progress. Put new jobs in
+`queue_a.txt` (the Pentagon's rooms, the Crown's rooms and the whole house alike); `queue_b.txt` and `queue_c.txt`
+stay empty. Publish a finished room 360 or still with `pub.py`, then `python3 palace/tools/gen_plan.py`, commit and
+push. 360s rendered before 2 Oct 21:00 had a black last column; `fix_seam.py` fills it (all published ones are done)
+and `lib.render_pano` now does it itself.
 
-**Next:** carry on with every room (lanes A and B, back at full speed; lane C is idle); the Orb's Rev F question
-to Jim is still open.
+**Next:** carry on with every room, one at a time (the queue holds the Crown's dining hall 360, the Crown pool's
+still, the master suite down, the Arrival hall, the fire patch, the sunset lounge, the terrace, bridge and court
+360s, the music and dining room stills, the Crown bedroom's plan); the Orb's Rev F question to Jim is still open.
 
 ## 1. Status
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, the science in two sections of its own: *Mars facts* and *Building on Mars* (Jim, 2 Oct 2026). |
+| Hub page | `index.html`, `site.css` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
+| The science | `science/` | Live since 2 Oct 2026. Real, with sources, one subject a page: Mars facts (8 pages) and Building on Mars (12 pages). See [science/README.md](science/README.md). |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
@@ -347,6 +362,10 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 - He views the demos on his laptop. Share links; don't drive a browser on his machine.
 - He prefers short, direct answers.
 - "Try again" from him has meant "the session stopped; carry on" as well as "redo it": check whether work stalled.
+- **Separate pages and files, always** (2 Oct 2026, "please keep this as global rule"): each topic its own page,
+  big topics split into nested subpages, hub pages short (an intro and links), shared styles and scripts in their
+  own files. He has complained that everything ends up on one page "over and over and over".
+- **Renders one at a time** (2 Oct 2026): one queue, never parallel lanes, so a restart loses as little as possible.
 - **Demo 2 is the design plan** (2 Oct 2026): the homepage card opens `palace/design/`, *Jim's Retirement House ·
   Design Plan*. The real-time 3D pages (the flight, the Crown, the Orb, the Pentagon) are hidden from the homepage
   ("far from satisfying"); keep them unlinked until he says otherwise. Every area and room gets its purpose, facts,
@@ -363,7 +382,8 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 ## 5. File map
 
 ```
-index.html                    hub page: one card per demo
+index.html, site.css          hub page: one card per demo, then the two science cards
+science/                      the science: mars-facts/, building-on-mars/, science.css, science.js, README.md
 HANDOFF.md                    this file
 data/                         NASA terrain for demo 1 (Dingo Gap tiles as base64 text)
 ttmath/                       demo 1: index.html (built), logo.png, REQUIREMENTS.md

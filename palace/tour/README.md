@@ -11,7 +11,7 @@ things. Nothing is painted by hand.
 
 ## The stops
 
-**Live now: By the fire and At the glass** (1 Oct 2026). The others are rendering and appear in the tour as each one
+**Live now: By the fire, At the glass and the music room** (2 Oct 2026). The others are rendering and appear in the tour as each one
 finishes, about 25 minutes apiece.
 
 | Stop | Where | What you see |

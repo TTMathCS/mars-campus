@@ -9,8 +9,8 @@ window.TOUR_STOPS = [
   { id: "glass", name: "At the glass", short: "The glass", k: "L1 · Jim's family room", p: [2.6, 1.1], az0: 180, img: "pano/glass.jpg",
     d: "The whole front of the room is glass onto the atrium gardens, with doors out to the terrace. A chess table in the light; the music room is through the wall to the left, the dining room to the right.",
     links: ["fire", "terrace", "piano", "table"] },
-  { id: "piano", ready: false, name: "The music room", short: "Music room", k: "L1 · Jim's residence", p: [-11.2, 6.2], az0: 172, img: "pano/piano.jpg",
-    d: "The grand piano by the glass, a sofa and two chairs to listen from, and books along the back wall. The opening in the wall goes through to the family room.",
+  { id: "piano", name: "The music room", short: "Music room", k: "L1 · Jim's residence", p: [-11.2, 6.2], az0: 172, img: "pano/piano.jpg",
+    d: "The grand piano by the glass, a sofa and two chairs to listen from, and at the far end a wall of records with a turntable between two tall speakers and two armchairs. The opening in the wall goes through to the family room.",
     links: ["fire", "glass"] },
   { id: "table", ready: false, name: "The dining room", short: "Dining room", k: "L1 · Jim's residence", p: [9.4, 9.8], az0: 196, img: "pano/table.jpg",
     d: "A walnut table for eight under five glass globes, a sideboard under a painting, shelves of books, and the atrium through the glass. The family room is through the opening.",
@@ -80,5 +80,6 @@ window.TOUR_STOPS = [
 window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },
   { img: "photos/living.jpg", caption: "The family room: the fire, the books and a skylight. The sofa, the chairs, the pouf, the plant and the flowers are 3D scans of real things." },
-  { img: "photos/crown_salon.jpg", caption: "The great salon in the Crown, 41 m above the plain: linen sofas, olive trees, an oak ceiling lit from its coves, and the slots through the ring's outer wall. The Glide runs along the right." }
+  { img: "photos/crown_salon.jpg", caption: "The great salon in the Crown, 41 m above the plain: linen sofas, olive trees, an oak ceiling lit from its coves, and the slots through the ring's outer wall. The Glide runs along the right." },
+  { img: "photos/crown_bedroom.jpg", caption: "The master suite up in the Crown: pale oak walls, a floor of linen-coloured stone, the bed facing the south-east slots, where the sun rises straight across the room." }
 ];

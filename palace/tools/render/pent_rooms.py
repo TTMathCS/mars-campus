@@ -528,6 +528,9 @@ if __name__ == "__main__":
     t = time.time(); sc, R = build(room); print("built in %.1f s" % (time.time() - t), flush=True)
     for j in todo:
         tmp = paths[j].replace(".jpg", ".part.jpg")
+        if j.startswith("plan:"):                  # a floor plan from above: it hides the ceilings, so it goes last
+            import plan_render; size = plan_render.setup(j[5:]); t = time.time(); lib.render(tmp, size, 64, exposure=0.3)
+            os.replace(tmp, paths[j]); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue
         if j.startswith("pano:"):
             x, y, z = R["stops"][j[5:]]; lib.camera(j, (x, y, z + 1.55), yaw_deg=0.0, pano=True); lib.photo_finish(0.25, 0.0)
             t = time.time(); lib.render_pano(paths[j], pw, pspp, exposure=ex); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue

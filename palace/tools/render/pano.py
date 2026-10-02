@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib, family
 
 EYE = 1.55
-EXPOSURE = {"terrace": -0.7, "bridge": -1.0, "court": -0.6}       # as a photographer would set it, stop by stop
+EXPOSURE = {"terrace": -0.7, "bridge": -1.0, "court": -0.6, "bedroom": 0.6, "bath": 0.5, "garden": -0.2}       # as a photographer would set it, stop by stop
 STOPS = {
     "fire":    (0.8, 11.3, 0.0),
     "piano":   (-11.2, 6.2, 0.0),
@@ -16,9 +16,9 @@ STOPS = {
     "bridge":  (0.0, -11.0, -0.02),
     "court":   (0.0, -35.6, -44.05),
     "street":  (0.0, 16.1, 0.0),
-    "garden":  (0.6, 18.9, 0.0),
-    "bedroom": (13.6, 22.8, 0.0),
-    "bath":    (-12.8, 23.0, 0.0),
+    "garden":  (2.17, 21.6, 0.05),
+    "bedroom": (10.4, 23.4, 0.0),
+    "bath":    (-11.6, 23.4, 0.0),
 }
 
 if __name__ == "__main__":

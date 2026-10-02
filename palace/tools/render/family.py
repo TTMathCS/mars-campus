@@ -691,6 +691,10 @@ CAMS = {
     "piano": dict(loc=(-3.0, 7.0, 1.45), target=(-9.5, 2.0, 1.2), lens=24, shift_y=0.0),
     "wide":  dict(loc=(13.8, 12.6, 1.45), target=(-8.0, 2.0, 1.4), lens=17, shift_y=0.05),
     "glass": dict(loc=(4.5, 3.0, 1.40), target=(-6.0, 11.0, 1.4), lens=19, shift_y=0.04),
+    # the master suite down, across the street
+    "s_bedroom": dict(loc=(8.0, 20.3, 1.5), target=(15.0, 24.8, 1.2), lens=19, shift_y=0.0, exposure=0.55),
+    "s_garden": dict(loc=(8.2, 21.6, 1.5), target=(-3.0, 27.5, 0.7), lens=18, shift_y=0.0, exposure=0.0),
+    "s_bath": dict(loc=(-8.0, 20.8, 1.5), target=(-15.2, 25.2, 1.3), lens=19, shift_y=0.0, exposure=0.45),
 }
 
 

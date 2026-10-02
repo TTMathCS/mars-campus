@@ -5,11 +5,50 @@ Everything needed to continue is in this repo. Last updated 1 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
+## 0. Where the work stopped (2 Oct 2026, about 03:20 UTC) — read this first
+
+The site is **Mars – No Way Home** (Jim's name). Demo 2 is now **the design plan** (`palace/design/`); the real-time
+3D pages are unlinked. Everything is pushed; the render scratch work lives in `palace/tools/render/`.
+
+**Jim's latest asks, in order (the top one is the priority):**
+1. *"I need you really put focus on the overall construction image (real and 3d)"*: the design plan's front page
+   must show the whole construction (the Crown floating over the Stone Garden, the Orb, the Pentagon's five levels
+   below in a cutaway), path-traced, and turnable in 3D; the homepage's demo 2 card shows the same picture (it shows
+   `palace/design/img/crown-sunset.jpg` until then).
+   - The model: `palace/tools/render/overall.py` (first draft written; a 960×540 test, `hero`, rendered in 53 s; its
+     look still to check). Jobs: `hero` (the picture), `turn<i>of24` (frames of a turntable, camera at bearing
+     234 + 15·i), `spots` (screen positions of the parts per frame, JSON, for clickable labels).
+   - Then the explorer (to build): on the design plan's front page the turntable with labels; click the Crown, the
+     Orb or the Pentagon to open its floor plan (the sheets in `palace/docs/img/plans/`, rooms as clickable polygons:
+     `palace/tools/plan_maps.py` already computes every room's polygon in sheet pixels); click a room for a pop-up
+     with its pictures, 360° view (`../tour/index.html?embed#<stop>`) and facts (the room data in
+     `palace/tools/gen_plan.py`).
+2. Every room path-traced (photos and 360s), each shown in the design plan with its purpose, facts and floor plan.
+   `python3 palace/tools/gen_plan.py` rebuilds the area pages (`rooms-crown`, `rooms-residence`, `rooms-atrium`)
+   from the room data and picks up every render that is in the tour.
+
+**Renders: how to carry on after a restart.** The scenes and tools are in `palace/tools/render/` (copy them into a
+scratch folder with `bvenv` = a Python 3.11 venv with `bpy==4.2.0` and Pillow, and the assets from
+`fetch_assets.py` + `make_spines.py`). Two job lists, one per lane, run by `runner.py` (each line a command; done
+lines drop off; 360s render in six bands kept on disk, so a restart loses one band):
+`queue_a.txt` (the Pentagon: the dining room 360 is next, then the library, the baths, the cinema, the master suite
+down, the fire 360's two openings, the atrium 360s, two stills) and `queue_b.txt` (the Crown: the bedroom 360, the
+salon 360 moved off the table, the library and map room, the pool, dining, arrival, sunset; and a floor plan from
+above for each room, `plan:<view>` jobs, see `plan_render.py`). Start: `python3 blend/runner.py a` and `... b` from
+the scratch folder. Publish a finished 360 or still with `pub.py` (`pano <file> <stop>` / `photo <file> <name>
+<caption>`), then re-run `gen_plan.py`, commit and push.
+
+**Done today:** one demo 2 card (Jim: "you kept making such mistake"); the tour merged into the design plan; area
+pages with every room's purpose, facts, floor plan and pictures/360s playing in the page; the Mars Atlas as a
+picture in the homepage header; the music room's 360 (its far end furnished: records, turntable, speakers); the
+Crown's salon and bedroom stills; new rooms modelled and tested: the great library, the thermal baths, the cinema,
+the master suite down redone (suite.py), the Crown's library with a 3 m Mars globe and its 25 m pool.
+
 ## 1. Status
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html` | Live. One card per demo; the demo 2 card opens the 3D demo, whose cards link the design book. |
+| Hub page | `index.html` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |

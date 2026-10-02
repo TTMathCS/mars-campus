@@ -1,0 +1,8 @@
+./bvenv/bin/python blend/final.py pano:piano,pano:table final 1600 900 128 4096 32
+./bvenv/bin/python blend/pent_rooms.py library library,pano:library,plan:library final/pent/%s.jpg 1600 900 128 0.0 4096 32
+./bvenv/bin/python blend/pent_rooms.py baths baths,pano:baths,plan:baths final/pent/%s.jpg 1600 900 128 0.0 4096 32
+./bvenv/bin/python blend/pent_rooms.py cinema cinema,pano:cinema,plan:cinema final/pent/%s.jpg 1600 900 128 1.2 4096 32
+./bvenv/bin/python blend/final.py s_bedroom,pano:bedroom,s_garden,pano:garden,s_bath,pano:bath,plan:suite,plan:residence final 1600 900 128 4096 30
+./bvenv/bin/python blend/patch.py fire final/pano_fire.jpg final/pano_fire_v2.jpg 780,880,1090,1180 3020,850,3350,1200
+./bvenv/bin/python blend/final.py pano:terrace,pano:bridge,pano:court final 1600 900 128 4096 32
+./bvenv/bin/python blend/final.py music,dining final 1600 900 128 4096 32

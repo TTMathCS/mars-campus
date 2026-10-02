@@ -391,6 +391,185 @@ def sunset_lounge(M, rnd):
         b += tang(3.0)
 
 
+def radial_frame(r, b, inward=False):
+    """a frame at radius r and bearing b: z up, +y outwards along the radius (inwards if inward), x along the ring"""
+    y = Vector((math.sin(b * D), math.cos(b * D), 0)) * (-1 if inward else 1); x = Vector((y.y, -y.x, 0))
+    o = P(r, b)
+    return Matrix(((x.x, y.x, 0, o.x), (x.y, y.y, 0, o.y), (0, 0, 1, 0), (0, 0, 0, 1)))
+
+
+def books_along(M, rnd, r, b0, b1, z0, z1, inward=False, seg=1.0, depth=0.42):
+    """bookshelves along a curved wall whose face is at radius r, from bearing b0 to b1: short straight runs of
+    shelving, each `seg` metres, turned to follow the curve"""
+    import pent_rooms
+    n = max(1, int(round((b1 - b0) * D * r / seg))); db = (b1 - b0) / n; w = db * D * r
+    for i in range(n):
+        bm_b, bm_s, bm_u, dec = bmesh.new(), bmesh.new(), bmesh.new(), []
+        pent_rooms.stack(bm_b, rnd, -w / 2, w / 2, 0.0, depth, z0, z1, 0.42, dec, bm_s, bm_u)
+        Mw = radial_frame(r, b0 + (i + 0.5) * db, inward)
+        for (bm_, nm, mat) in ((bm_b, "books", M["book"]), (bm_s, "shelves", M["walnut"]), (bm_u, "uprights", M["walnut_v"])):
+            o = lib.mesh_obj(nm, bm_, mat); o.matrix_world = Mw
+        for (x, z, h) in dec:
+            o = furn.ornament("ornament", x, -0.24, z, h, random.Random(int(x * 1000 + z * 10 + i)), M["ceramics"]); o.matrix_world = Mw @ o.matrix_world
+
+
+def mars_globe(name, loc, r, M):
+    """a globe of Mars, 2r across, in a bronze meridian on a bronze stand, tilted 25.2 degrees as Mars is"""
+    g = furn.empty(name, loc)
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=128, ring_count=64, radius=r, location=(0, 0, 0)); s = bpy.context.active_object; s.name = name + " sphere"
+    for p_ in s.data.polygons: p_.use_smooth = True
+    m, nt = lib._mat("mars globe")
+    if nt is not None:
+        b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.45; b.inputs["Coat Weight"].default_value = 0.35
+        t = lib._tex(nt, os.path.join(A, "mars2k.jpg")); tc = nt.nodes.new("ShaderNodeTexCoord"); nt.links.new(tc.outputs["UV"], t.inputs["Vector"])
+        nt.links.new(t.outputs["Color"], b.inputs["Base Color"])
+    s.data.materials.append(m); h = r + 0.9; s.location = (0, 0, h); s.rotation_euler = (math.radians(25.2), 0, 2.2); s.parent = g
+    bpy.ops.mesh.primitive_torus_add(major_radius=r + 0.08, minor_radius=0.025, major_segments=160, minor_segments=12, location=(0, 0, h), rotation=(math.radians(25.2) + math.pi / 2, 0, 0))
+    mer = bpy.context.active_object; mer.data.materials.append(M["bronze"]); mer.parent = g
+    bpy.ops.mesh.primitive_torus_add(major_radius=r + 0.16, minor_radius=0.03, major_segments=160, minor_segments=12, location=(0, 0, h))
+    hor = bpy.context.active_object; hor.data.materials.append(M["bronze"]); hor.parent = g
+    for k in range(4):
+        a = k * math.pi / 2 + math.pi / 4; leg = lib.cyl(name + " leg", 0.035, h, (math.cos(a) * (r + 0.16) * 0.98, math.sin(a) * (r + 0.16) * 0.98, 0.0), M["bronze_dark"], verts=16); leg.parent = g
+    base = lib.cyl(name + " base", r * 0.9, 0.08, (0, 0, 0), M["basalt"], verts=96, bevel=0.01); base.parent = g
+    return g
+
+
+def library_up(M, rnd):
+    """the Library under its spire (bearings 288 to 324): the study, the library on two floors along the outer wall
+    with a gallery and a spiral stair, the map room with a 3 m globe of Mars"""
+    import pent_rooms
+    b0, b1, bs0, bs1 = 288.0, 324.0, 297.0, 316.8
+    crown.ring_room(b0, b1, M, M["oak"])
+    S = imports(M)
+    th = 0.3 / 130 / D
+    for b in (bs0, bs1):     # walnut walls with a wide opening between the three rooms
+        for (r0, r1) in ((R_GL + 0.05, R_GL + 1.4), (R_OUT - 2.6, R_OUT)):
+            crown.curved_box("room wall", r0, r1, b - th / 2, b + th / 2, 0, 9.0, M["walnut_v"], zf1=lambda bb: ceil_at(bb) + 0.01)
+        crown.curved_box("room wall head", R_GL + 1.4, R_OUT - 2.6, b - th / 2, b + th / 2, 3.2, 9.0, M["walnut_v"], zf1=lambda bb: ceil_at(bb) + 0.01)
+    GZ = 4.6
+    # two storeys of books on the outer wall, the slots between them; low cases on the Glide side
+    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, 0.10, 2.90)
+    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, GZ + 0.10, ceil_at(306) - 0.9)
+    k = 0
+    for (a, b) in ((bs0 + 0.6, 302.2), (303.6, 308.6), (310.0, bs1 - 0.6)):
+        books_along(M, rnd, R_GL + 0.62, a, b, 0.08, 1.10, inward=True, depth=0.4)
+        crown.curved_box("low case top", R_GL + 0.6, R_GL + 1.04, a, b, 1.10, 1.14, M["walnut"])
+    # the gallery: a walnut deck along the outer wall, a bronze rail, an opening where the stair comes up
+    crown.curved_box("gallery deck", R_OUT - 1.62, R_OUT - 0.42, bs0 + 0.1, bs1 - 0.1, GZ - 0.22, GZ, M["walnut"])
+    glow = lib.emission("gallery underlight", (1.0, 0.78, 0.55), 6.0)
+    crown.curved_box("gallery underlight", R_OUT - 1.52, R_OUT - 1.48, bs0 + 0.2, bs1 - 0.2, GZ - 0.226, GZ - 0.221, glow)
+    sb = 306.0; so = tang(0.6, R_OUT - 1.6)
+    for (a, b) in ((bs0 + 0.1, sb - so), (sb + so, bs1 - 0.1)):
+        crown.curved_box("gallery rail", R_OUT - 1.62, R_OUT - 1.56, a, b, GZ + 1.0, GZ + 1.05, M["brass"])
+        crown.curved_box("gallery kick", R_OUT - 1.62, R_OUT - 1.59, a, b, GZ, GZ + 0.12, M["brass"])
+        for bb in crown.steps(a, b, 1.0 / tang(0.24, R_OUT - 1.6)):
+            lib.box("gallery post", (0.025, 0.025, 1.0), at(R_OUT - 1.59, bb, GZ + 0.5), M["brass"], rot_z=face_in(bb))
+    for bb in crown.steps(bs0 + 1.0, bs1 - 1.0, 1.0 / tang(5.0, R_OUT - 1.0)):
+        lib.box("gallery bracket", (0.12, 1.2, 0.3), at(R_OUT - 1.02, bb, GZ - 0.37), M["bronze_dark"], rot_z=face_in(bb))
+    c = P(R_OUT - 2.9, sb); ang = math.atan2(math.cos(sb * D), math.sin(sb * D))      # the last tread points outwards
+    pent_rooms.spiral_stair("stair", c.x, c.y, 1.15, GZ, M, steps=20, start=ang - 0.9 * 2 * math.pi * 19 / 20)
+    # long reading tables down the middle, brass lamps, chairs; leather chairs by the slots
+    for (tb, n) in ((300.4, 2), (312.2, 2)):
+        lib.box("reading table", (3.4, 1.2, 0.06), at(RM - 0.6, tb, 0.74), M["walnut"], bevel=0.006, rot_z=face_cw(tb) + math.pi / 2)
+        for dx in (-1.45, 1.45): lib.box("table leg", (1.0, 0.08, 0.71), at(RM - 0.6, tb + tang(dx), 0.355), M["walnut"], bevel=0.004, rot_z=face_cw(tb) + math.pi / 2)
+        for dx in (-0.85, 0.85):
+            bb = tb + tang(dx)
+            furn.table_lamp("reading lamp", at(RM - 0.6, bb, 0.77), M, watts=30, shade_r=0.15)
+            furn.dining_chair("reading chair", at(RM - 1.5, bb, 0.0), face_out(bb), M)
+            furn.dining_chair("reading chair", at(RM + 0.3, bb, 0.0), face_in(bb), M)
+    for bb in (303.0, 309.4):
+        lib.instance_of(S["chair"], at(R_OUT - 1.3, bb - tang(0.6), 0.0), face_in(bb) + 0.4)
+        lib.instance_of(S["chair"], at(R_OUT - 1.3, bb + tang(0.6), 0.0), face_in(bb) - 0.4)
+        furn.side_table("side table", at(R_OUT - 1.0, bb, 0.0), M, r=0.25, h=0.5)
+    lib.box("library rug", (16.0, 3.0, 0.014), at(RM - 0.6, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_cw(sb) + math.pi / 2)
+    # the map room: the globe of Mars under the spire's light, map chests along the outer wall
+    gb = (bs1 + b1) / 2
+    mars_globe("mars globe", at(RM - 0.2, gb, 0.0), 1.5, M)
+    for bb in crown.steps(bs1 + 0.8, b1 - 0.8, 1.0 / tang(1.6, R_OUT - 0.5)):
+        lib.box("map chest", (1.5, 0.9, 0.9), at(R_OUT - 0.5, bb, 0.45), M["walnut"], bevel=0.008, rot_z=face_in(bb))
+        for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.5, 0.004, 0.006), at(R_OUT - 0.952, bb, z), M["shadow"], rot_z=face_in(bb))
+    for bb in (gb - tang(2.2), gb + tang(2.2)):
+        lib.spot_light("globe light", at(RM - 0.2, bb, ceil_at(gb) - 0.1), 300, (1.0, 0.85, 0.68), 0.05, 25, 0.4)
+    # the study: a desk facing the slots, a chair, shelves on the outer wall
+    books_along(M, rnd, R_OUT, b0 + 0.3, bs0 - 0.3, 0.10, 2.90)
+    db = (b0 + bs0) / 2
+    lib.box("desk", (2.0, 0.9, 0.05), at(R_OUT - 1.8, db, 0.74), M["walnut"], bevel=0.006, rot_z=face_in(db))
+    for dx in (-0.9, 0.9): lib.box("desk side", (0.05, 0.85, 0.72), at(R_OUT - 1.8, db + tang(dx), 0.36), M["walnut"], rot_z=face_in(db))
+    lib.instance_of(S["chair"], at(R_OUT - 2.7, db, 0.0), face_out(db))
+    furn.table_lamp("desk lamp", at(R_OUT - 1.6, db + tang(0.7), 0.765), M, watts=35, shade_r=0.15)
+    lib.instance_of(S["plant"], at(R_GL + 0.9, bs0 - tang(0.9), 0.0), 0.3, 1.8)
+    lib.instance_of(S["plant"], at(R_GL + 0.9, bs1 + tang(0.9), 0.0), 1.3, 1.8)
+    # light: washers on the shelves, pendants over the tables
+    for bb in crown.steps(bs0 + 0.5, bs1 - 0.5, 1.0 / tang(2.0, R_OUT - 2.2)):
+        sp = lib.spot_light("shelf washer", at(R_OUT - 2.3, bb, ceil_at(bb) - 0.3), 80, (1.0, 0.82, 0.62), 0.03, 55, 0.7); sp.rotation_euler = (math.radians(30), 0, face_out(bb) + math.pi)
+        sp = lib.spot_light("shelf washer low", at(R_OUT - 1.4, bb, GZ - 0.3), 30, (1.0, 0.82, 0.62), 0.03, 60, 0.7); sp.rotation_euler = (math.radians(35), 0, face_out(bb) + math.pi)
+    for tb in (300.4, 312.2):
+        for dx in (-1.0, 0.0, 1.0):
+            bb = tb + tang(dx); z = 2.6
+            lib.cyl("pendant shade", 0.22, 0.2, at(RM - 0.6, bb, z), M["brass"], verts=48, r2=0.06)
+            lib.cyl("pendant cord", 0.004, ceil_at(bb) - z - 0.2, at(RM - 0.6, bb, z + 0.2), M["shadow"], verts=8)
+            lib.point_light("pendant light", at(RM - 0.6, bb, z - 0.02), 40, (1.0, 0.75, 0.5), 0.05)
+
+
+def wellness(M, rnd):
+    """Wellness (bearings 180 to 216): the spa with a hot pool and a cedar sauna, the 25 m pool along the ring, the gym"""
+    import pent_rooms
+    b0, b1 = 180.0, 216.0; ps0, ps1 = 192.8, 192.8 + tang(25.0, 132.0); pr0, pr1 = 130.0, 134.0
+    o = crown.ring_room(b0, b1, M, M["basalt"])
+    bpy.data.objects.remove(o[0])                      # the floor: remade with a hole for the pool
+    for (r0, r1, a, b) in ((R_GL, R_OUT, b0 - 0.5, ps0), (R_GL, R_OUT, ps1, b1 + 0.5), (R_GL, pr0, ps0, ps1), (pr1, R_OUT, ps0, ps1)):
+        crown.sector("floor", r0, r1, a, b, 0.0, M["basalt"])
+    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    S = imports(M)
+    water = pent_rooms.pool_water("pool water up", (0.74, 0.92, 0.90)); glow = lib.emission("pool light up", (0.85, 0.95, 1.0), 25.0)
+    tile = lib.principled("pool tile up", (0.10, 0.22, 0.23), 0.3, **{"Coat Weight": 0.4})
+    dz = 1.5
+    crown.curved_box("pool bottom", pr0 - 0.2, pr1 + 0.2, ps0 - 0.1, ps1 + 0.1, -dz - 0.2, -dz, tile)
+    for (r0, r1) in ((pr0 - 0.2, pr0), (pr1, pr1 + 0.2)): crown.curved_box("pool wall", r0, r1, ps0, ps1, -dz, 0.0, tile)
+    for (a, b) in ((ps0 - tang(0.2, 132), ps0), (ps1, ps1 + tang(0.2, 132))): crown.curved_box("pool end", pr0 - 0.2, pr1 + 0.2, a, b, -dz, 0.0, tile)
+    crown.sector("pool water", pr0, pr1, ps0, ps1, -0.07, water)
+    for r in (pr0 + 0.02, pr1 - 0.02): crown.curved_box("pool light", r - 0.005, r + 0.005, ps0 + 0.3, ps1 - 0.3, -0.36, -0.33, glow)
+    crown.curved_box("pool edge", pr0 - 0.3, pr0, ps0, ps1, -0.005, 0.012, M["stone_linen"]); crown.curved_box("pool edge", pr1, pr1 + 0.3, ps0, ps1, -0.005, 0.012, M["stone_linen"])
+    for k in range(5):     # steps down at the near end
+        crown.curved_box("pool step", pr0, pr1, ps0, ps0 + tang(0.35 * (5 - k), 132), -0.07 - 0.28 * (k + 1), -0.07 - 0.28 * k - 0.0, tile)
+    # loungers along the Glide side, towels
+    for bb in crown.steps(ps0 + 0.8, ps1 - 0.8, 1.0 / tang(2.6, R_GL + 0.9)):
+        M.setdefault("towel", lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5))
+        pent_rooms.lounger("lounger", at(R_GL + 0.62, bb, 0.0), face_cw(bb), M)
+    # the spa: a round hot pool in a basalt plinth, a cedar sauna with a glass front
+    hb = (b0 + ps0) / 2 - 1.2
+    hc = P(RM, hb)
+    lib.cyl("hot pool rim", 1.9, 0.5, (hc.x, hc.y, 0.0), M["basalt"], verts=96, bevel=0.02)
+    lib.cyl("hot pool water", 1.6, 0.002, (hc.x, hc.y, 0.42), water, verts=96)
+    lib.cyl("hot pool inside", 1.62, 0.08, (hc.x, hc.y, -0.2), tile, verts=96)
+    cut = lib.cyl("hot pool cut", 1.6, 1.0, (hc.x, hc.y, -0.1), None, verts=96); cut.hide_render = True; cut.hide_viewport = True
+    rim = bpy.data.objects["hot pool rim"]; bo = rim.modifiers.new("hollow", "BOOLEAN"); bo.operation = "DIFFERENCE"; bo.object = cut; bo.solver = "EXACT"
+    cedar = lib.wood("cedar", (0.55, 0.33, 0.18), (0.40, 0.22, 0.11), 0.6, along="Z", coat=0.0)
+    sb = b0 + 2.0; sw = tang(3.6, R_OUT - 1.6)
+    crown.curved_box("sauna back", R_OUT - 3.0, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 0.0, 0.08, cedar)
+    for (a, b) in ((sb - sw / 2, sb - sw / 2 + tang(0.08, R_OUT)), (sb + sw / 2 - tang(0.08, R_OUT), sb + sw / 2)):
+        crown.curved_box("sauna side", R_OUT - 3.0, R_OUT - 0.05, a, b, 0.0, 2.5, cedar)
+    crown.curved_box("sauna roof", R_OUT - 3.0, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 2.42, 2.5, cedar)
+    crown.curved_box("sauna glass", R_OUT - 3.02, R_OUT - 3.0, sb - sw / 2, sb + sw / 2, 0.0, 2.42, M["glass"])
+    for (r0, r1, z) in ((R_OUT - 1.0, R_OUT - 0.05, 0.9), (R_OUT - 1.7, R_OUT - 1.0, 0.45)):
+        crown.curved_box("sauna bench", r0, r1, sb - sw / 2 + 0.01, sb + sw / 2 - 0.01, z - 0.05, z, cedar)
+    lib.point_light("sauna light", at(R_OUT - 0.5, sb, 2.2), 30, (1.0, 0.6, 0.3), 0.1)
+    lib.instance_of(S["plant"], at(R_GL + 0.9, b0 + 1.2, 0.0), 0.3, 1.8); lib.instance_of(S["plant"], at(R_OUT - 0.8, ps1 + tang(1.0), 0.0), 1.3, 1.7)
+    # the gym: a mirror wall, mats, a rack of weights
+    gb = (ps1 + b1) / 2 + 1.0
+    crown.curved_box("gym mirror", R_OUT - 0.06, R_OUT - 0.02, gb - tang(3.0, R_OUT), gb + tang(3.0, R_OUT), 0.1, 2.6, lib.principled("mirror", (0.9, 0.9, 0.9), 0.02, 1.0))
+    for k in range(3):
+        bb = gb + tang(-1.6 + 1.6 * k, RM)
+        lib.box("mat", (0.62, 1.85, 0.008), at(RM + 0.3, bb, 0.004), lib.principled("mat", (0.16, 0.20, 0.18), 0.85), rot_z=face_in(bb))
+    rack = gb + tang(3.6, R_OUT - 0.5)
+    lib.box("rack", (1.4, 0.45, 0.9), at(R_OUT - 0.4, rack, 0.45), M["bronze_dark"], bevel=0.01, rot_z=face_in(rack))
+    for k in range(6):
+        bb = rack + tang(-0.55 + 0.22 * k, R_OUT - 0.5)
+        for z in (0.55, 0.85): lib.cyl("weight", 0.06 + 0.005 * k, 0.24, at(R_OUT - 0.42, bb, z), lib.principled("iron", (0.05, 0.05, 0.05), 0.4, 1.0), verts=16, rot=(0, math.pi / 2, face_cw(bb)))
+    for bb in crown.steps(b0 + 1.0, b1 - 1.0, 1.0 / tang(3.0)):
+        lib.spot_light("downlight", at(RM, bb, ceil_at(bb) - 0.1), 90, (1.0, 0.84, 0.66), 0.03, 50, 0.5)
+
+
 ROOMS = {
     "arrival": dict(build=arrival, span=(91.44, 108.0), sun=(250.0, 14.0), cams={
         "arrival": dict(loc=at(RM + 1.6, 106.2, 1.5), target=at(RM, 95.76, 2.6), lens=18),
@@ -412,7 +591,15 @@ ROOMS = {
         "salon":  dict(loc=at(RM - 2.7, 159.9, 1.45), target=at(R_OUT - 0.2, 165.2, 1.35), lens=20),
         "salon2": dict(loc=at(R_OUT - 0.75, 166.3, 1.4), target=at(R_GL - 0.5, 160.3, 1.4), lens=20),
         "hearth": dict(loc=at(RM + 1.4, 151.0, 1.35), target=at(RM - 0.4, 146.5, 0.9), lens=20),
-    }, stops={"salon": at(RM, 162.0, 0.0), "hearth": at(RM, 150.6, 0.0), "piano_up": at(RM + 0.6, 173.6, 0.0)}),
+    }, stops={"salon": at(RM, 165.2, 0.0), "hearth": at(RM, 150.6, 0.0), "piano_up": at(RM + 0.6, 173.6, 0.0)}),
+    "library": dict(build=library_up, span=(288.0, 324.0), sun=(300.0, 16.0), cams={
+        "library_up": dict(loc=at(RM - 0.3, 298.2, 1.6), target=at(RM + 0.6, 309.5, 3.4), lens=18),
+        "maproom": dict(loc=at(RM - 1.2, 317.3, 1.6), target=at(RM - 0.2, 320.4, 1.9), lens=22),
+    }, stops={"library": at(RM - 0.9, 304.4, 0.0), "maproom": at(RM - 1.0, 318.0, 0.0)}),
+    "wellness": dict(build=wellness, span=(180.0, 216.0), sun=(198.0, 30.0), cams={
+        "wellness": dict(loc=at(R_GL + 0.6, 191.4, 1.55), target=at(RM + 0.7, 201.0, 0.4), lens=18),
+        "wellness2": dict(loc=at(R_OUT - 1.0, 205.9, 1.3), target=at(R_GL + 0.6, 195.5, 0.8), lens=19),
+    }, stops={"wellness": at(R_GL + 1.6, 198.6, 0.0)}),
 }
 
 
@@ -434,6 +621,9 @@ if __name__ == "__main__":
     t = time.time(); sc, R = build(room); print("built in %.1f s" % (time.time() - t), flush=True)
     for j in todo:
         tmp = paths[j].replace(".jpg", ".part.jpg")
+        if j.startswith("plan:"):                  # a floor plan from above: it hides the ceilings, so it goes last
+            import plan_render; size = plan_render.setup(j[5:]); t = time.time(); lib.render(tmp, size, 64, exposure=0.3)
+            os.replace(tmp, paths[j]); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue
         if j.startswith("pano:"):
             x, y, z = R["stops"][j[5:]]; lib.camera(j, (x, y, z + 1.55), yaw_deg=0.0, pano=True); lib.photo_finish(0.25, 0.0)
             t = time.time(); lib.render_pano(paths[j], pw, pspp, exposure=ex); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue

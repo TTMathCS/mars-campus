@@ -26,8 +26,8 @@ def moss_material():
     tc = nt.nodes.new("ShaderNodeTexCoord")
     n = nt.nodes.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = 1.1; n.inputs["Detail"].default_value = 6; n.inputs["Roughness"].default_value = 0.6; L.new(tc.outputs["Object"], n.inputs["Vector"])
     cr = nt.nodes.new("ShaderNodeValToRGB"); E = cr.color_ramp.elements
-    E[0].position = 0.3; E[0].color = (0.022, 0.05, 0.010, 1); E[1].position = 0.72; E[1].color = (0.13, 0.19, 0.035, 1)
-    e = E.new(0.5); e.color = (0.055, 0.11, 0.02, 1)
+    E[0].position = 0.3; E[0].color = (0.016, 0.038, 0.009, 1); E[1].position = 0.75; E[1].color = (0.10, 0.15, 0.03, 1)
+    e = E.new(0.5); e.color = (0.04, 0.085, 0.016, 1)
     L.new(n.outputs["Fac"], cr.inputs["Fac"])
     n2 = nt.nodes.new("ShaderNodeTexNoise"); n2.inputs["Scale"].default_value = 9; n2.inputs["Detail"].default_value = 4; L.new(tc.outputs["Object"], n2.inputs["Vector"])
     mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 1.0
@@ -235,7 +235,8 @@ def garden(M, rnd):
     for i in range(9):
         t = i / 8; x = 1.2 + 1.6 * math.sin(t * 2.6); y = GY0 + 0.9 + t * 4.4
         boulder("stepping stone", (x, y, 0.02), (0.30 + 0.05 * (i % 2), 0.26, 0.07), i * 3.1 + 0.7, M["slate_rock"])
-    maple("maple", (-2.2, 28.4, 0.12), 77, M, height=5.2)
+    w, lp = maple("maple", (-2.2, 28.4, 0.12), 77, M, height=5.2)
+    w.data.materials.clear(); w.data.materials.append(lib.wood("maple bark", (0.10, 0.09, 0.08), (0.05, 0.045, 0.04), 0.85, scale=3.0, coat=0.0, along="Z"))
     leaf = maple_leaf_object(M)
     for i in range(70):        # fallen leaves under the maple
         a = rnd.uniform(0, 6.28); r = rnd.uniform(0.2, 2.6)
@@ -320,8 +321,8 @@ def bedroom(M, rnd):
 def bath(M, rnd):
     x1 = -15.5
     # walls of travertine slabs, floor of the same
-    lib.box("bath end wall", (0.05, 27.6 - B0, HB), (x1 + 0.03, (B0 + 27.6) / 2, HB / 2), M["bath_stone"])
-    lib.box("bath back wall", (8.3, 0.05, HB), (-(G + 0.25 + 4.15), 27.57, HB / 2), M["bath_stone"])
+    lib.box("bath end wall", (0.05, 27.6 - B0, HB), (x1 + 0.03, (B0 + 27.6) / 2, HB / 2), M["oak_panel"])
+    lib.box("bath back wall", (8.3, 0.05, HB), (-(G + 0.25 + 4.15), 27.57, HB / 2), M["oak_panel"])
     lib.box("bath floor", (8.2, 9.4, 0.02), (-11.45, (B0 + 27.6) / 2, 0.01), M["bath_stone"])
     # the tub by the glass, looking at the garden
     tub_prof = [(0.0, 0.05), (0.55, 0.05), (0.78, 0.25), (0.86, 0.55), (0.84, 0.6), (0.76, 0.6), (0.74, 0.3), (0.5, 0.18), (0.0, 0.18)]
@@ -331,6 +332,16 @@ def bath(M, rnd):
     sp = lib.cyl("tub spout", 0.016, 0.3, (-9.55, 24.6, 0.98), M["brass"], verts=16, rot=(0, math.radians(90), 0))
     lib.cyl("bath stool", 0.2, 0.45, (-9.3, 23.2, 0.0), M["walnut"], verts=32, bevel=0.01)
     for k in range(3): lib.box("towel", (0.36, 0.28, 0.05), (-9.3, 23.2, 0.47 + 0.052 * k), M["towel"], bevel=0.02, rot_z=0.1 * k)
+    # the wall behind the vanity in dark green marble, washed by two grazers
+    lib.box("vanity wall", (0.04, 4.6, HB - 0.02), (x1 + 0.07, 23.6, HB / 2), M["verde"])
+    for dy in (-1.6, 1.6):
+        sp = lib.spot_light("grazer", (x1 + 0.45, 23.6 + dy, HB - 0.05), 60, (1.0, 0.82, 0.62), 0.03, 50, 0.7); sp.rotation_euler = (0, math.radians(-14), 0)
+    # a long stone bench on the back wall, towels and a plant on it
+    lib.box("bath bench", (4.4, 0.5, 0.45), (-10.4, 27.3, 0.225), M["bath_stone"], bevel=0.01)
+    for (x, n) in ((-11.8, 4), (-11.3, 3)):
+        for k in range(n): lib.box("towel", (0.4, 0.3, 0.05), (x, 27.3, 0.47 + 0.052 * k), M["towel"], bevel=0.02, rot_z=0.03 * k)
+    furn.ornament("bath vase", -9.2, 27.3, 0.45, 0.5, random.Random(8), M["ceramics"])
+    furn.rug("vanity rug", (0.9, 2.6), (x1 + 1.3, 23.6), M)
     # the double vanity: walnut, marble, two stone basins, brass taps, round mirrors lit from behind
     lib.box("vanity", (0.6, 3.2, 0.06), (x1 + 0.32, 23.6, 0.86), M["marble"], bevel=0.006)
     lib.box("vanity body", (0.55, 3.1, 0.42), (x1 + 0.3, 23.6, 0.62), M["walnut"], bevel=0.006)
@@ -339,8 +350,8 @@ def bath(M, rnd):
         furn.lathe("basin", [(0.0, 0.89), (0.15, 0.89), (0.20, 0.95), (0.21, 1.03), (0.19, 1.03), (0.17, 0.97), (0.0, 0.94)], M["tub"], 48, (x1 + 0.36, 23.6 + dy, 0.0))
         lib.cyl("vanity tap", 0.012, 0.32, (x1 + 0.08, 23.6 + dy, 0.89), M["brass"], verts=12)
         lib.cyl("vanity spout", 0.01, 0.16, (x1 + 0.08, 23.6 + dy, 1.2), M["brass"], verts=12, rot=(0, math.radians(90), 0))
-        lib.cyl("mirror", 0.42, 0.02, (x1 + 0.06, 23.6 + dy, 1.75), lib.principled("mirror", (0.9, 0.9, 0.9), 0.02, 1.0), verts=64, rot=(0, math.radians(90), 0))
-        lib.cyl("mirror glow", 0.45, 0.01, (x1 + 0.04, 23.6 + dy, 1.75), glow, verts=64, rot=(0, math.radians(90), 0))
+        lib.cyl("mirror", 0.42, 0.02, (x1 + 0.12, 23.6 + dy, 1.75), lib.principled("mirror", (0.9, 0.9, 0.9), 0.02, 1.0), verts=64, rot=(0, math.radians(90), 0))
+        lib.cyl("mirror glow", 0.45, 0.01, (x1 + 0.10, 23.6 + dy, 1.75), glow, verts=64, rot=(0, math.radians(90), 0))
     # the shower in the far corner: a glass screen in a brass frame, a rain head, a slatted teak floor
     sx0, sy0 = x1 + 2.6, 25.8
     lib.box("shower glass", (0.012, 27.55 - sy0, 2.3), (sx0, (sy0 + 27.55) / 2, 1.17), M["glass"])
@@ -351,7 +362,8 @@ def bath(M, rnd):
     for k in range(9): lib.box("teak slat", (2.2, 0.08, 0.025), ((x1 + sx0) / 2, sy0 + 0.25 + k * 0.17, 0.035), M["teak"], bevel=0.004)
     lib.box("towel rail", (0.03, 0.03, 1.4), (x1 + 0.06, 25.3, 0.95), M["brass"])
     for k in range(2): lib.box("hanging towel", (0.05, 0.45, 0.7), (x1 + 0.1, 25.3 + (k - 0.5) * 0.5, 1.1), M["towel"], bevel=0.02)
-    lib.instance_of(bpy.data.objects["bedroom plant"], (-8.0, 27.0, 0.0), 1.2, 1.5)
+    lib.instance_of(bpy.data.objects["bedroom plant"], (-7.9, 26.9, 0.0), 1.2, 1.6)
+    lib.instance_of(bpy.data.objects["bedroom plant"], (-14.9, 20.0, 0.0), 2.4, 1.4)
     furn.rug("bath rug", (0.9, 1.6), (-10.3, 24.6), M)
     for y in (20.6, 23.6, 26.6):
         for x in (G + 2.2, G + 5.4):
@@ -365,7 +377,8 @@ def materials(M):
     M["granite"] = rock_material("granite", (0.30, 0.29, 0.27), (0.50, 0.49, 0.46))
     M["pond_water"] = still_water(); M["pond_bed"] = pond_bed(); M["gravel"] = gravel_material()
     M["fern"] = lib.leaf("fern", (0.06, 0.15, 0.03), 0.3, 0.5)
-    M["bath_stone"] = M["breast"]; M["teak"] = lib.wood("teak", (0.30, 0.18, 0.09), (0.18, 0.10, 0.05), 0.5)
+    M["bath_stone"] = M["breast"]; M["verde"] = lib.marble("verde marble", (0.045, 0.10, 0.075), (0.30, 0.38, 0.33), 0.15, 0.45)
+    M["clay"] = lib.plaster("clay plaster", (0.46, 0.38, 0.29), bump=0.08); M["teak"] = lib.wood("teak", (0.30, 0.18, 0.09), (0.18, 0.10, 0.05), 0.5)
     M["towel"] = lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5)
     M["cloth"] = lib.fabric("book cloth", (0.25, 0.08, 0.05), 0.8, 0.2, 800)
 
@@ -403,13 +416,17 @@ def build(M, rnd):
         furn.olive_tree("street olive", (x, (S0 + S1) / 2, 0.55), rnd.randint(0, 9999), M, height=4.5, leaves=18000)
         o.append(lib.box("street planter", (1.3, 1.3, 0.55), (x, (S0 + S1) / 2, 0.275), M["travertine"], bevel=0.01))
     # the suite: floor, ceilings, the garden open to the sky
-    o.append(lib.box("suite floor", (60, B1 - B0, 0.3), (0, (B0 + B1) / 2, -0.15), M["oak"]))
+    # the suite's floor everywhere but under the garden, where the moss lies on soil
+    for sgn in (-1, 1): o.append(lib.box("suite floor", (30 - G, B1 - B0, 0.3), (sgn * (G + (30 - G) / 2), (B0 + B1) / 2, -0.15), M["oak"]))
+    o.append(lib.box("suite floor", (2 * G, GY0 - B0, 0.3), (0, (B0 + GY0) / 2, -0.15), M["oak"]))
+    o.append(lib.box("suite floor", (2 * G, B1 - GY1, 0.3), (0, (GY1 + B1) / 2, -0.15), M["oak"]))
+    o.append(lib.box("garden soil", (2 * G, GY1 - GY0, 0.3), (0, (GY0 + GY1) / 2, -0.75), M["pond_bed"]))
     roof = lib.box("suite roof", (60, B1 - B0, 0.6), (0, (B0 + B1) / 2, TOP + 0.3), M["plaster"]); o.append(roof)
     cut2 = lib.box("garden opening cut", (2 * G, GY1 - GY0, 2.0), (0, (GY0 + GY1) / 2, TOP + 0.3), None); cut2.hide_render = True; cut2.hide_viewport = True
     bo = roof.modifiers.new("open", "BOOLEAN"); bo.operation = "DIFFERENCE"; bo.object = cut2; bo.solver = "EXACT"
     for sgn in (-1, 1):
         o.append(lib.box("room ceiling", (13.0, B1 - B0, 0.3), (sgn * (G + 0.4 + 6.5), (B0 + B1) / 2, HB + 0.15), M["ceiling"]))
-        o.append(lib.box("garden wall above", (0.3, GY1 - GY0 + 0.6, TOP - HB), (sgn * (G + 0.25), (GY0 + GY1) / 2, (HB + TOP) / 2), M["garden_stone"]))
+        o.append(lib.box("garden wall above", (0.3, GY1 - GY0 + 0.6, TOP - HB), (sgn * (G + 0.25), (GY0 + GY1) / 2, (HB + TOP) / 2), M["clay"]))
         o.append(lib.box("garden glass", (0.012, GY1 - GY0, HB - 0.1), (sgn * (G + 0.25), (GY0 + GY1) / 2, HB / 2), M["glass"]))
         y = GY0
         while y <= GY1 + 0.01:
@@ -417,7 +434,7 @@ def build(M, rnd):
         o.append(lib.box("room end wall", (0.3, B1 - B0, HB), (sgn * 15.65, (B0 + B1) / 2, HB / 2), M["oak_panel"]))
         o.append(lib.box("room back wall", (8.4, 0.3, HB), (sgn * 11.45, 27.75, HB / 2), M["walnut_v"] if sgn > 0 else M["oak_panel"]))
         o.append(lib.box("room door", (1.0, 0.06, 2.8), (sgn * 13.6, 27.57, 1.4), M["walnut_v"], bevel=0.003))
-    o.append(lib.box("garden back wall", (2 * G + 1.0, 0.3, TOP), (0, GY1 + 0.15 + 0.6, TOP / 2), M["garden_stone"]))
+    o.append(lib.box("garden back wall", (2 * G + 1.0, 0.3, TOP), (0, GY1 + 0.15 + 0.6, TOP / 2), M["clay"]))
     o.append(lib.box("gallery glass", (2 * G, 0.012, HB - 0.1), (0, GY0 - 0.05, HB / 2), M["glass"]))
     o.append(lib.box("suite back wall", (60, 0.3, HB), (0, B1 + 0.15, HB / 2), M["oak_panel"]))
     garden(M, rnd); bedroom(M, rnd); bath(M, rnd)

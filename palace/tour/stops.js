@@ -12,7 +12,7 @@ window.TOUR_STOPS = [
   { id: "piano", name: "The music room", short: "Music room", k: "L1 · Jim's residence", p: [-11.2, 6.2], az0: 172, img: "pano/piano.jpg",
     d: "The grand piano by the glass, a sofa and two chairs to listen from, and at the far end a wall of records with a turntable between two tall speakers and two armchairs. The opening in the wall goes through to the family room.",
     links: ["fire", "glass"] },
-  { id: "table", ready: false, name: "The dining room", short: "Dining room", k: "L1 · Jim's residence", p: [9.4, 9.8], az0: 196, img: "pano/table.jpg",
+  { id: "table", name: "The dining room", short: "Dining room", k: "L1 · Jim's residence", p: [9.4, 9.8], az0: 196, img: "pano/table.jpg",
     d: "A walnut table for eight under five glass globes, a sideboard under a painting, shelves of books, and the atrium through the glass. The family room is through the opening.",
     links: ["fire", "glass"] },
   { id: "terrace", ready: false, name: "On the terrace", short: "Terrace", k: "L1 · The atrium", p: [0.0, -1.9], z: -0.02, az0: 180, img: "pano/terrace.jpg",

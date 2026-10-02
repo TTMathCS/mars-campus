@@ -9,8 +9,9 @@
 A private house for one person, Jim, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
 ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb, where the
 universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, eleven times the
-Crown's floor area. **Arcadia Spaceport** stands 30 km east, and a pod flies Jim home through a dust storm into the
-sunset. A city will grow around it.
+Crown's floor area. **Arcadia Spaceport** stands 30 km east. The Wormhole Gate does the travelling, so the pod and the
+rockets are for seeing the views: the pod's scenic flight through a dust storm into the sunset, and voyages to orbit
+and the moons. A city will grow around it.
 
 ## The rooms, in pictures
 
@@ -64,7 +65,7 @@ ground. See the [decision log](docs/decisions.md).
 | | | |
 | --- | --- | --- |
 | <a href="docs/design/02-crown.md"><img src="design/img/crown-day.jpg" alt="The Crown by day"></a><br>**The Crown**, above ground: 276 m across, floating 40 m up | <a href="docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate"><img src="design/img/orb-universe.jpg" alt="Inside the Orb, the universe switched on"></a><br>**The Orb**: the universe in VR in the rooms, and the Wormhole Gate | <a href="docs/design/03-pentagon.md"><img src="docs/img/book/pentagon-section.png" alt="Section through the Pentagon"></a><br>**The Pentagon**, below ground: five levels |
-| <a href="docs/design/01-site-and-city.md"><img src="docs/img/book/site-mars.jpg" alt="Map of Mars"></a><br>**Site**: 39.8° N on Arcadia Planitia | <a href="docs/design/06-transport.md"><img src="design/img/flight-cliffs.jpg" alt="The pod along the Ice Cliffs"></a><br>**The flight home**: 4 min 40 s | <a href="docs/design/07-spaceport.md"><img src="design/img/port-aerial.jpg" alt="Arcadia Spaceport"></a><br>**Arcadia Spaceport**, 30 km east |
+| <a href="docs/design/01-site-and-city.md"><img src="docs/img/book/site-mars.jpg" alt="Map of Mars"></a><br>**Site**: 39.8° N on Arcadia Planitia | <a href="docs/design/06-transport.md"><img src="design/img/flight-cliffs.jpg" alt="The pod along the Ice Cliffs"></a><br>**The scenic flight**: 4 min 40 s | <a href="docs/design/07-spaceport.md"><img src="design/img/port-aerial.jpg" alt="Arcadia Spaceport"></a><br>**Arcadia Spaceport**, 30 km east |
 
 | Number | |
 | --- | --- |
@@ -75,7 +76,7 @@ ground. See the [decision log](docs/decisions.md).
 | 18 m | The Wormhole Gate across, a ball inside the 40 m Orb: press send and it shoots you like light to any place and time |
 | 30 km | To Arcadia Spaceport, due east |
 | 20 MWe | Four reactors, two at the house and two at the port; no panels or mirrors on the ground |
-| 4 min 40 s | The pod flight home, 37 km |
+| 4 min 40 s | The pod's scenic flight, 37 km; the Gate does the travelling |
 | 0 | Lifts: portals link every part of the house |
 
 ## What is in this folder

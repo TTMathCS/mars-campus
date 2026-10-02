@@ -50,7 +50,7 @@ thickest ice and is kept for a later ice mine.*
 
 ![The 40 × 12 km corridor from the house to the spaceport](../img/book/site-corridor.png)
 
-*The corridor from above, 40 × 12 km, north up. Orange: the pod's flight home. White dashes: the rover road. Blue
+*The corridor from above, 40 × 12 km, north up. Orange: the pod's scenic flight. White dashes: the rover road. Blue
 dots: the maglev tunnel, phase 2. The dust storm drifts across the plain; the flight video meets it just after the
 Ice Cliffs. The dunes, the crater and the cliffs are the landscape designed for the demo; the real ground at AP-1 is
 flatter and plainer.*

@@ -29,6 +29,26 @@ choice is recorded below. Shown for review:
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
 | The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
 
+## 2 Oct 2026: the whole house to explore, plans in full, travel by the Gate
+
+- **The overall construction.** Jim: "in the design homepage, it should show overall construction (real or better
+  3d). when click on each components like crown, petagon/etc. it shows the building plan. by clicking on each
+  room/area, it pop up window to show real image or 3d", "I need you really put focus on the overall constrution
+  image (real and 3d)", and on the homepage "demo 2 should show the image of overall constuction image mentioned above
+  (or embedded 3d ?), not some image from specific room". **Doing:** the whole house path-traced in section, as an
+  architect draws it: the Crown and the Orb over the Stone Garden, and under 16 m of soil the Pentagon's five levels
+  round the atrium. On the design plan's home page you turn it in 24 frames; its labels open the Crown's and L1's
+  floor plans, where each room opens in a window with its pictures, 360° views and facts. The same picture goes on
+  the homepage's demo 2 card. Made by `palace/tools/render/overall.py`.
+- **Floor plans in full.** Jim: "the L1 floor plan doesn't show full. now only show partial". **Done:** every room's
+  plan is now the whole sheet with the room shaded, and a click enlarges it.
+- **Travel by the Gate.** Jim: "so if I have wormhole to do the transportation, then the pod / rockets will be the
+  tool for travel and see the views, not used for actual transportation". **Done:** the Wormhole Gate does the
+  travelling, to Earth, the spaceport or anywhere. The pod is for sightseeing: its scenic flight over the Dune Sea, a
+  crater and the Ice Cliffs, through a dust storm into the blue sunset. The spaceport's ships fly voyages to see
+  space: orbit, Phobos and Deimos, and further. *Real fallback,* if the Gate stays a dream: the ships and the pod carry
+  people and cargo as designed. Chapters 06 and 07, the README, TR-1, TR-2, SY-2 and a new TR-7. → TR-7.
+
 ## 2 Oct 2026: one demo 2, a new name, the design plan
 
 - **The homepage.** Jim: "why I have 2 demo 2? you kept making such mistake. multiple demo 2". The photo tour had

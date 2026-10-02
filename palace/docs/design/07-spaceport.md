@@ -4,9 +4,7 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html)**
 
-Where the ships from Earth land, 30 km east of the house on landing site AP-1. It is an airport, a harbour and a
-refinery in one: three pads for ships, a terminal, a station for the pods, and a fuel plant that turns ground ice and
-the carbon dioxide in the air into rocket fuel for the trip home. **Requirements:** TR-1, ST-1, ST-2.
+Where the ships land and take off, 30 km east of the house on landing site AP-1. Since the Wormhole Gate does the travelling (2 Oct 2026), its ships fly voyages to see space: to orbit, Phobos and Deimos, and further, and the pods take off from here on their scenic flights. It is a harbour and a refinery in one: three pads for ships, a terminal, a station for the pods, and a fuel plant that turns ground ice and the carbon dioxide in the air into rocket fuel. *Real fallback: if the Gate stays a dream, this is where the ships from Earth land.* **Requirements:** TR-1, TR-7, ST-1, ST-2.
 
 ![Arcadia Spaceport from the south-west](../../design/img/port-aerial.jpg)
 
@@ -72,4 +70,4 @@ plant fills it.*
 
 ![The pod lifting off from the pod station](../../design/img/port-liftoff.jpg)
 
-*Lift-off from the pod station, the start of the flight home, with the terminal and the tower.*
+*Lift-off from the pod station, the start of the scenic flight, with the terminal and the tower.*

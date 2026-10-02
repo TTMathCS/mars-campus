@@ -147,19 +147,20 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of the house | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
-| TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 Live: 37 km scenic route, 4 min 40 s, ten shots | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of the house | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station. Since 2 Oct its ships fly voyages to see space (TR-7) | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
+| TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 Live: 37 km scenic route, 4 min 40 s, ten shots. Since 2 Oct a flight for the view (TR-7) | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-scenic-flight) |
 | TR-3 | "Arrival land on sunset, but animation can go through Mars storm etc." | Must | ✅ 🎬 A dust storm after the Ice Cliffs, then a breakout into the blue sunset with Phobos crossing the sun | [Pictures](docs/gallery.md#the-flight-home) |
-| TR-4 | The journey can be skipped (round 2) | Should | ✅ 🎬 Live: "Skip to arrival" | [Summary](docs/design/06-transport.md#the-flight-home) |
+| TR-4 | The journey can be skipped (round 2) | Should | ✅ 🎬 Live: "Skip to arrival" | [Summary](docs/design/06-transport.md#the-scenic-flight) |
 | TR-5 | The door is private and opens by itself for Jim, by key or future authentication (round 2) | Must | 📐 The Door: an iris of light that knows Jim by face, eyes and walk | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) · [Summary](docs/design/04-interiors.md#coming-home) |
 | TR-6 | An airlock between outside and inside (round 2) | Should | 📐 The pod hangar is the airlock; suits stay outside at suit ports | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#arrive) |
+| TR-7 | The Wormhole Gate does the actual travelling; the pod and the rockets are for travel to see the views. Jim, 2 Oct 2026: "so if I have wormhole to do the transportation, then the pod / rockets will be the tool for travel and see the views, not used for actual transportation" | Must | 📐 Chapters 06 and 07 rewritten round it; real fallback: the ships and the pod carry people and cargo | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
 
 ## 8. Systems
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
 | SY-1 | The power station design: what it looks like and how it works | Must | 📐 Four 5 MWe fission microreactors, two at the house and two at the spaceport, with batteries, fuel cells and a 30 km DC cable; no panels on the ground (GN-12) | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
-| SY-2 | The transportation design | Must | 📐 Ships, the pod, the bus, the maglev (phase 2) and portals | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
+| SY-2 | The transportation design | Must | 📐 The Wormhole Gate for travel; ships and the pod for the views; the bus, the maglev (phase 2) and portals | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
 | SY-3 | The air inside | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"): 70 kPa with 27% oxygen, which breathes like Calgary | Ch 08 (to write) |
 | SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | ⏳ Chapter 08 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
 | SY-5 | Communications and space: the radio delay, relay satellites, the moons, Mars time | Should | ⏳ Chapter 09 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |

@@ -87,9 +87,9 @@ Gate shows the place it opens onto, a far nebula. Rendered from its own scene (`
 From the south-west: the two reactor domes in front, the terminal dome and the control tower, the pod station, the
 fuel plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out. No panels on the ground. *[Chapter 07](design/07-spaceport.md).*
 
-## The flight home
+## The scenic flight
 
-The flight video has ten shots and lasts 4 min 40 s ([chapter 06](design/06-transport.md#the-flight-home)). These
+The flight video has ten shots and lasts 4 min 40 s ([chapter 06](design/06-transport.md#the-scenic-flight)). These
 are frames from it.
 
 ### 1 Lift-off

@@ -28,7 +28,7 @@ can be seen here. Areas are gross floor areas, rounded.
 | [A-301](#a-301-the-pentagon-levels-1-to-5) | The Pentagon, levels 1 to 5 |
 | [A-401](#a-401-section-east-to-west) | Section east to west |
 | [A-501](#a-501-arcadia-spaceport) | Arcadia Spaceport |
-| [A-601](#a-601-the-pod-flight-home) | The pod flight home |
+| [A-601](#a-601-the-pods-scenic-flight) | The pod's scenic flight |
 
 ## A-001 The Crown, bird's-eye view from the south
 
@@ -109,9 +109,9 @@ through to the pod station facing home.
 *B.1, 1 Oct 2026: the solar field was taken off this sheet. The port runs on two buried reactors, with no panels on the
 ground.*
 
-## A-601 The pod flight home
+## A-601 The pod's scenic flight
 
-![A-601 The pod flight home](img/plans/a601-flight.png)
+![A-601 The pod's scenic flight](img/plans/a601-flight.png)
 
 Height above the plain against time: 37 km, about 4 min 40 s from lift-off to the hangar, highest point 400 m, lowest
 pass 30 m under the ring. It plays in real time, with cockpit, chase and director cameras, and can be skipped. See the

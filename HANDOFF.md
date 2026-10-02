@@ -85,7 +85,8 @@ The full record is in `palace/docs/decisions.md` (every question, Jim's words, w
 - **Arcadia Spaceport**, 30 km due east on landing zone AP-1: three pads, terminal, pod station, fuel plant, ice mine.
 - **Power:** four 5 MWe fission microreactors, two on the Pentagon's L4 and two at the port, joined by a 30 km DC
   cable. No solar field.
-- **The pod flight home:** about 37 km and 4 min 40 s, through a dust storm into the blue sunset.
+- **Travel is by the Wormhole Gate** (Jim, 2 Oct 2026); the pod and the rockets are for seeing the views. **The pod's scenic
+  flight:** about 37 km and 4 min 40 s, through a dust storm into the blue sunset.
 - **The city** grows from the house on a sunflower spiral (golden angle), with civic buildings on the Fibonacci seeds.
 
 Decided on 1 Oct 2026 (Jim answered, or asked for our best judgment): site on **AP-1** at 39.80° N; air at

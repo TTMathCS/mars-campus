@@ -4,16 +4,15 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/transport.html)**
 
-Four ways to move, from 225 million kilometres to one step. Ships bring Jim from Earth to the spaceport. The pod flies
-him the 30 km home. Rovers and, later, a maglev train carry people and cargo along the ground. Inside the house,
-portals take him anywhere in one step. **Requirements:** SY-2, TR-2 to TR-4, CR-4.
+Since 2 October 2026 the Wormhole Gate does the travelling: press send in the Orb and it takes Jim, or a guest, to Earth, the spaceport or anywhere, in a moment. So the pod and the ships are for journeys taken to see the views: the pod's scenic flight over the Dune Sea, a crater and the Ice Cliffs, through a dust storm into the blue sunset, and voyages from the spaceport to orbit, Phobos and Deimos. Rovers and, later, a maglev train move goods along the ground; inside the house, portals take Jim anywhere in one step. *Real fallback: if the Gate stays a dream, the ships and the pod carry people and cargo, as designed below.* **Requirements:** SY-2, TR-2 to TR-4, TR-7, CR-4.
 
 ![The pod along the Ice Cliffs](../../design/img/flight-cliffs.jpg)
 
 | | |
 | --- | --- |
-| **26 months** | Between launch windows from Earth; the trip takes about 6 months |
-| **4 min 40 s** | The pod flight home: 37 km at up to 680 km/h |
+| **A moment** | By the Wormhole Gate, to Earth or anywhere: the way to travel |
+| **26 months** | Between launch windows for the ships; the trip takes about 6 months |
+| **4 min 40 s** | The pod's scenic flight: 37 km at up to 680 km/h |
 | **45 min** | By pressurised bus on the rover road, when pods can't fly |
 | **6 min** | By maglev, 68 m underground, from phase 2 |
 | **1 step** | By portal, anywhere in the house |
@@ -40,7 +39,7 @@ quarter of its weight. It has 4 seats, is 9.2 m long, weighs about 6 t fuelled, 
 propellant on the scenic flight. It flies itself, can land with one thruster out and carries 12 hours of air; in a
 big storm the pods stay home and the bus takes over.
 
-## The flight home
+## The scenic flight
 
 ![Height and speed through the flight, with the ten shots](../img/book/transport-profile.png)
 
@@ -93,8 +92,9 @@ Crown, and the pods and escape capsules between the Crown and the ground.
 
 | How | Between | Time | Carries | When |
 | --- | --- | --- | --- | --- |
-| Ship | Earth and Arcadia Spaceport | about 6 months | people and cargo | every 26 months |
-| Pod | the spaceport and the Crown's hangar | 3 to 5 min | 4 people | phase 1 |
+| Wormhole Gate | the Orb and anywhere | a moment | people: the way to travel | future technology |
+| Ship | Arcadia Spaceport and orbit, the moons, Earth | days to 6 months | voyages to see space; the real fallback for people and cargo | every 26 months to Earth |
+| Pod | the spaceport, the Crown's hangar and the sights | 3 to 5 min | 4 people, for the view | phase 1 |
 | Bus | the spaceport and the rover hall on L5 | 45 min | 12 people | phase 1 |
 | Maglev | L5 and the station under the terminal | 6 min | people and containers | phase 2 |
 | Glide | round the Crown, 779 m | up to 4 min | people | phase 1 |

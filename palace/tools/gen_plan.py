@@ -162,7 +162,8 @@ CROWN = dict(
              facts=[("Rooms", "Hearth room · Great salon · Piano room; the Sky lounge upstairs"),
                     ("Made of", "A floor of linen-coloured stone, regolith plaster, an oak-slat ceiling lit from its coves, olive wood."),
                     ("In it", "Three groups of linen sofas on wool rugs round olive-wood tables; olive trees in basalt planters; a hearth of lit mist; a concert grand.")],
-             photos=[("../tour/photos/crown_salon.jpg", "The great salon: linen sofas, olive trees and the slots through the outer wall; the Glide on the right.")], views=[("crown_salon", "The great salon")], plan=("img/plan/crown-salon.jpg", "Part 3, south.")),
+             photos=[("../tour/photos/crown_salon.jpg", "The great salon: linen sofas, olive trees and the slots through the outer wall; the Glide on the right.")], views=[("crown_salon", "The great salon")], plan=("img/plan/crown-salon.jpg", "Part 3, south."),
+             above=("img/above/crown-salon.jpg", "the hearth room at the left end, three groups of sofas on rugs with olive trees between them, the piano room at the right end, and the Glide along the garden side.")),
         dict(id="wellness", k="Part 4 · 180° to 216°", name="Wellness",
              purpose="Exercise and rest: a 25 m pool along the ring, where low gravity makes every wave rise high and fall slowly; a spa with a hot pool and a cedar sauna; a gym.",
              facts=[("Rooms", "Spa and sauna · Pool, 25 m · Gym"),
@@ -263,6 +264,8 @@ def room_html(r):
                     % (poster(sid), E(label), sid, E(label), sid, E(label)))
     for (src, cap) in photos:
         left.append('<figure><img src="%s" alt="%s" loading="lazy" width="1600" height="900"><figcaption>%s</figcaption></figure>' % (src, E(cap), E(cap)))
+    if r.get("above") and photo_ok(r["above"][0]):         # the room from straight above, its ceiling taken off
+        left.append('<figure><img class="zoom" src="%s" alt="%s from above" loading="lazy"><figcaption><b>From above</b>, the ceiling taken off: %s Click to enlarge.</figcaption></figure>' % (r["above"][0], E(r["name"]), E(r["above"][1])))
     if not left:
         left.append('<div class="pending">%s</div>' % ("Pictures of this room are rendering, and appear here when they are done." if (r["views"] or r["photos"]) else "This room is designed; its pictures are still to make."))
     right = ['<table class="spec"><tbody>%s</tbody></table>' % "".join('<tr><th>%s</th><td>%s</td></tr>' % (E(k), E(v)) for k, v in r["facts"])]
@@ -304,7 +307,7 @@ def explorer_json():
         for r in a["rooms"]:
             key = ("crown:" if a is CROWN else "l1:") + r["id"]
             rooms[key] = dict(name=r["name"], k=r["k"], purpose=r["purpose"], facts=r["facts"], page="%s.html#%s" % (a["id"], r["id"]),
-                              photos=[dict(src=ph[0], cap=ph[1]) for ph in r["photos"] if photo_ok(ph[0])],
+                              photos=[dict(src=ph[0], cap=ph[1]) for ph in r["photos"] if photo_ok(ph[0])] + ([dict(src=r["above"][0], cap="From above, the ceiling taken off: " + r["above"][1])] if r.get("above") and photo_ok(r["above"][0]) else []),
                               views=[dict(stop=v[0], label=v[1], poster=poster(v[0])) for v in r["views"] if stop_ready(v[0])])
     def norm(polys): return [[[round(x / 1701.0, 5), round(y / 1271.0, 5)] for (x, y) in poly] for poly in polys]
     l1 = {k: norm(v) for k, v in pm.L1_ROOMS.items() if "l1:" + k in rooms and k != "atrium"}      # the atrium shape covers four rooms

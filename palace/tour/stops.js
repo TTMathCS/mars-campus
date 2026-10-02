@@ -81,5 +81,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },
   { img: "photos/living.jpg", caption: "The family room: the fire, the books and a skylight. The sofa, the chairs, the pouf, the plant and the flowers are 3D scans of real things." },
   { img: "photos/crown_salon.jpg", caption: "The great salon in the Crown, 41 m above the plain: linen sofas, olive trees, an oak ceiling lit from its coves, and the slots through the ring's outer wall. The Glide runs along the right." },
-  { img: "photos/crown_bedroom.jpg", caption: "The master suite up in the Crown: pale oak walls, a floor of linen-coloured stone, the bed facing the south-east slots, where the sun rises straight across the room." }
+  { img: "photos/crown_bedroom.jpg", caption: "The master suite up in the Crown: pale oak walls, a floor of linen-coloured stone, the bed facing the south-east slots, where the sun rises straight across the room." },
+  { img: "photos/library.jpg", caption: "The great library on L1: two storeys of books, a gallery reached by a spiral stair, reading tables under lamps, and daylight from the skylights." }
 ];

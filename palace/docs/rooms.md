@@ -118,7 +118,7 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 - **Made of:** oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe.
 - **In it:** two floors of books along the outer wall with the slots between them; reading tables and leather chairs;
   in the map room, a globe of Mars 3 m across, made from the same colour map as the Atlas, and chests of map drawers.
-- **Walk round it:** [the Library](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_library); the map room's 360° view is rendering.
+- **Walk round it:** [the Library](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_library) · [the map room](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_maproom)
 
 ## Still to come
 

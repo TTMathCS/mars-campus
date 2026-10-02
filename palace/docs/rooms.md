@@ -65,7 +65,9 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 - **The room:** ring A of sector 4, across the atrium from Jim's residence; two storeys high.
 - **Made of:** oak boards, walnut shelves and gallery, brass rails, oak beams with skylights between them.
 - **In it:** books on every wall, a gallery reached by a spiral stair, long reading tables under lamps, leather chairs.
-- **Walk round it:** its 360° view is rendering.
+- **Walk round it:** [in the library](https://ttmathcs.github.io/mars-campus/palace/tour/#library)
+
+![The great library from above, the ceiling taken off: the glass onto the atrium along the bottom, four seating groups, three reading tables, the spiral stair](../design/img/above/l1-library.jpg)
 
 ## The Crown
 
@@ -105,7 +107,7 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 - **Made of:** oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe.
 - **In it:** two floors of books along the outer wall with the slots between them; reading tables and leather chairs;
   in the map room, a globe of Mars 3 m across, made from the same colour map as the Atlas, and chests of map drawers.
-- **Walk round it:** its 360° views are rendering.
+- **Walk round it:** [the Library](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_library); the map room's 360° view is rendering.
 
 ## Still to come
 

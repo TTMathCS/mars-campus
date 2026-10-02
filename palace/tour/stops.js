@@ -61,7 +61,7 @@ window.TOUR_STOPS = [
   { id: "crown_salon", place: "crown", name: "The great salon", short: "Salon", k: "The Crown · Salon", p: [33.65, -127.38], az0: 80, img: "pano/crown_salon.jpg",
     d: "45 m along the curve of the ring: linen sofas round wool rugs, olive-wood tables, olive trees, an oak ceiling lit from its coves, and the sun in blades through the slots. A hearth of lit mist at one end, the concert grand at the other.",
     links: [{ id: "crown_bedroom", at: [41.27, -119.84, 0], label: "The Glide: to the master suite" }, { id: "crown_dining", at: [23.10, -124.63, 0], label: "The Glide: to the dining hall" }] },
-  { id: "crown_wellness", place: "crown", ready: false, name: "The pool", short: "Pool", k: "The Crown · Wellness", p: [-41.5, -123.3], az0: 71, img: "pano/crown_wellness.jpg",
+  { id: "crown_wellness", place: "crown", name: "The pool", short: "Pool", k: "The Crown · Wellness", p: [-41.5, -123.3], az0: 71, img: "pano/crown_wellness.jpg",
     d: "A pool 25 m long along the curve of the ring, lit from below, where low gravity makes every wave rise high and fall slowly; loungers along the Glide, a cedar sauna and a round hot pool at the spa end, the gym at the other.",
     links: [{ id: "crown_salon", at: [-33.87, -122.14, 0], label: "The Glide: to the salon" }, { id: "crown_dining", at: [-47.48, -117.52, 0], label: "The Glide: to the dining hall" }] },
   { id: "crown_dining", place: "crown", ready: false, name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",

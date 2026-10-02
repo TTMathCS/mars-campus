@@ -12,10 +12,12 @@ picture: what the room is, what it is made of, and a link to walk round it in 36
 | --- | --- | --- |
 | [<img src="../tour/photos/hero.jpg" alt="The family room">](#the-family-room) | [<img src="../tour/photos/living.jpg" alt="The family room, by the fire">](#the-family-room) | [<img src="../tour/photos/crown_salon.jpg" alt="The great salon in the Crown">](#the-great-salon) |
 | **[The family room](#the-family-room)**, L1 | **[By the fire](#the-family-room)**, L1 | **[The great salon](#the-great-salon)**, the Crown |
+| [<img src="../tour/photos/library.jpg" alt="The great library">](#the-great-library) | [<img src="../design/img/pano/table.jpg" alt="The dining room">](#the-dining-room-and-the-bar) | [<img src="../tour/photos/crown_bedroom.jpg" alt="The master suite up">](#the-master-suite-up) |
+| **[The great library](#the-great-library)**, L1 | **[The dining room](#the-dining-room-and-the-bar)**, L1 | **[The master suite up](#the-master-suite-up)**, the Crown |
 
-**Rendering now**, and added here as each one finishes: the music room and the dining room with its bar (L1); the
-great library, the thermal baths and the cinema (L1, across the atrium); the master suite down, with its moss garden
-and bath; the Crown's Arrival hall, master suite up, dining hall and sunset lounge.
+**Rendering now**, and added here as each one finishes: the thermal baths and the cinema (L1, across the atrium);
+the master suite down, with its moss garden and bath; the Crown's library and map room, its pool, Arrival hall, dining
+hall and sunset lounge.
 
 ## The Pentagon, L1: Jim's residence
 
@@ -36,6 +38,35 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 - **Walk round it:** [by the fire](https://ttmathcs.github.io/mars-campus/palace/tour/#fire) ·
   [at the glass](https://ttmathcs.github.io/mars-campus/palace/tour/#glass)
 
+### The music room
+
+![The music room in 360°: the grand piano by the glass, a wall of records with a turntable and speakers](../design/img/pano/piano.jpg)
+
+- **The room:** at the left end of the glass, beside the family room, 13.9 m deep.
+- **In it:** a grand piano by the glass, so Jim plays looking out at the atrium; a walnut console 7.2 m long full of
+  records, with a turntable and two tall speakers; armchairs to listen from.
+- **Walk round it:** [by the piano](https://ttmathcs.github.io/mars-campus/palace/tour/#piano)
+
+### The dining room and the bar
+
+![The dining room in 360°: the walnut table for eight under five glass globes, the bar's lit shelves at the back](../design/img/pano/table.jpg)
+
+- **The room:** at the right end of the glass, beside the family room.
+- **In it:** a walnut table for eight under five glass globes, a sideboard under a painting, shelves of books; at the
+  back, the bar: bottles on lit bronze shelves, a walnut counter with a marble top, leather stools.
+- **Walk round it:** [at the table](https://ttmathcs.github.io/mars-campus/palace/tour/#table)
+
+## The Pentagon, L1: round the atrium
+
+### The great library
+
+![The great library: two storeys of books, a gallery reached by a spiral stair, reading tables under lamps](../tour/photos/library.jpg)
+
+- **The room:** ring A of sector 4, across the atrium from Jim's residence; two storeys high.
+- **Made of:** oak boards, walnut shelves and gallery, brass rails, oak beams with skylights between them.
+- **In it:** books on every wall, a gallery reached by a spiral stair, long reading tables under lamps, leather chairs.
+- **Walk round it:** its 360° view is rendering.
+
 ## The Crown
 
 The Crown's rooms run round the ring, 41 m above the plain, between the garden-side wall with the Glide along it and
@@ -50,7 +81,19 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
   round the slots.
 - **In it:** low linen sofas on wool rugs round olive-wood tables, olive trees in planters; a hearth of lit mist at one
   end and the concert grand at the other.
-- **Walk round it:** its 360° view is rendering.
+- **Walk round it:** [the great salon](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_salon)
+
+![The great salon from above, the ceiling taken off: the hearth room, three groups of sofas with olive trees, the piano room, the Glide along the garden side](../design/img/above/crown-salon.jpg)
+
+### The master suite up
+
+![The master suite up in the Crown: the bed facing the south-east slots, pale oak walls, an oak-slat ceiling](../tour/photos/crown_bedroom.jpg)
+
+- **The room:** part 2 of the ring, south-east, straight above the master suite down; Jim's morning rooms.
+- **Made of:** pale oak walls and screens, a floor of linen-coloured stone, an oak-slat ceiling.
+- **In it:** the bed facing the south-east slots, so the sun rises straight across the room; a sitting corner by the
+  slots, a writing desk, dressers, plants.
+- **Walk round it:** [the bedroom up](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_bedroom)
 
 ## Still to come
 

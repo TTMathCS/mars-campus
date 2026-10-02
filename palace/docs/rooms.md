@@ -95,8 +95,20 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
   slots, a writing desk, dressers, plants.
 - **Walk round it:** [the bedroom up](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_bedroom)
 
+### The Library and the map room
+
+![The Crown's Library: walnut shelves along the curve of the ring, a gallery and a spiral stair, reading tables under brass pendants](../tour/photos/crown_library.jpg)
+
+![The map room: a globe of Mars 3 m across in a bronze meridian](../tour/photos/crown_maproom.jpg)
+
+- **The room:** part 7 of the ring, north-west, under the Library spire: 45 m along the ring and 9.5 m high.
+- **Made of:** oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe.
+- **In it:** two floors of books along the outer wall with the slots between them; reading tables and leather chairs;
+  in the map room, a globe of Mars 3 m across, made from the same colour map as the Atlas, and chests of map drawers.
+- **Walk round it:** its 360° views are rendering.
+
 ## Still to come
 
-The Crown's library (two floors round a spiral stair, and a map room with a 3 m globe of Mars), its 25 m pool, the
+The Crown's 25 m pool, the
 studio, the observatory and the garden room; the Orb's rooms, once Jim decides between Rev F's two sizes; the guest
 suites, the kitchen and the private spa on L1; the garden level (L2) and Jim's studio (L3).

@@ -120,8 +120,29 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
   in the map room, a globe of Mars 3 m across, made from the same colour map as the Atlas, and chests of map drawers.
 - **Walk round it:** [the Library](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_library) · [the map room](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_maproom)
 
+### The dining hall
+
+![The Crown's dining hall: one long basalt table under glass globes, linen chairs, the sun through the slots](../tour/photos/crown_dining.jpg)
+
+- **The room:** part 5 of the ring, west-south-west, under the Dining spire; the chef's kitchen and the wine room
+  beside it, the Sky bar upstairs in the spire.
+- **Made of:** a floor of polished basalt, regolith plaster walls, an oak-slat ceiling, linen, glass.
+- **In it:** one table of polished basalt for 22 with linen chairs, a row of glass globes on cords over it, a painting
+  between the slots, and the afternoon sun low through them.
+- **Walk round it:** its 360° view is rendering.
+
+### The pool
+
+![Wellness in the Crown from above, the ceiling taken off: the sauna and hot pool, the 25 m pool, the gym](../design/img/above/crown-wellness.jpg)
+
+- **The room:** part 4 of the ring, south-west: exercise and rest.
+- **Made of:** a deck of polished basalt, pale stone in the pool, cedar, an oak-slat ceiling.
+- **In it:** a pool 25 m by 4 m, lit from below, where low gravity makes every wave rise high and fall slowly;
+  loungers along the Glide; a round hot pool and a cedar sauna at the spa end; the gym at the other.
+- **Walk round it:** [the pool](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_wellness)
+
 ## Still to come
 
-The Crown's 25 m pool, the
+The Crown's
 studio, the observatory and the garden room; the Orb's rooms, once Jim decides between Rev F's two sizes; the guest
 suites, the kitchen and the private spa on L1; the garden level (L2) and Jim's studio (L3).

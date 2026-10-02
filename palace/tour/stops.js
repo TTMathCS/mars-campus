@@ -65,7 +65,7 @@ window.TOUR_STOPS = [
     d: "A pool 25 m long along the curve of the ring, lit from below, where low gravity makes every wave rise high and fall slowly; loungers along the Glide, a cedar sauna and a round hot pool at the spa end, the gym at the other.",
     links: [{ id: "crown_salon", at: [-33.87, -122.14, 0], label: "The Glide: to the salon" }, { id: "crown_dining", at: [-47.48, -117.52, 0], label: "The Glide: to the dining hall" }] },
   { id: "crown_dining", place: "crown", ready: false, name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",
-    d: "A table of polished basalt for twenty under the Dining spire, glass globes over it, linen chairs, and the afternoon sun low through the slots.",
+    d: "A table of polished basalt for 22 under the Dining spire, glass globes over it, linen chairs, and the afternoon sun low through the slots.",
     links: [{ id: "crown_salon", at: [-95.11, -83.85, 0], label: "The Glide: to the salon" }, { id: "crown_sunset", at: [-104.87, -71.27, 0], label: "The Glide: to the sunset lounge" }] },
   { id: "crown_sunset", place: "crown", ready: false, name: "The sunset lounge", short: "Sunset lounge", k: "The Crown · Sunset lounge", p: [-131.75, 0.0], az0: 90, img: "pano/crown_sunset.jpg",
     d: "The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight in for a few minutes while the sky round it turns blue, as the sky of Mars does.",
@@ -85,5 +85,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/library.jpg", caption: "The great library on L1: two storeys of books, a gallery reached by a spiral stair, reading tables under lamps, and daylight from the skylights." },
   { img: "photos/crown_library.jpg", caption: "The Crown's Library: two floors of walnut shelves along the curve of the ring, a gallery reached by a spiral stair, reading tables under brass pendants, the window slots between the shelves." },
   { img: "photos/crown_maproom.jpg", caption: "The map room in the Crown's Library: a globe of Mars 3 m across in a bronze meridian, chests of map drawers, the afternoon sun through the slots." },
-  { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." }
+  { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." },
+  { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." }
 ];

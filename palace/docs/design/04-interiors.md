@@ -48,7 +48,7 @@ machines.
 | Master suite up | A long bedroom facing the sunrise through the south-east slot, a dressing room, a bath and a private spa with a soaking pool |
 | Salon | The great salon, 45 m long, with wool rugs and low sofas; a hearth of cold, lit mist at one end and a concert grand piano at the other; the Sky lounge upstairs |
 | Wellness | A 25 m pool along the ring, where low gravity makes every wave rise high and fall slowly; a sauna, a steam room and a gym |
-| Dining | A dining hall for 24 at one basalt table, a chef's kitchen, a wine room of Mars glass; the Sky bar upstairs |
+| Dining | A dining hall for 22 at one basalt table, a chef's kitchen, a wine room of Mars glass; the Sky bar upstairs |
 | Sunset lounge | The sun sets straight down the length of the room; low sofas face the west slot, with a guest suite at each end |
 | Library | Two floors of walnut shelves round a spiral stair, bronze ladders, a study and a map room with a 3 m globe of Mars |
 | Studio | A music room tuned for sound, an art studio with steady north light, and a workshop |

@@ -55,7 +55,13 @@ window.TOUR_STOPS = [
     links: [{ id: "crown_salon", at: [-95.11, -83.85, 0], label: "The Glide: to the salon" }, { id: "crown_sunset", at: [-104.87, -71.27, 0], label: "The Glide: to the sunset lounge" }] },
   { id: "crown_sunset", place: "crown", ready: false, name: "The sunset lounge", short: "Sunset lounge", k: "The Crown · Sunset lounge", p: [-131.75, 0.0], az0: 90, img: "pano/crown_sunset.jpg",
     d: "The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight in for a few minutes while the sky round it turns blue, as the sky of Mars does.",
-    links: [{ id: "crown_dining", at: [-126.55, -7.96, 0], label: "The Glide: to the dining hall" }, { id: "crown_arrival", at: [-126.55, 7.96, 0], label: "The Glide: round to the Arrival hall" }] }
+    links: [{ id: "crown_dining", at: [-126.55, -7.96, 0], label: "The Glide: to the dining hall" }, { id: "crown_arrival", at: [-126.55, 7.96, 0], label: "The Glide: round to the Arrival hall" }, { id: "crown_library", at: [-125.52, 17.64, 0], label: "The Glide: to the library" }] },
+  { id: "crown_library", place: "crown", ready: false, name: "The library", short: "Library up", k: "The Crown · Library", p: [-107.97, 73.93], az0: -34, img: "pano/crown_library.jpg",
+    d: "Two floors of walnut shelves along the outer wall under the Library spire, 9.5 m tall: a gallery reached by a spiral stair, low cases along the Glide, long reading tables under brass pendants, and the window slots between the two floors of books.",
+    links: [{ id: "crown_sunset", at: [-109.77, 63.38, 0], label: "The Glide: to the sunset lounge" }, { id: "crown_maproom", at: [-90.0, 94.84, 0], label: "The map room" }, { id: "crown_arrival", at: [-98.5, 79.77, 0], label: "The Glide: round to the Arrival hall" }] },
+  { id: "crown_maproom", place: "crown", ready: false, name: "The map room", short: "Map room", k: "The Crown · Library", p: [-87.49, 97.17], az0: -41, img: "pano/crown_maproom.jpg",
+    d: "A globe of Mars 3 m across in a bronze meridian, lit from the spire, and chests of map drawers along the wall. The library is through the opening.",
+    links: [{ id: "crown_library", at: [-90.83, 94.05, 0], label: "The library" }] }
 ];
 window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },

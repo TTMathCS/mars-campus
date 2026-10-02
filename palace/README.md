@@ -26,15 +26,16 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
+| 🏠 | **The design plan**: the house area by area and room by room, each with what it is for, its facts, its floor plan, and path-traced pictures and 360° views; this is what the homepage opens | [design/](design/) · [tools/gen_plan.py](tools/gen_plan.py) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🛋️ | **The rooms, in pictures**: every room path-traced, picture first, with what it is made of | [docs/rooms.md](docs/rooms.md) | |
 | 📸 | **The photo tour**: Jim's rooms on L1 and the Pentagon's atrium in path-traced 360° photographs; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
-| ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
-| 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |
-| 🌌 | **The Orb**, phase 2: switch the universe on, zoom from the cosmic web to Mars and the house, step into the Wormhole Gate | [orb/](orb/) | [The Orb](https://ttmathcs.github.io/mars-campus/palace/orb/) |
-| 🌳 | **The Pentagon**, phase 3: the atrium 68 m deep with rooms behind glass on every level, the garden level with its lake, forest and meadow, and the sun court | [pentagon/](pentagon/) | [The Pentagon](https://ttmathcs.github.io/mars-campus/palace/pentagon/) |
+| ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
+| 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |
+| 🌌 | **The Orb**, phase 2: switch the universe on, zoom from the cosmic web to Mars and the house, step into the Wormhole Gate *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [orb/](orb/) | [The Orb](https://ttmathcs.github.io/mars-campus/palace/orb/) |
+| 🌳 | **The Pentagon**, phase 3: the atrium 68 m deep with rooms behind glass on every level, the garden level with its lake, forest and meadow, and the sun court *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [pentagon/](pentagon/) | [The Pentagon](https://ttmathcs.github.io/mars-campus/palace/pentagon/) |
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
-| 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design book](https://ttmathcs.github.io/mars-campus/palace/design/) |
+| 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🗺️ | **Floor plans Rev B**: the approved sheets | [docs/plans.md](docs/plans.md) | [Floor plans](https://ttmathcs.github.io/mars-campus/palace/plans/) |
 | 🌍 | **Mars Atlas**: zoom from the solar system to the house, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
 | 🖼️ | **Pictures**: every picture rendered from the 3D build | [docs/gallery.md](docs/gallery.md) | |

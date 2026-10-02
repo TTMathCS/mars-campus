@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Arcadia Design Book</title>
-<meta name="description" content="The design book for Jim's house on Mars: the Crown, the Pentagon, Arcadia Spaceport, the pod flight and the future city, with how every part looks and works, and a zoomable Mars Atlas.">
+<title>Jim's Retirement House · Design Plan</title>
+<meta name="description" content="The design plan for Jim's house on Mars: the Crown, the Pentagon, Arcadia Spaceport, the pod flight and the future city, with how every part looks and works, and a zoomable Mars Atlas.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Crown and the Pentagon · design book">
-<meta property="og:description" content="Every plan for Jim's house on Mars in one place, with a zoomable Mars Atlas.">
+<meta property="og:title" content="Jim's Retirement House · Design Plan">
+<meta property="og:description" content="Jim's house on Mars, area by area and room by room: what each space is for, its floor plan, path-traced pictures and 360° views.">
 <meta property="og:url" content="https://ttmathcs.github.io/mars-campus/palace/design/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
@@ -40,6 +40,15 @@
   ol.dec li::before { content: counter(d); font: 700 26px/1 var(--f-display); color: var(--route); }
   ol.dec li b { display: block; font-size: 17px; }
   ol.dec li span { color: var(--ink-2); font-size: 15.5px; }
+  .arealist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 10px 0 16px; }
+  .arealist a { display: block; background: var(--sheet); border: 1px solid var(--rule); text-decoration: none; }
+  .arealist a:hover { border-color: var(--route); }
+  .arealist img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .arealist span { display: block; padding: 10px 14px 14px; }
+  .arealist small { display: block; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--route); }
+  .arealist b { display: block; font: 700 24px/1.1 var(--f-display); margin: 4px 0 6px; }
+  .arealist em { font-style: normal; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+  @media (max-width: 880px) { .arealist { grid-template-columns: minmax(0, 1fr); } }
   ol.dec li em { display: block; font-style: normal; font: 500 12.5px/1.4 var(--f-mono); color: var(--ink-3); margin-top: 4px; }
 </style>
 </head>
@@ -47,10 +56,10 @@
 <main class="wrap">
   <div class="cover">
     <div>
-      <div class="no">Mars Campus · Demo 2 · Design book · Rev E</div>
-      <h1>The Crown and the Pentagon</h1>
+      <div class="no">Demo 2 · Design plan · Rev E</div>
+      <h1>Jim's Retirement House</h1>
       <p class="lede">Jim's retirement house on Mars, in Arcadia Planitia: a white crown floating over a stone garden, a five-level world below the ground, a spaceport 30 km to the east and a city that will grow around it. This book collects every plan in one place: <b>what each part looks like and how it works.</b></p>
-      <div class="go"><a class="main" href="atlas/">Open the Mars Atlas</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
+      <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
     </div>
     <a class="atlasfig" href="atlas/" aria-label="Open the Mars Atlas">
       <img src="img/atlas-teaser.jpg" alt="Mars from orbit: the north polar cap, Arcadia Planitia with a marker at Jim's house, and Olympus Mons" width="1200" height="760" loading="eager">
@@ -66,6 +75,16 @@
     <div><b>4 min 40 s</b><span>The pod flight home, over dunes, a crater and ice cliffs</span></div>
     <div><b>0 lifts</b><span>Portals link the Crown, the Orb and every level below</span></div>
   </div>
+
+  <section class="part" id="rooms">
+    <h2><small>Room by room</small>Every space: what it is for, its plan, its pictures</h2>
+    <p class="intro">Each area of the house has its own page. For every room: what it is for, the facts (size, materials, what is in it, the light), where it is on the floor plan, and path-traced pictures and 360° views, with furniture scanned from real things. Rooms go in as their pictures finish rendering.</p>
+    <div class="arealist">
+      <a href="rooms-crown.html"><img src="../tour/photos/crown_salon.jpg" alt="" loading="lazy"><span><small>Above ground · 02·1</small><b>The Crown, room by room</b><em>The ten parts of the ring: Arrival, the master suite up, the Salon, Wellness, Dining, the sunset lounge, the Library, the Studio, the Observatory, the Garden room.</em></span></a>
+      <a href="rooms-residence.html"><img src="../tour/photos/hero.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·1</small><b>Jim's residence</b><em>The family room, the music room, the dining room and its bar, the master suite down round its moss garden.</em></span></a>
+      <a href="rooms-atrium.html"><img src="../tour/photos/living.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·2</small><b>Round the atrium</b><em>The terraces, the bridges and the sun court; the great library, the thermal baths, the cinema and the guest lounge.</em></span></a>
+    </div>
+  </section>
 
   <section class="part">
     <h2><small>The idea</small>A day house in the sky, a night house in the ground</h2>
@@ -121,7 +140,7 @@
 <script src="book.js"></script>
 <script>
 (function () {
-  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  var C = document.getElementById("chapters"), IMG = { site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
   BOOK.CH.slice(1).forEach(function (c) {
     var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[0] + ".html";
     a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";

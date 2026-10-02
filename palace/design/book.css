@@ -44,7 +44,7 @@ a:hover { text-decoration-color: var(--route); }
 .bar nav details { position: relative; }
 .bar nav details ol { position: absolute; right: 0; top: calc(100% + 6px); margin: 0; padding: 8px 0; list-style: none; background: var(--sheet); border: 1px solid var(--rule); width: 270px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
 .bar nav details ol a { display: flex; gap: 10px; border: 0; background: none; padding: 6px 14px; }
-.bar nav details ol a span { font: 500 12px var(--f-mono); color: var(--route); width: 22px; }
+.bar nav details ol a span { font: 500 12px var(--f-mono); color: var(--route); width: 34px; flex: none; }
 .bar nav details ol a:hover { background: var(--panel); }
 .bar nav a.atlas { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
 
@@ -150,7 +150,7 @@ table.spec td small { color: var(--ink-3); }
 .pager .soon span { font: 500 12px var(--f-mono); }
 .pager .soon b { display: block; font: 600 21px/1.2 var(--f-display); }
 .bar nav details ol .soon { display: flex; gap: 10px; padding: 6px 14px; color: var(--ink-3); font: 500 13px var(--f-body); }
-.bar nav details ol .soon span { font: 500 12px var(--f-mono); width: 22px; color: var(--ink-3); }
+.bar nav details ol .soon span { font: 500 12px var(--f-mono); width: 34px; flex: none; color: var(--ink-3); }
 .ch.soon { opacity: .62; }
 .ch.soon .tx span::after { content: " · coming"; color: var(--ink-3); }
 footer.foot { border-top: 1px solid var(--rule); padding: 18px 0 40px; font: 400 13px/1.5 var(--f-mono); color: var(--ink-3); }

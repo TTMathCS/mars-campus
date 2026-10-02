@@ -5,7 +5,10 @@ var BOOK = (function () {
     ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
     ["crown", "02", "The Crown", "The floating house above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
+    ["rooms-crown", "02·1", "The Crown, room by room", "Each part of the ring: what it is for, its plan, pictures and 360° views"],
     ["pentagon", "03", "The Pentagon", "Five levels below ground, the atrium and how it is built"],
+    ["rooms-residence", "03·1", "L1: Jim's residence", "The family room, the music room, the dining room and bar, the master suite down"],
+    ["rooms-atrium", "03·2", "L1: round the atrium", "The atrium and the sun court, the great library, the thermal baths, the cinema"],
     ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Wormhole Gate"],
     ["power", "05", "Power", "Four reactors, storage and the grid, in sunshine and in storms"],
     ["transport", "06", "Transportation", "Ships from Earth, the pod, rovers, the maglev and the portals"],
@@ -15,7 +18,7 @@ var BOOK = (function () {
     ["phases", "10", "Building it", "Robots first: the order of work, from the first landing to the city"]
   ];
   // chapters that are written; the others show as "coming" and are not linked yet
-  var READY = { index: 1, site: 1, crown: 1, pentagon: 1, interiors: 1, power: 1, transport: 1, spaceport: 1 };
+  var READY = { index: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, interiors: 1, power: 1, transport: 1, spaceport: 1 };
   var NS = "http://www.w3.org/2000/svg";
   function S(tag, a, parent) { var e = document.createElementNS(NS, tag); for (var k in (a || {})) e.setAttribute(k, a[k]); if (parent) parent.appendChild(e); return e; }
   function T(p, x, y, txt, cls, a) { var t = S("text", Object.assign({ x: r1(x), y: r1(y), "class": cls || "" }, a || {}), p); t.textContent = txt; return t; }
@@ -86,7 +89,7 @@ var BOOK = (function () {
     var root = id === "index" ? "./" : "./";
     var bar = document.createElement("header"); bar.className = "bar";
     var items = CH.map(function (c) { return READY[c[0]] ? '<li><a href="' + (c[0] === "index" ? "./" : c[0] + ".html") + '"><span>' + c[1] + "</span>" + c[2] + "</a></li>" : '<li><span class="soon"><span>' + c[1] + "</span>" + c[2] + " · coming</span></li>"; }).join("");
-    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars Campus</a> · <a href="./">Design book</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Drawings</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
+    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars Campus</a> · <a href="./">Design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Drawings</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
     document.body.insertBefore(bar, document.body.firstChild);
     var main = document.querySelector("main");
     if (main && i >= 0) {
@@ -95,7 +98,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + (prev[0] === "index" ? "./" : prev[0] + ".html") + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + next[0] + '.html"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">The Crown and the Pentagon · design book for Jim (TTMath) · Mars Campus demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
+      ft.innerHTML = '<div class="wrap">Jim\'s retirement house · design plan for Jim (TTMath) · Mars Campus demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });

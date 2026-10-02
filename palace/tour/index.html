@@ -60,6 +60,10 @@
   .card figcaption { font-size: 14px; line-height: 1.5; margin-top: 8px; opacity: .9; }
   .card .row { display: flex; gap: 8px; margin-top: 6px; }
   .card .row button { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--hot); background: var(--hot); color: #1a0f0a; font: 600 15px/1 var(--body); cursor: pointer; }
+  /* inside a page of the design plan (?embed): only the view, its rings, the title and the map */
+  body.embed #bar, body.embed #hint, body.embed #photos { display: none !important; }
+  body.embed #where .d { display: none; }
+  body.embed #map { width: 120px; }
   @media (max-width: 760px) {
     #where .d { display: none; }
     #map { width: 120px; }
@@ -85,7 +89,7 @@
   <span id="stops"></span>
   <button type="button" id="bPhotos">Photos</button>
   <span class="sp"></span>
-  <a href="../">Demo 2 home</a>
+  <a href="../design/">The design plan</a>
 </div>
 <div class="card" id="photos" hidden>
   <div class="box">
@@ -101,6 +105,7 @@
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
+  if (/[?&]embed/.test(location.search)) document.body.classList.add("embed");
   var D = Math.PI / 180, EYE = 1.55;
   /* Each stop is a 360° render (equirectangular, its middle looking along +y of the family room's frame: x along the
      glass, y into the room). p is where it was taken, az0 where you look first (degrees, 0 = +y, 90 = -x). A room on

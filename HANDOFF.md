@@ -305,6 +305,10 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 - He views the demos on his laptop. Share links; don't drive a browser on his machine.
 - He prefers short, direct answers.
 - "Try again" from him has meant "the session stopped; carry on" as well as "redo it": check whether work stalled.
+- **Demo 2 is the design plan** (2 Oct 2026): the homepage card opens `palace/design/`, *Jim's Retirement House ·
+  Design Plan*. The real-time 3D pages (the flight, the Crown, the Orb, the Pentagon) are hidden from the homepage
+  ("far from satisfying"); keep them unlinked until he says otherwise. Every area and room gets its purpose, facts,
+  floor plan and pictures/360s: edit the room data in `palace/tools/gen_plan.py` and re-run it after each render.
 - **The homepage has one card per demo, never more.** A new part of a demo (the photo tour, a new page) is a link
   inside that demo's card. He has had to say this twice ("why I have 2 demo 2? you kept making such mistake").
 - Long renders die when the container restarts: render 360s in bands (`lib.render_pano`) and publish each finished

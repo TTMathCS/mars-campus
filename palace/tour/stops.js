@@ -5,7 +5,7 @@
 window.TOUR_STOPS = [
   { id: "fire", name: "By the fire", short: "The fire", k: "L1 · Jim's family room", p: [0.8, 11.3], az0: 20, img: "pano/fire.jpg",
     d: "The family room: a hearth of lit mist in a travertine chimney breast (no open flames in air with 27% oxygen), walnut shelves lit from within, an oak ceiling and a skylight full of the Sun Well's light. The doors either side go out to the street and the master suite.",
-    links: ["glass", "piano", "table"] },
+    links: ["glass", "piano", "table", { id: "bedroom", at: [2.9, 13.6, 0], label: "Through the door: the master suite" }] },
   { id: "glass", name: "At the glass", short: "The glass", k: "L1 · Jim's family room", p: [2.6, 1.1], az0: 180, img: "pano/glass.jpg",
     d: "The whole front of the room is glass onto the atrium gardens, with doors out to the terrace. A chess table in the light; the music room is through the wall to the left, the dining room to the right.",
     links: ["fire", "terrace", "piano", "table"] },
@@ -25,6 +25,17 @@ window.TOUR_STOPS = [
   { id: "court", ready: false, name: "The sun court", short: "Sun court", k: "L5 · 68 m down", p: [0.0, -35.6], z: -44.05, az0: 0, img: "pano/court.jpg",
     d: "The bottom of the atrium: a lawn with olive trees round a pool at the foot of the column, in the light of the sky lens 52 m above. Behind the glass all round are the halls of L5: the maglev, the freight portals, the seed vault and the rovers.",
     links: [{ id: "bridge", at: [2.9, -28.1, -42.5], label: "Portal: up to L1" }] },
+
+  /* The master suite down, across the street behind the family room (ring B of sector 1). */
+  { id: "bedroom", ready: false, name: "The bedroom down", short: "Bedroom", k: "L1 · Master suite down", p: [10.4, 23.4], az0: -87, img: "pano/bedroom.jpg",
+    d: "Where Jim sleeps most nights: an upholstered headboard wall in vertical channels, walnut and pale oak, the bed facing the moss garden through the glass, two chairs by the window and sheer curtains.",
+    links: [{ id: "garden", at: [6.4, 22.0, 0], label: "Out into the moss garden" }, "bath"] },
+  { id: "garden", ready: false, name: "The moss garden", short: "Moss garden", k: "L1 · Master suite down", p: [2.17, 21.6], z: 0.05, az0: 38, img: "pano/garden.jpg",
+    d: "The heart of the suite, open to a sky ceiling: moss in cushions round a pond with maple leaves floating on it, a Japanese maple, a stone lantern that glows at night, a water basin fed by a bamboo spout, ferns and clipped box.",
+    links: ["bedroom", "bath"] },
+  { id: "bath", ready: false, name: "The bath down", short: "Bath", k: "L1 · Master suite down", p: [-11.6, 23.4], az0: 87, img: "pano/bath.jpg",
+    d: "A stone tub facing the garden, a double vanity on a wall of green marble with round mirrors lit from behind, a walk-in shower with a rain head and a teak floor, oak on the walls.",
+    links: [{ id: "garden", at: [-6.4, 22.0, 0], label: "Out into the moss garden" }, "bedroom"] },
 
   /* The other rooms of ring A on L1, each behind the glass of another side of the atrium. They are rendered in their
      own frame (the family room's, turned round the atrium's middle), so rot gives the map direction of the picture's
@@ -50,6 +61,9 @@ window.TOUR_STOPS = [
   { id: "crown_salon", place: "crown", ready: false, name: "The great salon", short: "Salon", k: "The Crown · Salon", p: [40.71, -125.30], az0: -162, img: "pano/crown_salon.jpg",
     d: "45 m along the curve of the ring: linen sofas round wool rugs, olive-wood tables, olive trees, an oak ceiling lit from its coves, and the sun in blades through the slots. A hearth of lit mist at one end, the concert grand at the other.",
     links: [{ id: "crown_bedroom", at: [46.68, -117.90, 0], label: "The Glide: to the master suite" }, { id: "crown_dining", at: [31.53, -122.82, 0], label: "The Glide: to the dining hall" }] },
+  { id: "crown_wellness", place: "crown", ready: false, name: "The pool", short: "Pool", k: "The Crown · Wellness", p: [-41.5, -123.3], az0: 71, img: "pano/crown_wellness.jpg",
+    d: "A pool 25 m long along the curve of the ring, lit from below, where low gravity makes every wave rise high and fall slowly; loungers along the Glide, a cedar sauna and a round hot pool at the spa end, the gym at the other.",
+    links: [{ id: "crown_salon", at: [-33.87, -122.14, 0], label: "The Glide: to the salon" }, { id: "crown_dining", at: [-47.48, -117.52, 0], label: "The Glide: to the dining hall" }] },
   { id: "crown_dining", place: "crown", ready: false, name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",
     d: "A table of polished basalt for twenty under the Dining spire, glass globes over it, linen chairs, and the afternoon sun low through the slots.",
     links: [{ id: "crown_salon", at: [-95.11, -83.85, 0], label: "The Glide: to the salon" }, { id: "crown_sunset", at: [-104.87, -71.27, 0], label: "The Glide: to the sunset lounge" }] },

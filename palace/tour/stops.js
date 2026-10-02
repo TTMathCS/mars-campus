@@ -55,7 +55,7 @@ window.TOUR_STOPS = [
   { id: "crown_arrival", place: "crown", ready: false, name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.26, -27.00], az0: -12, img: "pano/crown_arrival.jpg",
     d: "The first room above ground: 9 m tall, polished basalt, a long olive-wood bench, an olive tree, and slots through both walls; through the inner ones the mirror Orb floats over the garden. Behind you the Door, a ring of light that knows you; at the far end the portal.",
     links: [{ id: "crown_bedroom", at: [122.25, -33.67, 0], label: "The Glide: to the master suite" }, { id: "bridge", at: [125.72, -39.40, 1.6], label: "Portal: down to the Pentagon" }] },
-  { id: "crown_bedroom", place: "crown", ready: false, name: "The master suite up", short: "Bedroom up", k: "The Crown · Master suite up", p: [108.79, -75.90], az0: 55, img: "pano/crown_bedroom.jpg",
+  { id: "crown_bedroom", place: "crown", name: "The master suite up", short: "Bedroom up", k: "The Crown · Master suite up", p: [108.79, -75.90], az0: 55, img: "pano/crown_bedroom.jpg",
     d: "Pale oak walls, a floor of linen-coloured stone, and the bed facing the south-east slots: on a clear morning the sun rises straight across the room. A sitting corner by the slots, a desk at the far end.",
     links: [{ id: "crown_arrival", at: [108.35, -65.87, 0], label: "The Glide: to the Arrival hall" }, { id: "crown_salon", at: [99.23, -78.93, 0], label: "The Glide: to the salon" }] },
   { id: "crown_salon", place: "crown", ready: false, name: "The great salon", short: "Salon", k: "The Crown · Salon", p: [40.71, -125.30], az0: -162, img: "pano/crown_salon.jpg",

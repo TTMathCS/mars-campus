@@ -74,9 +74,10 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 ![The thermal baths: a warm pool under slots of daylight, loungers, and the atrium's olive trees through the glass](../tour/photos/baths.jpg)
 
 - **The room:** ring A of sector 3, across the atrium from Jim's residence.
-- **Made of:** grey-green quartzite floors and walls, an oak-slat ceiling with slots of light from a sky ceiling.
-- **In it:** the warm pool, loungers by the glass, stone benches with towels; the 50 m pool and the sauna are further
-  back in the same sector.
+- **Made of:** grey-green quartzite laid in thin courses, as in the baths at Vals; a ceiling of stone slabs with slots
+  of daylight between them.
+- **In it:** a warm pool at 36 °C, a round hot pool at 40 °C and a cold plunge at 14 °C, loungers along the glass, a
+  stone bench with towels; the 50 m pool, the sauna and the gym are further back in the same sector.
 - **Walk round it:** its 360° view is rendering.
 
 ## The Crown

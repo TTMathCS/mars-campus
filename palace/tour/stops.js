@@ -84,5 +84,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_bedroom.jpg", caption: "The master suite up in the Crown: pale oak walls, a floor of linen-coloured stone, the bed facing the south-east slots, where the sun rises straight across the room." },
   { img: "photos/library.jpg", caption: "The great library on L1: two storeys of books, a gallery reached by a spiral stair, reading tables under lamps, and daylight from the skylights." },
   { img: "photos/crown_library.jpg", caption: "The Crown's Library: two floors of walnut shelves along the curve of the ring, a gallery reached by a spiral stair, reading tables under brass pendants, the window slots between the shelves." },
-  { img: "photos/crown_maproom.jpg", caption: "The map room in the Crown's Library: a globe of Mars 3 m across in a bronze meridian, chests of map drawers, the afternoon sun through the slots." }
+  { img: "photos/crown_maproom.jpg", caption: "The map room in the Crown's Library: a globe of Mars 3 m across in a bronze meridian, chests of map drawers, the afternoon sun through the slots." },
+  { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." }
 ];

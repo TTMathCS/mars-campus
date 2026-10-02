@@ -15,7 +15,7 @@ picture: what the room is, what it is made of, and a link to walk round it in 36
 | [<img src="../tour/photos/library.jpg" alt="The great library">](#the-great-library) | [<img src="../design/img/pano/table.jpg" alt="The dining room">](#the-dining-room-and-the-bar) | [<img src="../tour/photos/crown_bedroom.jpg" alt="The master suite up">](#the-master-suite-up) |
 | **[The great library](#the-great-library)**, L1 | **[The dining room](#the-dining-room-and-the-bar)**, L1 | **[The master suite up](#the-master-suite-up)**, the Crown |
 
-**Rendering now**, and added here as each one finishes: the thermal baths and the cinema (L1, across the atrium);
+**Rendering now**, and added here as each one finishes: the cinema (L1, across the atrium);
 the master suite down, with its moss garden and bath; the Crown's library and map room, its pool, Arrival hall, dining
 hall and sunset lounge.
 
@@ -68,6 +68,16 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 - **Walk round it:** [in the library](https://ttmathcs.github.io/mars-campus/palace/tour/#library)
 
 ![The great library from above, the ceiling taken off: the glass onto the atrium along the bottom, four seating groups, three reading tables, the spiral stair](../design/img/above/l1-library.jpg)
+
+### The thermal baths
+
+![The thermal baths: a warm pool under slots of daylight, loungers, and the atrium's olive trees through the glass](../tour/photos/baths.jpg)
+
+- **The room:** ring A of sector 3, across the atrium from Jim's residence.
+- **Made of:** grey-green quartzite floors and walls, an oak-slat ceiling with slots of light from a sky ceiling.
+- **In it:** the warm pool, loungers by the glass, stone benches with towels; the 50 m pool and the sauna are further
+  back in the same sector.
+- **Walk round it:** its 360° view is rendering.
 
 ## The Crown
 

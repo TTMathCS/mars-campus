@@ -89,7 +89,7 @@ var BOOK = (function () {
     var root = id === "index" ? "./" : "./";
     var bar = document.createElement("header"); bar.className = "bar";
     var items = CH.map(function (c) { return READY[c[0]] ? '<li><a href="' + (c[0] === "index" ? "./" : c[0] + ".html") + '"><span>' + c[1] + "</span>" + c[2] + "</a></li>" : '<li><span class="soon"><span>' + c[1] + "</span>" + c[2] + " · coming</span></li>"; }).join("");
-    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars Campus</a> · <a href="./">Design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Drawings</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
+    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars – No Way Home</a> · <a href="./">Design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Drawings</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
     document.body.insertBefore(bar, document.body.firstChild);
     var main = document.querySelector("main");
     if (main && i >= 0) {
@@ -98,7 +98,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + (prev[0] === "index" ? "./" : prev[0] + ".html") + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + next[0] + '.html"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">Jim\'s retirement house · design plan for Jim (TTMath) · Mars Campus demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
+      ft.innerHTML = '<div class="wrap">Jim\'s retirement house · design plan for Jim (TTMath) · Mars – No Way Home, demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });

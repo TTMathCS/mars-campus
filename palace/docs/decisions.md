@@ -35,8 +35,9 @@ choice is recorded below. Shown for review:
   been given a card of its own. **Done:** it is a link inside the one demo 2 card. → GN-2.
 - **The site's name.** Jim: "Mars Campus this title is not good. I like sth 'die on mars' but that is bit more
   extreme I think?" Offered: *Grow Old on Mars* (recommended: it means the same, staying for the rest of your life,
-  and suits a retirement house), *Mars, for Good*, *One Way to Mars*, or *Die on Mars* itself. **Waiting for his
-  pick.**
+  and suits a retirement house), *Mars, for Good*, *One Way to Mars*, or *Die on Mars* itself. Jim: "oh I thought of
+  the homepage title 'Mars - No Way Home'". **Done:** the site is *Mars – No Way Home* on the homepage and in every
+  page's header; the repository keeps its name.
 - **The docs.** Jim: "the new images created looks great. I am thinking you can organize the docs with the images
   to illustrate first, which could be great resources along with final 3D". **Done:** a new page,
   [The rooms, in pictures](rooms.md), shows every rendered room picture first, with what it is made of and a link to

@@ -1,4 +1,6 @@
-# Mars Campus
+# Mars – No Way Home
+
+The site is called *Mars – No Way Home* (Jim's choice, 2 Oct 2026); the repository keeps its name, `mars-campus`.
 
 Walkable 3D places on Mars that run in the browser. Each demo is an imagined place to discover on foot; demo 1 stands on real NASA ground from Gale Crater.
 
@@ -9,7 +11,7 @@ Walkable 3D places on Mars that run in the browser. Each demo is an imagined pla
 | Demo | Link | Requirements | What it is |
 |---|---|---|---|
 | 1. TTMath on Mars | [ttmathcs.github.io/mars-campus/ttmath/](https://ttmathcs.github.io/mars-campus/ttmath/) | [ttmath/REQUIREMENTS.md](ttmath/REQUIREMENTS.md) | Sunset at Dingo Gap. Walk over the ridge, through the gateway into the courtyard of the TTMath campus: a classroom wing (math classroom, coding lab, seminar room), a café and library wing, and the Math Palace, a 56 m glass dome with a rotunda of math exhibits, a Foucault pendulum and a golden Möbius strip. Real-looking marble, brass, wood and glass. |
-| 2. Jim's retirement house: the Crown and the Pentagon | [ttmathcs.github.io/mars-campus/palace/design/](https://ttmathcs.github.io/mars-campus/palace/design/) | [palace/REQUIREMENTS.md](palace/REQUIREMENTS.md) | Jim's retirement house in Arcadia Planitia, in design. A white crown floats on anti-gravity over a stone garden, with a mirror Orb, where the universe fills the rooms in 3D round the Wormhole Gate; five levels lie below ground; a spaceport stands 30 km east, and a pod flies him home through a dust storm. The design book, floor plans and a zoomable Mars Atlas are live; the 3D walk-through comes after Jim approves the design. Start at [palace/README.md](palace/README.md). |
+| 2. Jim's retirement house: the design plan | [ttmathcs.github.io/mars-campus/palace/design/](https://ttmathcs.github.io/mars-campus/palace/design/) | [palace/REQUIREMENTS.md](palace/REQUIREMENTS.md) | Jim's retirement house in Arcadia Planitia: a white crown floats on anti-gravity over a stone garden, with a mirror Orb, where the universe fills the rooms in 3D round the Wormhole Gate; five levels lie below ground. The design plan shows it area by area and room by room, each with what it is for, its floor plan, and path-traced pictures and 360° views; floor plans and a zoomable Mars Atlas are live. Start at [palace/README.md](palace/README.md). |
 
 **Demo 2 is in design.** Its home in this repo is [palace/README.md](palace/README.md): requirements, decisions, the design chapter by chapter with every diagram and picture, and the floor plans. The first palace from rounds 1 and 2 is archived at [palace/archive/old-palace/](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/).
 

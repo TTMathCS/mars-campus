@@ -40,7 +40,7 @@ window.TOUR_STOPS = [
   /* The other rooms of ring A on L1, each behind the glass of another side of the atrium. They are rendered in their
      own frame (the family room's, turned round the atrium's middle), so rot gives the map direction of the picture's
      middle; p is on the map. Full height, 7.6 m: the library, the baths and the cinema. */
-  { id: "library", ready: false, rot: 144, name: "The great library", short: "Library", k: "L1 · The great library", p: [-18.69, -45.73], az0: 20, img: "pano/library.jpg",
+  { id: "library", rot: 144, name: "The great library", short: "Library", k: "L1 · The great library", p: [-18.69, -45.73], az0: 20, img: "pano/library.jpg",
     d: "Two storeys of books on three walls, 49 m along the back: walnut shelves washed with warm light, a gallery all round reached by a spiral stair, rolling ladders, long reading tables with brass lamps, leather chairs by the glass and a globe of the Earth.",
     links: [{ id: "bridge", at: [-13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
   { id: "baths", ready: false, rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
@@ -70,7 +70,7 @@ window.TOUR_STOPS = [
   { id: "crown_sunset", place: "crown", ready: false, name: "The sunset lounge", short: "Sunset lounge", k: "The Crown · Sunset lounge", p: [-131.75, 0.0], az0: 90, img: "pano/crown_sunset.jpg",
     d: "The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight in for a few minutes while the sky round it turns blue, as the sky of Mars does.",
     links: [{ id: "crown_dining", at: [-126.55, -7.96, 0], label: "The Glide: to the dining hall" }, { id: "crown_arrival", at: [-126.55, 7.96, 0], label: "The Glide: round to the Arrival hall" }, { id: "crown_library", at: [-125.52, 17.64, 0], label: "The Glide: to the library" }] },
-  { id: "crown_library", place: "crown", ready: false, name: "The library", short: "Library up", k: "The Crown · Library", p: [-107.97, 73.93], az0: -34, img: "pano/crown_library.jpg",
+  { id: "crown_library", place: "crown", name: "The library", short: "Library up", k: "The Crown · Library", p: [-107.97, 73.93], az0: -34, img: "pano/crown_library.jpg",
     d: "Two floors of walnut shelves along the outer wall under the Library spire, 9.5 m tall: a gallery reached by a spiral stair, low cases along the Glide, long reading tables under brass pendants, and the window slots between the two floors of books.",
     links: [{ id: "crown_sunset", at: [-109.77, 63.38, 0], label: "The Glide: to the sunset lounge" }, { id: "crown_maproom", at: [-90.0, 94.84, 0], label: "The map room" }, { id: "crown_arrival", at: [-98.5, 79.77, 0], label: "The Glide: round to the Arrival hall" }] },
   { id: "crown_maproom", place: "crown", ready: false, name: "The map room", short: "Map room", k: "The Crown · Library", p: [-87.49, 97.17], az0: -41, img: "pano/crown_maproom.jpg",

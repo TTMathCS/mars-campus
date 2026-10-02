@@ -9,7 +9,7 @@ if kind == "pano":
     dst = os.path.join(TOUR, "pano", name + ".jpg"); Image.open(src).convert("RGB").save(dst, "JPEG", quality=86, optimize=True, progressive=True)
     s = open(STOPS).read(); lines = s.split("\n")
     for i, l in enumerate(lines):
-        if l.lstrip().startswith('{ id: "%s",' % name): lines[i] = l.replace("ready: false, ", "", 1); break
+        if l.lstrip().startswith('{ id: "%s",' % name) and " name: " in l: lines[i] = l.replace("ready: false, ", "", 1); break      # a stop, not a link to it
     s2 = "\n".join(lines)
     if s2 == s and ('id: "%s"' % name) not in s: sys.exit("no stop " + name)
     open(STOPS, "w").write(s2); print("pano", name, os.path.getsize(dst) // 1024, "KB", "(was hidden)" if s2 != s else "(already shown)")

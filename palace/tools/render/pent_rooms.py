@@ -318,7 +318,7 @@ def pool_rect(name, x0, x1, y0, y1, depth, M, glow, cutters, steps_at=None):
     if steps_at is not None:     # steps down along the x0 end
         n = int(depth / 0.2)
         for i in range(n):
-            lib.box(name + " step", (0.32 * (n - i), y1 - y0 - 2.4, 0.2), (x0 + 0.16 * (n - i), (y0 + y1) / 2, -0.06 - 0.2 * i - 0.1 - 0.0), M["basin"])
+            lib.box(name + " step", (0.32 * (n - i), y1 - y0 - 2.4, 0.2), (x0 + 0.16 * (n - i), (y0 + y1) / 2, -0.06 - 0.2 * (i + 1) - 0.1), M["basin"])      # every tread under the water
 
 
 def pool_round(name, cx, cy, r, depth, M, glow, cutters):
@@ -513,6 +513,9 @@ def build(room):
     lite = os.environ.get("LITE") == "1"                      # previews: no hedges, no rooms across the atrium, no levels below
     atrium.build(M, random.Random(11), not lite, not lite)
     if not lite: atrium.build_lower(M, random.Random(13))
+    if room == "baths":      # the pools hang into the slab over the garden level: drop the garden's sky of lamps below the
+        for o in bpy.data.objects:      # deepest, or it shows through the water as a white floor
+            if o.name.startswith("garden sky"): o.location.z -= 1.0
     family.lights()
     return sc, R
 

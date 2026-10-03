@@ -142,7 +142,8 @@ ATRIUM = dict(
         dict(id="guests", codes=["L1-32"], k="L1-32 · ring A · sector 5", name="The guest lounge",
              purpose="Where visitors from Earth gather. They come only once every 26 months and stay until the next launch window, so they have real apartments: eight guest suites above the lounge and behind it, and two family apartments.",
              facts=[("Rooms", "L1-32 Guest lounge, two storeys of 4 m, 546 m² · L1-33 to L1-40 Guest suites 1 to 8 · L1-41, L1-42 Family apartments · L1-43 Staff and robots")],
-             photos=[], views=[], plan=("img/plan/l1-guests.jpg", "Ring A of sector 5, north-east of the atrium.")),
+             photos=[("../tour/photos/guests.jpg", "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites."), ("../tour/photos/guests2.jpg", "From the gallery: the lounge and the atrium through the glass.")],
+             views=[("guests", "The guest lounge")], plan=("img/plan/l1-guests.jpg", "Ring A of sector 5, north-east of the atrium.")),
     ])
 
 CROWN = dict(
@@ -197,13 +198,22 @@ CROWN = dict(
              above=("img/above/crown-library.jpg", "the study at the left end, the reading tables and the spiral stair on its long rug in the library hall, low cases along the Glide, and the map room with its globe of Mars at the right end.")),
         dict(id="studio", codes=["C-27", "C-28", "C-29"], k="C-27 to C-29 · part 8 · north-north-west", name="The Studio",
              purpose="Jim's art studio in the steady north light through the slots, a photo and print room for his pictures of Mars, and a craft room for pottery and models; heavy work goes down to the workshops on L3.",
-             facts=[("Rooms", "C-27 Art studio · C-28 Photo and print room · C-29 Craft room")], photos=[], views=[], plan=("img/plan/crown-studio.jpg", "Part 8, north-north-west.")),
+             facts=[("Rooms", "C-27 Art studio · C-28 Photo and print room · C-29 Craft room"), ("Made of", "Oak boards, regolith plaster, walnut cases and counters, beech easels."),
+                    ("In it", "Three easels in the north light, a standing work table of brushes and paints, a wide printer and a light table, Jim's prints of Mars on the walls, a potter's wheel, a kiln and shelves of pots, a bench for models.")],
+             photos=[("../tour/photos/crown_studio.jpg", "The art studio: easels in the north light from the slots, the work table, canvases waiting."), ("../tour/photos/crown_craft.jpg", "The craft room: the potter's wheel, shelves of pots and the bench for models.")],
+             views=[("crown_studio", "The Studio")], plan=("img/plan/crown-studio.jpg", "Part 8, north-north-west.")),
         dict(id="observatory", codes=["C-30", "C-31"], k="C-30 to C-32 · part 9 · north · a spire", name="The Observatory",
              purpose="A star lounge with reclining chairs under the northern sky, the telescope room with its controls and screens, and the telescope dome upstairs in the spire, which opens at night. From here Earth shows as the evening or the morning star, with the Moon beside it in the telescope.",
-             facts=[("Rooms", "C-30 Star lounge · C-31 Telescope room; C-32 Telescope dome upstairs")], photos=[], views=[], plan=("img/plan/crown-observatory.jpg", "Part 9, north.")),
+             facts=[("Rooms", "C-30 Star lounge · C-31 Telescope room; C-32 Telescope dome upstairs"), ("Made of", "Polished basalt, an oak-slat ceiling on black felt, tan leather, walnut."),
+                    ("In it", "Ten reclining chairs in pairs under the outer slots, side tables with candles of light, a long desk of screens showing what the telescope sees, the portal up to the dome.")],
+             photos=[("../tour/photos/crown_stars.jpg", "The star lounge at night: reclining chairs under the slots full of stars."), ("../tour/photos/crown_telescope.jpg", "The telescope room: screens of what the telescope sees, the portal up to the dome.")],
+             views=[("crown_stars", "The star lounge")], plan=("img/plan/crown-observatory.jpg", "Part 9, north.")),
         dict(id="garden_room", codes=["C-33", "C-34"], k="C-33 to C-34 · part 10 · north-east", name="The Garden room",
              purpose="A breakfast room in the morning light through the east slots, and a sky garden of fruit trees, flowers and herbs: a conservatory in the ring, with fresh herbs for the chef's kitchen.",
-             facts=[("Rooms", "C-33 Breakfast room · C-34 Sky garden")], photos=[], views=[], plan=("img/plan/crown-garden_room.jpg", "Part 10, north-east.")),
+             facts=[("Rooms", "C-33 Breakfast room · C-34 Sky garden"), ("Made of", "Oak and linen-coloured stone, basalt beds, raked gravel."),
+                    ("In it", "A round oak table for six under a glass globe, a sitting corner by the slots; beds of basil, sage, rosemary and thyme, lavender, marigolds and poppies under small lemon and olive trees; grow lights on long cables.")],
+             photos=[("../tour/photos/crown_breakfast.jpg", "The breakfast room at sunrise, the sun through the east slots."), ("../tour/photos/crown_garden.jpg", "The sky garden: herbs and flowers under lemon and olive trees.")],
+             views=[("crown_garden", "The sky garden")], plan=("img/plan/crown-garden_room.jpg", "Part 10, north-east.")),
     ])
 
 AREAS = [CROWN, RESIDENCE, ATRIUM]

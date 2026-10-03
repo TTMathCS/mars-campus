@@ -469,6 +469,73 @@ def cinema(M, rnd):
             lib.box("armrest top", (0.15, 0.66, 0.025), (-4.0 + 0.8 * k, y - 0.02, z + 0.63), M["walnut"], bevel=0.006)
 
 
+# ---------------------------------------------------------------- the guest lounge
+def guests(M, rnd):
+    """the guest lounge (L1-32), ring A of sector 5: where visitors from Earth and Jim meet in the evening. Two storeys
+    on the atrium glass: a sitting room round a low table by the glass, a dining table for twelve, and a gallery along
+    the back wall with the doors of the guest suites; the suites behind open off the floor below"""
+    shell(M, M["oak"], M["plaster"], [(-7.0, 6.4, 3.2, 3.2), (7.0, 6.4, 3.2, 3.2)], door_bay=4)
+    GZ = 4.0; gy = DEP - 2.4; hw = half_w(gy)
+    # the gallery: a walnut deck on bronze columns, a glass balustrade, eight suite doors and lamps between them
+    lib.poly_prism("gallery deck", [(-hw, gy), (hw, gy), (HW1 + 0.1, DEP), (-HW1 - 0.1, DEP)], GZ - 0.25, GZ, M["walnut"])
+    for (x0, x1) in ((-hw + 0.1, 16.1), (18.3, hw - 0.1)):        # the balustrade, open where the stair comes up
+        lib.box("gallery glass", (x1 - x0, 0.02, 1.0), ((x0 + x1) / 2, gy + 0.03, GZ + 0.5), M["glass_rail"])
+        lib.box("gallery rail", (x1 - x0, 0.07, 0.05), ((x0 + x1) / 2, gy + 0.03, GZ + 1.03), M["bronze"], bevel=0.01)
+    lib.box("gallery edge", (2 * hw, 0.05, 0.25), (0, gy - 0.02, GZ - 0.125), M["bronze_dark"])
+    x = -hw + 2.0
+    while x < hw - 1.0:
+        lib.cyl("gallery column", 0.085, GZ - 0.25, (x, gy + 0.35, 0.0), M["bronze_dark"], verts=32); x += 4.0
+    lens = lib.emission("downlight lens", (1.0, 0.80, 0.60), 35.0)
+    for xx in [k * 3.2 for k in range(-6, 7)]:      # downlights under the gallery
+        if abs(xx) < half_w(gy + 1.0) - 1.0:
+            lib.cyl("downlight lens", 0.035, 0.004, (xx, gy + 1.1, GZ - 0.255), lens, verts=24); lib.spot_light("downlight", (xx, gy + 1.1, GZ - 0.28), 50, (1.0, 0.80, 0.60), 0.02, 70, 0.6)
+    for k in range(8):
+        dx = -17.5 + 5.0 * k
+        lib.box("suite door", (1.1, 0.06, 2.4), (dx, DEP - 0.04, GZ + 1.2), M["walnut_v"], bevel=0.004)
+        lib.box("door handle", (0.14, 0.04, 0.02), (dx + 0.38, DEP - 0.09, GZ + 1.1), M["brass"], bevel=0.005)
+        if k < 7:
+            lib.box("wall lamp", (0.12, 0.08, 0.5), (dx + 2.5, DEP - 0.06, GZ + 2.0), lib.emission("wall lamp glow", (1.0, 0.7, 0.42), 10.0), bevel=0.02)
+            lib.point_light("wall lamp light", (dx + 2.5, DEP - 0.3, GZ + 2.0), 30, (1.0, 0.7, 0.42), 0.06)
+    for dx in (-9.0, 9.0):                           # the suites behind, through double doors under the gallery
+        for s_ in (-1, 1): lib.box("door", (0.98, 0.06, 2.7), (dx + s_ * 0.5, DEP - 0.04, 1.35), M["walnut_v"], bevel=0.004)
+    spiral_stair("gallery stair", 17.2, gy - 1.3, 1.1, GZ, M, steps=18, start=math.pi / 2 - 2 * math.pi * 0.9 * 17 / 18)
+    # sitting by the glass: two sofas facing across a low table, two armchairs, a rug, lamps
+    sofa = lib.import_glb(os.path.join(A, "GlamVelvetSofa.glb"), (-7.0, 6.9, 0.014), math.radians(180), name="sofa"); family.tint_fabric(sofa, (0.62, 0.55, 0.46))
+    lib.instance_of(sofa, (-7.0, 2.3, 0.014), 0.0, name="sofa 2")
+    ch = lib.import_glb(os.path.join(A, "SheenChair.glb"), (-10.6, 4.6, 0.014), math.radians(-90), name="chair"); family.tint_fabric(ch, (0.30, 0.22, 0.15))
+    lib.instance_of(ch, (-3.4, 4.6, 0.014), math.radians(90), name="chair 2")
+    lib.box("lounge rug", (7.6, 5.6, 0.014), (-7.0, 4.6, 0.007), M["rug"], bevel=0.006, segs=2)
+    lib.box("low table", (2.0, 1.0, 0.07), (-7.0, 4.6, 0.37), M["walnut"], bevel=0.012)
+    lib.box("low table base", (1.6, 0.7, 0.33), (-7.0, 4.6, 0.17), M["walnut_v"], bevel=0.006)
+    lib.import_glb(os.path.join(A, "GlassVaseFlowers.glb"), (-6.6, 4.5, 0.405), 0.3, 1.5, name="flowers")
+    lib.import_glb(os.path.join(A, "DiffuseTransmissionTeacup.glb"), (-7.5, 4.8, 0.405), 0.6, 1.0, name="teacup")
+    for p in ((-11.2, 7.0), (-2.8, 7.0)): furn.floor_lamp("floor lamp", (p[0], p[1], 0.0), M, watts=60)
+    # dining: a walnut table for twelve under glass globes
+    tx, ty, L_ = 7.2, 7.4, 6.6
+    lib.box("dining top", (L_, 1.25, 0.05), (tx, ty, 0.745), M["walnut"], bevel=0.006)
+    for s_ in (-1, 1): lib.box("dining trestle", (0.12, 1.0, 0.72), (tx + s_ * (L_ / 2 - 0.9), ty, 0.36), M["walnut_v"], bevel=0.006)
+    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15)
+    for k in range(6):
+        cx = tx - L_ / 2 + 0.55 + k * (L_ - 1.1) / 5
+        for s_ in (-1, 1):
+            furn.dining_chair("chair", (cx, ty + s_ * 0.95, 0.0), 0.0 if s_ > 0 else math.pi, M)
+            lib.cyl("plate", 0.13, 0.012, (cx, ty + s_ * 0.36, 0.77), M["marble"], verts=48, bevel=0.003)
+        if k < 5:
+            gx = cx + (L_ - 1.1) / 10; gz = 2.4
+            furn.lathe("globe", [(0.0, -0.2), (0.11, -0.17), (0.19, -0.06), (0.2, 0.0), (0.19, 0.08), (0.14, 0.15), (0.04, 0.195), (0.0, 0.2)], globe, 48, (gx, ty, gz))
+            lib.cyl("globe bulb", 0.025, 0.05, (gx, ty, gz - 0.025), lib.emission("bulb", (1.0, 0.72, 0.45), 70), verts=16)
+            lib.cyl("globe cable", 0.002, HT - gz - 0.2, (gx, ty, gz + 0.2), M["shadow"], verts=8)
+            lib.point_light("globe light", (gx, ty, gz), 45, (1.0, 0.75, 0.5), 0.07)
+    lib.box("dining rug", (L_ + 2.4, 3.6, 0.014), (tx, ty, 0.007), M["rug"], bevel=0.006, segs=2)
+    # a sideboard under the gallery, olive trees by the glass
+    lib.box("sideboard", (3.2, 0.5, 0.85), (0.0, DEP - 0.3, 0.425), M["walnut"], bevel=0.008)
+    lib.box("sideboard top", (3.24, 0.52, 0.03), (0.0, DEP - 0.3, 0.865), M["marble"], bevel=0.004)
+    for (x, y) in ((-13.2, 1.5), (13.2, 1.5)):
+        lib.box("tree planter", (1.0, 1.0, 0.55), (x, y, 0.275), M["travertine"], bevel=0.01)
+        furn.olive_tree("olive", (x, y, 0.55), int(abs(x) * 100), M, height=4.2, leaves=20000)
+    downlights(M, [2.0, 5.2, 8.4], 3.2, 45, avoid=[(-7.0, 6.4, 3.2, 3.2), (7.0, 6.4, 3.2, 3.2)])
+
+
 def shell_walls(M, wall_mat):
     lib.box("back wall", (2 * HW1 + 1.0, 0.3, HT + 0.8), (0, DEP + 0.15, (HT + 0.8) / 2), wall_mat)
     for sgn in (-1, 1):
@@ -504,6 +571,10 @@ ROOMS = {
         "cinema": dict(loc=(5.6, 10.6, 1.6), target=(-2.0, 2.5, 1.3), lens=18),
         "cinema2": dict(loc=(0.0, 1.0, 2.9), target=(0.0, 13.9, 3.6), lens=20),
     }, stops={"cinema": (0.0, 1.6, 1.26)}),
+    "guests": dict(build=guests, cams={
+        "guests": dict(loc=(-12.6, 1.4, 1.6), target=(6.0, 11.0, 3.2), lens=17),
+        "guests2": dict(loc=(8.0, DEP - 1.8, 4.0 + 1.55), target=(-5.0, 0.0, 2.6), lens=18),
+    }, stops={"guests": (0.0, 5.6, 0.0)}),
 }
 
 

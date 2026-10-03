@@ -139,12 +139,14 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 
 ![The Crown's dining hall: one long basalt table under glass globes, linen chairs, the sun through the slots](../tour/photos/crown_dining.jpg)
 
-- **The room:** part 5 of the ring, west-south-west, under the Dining spire; the chef's kitchen and the wine room
-  beside it, the Sky bar upstairs in the spire.
+- **The room:** C-17, part 5 of the ring, west-south-west, under the Dining spire; the chef's kitchen (C-18) and the
+  wine room (C-16) beside it, the Sky bar (C-19) upstairs in the spire.
 - **Made of:** a floor of polished basalt, regolith plaster walls, an oak-slat ceiling, linen, glass.
 - **In it:** one table of polished basalt for 22 with linen chairs, a row of glass globes on cords over it, a painting
   between the slots, and the afternoon sun low through them.
-- **Walk round it:** its 360° view is rendering.
+- **Walk round it:** [the dining hall](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_dining)
+
+![The dining hall from above, the ceiling taken off: the basalt table for 22 under its globes, sideboards at either end, the Glide](../design/img/above/crown-dining.jpg)
 
 ### The pool
 

@@ -64,7 +64,7 @@ window.TOUR_STOPS = [
   { id: "crown_wellness", place: "crown", name: "The pool", short: "Pool", k: "The Crown · Wellness", p: [-41.5, -123.3], az0: 71, img: "pano/crown_wellness.jpg",
     d: "A pool 25 m long along the curve of the ring, lit from below, where low gravity makes every wave rise high and fall slowly; loungers along the Glide, a cedar sauna and a round hot pool at the spa end, the gym at the other.",
     links: [{ id: "crown_salon", at: [-33.87, -122.14, 0], label: "The Glide: to the salon" }, { id: "crown_dining", at: [-47.48, -117.52, 0], label: "The Glide: to the dining hall" }] },
-  { id: "crown_dining", place: "crown", ready: false, name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",
+  { id: "crown_dining", place: "crown", name: "The dining hall", short: "Dining hall", k: "The Crown · Dining", p: [-105.37, -81.73], az0: -52, img: "pano/crown_dining.jpg",
     d: "A table of polished basalt for 22 under the Dining spire, glass globes over it, linen chairs, and the afternoon sun low through the slots.",
     links: [{ id: "crown_salon", at: [-95.11, -83.85, 0], label: "The Glide: to the salon" }, { id: "crown_sunset", at: [-104.87, -71.27, 0], label: "The Glide: to the sunset lounge" }] },
   { id: "crown_sunset", place: "crown", ready: false, name: "The sunset lounge", short: "Sunset lounge", k: "The Crown · Sunset lounge", p: [-131.75, 0.0], az0: 90, img: "pano/crown_sunset.jpg",

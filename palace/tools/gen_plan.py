@@ -92,7 +92,8 @@ RESIDENCE = dict(
         dict(id="back", codes=["L1-05", "L1-10", "L1-11", "L1-12", "L1-13", "L1-14", "L1-15", "L1-16"], k="L1-05, L1-10 to L1-16 · rings B to E", name="The kitchen, the robot bay and the stores",
              purpose="Round and behind the suite: the kitchen across the street from the dining room, where robots cook and Jim can too; the laundry; the pantry, the robot bay and the household stores; Jim's memory rooms, with his keepsakes from Earth and his memoirs; the wardrobes and the residence's plant room.",
              facts=[("Rooms", "Ring B: L1-05 Laundry and linen, L1-10 Kitchen · ring C: L1-11 Pantry and cold store, L1-12 Robot bay, L1-13 Household stores · ring D: L1-14 Memory rooms · ring E: L1-15 Wardrobe and stores, L1-16 Residence plant room")],
-             photos=[], views=[], plan=("img/plan/l1-back.jpg", "Rings B to E of sector 1, round and behind the master suite down.")),
+             photos=[("../tour/photos/kitchen.jpg", "The kitchen: the island for breakfast, the open shelves, and the robot that cooks on its rail.")], views=[("kitchen", "The kitchen")],
+             plan=("img/plan/l1-back.jpg", "Rings B to E of sector 1, round and behind the master suite down.")),
     ])
 
 ATRIUM = dict(

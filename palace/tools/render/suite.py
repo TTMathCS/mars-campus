@@ -371,6 +371,80 @@ def bath(M, rnd):
             lib.spot_light("downlight", (-x, y, HB - 0.03), 30, (1.0, 0.80, 0.60), 0.02, 75, 0.6)
 
 
+
+def kitchen(M, rnd):
+    """the kitchen (L1-10), on the suite's +x side beyond the bedroom, across the street from the dining room: counters
+    and open shelves along the back wall, tall units at the end, an island to breakfast at, and the robot that cooks on
+    its rail over the counters (Jim can cook too)"""
+    x0, x1 = 15.8, 29.85; yc = (B0 + B1) / 2
+    lib.box("kitchen ceiling", (x1 - 20.3, B1 - B0, 0.3), ((20.3 + x1) / 2, yc, HB + 0.15), M["ceiling"])
+    lib.box("kitchen end wall", (0.3, B1 - B0, HB + 0.3), (x1 + 0.15, yc, (HB + 0.3) / 2), M["plaster"])
+    lib.box("kitchen door", (1.1, 0.06, 2.8), (18.6, B0 + 0.2, 1.4), M["walnut_v"], bevel=0.003)
+    lib.box("kitchen door pull", (0.03, 0.04, 1.0), (18.2, B0 + 0.25, 1.2), M["brass"], bevel=0.006)
+    stone = M["marble"]; robot = lib.principled("robot white", (0.82, 0.82, 0.80), 0.3, **{"Coat Weight": 0.4}); joint = lib.principled("robot joint", (0.05, 0.05, 0.055), 0.4)
+    # the back wall: base cabinets, a stone top, a splashback of travertine, two open shelves of crockery and jars
+    cx0, cx1 = 17.0, 28.4; cw = cx1 - cx0; cm = (cx0 + cx1) / 2; yb = B1 - 0.01
+    lib.box("base cabinets", (cw, 0.62, 0.86), (cm, yb - 0.31, 0.43), M["walnut"], bevel=0.004)
+    for k in range(int(cw / 0.6)):
+        lib.box("cabinet line", (0.004, 0.006, 0.8), (cx0 + 0.6 * (k + 1), yb - 0.625, 0.45), M["shadow"])
+    lib.box("worktop", (cw + 0.04, 0.66, 0.04), (cm, yb - 0.33, 0.88), stone, bevel=0.003)
+    lib.box("splashback", (cw, 0.02, 0.62), (cm, yb - 0.01, 1.21), M["travertine"])
+    lib.box("hob", (0.8, 0.52, 0.006), (21.6, yb - 0.32, 0.903), lib.principled("hob glass", (0.01, 0.01, 0.012), 0.08, **{"Coat Weight": 1.0}))
+    lib.box("sink", (0.75, 0.42, 0.02), (25.2, yb - 0.33, 0.895), lib.principled("sink steel", (0.6, 0.6, 0.62), 0.25, 1.0))
+    lib.cyl("tap", 0.015, 0.32, (25.2, yb - 0.1, 0.9), M["brass"], verts=16)
+    lib.cyl("tap spout", 0.012, 0.2, (25.2, yb - 0.1, 1.2), M["brass"], verts=16, rot=(math.radians(90), 0, 0))
+    for z in (1.66, 2.12):
+        lib.box("open shelf", (cw - 1.2, 0.3, 0.04), (cm - 0.6, yb - 0.16, z), M["walnut"], bevel=0.003)
+        lib.box("shelf light", (cw - 1.3, 0.02, 0.008), (cm - 0.6, yb - 0.26, z - 0.024), lib.emission("shelf glow", (1.0, 0.78, 0.55), 14.0))
+        x = cx0 + 0.25
+        while x < cx1 - 1.5:
+            furn.ornament("kitchen jar", x, yb - 0.17, z + 0.02, rnd.uniform(0.12, 0.26), rnd, M["ceramics"] if "ceramics" in M else [M["glaze"]])
+            x += rnd.uniform(0.22, 0.4)
+    # tall units at the end wall: the cold store's door, two ovens, a larder
+    lib.box("tall units", (0.66, 4.8, 2.5), (x1 - 0.33, 27.4, 1.25), M["walnut_v"], bevel=0.004)
+    for (y, z, h) in ((26.1, 1.05, 0.6), (26.1, 1.72, 0.6)):
+        lib.box("oven", (0.02, 0.62, h - 0.06), (x1 - 0.665, y, z), lib.principled("oven glass", (0.015, 0.015, 0.016), 0.06, **{"Coat Weight": 1.0}))
+    for y in (25.4, 27.4, 29.2): lib.box("tall line", (0.006, 0.004, 2.4), (x1 - 0.665, y, 1.25), M["shadow"])
+    # the island: walnut under a thick stone top, four stools, the morning's things on it
+    ix, iy = 22.4, 24.6
+    lib.box("island", (3.8, 1.0, 0.86), (ix, iy, 0.43), M["walnut"], bevel=0.006)
+    lib.box("island top", (4.2, 1.3, 0.06), (ix, iy - 0.08, 0.89), stone, bevel=0.004)
+    for k in range(4):
+        sx = ix - 1.35 + 0.9 * k; st = lib.cyl("stool seat", 0.19, 0.05, (sx, iy - 1.05, 0.66), M["walnut"], verts=40, bevel=0.01)
+        lib.cyl("stool stem", 0.03, 0.66, (sx, iy - 1.05, 0.0), M["bronze_dark"], verts=16)
+        lib.cyl("stool foot", 0.2, 0.015, (sx, iy - 1.05, 0.0), M["bronze_dark"], verts=40)
+        lib.cyl("stool ring", 0.17, 0.012, (sx, iy - 1.05, 0.24), M["bronze_dark"], verts=40)
+    lemon = lib.principled("lemon skin", (0.85, 0.62, 0.05), 0.35, **{"Coat Weight": 0.3})
+    furn.lathe("fruit bowl", [(0.0, 0.0), (0.08, 0.0), (0.16, 0.05), (0.19, 0.09), (0.18, 0.09), (0.15, 0.055), (0.0, 0.02)], M["glaze"], 48, (ix - 0.8, iy, 0.92))
+    for k in range(6):
+        a = k * 1.05; bpy.ops.mesh.primitive_uv_sphere_add(segments=16, ring_count=10, radius=0.036, location=(ix - 0.8 + 0.075 * math.cos(a) * (k > 0), iy + 0.075 * math.sin(a) * (k > 0), 0.99 + 0.035 * (k == 0)))
+        lm = bpy.context.active_object; lm.scale = (1, 1, 1.2); lm.data.materials.append(lemon)
+        for p_ in lm.data.polygons: p_.use_smooth = True
+    lib.box("bread board", (0.5, 0.32, 0.03), (ix + 0.5, iy + 0.1, 0.935), M["oak"], bevel=0.006, rot_z=0.2)
+    lib.import_glb(os.path.join(lib.ASSETS, "DiffuseTransmissionTeacup.glb"), (ix + 1.2, iy - 0.35, 0.92), 0.5, 1.0, name="kitchen cup")
+    for k in range(3):                       # pendants over the island
+        px = ix - 1.3 + 1.3 * k
+        lib.cyl("pendant shade", 0.2, 0.22, (px, iy, 2.3), M["brass"], verts=48, r2=0.06)
+        lib.cyl("pendant cord", 0.004, HB - 2.52, (px, iy, 2.52), M["shadow"], verts=8)
+        lib.point_light("pendant light", (px, iy, 2.28), 50, (1.0, 0.75, 0.5), 0.05)
+    # the robot that cooks: a carriage on a rail under the ceiling, an arm reaching down to the hob
+    lib.box("robot rail", (cw, 0.1, 0.08), (cm, yb - 0.85, HB - 0.06), M["bronze_dark"])
+    cxr = 21.6; lib.box("robot carriage", (0.36, 0.3, 0.22), (cxr, yb - 0.85, HB - 0.21), robot, bevel=0.03)
+    p0 = Vector((cxr, yb - 0.85, HB - 0.32)); p1 = Vector((cxr, yb - 0.75, 2.25)); p2 = Vector((cxr - 0.12, yb - 0.4, 1.32))
+    for (a, b, r) in ((p0, p1, 0.07), (p1, p2, 0.055)):
+        d = b - a; seg = lib.cyl("robot arm", r, d.length, tuple(a), robot, verts=32); seg.rotation_euler = d.to_track_quat("Z", "Y").to_euler()
+    for (p, r) in ((p1, 0.085), (p2, 0.065)):
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=24, ring_count=12, radius=r, location=tuple(p)); j_ = bpy.context.active_object; j_.data.materials.append(joint)
+        for p_ in j_.data.polygons: p_.use_smooth = True
+    lib.cyl("robot hand", 0.04, 0.16, tuple(p2), joint, verts=24, rot=(math.radians(160), 0, 0))
+    lib.cyl("pan", 0.15, 0.06, (21.6, yb - 0.32, 0.91), lib.principled("pan iron", (0.03, 0.03, 0.03), 0.4, 1.0), verts=48)
+    # light: downlights in the ceiling
+    lens = lib.emission("downlight lens", (1.0, 0.80, 0.60), 35.0)
+    for xx in (17.6, 20.8, 24.0, 27.2):
+        for yy in (20.0, 23.0, 26.0, 29.6):
+            lib.cyl("downlight lens", 0.035, 0.004, (xx, yy, HB - 0.002), lens, verts=24); lib.spot_light("downlight", (xx, yy, HB - 0.03), 60, (1.0, 0.80, 0.60), 0.02, 70, 0.6)
+
+
 def materials(M):
     """what the suite adds to the house's materials"""
     M["moss"] = moss_material(); M["rock"] = rock_material(); M["slate_rock"] = rock_material("slate rock", (0.05, 0.05, 0.055), (0.16, 0.16, 0.17), lichen=False)
@@ -437,6 +511,6 @@ def build(M, rnd):
     o.append(lib.box("garden back wall", (2 * G + 1.0, 0.3, TOP), (0, GY1 + 0.15 + 0.6, TOP / 2), M["clay"]))
     o.append(lib.box("gallery glass", (2 * G, 0.012, HB - 0.1), (0, GY0 - 0.05, HB / 2), M["glass"]))
     o.append(lib.box("suite back wall", (60, 0.3, HB), (0, B1 + 0.15, HB / 2), M["oak_panel"]))
-    garden(M, rnd); bedroom(M, rnd); bath(M, rnd)
+    garden(M, rnd); bedroom(M, rnd); bath(M, rnd); kitchen(M, rnd)
     drop_leaves()
     return o

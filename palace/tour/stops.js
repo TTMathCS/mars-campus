@@ -36,6 +36,9 @@ window.TOUR_STOPS = [
   { id: "bath", ready: false, name: "The bath down", short: "Bath", k: "L1 · Master suite down", p: [-11.6, 23.4], az0: 87, img: "pano/bath.jpg",
     d: "A stone tub facing the garden, a double vanity on a wall of green marble with round mirrors lit from behind, a walk-in shower with a rain head and a teak floor, oak on the walls.",
     links: [{ id: "garden", at: [-6.4, 22.0, 0], label: "Out into the moss garden" }, "bedroom"] },
+  { id: "kitchen", ready: false, name: "The kitchen", short: "Kitchen", k: "L1 · Jim's residence", p: [21.0, 22.4], az0: 200, img: "pano/kitchen.jpg",
+    d: "The everyday kitchen, across the street from the dining room: walnut and stone along the back wall, open shelves of jars and crockery, an island to have breakfast at, and the robot that cooks on its rail under the ceiling. Jim can cook too.",
+    links: [{ id: "table", at: [18.6, 17.6, 0], label: "Across the street: the dining room" }] },
 
   /* The other rooms of ring A on L1, each behind the glass of another side of the atrium. They are rendered in their
      own frame (the family room's, turned round the atrium's middle), so rot gives the map direction of the picture's

@@ -695,6 +695,7 @@ CAMS = {
     "s_bedroom": dict(loc=(8.0, 20.3, 1.5), target=(15.0, 24.8, 1.2), lens=19, shift_y=0.0, exposure=0.55),
     "s_garden": dict(loc=(8.2, 21.6, 1.5), target=(-3.0, 27.5, 0.7), lens=18, shift_y=0.0, exposure=0.0),
     "s_bath": dict(loc=(-8.0, 20.8, 1.5), target=(-15.2, 25.2, 1.3), lens=19, shift_y=0.0, exposure=0.45),
+    "s_kitchen": dict(loc=(17.2, 19.3, 1.55), target=(27.6, 30.6, 1.0), lens=18, shift_y=0.0, exposure=0.3),
 }
 
 

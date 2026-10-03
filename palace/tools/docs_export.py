@@ -24,6 +24,7 @@ BOOK = {
     "power": [("fFlow", "flow"), ("fReactor", "reactor"), ("fSol", "sol"), ("fTrench", "trench"), ("fRad", "radiators")],
     "transport": [("fOrbit", "orbit"), ("fPod", "pod"), ("fProfile", "profile"), ("fTunnel", "tunnel")],
     "spaceport": [("fPlan", "plan"), ("fFuel", "fuel"), ("fPit", "pit"), ("fTurn", "turn"), ("fPad", "pad")],
+    "life": [("fLoop", "loops"), ("fAir", "air"), ("fWater", "water"), ("fFood", "food"), ("fDose", "dose")],
 }
 SHEETS = [("svg-elev", "a001-crown-birdseye"), ("svg-compare", "a002-size-check"), ("svg-site", "a101-site-corridor"),
           ("svg-growth", "a102-city-growth"), ("svg-crown", "a201-crown-main-floor"), ("svg-pent", "a301-pentagon-L1"),

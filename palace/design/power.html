@@ -117,8 +117,8 @@
     function node(x, y, w, h, title, sub, fill) { S("rect", { x: x, y: r1(y), width: w, height: r1(h), rx: 3, fill: fill || "var(--sheet)", stroke: "var(--ink)", "stroke-width": 1.2 }, svg); T(svg, x + w / 2, y + h / 2 - (sub ? 4 : -5), title, "disp", { "text-anchor": "middle", style: "font-size:15px;font-weight:600" }); if (sub) (Array.isArray(sub) ? sub : [sub]).forEach(function (sl, i) { T(svg, x + w / 2, y + h / 2 + 13 + i * 14, sl, "t2", { "text-anchor": "middle", style: "font-size:12px" }); }); }
     var xs = 40, ws = 170, xg = 470, wg = 190, xl = 880, wl = 200;
     // sources
-    var SRC = [["Reactors · house", "2 × 5 MWe on L4", 4.9, 9, 60, 120], ["Reactors · port", "2 × 5 MWe in the vault", 3.1, 9, 250, 100]];
-    node(xg, 120, wg, 280, "Grid", ["house and port,", "joined by the 30 km", "DC cable"], "rgba(224,165,91,.14)");
+    var SRC = [["Reactors · Arcadia", "2 × 5 MWe on L4", 4.9, 9, 60, 120], ["Reactors · port", "2 × 5 MWe in the vault", 3.1, 9, 250, 100]];
+    node(xg, 120, wg, 280, "Grid", ["Arcadia and port,", "joined by the 30 km", "DC cable"], "rgba(224,165,91,.14)");
     var yin = 162;
     SRC.forEach(function (s0) {
       node(xs, s0[4], ws, s0[5], s0[0], s0[1]);
@@ -137,7 +137,7 @@
     });
     // heat, its own row at the bottom: 2 MW warms the house, 8 MW goes to the radiators; the bands leave the source stacked
     var xh = xs + ws + 40, hy = 440, h2 = 2 * k, h8 = 8 * k, y2 = hy + 10 + h2 / 2, y8 = hy + 10 + h2 + 6 + h8 / 2;
-    node(xs, hy, ws + 40, h2 + h8 + 26, "Reactor heat · house", ["about 10 MW on an average sol,", "up to 20 MW at full power"], "rgba(208,105,76,.2)");
+    node(xs, hy, ws + 40, h2 + h8 + 26, "Reactor heat · Arcadia", ["about 10 MW on an average sol,", "up to 20 MW at full power"], "rgba(208,105,76,.2)");
     band(xh, y2, xg, y2 - 4, h2, HT, .55); T(svg, xh + 14, y2 - h2 / 2 - 7, "2 MW", "mono tr", { style: "font-size:12px" });
     band(xh, y8, xl, y8, h8, HT, .45); T(svg, (xh + xl) / 2, y8 + 4, "8 MW to the sky", "mono tr", { "text-anchor": "middle", style: "font-size:12px" });
     node(xg, y2 - 4 - 20, wg, 40, "Heating Arcadia", "", "rgba(208,105,76,.2)");
@@ -202,7 +202,7 @@
       T(svg, x0, 40, title, "disp", { style: "font-size:17px;font-weight:600" });
       T(svg, X(15.5), Y(9.6) - 6, "fuel plant takes what is left", "tr halo", { style: "font-size:12px" });
       if (storm) T(svg, X(12.3), Y(13.4), "the sun is hidden: nothing changes", "", { "text-anchor": "middle", style: "font-size:12px;fill:#9a6a10" });
-      T(svg, X(1.2), Y(5.6) - 6, "house and port", "halo", { style: "font-size:12px" });
+      T(svg, X(1.2), Y(5.6) - 6, "Arcadia and port", "halo", { style: "font-size:12px" });
       T(svg, x0 - 36, y1 - 8, "MW", "mono t3", { style: "font-size:10.5px" });
     }
     panel(20, "A clear sol", false);

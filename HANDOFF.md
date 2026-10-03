@@ -57,7 +57,12 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     writes there).
   - **Published:** the Crown's pool (C-14) again, with stone edges at both ends: the 360, a new still
     (`tour/photos/crown_wellness.jpg`) and the plan from above.
-  - Next: step 4, the rest of the queue (the house test is rendering), one at a time.
+  - **Chapter 08 Life support written** (§2b step 2): `palace/design/life.html` with five drawings (the loops, pressure
+    and oxygen, the water loop, the farm's rooms, Jim's dose budget), `docs/design/08-life.md`, `life` in `READY` and in
+    `docs_export.py`'s `BOOK`; SY-3, SY-4, LV-3 and GN-7 link to it. Every number is worked in the text or taken from
+    chapters 02–07; our own estimates say so.
+  - The 72-frame house renders are queued after the dining hall's 360 (`pub_house.py` publishes them as a full set).
+  - Next: the renders as they finish; then chapter 09 Communications and space (§2b step 3).
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -227,7 +232,7 @@ The Orb's Rev F question to Jim is still open.
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2, Arcadia.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
-| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–07 with the Orb at 48 m and every room as Rev G; 08 Life support, 09 Communications and space, 10 Building it still to write. |
+| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–08 with the Orb at 48 m and every room as Rev G; 09 Communications and space and 10 Building it still to write. |
 | Demo 2, floor plans | `palace/plans/` | **Rev G, approved by Jim on 3 Oct 2026** ("approve"): 179 rooms and areas with codes, written by `palace/tools/draw_plans.py` from `room_program.py`; the Orb at 48 m. Rev B is archived at `palace/archive/plans-rev-b/`. |
 | Demo 2, real-time 3D | `palace/archive/3d-demo/` | Hidden on 2 Oct 2026 (Jim: "far from satisfying") and archived on 3 Oct, with its tools and notes ([README](palace/archive/3d-demo/README.md)); `palace/index.html` now opens the design plan. |
 | Demo 2, photo tour | `palace/tour/` | Live since 1 Oct 2026: path-traced 360s and stills (Blender Cycles), the standard for every picture (Jim: "so great and almost perfect. i need all rooms to be like this"). Published: L1's family room, music room, dining room, library, baths and cinema; the Crown's salon, bedroom up, library, map room and pool. Rendering, one at a time: the rest (step 4). |
@@ -281,13 +286,9 @@ the floor plans (Jim, 2 Oct 2026); the real-time 3D pages are hidden.
 
 1. **The pictures, one render at a time** (step 4 of section 0): the queue, then every room not drawn yet, each
    checked against the room program first.
-2. **Write chapter 08 Life support** (`life.html`): air at 70 kPa with 27% oxygen (decided; breathes like Calgary;
-   NASA's exploration atmosphere is 56.5 kPa with 34%); oxygen from electrolysis and the fuel plant's spare 100 t a
-   ship; CO₂ scrubbing; the water loop (ice melt, over 95% recycling, the L2 lake as the reserve, the Crown's 90,000 t
-   of wall ice); food from the L2 farm under lamps, the storm reserve of two years on L4; heating from reactor heat;
-   radiation with a dose budget (open plain about 230 mSv a year, the Crown about a third behind 3 m of ice, the
-   Pentagon about 1, Jim's target about 20 by sleeping below and spending about 6 h a day in the Crown and the Orb);
-   dust and perchlorates (suit ports, filters); fire safety at 27% oxygen; the medical centre on L3.
+2. **Done (3 Oct):** chapter 08 Life support, `life.html` and `docs/design/08-life.md`: the air (70 kPa, 27%, 2,100 t,
+   the buffer gases from the Mars air), the water loop (98%), the farm and the storm reserve, warmth (a worked 2 MW), Jim's
+   dose budget (about 19 mSv a year), dust, fire at 27%, health; every system by its room code on L4, L2 and L3.
 3. **Write chapter 09 Communications and space** (`space.html`): radio delay 3 to 22 min one way; three areostationary
    relays at 17,032 km up (orbit radius 20,428 km) plus a relay off to the side of the Sun for the two weeks of solar
    conjunction every 26 months; laser links; the fibre to the port; Phobos (9,376 km orbit, 7.65 h, rises in the

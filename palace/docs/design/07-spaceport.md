@@ -1,6 +1,6 @@
 # 07 · Arcadia Spaceport
 
-[← 06 Transportation](06-transport.md) · [Design](README.md) · **07 Arcadia Spaceport**
+[← 06 Transportation](06-transport.md) · [Design](README.md) · **07 Arcadia Spaceport** · [08 Life support →](08-life.md)
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html)**
 

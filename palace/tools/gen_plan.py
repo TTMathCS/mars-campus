@@ -53,7 +53,7 @@ RESIDENCE = dict(
     plan_codes=["L1-01", "L1-02", "L1-03", "L1-05", "L1-06", "L1-07", "L1-08", "L1-09", "L1-10"],
     rooms=[
         dict(id="family", codes=["L1-02"], k="L1-02 · ring A · the middle of the glass", name="The family room",
-             purpose="The room Jim lives in every evening: a fire to sit by, his books, a game of chess in the light from the atrium, a film on the screen over the hearth. It is the heart of the house below ground, with the music room on one side, the dining room on the other, and doors behind to the street and the master suite.",
+             purpose="The room Jim lives in every evening: a fire to sit by, his books, a game of chess in the light from the atrium, a film on the screen over the hearth. It is the heart of Jim's home below ground, with the music room on one side, the dining room on the other, and doors behind to the street and the master suite.",
              facts=[("Size", "16 m along the glass, 13.9 m deep and 3.8 m high: 224 m². Jim's study (L1-04) is the storey above."),
                     ("Made of", "Oak boards; an oak-slat ceiling on black felt; a chimney breast of travertine; walnut bookcases lit from within; bronze mullions and doors."),
                     ("In it", "A curved velvet sofa and two chairs round a travertine table, a silk pouf, a chess table by the glass, six bookcases, and the hearth: a long fire of lit mist, since there are no open flames in air with 27% oxygen. A screen hangs above it."),

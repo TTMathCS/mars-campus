@@ -4,7 +4,7 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/transport.html)**
 
-Since 2 October 2026 the Wormhole Gate does the travelling: press send in the Orb and it takes Jim, or a guest, to Earth, the spaceport or anywhere, in a moment. So the pod and the ships are for journeys taken to see the views: the pod's scenic flight over the Dune Sea, a crater and the Ice Cliffs, through a dust storm into the blue sunset, and voyages from the spaceport to orbit, Phobos and Deimos. Rovers and, later, a maglev train move goods along the ground; inside the house, portals take Jim anywhere in one step. *Real fallback: if the Gate stays a dream, the ships and the pod carry people and cargo, as designed below.* **Requirements:** SY-2, TR-2 to TR-4, TR-7, CR-4.
+Since 2 October 2026 the Wormhole Gate does the travelling: press send in the Orb and it takes Jim, or a guest, to Earth, the spaceport or anywhere, in a moment. So the pod and the ships are for journeys taken to see the views: the pod's scenic flight over the Dune Sea, a crater and the Ice Cliffs, through a dust storm into the blue sunset, and voyages from the spaceport to orbit, Phobos and Deimos. Rovers and, later, a maglev train move goods along the ground; inside Arcadia, portals take Jim anywhere in one step. *Real fallback: if the Gate stays a dream, the ships and the pod carry people and cargo, as designed below.* **Requirements:** SY-2, TR-2 to TR-4, TR-7, CR-4.
 
 ![The pod along the Ice Cliffs](../../design/img/flight-cliffs.jpg)
 
@@ -15,7 +15,7 @@ Since 2 October 2026 the Wormhole Gate does the travelling: press send in the Or
 | **4 min 40 s** | The pod's scenic flight: 37 km at up to 680 km/h |
 | **45 min** | By pressurised bus on the rover road, when pods can't fly |
 | **6 min** | By maglev, 68 m underground, from phase 2 |
-| **1 step** | By portal, anywhere in the house |
+| **1 step** | By portal, anywhere in Arcadia |
 
 ## From Earth
 
@@ -83,7 +83,7 @@ shots and skip to the arrival. Phase 1 of the 3D build plays it.
   is so thin that the train meets almost no resistance even though the tunnel is not pumped out: 400 km/h, about
   6 minutes.
 
-## In the house: portals
+## In Arcadia: portals
 
 *Future technology.* Portals in the Crown's five spires, the Orb, the Pentagon's corner cores and the atrium's portal
 column link every level in one step. Jim's words: "No elevator. From crown to underground is by wormhole or any

@@ -4,7 +4,7 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html)**
 
-Where the ships land and take off, 30 km east of the house on landing site AP-1. Since the Wormhole Gate does the travelling (2 Oct 2026), its ships fly voyages to see space: to orbit, Phobos and Deimos, and further, and the pods take off from here on their scenic flights. It is a harbour and a refinery in one: three pads for ships, a terminal, a station for the pods, and a fuel plant that turns ground ice and the carbon dioxide in the air into rocket fuel. *Real fallback: if the Gate stays a dream, this is where the ships from Earth land.* **Requirements:** TR-1, TR-7, ST-1, ST-2.
+Where the ships land and take off, 30 km east of Arcadia on landing site AP-1. Since the Wormhole Gate does the travelling (2 Oct 2026), its ships fly voyages to see space: to orbit, Phobos and Deimos, and further, and the pods take off from here on their scenic flights. It is a harbour and a refinery in one: three pads for ships, a terminal, a station for the pods, and a fuel plant that turns ground ice and the carbon dioxide in the air into rocket fuel. *Real fallback: if the Gate stays a dream, this is where the ships from Earth land.* **Requirements:** TR-1, TR-7, ST-1, ST-2.
 
 ![Arcadia Spaceport from the south-west](../../design/img/port-aerial.jpg)
 
@@ -41,7 +41,7 @@ maglev station opens under the terminal.
 2. **Carbon dioxide:** Mars air is 95% CO₂, frozen out on cold plates at night and released as pure gas by day.
 3. **The Sabatier reactor:** hydrogen and CO₂ over a hot nickel catalyst become methane and water.
 4. **Cold:** methane is chilled to −162 °C and oxygen to −183 °C and pumped to six spherical tanks. The spare oxygen goes
-   to the house's air.
+   to Arcadia's air.
 
 Real today: NASA's MOXIE on the Perseverance rover made oxygen from Mars air 16 times (2021–2023), and Sabatier
 reactors recycle air on the International Space Station. One ship's 1,200 t takes about 8.6 GWh, about 5 months at

@@ -14,7 +14,7 @@
 | **O-05** | Portal 4 | The portal from the Library spire, in a room between the lanes, with seats to wait in. |  |
 | **O-06** | Portal 5 | The portal from the Observatory spire, in a room between the lanes, with seats to wait in. |  |
 | **O-07** | Earth lounge | The universe zoomed to Earth: home, its weather, its news. | L1-17 |
-| **O-08** | Mars lounge | Mars, the house and the city. |  |
+| **O-08** | Mars lounge | Mars, Arcadia and the city. |  |
 | **O-09** | Solar system lounge | The planets and their moons. |  |
 | **O-10** | Galaxy lounge | The Milky Way: choosing far places for the Gate. |  |
 | **O-11** | Deep universe lounge | The web of galaxies and time. |  |

@@ -512,7 +512,7 @@ def build():
         if a["place"] not in ("C", "O") and b["place"] in ("C", "O"): a, b = b, a
         rows.append('<tr><td>%s <b>%s</b><br><span>%s</span></td><td>%s <b>%s</b><br><span>%s</span></td></tr>' % (link(a["code"]), E(a["name"]), E(a.get("use", "")), link(b["code"]), E(b["name"]), E(b.get("use", ""))))
     page("pairs.html", "Two of a kind",
-         '<h1>Two of a kind</h1><p class="lede">Jim, 2 Oct 2026: two of a kind is fine "as long as they could be used for multiple purpose". Each pair below has two different jobs. Most pairs follow the house\'s rule: <b>by day up in the Crown</b>, in the light and the view, for about six hours; <b>by night down in the Pentagon</b>, under 16 m of soil, where everyone sleeps.</p><div class="tw"><table class="pairs"><thead><tr><th>Up, or the first</th><th>Down, or the second</th></tr></thead><tbody>%s</tbody></table></div>' % "\n".join(rows),
+         '<h1>Two of a kind</h1><p class="lede">Jim, 2 Oct 2026: two of a kind is fine "as long as they could be used for multiple purpose". Each pair below has two different jobs. Most pairs follow Arcadia\'s rule: <b>by day up in the Crown</b>, in the light and the view, for about six hours; <b>by night down in the Pentagon</b>, under 16 m of soil, where everyone sleeps.</p><div class="tw"><table class="pairs"><thead><tr><th>Up, or the first</th><th>Down, or the second</th></tr></thead><tbody>%s</tbody></table></div>' % "\n".join(rows),
          "pairs.html")
     # ---- all codes
     blocks = []
@@ -531,7 +531,7 @@ def build():
 <li><b>Day up, night down.</b> The Crown is for the day: light, views and company, about six hours a day. The Pentagon is home for the evenings and the nights, under 16 m of soil, where everyone sleeps, Jim and his guests.</li>
 <li><b>A room for every hour.</b> The Crown's rooms are placed by the sun: breakfast in the east, the salon and the pool in the south, dinner and the sunset in the west, the library and the studio in the north light, the stars in the north-east.</li>
 <li><b>Jim's home is one sector.</b> On L1, sector 1 holds everything he uses every day, close together: music room, family room, dining room, study, bedroom, bath, kitchen.</li>
-<li><b>The rest by use</b>: the club, the baths, the library and the guests on L1; gardens on L2; making and running the house on L3; life support on L4; arrivals on L5.</li>
+<li><b>The rest by use</b>: the club, the baths, the library and the guests on L1; gardens on L2; making and running Arcadia on L3; life support on L4; arrivals on L5.</li>
 </ul>
 <h2>How the codes work</h2>
 <ul>

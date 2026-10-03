@@ -13,7 +13,7 @@ on the [design pages](design/README.md) and the plan sheets on [Floor plans](pla
 | --- | --- | --- |
 | [<img src="../tour/photos/hero.jpg" alt="The family room">](rooms.md#the-family-room) | [<img src="../tour/photos/living.jpg" alt="By the fire">](rooms.md#the-family-room) | [<img src="../tour/photos/crown_salon.jpg" alt="The great salon">](rooms.md#the-great-salon) |
 | [<img src="../design/img/crown-sunset.jpg" alt="The Crown at sunset">](#coming-home-at-sunset) | [<img src="../design/img/crown-day.jpg" alt="The Crown by day">](#the-crown-by-day) | [<img src="../design/img/crown-garden.jpg" alt="Nothing holds it up">](#nothing-holds-it-up) |
-| [<img src="../design/img/site-aerial.jpg" alt="The house from the air">](#the-house-from-the-air) | [<img src="../design/img/port-aerial.jpg" alt="Arcadia Spaceport">](#arcadia-spaceport) | [<img src="../design/img/port-liftoff.jpg" alt="Lift-off">](#1-lift-off) |
+| [<img src="../design/img/site-aerial.jpg" alt="Arcadia from the air">](#arcadia-from-the-air) | [<img src="../design/img/port-aerial.jpg" alt="Arcadia Spaceport">](#arcadia-spaceport) | [<img src="../design/img/port-liftoff.jpg" alt="Lift-off">](#1-lift-off) |
 | [<img src="../design/img/flight-west.jpg" alt="Heading west">](#2-heading-west) | [<img src="../design/img/flight-dunes.jpg" alt="The Dune Sea">](#3-the-dune-sea) | [<img src="../design/img/flight-crater.jpg" alt="Over the crater">](#4-over-the-crater) |
 | [<img src="../design/img/flight-cliffs.jpg" alt="The Ice Cliffs">](#5-the-ice-cliffs) | [<img src="../design/img/orb-universe.jpg" alt="Inside the Orb">](#inside-the-orb-the-universe-switched-on) | [<img src="../design/img/atlas-teaser.jpg" alt="Mars from orbit">](#mars-from-orbit) |
 
@@ -62,7 +62,7 @@ middle. On the ground stand the Orb's dock round the Sun Well and the garden's b
 the right. *On the design
 book's cover and in [chapter 02](design/02-crown.md).*
 
-### The house from the air
+### Arcadia from the air
 
 ![The Crown on the plain, seen from the air](../design/img/site-aerial.jpg)
 
@@ -134,7 +134,7 @@ Mars from orbit over the northern plains: the north polar cap at the top, Arcadi
 house, and Olympus Mons to the lower right. Rendered with the real colour map of Mars
 (`palace/tools/mars_scene.html`). *The Atlas card on the design book's cover.*
 
-The Atlas on the live site zooms from the solar system to the house over NASA imagery
+The Atlas on the live site zooms from the solar system to Arcadia over NASA imagery
 ([open it](https://ttmathcs.github.io/mars-campus/palace/design/atlas/)). These views were saved without the NASA
 tiles, so they show the coarser base map.
 

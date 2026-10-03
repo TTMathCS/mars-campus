@@ -61,7 +61,7 @@ null
 8.0
 ],
 "upper": true,
-"use": "Jim's evening desk, on the upper storey over the family room: letters and video letters home, his accounts, the house's console.",
+"use": "Jim's evening desk, on the upper storey over the family room: letters and video letters home, his accounts, Arcadia's console.",
 "also": "A quiet room to read late.",
 "pair": "C-23",
 "place": "L1",
@@ -191,7 +191,7 @@ null,
 -12.0,
 12.0
 ],
-"use": "Where the house robots that cook, clean and carry charge and are serviced.",
+"use": "Where the robots that cook, clean and carry charge and are serviced.",
 "also": "",
 "place": "L1",
 "m2": 336
@@ -303,7 +303,7 @@ null
 "D",
 2
 ],
-"use": "The house's one cellar, cool and steady below ground, with a tasting table.",
+"use": "Arcadia's one cellar, cool and steady below ground, with a tasting table.",
 "also": "It supplies the Crown's wine room (C-16).",
 "place": "L1",
 "m2": 1645
@@ -400,7 +400,7 @@ null
 4
 ],
 "seen": "library",
-"use": "The house's main collection, two storeys of books, read at long tables by the atrium glass.",
+"use": "Arcadia's main collection, two storeys of books, read at long tables by the atrium glass.",
 "also": "Talks and readings when visitors come.",
 "pair": "C-24",
 "place": "L1",
@@ -777,7 +777,7 @@ null
 "A",
 "C"
 ],
-"use": "A lake that is also the house's water reserve.",
+"use": "A lake that is also Arcadia's water reserve.",
 "also": "Swimming and boating in summer light.",
 "place": "L2",
 "m2": 3259
@@ -872,7 +872,7 @@ null
 "B",
 5
 ],
-"use": "Flowers for the house.",
+"use": "Flowers for the rooms.",
 "also": "",
 "place": "L2",
 "m2": 913
@@ -886,7 +886,7 @@ null
 5
 ],
 "use": "A tea house in the meadow: tea, quiet, contemplation.",
-"also": "Small meetings away from the house.",
+"also": "Small meetings out in the garden.",
 "place": "L2",
 "m2": 1279
 },
@@ -911,7 +911,7 @@ null
 "E",
 5
 ],
-"use": "Making soil from the house's waste.",
+"use": "Making soil from Arcadia's waste.",
 "also": "",
 "place": "L2",
 "m2": 2012
@@ -994,7 +994,7 @@ null
 "A",
 "C"
 ],
-"use": "Prints the parts for the house and the city.",
+"use": "Prints the parts for Arcadia and the city.",
 "also": "",
 "place": "L3",
 "m2": 3259
@@ -1098,7 +1098,7 @@ null
 "A",
 4
 ],
-"use": "The house mind: the computers that run the house.",
+"use": "The house mind: the computers that run Arcadia.",
 "also": "",
 "place": "L3",
 "m2": 546
@@ -1111,7 +1111,7 @@ null
 "B",
 4
 ],
-"use": "The house's data, kept safe.",
+"use": "Arcadia's data, kept safe.",
 "also": "",
 "place": "L3",
 "m2": 913
@@ -1163,7 +1163,7 @@ null
 "A",
 5
 ],
-"use": "Runs the house, the city and the spaceport.",
+"use": "Runs Arcadia, the city and the spaceport.",
 "also": "",
 "place": "L3",
 "m2": 546
@@ -1754,7 +1754,7 @@ null
 5
 ],
 "use": "Suits for going out by rover through the tunnel.",
-"also": "The second way out of the house.",
+"also": "The second way out of Arcadia.",
 "pair": "C-01",
 "place": "L5",
 "m2": 1645
@@ -1810,7 +1810,7 @@ null
 91.44,
 95.76
 ],
-"use": "The front door of the house, from the hangar.",
+"use": "The front door of Arcadia, from the hangar.",
 "also": "",
 "place": "C",
 "m2": 65
@@ -2370,7 +2370,7 @@ null
 "kind": "culture",
 "floor": 72,
 "slot": 1,
-"use": "Mars, the house and the city.",
+"use": "Mars, Arcadia and the city.",
 "also": "The universe fills the room at a switch.",
 "place": "O",
 "m2": 99

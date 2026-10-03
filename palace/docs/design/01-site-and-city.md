@@ -4,12 +4,12 @@
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/site.html)**
 
-The house stands on the smooth, icy plains of Arcadia Planitia in Mars' northern hemisphere, 30 km west of a
+Arcadia stands on the smooth, icy plains of Arcadia Planitia in Mars' northern hemisphere, 30 km west of a
 spaceport built on one of the best-studied landing sites on the planet. **Requirements:** ST-1 to ST-4.
 
-![The whole of Mars, with the house and the TTMath campus marked](../img/book/site-mars.jpg)
+![The whole of Mars, with Arcadia and the TTMath campus marked](../img/book/site-mars.jpg)
 
-*The whole of Mars, 0° to 360° east, north up. The house (gold) is on the northern plains of Arcadia, 1,780 km from
+*The whole of Mars, 0° to 360° east, north up. Arcadia (gold) is on the northern plains of Arcadia, 1,780 km from
 Olympus Mons; the TTMath campus of demo 1 is 4,360 km away in Gale crater, beside Curiosity. White dots are landers
 and rovers. Base map: Solar System Scope (CC BY 4.0, from NASA imagery); the live page loads the NASA Viking mosaic.*
 
@@ -48,14 +48,14 @@ thickest ice and is kept for a later ice mine.*
 
 ## The corridor
 
-![The 40 × 12 km corridor from the house to the spaceport](../img/book/site-corridor.png)
+![The 40 × 12 km corridor from Arcadia to the spaceport](../img/book/site-corridor.png)
 
 *The corridor from above, 40 × 12 km, north up. Orange: the pod's scenic flight. White dashes: the rover road. Blue
 dots: the maglev tunnel, phase 2. The dust storm drifts across the plain; the flight video meets it just after the
 Ice Cliffs. The dunes, the crater and the cliffs are the landscape designed for the demo; the real ground at AP-1 is
 flatter and plainer.*
 
-Everything that links the house and the spaceport runs along this strip: the pod route (37 km, 4 min 40 s), the
+Everything that links Arcadia and the spaceport runs along this strip: the pod route (37 km, 4 min 40 s), the
 30 km rover road, a buried cable carrying power and data, and later the maglev tunnel 68 m down. From the top of a
 spire, 90 m up, the horizon is 25 km away, so on a clear evening Jim can see the ships at the spaceport.
 
@@ -69,11 +69,11 @@ pavilion at each corner and glass over the five avenues.*
 
 ![The Crown alone on the plain, from the air](../../design/img/site-aerial.jpg)
 
-The ground under the house is built, not left raw (Jim, 1 Oct 2026: "the ground is raw and need some
+The ground over the Pentagon is built, not left raw (Jim, 1 Oct 2026: "the ground is raw and need some
 construction/design as well. and at least some hints that there is big part underground"):
 
 - **A paved pentagon** of sintered-regolith slabs, 166 m on a side, 4 m wider all round than the Pentagon below, so the
-  ground shows from the air where the house lies. A dark basalt kerb edges it, with a line of light that glows warm at
+  ground shows from the air where Arcadia lies. A dark basalt kerb edges it, with a line of light that glows warm at
   dusk.
 - **The Stone Garden**, the circle inscribed in it: raked gravel 224 m across and **seven basalt stones**, no mirrors
   and no panels.
@@ -112,7 +112,7 @@ a small crown over a small pentagon, joined by tunnels; people move between home
 
 | Phase | What | Size |
 | --- | --- | --- |
-| 1 | The spaceport, the house, the corridor | 1 home |
+| 1 | The spaceport, Arcadia, the corridor | 1 home |
 | 2 | First neighbours, the maglev | 13 homes, 1.0 km |
 | 3 | Arcadia City and its civic avenue | 233 homes, 3.8 km, about 2,000 people |
 | 4 | Links to other cities by rail, tunnel and portal | — |
@@ -130,10 +130,10 @@ a small crown over a small pentagon, joined by tunnels; people move between home
 
 ## The Mars Atlas
 
-The Atlas zooms from the solar system to Mars, Arcadia and the house, Google Earth style, over NASA imagery, with
+The Atlas zooms from the solar system to Mars, Arcadia Planitia and Arcadia itself, Google Earth style, over NASA imagery, with
 landers, the moons and the relay satellites. **[Open the Mars Atlas ↗](https://ttmathcs.github.io/mars-campus/palace/design/atlas/)**
 Links can open a place directly, for example
-[the house](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=house),
+[Arcadia](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=house),
 [the spaceport](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=port),
 [the TTMath campus](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=ttmath) or
 [the Orb](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=orb).

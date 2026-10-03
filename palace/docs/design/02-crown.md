@@ -89,7 +89,7 @@ the universe switched on. Dashed red: the beam that sends you to the target chos
 
 - **Switch it on** and the universe appears in the room in 3D, in front of Jim, behind him, above and below, close
   enough to reach into. Everyone in the room sees the same sky. He zooms it with his hands or his voice: from the web
-  of galaxies to the Milky Way, the solar system, Mars and the house, or Earth and his home town, and in time too.
+  of galaxies to the Milky Way, the solar system, Mars and Arcadia, or Earth and his home town, and in time too.
   Switched on in every room, it fills the whole Orb. **Switch it off** and the room is back, with its windows to the
   real sky. Every room has the switch, and the voice works anywhere.
 - **The dashboard:** two small globes always float in the corner of his view, Earth (home) and Mars (where he lives
@@ -121,7 +121,7 @@ plain, and the inner lane along the glass, looking in onto the Gate. A passage u
 are measured to the inside of the shell, so the +72 floor, across the Orb's middle, is the largest. The shell is built
 like the Crown's walls, with a mirror skin over 2 m of ice in sealed cells.
 
-| The corner dashboard | From the edge of the universe to the house |
+| The corner dashboard | From the edge of the universe to Arcadia |
 | --- | --- |
 | ![The corner dashboard: Earth and Mars with their weather](../img/book/crown-dashboard.png) | ![The zoom in nine steps](../img/book/crown-zoom.png) |
 | *Floating in the corner of Jim's view, among the stars of the universe in the room. Readings are examples; Earth's weather arrives 3 to 22 minutes late, the time radio takes.* | *Nine steps, from 93 billion light-years to 276 m: about 3 × 10²⁴ times. The data are real: galaxy surveys, the Gaia star map, NASA's planet positions, the Mars Atlas.* |
@@ -163,7 +163,7 @@ Jim chose anti-gravity so that nothing touches the ground.
 
 The walls and roof are 3 m thick: a shell of fired Mars soil filled with 2.2 m of water ice in sealed cells. Ice is
 rich in hydrogen, the best stopper of cosmic rays, so the Crown has about a third of the open plain's radiation. The
-ice is also the house's water store, about 90,000 tonnes. The ring is assembled on temporary supports above the pads,
+ice is also Arcadia's water store, about 90,000 tonnes. The ring is assembled on temporary supports above the pads,
 one 36° part at a time; then the drives switch on and lift it to +40 m.
 
 | Mass, estimate | Tonnes |

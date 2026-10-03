@@ -47,7 +47,7 @@ repo, with its diagrams and pictures.
 3. [The Crown, above ground](#3-the-crown-above-ground)
 4. [The Orb: the universe in VR and the Wormhole Gate](#4-the-orb-the-universe-in-vr-and-the-wormhole-gate)
 5. [The Pentagon, below ground](#5-the-pentagon-below-ground)
-6. [Living in the house](#6-living-in-the-house)
+6. [Living in Arcadia](#6-living-in-arcadia)
 7. [Getting home](#7-getting-home)
 8. [Systems](#8-systems)
 9. [What you can do in the demo](#9-what-you-can-do-in-the-demo)
@@ -81,10 +81,10 @@ repo, with its diagrams and pictures.
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| ST-1 | The house on the plains of Arcadia Planitia, with the spaceport "30 km east of your house" | Must | ✅ | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#corridor) · [Summary](docs/design/01-site-and-city.md) |
-| ST-2 | Use the real, studied landing zone AP-1: the house at 39.80° N 201.44° E, the spaceport at 39.80° N 202.10° E | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"). Rev B's "about 44° N" is replaced | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#why) · [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=house) |
-| ST-3 | Phase 1 is the spaceport and the house; then more houses, a small city and connections | Should | 📐 Homes on a sunflower spiral, civic buildings on the Fibonacci seeds, four phases | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#city) · [Summary](docs/design/01-site-and-city.md#the-city) |
-| ST-4 | A full map of Mars, with terrain and space, marking the city, the house and the spaceport, zoomable "like Google Earth" | Must | ✅ The Mars Atlas | [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) · [Summary](docs/design/01-site-and-city.md#the-mars-atlas) |
+| ST-1 | Arcadia on the plains of Arcadia Planitia, with the spaceport "30 km east of your house" | Must | ✅ | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#corridor) · [Summary](docs/design/01-site-and-city.md) |
+| ST-2 | Use the real, studied landing zone AP-1: Arcadia at 39.80° N 201.44° E, the spaceport at 39.80° N 202.10° E | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"). Rev B's "about 44° N" is replaced | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#why) · [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/#place=house) |
+| ST-3 | Phase 1 is the spaceport and Arcadia; then more homes, a small city and connections | Should | 📐 Homes on a sunflower spiral, civic buildings on the Fibonacci seeds, four phases | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#city) · [Summary](docs/design/01-site-and-city.md#the-city) |
+| ST-4 | A full map of Mars, with terrain and space, marking the city, Arcadia and the spaceport, zoomable "like Google Earth" | Must | ✅ The Mars Atlas | [Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) · [Summary](docs/design/01-site-and-city.md#the-mars-atlas) |
 
 ## 3. The Crown, above ground
 
@@ -93,7 +93,7 @@ repo, with its diagrams and pictures.
 | CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with window slots instead of glass walls | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
 | CR-2 | It floats on anti-gravity: no legs, and nothing touches the ground | Must | ✅ A drive in each of the five spires, with fallback pads | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#float) · [Summary](docs/design/02-crown.md#how-it-floats) |
 | CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,500 m², 5.7 times the campus, with the Orb at 48 m (3 Oct 2026) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
-| CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-the-house-portals) |
+| CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-arcadia-portals) |
 
 ## 4. The Orb: the universe in VR and the Wormhole Gate
 
@@ -127,11 +127,11 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| PG-1 | Most of the house underground because of the weather: about 10 times the area above ground | Must | ✅ 209,700 m², 11 times the Crown | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html) · [Summary](docs/design/03-pentagon.md) |
+| PG-1 | Most of Arcadia underground because of the weather: about 10 times the area above ground | Must | ✅ 209,700 m², 11 times the Crown | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html) · [Summary](docs/design/03-pentagon.md) |
 | PG-2 | Underground, "the pentagon shape solid design" | Must | ✅ One solid pentagon, 160 m sides, five levels from 24 to 68 m down under 16 m of soil | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#plan) · [Summary](docs/design/03-pentagon.md#the-plan) |
 | PG-3 | "All crazy ideas and future-proof tech" below ground (round 2) | Should | 📐 Residence, a garden level with a lake and a forest, studio and workshops, life support, and the transit halls | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#levels) · [Summary](docs/design/03-pentagon.md#the-five-levels) |
 
-## 6. Living in the house
+## 6. Living in Arcadia
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
@@ -147,7 +147,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of the house | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station. Since 2 Oct its ships fly voyages to see space (TR-7) | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
+| TR-1 | A rocket transportation centre where the Earth–Mars ships land, 30 km east of Arcadia | Must | ✅ Arcadia Spaceport: three pads, terminal, fuel plant, pod station. Since 2 Oct its ships fly voyages to see space (TR-7) | [Ch 07](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) · [Summary](docs/design/07-spaceport.md) |
 | TR-2 | A flying pod carries Jim home: "I need impressive video to show the flight on the way" | Must | ✅ 🎬 Live: 37 km scenic route, 4 min 40 s, ten shots. Since 2 Oct a flight for the view (TR-7) | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#flight) · [Summary](docs/design/06-transport.md#the-scenic-flight) |
 | TR-3 | "Arrival land on sunset, but animation can go through Mars storm etc." | Must | ✅ 🎬 A dust storm after the Ice Cliffs, then a breakout into the blue sunset with Phobos crossing the sun | [Pictures](docs/gallery.md#the-scenic-flight) |
 | TR-4 | The journey can be skipped (round 2) | Should | ✅ 🎬 Live: "Skip to arrival" | [Summary](docs/design/06-transport.md#the-scenic-flight) |
@@ -159,7 +159,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| SY-1 | The power station design: what it looks like and how it works | Must | 📐 Four 5 MWe fission microreactors, two at the house and two at the spaceport, with batteries, fuel cells and a 30 km DC cable; no panels on the ground (GN-12) | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
+| SY-1 | The power station design: what it looks like and how it works | Must | 📐 Four 5 MWe fission microreactors, two at Arcadia and two at the spaceport, with batteries, fuel cells and a 30 km DC cable; no panels on the ground (GN-12) | [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) · [Summary](docs/design/05-power.md) |
 | SY-2 | The transportation design | Must | 📐 The Wormhole Gate for travel; ships and the pod for the views; the bus, the maglev (phase 2) and portals | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html) · [Summary](docs/design/06-transport.md) |
 | SY-3 | The air inside | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"): 70 kPa with 27% oxygen, which breathes like Calgary | Ch 08 (to write) |
 | SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | ⏳ Chapter 08 | [Plan](../HANDOFF.md#2b-next-steps-in-order) |
@@ -182,7 +182,7 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | 1 | The 30 km landscape, the spaceport and the flight video | ✅ Live, 1 Oct 2026, at [palace/archive/3d-demo/](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/) |
 | 2 | The Crown and the Orb | 🎬 Live, 1 Oct 2026: the Crown's main floor at [the Crown](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/crown/) and the Orb at [the Orb](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/orb/). Still to come: the spires' upper floors and the rest rooms |
 | 3 | The Pentagon, one level at a time | 🎬 Started, 1 Oct 2026, at [the Pentagon](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/pentagon/): the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level (L2) and the sun court (L5); Jim's residence on L1 (the family room and the master suite down) to walk into. Next: the rest of L1, then L3 to L5 |
-| Photo tour | The house as path-traced 360° photographs, because the real-time pages look like a game (Jim, 1 Oct 2026); then every room like this (Jim: "i need all rooms to be like this") | 🎬 Live, 1 Oct 2026, at [palace/tour/](https://ttmathcs.github.io/mars-campus/palace/tour/): the family room on L1. Rendering: the music and dining rooms, the terrace, the bridge and the sun court; then the master suite down, the Crown's rooms and the Orb |
+| Photo tour | Arcadia as path-traced 360° photographs, because the real-time pages look like a game (Jim, 1 Oct 2026); then every room like this (Jim: "i need all rooms to be like this") | 🎬 Live, 1 Oct 2026, at [palace/tour/](https://ttmathcs.github.io/mars-campus/palace/tour/): the family room on L1. Rendering: the music and dining rooms, the terrace, the bridge and the sun court; then the master suite down, the Crown's rooms and the Orb |
 
 | ID | You can … | Priority | Phase | Status |
 | --- | --- | --- | --- | --- |
@@ -191,7 +191,7 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-3 | Arrive: the hangar fills with air, the Door recognises you and opens onto the Arrival hall | Must | 2 | 🎬 Live at [the Crown](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/crown/): you start by the pod in the hangar; the iris of light opens and you walk into the Arrival hall |
 | DM-4 | Walk the Crown: its ten parts, the Glide walkway, and the sunset through the window slots | Must | 2 | 🎬 Live: the whole main floor, 30 furnished rooms in ten parts; the Glide carries you round; the sun comes in through the slots |
 | DM-5 | Use the portals: one step between the spires, the Orb and the Pentagon's levels | Must | 2–3 | 🎬 Portals in the five spires go up to the Orb; the Orb's link comes back down; the Crown's portal goes down to the Pentagon, and the portal column takes you to any of its five levels in one step |
-| DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and the house, see Earth and Mars with their weather, then switch it off | Must | 2 | 🎬 Live: the switch; six steps from the cosmic web to the Milky Way, the solar system today, Mars, Arcadia and the house, and Earth; the Earth and Mars dashboard with the Mars clock and live Earth weather |
+| DM-6 | In the Orb, switch the universe on. Zoom from the whole universe to the solar system, Mars and Arcadia, see Earth and Mars with their weather, then switch it off | Must | 2 | 🎬 Live: the switch; six steps from the cosmic web to the Milky Way, the solar system today, Mars, Arcadia Planitia and Arcadia, and Earth; the Earth and Mars dashboard with the Mars clock and live Earth weather |
 | DM-7 | Use the Wormhole Gate: choose the place in the universe, walk into the ball, press send and arrive there in a beam of light (default: the TTMath campus, demo 1) | Should | 2 | 🎬 Live: set the time, press send, walk across the bridge into the ball, and the beam takes you to demo 1 |
 | DM-8 | Rest in a rest room in the Orb and look out over the plain | Could | 2 | 🟡 |
 | DM-9 | Go down to the Pentagon: the residence and master suite down on L1, the garden level with its lake and forest, the atrium and the sun court | Must | 3 | 🎬 **In the [photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/):** the family room on L1 (more rooms rendering). Live in real time at [the Pentagon](https://ttmathcs.github.io/mars-campus/palace/archive/3d-demo/pentagon/): the atrium with its terraces and bridges; the rooms of ring A seen through the glass (on L1 the guest lounge, the family room, the cinema, the thermal pools and the great library); the garden level with the orchard, the farm, the lake, the forest and the meadow; the sun court. **Jim's residence on L1 is walkable:** through the glass door into the family room, across the street to the master suite down (the bedroom, the bath and the dressing room). Next: the rest of L1 |

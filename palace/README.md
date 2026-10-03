@@ -29,7 +29,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 
 | | What it is | In this repo | On the live site |
 | --- | --- | --- | --- |
-| 🏠 | **The design plan**: opens on the whole house in section, path-traced, which you turn and click: each part opens its floor plan, each room its pictures, 360° views and facts; then the house area by area and room by room; this is what the homepage opens | [design/](design/) · [design/explorer.js](design/explorer.js) · [tools/render/overall.py](tools/render/overall.py) · [tools/gen_plan.py](tools/gen_plan.py) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
+| 🏠 | **The design plan**: opens on the whole house in section, path-traced, which you turn and click: each part opens its floor plan, each room its pictures, 360° views and facts; then Arcadia area by area and room by room; this is what the homepage opens | [design/](design/) · [design/explorer.js](design/explorer.js) · [tools/render/overall.py](tools/render/overall.py) · [tools/gen_plan.py](tools/gen_plan.py) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🔭 | **The science** (now its own part of the site, one subject a page): Mars facts (surface, inside, weather, space, resources, hazards, numbers, exploration) and Building on Mars (every factor, getting there, construction, water, air, food, energy, shielding, health, fuel, talking to Earth, protecting Mars), with sources | [science/README.md](../science/README.md) | [Mars facts](https://ttmathcs.github.io/mars-campus/science/mars-facts/) · [Building on Mars](https://ttmathcs.github.io/mars-campus/science/building-on-mars/) |
 | 🛋️ | **The rooms, in pictures**: every room path-traced, picture first, with what it is made of | [docs/rooms.md](docs/rooms.md) | |
 | 📸 | **The photo tour**: Arcadia's rooms in path-traced 360° photographs, on L1 and in the Crown; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
@@ -38,7 +38,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🗺️ | **Floor plans Rev G**, approved by Jim on 3 Oct 2026: every room designed, with a code | [docs/plans/](docs/plans/README.md) | [Floor plans](https://ttmathcs.github.io/mars-campus/palace/plans/) |
-| 🌍 | **Mars Atlas**: zoom from the solar system to the house, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
+| 🌍 | **Mars Atlas**: zoom from the solar system to Arcadia, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
 | 🖼️ | **Pictures**: every picture rendered from the 3D build | [docs/gallery.md](docs/gallery.md) | |
 | 🗄️ | **The first palace** (rounds 1 and 2) and **floor plans Rev B**, archived | [docs/archive/old-palace.md](docs/archive/old-palace.md) | [Old palace](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
 | 🛠️ | **How to build and test**, for whoever continues the work | [HANDOFF.md](../HANDOFF.md) | |
@@ -50,7 +50,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | Requirements | Updated 3 Oct 2026: the name Arcadia, Rev G approved, the Orb at 48 m. No open questions | — |
 | Floor plans | **Rev G approved** by Jim on 3 Oct 2026: 179 rooms and areas, each with a code, a purpose, a second use, a place and a size; the Orb at 48 m | The pictures of every room, one at a time, following the plans |
 | Design plan | Chapters 01–07 written, with the Orb at 48 m and every room as Rev G | Write 08 Life support, 09 Communications and space, 10 Building it |
-| Pictures | Path-traced, one render at a time: the house in section (24 frames to turn), L1's residence, library, baths and cinema, and the Crown's salon, bedroom, library, map room and pool | The Crown's pool again (stone edges at both ends), the dining hall, the Arrival hall and the sunset lounge; the master suite down; the atrium; then 72 frames so the house turns smoothly |
+| Pictures | Path-traced, one render at a time: Arcadia in section (24 frames to turn), L1's residence, library, baths and cinema, and the Crown's salon, bedroom, library, map room and pool | The Crown's pool again (stone edges at both ends), the dining hall, the Arrival hall and the sunset lounge; the master suite down; the atrium; then 72 frames so Arcadia turns smoothly |
 | Mars Atlas | Live, over a real colour map of Mars | — |
 | Real-time 3D pages | Hidden on 2 Oct 2026 (Jim found them far from satisfying) and archived on 3 Oct | — |
 | First palace | Archived | — |
@@ -64,15 +64,15 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 
 | Number | |
 | --- | --- |
-| 39.80° N, 201.44° E | The house, 3.9 km below Mars' average height, on ground rich in ice |
+| 39.80° N, 201.44° E | Arcadia, 3.9 km below Mars' average height, on ground rich in ice |
 | 276 m | The Crown across; it floats 40 m up and its spires reach 90 m |
 | 19,500 m² | The Crown's floor area with the Orb, 5.7 times the TTMath campus |
 | 209,700 m² | The Pentagon's floor area, 11 times the Crown |
 | 48 m | The Orb across, three floors of rooms round the Wormhole Gate, a ball 18 m across: press send and it shoots you like light to any place and time |
 | 30 km | To Arcadia Spaceport, due east |
-| 20 MWe | Four reactors, two at the house and two at the port; no panels or mirrors on the ground |
+| 20 MWe | Four reactors, two at Arcadia and two at the port; no panels or mirrors on the ground |
 | 4 min 40 s | The pod's scenic flight, 37 km; the Gate does the travelling |
-| 0 | Lifts: portals link every part of the house |
+| 0 | Lifts: portals link every part of Arcadia |
 
 ## What is in this folder
 

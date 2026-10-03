@@ -60,7 +60,7 @@ L1's rooms, with the codes of the [floor plans](../plans/README.md), ring by rin
 
 - **Radiation:** about 230 mSv a year on the open plain; under 16 m of soil, less than people get on Earth.
 - **Pressure:** soil on top balances the air inside pushing up: 101 kPa ÷ (1.7 t/m³ × 3.71 m/s²) ≈ 16 m. At the
-  chosen 70 kPa, 11 m would balance, so the roof never has to hold the house down against its own air.
+  chosen 70 kPa, 11 m would balance, so the roof never has to hold the Pentagon down against its own air.
 - **Temperature:** a few metres down the ground stays near −60 °C all year. The walls are insulated so the ice-rich
   ground stays frozen, like buildings on permafrost in Canada.
 - **Storms and quakes** don't reach it.
@@ -86,5 +86,5 @@ becomes the water store and the rocket fuel.*
 Robots dig an open pit about 70 m deep, about 3.1 million m³, in frozen ground whose walls stand steep on their own.
 Below 14 m most of it is ice, about 1.5 million tonnes: water, air and rocket fuel for decades. The walls, floors and
 roof are sintered-regolith panels made from the dug soil; then 16 m of soil goes back on top. Over it go a paved pentagon
-4 m wider than the block, so the ground shows where the house lies, the Stone Garden inside it, the Orb's dock round
+4 m wider than the block, so the ground shows where Arcadia lies, the Stone Garden inside it, the Orb's dock round
 the Sun Well, a glass pavilion over each corner stair, and the Crown's pads. L4 and L5 are finished first; the gardens take the longest to grow.

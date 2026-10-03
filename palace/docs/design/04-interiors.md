@@ -88,7 +88,7 @@ quietest, safest room on Mars, and where Jim sleeps.
 
 ![Arrival, step by step, in the Arrival spire](../img/book/interiors-arrive.png)
 
-*The hangar is the house's airlock; nobody wears a suit to come home.*
+*The hangar is Arcadia's airlock; nobody wears a suit to come home.*
 
 The pod flies straight into the hangar from the garden side. The hangar fills with air in about 90 seconds while the
 dust is blown off the pod. Beside it, the suit room keeps the suits in ports in the outer wall, so no dust comes in.
@@ -109,7 +109,7 @@ first window slot looking back to the Orb.
 | L1 | Baths and sport | L1-22 to L1-26 | Thermal baths at three temperatures, a 50 m lap pool, a sports hall with a climbing wall and a running track, saunas and steam rooms, and treatment rooms |
 | L1 | Library and archive | L1-27 to L1-31 | The great library, two storeys of books read at long tables by the atrium glass; the Archive of Earth; the film and music archive; robotic book stacks; a conservation workshop |
 | L1 | Guests | L1-32 to L1-43 | A guest lounge two storeys tall, eight guest suites and two family apartments, and rooms for staff and robots. Guests sleep below ground, as Jim does |
-| L2 | The garden level | L2-01 to L2-21 | 16 m tall under a sky of lamps: orchards and a vineyard, a farm, a lake that is the house's water reserve, a forest with a stream and falls, and a meadow with bees and a tea house |
+| L2 | The garden level | L2-01 to L2-21 | 16 m tall under a sky of lamps: orchards and a vineyard, a farm, a lake that is Arcadia's water reserve, a forest with a stream and falls, and a meadow with bees and a tea house |
 | L3 | Jim's studio | L3-01 to L3-05 | Jim's workshop, a sculpture and casting hall, and a model hall where the city is planned at 1:500 before the robots build it |
 
 ## Light through the sol
@@ -118,7 +118,7 @@ first window slot looking back to the Orb.
 
 *Brightness of the sky ceilings from midnight to midnight; the line's colour is the colour of the light.*
 
-The house keeps Mars time, a sol of 24 h 40 min, and the sky ceilings follow the pattern the body expects: warm light
+Arcadia keeps Mars time, a sol of 24 h 40 min, and the sky ceilings follow the pattern the body expects: warm light
 at waking, bright cool light at midday, warm and dim in the evening, then darkness and stars. In a dust storm the
 house keeps the same bright sols indoors.
 

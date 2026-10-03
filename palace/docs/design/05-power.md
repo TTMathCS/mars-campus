@@ -5,20 +5,20 @@
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/power.html)**
 
 On Mars, power is life: it makes the air, melts the water, lights the farms and fuels the ships home. Sunlight is weak,
-a global dust storm can hide it for weeks, and Jim wants no panels spread over the ground (1 Oct 2026), so the house and
+a global dust storm can hide it for weeks, and Jim wants no panels spread over the ground (1 Oct 2026), so Arcadia and
 the spaceport run on nuclear power that never stops. **Requirements:** SY-1, GN-12.
 
 ![The power system in phase 1, average megawatts on a clear sol](../img/book/power-flow.png)
 
 *The power system in phase 1, average megawatts, the same on a clear sol and in a storm. Band widths are to scale.
-Electricity is orange, heat is red; the 30 km cable joins the house and the spaceport into one grid.*
+Electricity is orange, heat is red; the 30 km cable joins Arcadia and the spaceport into one grid.*
 
 | | |
 | --- | --- |
-| **8 MW** | Average demand in phase 1: the house, the spaceport and the fuel plant |
-| **20 MWe** | Four fission microreactors of 5 MWe, two at the house and two at the port, running day and night, in storms too |
+| **8 MW** | Average demand in phase 1: Arcadia, the spaceport and the fuel plant |
+| **20 MWe** | Four fission microreactors of 5 MWe, two at Arcadia and two at the port, running day and night, in storms too |
 | **0** | Panels on the ground: nothing to clean, nothing for a storm to bury |
-| **30 km** | Buried DC cable linking the house and the spaceport |
+| **30 km** | Buried DC cable linking Arcadia and the spaceport |
 | **9 days** | Full power from fuel cells alone, burning stored rocket fuel |
 
 ## Where it comes from
@@ -29,7 +29,7 @@ Electricity is orange, heat is red; the 30 km cable joins the house and the spac
   Fission Surface Power project is developing reactors for the Moon.
 - **Batteries** of 20 MWh at each end cover a reactor trip or the evening peak, and **fuel cells** can burn the methane
   and oxygen stored for the ships: 1,000 t keeps 8 MW going for about 9 days.
-- The **fuel plant** is the one load that can wait: it takes whatever the rest of the house is not using, so the
+- The **fuel plant** is the one load that can wait: it takes whatever the rest of the grid is not using, so the
   reactors run steadily, and it slows down while a reactor is refuelled. *The anti-gravity drives and portals are
   future technology; 0.5 MW is kept for them.*
 - **No solar field.** Solar power works on Mars (Spirit, Opportunity and InSight ran on it), but a field big enough for
@@ -52,7 +52,7 @@ turbine, and the waste heat goes up to the radiators.*
 
 ![Supply and demand through a clear sol and a storm sol](../img/book/power-sol.png)
 
-*Supply and demand through a sol. The house and the port follow the day; the fuel plant takes what is left, so the
+*Supply and demand through a sol. Arcadia and the port follow the day; the fuel plant takes what is left, so the
 reactors run steadily. A global dust storm hides the sun for weeks and changes nothing.*
 
 ## The grid
@@ -62,7 +62,7 @@ reactors run steadily. A global dust storm hides the sun for weeks and changes n
 *The trench beside the road: the cables and the fibre lie in sand under a warning layer, 1.5 m down.*
 
 A buried direct-current cable runs 30 km beside the rover road at ±20 kV, able to carry 15 MW either way with about
-1.5% lost at full load. With it the house and the spaceport act as one grid: the reactors at either end can carry the
+1.5% lost at full load. With it Arcadia and the spaceport act as one grid: the reactors at either end can carry the
 other's loads, so one can be refuelled or repaired while the lights stay on. An optical fibre in the same trench backs
 up the radio links.
 

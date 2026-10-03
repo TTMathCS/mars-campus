@@ -16,8 +16,8 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
   - **Demo 2 is now *Arcadia*** (Jim: "just Arcadia"; "it is actually not house", so never call it a house or a
     retirement house in titles): the homepage card, the design plan (title *Arcadia · Design Plan*, "Jim's home on
     Mars" over it), the tour, the Atlas, chapter 01's maps, the science pages' callouts ("In Arcadia, Jim's home") and
-    the docs. The chapters' body text still says "the house" and "the demo" in places: change them as pages are
-    touched.
+    the docs. Since then the chapters, the plans' room texts and the docs say Arcadia too, and no caption says "the
+    demo"; only "the house mind" (L3-14's system, a name in the approved plans) keeps the word.
   - **The homepage never says "demo"**: *Under construction · A city rising on Mars*, cards tagged *Built · Gale
     Crater* and *In design · Arcadia Planitia* (GN-17). **No notes for visitors** on any page (GN-18): the homepage's
     *How to move* and *What's real* are in `README.md` now; the footers' disclaimers are gone (map credits stay).

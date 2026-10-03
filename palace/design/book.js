@@ -179,5 +179,27 @@ var BOOK = (function () {
   if (window.matchMedia) { var mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", legibleSoon); }
   new MutationObserver(legibleSoon).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", furnish); else furnish();
-  return { CH: CH, READY: READY, S: S, T: T, TL: TL, r1: r1, path: path, arrowDefs: arrowDefs, box: box, catmull: catmull, rng: rng, scalebar: scalebar, north: north, marsImagery: marsImagery, greatCircle: greatCircle, D2R: Math.PI / 180 };
+  // The rooms of the floor plans (palace/plans/rooms.js, which a page loads before book.js when it draws rooms), with their
+  // shapes as palace/tools/draw_plans.py draws them: plan metres, x east, y north, the centre of the house at 0.
+  var rooms = (function () {
+    var T36 = Math.tan(36 * Math.PI / 180), C36 = Math.cos(36 * Math.PI / 180);
+    function G() { return window.PLANS.geom; }
+    function ringV(r) { var g = G(), i = "ABCDE".indexOf(r), a0 = g.APA + i * (g.RING + 4); return [a0, a0 + g.RING]; }   // a Pentagon ring, from the atrium out
+    function half(v) { return v * T36 - (G().AVE / 2) / C36; }                     // half the width of a sector at v, inside the avenues
+    function sectorC(k) { return 126 + 72 * (k - 1); }                              // the bearing of sector k's middle
+    function local(rm) {                                                             // [sector, 4 corners [u, v]]: u along the ring, clockwise; v outwards
+      var at = rm.at, u0 = at.length > 2 ? at[2] : null, u1 = at.length > 3 ? at[3] : null, f0 = at.length > 4 ? at[4] : 0, f1 = at.length > 5 ? at[5] : 1;
+      var va = ringV(rm.rings ? rm.rings[0] : at[0])[0], vb = ringV(rm.rings ? rm.rings[1] : at[0])[1], v0 = va + (vb - va) * f0, v1 = va + (vb - va) * f1;
+      function lo(v) { return u0 == null ? -half(v) : Math.max(-half(v), u0); }
+      function hi(v) { return u1 == null ? half(v) : Math.min(half(v), u1); }
+      return [at[1], [[lo(v0), v0], [hi(v0), v0], [hi(v1), v1], [lo(v1), v1]]];
+    }
+    function world(k, u, v) { var c = sectorC(k) * Math.PI / 180; return [v * Math.sin(c) + u * Math.cos(c), v * Math.cos(c) - u * Math.sin(c)]; }
+    function of(place) { return window.PLANS.rooms.filter(function (r) { return r.place === place; }); }
+    function byCode(code) { return window.PLANS.rooms.filter(function (r) { return r.code === code; })[0]; }
+    function range(list) { return list.length > 1 ? list[0].code + " to " + list[list.length - 1].code : list.length ? list[0].code : ""; }
+    function kind(k) { return (window.PLANS.kinds[k] || ["#ddd", k])[0]; }        // the floor plans' colour for a kind of room
+    return { ringV: ringV, half: half, sectorC: sectorC, local: local, world: world, of: of, byCode: byCode, range: range, kind: kind };
+  })();
+  return { CH: CH, READY: READY, S: S, T: T, TL: TL, r1: r1, path: path, arrowDefs: arrowDefs, box: box, catmull: catmull, rng: rng, scalebar: scalebar, north: north, marsImagery: marsImagery, greatCircle: greatCircle, rooms: rooms, D2R: Math.PI / 180 };
 })();

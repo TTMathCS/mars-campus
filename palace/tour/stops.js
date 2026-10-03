@@ -98,5 +98,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." },
   { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." },
   { img: "photos/crown_wellness.jpg", caption: "The pool, 25 m along the ring, with stone edges all round; loungers along the Glide." },
-  { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." }
+  { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." },
+  { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." }
 ];

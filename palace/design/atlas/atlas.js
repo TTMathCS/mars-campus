@@ -1,5 +1,5 @@
 /* ==============================================================================================
-   Mars Atlas: a zoomable map from the solar system down to Jim's house on Mars.
+   Mars Atlas: a zoomable map from the solar system down to Arcadia, Jim's home on Mars.
    - Mars is drawn from real global mosaics served as 512 px tiles by Esri OnMars (Viking MDIM 2.1
      colour, and MOLA + HRSC colour-coded relief). Tiles stream in as you zoom, like Google Earth.
      If they can't load, a simplified map drawn from known feature positions stands in.
@@ -42,15 +42,15 @@
   var P = [];
   function place(o) { P.push(o); return o; }
   // Jim's Mars
-  place({ id: "house", kind: "jim", name: "Jim's house · the Crown", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
+  place({ id: "house", kind: "jim", name: "Arcadia · Jim's home", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
     k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre: the universe fills its rooms in 3D at a switch, round the Wormhole Gate. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
   place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of the house", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
     k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station and two buried reactors, with no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
   place({ id: "city", kind: "jim", name: "Arcadia City", sub: "future · grows round the house", lat: cityLL.lat, lon: cityLL.lon, size: 9, prio: 90, view: { d: 11, tilt: 35, head: 0 },
     k: "Jim's Mars · the future city", d: "Homes take the seeds of a sunflower spiral round the Crown, 137.5° apart and about 450 m from their neighbours. The civic buildings fall on the Fibonacci seeds, which line up due north as one avenue. 233 homes reach 3.8 km out.", link: ["Site and city", BOOK + "site.html"] });
-  place({ id: "ttmath", kind: "jim", name: "TTMath campus", sub: "demo 1 · Dingo Gap, Gale crater", lat: -4.605, lon: 137.405, size: 3, prio: 88, view: { d: 6, tilt: 45, head: 20 },
-    k: "Demo 1 · TTMath on Mars", d: "The TTMath school campus from demo 1 stands at Dingo Gap in Gale crater, where the Curiosity rover crossed a sand dune in 2014. Its terrain in the demo is NASA's real 3D model of the place. It is 4,360 km from Jim's house.", link: ["Open demo 1", "../../../ttmath/"] });
+  place({ id: "ttmath", kind: "jim", name: "TTMath campus", sub: "Dingo Gap, Gale crater", lat: -4.605, lon: 137.405, size: 3, prio: 88, view: { d: 6, tilt: 45, head: 20 },
+    k: "TTMath on Mars", d: "The TTMath school campus stands at Dingo Gap in Gale crater, where the Curiosity rover crossed a sand dune in 2014. Its ground is NASA's real 3D model of the place. It is 4,360 km from Arcadia.", link: ["Walk into the campus", "../../../ttmath/"] });
   place({ id: "ap9", kind: "site", name: "Ice field AP-9", sub: "thickest ice · future ice mine", lat: 40.02, lon: 203.35, size: 6, prio: 60, maxD: 1400,
     k: "Resources", d: "Another studied Starship site, 58 km east of the spaceport, with the thickest ice seen by radar in the area. A later ice mine and a second landing field could go here." });
   // landmarks
@@ -86,7 +86,7 @@
     ["phlegra", "Phlegra Montes", 40.4, 163.7, 1400, "A long ridge of hills west of Arcadia with glaciers of buried ice on its flanks.", 0],
     ["cerberus", "Cerberus Fossae", 11.28, 166.37, 1200, "Young fractures where many marsquakes seen by InSight came from.", 0],
     ["medusae", "Medusae Fossae", -3.2, 197, 1000, "Soft wind-carved rock, perhaps volcanic ash, south of Amazonis.", 0],
-    ["gale", "Gale crater", -5.37, 137.81, 154, "A 154 km crater with a 5 km mountain of layered rock in the middle, Mount Sharp. Home of Curiosity and of demo 1's campus.", 0],
+    ["gale", "Gale crater", -5.37, 137.81, 154, "A 154 km crater with a 5 km mountain of layered rock in the middle, Mount Sharp. Home of Curiosity and of the TTMath campus.", 0],
     ["jezero", "Jezero crater", 18.38, 77.58, 49, "An old lake with a river delta. Perseverance is collecting samples here.", 0],
     ["gusev", "Gusev crater", -14.5, 175.4, 166, "A crater where the Spirit rover explored from 2004 to 2010.", 0],
     ["huygens", "Huygens crater", -13.9, 55.6, 467, "A great old crater in the southern highlands.", 0],

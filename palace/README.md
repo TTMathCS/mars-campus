@@ -1,14 +1,14 @@
-# Demo 2 · Jim's retirement house on Mars
+# Demo 2 · Arcadia, Jim's home on Mars
 
 **The Crown and the Pentagon**, in Arcadia Planitia · owner: Jim (TTMath) · last updated 1 Oct 2026
 
 **Demo 2 home · [Requirements](REQUIREMENTS.md) · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
 
-![The whole house in section: the Crown floating over the Stone Garden with the Orb, and the Pentagon's five levels in the ice below](design/img/house-hero.jpg)
+![Arcadia in section: the Crown floating over the Stone Garden with the Orb, and the Pentagon's five levels in the ice below](design/img/house-hero.jpg)
 
-*The whole house, path-traced and cut through the middle: on the [design plan](https://ttmathcs.github.io/mars-campus/palace/design/) you can turn it and click any part.*
+*Arcadia, path-traced and cut through the middle: on the [design plan](https://ttmathcs.github.io/mars-campus/palace/design/) you can turn it and click any part.*
 
-A private house for one person, Jim, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
+**Arcadia** is Jim's private home on Mars, for one person, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
 ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb, where the
 universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, eleven times the
 Crown's floor area. **Arcadia Spaceport** stands 30 km east. The Wormhole Gate does the travelling, so the pod and the

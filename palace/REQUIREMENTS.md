@@ -1,28 +1,24 @@
-# Jim's retirement house on Mars: requirements
+# Arcadia, Jim's home on Mars: requirements
 
-Demo 2 of [Mars Campus](../README.md) · owner: Jim (TTMath) · last updated 1 Oct 2026
+Demo 2 of [Mars – your new home](../README.md) · owner: Jim (TTMath) · last updated 3 Oct 2026
 
-**[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans.md) · [Pictures](docs/gallery.md)**
+**[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans/README.md) · [Pictures](docs/gallery.md)**
 
 This file lists everything Jim has asked for in demo 2. Each requirement has an ID, a priority, a status and a
 link to where the design answers it. It is the source of truth for the demo: when Jim asks for something new, it
 goes here first.
 
-> **Where things stand, 1 Oct 2026**
-> - Floor plans **Rev B approved** by Jim on 30 Sep ("Approve. Go").
-> - **Design book Rev E** is in progress, because Jim wants every plan designed before more 3D work. Chapters 01–07
->   are written. Chapters 08 Life support, 09 Communications and space, and 10 Building it are still to write.
-> - **Nothing waits for an answer.** Jim answered every question on 1 Oct. The Orb's new design, Rev E (OR-1 to
->   OR-9): the universe in VR, the ball as the Wormhole Gate and the Orb's dock, and the built ground (GN-13) are
->   drawn from his words and shown for his review.
-> - **3D demo phases 1 and 2 are live** at [palace/](https://ttmathcs.github.io/mars-campus/palace/) (1 Oct 2026; Jim: "please
->   go ahead to build, you have my pre approve"): the landscape, the spaceport, the flight home and the Crown from
->   outside; the Crown's main floor; the Orb. **Phase 3 has started:** the Pentagon's atrium, the rooms behind its
->   glass on every level, the garden level and the sun court, at [palace/pentagon/](https://ttmathcs.github.io/mars-campus/palace/pentagon/).
-> - **It must look real (GN, Jim, 1 Oct: "CATOON? nothing is real or feel real at all").** The house is now shown as
->   path-traced photographs in a **360° photo tour** at [palace/tour/](https://ttmathcs.github.io/mars-campus/palace/tour/),
->   starting with Jim's family room on L1. Jim: "the new images of indoor are so great and almost perfect. i need all
->   rooms to be like this" — every room is now being rendered the same way.
+> **Where things stand, 3 Oct 2026**
+> - Demo 2 is **Arcadia**, Jim's home on Mars (Jim, 3 Oct: "just Arcadia"; GN-1). The homepage shows a city rising on
+>   Mars and never says "demo" (GN-17); no notes for visitors on any page (GN-18).
+> - Floor plans **Rev G approved** by Jim on 3 Oct ("approve"): every room designed, with a code (GN-16). The Orb is
+>   **48 m** across, decided with our best judgment as he asked ("do per your best judgements"; OR-1 to OR-9).
+> - **Nothing waits for an answer.** The Orb's design (Rev E) and the built ground (GN-13) stand as drawn: Jim asked
+>   for no changes.
+> - The design plan: chapters 01–07 are written; 08 Life support, 09 Communications and space and 10 Building it are
+>   still to write.
+> - **It must look real.** Every room is rendered as path-traced pictures and 360° views, one at a time, following the
+>   floor plans ([the photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/)). The real-time 3D pages are hidden from the site (2 Oct).
 
 ## How to read the tables
 
@@ -34,9 +30,8 @@ goes here first.
 
 | Status | Meaning |
 | --- | --- |
-| ✅ Approved | Jim approved it (Rev B, 30 Sep 2026) |
+| ✅ Approved | Jim approved it (Rev B, 30 Sep 2026; Rev G, 3 Oct 2026), or it stands as drawn after his review |
 | ☑️ Decided | Jim answered, or asked us to decide with our best judgment |
-| 🟡 For review | Drawn from Jim's answer and shown for his review |
 | 📐 Designed | In the design book; Jim reviews the whole book at the end |
 | ⏳ To design | A design book chapter still to write |
 | 🎬 Built | Works in the 3D demo |
@@ -63,22 +58,24 @@ repo, with its diagrams and pictures.
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| GN-1 | A private retirement house on Mars for one person, Jim, not for business | Must | ✅ | [Cover](https://ttmathcs.github.io/mars-campus/palace/design/) · [Summary](docs/design/README.md) |
+| GN-1 | A private home on Mars for one person, Jim, to retire to; not for business. Its name is **Arcadia**: "it is actually not house", "just Arcadia" (Jim, 3 Oct 2026) | Must | ✅ Arcadia on the homepage, the design plan, the tour, the Atlas and the docs | [Cover](https://ttmathcs.github.io/mars-campus/palace/design/) · [Summary](docs/design/README.md) |
 | GN-2 | Start again: the new demo replaces the old palace at the same link, and the homepage shows one demo 2 | Must | ✅ The old palace is archived ([page](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/), [requirements](docs/archive/old-palace.md)). `palace/` opens the design book until phase 1 is published | [Status](README.md#status) |
 | GN-3 | "Future-proof, the bravest designs", "only exist in dreams", and then "even wilder" | Must | ✅ Rev B: a floating crown, a mirror Orb, portals | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html) · [Summary](docs/design/02-crown.md) |
 | GN-4 | It must look real: real materials, never cartoon. "Real is so important. I want everything to be so impressive." | Must | Applies to every design, picture and 3D view | [Pictures](docs/gallery.md) |
 | GN-5 | Real science and engineering with worked numbers. Dreams are marked as future technology, with a real fallback | Must | ✅ Done in every chapter | [Summary](docs/design/README.md#real-or-future) |
-| GN-6 | Show the plans before building any detail, and wait for Jim's approval | Must | ✅ Rev A and Rev B shown; Rev B approved | [Floor plans](docs/plans.md) |
+| GN-6 | Show the plans before building any detail, and wait for Jim's approval | Must | ✅ Rev A, B and G shown; Rev B approved on 30 Sep, Rev G on 3 Oct 2026 | [Floor plans](docs/plans/README.md) |
 | GN-7 | Design and document every plan, what it looks like and how it works, before more 3D work | Must | 🔧 Chapters 01–07 written; 08–10 to write | [Design](docs/design/README.md) |
 | GN-8 | Keep all progress in this GitHub repo and on the live site, never as a chat artifact, so another account or AI can continue | Must | ✅ | [HANDOFF.md](../HANDOFF.md) |
 | GN-9 | Organised documents: requirements, plans and maps easy to move between, with the diagrams and pictures visible in the repo | Must | ✅ Done 1 Oct 2026: this file, [Demo 2 home](README.md) and [docs/](docs/design/README.md) | [Demo 2 home](README.md) |
 | GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | ✅ Done 1 Oct 2026: 39 diagrams exported, all ten pictures re-rendered; the cockpit view did not look real and was taken out | [Pictures](docs/gallery.md) |
 | GN-11 | Works on Jim's laptop, and on a phone | Should | Design book checked at desktop and phone size | [HANDOFF.md](../HANDOFF.md) |
 | GN-12 | Nothing spread over the ground: no solar panels and no mirrors. "It is bit scary to have so many panels on the ground… better to remove them all if no good design." | Must | ☑️ Decided 1 Oct 2026: the garden mirrors and the solar field are gone; the Stone Garden is gravel and seven stones; reactors supply all the power | [Decisions](docs/decisions.md#1-oct-2026-nothing-on-the-ground) · [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) |
-| GN-13 | A designed ground, not raw soil, with hints of the big part underground. "the ground is raw and need some construction/design as well. and at least some hints that there is big part underground, instead of raw ground/soil" | Must | 🟡 Rev E, 1 Oct 2026: a paved pentagon 4 m wider than the Pentagon below, kerbed in basalt with a line of light; the Stone Garden inside it; glass over the five avenues; a glass pavilion over each corner stair; basalt pads under the spires. Still no panels and no mirrors (GN-12) | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#plan) · [Summary](docs/design/01-site-and-city.md#the-site-plan) · [Decisions](docs/decisions.md#1-oct-2026-a-built-ground-and-a-dock-for-the-orb) |
+| GN-13 | A designed ground, not raw soil, with hints of the big part underground. "the ground is raw and need some construction/design as well. and at least some hints that there is big part underground, instead of raw ground/soil" | Must | ✅ Rev E, 1 Oct 2026, stands (Jim asked for no changes): a paved pentagon 4 m wider than the Pentagon below, kerbed in basalt with a line of light; the Stone Garden inside it; glass over the five avenues; a glass pavilion over each corner stair; basalt pads under the spires. Still no panels and no mirrors (GN-12) | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#plan) · [Summary](docs/design/01-site-and-city.md#the-site-plan) · [Decisions](docs/decisions.md#1-oct-2026-a-built-ground-and-a-dock-for-the-orb) |
 | GN-14 | The Mars science on the homepage, beside the two demos: "show these are science facts of mars and research on how to build on mars. consider weather/etc... all factors" (Jim, 2 Oct 2026) | Must | ✅ A *The science* section on the homepage with a card each for Mars facts and Building on Mars; the pages themselves are separate (GN-15) | [Homepage](https://ttmathcs.github.io/mars-campus/#science) · [The science](../science/README.md) |
 | GN-15 | Separate pages and files, as a global rule: each topic its own page, big topics split into nested subpages ("like surface/core/weather/space/resources/etc. please keep this as global rule", Jim, 2 Oct 2026) | Must | ✅ Applied to the science (`science/`, 20 subject pages under two hubs); written into `CLAUDE.md`, `AGENTS.md` and the handoff for every page to come | [CLAUDE.md](../CLAUDE.md) · [Decisions](docs/decisions.md) |
 | GN-16 | Every room designed before it is drawn, with a code to refer to it: what it is for, what else it can be used for, where it is and how big. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it and plan it well before draw the images"; "it is OK to have duplicates but just need to design well as long as they could be used for multiple purpose"; "each room / area give it some code which can be easily referenced" | Must | ✅ Floor plans Rev G, approved by Jim on 3 Oct 2026: 179 rooms and areas, codes L1-01 to L5-21, C-01 to C-34, O-00 to O-17 and G-01 to G-08; the pictures follow it | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/) · [Summary](docs/plans/README.md) |
+| GN-17 | The homepage shows a city being built on Mars, place by place, and never says "demo". Jim, 3 Oct 2026: "on homepage don't use demo, use some phrase to show the city is building in progress on mars" | Must | ✅ *Under construction · A city rising on Mars*; the cards are tagged *Built · Gale Crater* and *In design · Arcadia Planitia* | [Homepage](https://ttmathcs.github.io/mars-campus/) · [Decisions](docs/decisions.md) |
+| GN-18 | No notes for visitors on the pages: no "how to move", no "what's real", no status or review notes; keep them in the docs. Jim, 3 Oct 2026: "I hate all this kinds of notes, just garbage shows on the page since there are already duplicates in the 3d. You can keep those for your memory to save somewhere else you know, but not on the pages for users/visitors" | Must | ✅ Off the homepage, the design plan and the science pages; kept in [README.md](../README.md#controls); a global rule in [CLAUDE.md](../CLAUDE.md) | [CLAUDE.md](../CLAUDE.md) |
 
 ## 2. Site and city
 
@@ -95,7 +92,7 @@ repo, with its diagrams and pictures.
 | --- | --- | --- | --- | --- |
 | CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with window slots instead of glass walls | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
 | CR-2 | It floats on anti-gravity: no legs, and nothing touches the ground | Must | ✅ A drive in each of the five spires, with fallback pads | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#float) · [Summary](docs/design/02-crown.md#how-it-floats) |
-| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,100 m², 5.6 times the campus (Rev D and E; Rev B had 20,100 m²) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
+| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,500 m², 5.7 times the campus, with the Orb at 48 m (3 Oct 2026) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
 | CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-the-house-portals) |
 
 ## 4. The Orb: the universe in VR and the Wormhole Gate
@@ -116,15 +113,15 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| OR-1 | A wormhole device that sends people and things to any time (a time machine too) and any place in the universe, instantly: set the time and place, press send, and the ball shoots the object like light to that place | Must | 🟡 Rev E: the Gate is a ball 18 m across in the middle of the Orb. Choose in the universe, walk across a short bridge into the ball (things ride in on a cart or with a robot), press send; the far end is a ball too, for the way back · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
-| OR-2 | The whole universe in 3D that Jim zooms in and out, down to a solar system and a place, to choose where the Gate sends him. Future-tech VR shown directly in the 3D space inside the Orb: not a projector, not inside a ball | Must | 🟡 Rev E: switched on, the universe appears in 3D in the room itself, all round, with no screen and no glasses; in every room, or the whole Orb · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
-| OR-3 | Sit in rooms in the Orb with the universe all around | Must | 🟡 Rev E: three rings of rooms round the Gate; the universe fills whichever room he is in | [Section drawing](docs/img/book/crown-orb-inside.png) |
-| OR-4 | A switch to turn the universe on and off | Must | 🟡 Rev E: a switch in every room, and voice anywhere. Off, the room is back, with its windows to the real sky · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
-| OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | 🟡 Rev E: two small globes with live weather floating in the corner of his view; a touch or a word hides them · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
-| OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | 🟡 Rev E: five rest rooms at +80 m. Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
-| OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Decisions](docs/decisions.md#for-jims-review) |
-| OR-8 | Keep the ball, which "looks pretty cool", for a purpose other than the universe | Should | 🟡 Rev E: the ball is the Wormhole Gate (OR-1) | [Decisions](docs/decisions.md#1-oct-2026-the-universe-in-vr-the-ball-is-the-gate) |
-| OR-9 | An interface where the Orb can land on the ground | Must | 🟡 Rev E, 1 Oct 2026: the Orb's dock, a basalt ring 30.8 m across and 5.5 m high round the Sun Well with five bronze pads. The Orb comes down onto it for service or if its drive stops; a hatch in its base opens onto the dock, and a stair and a lift inside the ring go down into the atrium | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#dock) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
+| OR-1 | A wormhole device that sends people and things to any time (a time machine too) and any place in the universe, instantly: set the time and place, press send, and the ball shoots the object like light to that place | Must | ✅ The Gate (O-00) is a ball 18 m across in the middle of the Orb, which is 48 m across (3 Oct). Choose in the universe, walk across a short bridge into the ball (things ride in on a cart or with a robot), press send; the far end is a ball too, for the way back · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
+| OR-2 | The whole universe in 3D that Jim zooms in and out, down to a solar system and a place, to choose where the Gate sends him. Future-tech VR shown directly in the 3D space inside the Orb: not a projector, not inside a ball | Must | ✅ Switched on, the universe appears in 3D in the room itself, all round, with no screen and no glasses; in every room, or the whole Orb · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
+| OR-3 | Sit in rooms in the Orb with the universe all around | Must | ✅ Rev G: three floors round the Gate (+64, +72, +80), each with five rooms between an outer lane along the windows and an inner lane along the glass; the universe fills whichever room he is in | [Section drawing](docs/img/book/crown-orb-inside.png) · [Plan](https://ttmathcs.github.io/mars-campus/palace/plans/orb.html) |
+| OR-4 | A switch to turn the universe on and off | Must | ✅ A switch in every room, and voice anywhere. Off, the room is back, with its windows to the real sky · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-5 | Like a 3D dashboard: a corner always shows Earth (home) and Mars (where Jim lives now) as small icons with live weather. It can be hidden and shown again | Must | ✅ Two small globes with live weather floating in the corner of his view; a touch or a word hides them · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Dashboard drawing](docs/img/book/crown-dashboard.png) |
+| OR-6 | Rooms to rest in the Orb, with high-tech windows that block radiation | Must | ✅ Five rest rooms at +80 m, O-13 to O-17 (O-13 is Jim's). Radiation glass is future technology; the real fallback is deep acrylic and water windows | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#orb) |
+| OR-7 | Where the Gate opens in the demo | Should | ☑️ Decided 1 Oct (best judgment): zoom out to the whole universe, back in to the TTMath campus in Gale crater, press send and arrive in demo 1 · 🎬 [In the demo](https://ttmathcs.github.io/mars-campus/palace/orb/) | [Decisions](docs/decisions.md#decided-with-our-best-judgment-1-oct-2026) |
+| OR-8 | Keep the ball, which "looks pretty cool", for a purpose other than the universe | Should | ✅ The ball is the Wormhole Gate (OR-1) | [Decisions](docs/decisions.md#1-oct-2026-the-universe-in-vr-the-ball-is-the-gate) |
+| OR-9 | An interface where the Orb can land on the ground | Must | ✅ The Orb's dock (G-03), a basalt ring 31 m across and 5.5 m high round the Sun Well with five bronze pads. The Orb comes down onto it, about 45 m, for service or if its drive stops, and clears the ring by half a metre; a hatch in its base opens onto the dock, and a stair and a lift inside the ring go down into the atrium | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#dock) · [Summary](docs/design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) |
 
 ## 5. The Pentagon, below ground
 
@@ -143,8 +140,8 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | LV-3 | Sleep below ground most nights, to limit radiation | Must | ☑️ Decided 1 Oct (Jim: true). About 20 mSv a year, with about 6 hours a day in the Crown and rest in the Orb (OR-6) | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#why) · Ch 08 (to write) |
 | LV-4 | Watch TV (round 2) | Should | 📐 The 40-seat cinema and the family room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
 | LV-5 | Read books (round 2) | Should | 📐 The Library spire in the Crown and the Great library on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
-| LV-6 | Play the piano, and other things to use (round 2) | Could | 📐 The piano room in the Salon spire, a music room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
-| LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed, because the few visitors from Earth stay until the next launch window ([why](docs/decisions.md#for-jims-review)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
+| LV-6 | Play the piano, and other things to use (round 2) | Could | 📐 The recital room (C-11) in the Salon part of the Crown, and the music room (L1-01) on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
+| LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed, because the few visitors from Earth stay until the next launch window ([why](docs/decisions.md#decided-with-our-best-judgment-1-oct-2026)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
 
 ## 7. Getting home
 
@@ -201,10 +198,8 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 
 ## 10. Open questions
 
-One question is open: the Orb, Rev F (grow the Orb to 48 m, or make the Gate 12 m), in the
-[decision log](docs/decisions.md#for-jims-review). Shown for Jim's review: **floor plans Rev G** (GN-16), every room
-with a code, which must be approved before more room pictures are made; the Orb, Rev E (OR-1 to OR-9); and the built
-ground (GN-13). Where Jim asked us to use our best judgment, the choice and the reason are in the decision log.
+None. Jim answered every question; where he asked us to use our best judgment, the choice and the reason are in the
+[decision log](docs/decisions.md).
 
 ## 11. History and old IDs
 

@@ -18,5 +18,14 @@ Publishing is a push to `main` (GitHub Pages).
   pictures follow the plan. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it
   and plan it well before draw the images"; "it is OK to have duplicates but just need to design well as long as
   they could be used for multiple purpose".
-- The homepage has **one card per demo**, never more; the science has its own section and pages.
+- **No notes for visitors on the pages**: no "how to move", no "what's real", no status, review or "in progress"
+  notes; the 3D views carry their own hints. Keep such notes in the docs (README, HANDOFF). Jim, 3 Oct 2026: "I hate
+  all this kinds of notes, just garbage shows on the page ... You can keep those for your memory to save somewhere
+  else you know, but not on the pages for users/visitors".
+- The homepage shows **a city rising on Mars**, one card per place (demo 1 the TTMath campus, demo 2 **Arcadia**,
+  Jim's home on Mars), never more, and **never says "demo"** (Jim, 3 Oct 2026). Arcadia is not called a house. The
+  science has its own section and pages.
+- **Only the `main` branch, no other branches** (Jim, 3 Oct 2026: "actually I only need main branch and no other
+  branches"), and **push each step as soon as it is checked**, not all at the end ("merge in the middle as well so I
+  can view the changes and steer the direction").
 - It must **look real**, never cartoon. Push to `main` only.

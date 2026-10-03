@@ -2,7 +2,7 @@
 
 [Mars – your new home](../README.md) · **The science** · live at https://ttmathcs.github.io/mars-campus/science/
 
-The real part of the site, beside the two imagined demos: Mars as spacecraft have measured it, and the research on how
+The real part of the site, beside the city's two imagined places, the TTMath campus and Arcadia: Mars as spacecraft have measured it, and the research on how
 people could build and live there. **One subject a page**, each with its sources at the end; the few numbers that are
 our own estimates say so. Jim asked for it on 2 Oct 2026, first on the homepage, then as separate pages split into
 nested subpages ("please keep this as global rule").

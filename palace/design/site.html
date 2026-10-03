@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Site and City · Arcadia Design Book</title>
-<meta name="description" content="Where Jim's house stands on Mars, why Arcadia Planitia, the 30 km corridor to the spaceport, the site plan and how Arcadia City grows.">
+<meta name="description" content="Where Arcadia stands on Mars, why Arcadia Planitia, the 30 km corridor to the spaceport, the site plan and how Arcadia City grows.">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <h1>Site and city</h1>
     <p class="lede">The house stands on the smooth, icy plains of Arcadia Planitia in Mars' northern hemisphere, 30 km west of a spaceport built on one of the best-studied landing sites on the planet. This chapter goes from the whole planet down to the garden, then out again to the city that will grow around it.</p>
   </div>
-  <figure class="hero"><div class="swipe">Swipe sideways to see the whole map</div><div class="scroll dark" data-focus="0.54"><div class="inner"><svg id="fMars" viewBox="0 0 1440 720" role="img" aria-label="Map of the whole of Mars with the house, the TTMath campus in Gale crater, the landers and the great landmarks"></svg></div></div><figcaption><b>The whole of Mars</b>, 0° to 360° east, north up. The house (gold) is on the northern plains of Arcadia, 1,780 km from Olympus Mons. The TTMath campus of demo 1 is 4,360 km away in Gale crater, beside Curiosity. White dots are landers and rovers that have worked on Mars. Imagery: NASA/JPL/USGS Viking colour mosaic, via Esri. Zoom in on the real planet in the <a href="atlas/">Mars Atlas</a>.</figcaption></figure>
+  <figure class="hero"><div class="swipe">Swipe sideways to see the whole map</div><div class="scroll dark" data-focus="0.54"><div class="inner"><svg id="fMars" viewBox="0 0 1440 720" role="img" aria-label="Map of the whole of Mars with the house, the TTMath campus in Gale crater, the landers and the great landmarks"></svg></div></div><figcaption><b>The whole of Mars</b>, 0° to 360° east, north up. The house (gold) is on the northern plains of Arcadia, 1,780 km from Olympus Mons. The TTMath campus is 4,360 km away in Gale crater, beside Curiosity. White dots are landers and rovers that have worked on Mars. Imagery: NASA/JPL/USGS Viking colour mosaic, via Esri. Zoom in on the real planet in the <a href="atlas/">Mars Atlas</a>.</figcaption></figure>
   <div class="nums">
     <div><b>39.80° N, 201.44° E</b><span>The Crown. The spaceport is at 202.10° E on the same latitude</span></div>
     <div><b>−3.9 km</b><span>Below Mars' average height, so the air is 40% thicker than average: 870 Pa</span></div>
@@ -181,7 +181,7 @@
     var LD = [["Viking 1", 22.27, 312.05, -7, 4, "end"], ["Pathfinder", 19.13, 326.78, 7, 4, "start"], ["Viking 2", 47.64, 134.29, 7, 4, "start"], ["Spirit", -14.57, 175.47, 7, 4, "start"], ["Opportunity", -1.95, 354.47, -7, 4, "end"],
       ["Phoenix", 68.22, 234.25, 7, 4, "start"], ["InSight", 4.5, 135.62, -7, 4, "end"], ["Perseverance", 18.44, 77.45, -7, -3, "end"], ["Zhurong", 25.07, 109.93, 7, 4, "start"], ["Mars 3", -45, 202, 7, 4, "start"], ["Curiosity", -4.59, 137.44, 0, 0, ""]];
     LD.forEach(function (l) { var p = M(l[1], l[2]); S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: 3.2, fill: "#fff", stroke: "#000", "stroke-opacity": .6, "stroke-width": 1.2 }, g); if (l[5]) T(g, p[0] + l[3], p[1] + l[4], l[0], "onimg soft", { "text-anchor": l[5], style: "font-size:11.5px" }); });
-    // the way from the house to demo 1's campus, along a great circle
+    // the way from Arcadia to the TTMath campus, along a great circle
     var HOME = [39.8, 201.44], TT = [-4.605, 137.405], gc = BOOK.greatCircle(HOME, TT, 60).map(function (q) { return M(q[0], q[1]); });
     S("path", { d: P(gc), stroke: "#ffd98a", "stroke-width": 2, "stroke-dasharray": "2 5", "stroke-linecap": "round", fill: "none" }, g);
     var gm = gc[30]; T(g, gm[0] - 10, gm[1] + 4, "4,360 km", "mono onimg hl", { "text-anchor": "end", style: "font-size:12.5px" });
@@ -191,8 +191,8 @@
       S("circle", { cx: r1(p[0]), cy: r1(p[1]), r: big ? 7.5 : 5.5, fill: big ? "#ffc85a" : "#fff", stroke: "#1b120d", "stroke-width": 2.4 }, g);
       lines.forEach(function (l, i) { T(g, p[0] + dx + (anchor === "end" ? -5 : 5), p[1] + dy + 5 + i * 17, l, "onimg" + (i ? " soft" : " hl"), { "text-anchor": anchor, style: i ? "font-size:12.5px" : "font-size:16px;font-weight:600" }); });
     }
-    pin(HOME, true, ["Jim's house", "and Arcadia Spaceport, 39.8° N 201.4° E"], 44, -34, "start");
-    pin(TT, false, ["TTMath campus, demo 1", "Gale crater, beside Curiosity"], -36, 40, "end");
+    pin(HOME, true, ["Arcadia", "and its spaceport, 39.8° N 201.4° E"], 44, -34, "start");
+    pin(TT, false, ["TTMath campus", "Gale crater, beside Curiosity"], -36, 40, "end");
   })();
 
   /* ---------------- the ground at the site: a section to scale, 0 to 110 m down */
@@ -252,7 +252,7 @@
     var mid = [(h[0] + ol[0]) / 2, (h[1] + ol[1]) / 2]; T(g, mid[0] + 10, mid[1], "1,780 km", "mono onimg", { style: "font-size:13px" });
     S("circle", { cx: r1(ap9[0]), cy: r1(ap9[1]), r: 4, fill: "#8fd3f2", stroke: "#000", "stroke-opacity": .6 }, g); T(g, ap9[0] + 8, ap9[1] + 17, "AP-9, thick ice", "onimg", { style: "font-size:12.5px;fill:#bfe8fb" });
     S("circle", { cx: r1(h[0]), cy: r1(h[1]), r: 7, fill: "#ffc85a", stroke: "#1b120d", "stroke-width": 2.4 }, g);
-    T(g, h[0] - 12, h[1] - 22, "Jim's house and Arcadia Spaceport", "onimg hl", { "text-anchor": "end", style: "font-size:15px;font-weight:600" });
+    T(g, h[0] - 12, h[1] - 22, "Arcadia and its spaceport", "onimg hl", { "text-anchor": "end", style: "font-size:15px;font-weight:600" });
     T(g, h[0] - 12, h[1] - 5, "30 km apart, a single dot at this scale", "onimg soft", { "text-anchor": "end", style: "font-size:12.5px" });
     // scale bar and north arrow, in white
     var sb = S("g", {}, svg), x0 = 1000, y0 = 672, L500 = 500 * k;
@@ -276,7 +276,7 @@
     S("path", { d: P([M(0, 0), M(30000, 0)]), stroke: "#7cc0de", "stroke-width": 6, "stroke-dasharray": "6 14", fill: "none" }, svg);
     // the dust storm the video flies through: a drifting wall of dust after the Ice Cliffs
     var so = M(4700, 2150); S("ellipse", { cx: so[0], cy: so[1], rx: 190, ry: 95, fill: "#caa27c", "fill-opacity": .28, stroke: "#f3dcc3", "stroke-width": 4, "stroke-dasharray": "14 12", transform: "rotate(20 " + so[0] + " " + so[1] + ")" }, svg);
-    var L = [["Jim's house", 0, 0, -84, 18, 56, "end"], ["Arcadia Spaceport", 30000, 0, 0, 110, 56, "middle"], ["Ice mine", 29700, -1050, 0, -58, 44, "middle"], ["Dune Sea", 21300, -3300, 0, 18, 58, "middle"], ["Crater, 3.2 km across", 13800, -2300, 0, -218, 48, "middle"], ["Ice Cliffs", 8300, 2300, 120, 70, 50, "start"], ["Dust storm, crossed in the video", 4700, 2150, 0, 158, 44, "middle"], ["Rover road", 18000, 550, 0, 100, 44, "middle"], ["Maglev tunnel, phase 2", 10000, 0, 0, -38, 40, "middle"]];
+    var L = [["Arcadia", 0, 0, -84, 18, 56, "end"], ["Arcadia Spaceport", 30000, 0, 0, 110, 56, "middle"], ["Ice mine", 29700, -1050, 0, -58, 44, "middle"], ["Dune Sea", 21300, -3300, 0, 18, 58, "middle"], ["Crater, 3.2 km across", 13800, -2300, 0, -218, 48, "middle"], ["Ice Cliffs", 8300, 2300, 120, 70, 50, "start"], ["Dust storm, crossed in the video", 4700, 2150, 0, 158, 44, "middle"], ["Rover road", 18000, 550, 0, 100, 44, "middle"], ["Maglev tunnel, phase 2", 10000, 0, 0, -38, 40, "middle"]];
     L.forEach(function (l) { var p = M(l[1], l[2]); T(svg, p[0] + l[3], p[1] + l[4], l[0], "", { "text-anchor": l[6], style: st + ";font-size:" + l[5] + "px;font-weight:600" }); });
     var h = M(0, 0), sp = M(30000, 0);
     S("circle", { cx: h[0], cy: h[1], r: 24, fill: "#ffd27a", stroke: "#000", "stroke-width": 6 }, svg);

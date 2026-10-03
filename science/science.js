@@ -41,7 +41,6 @@
       (next ? '<a class="next" href="' + href(next[0]) + '"><span>Next →</span><b>' + next[1] + "</b></a>"
             : '<a class="next" href="' + up + other[0] + '/"><span>Next →</span><b>' + other[1] + "</b></a>") + "</nav>");
   }
-  document.body.insertAdjacentHTML("beforeend", '<footer class="foot"><div class="in"><p>Real science, with the sources at the end of every page; the few numbers that are our own estimates say so. ' +
-    'The two demos on the homepage are imagined.</p><p><a href="' + home + '">Mars – your new home</a> · <a href="' + up + 'mars-facts/">Mars facts</a> · <a href="' + up +
+  document.body.insertAdjacentHTML("beforeend", '<footer class="foot"><div class="in"><p><a href="' + home + '">Mars – your new home</a> · <a href="' + up + 'mars-facts/">Mars facts</a> · <a href="' + up +
     'building-on-mars/">Building on Mars</a> · <a href="https://github.com/TTMathCS/mars-campus">Source on GitHub</a></p></div></footer>');
 })();

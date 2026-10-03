@@ -5,19 +5,9 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
-## For Jim's review
+## Decided with our best judgment, 1 Oct 2026
 
-**One question for Jim (1 Oct 2026): how to fit rooms into the Orb.** Where he said "do your best judgment" the
-choice is recorded below. Shown for review:
-
-| What | Drawn from | Where |
-| --- | --- | --- |
-| **Floor plans Rev G: every room designed, with a code.** 179 rooms and areas, each with what it is for, what else it can be used for, where it is and how big: L1-01 to L5-21 in the Pentagon, C-01 to C-34 in the Crown, O-00 to O-17 in the Orb, G-01 to G-08 on the ground. Two of a kind only where each has its own job, most by the house's rule *by day up in the Crown, by night down in the Pentagon*; the duplicates with no second job are taken out. The 360s and pictures made so far already follow it. **Please approve or say what to change**; no more room pictures until then | Jim's words, 2 Oct 2026 (below) | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/) · [summary](plans/README.md) · GN-16 |
-| **The Orb, Rev F: rooms in the middle of the ring, a visitors' lane on each side.** Five rooms between the lanes on each floor; the outer lane looks out over the plain, the inner lane in onto the Gate. Rooms of a useful depth need 10 m between the Gate's round space and the shell, and the Orb has 6 m. **Question:** grow the Orb from 40 m to 48 m and keep the Gate at 18 m (recommended), or keep the Orb at 40 m and make the Gate 12 m? | Jim's words, 1 Oct 2026 (below) | [The plan](img/book/orb-rev-f.png) · OR-1 to OR-8 |
-| **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
-| **The ground, Rev E: built, with a dock for the Orb.** A paved pentagon over the Pentagon, 4 m wider than it, shows where the house lies; the Stone Garden is the circle inside it; glass over the five avenues and a glass pavilion over each corner stair hint at the house below; the Orb's dock round the Sun Well is where the Orb lands. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 01, the site plan](design/01-site-and-city.md#the-site-plan) · GN-13, OR-9 |
-
-**Decided with our best judgment, 1 Oct 2026** (Jim can change any of them):
+Jim asked us to decide these; he can change any of them.
 
 | Question | Decision | Why |
 | --- | --- | --- |
@@ -30,8 +20,28 @@ choice is recorded below. Shown for review:
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
 | The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
 
-## 3 Oct 2026: Rev G approved, the Orb at 48 m, a clean site and a new name
+## 3 Oct 2026: Arcadia, a city rising on Mars, Rev G approved and the Orb at 48 m
 
+- **The name: Arcadia.** Jim: "don't like retirement house. what do you suggest?" Offered: *Arcadia House, Jim's home
+  on Mars* (recommended), *Jim's home on Mars* or *The Crown*. Jim: "Arcadia House it is acurally not house".
+  Offered: *Arcadia* (recommended), *Arcadia Palace* or *Arcadia Estate*. Jim: "just Arcadia (by the way what does
+  this word mean?)". **Done:** demo 2 is *Arcadia*, with "Jim's home on Mars" under it, on the homepage, the design
+  plan, the tour, the Atlas, the science pages and the docs. *The word:* Arcadia is a mountain region of Greece, a
+  land of shepherds; since the Roman poet Virgil it has meant an ideal place of peace and a simple, happy life close
+  to nature. The plain, Arcadia Planitia, is named after it. → GN-1.
+- **The homepage: a city rising on Mars.** Jim: "on homepage don't use demo, use some phrase to show the city is
+  building in progress on mars". **Done:** the section is *Under construction · A city rising on Mars* ("Place by
+  place: walk into what is built, and follow what is still being designed as it takes shape"); the cards are tagged
+  *Built · Gale Crater* and *In design · Arcadia Planitia*, with *Walk in* and *Explore Arcadia*. → GN-17.
+- **No notes for visitors.** Jim, on the homepage's *How to move* and *What's real*: "I hate all this kinds of notes,
+  just garbage shows on the page since there are already duplicates in the 3d. You can keep those for your memory to
+  save somewhere else you know, but not on the pages for users/visitors". **Done:** both are off the homepage and kept
+  in the repo's [README](../../README.md#controls); the same kind of note is gone from the design plan (its cover and
+  footer) and the science pages (their footer and the hub); the map credits stay. A global rule in `CLAUDE.md`. → GN-18.
+- **Show the work as it goes.** Jim: "don't wait for last to merge, merge in the middle as well so I can view the
+  changes and steer the direction". **Done:** each step is pushed to `main`, and so goes live, as soon as it is checked.
+- **The Orb (Rev E) and the built ground stand.** Both were shown for review on 1 Oct ("if it looks right, nothing is
+  needed"); Jim asked for no changes, so they stand as drawn, with the Orb now 48 m across. → OR-1 to OR-9, GN-13.
 - **The site's name.** Jim: "the title should not be 'Mars – No Way Home', should be 'Mars - your new home'".
   **Done:** the site is *Mars – your new home* on the homepage, in every page's header and in the browser tab;
   the repository keeps its name.

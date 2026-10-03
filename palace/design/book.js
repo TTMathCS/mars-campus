@@ -6,7 +6,7 @@ var BOOK = (function () {
     ["mars", "00·1", "Mars facts", "The science pages on the planet: surface, inside, weather, space, resources, hazards", "../../science/mars-facts/"],
     ["living", "00·2", "Building on Mars", "The science pages on living there: every factor, getting there, construction, water, air, food, energy and more", "../../science/building-on-mars/"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
-    ["crown", "02", "The Crown", "The floating house above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
+    ["crown", "02", "The Crown", "The floating ring above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
     ["rooms-crown", "02·1", "The Crown, room by room", "Each part of the ring: what it is for, its plan, pictures and 360° views"],
     ["pentagon", "03", "The Pentagon", "Five levels below ground, the atrium and how it is built"],
     ["rooms-residence", "03·1", "L1: Jim's residence", "The family room, the music room, the dining room and bar, the master suite down"],
@@ -102,7 +102,7 @@ var BOOK = (function () {
       pg.innerHTML = (prev ? '<a class="prev" href="' + chHref(prev) + '"><span>← ' + prev[1] + "</span><b>" + prev[2] + "</b></a>" : "<span></span>") + (next ? (READY[next[0]] ? '<a class="next" href="' + chHref(next) + '"><span>' + next[1] + " →</span><b>" + next[2] + "</b></a>" : '<span class="next soon"><span>' + next[1] + " · coming next</span><b>" + next[2] + "</b></span>") : "");
       main.appendChild(pg);
       var ft = document.createElement("footer"); ft.className = "foot";
-      ft.innerHTML = '<div class="wrap">Jim\'s retirement house · design plan for Jim (TTMath) · Mars – your new home, demo 2 · Rev E, 1 Oct 2026. Real science and engineering unless marked <b>future technology</b>. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
+      ft.innerHTML = '<div class="wrap">Arcadia · design plan for Jim (TTMath) · Mars – your new home. Maps: NASA/JPL/USGS Viking colour mosaic via Esri OnMars, over a base map by Solar System Scope (CC BY 4.0).</div>';
       document.body.appendChild(ft);
     }
     document.addEventListener("click", function (e) { var d = document.querySelector(".bar details[open]"); if (d && !d.contains(e.target)) d.removeAttribute("open"); });

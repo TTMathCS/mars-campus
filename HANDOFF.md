@@ -13,6 +13,20 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     be 'Mars - your new home'"; the dash set as before, his lowercase kept): the homepage, every page's header and
     browser tab (`book.js`, `science.js`, `draw_plans.py`, plans re-drawn), the unlinked 3D pages, both READMEs and
     the decision log. Only the archives and the log's quotes keep the old name.
+  - **Demo 2 is now *Arcadia*** (Jim: "just Arcadia"; "it is actually not house", so never call it a house or a
+    retirement house in titles): the homepage card, the design plan (title *Arcadia · Design Plan*, "Jim's home on
+    Mars" over it), the tour, the Atlas, chapter 01's maps, the science pages' callouts ("In Arcadia, Jim's home") and
+    the docs. The chapters' body text still says "the house" and "the demo" in places: change them as pages are
+    touched.
+  - **The homepage never says "demo"**: *Under construction · A city rising on Mars*, cards tagged *Built · Gale
+    Crater* and *In design · Arcadia Planitia* (GN-17). **No notes for visitors** on any page (GN-18): the homepage's
+    *How to move* and *What's real* are in `README.md` now; the footers' disclaimers are gone (map credits stay).
+  - **Only `main`, no other branches** (Jim, 3 Oct: "actually I only need main branch and no other branches"), and
+    **push each step as soon as it is checked** ("merge in the middle as well so I can view the changes and steer
+    the direction"). Both are in `CLAUDE.md`.
+  - Renders: the scratch folder is this session's scratchpad (`.../scratchpad/blend`, `bvenv` with bpy 4.2.0); one
+    runner works down `blend/queue_a.txt` (the repo's queue, the dining still dropped: it is published and its scene
+    has not changed).
   - Next: the rest of step 1 (the docs), then steps 2, 3 and 4 below.
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
@@ -190,7 +204,7 @@ The Orb's Rev F question to Jim is still open.
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html`, `site.css` | Live, titled **Mars – your new home** (Jim, 3 Oct 2026). One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
+| Hub page | `index.html`, `site.css` | Live, titled **Mars – your new home** (Jim, 3 Oct 2026): *A city rising on Mars*, one card per place, never the word "demo", no notes for visitors; the Arcadia card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
 | The science | `science/` | Live since 2 Oct 2026. Real, with sources, one subject a page: Mars facts (8 pages) and Building on Mars (12 pages). See [science/README.md](science/README.md). |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
@@ -501,8 +515,7 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
   big topics split into nested subpages, hub pages short (an intro and links), shared styles and scripts in their
   own files. He has complained that everything ends up on one page "over and over and over".
 - **Renders one at a time** (2 Oct 2026): one queue, never parallel lanes, so a restart loses as little as possible.
-- **Demo 2 is the design plan** (2 Oct 2026): the homepage card opens `palace/design/`, *Jim's Retirement House ·
-  Design Plan*. The real-time 3D pages (the flight, the Crown, the Orb, the Pentagon) are hidden from the homepage
+- **Demo 2 is the design plan** (2 Oct 2026): the homepage card opens `palace/design/`, *Arcadia · Design Plan*. The real-time 3D pages (the flight, the Crown, the Orb, the Pentagon) are hidden from the homepage
   ("far from satisfying"); keep them unlinked until he says otherwise. Every area and room gets its purpose, facts,
   floor plan and pictures/360s: edit the room data in `palace/tools/gen_plan.py` and re-run it after each render.
 - **The homepage has one card per demo, never more.** A new part of a demo (the photo tour, a new page) is a link

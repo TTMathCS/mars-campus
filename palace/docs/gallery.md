@@ -128,7 +128,7 @@ The climb over the rim of a crater 3.2 km across, with frost in its shadows. *[C
 
 ### Mars from orbit
 
-![Mars from orbit, with a marker at Jim's house](../design/img/atlas-teaser.jpg)
+![Mars from orbit, with a marker at Arcadia](../design/img/atlas-teaser.jpg)
 
 Mars from orbit over the northern plains: the north polar cap at the top, Arcadia Planitia with a marker at Jim's
 house, and Olympus Mons to the lower right. Rendered with the real colour map of Mars

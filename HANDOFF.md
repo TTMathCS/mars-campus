@@ -91,6 +91,28 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     opens 2033), phase 3 2038 to the early 2060s (233 homes; the civic seeds about 2040–2062), phase 4 after.
   - Next: the renders as they finish (the turntable's 24 frames at every third angle, then the other 48; the master
     suite down, the Arrival hall, the sunset lounge, the atrium's 360s, the music and dining stills).
+- **3 Oct, evening (same session):** Jim asked why so few rooms were rendered. The container was reclaimed while the
+  session sat idle (about 14:00 to 20:07 UTC), so the runner died; it was restarted with **rooms first** and the
+  turntable's other 48 frames moved to the end of the queue (the 24 published frames turn fine).
+  - **Three new Crown scenes** in `crown_rooms.py`, designed from the room program: `studio` (part 8: the art studio
+    C-27 with easels in the north light, the photo and print room C-28 with Jim's prints of Mars, the craft room C-29
+    with the potter's wheel, kiln and shelves of pots), `observatory` (part 9, **at night**: the star lounge C-30 with
+    reclining chairs under the slots, a star sky with the Milky Way, the far side of the ring with its slots lit; the
+    telescope room C-31 with screens and the portal up to the dome C-32), `garden` (part 10 at sunrise: the breakfast
+    room C-33 on oak, the sky garden C-34 with herb and flower beds and lemon and olive trees). `furn.olive_tree(...,
+    kind="lemon")` grows lemon trees. Plans: `c_studio`, `c_observatory` (drawn by day), `c_garden` in
+    `plan_render.py`. Tour stops `crown_studio`, `crown_stars`, `crown_garden` wait hidden in `stops.js`.
+  - **The Crown scenes drew the Orb at 20 m radius** (`crown.ORB_R`): now 24 m, as Rev E/F.
+  - **A bug in every still so far:** `lib.photo_finish` set the vignette mask's size with `width`/`height`, which in
+    Blender are the node's size in the editor, so the mask stayed a small default ellipse and the blur was 0.35% (its
+    relative size is in percent): each still came out about 8% darker everywhere except a faint bright oval in the
+    middle. Fixed (`mask_width`/`mask_height`, blur 30%); 360s and plans never had a vignette. The published stills
+    can be rendered again when the queue is free.
+  - **Previews without breaking the one-queue rule:** quick previews go into the queue like any job, followed by
+    `python3 blend/hold.py N`, which renders nothing and holds the queue while `blend/hold.flag` exists (at most N
+    seconds), so the long jobs behind wait until the previews are checked. Delete the flag to go on.
+  - **`pgrep -f "blend/runner.py a"` matches its own shell** and says the runner is alive when it is not: check with
+    `ps -eo args | grep "^python3 blend/runner.py a"`.
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.

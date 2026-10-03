@@ -75,7 +75,16 @@ window.TOUR_STOPS = [
     links: [{ id: "crown_sunset", at: [-109.77, 63.38, 0], label: "The Glide: to the sunset lounge" }, { id: "crown_maproom", at: [-90.0, 94.84, 0], label: "The map room" }, { id: "crown_arrival", at: [-98.5, 79.77, 0], label: "The Glide: round to the Arrival hall" }] },
   { id: "crown_maproom", place: "crown", name: "The map room", short: "Map room", k: "The Crown · Library", p: [-87.49, 97.17], az0: -41, img: "pano/crown_maproom.jpg",
     d: "A globe of Mars 3 m across in a bronze meridian, lit from the spire, and chests of map drawers along the wall. The library is through the opening.",
-    links: [{ id: "crown_library", at: [-90.83, 94.05, 0], label: "The library" }] }
+    links: [{ id: "crown_library", at: [-90.83, 94.05, 0], label: "The library" }] },
+  { id: "crown_studio", place: "crown", ready: false, name: "The Studio", short: "Studio", k: "The Crown · Studio", p: [-61.59, 116.81], az0: 110, img: "pano/crown_studio.jpg",
+    d: "Jim's art studio in the steady north light: three easels by the outer wall's slots, a long work table of brushes and paints, canvases stacked against the wall. Through the opening, the print room with his photographs of Mars, and beyond it the craft room with the potter's wheel and the kiln.",
+    links: [{ id: "crown_library", at: [-70.88, 105.08, 0], label: "The Glide: to the library" }, { id: "crown_stars", at: [-49.53, 116.67, 0], label: "The Glide: to the Observatory" }] },
+  { id: "crown_stars", place: "crown", ready: false, name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [28.21, 128.29], az0: 40, img: "pano/crown_stars.jpg",
+    d: "The Observatory at night: reclining chairs in pairs under the outer slots full of stars, candles on the side tables, a floor of polished basalt. Across the ring the other rooms' slots glow. The telescope room is through the opening, with the portal up to the dome.",
+    links: [{ id: "crown_studio", at: [15.45, 125.81, 0], label: "The Glide: to the Studio" }, { id: "crown_garden", at: [39.17, 120.55, 0], label: "The Glide: to the Garden room" }] },
+  { id: "crown_garden", place: "crown", ready: false, name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",
+    d: "A conservatory in the ring at sunrise: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun through the east slots. The breakfast room is through the opening.",
+    links: [{ id: "crown_stars", at: [102.54, 74.5, 0], label: "The Glide: to the Observatory" }, { id: "crown_arrival", at: [114.4, 54.57, 0], label: "The Glide: to the Arrival hall" }] }
 ];
 window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },

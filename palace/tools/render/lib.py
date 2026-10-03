@@ -391,9 +391,12 @@ def photo_finish(glow=0.35, vignette=0.18):
     rl = nt.nodes.new("CompositorNodeRLayers"); out = nt.nodes.new("CompositorNodeComposite")
     gl = nt.nodes.new("CompositorNodeGlare"); gl.glare_type = "FOG_GLOW"; gl.quality = "HIGH"; gl.threshold = 1.2; gl.size = 8; gl.mix = -1 + glow
     nt.links.new(rl.outputs["Image"], gl.inputs["Image"])
-    # vignette: an elliptical mask, blurred, multiplied in
-    mask = nt.nodes.new("CompositorNodeEllipseMask"); mask.width = 0.95; mask.height = 0.95
-    bl = nt.nodes.new("CompositorNodeBlur"); bl.filter_type = "FAST_GAUSS"; bl.use_relative = True; bl.factor_x = 0.35; bl.factor_y = 0.35; bl.use_extended_bounds = False
+    if vignette <= 0:
+        nt.links.new(gl.outputs["Image"], out.inputs["Image"]); return nt
+    # vignette: an elliptical mask, blurred, multiplied in. Its size is mask_width/mask_height: a node's "width" is
+    # how wide it is drawn in the node editor (setting that left the default small ellipse, a bright oval mid-picture)
+    mask = nt.nodes.new("CompositorNodeEllipseMask"); mask.mask_width = 0.95; mask.mask_height = 0.95
+    bl = nt.nodes.new("CompositorNodeBlur"); bl.filter_type = "FAST_GAUSS"; bl.use_relative = True; bl.factor_x = 30.0; bl.factor_y = 30.0; bl.use_extended_bounds = False      # percent of the picture
     nt.links.new(mask.outputs["Mask"], bl.inputs["Image"])
     mr = nt.nodes.new("CompositorNodeMapRange"); mr.inputs["To Min"].default_value = 1 - vignette; mr.inputs["To Max"].default_value = 1.0
     nt.links.new(bl.outputs["Image"], mr.inputs["Value"])

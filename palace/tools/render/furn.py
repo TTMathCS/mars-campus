@@ -351,8 +351,9 @@ def painting(name, w, h, loc, rot_z, mat, frame):
 
 
 # ---------------------------------------------------------------- trees and curtains
-def olive_tree(name, loc, seed, M, height=3.2, leaves=16000):
-    """an olive tree: a gnarled trunk that forks into branches, and narrow grey-green leaves in clouds at their ends"""
+def olive_tree(name, loc, seed, M, height=3.2, leaves=16000, kind="olive"):
+    """an olive tree: a gnarled trunk that forks into branches, and narrow grey-green leaves in clouds at their ends.
+    kind="lemon": the same tree with broad glossy leaves (M["lemon_leaf"]) and lemons among them"""
     rnd = random.Random(seed); bm = bmesh.new(); pts = []
     def seg(p, d, length, r0, r1):
         q = p + d * length
@@ -384,13 +385,22 @@ def olive_tree(name, loc, seed, M, height=3.2, leaves=16000):
     grow(Vector((0, 0, 0)), Vector((rnd.uniform(-0.15, 0.15), rnd.uniform(-0.15, 0.15), 1)).normalized(), trunk_h, 0.11 * height / 3.2, 5)
     wood = lib.mesh_obj(name + " wood", bm, M["bark"], smooth=True); wood.location = loc
     rnd.shuffle(pts); me = bpy.data.meshes.new(name + " leaf points"); me.from_pydata([tuple(p) for p in pts[:leaves]], [], []); lp = lib.link(bpy.data.objects.new(name + " leaves", me)); lp.location = loc
-    leaf = bpy.data.objects.get("olive leaf")
+    leaf = bpy.data.objects.get(kind + " leaf")
     if leaf is None:
         import atrium
-        leaf = atrium.leaf_object("olive leaf", 0.07, 0.016, M["olive_leaf"])
-    ng = bpy.data.node_groups.get("olive leaves")
+        leaf = atrium.leaf_object(kind + " leaf", 0.07, 0.016, M["olive_leaf"]) if kind == "olive" else atrium.leaf_object(kind + " leaf", 0.085, 0.04, M[kind + "_leaf"])
+    if kind == "lemon":                       # a lemon at one leaf point in sixty
+        fr = bpy.data.objects.get("lemon")
+        if fr is None:
+            bpy.ops.mesh.primitive_uv_sphere_add(segments=16, ring_count=10, radius=0.034, location=(0, 0, -500)); fr = bpy.context.active_object; fr.name = "lemon"; fr.scale = (1.0, 1.0, 1.25)
+            for p_ in fr.data.polygons: p_.use_smooth = True
+            fr.data.materials.append(lib.principled("lemon skin", (0.85, 0.62, 0.05), 0.35, **{"Coat Weight": 0.3}))
+        me2 = bpy.data.meshes.new(name + " fruit points"); me2.from_pydata([tuple(p) for p in pts[-max(12, min(len(pts), leaves) // 60):]], [], [])
+        fp = lib.link(bpy.data.objects.new(name + " fruit", me2)); fp.location = loc
+        import atrium; atrium.scatter_leaves(fp, fr, "lemons", 0.85, 1.15)
+    ng = bpy.data.node_groups.get(kind + " leaves")
     if ng is None:
-        ng = bpy.data.node_groups.new("olive leaves", "GeometryNodeTree")
+        ng = bpy.data.node_groups.new(kind + " leaves", "GeometryNodeTree")
         ng.interface.new_socket(name="Geometry", in_out="INPUT", socket_type="NodeSocketGeometry"); ng.interface.new_socket(name="Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
         N = ng.nodes; L = ng.links; gi = N.new("NodeGroupInput"); go = N.new("NodeGroupOutput")
         mp = N.new("GeometryNodeMeshToPoints"); L.new(gi.outputs[0], mp.inputs["Mesh"])

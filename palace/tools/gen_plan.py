@@ -199,7 +199,7 @@ CROWN = dict(
              purpose="Jim's art studio in the steady north light through the slots, a photo and print room for his pictures of Mars, and a craft room for pottery and models; heavy work goes down to the workshops on L3.",
              facts=[("Rooms", "C-27 Art studio · C-28 Photo and print room · C-29 Craft room")], photos=[], views=[], plan=("img/plan/crown-studio.jpg", "Part 8, north-north-west.")),
         dict(id="observatory", codes=["C-30", "C-31"], k="C-30 to C-32 · part 9 · north · a spire", name="The Observatory",
-             purpose="A star lounge with reclining chairs under the northern sky, the telescope room with its controls and screens, and the telescope dome upstairs in the spire, which opens at night. From here Earth is the evening star.",
+             purpose="A star lounge with reclining chairs under the northern sky, the telescope room with its controls and screens, and the telescope dome upstairs in the spire, which opens at night. From here Earth shows as the evening or the morning star, with the Moon beside it in the telescope.",
              facts=[("Rooms", "C-30 Star lounge · C-31 Telescope room; C-32 Telescope dome upstairs")], photos=[], views=[], plan=("img/plan/crown-observatory.jpg", "Part 9, north.")),
         dict(id="garden_room", codes=["C-33", "C-34"], k="C-33 to C-34 · part 10 · north-east", name="The Garden room",
              purpose="A breakfast room in the morning light through the east slots, and a sky garden of fruit trees, flowers and herbs: a conservatory in the ring, with fresh herbs for the chef's kitchen.",

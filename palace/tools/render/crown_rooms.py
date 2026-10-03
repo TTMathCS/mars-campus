@@ -572,6 +572,453 @@ def wellness(M, rnd):
         lib.spot_light("downlight", at(RM, bb, ceil_at(bb) - 0.1), 90, (1.0, 0.84, 0.66), 0.03, 50, 0.5)
 
 
+# ---------------------------------------------------------------- the north of the ring: the Studio, the Observatory, the Garden room
+def repo_file(*parts):
+    """a file of the mars-campus checkout ($MARS_REPO, or the usual places): the design plan's own pictures"""
+    for p in (os.environ.get("MARS_REPO"), "/home/user/mars-campus", "/home/claude/mars-campus", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")):
+        if p and os.path.exists(os.path.join(p, *parts)): return os.path.join(p, *parts)
+    return None
+
+
+def extra_materials(M):
+    P_ = lib.principled
+    M.setdefault("oak_easel", lib.wood("easel beech", (0.66, 0.50, 0.33), (0.52, 0.38, 0.24), 0.5, coat=0.05, along="Z"))
+    M.setdefault("oak_top", lib.wood("worktop oak", (0.56, 0.42, 0.27), (0.40, 0.28, 0.16), 0.45, coat=0.1))
+    M.setdefault("raw_canvas", lib.fabric("raw canvas", (0.72, 0.66, 0.55), 0.9, 0.2, 700, 0.15))
+    M.setdefault("leather_tan", P_("tan leather", (0.26, 0.13, 0.065), 0.42, **{"Coat Weight": 0.25, "Coat Roughness": 0.2}))
+    M.setdefault("graphite", P_("graphite", (0.045, 0.046, 0.05), 0.45))
+    M.setdefault("pale_grey", P_("pale grey", (0.62, 0.62, 0.60), 0.4))
+    M.setdefault("steel", P_("brushed steel", (0.58, 0.58, 0.6), 0.28, 1.0))
+    M.setdefault("clay_wet", P_("wet clay", (0.30, 0.17, 0.10), 0.35, **{"Coat Weight": 0.2}))
+    M.setdefault("greenware", P_("greenware", (0.58, 0.52, 0.45), 0.85))
+    M.setdefault("white_paint", P_("white enamel", (0.80, 0.80, 0.78), 0.3))
+    M.setdefault("lemon_leaf", lib.leaf("lemon leaf", (0.05, 0.12, 0.03), 0.3, 0.3))
+    M.setdefault("towel", lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5))
+    return M
+
+
+def room_wall(b, M, mat=None, opening=(R_GL + 1.4, R_OUT - 2.6), head=3.2):
+    """a cross wall at bearing b between two rooms, a wide opening in the middle (as in the library)"""
+    th = 0.3 / 130 / D; mat = mat or M["regolith"]
+    for (r0, r1) in ((R_GL + 0.05, opening[0]), (opening[1], R_OUT)):
+        crown.curved_box("room wall", r0, r1, b - th / 2, b + th / 2, 0, 9.0, mat, zf1=lambda bb: ceil_at(bb) + 0.01)
+    crown.curved_box("room wall head", opening[0], opening[1], b - th / 2, b + th / 2, head, 9.0, mat, zf1=lambda bb: ceil_at(bb) + 0.01)
+
+
+def image_material(name, path, emit=0.0, rough=0.35):
+    """a photograph: the picture is the surface's colour (and its light, for a screen)"""
+    m, nt = lib._mat(name)
+    if nt is None: return m
+    b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = rough
+    if path and os.path.exists(path):
+        t = lib._tex(nt, path); nt.links.new(t.outputs["Color"], b.inputs["Base Color"])
+        if emit > 0: nt.links.new(t.outputs["Color"], b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = emit
+    else:
+        b.inputs["Base Color"].default_value = (0.3, 0.18, 0.1, 1)
+    return m
+
+
+def picture_quad(name, w, h, mat, crop=(0.0, 0.0, 1.0, 1.0)):
+    """a w x h rectangle in the xz plane facing -y, its UVs over the crop (u0, v0, u1, v1) of the picture"""
+    bm = bmesh.new(); uv = bm.loops.layers.uv.new("UVMap")
+    vs = [bm.verts.new(p) for p in ((-w / 2, 0, -h / 2), (w / 2, 0, -h / 2), (w / 2, 0, h / 2), (-w / 2, 0, h / 2))]
+    fc = bm.faces.new(vs); u0, v0, u1, v1 = crop
+    for lp, (u, v) in zip(fc.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uv].uv = (u, v)
+    return lib.mesh_obj(name, bm, mat)
+
+
+def framed_print(name, path, w, h, loc, rot_z, M, crop=(0.0, 0.0, 1.0, 1.0), border=0.08):
+    """a photograph on a white mat in a thin black frame; it looks along its local -y"""
+    g = furn.empty(name, loc, rot_z)
+    im = picture_quad(name + " print", w, h, image_material(name + " image", path), crop); im.location = (0, -0.012, 0); im.parent = g
+    W, H = w + 2 * border, h + 2 * border
+    mt = lib.box(name + " mat", (W, 0.01, H), (0, -0.004, 0), lib.principled("print mat", (0.86, 0.85, 0.82), 0.8)); mt.parent = g
+    for (sx, sz, px, pz) in ((W + 0.04, 0.02, 0, H / 2 + 0.01), (W + 0.04, 0.02, 0, -H / 2 - 0.01), (0.02, H, W / 2 + 0.01, 0), (0.02, H, -W / 2 - 0.01, 0)):
+        fr = lib.box(name + " frame", (sx, 0.035, sz), (px, -0.01, pz), M["frame"]); fr.parent = g
+    return g
+
+
+def screen(name, path, w, h, loc, rot_z, M, crop=(0.0, 0.0, 1.0, 1.0), emit=2.2):
+    """a flat screen on a foot, showing a picture; it looks along its local -y"""
+    g = furn.empty(name, loc, rot_z)
+    im = picture_quad(name + " image", w, h, image_material(name + " screen", path, emit, 0.15), crop); im.location = (0, -0.021, h / 2 + 0.12); im.parent = g
+    bz = lib.box(name + " body", (w + 0.03, 0.04, h + 0.03), (0, 0, h / 2 + 0.12), M["graphite"], bevel=0.004); bz.parent = g
+    st = lib.box(name + " stem", (0.06, 0.04, 0.14), (0, 0.04, 0.07), M["graphite"]); st.parent = g
+    ft = lib.box(name + " foot", (0.32, 0.22, 0.015), (0, 0.04, 0.0075), M["graphite"], bevel=0.004); ft.parent = g
+    return g
+
+
+def easel(name, loc, rot_z, cw, ch, canvas_mat, M):
+    """a studio easel in beech with a canvas on it; local -y is the canvas's face"""
+    g = furn.empty(name, loc, rot_z); o = []; e = M["oak_easel"]
+    o.append(lib.box(name + " base", (0.92, 0.1, 0.06), (0, 0.12, 0.03), e, bevel=0.006))
+    o.append(lib.box(name + " foot", (0.08, 0.72, 0.06), (0, 0.12, 0.03), e, bevel=0.006))
+    for x in (-0.33, 0.33): o.append(lib.box(name + " upright", (0.045, 0.045, 2.05), (x, 0.12, 1.06), e, bevel=0.004))
+    o.append(lib.box(name + " mast", (0.06, 0.05, 2.3), (0, 0.15, 1.15), e, bevel=0.004))
+    zl = 0.74; o.append(lib.box(name + " ledge", (0.86, 0.09, 0.035), (0, 0.05, zl), e, bevel=0.004))
+    o.append(lib.box(name + " canvas", (cw, 0.03, ch), (0, 0.07, zl + 0.02 + ch / 2), canvas_mat))
+    o.append(lib.box(name + " clamp", (0.12, 0.08, 0.05), (0, 0.07, zl + 0.045 + ch), e, bevel=0.004))
+    for x in o: x.parent = g
+    return g
+
+
+def leaning_canvases(b_wall, r_mid, M, rnd, side=-1, n=4):
+    """canvases leaning against a cross wall, their backs out: raw linen on stretchers"""
+    for k in range(n):
+        w, h = rnd.uniform(0.7, 1.4), rnd.uniform(0.6, 1.2); t = math.radians(rnd.uniform(6, 10))
+        r = r_mid + rnd.uniform(-0.5, 0.5); bb = b_wall + side * tang(0.05 + 0.05 * k, r)
+        g = furn.empty("canvas stack", at(r, bb, 0.0), face_in(bb) + (0 if side < 0 else math.pi))
+        c = lib.box("leaning canvas", (0.025, w, h), (0, 0, 0), M["raw_canvas"]); c.parent = g
+        c.location = (-(h / 2) * math.sin(t), 0, (h / 2) * math.cos(t)); c.rotation_euler = (0, t, 0)
+
+
+def work_table(name, r, b, M, rnd, length=3.2, depth=1.1, h=0.9):
+    """a standing work table: an oak top on walnut legs, and an artist's things on it"""
+    lib.box(name + " top", (length, depth, 0.05), at(r, b, h - 0.025), M["oak_top"], bevel=0.004, rot_z=face_in(b))
+    for dx in (-length / 2 + 0.1, length / 2 - 0.1):
+        for dy in (-depth / 2 + 0.08, depth / 2 - 0.08):
+            bb = b + tang(dx, r); lib.box(name + " leg", (0.06, 0.06, h - 0.05), at(r + dy, bb, (h - 0.05) / 2), M["walnut"], bevel=0.004, rot_z=face_in(bb))
+    paints = [(0.55, 0.12, 0.05), (0.75, 0.52, 0.12), (0.08, 0.18, 0.42), (0.85, 0.82, 0.76), (0.12, 0.28, 0.16), (0.42, 0.20, 0.10), (0.02, 0.02, 0.02)]
+    glassm = lib.glass("jar glass", (0.95, 0.97, 0.95))
+    for k in range(3):     # jars of brushes
+        jr = r + rnd.uniform(-0.35, 0.35); jb = b + tang(-1.2 + 0.9 * k + rnd.uniform(-0.2, 0.2), r)
+        q = at(jr, jb, h); lib.cyl("brush jar", 0.045, 0.13, q, glassm, verts=32)
+        for i in range(7):
+            rx, ry = rnd.uniform(-0.25, 0.25), rnd.uniform(-0.25, 0.25)
+            lib.cyl("brush", 0.0045, 0.3, (q[0], q[1], h + 0.01), M["oak_easel"], verts=8, rot=(rx, ry, 0))
+    for i in range(14):    # tubes of paint lying about
+        tb = b + tang(rnd.uniform(-1.4, 1.4), r); tr = r + rnd.uniform(-0.45, 0.45)
+        lib.cyl("paint tube", 0.013, 0.11, at(tr, tb, h + 0.013), lib.principled("tube %d" % (i % 7), paints[i % 7], 0.35, 0.6 if i % 3 == 0 else 0.0), verts=12, rot=(math.pi / 2, 0, rnd.uniform(0, 6.28)))
+    pb = b + tang(0.6, r); lib.box("palette", (0.46, 0.32, 0.008), at(r - 0.15, pb, h + 0.004), M["oak_easel"], bevel=0.002, rot_z=face_in(pb) + 0.3)
+    for i in range(8):
+        q = at(r - 0.15 + rnd.uniform(-0.1, 0.1), pb + tang(rnd.uniform(-0.18, 0.18), r), h + 0.009)
+        lib.cyl("paint dab", rnd.uniform(0.012, 0.022), 0.006, q, lib.principled("dab %d" % (i % 7), paints[i % 7], 0.3), verts=12)
+    sb = b - tang(0.5, r); lib.box("sketchbook", (0.3, 0.42, 0.016), at(r + 0.25, sb, h + 0.008), M["leather"], bevel=0.003, rot_z=face_in(sb) - 0.2)
+    lib.box("rag", (0.32, 0.26, 0.025), at(r + 0.3, b + tang(1.1, r), h + 0.012), M["linen"], bevel=0.012, rot_z=face_in(b) + 0.7)
+
+
+def stool(name, loc, M, h=0.68):
+    g = furn.empty(name, loc)
+    s = lib.cyl(name + " seat", 0.18, 0.04, (0, 0, h - 0.04), M["oak_easel"], verts=40, bevel=0.008); s.parent = g
+    for k in range(3):
+        a = k * 2 * math.pi / 3; lg = lib.cyl(name + " leg", 0.014, h, (0.12 * math.cos(a), 0.12 * math.sin(a), 0), M["bronze_dark"], verts=10, rot=(0.12 * math.sin(a), -0.12 * math.cos(a), 0)); lg.parent = g
+    return g
+
+
+def washers(b0, b1, watts=90, color=(1.0, 0.83, 0.64)):
+    b = b0 + 0.6
+    while b < b1 - 0.5:
+        for (r, d) in ((R_IN + 0.9, -1), (R_OUT - 0.9, 1)):
+            q = Vector(at(r, b, ceil_at(b) - 0.08)); tgt = Vector(at(r + d * 0.9, b, 1.2))
+            sp = lib.spot_light("wall washer", tuple(q), watts, color, 0.04, 70, 0.8); sp.rotation_euler = (tgt - q).to_track_quat("-Z", "Y").to_euler()
+        b += tang(3.0)
+
+
+def studio(M, rnd):
+    """the Studio (324 to 360), north-north-west: the art studio in the north light (C-27), the photo and print room
+    (C-28), the craft room (C-29)"""
+    extra_materials(M)
+    b0, b1, w1, w2 = 324.0, 360.0, 339.0, 349.0
+    crown.ring_room(b0, b1, M, M["oak"])
+    for b in (w1, w2): room_wall(b, M)
+    S = imports(M)
+    # C-27, the art studio: easels by the outer wall, the canvases lit across from the slots
+    pal = [((0.62, 0.36, 0.20), [(0.06, 0.94, 0.08, 0.42, (0.42, 0.18, 0.09)), (0.06, 0.94, 0.55, 0.92, (0.80, 0.56, 0.36))]),
+           ((0.16, 0.18, 0.24), [(0.08, 0.92, 0.10, 0.35, (0.36, 0.20, 0.13)), (0.10, 0.90, 0.62, 0.70, (0.48, 0.58, 0.82))]),
+           ((0.70, 0.62, 0.50), [(0.10, 0.60, 0.15, 0.85, (0.55, 0.22, 0.10)), (0.66, 0.90, 0.15, 0.85, (0.30, 0.32, 0.30))])]
+    for k, bb in enumerate((326.6, 330.4, 334.2)):
+        cm = furn.painting_material("studio canvas %d" % k, *pal[k])
+        easel("easel", at(R_OUT - 1.9, bb, 0.0), face_cw(bb) - 0.35, (1.0, 1.25, 0.9)[k], (1.25, 0.95, 1.15)[k], cm, M)
+        stool("stool", at(R_OUT - 1.75, bb + tang(1.3, R_OUT - 1.75), 0.0), M, 0.62)
+    lib.box("drop cloth", (8.6, 2.4, 0.004), at(R_OUT - 1.7, 330.4, 0.002), M["raw_canvas"], rot_z=face_in(330.4))
+    work_table("work table", RM - 1.0, 331.0, M, rnd)
+    stool("stool", at(RM - 0.2, 332.6, 0.0), M)
+    for bb in (325.2, 326.4):
+        lib.box("flat file", (1.4, 0.9, 0.86), at(R_GL + 0.65, bb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(bb))
+        for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.4, 0.004, 0.006), at(R_GL + 1.102, bb, z), M["shadow"], rot_z=face_out(bb))
+    leaning_canvases(w1, R_OUT - 1.3, M, rnd, side=-1, n=5)
+    lib.instance_of(S["chair"], at(R_GL + 1.3, 336.4, 0.0), face_out(336.4) - 0.6)
+    lib.instance_of(S["plant"], at(R_GL + 0.8, 337.9, 0.0), 0.8, 1.9)
+    for bb in (326.6, 330.4, 334.2):       # daylight spots on the canvases
+        q = Vector(at(RM - 0.6, bb + tang(1.2), ceil_at(bb) - 0.25)); tg = Vector(at(R_OUT - 1.9, bb, 1.5))
+        sp = lib.spot_light("canvas light", tuple(q), 300, (1.0, 0.95, 0.88), 0.04, 32, 0.6); sp.rotation_euler = (tg - q).to_track_quat("-Z", "Y").to_euler()
+    # C-28, photographs: a wide printer, a light table, a counter of screens, Jim's prints of Mars on the walls
+    lib.box("printer", (1.75, 0.66, 0.5), at(RM - 1.4, 341.6, 0.83), M["graphite"], bevel=0.01, rot_z=face_in(341.6))
+    lib.box("printer top", (1.7, 0.4, 0.05), at(RM - 1.5, 341.6, 1.105), M["pale_grey"], bevel=0.006, rot_z=face_in(341.6))
+    for dx in (-0.7, 0.7):
+        bb = 341.6 + tang(dx); lib.box("printer stand", (0.06, 0.6, 0.58), at(RM - 1.4, bb, 0.29), M["graphite"], rot_z=face_in(bb))
+    lib.cyl("paper roll", 0.07, 1.55, at(RM - 1.15, 341.6 - tang(0.775), 0.95), M["porcelain"], verts=32, rot=(0, math.pi / 2, face_in(341.6)))
+    po = picture_quad("print out", 1.1, 0.55, image_material("print paper", repo_file("palace", "design", "img", "flight-dunes.jpg"), 0.0, 0.6)); po.location = at(RM - 1.75, 341.6, 0.52); po.rotation_euler = (0, 0, face_in(341.6))
+    lt = 345.0
+    lib.box("light table", (1.5, 0.95, 0.82), at(RM, lt, 0.41), M["walnut"], bevel=0.008, rot_z=face_in(lt))
+    lib.box("light table top", (1.4, 0.85, 0.02), at(RM, lt, 0.83), lib.emission("light table glow", (0.95, 0.97, 1.0), 4.0), rot_z=face_in(lt))
+    for i in range(5):
+        q = at(RM + rnd.uniform(-0.3, 0.3), lt + tang(rnd.uniform(-0.55, 0.55)), 0.845)
+        lib.box("slide", (0.05, 0.05, 0.003), q, lib.principled("slide", (0.2, 0.12, 0.08), 0.3), rot_z=rnd.uniform(0, 1))
+    crown.curved_box("counter", R_OUT - 0.65, R_OUT - 0.05, 340.0, 348.2, 0.0, 0.88, M["walnut"])
+    crown.curved_box("counter top", R_OUT - 0.7, R_OUT - 0.05, 340.0, 348.2, 0.88, 0.915, M["marble"])
+    for (bb, img) in ((342.6, "crown-sunset.jpg"), (345.6, "flight-crater.jpg")):
+        screen("screen", repo_file("palace", "design", "img", img), 0.72, 0.42, at(R_OUT - 0.42, bb, 0.915), face_in(bb), M)
+        lib.instance_of(S["chair"], at(R_OUT - 1.25, bb, 0.0), face_out(bb))
+    for (r, img, w, h) in ((R_OUT - 0.75, "flight-cliffs.jpg", 1.1, 0.62), (R_OUT - 2.0, "port-aerial.jpg", 0.95, 0.53)):
+        framed_print("print", repo_file("palace", "design", "img", img), w, h, at(r, w2 - tang(0.03, r), 1.62), face_cw(w2), M)
+    framed_print("print", repo_file("palace", "design", "img", "flight-west.jpg"), 1.6, 0.9, at(R_OUT - 1.3, w1 + tang(0.03, R_OUT - 1.3), 1.65), face_ccw(w1), M)
+    # C-29, crafts: the potter's wheel, the kiln, shelves of pots, a bench for models and repairs
+    wb = 352.2
+    lib.box("wheel body", (0.62, 0.55, 0.42), at(RM, wb, 0.21), M["pale_grey"], bevel=0.02, rot_z=face_in(wb))
+    pan = furn.lathe("splash pan", [(0.05, 0.42), (0.34, 0.42), (0.36, 0.5), (0.33, 0.5), (0.31, 0.44), (0.05, 0.44)], M["pale_grey"], 64, at(RM, wb, 0.0))
+    lib.cyl("wheel head", 0.17, 0.03, at(RM, wb, 0.44), M["steel"], verts=48)
+    furn.lathe("pot on the wheel", [(0.0, 0.0), (0.09, 0.0), (0.12, 0.06), (0.11, 0.16), (0.075, 0.24), (0.08, 0.27), (0.07, 0.27), (0.065, 0.24), (0.1, 0.16), (0.11, 0.06), (0.0, 0.01)], M["clay_wet"], 48, at(RM, wb, 0.47))
+    stool("stool", at(RM - 0.85, wb, 0.0), M, 0.5)
+    kb = 357.6
+    lib.cyl("kiln", 0.42, 0.82, at(R_OUT - 0.8, kb, 0.0), M["steel"], verts=64)
+    lib.cyl("kiln lid", 0.44, 0.07, at(R_OUT - 0.8, kb, 0.82), M["steel"], verts=64, bevel=0.01)
+    lib.box("kiln control", (0.26, 0.1, 0.32), at(R_OUT - 1.27, kb, 0.5), M["graphite"], bevel=0.006, rot_z=face_in(kb))
+    s0, s1 = 350.3, 356.0
+    for z in (0.45, 0.95, 1.45, 1.95): crown.curved_box("pot shelf", R_OUT - 0.45, R_OUT - 0.05, s0, s1, z - 0.03, z, M["walnut"])
+    for bb in crown.steps(s0, s1, 1.0 / tang(1.3, R_OUT - 0.25)):
+        crown.curved_box("shelf upright", R_OUT - 0.45, R_OUT - 0.05, bb - tang(0.02, R_OUT), bb + tang(0.02, R_OUT), 0.0, 2.0, M["walnut"])
+    for z in (0.45, 0.95, 1.45, 1.95):
+        bb = s0 + tang(0.25, R_OUT)
+        while bb < s1 - tang(0.2, R_OUT):
+            q = at(R_OUT - 0.25, bb); furn.ornament("pot", q[0], q[1], z, rnd.uniform(0.14, 0.3), rnd, M["ceramics"] + [M["greenware"]])
+            bb += tang(rnd.uniform(0.24, 0.42), R_OUT)
+    crown.curved_box("bench top", R_GL + 0.45, R_GL + 1.3, 352.6, 356.4, 0.86, 0.91, M["oak_top"])
+    for bb in (352.8, 356.2):
+        crown.curved_box("bench leg", R_GL + 0.5, R_GL + 1.25, bb - tang(0.03, R_GL + 1), bb + tang(0.03, R_GL + 1), 0.0, 0.86, M["walnut"])
+    rk = at(R_GL + 0.85, 354.0, 0.91)       # a model rocket on a stand, half painted
+    lib.cyl("rocket stand", 0.08, 0.02, rk, M["walnut"], verts=32)
+    lib.cyl("rocket body", 0.035, 0.52, (rk[0], rk[1], rk[2] + 0.02), M["white_paint"], verts=32)
+    lib.cyl("rocket nose", 0.035, 0.14, (rk[0], rk[1], rk[2] + 0.54), M["white_paint"], verts=32, r2=0.0)
+    for k in range(3):
+        a = k * 2 * math.pi / 3; lib.box("rocket fin", (0.004, 0.07, 0.1), (rk[0] + 0.05 * math.cos(a), rk[1] + 0.05 * math.sin(a), rk[2] + 0.07), M["bronze"], rot_z=a + math.pi / 2)
+    lib.box("vise", (0.16, 0.12, 0.1), at(R_GL + 0.7, 355.4, 0.96), M["graphite"], bevel=0.01, rot_z=face_out(355.4))
+    furn.table_lamp("bench lamp", at(R_GL + 0.6, 353.2, 0.91), M, watts=30, shade_r=0.14)
+    crown.curved_box("greenware board", RM - 0.5, RM + 0.5, 354.2, 356.6, 0.74, 0.78, M["oak_top"])
+    for bb in (354.4, 356.4):
+        crown.curved_box("board trestle", RM - 0.4, RM + 0.4, bb - tang(0.03), bb + tang(0.03), 0.0, 0.74, M["walnut"])
+    bb = 354.45
+    while bb < 356.4:
+        q = at(RM + rnd.uniform(-0.3, 0.3), bb); furn.ornament("drying pot", q[0], q[1], 0.78, rnd.uniform(0.12, 0.26), rnd, [M["greenware"]])
+        bb += tang(rnd.uniform(0.22, 0.34))
+    lib.instance_of(S["plant"], at(R_OUT - 0.7, 358.9, 0.0), 2.0, 1.8)
+    for bc in (326.0, 331.0, 336.0, 341.5, 346.5, 351.5, 356.5):
+        for r in (RM - 1.5, RM + 1.3):
+            lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 150, (1.0, 0.9, 0.78), 0.03, 50, 0.5)
+    washers(b0, b1, 70)
+
+
+def star_chair(name, loc, rot_z, M):
+    """a reclining chair for the stars: a walnut frame and a tan leather pad, its back laid low; local -y is the foot"""
+    P = furn.empty(name, loc, rot_z); parts = []
+    for x in (-0.31, 0.31):
+        parts.append(lib.box(name + " rail", (0.045, 1.95, 0.05), (x, 0, 0.28), M["walnut"], bevel=0.008))
+        for y in (-0.82, 0.82): parts.append(lib.box(name + " leg", (0.05, 0.05, 0.28), (x, y, 0.14), M["walnut"], bevel=0.006))
+    parts.append(lib.box(name + " seat", (0.66, 0.92, 0.1), (0, -0.06, 0.36), M["leather_tan"], bevel=0.04, segs=4))
+    ft = lib.box(name + " footrest", (0.66, 0.62, 0.09), (0, 0, 0), M["leather_tan"], bevel=0.04, segs=4); ft.location = (0, -0.8, 0.37); ft.rotation_euler = (math.radians(-6), 0, 0); parts.append(ft)
+    bk = lib.box(name + " back", (0.66, 0.86, 0.1), (0, 0, 0), M["leather_tan"], bevel=0.04, segs=4); bk.location = (0, 0.74, 0.57); bk.rotation_euler = (math.radians(27), 0, 0); parts.append(bk)
+    pw = furn.cushion(name + " pillow", (0.42, 0.12, 0.2), (0, 1.04, 0.78), (math.radians(27 - 90), 0, 0), M["linen"]); parts.append(pw)
+    for o in parts: o.parent = P
+    return P
+
+
+def night_sky(strength=1.0, seed=3.7):
+    """the sky of a Mars night: nearly black, a faint glow of dust low down, thousands of stars and the Milky Way"""
+    w = bpy.context.scene.world; nt = w.node_tree; N = nt.nodes; L = nt.links
+    for n in list(N):
+        if n.type not in ("BACKGROUND", "OUTPUT_WORLD"): N.remove(n)
+    bg = N["Background"]; bg.inputs["Strength"].default_value = strength
+    def m(op, a, b=None): return lib._math(nt, op, a, b)
+    tc = N.new("ShaderNodeTexCoord"); nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(tc.outputs["Generated"], nrm.inputs[0])
+    sep = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sep.inputs[0])
+    def mix_add(a, b_col, fac):
+        x = N.new("ShaderNodeMix"); x.data_type = "RGBA"; x.blend_type = "ADD"; L.new(fac, x.inputs["Factor"])
+        if isinstance(a, tuple): x.inputs[6].default_value = a
+        else: L.new(a, x.inputs[6])
+        if isinstance(b_col, tuple): x.inputs[7].default_value = b_col
+        else: L.new(b_col, x.inputs[7])
+        return x.outputs[2]
+    hz = m("POWER", m("MAXIMUM", m("SUBTRACT", 1.0, m("ABSOLUTE", sep.outputs[2])), 0.0), 8.0)
+    col = mix_add((0.0007, 0.0009, 0.0016, 1), (0.010, 0.006, 0.003, 1), hz)
+    # the Milky Way: a band round a great circle, clumped by noise
+    pole = Vector((0.35, -0.55, 0.76)).normalized()
+    dp = N.new("ShaderNodeVectorMath"); dp.operation = "DOT_PRODUCT"; L.new(nrm.outputs[0], dp.inputs[0]); dp.inputs[1].default_value = tuple(pole)
+    band = m("EXPONENT", m("MULTIPLY", m("POWER", m("DIVIDE", dp.outputs["Value"], 0.2), 2.0), -1.0))
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 5.0; nz.inputs["Detail"].default_value = 10; L.new(nrm.outputs[0], nz.inputs["Vector"])
+    col = mix_add(col, (0.05, 0.045, 0.04, 1), m("MULTIPLY", band, m("POWER", nz.outputs["Fac"], 3.0)))
+    # stars, two layers: many faint, a few bright; each a little blue, white or orange
+    for (scale, size, gain, off) in ((90.0, 0.11, 900.0, 0.0), (260.0, 0.14, 160.0, seed)):
+        v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = scale
+        ad = N.new("ShaderNodeVectorMath"); ad.operation = "ADD"; L.new(nrm.outputs[0], ad.inputs[0]); ad.inputs[1].default_value = (off, off * 0.7, off * 1.3); L.new(ad.outputs[0], v.inputs["Vector"])
+        core = m("POWER", m("MAXIMUM", m("SUBTRACT", 1.0, m("DIVIDE", v.outputs["Distance"], size)), 0.0), 3.0)
+        sc = N.new("ShaderNodeSeparateColor"); L.new(v.outputs["Color"], sc.inputs[0])
+        bright = m("MULTIPLY", m("POWER", sc.outputs[0], 12.0), gain)
+        tint = N.new("ShaderNodeMix"); tint.data_type = "RGBA"; L.new(sc.outputs[1], tint.inputs["Factor"]); tint.inputs[6].default_value = (0.72, 0.82, 1.0, 1); tint.inputs[7].default_value = (1.0, 0.86, 0.68, 1)
+        col = mix_add(col, tint.outputs[2], m("MULTIPLY", core, bright))
+    L.new(col, bg.inputs["Color"])
+
+
+def night(R, M):
+    """turn the outside to night: no sun, the night sky, the far side of the ring with its rooms' slots lit"""
+    for o in list(bpy.data.objects):
+        if o.type == "LIGHT" and o.data.type == "SUN": bpy.data.objects.remove(o)
+    night_sky()
+    glow = lib.emission("far slot glow", (1.0, 0.76, 0.5), 7.0)
+    lo, hi = R["span"][0] - 1.0, R["span"][1] + 1.0
+    for (a, b) in crown.openings(R_IN - 0.62, hi, lo + 360.0):
+        crown.curved_box("far slot", R_IN - 0.63, R_IN - 0.61, a, b, crown.Z0, crown.Z1, glow)
+    cove = bpy.data.materials.get("cove glow")
+    if cove: cove.node_tree.nodes["Emission"].inputs["Strength"].default_value = 6.0
+
+
+def observatory(M, rnd):
+    """the Observatory under its spire (0 to 36), at night: the star lounge (C-30) with reclining chairs under the
+    outer slots, the telescope room (C-31) with its screens; the telescope dome (C-32) is upstairs, by the portal"""
+    extra_materials(M)
+    b0, b1, w1 = 0.0, 36.0, 24.0
+    crown.ring_room(b0, b1, M, M["basalt"])
+    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    room_wall(w1, M)
+    S = imports(M)
+    for k, bc in enumerate((3.2, 7.8, 12.4, 17.0, 21.4)):
+        lib.box("rug", (2.9, 3.0, 0.014), at(R_OUT - 1.75, bc, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
+        for side in (-1, 1):
+            bb = bc + side * tang(0.5, R_OUT - 1.7); star_chair("star chair", at(R_OUT - 1.75, bb, 0.0), face_out(bb), M)
+        q = at(R_OUT - 2.75, bc, 0.0); furn.side_table("side table", q, M, r=0.24, h=0.48)
+        lib.spot_light("chair light", at(R_OUT - 2.2, bc, ceil_at(bc) - 0.2), 40, (1.0, 0.68, 0.4), 0.05, 45, 0.8)
+        lib.cyl("candle", 0.035, 0.1, (q[0], q[1], 0.48), lib.emission("candle wax", (1.0, 0.72, 0.42), 1.5), verts=24)
+        lib.point_light("candle light", (q[0], q[1], 0.6), 6.0, (1.0, 0.62, 0.32), 0.03)
+        if k % 2 == 0:
+            lib.instance_of(S["pouf"], at(RM - 1.0, bc + tang(0.4), 0.0), 0.0)
+            lib.instance_of(S["pouf"], at(RM - 1.4, bc - tang(0.7), 0.0), 1.0)
+        else:
+            furn.floor_lamp("floor lamp", at(R_GL + 0.6, bc, 0.0), M, (1.0, 0.62, 0.34), watts=20)
+    lib.instance_of(S["plant"], at(R_GL + 0.8, 1.2, 0.0), 0.3, 1.7)
+    # the telescope room: a long desk of screens on the outer wall, chairs, the portal up to the dome
+    crown.curved_box("desk", R_OUT - 1.2, R_OUT - 0.4, 25.0, 34.6, 0.72, 0.76, M["walnut"])
+    for bb in (25.3, 29.8, 34.3):
+        crown.curved_box("desk pedestal", R_OUT - 1.1, R_OUT - 0.5, bb - tang(0.25, R_OUT), bb + tang(0.25, R_OUT), 0.0, 0.72, M["walnut"])
+    for (bb, img, crop) in ((27.0, "mars-earth.jpg", (0.0, 0.0, 1.0, 1.0)), (29.8, "orb-universe.jpg", (0.22, 0.18, 0.78, 0.92)), (32.6, "atlas-teaser.jpg", (0.0, 0.0, 1.0, 1.0))):
+        screen("telescope screen", repo_file("palace", "design", "img", img), 1.2, 0.68, at(R_OUT - 0.7, bb, 0.76), face_in(bb), M, crop, emit=1.4)
+        lib.instance_of(S["chair"], at(R_OUT - 1.75, bb, 0.0), face_out(bb))
+    portal(RM - 0.4, b1 - 0.7, M, face_ccw(b1 - 0.7))
+    for bb in (26.5, 30.0, 33.5):
+        lib.spot_light("desk light", at(R_OUT - 1.0, bb, ceil_at(bb) - 0.1), 160, (1.0, 0.8, 0.6), 0.03, 28, 0.5)
+    washers(b0, b1, 8, (1.0, 0.72, 0.45))
+
+
+def herb_bed(name, r0, r1, b0, b1, z, M, rnd, density=5.5):
+    """a bed of herbs and flowers: rounded clumps of small leaves (basil green, sage grey, rosemary dark), some in flower"""
+    import atrium
+    kinds = [("basil", (0.10, 0.24, 0.05), 0.05, 0.03), ("sage", (0.22, 0.26, 0.19), 0.055, 0.022), ("rosemary", (0.06, 0.11, 0.06), 0.04, 0.007), ("thyme", (0.12, 0.17, 0.08), 0.018, 0.01)]
+    flowers = [("lavender", (0.32, 0.22, 0.55)), ("marigold", (0.85, 0.42, 0.04)), ("daisy", (0.86, 0.85, 0.80)), ("poppy", (0.62, 0.08, 0.05))]
+    pts = {k[0]: [] for k in kinds}; fl = {f[0]: [] for f in flowers}
+    area = (r1 - r0) * (b1 - b0) * D * (r0 + r1) / 2; n = int(area * density)
+    for i in range(n):
+        r = rnd.uniform(r0 + 0.12, r1 - 0.12); b = rnd.uniform(b0 + tang(0.12, r), b1 - tang(0.12, r)); c = Vector(at(r, b, z))
+        kd = rnd.choice(kinds); rr = rnd.uniform(0.1, 0.2); hh = rnd.uniform(0.12, 0.32)
+        for j in range(int(rr * rr * 9000)):
+            a = rnd.uniform(0, 2 * math.pi); d = rr * math.sqrt(rnd.random()); t = d / rr
+            pts[kd[0]].append(c + Vector((d * math.cos(a), d * math.sin(a), hh * math.sqrt(max(0.0, 1 - t * t)) * rnd.uniform(0.6, 1.0))))
+        if rnd.random() < 0.45:
+            fk = rnd.choice(flowers)
+            for j in range(rnd.randint(8, 22)):
+                a = rnd.uniform(0, 2 * math.pi); d = rr * 0.8 * math.sqrt(rnd.random())
+                fl[fk[0]].append(c + Vector((d * math.cos(a), d * math.sin(a), hh + rnd.uniform(0.0, 0.12))))
+    for (k, col, ln, wd) in kinds:
+        if not pts[k]: continue
+        lo = bpy.data.objects.get(k + " leaf") or atrium.leaf_object(k + " leaf", ln, wd, lib.leaf(k + " leaf", col, 0.3, 0.5))
+        me = bpy.data.meshes.new(name + " " + k); me.from_pydata([tuple(p) for p in pts[k]], [], []); ob = lib.link(bpy.data.objects.new(name + " " + k, me))
+        atrium.scatter_leaves(ob, lo, k + " leaves", 0.7, 1.3)
+    for (k, col) in flowers:
+        if not fl[k]: continue
+        fo = bpy.data.objects.get(k + " flower") or atrium.leaf_object(k + " flower", 0.03, 0.03, lib.principled(k + " petals", col, 0.5, **{"Sheen Weight": 0.3}))
+        me = bpy.data.meshes.new(name + " " + k); me.from_pydata([tuple(p) for p in fl[k]], [], []); ob = lib.link(bpy.data.objects.new(name + " " + k, me))
+        atrium.scatter_leaves(ob, fo, k + " flowers", 0.8, 1.2)
+
+
+def garden_room(M, rnd):
+    """the Garden room (36 to 72), north-east, at sunrise: the breakfast room (C-33) in the light of the east slots and
+    the sky garden (C-34), beds of herbs and flowers under small lemon and olive trees"""
+    extra_materials(M)
+    b0, b1, w1 = 36.0, 72.0, 48.0
+    crown.ring_room(b0, b1, M, M["stone_linen"])
+    crown.slat_ceiling(b0 - 0.5, w1, M)
+    crown.sector("breakfast floor", R_GL + 0.05, R_OUT, b0 - 0.5, w1, 0.004, M["oak"])        # oak in the breakfast room
+    room_wall(w1, M)
+    S = imports(M)
+    # C-33, breakfast: a round oak table for six under a pendant, the sideboard with the coffee
+    tb = 41.6; tc_ = Vector(at(RM + 0.5, tb, 0.0))
+    lib.cyl("table foot", 0.42, 0.03, (tc_.x, tc_.y, 0.0), M["bronze_dark"], verts=64, bevel=0.005)
+    lib.cyl("table stem", 0.07, 0.7, (tc_.x, tc_.y, 0.03), M["bronze_dark"], verts=32)
+    lib.cyl("table top", 0.82, 0.04, (tc_.x, tc_.y, 0.72), M["oak_top"], verts=96, bevel=0.006)
+    for k in range(6):
+        a = k * math.pi / 3 + 0.3; p = (tc_.x + 1.08 * math.cos(a), tc_.y + 1.08 * math.sin(a), 0.0)
+        furn.dining_chair("chair", p, a - math.pi / 2, M)          # facing the table
+        q = (tc_.x + 0.55 * math.cos(a), tc_.y + 0.55 * math.sin(a), 0.76)
+        lib.cyl("plate", 0.13, 0.012, q, M["porcelain"], verts=48, bevel=0.003)
+    cup = lib.import_glb(os.path.join(A, "DiffuseTransmissionTeacup.glb"), (0, 0, -100), 0, name="cup src")
+    for k in range(0, 6, 2):
+        a = k * math.pi / 3 + 0.3 + 0.35; lib.instance_of(cup, (tc_.x + 0.5 * math.cos(a), tc_.y + 0.5 * math.sin(a), 0.76), a, 0.9)
+    lemon_skin = lib.principled("lemon skin", (0.85, 0.62, 0.05), 0.35, **{"Coat Weight": 0.3})
+    furn.lathe("fruit bowl", [(0.0, 0.0), (0.08, 0.0), (0.16, 0.05), (0.19, 0.09), (0.18, 0.09), (0.15, 0.055), (0.0, 0.02)], M["ceramics"][3], 48, (tc_.x, tc_.y, 0.76))
+    for k in range(7):
+        a = k * 0.9; bpy.ops.mesh.primitive_uv_sphere_add(segments=16, ring_count=10, radius=0.036, location=(tc_.x + 0.08 * math.cos(a) * (k > 0), tc_.y + 0.08 * math.sin(a) * (k > 0), 0.83 + 0.04 * (k == 0)))
+        lm = bpy.context.active_object; lm.scale = (1, 1, 1.2); lm.data.materials.append(lemon_skin)
+        for p_ in lm.data.polygons: p_.use_smooth = True
+    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15); gz = 2.0
+    furn.lathe("pendant globe", [(0.0, -0.24), (0.13, -0.2), (0.23, -0.07), (0.24, 0.0), (0.23, 0.1), (0.17, 0.18), (0.05, 0.235), (0.0, 0.24)], globe, 48, (tc_.x, tc_.y, gz))
+    lib.cyl("pendant bulb", 0.03, 0.06, (tc_.x, tc_.y, gz - 0.03), lib.emission("bulb", (1.0, 0.72, 0.45), 70), verts=16)
+    lib.cyl("pendant cable", 0.002, ceil_at(tb) - gz - 0.24, (tc_.x, tc_.y, gz + 0.24), M["shadow"], verts=8)
+    lib.point_light("pendant light", (tc_.x, tc_.y, gz), 40, (1.0, 0.75, 0.5), 0.07)
+    sb = 39.0
+    lib.box("sideboard", (2.6, 0.5, 0.86), at(R_GL + 0.55, sb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(sb))
+    lib.box("sideboard top", (2.64, 0.52, 0.03), at(R_GL + 0.55, sb, 0.875), M["marble"], bevel=0.004, rot_z=face_out(sb))
+    cm = at(R_GL + 0.5, sb - tang(0.7), 0.89)
+    lib.box("coffee machine", (0.36, 0.4, 0.42), (cm[0], cm[1], cm[2] + 0.21), M["steel"], bevel=0.02, rot_z=face_out(sb))
+    lib.box("coffee machine front", (0.3, 0.02, 0.14), at(R_GL + 0.72, sb - tang(0.7), 1.08), M["graphite"], rot_z=face_out(sb))
+    lib.instance_of(S["vase"], at(R_GL + 0.55, sb + tang(0.6), 0.89), 0.4, 1.4)
+    lib.instance_of(S["plant"], at(R_OUT - 0.7, 37.2, 0.0), 0.3, 2.0)
+    lib.instance_of(S["plant"], at(R_OUT - 0.7, 46.4, 0.0), 1.6, 1.9)
+    lib.box("breakfast rug", (3.6, 3.8, 0.014), at(RM + 0.5, tb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(tb), segs=2)
+    cb = 37.6                                   # a sitting corner by the slots for the coffee after, and an olive tree
+    lib.box("corner rug", (3.0, 2.6, 0.014), at(R_OUT - 1.6, cb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(cb), segs=2)
+    for side in (-1, 1):
+        bb = cb + side * tang(0.85, R_OUT - 1.4); lib.instance_of(S["chair"], at(R_OUT - 1.3, bb, 0.0), face_in(bb) + side * 0.45)
+    furn.side_table("coffee table", at(R_OUT - 2.0, cb, 0.0), M, r=0.3, h=0.42)
+    p = at(R_OUT - 1.0, 39.6, 0.0); lib.box("tree planter", (0.9, 0.9, 0.55), (p[0], p[1], 0.275), M["basalt"], bevel=0.01, rot_z=-39.6 * D)
+    furn.olive_tree("breakfast olive", (p[0], p[1], 0.55), 4242, M, height=3.4, leaves=15000)
+    # C-34, the sky garden: raised beds of basalt along both walls, gravel between, trees, benches, grow lights
+    gravel = lib.principled("raked gravel", (0.42, 0.40, 0.37), 0.9)
+    crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + 0.5, 0.0, 0.012, gravel)
+    beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]
+    for (a, b) in beds_out:
+        crown.curved_box("bed wall", R_OUT - 1.9, R_OUT - 0.1, a, b, 0.0, 0.5, M["basalt"])
+        crown.curved_box("bed soil", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.08, R_OUT - 1), b - tang(0.08, R_OUT - 1), 0.5, 0.505, M["soil"])
+        herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), 0.505, M, rnd)
+    for (a, b) in beds_in:
+        crown.curved_box("bed wall", R_GL + 0.15, R_GL + 1.15, a, b, 0.0, 0.42, M["basalt"])
+        crown.curved_box("bed soil", R_GL + 0.23, R_GL + 1.07, a + tang(0.08, R_GL + 0.6), b - tang(0.08, R_GL + 0.6), 0.42, 0.425, M["soil"])
+        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), 0.425, M, rnd)
+    for k, (bb, kind, hgt) in enumerate(((51.0, "lemon", 2.6), (54.0, "olive", 3.2), (58.4, "lemon", 2.4), (61.2, "olive", 3.0), (65.6, "lemon", 2.7), (69.4, "olive", 3.1))):
+        p = at(R_OUT - 1.0, bb, 0.5); furn.olive_tree(kind + " tree", p, 300 + k, M, height=hgt, leaves=14000, kind=kind)
+    for bb in (56.0, 63.2):
+        q = at(R_OUT - 1.05, bb, 0.0)
+        for dx in (-0.55, 0.55): lib.box("bench block", (0.32, 0.4, 0.42), at(R_OUT - 1.05, bb + tang(dx, R_OUT - 1.05), 0.21), M["basalt"], bevel=0.01, rot_z=face_in(bb))
+        lib.box("bench seat", (1.6, 0.46, 0.06), at(R_OUT - 1.05, bb, 0.45), M["oak_top"], bevel=0.008, rot_z=face_in(bb))
+    lib.instance_of(S["chair"], at(RM - 0.6, 59.8, 0.0), face_out(59.8) + 0.8)
+    for bb in crown.steps(w1 + 1.0, b1 - 1.0, 1.0 / tang(3.4)):
+        for r in (R_OUT - 1.0, R_GL + 0.65):
+            lib.box("grow light", (1.2, 0.1, 0.04), at(r, bb, 2.9), lib.emission("grow light", (1.0, 0.88, 0.72), 9.0), rot_z=face_in(bb))
+            lib.cyl("grow light cable", 0.002, ceil_at(bb) - 2.92, at(r, bb, 2.92), M["shadow"], verts=8)
+            lib.area_light("grow light", at(r, bb, 2.87), 1.1, 70, (1.0, 0.88, 0.72), size_y=0.12, rot=(0, 0, face_in(bb)))
+    for bc in (38.0, 41.6, 45.2):
+        for r in (RM - 1.4, RM + 1.4):
+            lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 80, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
+    washers(b0, w1, 60)
+
+
+
 ROOMS = {
     "arrival": dict(build=arrival, span=(91.44, 108.0), sun=(250.0, 14.0), cams={
         "arrival": dict(loc=at(RM + 1.6, 106.2, 1.5), target=at(RM, 95.76, 2.6), lens=18),
@@ -602,12 +1049,25 @@ ROOMS = {
         "wellness": dict(loc=at(R_GL + 0.6, 191.4, 1.55), target=at(RM + 0.7, 201.0, 0.4), lens=18),
         "wellness2": dict(loc=at(R_OUT - 1.0, 205.9, 1.3), target=at(R_GL + 0.6, 195.5, 0.8), lens=19),
     }, stops={"wellness": at(R_GL + 1.6, 198.6, 0.0)}),
+    "studio": dict(build=studio, span=(324.0, 360.0), sun=(192.0, 36.0), cams={
+        "studio": dict(loc=at(RM - 0.6, 336.0, 1.5), target=at(R_OUT - 1.6, 328.0, 1.25), lens=20),
+        "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
+    }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
+    "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={
+        "stars": dict(loc=at(R_OUT - 3.3, 18.9, 1.4), target=at(R_OUT - 1.2, 9.0, 1.9), lens=17, shift=0.12),
+        "telescope": dict(loc=at(RM - 1.0, 24.9, 1.5), target=at(R_OUT - 0.8, 31.2, 1.2), lens=20),
+    }, stops={"stars": at(RM - 0.4, 12.4, 0.0)}),
+    "garden": dict(build=garden_room, span=(36.0, 72.0), sun=(66.0, 6.0), sun_strength=10.0, cams={
+        "breakfast": dict(loc=at(RM - 0.6, 44.3, 1.4), target=at(RM + 0.7, 40.9, 0.8), lens=22),
+        "garden": dict(loc=at(RM - 0.4, 49.4, 1.55), target=at(RM + 0.2, 63.5, 1.3), lens=18),
+    }, stops={"garden": at(RM - 0.3, 59.2, 0.0)}),
 }
 
 
-def build(room):
+def build(room, night_=None):
     sc = lib.reset(); M = materials(); rnd = random.Random(23)
     R = ROOMS[room]; R["build"](M, rnd); crown.outside(M, R["sun"][0], R["sun"][1], sun_strength=R.get("sun_strength", 6.0), skip=R["span"])
+    if (R.get("night", False) if night_ is None else night_): night(R, M)       # a plan from above is drawn by day
     return sc, R
 
 
@@ -620,7 +1080,7 @@ if __name__ == "__main__":
     paths = {j: os.path.abspath(out.replace("%s", j.replace(":", "_"))) for j in jobs}
     todo = [j for j in jobs if not os.path.exists(paths[j])]
     if not todo: print("nothing to do", flush=True); sys.exit(0)
-    t = time.time(); sc, R = build(room); print("built in %.1f s" % (time.time() - t), flush=True)
+    t = time.time(); sc, R = build(room, False if all(j.startswith("plan:") for j in todo) else None); print("built in %.1f s" % (time.time() - t), flush=True)
     for j in todo:
         tmp = paths[j].replace(".jpg", ".part.jpg")
         if j.startswith("plan:"):                  # a floor plan from above: it hides the ceilings, so it goes last
@@ -630,6 +1090,6 @@ if __name__ == "__main__":
             x, y, z = R["stops"][j[5:]]; lib.camera(j, (x, y, z + 1.55), yaw_deg=0.0, pano=True); lib.photo_finish(0.25, 0.0)
             t = time.time(); lib.render_pano(paths[j], pw, pspp, exposure=ex); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True); continue
         else:
-            c = R["cams"][j]; lib.camera(j, c["loc"], c["target"], lens=c["lens"]); lib.photo_finish(0.3, 0.15)
+            c = R["cams"][j]; lib.camera(j, c["loc"], c["target"], lens=c["lens"], shift_y=c.get("shift", 0.0)); lib.photo_finish(0.3, 0.15)
             t = time.time(); lib.render(tmp, (w, h), spp, exposure=ex)
         os.replace(tmp, paths[j]); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True)

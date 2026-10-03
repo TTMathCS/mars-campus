@@ -11,7 +11,7 @@ import lib, furn
 R_IN, R_OUT, R_GL, FL, SLOT0, SLOT1 = 125.0, 135.0, 128.5, 41.0, 44.0, 45.2
 Z0, Z1 = SLOT0 - FL, SLOT1 - FL            # the slots, 3.0 to 4.2 m above the floor
 WT = 0.5                                   # walls 0.5 m thick
-ORB_R, ORB_Z = 20.0, 72.0 - FL             # the Orb: radius, centre height above the floor
+ORB_R, ORB_Z = 24.0, 72.0 - FL             # the Orb, 48 m across: radius, centre height above the floor
 D = math.pi / 180
 
 

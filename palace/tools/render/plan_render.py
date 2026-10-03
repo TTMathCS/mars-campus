@@ -14,7 +14,8 @@ VIEWS = {   # scene, centre (x, y), size across (m), size up the page (m), turn 
     "baths": ("pent:baths", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
     "cinema": ("pent:cinema", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
 }
-CROWN_SPANS = {"c_arrival": (72.0, 108.0), "c_bedroom": (108.0, 144.0), "c_salon": (144.0, 180.0), "c_wellness": (180.0, 216.0), "c_dining": (216.0, 252.0), "c_sunset": (252.0, 288.0), "c_library": (288.0, 324.0)}
+CROWN_SPANS = {"c_arrival": (72.0, 108.0), "c_bedroom": (108.0, 144.0), "c_salon": (144.0, 180.0), "c_wellness": (180.0, 216.0), "c_dining": (216.0, 252.0), "c_sunset": (252.0, 288.0), "c_library": (288.0, 324.0),
+               "c_studio": (324.0, 360.0), "c_observatory": (0.0, 36.0), "c_garden": (36.0, 72.0)}
 
 
 def build(scene):
@@ -22,7 +23,7 @@ def build(scene):
         import family; family.build(); return
     if scene.startswith("pent:"):
         import pent_rooms; pent_rooms.build(scene[5:]); return
-    import crown_rooms; crown_rooms.build(scene[6:])
+    import crown_rooms; crown_rooms.build(scene[6:], False)        # plans by day, the Observatory too
 
 
 def plan(cx, cy, w, h, turn, cut, px_w=1600):

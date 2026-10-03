@@ -1,9 +1,8 @@
-./bvenv/bin/python blend/crown_rooms.py studio studio,craft,pano:studio,plan:c_studio final/crown/%s.jpg 1600 900 96 0.5 4096 28
-env LITE=1 ./bvenv/bin/python blend/pent_rooms.py guests guests,guests2 final/preview/%s.jpg 800 450 16 0.0
-./bvenv/bin/python blend/final.py s_kitchen final/preview 800 450 16 1024 8
 ./bvenv/bin/python blend/crown_rooms.py observatory stars,telescope,pano:stars final/crown/%s.jpg 1600 900 96 2.3 4096 28
+./bvenv/bin/python blend/final.py s_kitchen final/preview 800 450 16 1024 8
 ./bvenv/bin/python blend/crown_rooms.py observatory plan:c_observatory final/crown/%s.jpg 1600 900 96 0.5 4096 28
 ./bvenv/bin/python blend/crown_rooms.py garden breakfast,garden,pano:garden,plan:c_garden final/crown/%s.jpg 1600 900 96 0.0 4096 28
+./bvenv/bin/python blend/pent_rooms.py guests guests,guests2,pano:guests,plan:guests final/%s.jpg 1600 900 128 0.0 4096 32
 ./bvenv/bin/python blend/crown_rooms.py arrival arrival,pano:arrival,plan:c_arrival final/crown/%s.jpg 1600 900 96 1.0 4096 28
 ./bvenv/bin/python blend/crown_rooms.py sunset sunset2,pano:sunset,plan:c_sunset final/crown/%s.jpg 1600 900 96 1.0 4096 28
 ./bvenv/bin/python blend/final.py s_bedroom,pano:bedroom,s_garden,pano:garden,s_bath,pano:bath,s_kitchen,pano:kitchen,plan:suite,plan:residence final 1600 900 128 4096 30

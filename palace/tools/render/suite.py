@@ -377,7 +377,7 @@ def kitchen(M, rnd):
     and open shelves along the back wall, tall units at the end, an island to breakfast at, and the robot that cooks on
     its rail over the counters (Jim can cook too)"""
     x0, x1 = 15.8, 29.85; yc = (B0 + B1) / 2
-    lib.box("kitchen ceiling", (x1 - 20.3, B1 - B0, 0.3), ((20.3 + x1) / 2, yc, HB + 0.15), M["ceiling"])
+    lib.box("kitchen ceiling", (x1 + 0.3 - x0, B1 - B0, 0.3), ((x0 + x1 + 0.3) / 2, yc, HB + 0.149), M["ceiling"])     # a millimetre under the bedroom's, which reaches over it
     lib.box("kitchen end wall", (0.3, B1 - B0, HB + 0.3), (x1 + 0.15, yc, (HB + 0.3) / 2), M["plaster"])
     lib.box("kitchen door", (1.1, 0.06, 2.8), (18.6, B0 + 0.2, 1.4), M["walnut_v"], bevel=0.003)
     lib.box("kitchen door pull", (0.03, 0.04, 1.0), (18.2, B0 + 0.25, 1.2), M["brass"], bevel=0.006)
@@ -426,7 +426,7 @@ def kitchen(M, rnd):
         px = ix - 1.3 + 1.3 * k
         lib.cyl("pendant shade", 0.2, 0.22, (px, iy, 2.3), M["brass"], verts=48, r2=0.06)
         lib.cyl("pendant cord", 0.004, HB - 2.52, (px, iy, 2.52), M["shadow"], verts=8)
-        lib.point_light("pendant light", (px, iy, 2.28), 50, (1.0, 0.75, 0.5), 0.05)
+        lib.point_light("pendant light", (px, iy, 2.28), 80, (1.0, 0.75, 0.5), 0.05)
     # the robot that cooks: a carriage on a rail under the ceiling, an arm reaching down to the hob
     lib.box("robot rail", (cw, 0.1, 0.08), (cm, yb - 0.85, HB - 0.06), M["bronze_dark"])
     cxr = 21.6; lib.box("robot carriage", (0.36, 0.3, 0.22), (cxr, yb - 0.85, HB - 0.21), robot, bevel=0.03)
@@ -438,11 +438,26 @@ def kitchen(M, rnd):
         for p_ in j_.data.polygons: p_.use_smooth = True
     lib.cyl("robot hand", 0.04, 0.16, tuple(p2), joint, verts=24, rot=(math.radians(160), 0, 0))
     lib.cyl("pan", 0.15, 0.06, (21.6, yb - 0.32, 0.91), lib.principled("pan iron", (0.03, 0.03, 0.03), 0.4, 1.0), verts=48)
+    # the everyday table for six by the street wall, under a glass globe; a big plant in the corner
+    tx, ty = 25.0, 20.9
+    lib.box("kitchen table", (2.6, 1.0, 0.05), (tx, ty, 0.745), M["oak"], bevel=0.006)
+    for s_ in (-1, 1): lib.box("kitchen table leg", (0.1, 0.8, 0.72), (tx + s_ * 1.05, ty, 0.36), M["walnut_v"], bevel=0.006)
+    for k in range(3):
+        for s_ in (-1, 1): furn.dining_chair("chair", (tx - 0.85 + 0.85 * k, ty + s_ * 0.85, 0.0), 0.0 if s_ > 0 else math.pi, M)
+    gl = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15)
+    furn.lathe("kitchen globe", [(0.0, -0.2), (0.11, -0.17), (0.19, -0.06), (0.2, 0.0), (0.19, 0.08), (0.14, 0.15), (0.04, 0.195), (0.0, 0.2)], gl, 48, (tx, ty, 2.1))
+    lib.cyl("globe bulb", 0.025, 0.05, (tx, ty, 2.075), lib.emission("bulb", (1.0, 0.72, 0.45), 70), verts=16)
+    lib.cyl("globe cable", 0.002, HB - 2.3, (tx, ty, 2.3), M["shadow"], verts=8)
+    lib.point_light("globe light", (tx, ty, 2.1), 60, (1.0, 0.75, 0.5), 0.07)
+    lib.box("kitchen rug", (3.8, 2.8, 0.014), (tx, ty, 0.007), M["rug"], bevel=0.006, segs=2)
+    pl = lib.import_glb(os.path.join(lib.ASSETS, "DiffuseTransmissionPlant.glb"), (16.6, 30.9, 0.0), 0.4, 2.0, name="kitchen plant")
+    for (hx, hy) in ((19.2, B1 - 0.3), (19.6, B1 - 0.32), (27.6, B1 - 0.3)):         # herbs in pots on the worktop
+        lib.instance_of(pl, (hx, hy, 0.9), hx, 0.45, name="herb pot")
     # light: downlights in the ceiling
     lens = lib.emission("downlight lens", (1.0, 0.80, 0.60), 35.0)
     for xx in (17.6, 20.8, 24.0, 27.2):
         for yy in (20.0, 23.0, 26.0, 29.6):
-            lib.cyl("downlight lens", 0.035, 0.004, (xx, yy, HB - 0.002), lens, verts=24); lib.spot_light("downlight", (xx, yy, HB - 0.03), 60, (1.0, 0.80, 0.60), 0.02, 70, 0.6)
+            lib.cyl("downlight lens", 0.035, 0.004, (xx, yy, HB - 0.003), lens, verts=24); lib.spot_light("downlight", (xx, yy, HB - 0.03), 120, (1.0, 0.80, 0.60), 0.02, 70, 0.6)
 
 
 def materials(M):

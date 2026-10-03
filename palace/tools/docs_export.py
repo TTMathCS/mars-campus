@@ -1,6 +1,6 @@
 """Export the design book's drawings, the floor plan sheets and a few Mars Atlas views as images, so the
 Markdown docs in palace/docs/ can show them on GitHub (the HTML pages only render on the live site).
-usage: python3 palace/tools/docs_export.py [book|plans|atlas|all]     (default: all)
+usage: python3 palace/tools/docs_export.py [book|plans|atlas|all] [chapter ...]     (default: all; book alone takes the chapters to export)
 Writes palace/docs/img/book/<chapter>-<name>.png, palace/docs/archive/img/plans-rev-b/<sheet>.png (the archived Rev B sheets) and
 palace/docs/img/atlas/<view>.jpg. Drawings are saved as 256-colour PNGs at 1.5 times the page size;
 drawings with Mars imagery as JPEG. The NASA tiles are blocked on purpose, so map figures show the real
@@ -15,6 +15,7 @@ THREE = os.path.join(TOOLS, "three.min.js")
 PORT = 8786
 SCALE = 1.5
 WHAT = sys.argv[1] if len(sys.argv) > 1 else "all"
+ONLY = sys.argv[2:]          # e.g. book space: just that chapter's drawings, so the others stay as they are
 # chapter page -> [(svg id, file name)]; the Pentagon's level plan is exported once per level
 BOOK = {
     "site": [("fMars", "mars"), ("fGround", "ground"), ("fRegion", "region"), ("fCorridor", "corridor"), ("fSite", "plan"), ("fCity", "city")],
@@ -25,6 +26,7 @@ BOOK = {
     "transport": [("fOrbit", "orbit"), ("fPod", "pod"), ("fProfile", "profile"), ("fTunnel", "tunnel")],
     "spaceport": [("fPlan", "plan"), ("fFuel", "fuel"), ("fPit", "pit"), ("fTurn", "turn"), ("fPad", "pad")],
     "life": [("fLoop", "loops"), ("fAir", "air"), ("fWater", "water"), ("fFood", "food"), ("fDose", "dose")],
+    "space": [("fLink", "link"), ("fDelay", "delay"), ("fMoons", "moons"), ("fYear", "year")],
 }
 SHEETS = [("svg-elev", "a001-crown-birdseye"), ("svg-compare", "a002-size-check"), ("svg-site", "a101-site-corridor"),
           ("svg-growth", "a102-city-growth"), ("svg-crown", "a201-crown-main-floor"), ("svg-pent", "a301-pentagon-L1"),
@@ -69,6 +71,7 @@ async def run():
             if WHAT in ("book", "all"):
                 os.makedirs(os.path.join(OUT, "book"), exist_ok=True)
                 for ch, figs in BOOK.items():
+                    if ONLY and ch not in ONLY: continue
                     print(ch, flush=True)
                     pg = await page(ctx, "http://localhost:%d/palace/design/%s.html" % (PORT, ch))
                     for fid, name in figs:

@@ -1,6 +1,6 @@
 # 08 · Life support
 
-[← 07 Arcadia Spaceport](07-spaceport.md) · [Design](README.md) · **08 Life support** · 09 Communications and space (to write)
+[← 07 Arcadia Spaceport](07-spaceport.md) · [Design](README.md) · **08 Life support** · [09 Communications and space →](09-space.md)
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/life.html)**
 

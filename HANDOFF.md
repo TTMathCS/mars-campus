@@ -62,7 +62,20 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     `docs_export.py`'s `BOOK`; SY-3, SY-4, LV-3 and GN-7 link to it. Every number is worked in the text or taken from
     chapters 02–07; our own estimates say so.
   - The 72-frame house renders are queued after the dining hall's 360 (`pub_house.py` publishes them as a full set).
-  - Next: the renders as they finish; then chapter 09 Communications and space (§2b step 3).
+  - **Chapter 09 Communications and space written** (§2b step 3): `palace/design/space.html` with four drawings (the
+    link from Arcadia to Earth, the delay 2027–2031 computed in the page from JPL's approximate planetary elements,
+    the moons and relays round Mars to scale, a Mars year at Arcadia), `docs/design/09-space.md`, `space` in `READY` and
+    in `docs_export.py`'s `BOOK` (`docs_export.py book space` now exports one chapter only); SY-5 and GN-7 link to it.
+    The design it sets: messages, not calls; Arcadia talks by radio to Relay 1 (over the spaceport, 202.1° E, 43° up),
+    three areostationary relays pass messages round Mars and on to Earth by laser (radio to the DSN as back-up), and
+    Relay 4 at Sun–Earth L4 carries the link round the Sun at conjunction (about 27 min); flat antennas in the corner
+    pavilions' white roofs and on the port's tower, the fibre in the trench as back-up; L3-16 runs them. Dates worked
+    with Mars24's method: Mars Year 39 began 30 Sep 2026; Jim lands mid-June 2027 at Ls 117, northern summer; Earth is
+    then the morning star. Conjunctions 21 Mar 2028 and 25 May 2030; closest 20 Feb 2027, 30 Mar 2029, 12 May 2031.
+  - **No "house" for Arcadia** in what visitors read: the Atlas (its labels, and Relay 1's text now says 3 to 22 min),
+    the science pages' callouts and figure text, "the day house" and "the night house" in chapters 02 and 03, the Power
+    chapter's labels. Three room texts promised live "calls" home, which the delay rules out: now video letters.
+  - Next: the renders as they finish; then chapter 10 Building it (§2b step 4).
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -232,7 +245,7 @@ The Orb's Rev F question to Jim is still open.
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2, Arcadia.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
-| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–08 with the Orb at 48 m and every room as Rev G; 09 Communications and space and 10 Building it still to write. |
+| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–09 with the Orb at 48 m and every room as Rev G; 10 Building it still to write. |
 | Demo 2, floor plans | `palace/plans/` | **Rev G, approved by Jim on 3 Oct 2026** ("approve"): 179 rooms and areas with codes, written by `palace/tools/draw_plans.py` from `room_program.py`; the Orb at 48 m. Rev B is archived at `palace/archive/plans-rev-b/`. |
 | Demo 2, real-time 3D | `palace/archive/3d-demo/` | Hidden on 2 Oct 2026 (Jim: "far from satisfying") and archived on 3 Oct, with its tools and notes ([README](palace/archive/3d-demo/README.md)); `palace/index.html` now opens the design plan. |
 | Demo 2, photo tour | `palace/tour/` | Live since 1 Oct 2026: path-traced 360s and stills (Blender Cycles), the standard for every picture (Jim: "so great and almost perfect. i need all rooms to be like this"). Published: L1's family room, music room, dining room, library, baths and cinema; the Crown's salon, bedroom up, library, map room and pool. Rendering, one at a time: the rest (step 4). |
@@ -289,12 +302,9 @@ the floor plans (Jim, 2 Oct 2026); the real-time 3D pages are hidden.
 2. **Done (3 Oct):** chapter 08 Life support, `life.html` and `docs/design/08-life.md`: the air (70 kPa, 27%, 2,100 t,
    the buffer gases from the Mars air), the water loop (98%), the farm and the storm reserve, warmth (a worked 2 MW), Jim's
    dose budget (about 19 mSv a year), dust, fire at 27%, health; every system by its room code on L4, L2 and L3.
-3. **Write chapter 09 Communications and space** (`space.html`): radio delay 3 to 22 min one way; three areostationary
-   relays at 17,032 km up (orbit radius 20,428 km) plus a relay off to the side of the Sun for the two weeks of solar
-   conjunction every 26 months; laser links; the fibre to the port; Phobos (9,376 km orbit, 7.65 h, rises in the
-   west) and Deimos (23,463 km, 30.3 h); Mars time (sol 24 h 39 min 35 s, a year of 668.6 sols, a Mars clock in every
-   room); Earth as an evening or morning star; the live Earth and Mars weather on the Orb's dashboard. The Atlas
-   already draws the relays and the moons.
+3. **Done (3 Oct):** chapter 09 Communications and space, `space.html` and `docs/design/09-space.md`: the delay, the
+   relays and Relay 4 at Sun–Earth L4, the lasers, living with the delay, Phobos, Deimos and Earth in the sky, Mars
+   time and Mars Year 39.
 4. **Write chapter 10 Building it** (`phases.html`): year 0 is 2027, when Jim lands. Robots land two launch windows
    ahead (about 4½ years before); the order of work (power and the fuel plant at the port first, then the road and
    cable, the Pentagon dig and L4/L5, the Crown's pads and ring, the gardens); the city's phases 1 to 4 (chapter 01).

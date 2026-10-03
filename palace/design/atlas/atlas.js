@@ -21,7 +21,7 @@
 
   /* ---------------------------------------------------------------- where things are */
   // Arcadia Spaceport sits on AP-1, the safest of the Arcadia Planitia sites studied for SpaceX Starship
-  // (Golombek et al., LPSC 2021: 39.8° N, 202.1° E, -3.9 km). The house is 30 km due west.
+  // (Golombek et al., LPSC 2021: 39.8° N, 202.1° E, -3.9 km). Arcadia is 30 km due west.
   var PORT_LL = { lat: 39.80, lon: 202.10 };
   var HOUSE_LL = { lat: 39.80, lon: 202.10 - 30 / (KMDEG * Math.cos(39.80 * D2R)) };
   function nrm(lat, lon, out) { var a = lat * D2R, b = lon * D2R, c = Math.cos(a); out = out || new THREE.Vector3(); return out.set(c * Math.cos(b), Math.sin(a), -c * Math.sin(b)); }
@@ -44,10 +44,10 @@
   // Jim's Mars
   place({ id: "house", kind: "jim", name: "Arcadia · Jim's home", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
     k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre: the universe fills its rooms in 3D at a switch, round the Wormhole Gate. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
-  place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of the house", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
+  place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of Arcadia", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
     k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station and two buried reactors, with no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
-  place({ id: "city", kind: "jim", name: "Arcadia City", sub: "future · grows round the house", lat: cityLL.lat, lon: cityLL.lon, size: 9, prio: 90, view: { d: 11, tilt: 35, head: 0 },
+  place({ id: "city", kind: "jim", name: "Arcadia City", sub: "future · grows round Arcadia", lat: cityLL.lat, lon: cityLL.lon, size: 9, prio: 90, view: { d: 11, tilt: 35, head: 0 },
     k: "Jim's Mars · the future city", d: "Homes take the seeds of a sunflower spiral round the Crown, 137.5° apart and about 450 m from their neighbours. The civic buildings fall on the Fibonacci seeds, which line up due north as one avenue. 233 homes reach 3.8 km out.", link: ["Site and city", BOOK + "site.html"] });
   place({ id: "ttmath", kind: "jim", name: "TTMath campus", sub: "Dingo Gap, Gale crater", lat: -4.605, lon: 137.405, size: 3, prio: 88, view: { d: 6, tilt: 45, head: 20 },
     k: "TTMath on Mars", d: "The TTMath school campus stands at Dingo Gap in Gale crater, where the Curiosity rover crossed a sand dune in 2014. Its ground is NASA's real 3D model of the place. It is 4,360 km from Arcadia.", link: ["Walk into the campus", "../../../ttmath/"] });
@@ -68,7 +68,7 @@
     ["argyre", "Argyre Planitia", -49.7, 316, 1800, "An impact basin ringed by mountains in the southern highlands.", 1],
     ["isidis", "Isidis Planitia", 12.9, 87, 1500, "An impact basin at the edge of the highlands. Jezero crater, where Perseverance landed, is on its rim.", 1],
     ["utopia", "Utopia Planitia", 46.7, 117.5, 3300, "The largest known impact basin on Mars, now a smooth plain with buried ice. Viking 2 and Zhurong landed here.", 2],
-    ["arcadia", "Arcadia Planitia", 47.2, 184.3, 1500, "Smooth, low northern plains with thick ice not far under the surface: the reason Jim's house and the spaceport are here.", 2],
+    ["arcadia", "Arcadia Planitia", 47.2, 184.3, 1500, "Smooth, low northern plains with thick ice not far under the surface: the reason Arcadia and its spaceport are here.", 2],
     ["amazonis", "Amazonis Planitia", 24.8, 196, 2800, "Among the flattest and youngest plains on Mars, south of Arcadia.", 1],
     ["acidalia", "Acidalia Planitia", 49.8, 339.3, 2300, "A dark plain in the north, easy to see even through a small telescope from Earth.", 1],
     ["chryse", "Chryse Planitia", 28.4, 319.7, 1600, "A plain where ancient floods drained into the north. Viking 1 and Pathfinder landed here.", 1],
@@ -112,7 +112,7 @@
   L.forEach(function (l) { place({ id: l[0], kind: "lander", name: l[1], sub: l[4], lat: l[2], lon: l[3], size: 60, prio: 30, maxD: 9000, k: "Rovers and landers · " + l[4], d: l[5] }); });
   // parts of the site, in the design frame
   var SITEP = [
-    ["crown", "The Crown", 0, 0, 90, 4, "The house above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
+    ["crown", "The Crown", 0, 0, 90, 4, "Arcadia above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
     ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 48 m across floating over the Sun Well. Inside, rooms ring the Wormhole Gate, a ball that shoots you like light to any place and time. Switch the universe on and it fills the room in 3D, with Earth and Mars and their weather in the corner. Rest rooms behind radiation glass."],
     ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel and seven basalt stones round the Sun Well's sky lens. Nothing else stands on the ground."],
     ["pentagon", "The Pentagon", 118, -118, 0, 3, "Five levels below ground, from 24 to 68 m down, under 16 m of soil that stops radiation."],
@@ -428,11 +428,11 @@
   [ring(9376, 0xcfd8dc, 0.45), ring(23463, 0xcfd8dc, 0.4), ring(20428, 0x7cc0de, 0.5, true)].forEach(function (l) { moonG.remove(l); ringsG.add(l); });
   var RELAY_LON = [202.1, 322.1, 82.1], relays = RELAY_LON.map(function (lo) { var s = glowSprite("rgba(160,215,240,.95)", 0.018); s.position.copy(nrm(0, lo).multiplyScalar(20428)); moonG.add(s); return s; });
   place({ id: "phobos", kind: "space", name: "Phobos", sub: "moon · 6,000 km up", size: 27, prio: 75, space: function () { return phobos.position; }, view: { d: 9000, tilt: 0 },
-    k: "Mars' inner moon", d: "A dark, cratered moon 27 km long that circles Mars every 7 hours 39 minutes, only 6,000 km above the surface. Seen from Jim's house it crosses the sun as a black notch, as in the flight video. In this map the moons move 60 times faster than in real life." });
+    k: "Mars' inner moon", d: "A dark, cratered moon 27 km long that circles Mars every 7 hours 39 minutes, only 6,000 km above the surface. Seen from Arcadia it crosses the sun as a black notch, as in the flight video. In this map the moons move 60 times faster than in real life." });
   place({ id: "deimos", kind: "space", name: "Deimos", sub: "moon · 20,000 km up", size: 15, prio: 70, space: function () { return deimos.position; }, view: { d: 30000, tilt: 0 },
     k: "Mars' outer moon", d: "A small moon 15 km across that goes round every 30 hours. From the surface it looks like a bright star." });
   place({ id: "relay", kind: "space", name: "Arcadia Relay", sub: "3 satellites · 17,000 km up", size: 1, prio: 65, space: function () { return relays[0].position; }, view: { d: 26000, tilt: 0 },
-    k: "Communications", d: "Three relay satellites in areostationary orbit, 17,032 km up, stay fixed over their spots on Mars. Arcadia Relay 1 hangs over the house and passes messages to Earth by laser: 4 to 24 minutes each way." });
+    k: "Communications", d: "Three relay satellites in areostationary orbit, 17,032 km up, stay fixed over their spots on Mars. Relay 1 hangs over Arcadia, which talks to it by radio; the relays send messages on to Earth by laser: 3 to 22 minutes each way." });
   place({ id: "earth", kind: "space", name: "Earth", sub: "", size: 1, prio: 80, world: function () { return PLAN.Earth; }, solar: true,
     k: "Home planet", d: "Earth and Mars come closest every 26 months. That is when ships leave: the trip takes about 6 to 9 months, depending on the path and the fuel." });
   place({ id: "sun", kind: "space", name: "Sun", sub: "", size: 1, prio: 85, world: function () { return new THREE.Vector3(); }, solar: true, k: "Star", d: "From Mars the sun looks about two thirds as wide as from Earth and gives 43% as much light." });

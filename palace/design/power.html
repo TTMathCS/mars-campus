@@ -49,7 +49,7 @@
       <figure class="fig"><svg id="fReactor" viewBox="0 0 620 400" role="img" aria-label="Section through a reactor vault on L4"></svg><figcaption><b>A reactor vault on L4</b>, in section. The core sits in a steel vessel inside a water-filled shield; heat pipes carry its heat to a gas turbine, and the waste heat goes up to the radiators.</figcaption></figure>
     </div>
     <div class="tw"><table class="spec" id="tSupply"><thead><tr><th>Source</th><th>Where</th><th>Capacity</th><th>Average, clear sol</th><th>In a global dust storm</th></tr></thead><tbody></tbody></table></div>
-    <div class="note"><div class="k">Real technology</div><p>Heat-pipe microreactors of about 5 MWe are in development on Earth; NASA's Kilopower test (KRUSTY, 2018) ran a small heat-pipe reactor at full power for 28 hours, and NASA's Fission Surface Power project is developing reactors for the Moon. Solar power on Mars is proven too: Spirit, Opportunity and InSight ran on it. But a field big enough for this house would cover the plain in panels, and a global dust storm can hide the sun for weeks; one ended Opportunity in 2018. So Arcadia runs on reactors alone.</p></div>
+    <div class="note"><div class="k">Real technology</div><p>Heat-pipe microreactors of about 5 MWe are in development on Earth; NASA's Kilopower test (KRUSTY, 2018) ran a small heat-pipe reactor at full power for 28 hours, and NASA's Fission Surface Power project is developing reactors for the Moon. Solar power on Mars is proven too: Spirit, Opportunity and InSight ran on it. But a field big enough for Arcadia would cover the plain in panels, and a global dust storm can hide the sun for weeks; one ended Opportunity in 2018. So Arcadia runs on reactors alone.</p></div>
   </section>
 
   <section class="part" id="sol">
@@ -106,7 +106,7 @@
   var tb = document.querySelector("#tDemand tbody"), tot = [0, 0];
   DEM.forEach(function (d) { tot[0] += d[1]; tot[1] += d[2]; var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + '</td><td class="n">' + d[1].toFixed(1) + ' MW</td><td class="n">' + d[2].toFixed(1) + " MW</td>"; tb.appendChild(tr); });
   var tr0 = document.createElement("tr"); tr0.innerHTML = '<td><b>Total</b></td><td class="n"><b>' + tot[0].toFixed(1) + ' MW</b></td><td class="n"><b>about 14 MW</b><br><small>not all at once</small></td>'; tb.appendChild(tr0);
-  var SUP = [["2 fission microreactors", "Pentagon L4", "2 × 5 MWe", "4.9 MW of 9", "4.9 MW of 9"], ["2 fission microreactors", "Spaceport vault", "2 × 5 MWe", "3.1 MW of 9", "3.1 MW of 9"], ["Batteries", "House and port", "2 × 20 MWh", "evening peaks", "reactor trips"], ["Fuel cells on stored methane and oxygen", "Spaceport", "8 MW", "standby", "if a reactor is down"]];
+  var SUP = [["2 fission microreactors", "Pentagon L4", "2 × 5 MWe", "4.9 MW of 9", "4.9 MW of 9"], ["2 fission microreactors", "Spaceport vault", "2 × 5 MWe", "3.1 MW of 9", "3.1 MW of 9"], ["Batteries", "Arcadia and port", "2 × 20 MWh", "evening peaks", "reactor trips"], ["Fuel cells on stored methane and oxygen", "Spaceport", "8 MW", "standby", "if a reactor is down"]];
   var ts = document.querySelector("#tSupply tbody"); SUP.forEach(function (d) { var tr = document.createElement("tr"); tr.innerHTML = "<td>" + d[0] + "</td><td>" + d[1] + '</td><td class="n">' + d[2] + '</td><td class="n">' + d[3] + '</td><td class="n">' + d[4] + "</td>"; ts.appendChild(tr); });
 
   /* ---------------- flow diagram, band widths to scale (px per MW) */
@@ -135,7 +135,7 @@
       node(xl, y, wl, h, l[0], "", "var(--sheet)"); T(svg, xl + wl + 8, y + h / 2 + 4, l[1].toFixed(1) + " MW", "mono t2", { style: "font-size:11.5px" });
       band(xg + wg, yout + w / 2, xl, y + h / 2, w, EL); yout += w + 4; y += h + 8;
     });
-    // heat, its own row at the bottom: 2 MW warms the house, 8 MW goes to the radiators; the bands leave the source stacked
+    // heat, its own row at the bottom: 2 MW warms Arcadia, 8 MW goes to the radiators; the bands leave the source stacked
     var xh = xs + ws + 40, hy = 440, h2 = 2 * k, h8 = 8 * k, y2 = hy + 10 + h2 / 2, y8 = hy + 10 + h2 + 6 + h8 / 2;
     node(xs, hy, ws + 40, h2 + h8 + 26, "Reactor heat · Arcadia", ["about 10 MW on an average sol,", "up to 20 MW at full power"], "rgba(208,105,76,.2)");
     band(xh, y2, xg, y2 - 4, h2, HT, .55); T(svg, xh + 14, y2 - h2 / 2 - 7, "2 MW", "mono tr", { style: "font-size:12px" });
@@ -165,7 +165,7 @@
     T(svg, E(7.3, 0)[0], E(0, 5.8)[1] + 4, "gas turbine", "", { "text-anchor": "middle", style: "font-size:12px" });
     S("rect", { x: r1(E(10.6, 0)[0]), y: r1(E(0, 7)[1]), width: r1(3.2 * k), height: r1(2.4 * k), rx: 4, fill: "#f3e6b5", stroke: "var(--ink)", "stroke-width": 1.2 }, svg);
     T(svg, E(12.2, 0)[0], E(0, 5.8)[1] + 4, "generator", "", { "text-anchor": "middle", style: "font-size:12px" });
-    // cooling loop up to the radiators, and heat to the house
+    // cooling loop up to the radiators, and heat to Arcadia
     S("path", { d: P([E(8, 7.4), E(8, 8.6), E(8, 14.4)]), stroke: "#d0694c", "stroke-width": 4, fill: "none" }, svg);
     T(svg, E(8.5, 13.4)[0], E(0, 13.4)[1], "warm loop to the radiators", "tr", { style: "font-size:12px" });
     S("path", { d: P([E(14, 5), E(17.6, 5)]), stroke: "var(--route)", "stroke-width": 3, fill: "none", "marker-end": BOOK.arrowDefs(svg, "ar1", "routef") }, svg);
@@ -187,7 +187,7 @@
       S("rect", { x: x0, y: y1, width: x1 - x0, height: y0 - y1, fill: "var(--panel)", stroke: "var(--rule)" }, svg);
       [0, 5, 10, 15, 20].forEach(function (v) { S("line", { x1: x0, y1: r1(Y(v)), x2: x1, y2: r1(Y(v)), "class": "ink3", "stroke-width": .5, "stroke-dasharray": "2 4" }, svg); T(svg, x0 - 8, Y(v) + 4, v + "", "mono t3", { "text-anchor": "end", style: "font-size:10.5px" }); });
       [0, 6, 12, 18, 24].forEach(function (h) { T(svg, X(h), y0 + 16, (h < 10 ? "0" : "") + h + ":00", "mono t3", { "text-anchor": "middle", style: "font-size:10.5px" }); });
-      // demand: the house and the port follow the day; the fuel plant takes what is left, so the total stays steady
+      // demand: Arcadia and the port follow the day; the fuel plant takes what is left, so the total stays steady
       var dem = [], tot = [];
       for (var i = 0; i <= 120; i++) {
         var h = i / 120 * SOL;

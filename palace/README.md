@@ -49,7 +49,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | --- | --- | --- |
 | Requirements | Updated 3 Oct 2026: the name Arcadia, Rev G approved, the Orb at 48 m. No open questions | — |
 | Floor plans | **Rev G approved** by Jim on 3 Oct 2026: 179 rooms and areas, each with a code, a purpose, a second use, a place and a size; the Orb at 48 m | The pictures of every room, one at a time, following the plans |
-| Design plan | Chapters 01–08 written, with the Orb at 48 m and every room as Rev G; 08 Life support added on 3 Oct 2026 | Write 09 Communications and space, 10 Building it |
+| Design plan | Chapters 01–09 written, with the Orb at 48 m and every room as Rev G; 08 Life support and 09 Communications and space added on 3 Oct 2026 | Write 10 Building it |
 | Pictures | Path-traced, one render at a time: Arcadia in section (24 frames to turn), L1's residence, library, baths and cinema, and the Crown's salon, bedroom, library, map room and pool | The Crown's pool again (stone edges at both ends), the dining hall, the Arrival hall and the sunset lounge; the master suite down; the atrium; then 72 frames so Arcadia turns smoothly |
 | Mars Atlas | Live, over a real colour map of Mars | — |
 | Real-time 3D pages | Hidden on 2 Oct 2026 (Jim found them far from satisfying) and archived on 3 Oct | — |

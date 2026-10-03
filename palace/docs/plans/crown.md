@@ -28,7 +28,7 @@
 | **C-20** | Guests' day room | Where visitors spend their days up here: desks, sofas, a kitchenette, a corner for children. |  |
 | **C-21** | Sunset lounge | Low sofas facing the west slots: at sunset the sun shines straight in, in a blue sky. |  |
 | **C-22** | Gallery | Jim's paintings from the studio and his photographs of Mars. |  |
-| **C-23** | Study | Jim's day desk in the north light: writing, his memoirs, calls. | L1-04 |
+| **C-23** | Study | Jim's day desk in the north light: writing, his memoirs, video letters. | L1-04 |
 | **C-24** | Library | Reading in daylight: two floors of walnut shelves with a working collection, a gallery and a spiral stair. | L1-27 |
 | **C-25** | Map room | A globe of Mars 3 m across and chests of maps: planning trips and flights. |  |
 | **C-26** | Reading gallery | Upstairs in the Library spire, a reading room under the roof. |  |

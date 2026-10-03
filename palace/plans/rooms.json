@@ -28,7 +28,7 @@ null,
 ],
 "seen": "fire",
 "use": "Jim's evening living room: the long fire of lit mist, a sofa, books, the screen.",
-"also": "Films and calls home on the screen; chess by the glass.",
+"also": "Films and video letters from home on the screen; chess by the glass.",
 "pair": "C-10",
 "place": "L1",
 "m2": 224
@@ -264,7 +264,7 @@ null
 ],
 "seen": "cinema",
 "use": "Forty seats in front of a screen 12 m wide: films.",
-"also": "Concerts and talks streamed from Earth; video calls with family on the big screen; a lecture hall when visitors come.",
+"also": "Concerts and talks streamed from Earth; video letters from the family on the big screen; a lecture hall when visitors come.",
 "pair": "O-07",
 "place": "L1",
 "m2": 546
@@ -2111,7 +2111,7 @@ null
 297.0
 ],
 "seen": "crown_library",
-"use": "Jim's day desk in the north light: writing, his memoirs, calls.",
+"use": "Jim's day desk in the north light: writing, his memoirs, video letters.",
 "also": "",
 "pair": "L1-04",
 "place": "C",

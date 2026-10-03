@@ -33,7 +33,7 @@ nested subpages ("please keep this as global rule").
 | [Shielding](https://ttmathcs.github.io/mars-campus/science/building-on-mars/shielding.html) · [Health](https://ttmathcs.github.io/mars-campus/science/building-on-mars/health.html) | Soil and water against radiation; low gravity, medicine, isolation |
 | [Rocket fuel](https://ttmathcs.github.io/mars-campus/science/building-on-mars/fuel.html) · [Talking to Earth](https://ttmathcs.github.io/mars-campus/science/building-on-mars/communication.html) · [Protecting Mars](https://ttmathcs.github.io/mars-campus/science/building-on-mars/protection.html) | Methane and oxygen from ice and air; radio delays and lasers; planetary protection |
 
-Each Building on Mars page ends with a box, *In demo 2, Jim's house*, linking to the design plan.
+Each Building on Mars page ends with a box, *In Arcadia, Jim's home*, linking to the design plan.
 
 ## How the pages are made
 

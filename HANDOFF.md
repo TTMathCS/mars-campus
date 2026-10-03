@@ -5,6 +5,13 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
+## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
+
+- **3 Oct, session `session_0138qEhb9MCkMbnmY4BcMa8s`:** picked up the list below. Working on step 1 (the Orb at 48 m
+  in the design book) and bringing the book's room lists (chapters 02, 03, 04) to Rev G names and codes, read from one
+  generated file (`palace/plans/rooms.js`, written by `draw_plans.py`) so the book can't drift from the room program
+  again. Render setup is being rebuilt in the session scratch folder (bvenv: Python 3.11 + `bpy==4.2.0` + Pillow).
+
 ## 0. Where the work stopped (3 Oct 2026, about 00:45 UTC) — read this first
 
 **Jim's latest answers and asks (3 Oct):**

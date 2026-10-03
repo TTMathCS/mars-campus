@@ -12,7 +12,7 @@ choice is recorded below. Shown for review:
 
 | What | Drawn from | Where |
 | --- | --- | --- |
-| **Floor plans Rev G: every room designed, with a code.** 179 rooms and areas, each with what it is for, what else it can be used for, where it is and how big: L1-01 to L5-21 in the Pentagon, C-01 to C-34 in the Crown, O-00 to O-17 in the Orb, G-01 to G-08 on the ground. Two of a kind only where each has its own job, most by the house's rule *by day up in the Crown, by night down in the Pentagon*; the duplicates with no second job are taken out. The 360s and pictures made so far already follow it. **Please approve or say what to change**; no more room pictures until then | Jim's words, 2 Oct 2026 (below) | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/) · [summary](plans-rev-g/README.md) · GN-16 |
+| **Floor plans Rev G: every room designed, with a code.** 179 rooms and areas, each with what it is for, what else it can be used for, where it is and how big: L1-01 to L5-21 in the Pentagon, C-01 to C-34 in the Crown, O-00 to O-17 in the Orb, G-01 to G-08 on the ground. Two of a kind only where each has its own job, most by the house's rule *by day up in the Crown, by night down in the Pentagon*; the duplicates with no second job are taken out. The 360s and pictures made so far already follow it. **Please approve or say what to change**; no more room pictures until then | Jim's words, 2 Oct 2026 (below) | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/) · [summary](plans/README.md) · GN-16 |
 | **The Orb, Rev F: rooms in the middle of the ring, a visitors' lane on each side.** Five rooms between the lanes on each floor; the outer lane looks out over the plain, the inner lane in onto the Gate. Rooms of a useful depth need 10 m between the Gate's round space and the shell, and the Orb has 6 m. **Question:** grow the Orb from 40 m to 48 m and keep the Gate at 18 m (recommended), or keep the Orb at 40 m and make the Gate 12 m? | Jim's words, 1 Oct 2026 (below) | [The plan](img/book/orb-rev-f.png) · OR-1 to OR-8 |
 | **The Orb, Rev E: the universe in VR, and the ball is the Gate.** The universe is future-tech VR shown directly in the 3D space of the Orb's rooms, all around, with no projector, no screen and no ball. A switch turns it on and off; it zooms from the whole universe down to Mars and the house; Earth and Mars float in the corner with their weather. The ball stays as the Wormhole Gate: choose a place and a time, walk across a short bridge into the ball, press send, and it shoots you like light to that place, instantly. The top ring has five rest rooms behind radiation glass. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 02, the Orb](design/02-crown.md#the-orb-the-universe-in-vr-and-the-wormhole-gate) · OR-1 to OR-8 |
 | **The ground, Rev E: built, with a dock for the Orb.** A paved pentagon over the Pentagon, 4 m wider than it, shows where the house lies; the Stone Garden is the circle inside it; glass over the five avenues and a glass pavilion over each corner stair hint at the house below; the Orb's dock round the Sun Well is where the Orb lands. If it looks right, nothing is needed; otherwise say what to change | Jim's words, 1 Oct 2026 (below) | [Ch 01, the site plan](design/01-site-and-city.md#the-site-plan) · GN-13, OR-9 |
@@ -29,6 +29,21 @@ choice is recorded below. Shown for review:
 | The residence rooms on the atrium (L1) | The guest lounge and the family room are two storeys of 4 m within L1's 8 m, with the guest suites and Jim's study above them; the cinema, the thermal pools and the great library are full height. Each room's sky ceiling is a panel in a plaster ceiling | Rooms 8 m tall would feel like halls; the plan's rooms keep their places |
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
 | The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
+
+## 3 Oct 2026: Rev G approved, the Orb at 48 m, and a clean site
+
+- **Floor plans Rev G.** Jim: "approve". The plans are now at [palace/plans/](https://ttmathcs.github.io/mars-campus/palace/plans/)
+  ([summary](plans/README.md)); Rev B is archived. Room pictures carry on, one at a time, following the plan. → GN-16.
+- **The Orb's size (Rev F).** Jim: "do per your best judgements". **Decided:** the Orb grows from 40 m to **48 m**
+  and the Wormhole Gate stays 18 m in its round space 24 m across. On each floor five rooms sit between an outer
+  lane along the windows and an inner lane along the glass onto the Gate, with a passage under each spire. The
+  rooms are Rev G's: the portals at +64, the five universe lounges at +72, the rest rooms at +80. The Orb has
+  2,800 m² and the Crown 19,500 m². *Why:* the Gate is the heart of the Orb, so it keeps its size; the bigger ball
+  costs nothing in the middle of a ring 244 m across. → OR-1 to OR-8.
+- **Clean pages, old files archived.** Jim: "after new design, archive or remove all old files to avoid messy
+  confusions", and on the design plan's home page "remove FOR JIM Decisions ... For review ... remove all those
+  notes/archived things. keep the page clean and clear". **Done for the home page and the plans;** the rest is
+  listed in the handoff.
 
 ## 2 Oct 2026: the whole house to explore, plans in full, travel by the Gate
 

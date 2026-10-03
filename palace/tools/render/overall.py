@@ -4,6 +4,8 @@ away everything under the ground on the near side of a vertical plane through th
 turns with the camera, so every frame of the turntable looks into the house. Numbers from the design (palace/design,
 palace/crown/index.html, palace/pentagon/index.html): x east, y north, z up from the plain; bearings clockwise from
 north. Sides of the Pentagon: 0 guests (54), 1 Jim's residence (126), 2 club (198), 3 baths (270), 4 library (342).
+The rooms in the section are the rooms of floor plans Rev G (approved by Jim on 2 Oct 2026), read from the room program
+(palace/tools/room_program.py): each room where the plan puts it, furnished for what it is. The Orb is 48 m across (Rev F).
   bvenv/bin/python blend/overall.py <job[,job...]> <out with %s> [w h spp]
 Jobs: hero (the picture), whole (the same view, the ground left whole), turn<i>of<n> (frame i of a turntable of n
 frames), spots (where the parts are on each picture, as JSON, for the labels you can click)."""
@@ -11,6 +13,10 @@ import bpy, bmesh, json, math, os, random, sys, time
 from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib, crown
+for _d in (os.path.dirname(os.path.abspath(__file__)), os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."),
+           os.environ.get("ROOM_PROGRAM_DIR", "/home/user/mars-campus/palace/tools")):
+    if os.path.exists(os.path.join(_d, "room_program.py")): sys.path.insert(0, os.path.abspath(_d)); break
+import room_program as RP
 
 D = math.pi / 180
 T36 = math.tan(36 * D)
@@ -28,13 +34,78 @@ SUN_OFF, SUN_EL = 70.0, 24.0                        # the sun: this far round to
 CAM_D, CAM_H, CAM_LENS = 440.0, 95.0, 45
 CAM_LOW, CAM_TOP = -82.0, 116.0                    # what the frame shows, in heights on the section's plane
 VIEW = None; CUTTER = None                          # unit vector towards the camera; the box that takes the near side away
-USES = {"L1": {1: ["family", "suite", "kitchen", "spa", "wardrobe"], 2: ["cinema", "music", "billiards", "bar", "wine"],
-               3: ["thermal", "pool", "sauna", "gym", "treatment"], 4: ["library", "archive", "reading", "film", "stacks"],
-               0: ["lounge", "suites", "suites", "apartments", "staff"]},
-        "L3": ["studio", "workshop", "lab", "office", "foundry"], "L4": ["water", "air", "power", "machine", "crates"],
-        "L5": ["platform", "pods", "cargo", "rovers", "vault"]}
-UPPER = {"home": ["library", "lounge", "suites", "lounge", "wardrobe"], "work": ["office", "studio", "lab", "office", "control"]}
-TALL = ("cinema", "pool", "thermal", "library", "family", "foundry")    # double-height rooms; the others have a floor between
+# what each room of floor plans Rev G gets for furniture in the section (palace/tools/room_program.py has the rooms)
+ROOM_USE = {
+    "L1-01": "music", "L1-02": "family", "L1-03": "dining", "L1-04": "study", "L1-05": "store", "L1-06": "bath",
+    "L1-07": "moss", "L1-08": "suite", "L1-09": "wardrobe", "L1-10": "kitchen", "L1-11": "store", "L1-12": "robots",
+    "L1-13": "store", "L1-14": "memory", "L1-15": "wardrobe", "L1-16": "machine",
+    "L1-17": "cinema", "L1-18": "billiards", "L1-19": "ballroom", "L1-20": "wine", "L1-21": "store",
+    "L1-22": "thermal", "L1-23": "pool", "L1-24": "sports", "L1-25": "sauna", "L1-26": "treatment",
+    "L1-27": "library", "L1-28": "archive", "L1-29": "film", "L1-30": "stacks", "L1-31": "workshop",
+    "L1-32": "lounge", "L1-41": "apartments", "L1-42": "apartments", "L1-43": "robots",
+    "L3-01": "workshop", "L3-02": "foundry", "L3-03": "lab", "L3-04": "store", "L3-05": "crates", "L3-06": "foundry",
+    "L3-07": "machine", "L3-08": "crates", "L3-09": "lab", "L3-10": "treatment", "L3-11": "lab", "L3-12": "machine",
+    "L3-13": "store", "L3-14": "server", "L3-15": "server", "L3-16": "control", "L3-17": "air", "L3-18": "server",
+    "L3-19": "control", "L3-20": "control", "L3-21": "control", "L3-22": "studio", "L3-23": "store",
+    "L4-01": "power", "L4-02": "power", "L4-03": "machine", "L4-04": "machine", "L4-05": "water", "L4-06": "water",
+    "L4-07": "water", "L4-08": "water", "L4-09": "air", "L4-10": "air", "L4-11": "air", "L4-12": "air",
+    "L4-13": "crates", "L4-14": "crates", "L4-15": "machine", "L4-16": "machine", "L4-17": "machine",
+    "L4-18": "workshop", "L4-19": "crates",
+    "L5-01": "platform", "L5-02": "platform", "L5-03": "hangar", "L5-04": "cargo", "L5-05": "cargo", "L5-06": "cargo",
+    "L5-07": "crates", "L5-08": "cargo", "L5-09": "vault", "L5-10": "vault", "L5-11": "vault", "L5-12": "machine",
+    "L5-13": "crates", "L5-14": "machine", "L5-15": "machine", "L5-16": "hangar", "L5-17": "rovers", "L5-18": "rovers",
+    "L5-19": "machine", "L5-20": "suits", "L5-21": "hangar",
+}
+for _c in range(33, 41): ROOM_USE["L1-%02d" % _c] = "suites"
+# full-height rooms; the others have a floor between two storeys of 4 m (the plan's upper rooms, or a gallery of the room below)
+TALL = ("cinema", "pool", "thermal", "library", "lounge", "moss", "ballroom", "sports", "gym", "foundry", "machine", "power", "water",
+        "air", "platform", "hangar", "cargo", "rovers", "vault", "crates", "sauna")
+UPPER_OF = {"music": "study", "family": "study", "dining": "study", "kitchen": "store", "bath": "wardrobe", "suite": "wardrobe",
+            "billiards": "lounge", "memory": "memory", "apartments": "apartments", "suites": "suites", "treatment": "treatment"}
+
+
+def sector_of(k): return 5 if k == 0 else k              # side k of the drawing is sector k of the plan, side 0 sector 5
+
+
+def band_rooms(level_id, k, ri):
+    """the rooms of floor plans Rev G in ring ri of side k: [(s0, s1, use, upper_use, code)] along the ring, s from -1 to 1
+    across the side (as side_band takes it), and whether the room carries on into the next ring (one hall over the street)"""
+    lv = next(l for l in RP.LEVELS if l["id"] == level_id); ring = "ABCDE"[ri]
+    a0, a1 = RINGS[ri]; half = (a0 + a1) / 2 * T36
+    def s_of(u, end): return end if u is None else max(-1.0, min(1.0, u / half))
+    ground, upper, joined = [], [], False
+    for r in lv["rooms"]:
+        at = r["at"]
+        if at[1] != sector_of(k): continue
+        span = r.get("rings") or (at[0], at[0]); i0, i1 = "ABCDE".index(span[0]), "ABCDE".index(span[1])
+        if not i0 <= ri <= i1: continue
+        if len(at) > 4 and at[4] not in (None, 0.0): continue                   # behind another room across the ring
+        s0, s1 = s_of(at[2] if len(at) > 2 else None, -1.0), s_of(at[3] if len(at) > 3 else None, 1.0)
+        use = ROOM_USE.get(r["code"], "store")
+        if r.get("upper"): upper.append((s0, s1, use))
+        else:
+            ground.append((s0, s1, use, r["code"]))
+            if ri < i1: joined = True
+    out = []
+    for (s0, s1, use, code) in sorted(ground):
+        up = next((u for (q0, q1, u) in upper if q0 < s1 - 1e-6 and q1 > s0 + 1e-6), None)
+        if up is None and use not in TALL: up = UPPER_OF.get(use, use)
+        out.append((s0, s1, use, up, code))
+    return out, joined
+
+
+SINGLE = ("cinema", "pool", "ballroom", "moss", "family", "music", "dining", "bath", "billiards", "kitchen", "sports")
+
+
+def modules(use, a0, a1, s0, s1):
+    """a long room is furnished in pieces about 14 m long (no walls between), so its furniture keeps its size"""
+    n = 1 if use in SINGLE else max(1, int(round((s1 - s0) * (a0 + a1) / 2 * T36 / 14.0)))
+    return [(s0 + (s1 - s0) * i / n, s0 + (s1 - s0) * (i + 1) / n) for i in range(n)]
+
+
+def all_front(R): return all(front(R.p(u, v), 2.0) for u in (-R.w / 2, R.w / 2) for v in (-R.d / 2, R.d / 2))
+
+
 MID = 3.9                                                       # the floor between the storeys, above the level's floor
 
 
@@ -344,7 +415,7 @@ def crown_ring(M):
             q = [BP(r, b0, 44.0), BP(r, b1, 44.0), BP(r, b1, 45.2), BP(r, b0, 45.2)]
             vs = [sl.verts.new(v) for v in q]; sl.faces.new(vs if sgn > 0 else vs[::-1]); s += 8.0
     o = lib.mesh_obj("slots", sl, M["slot"]); o.visible_shadow = False
-    bpy.ops.mesh.primitive_uv_sphere_add(segments=160, ring_count=80, radius=20.0, location=(0, 0, 72.0)); o = bpy.context.active_object; o.name = "orb"
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=160, ring_count=80, radius=24.0, location=(0, 0, 72.0)); o = bpy.context.active_object; o.name = "orb"   # 48 m across (Rev F)
     for p in o.data.polygons: p.use_smooth = True
     o.data.materials.append(M["mirror"])
 
@@ -389,8 +460,8 @@ def ends(K, M, R, rnd, kind):
 
 def furnish(K, M, R, use, rnd):
     w, d, h = R.w, R.d, R.t - R.f; B = K.box; r = R.rot
-    if use in ("family", "lounge", "music", "apartments", "suite", "suites", "library", "reading", "kitchen", "treatment", "bar", "billiards"): ends(K, M, R, rnd, "home")
-    elif use in ("studio", "office", "lab", "workshop"): ends(K, M, R, rnd, "work")
+    if use in ("family", "lounge", "music", "apartments", "suite", "suites", "library", "reading", "kitchen", "treatment", "bar", "billiards", "dining", "study", "memory"): ends(K, M, R, rnd, "home")
+    elif use in ("studio", "office", "lab", "workshop", "control", "server"): ends(K, M, R, rnd, "work")
     if use in ("family", "lounge", "music", "apartments"):
         B(rnd.choice(M["rugs"]), (w * 0.55, d * 0.5, 0.02), R.p(0, 0, 0.01), r)
         B(rnd.choice(M["sofa"]), (2.8, 1.0, 0.85), R.p(0, d * 0.14, 0.43), r)
@@ -411,6 +482,45 @@ def furnish(K, M, R, use, rnd):
     elif use == "kitchen":
         B(M["white"], (w * 0.7, 0.7, 0.92), R.p(0, d / 2 - 0.4, 0.46), r); B(M["walnut"], (w * 0.7, 0.4, 0.9), R.p(0, d / 2 - 0.25, 2.0), r)
         B(M["stonefloor"], (4.0, 1.2, 0.92), R.p(0, 0.5, 0.46), r); B(M["walnut"], (3.2, 1.1, 0.75), R.p(0, -d * 0.3, 0.37), r)
+    elif use == "dining":
+        L_ = min(w * 0.6, 6.0); n = max(2, int(L_ / 0.9))
+        B(M["walnut"], (L_, 1.2, 0.75), R.p(0, 0, 0.37), r)
+        for i in range(n):
+            for v in (-0.95, 0.95): B(M["linen"], (0.5, 0.5, 0.9), R.p(-L_ / 2 + (i + 0.5) * L_ / n, v, 0.45), r)
+        K.blob(M["lamp"], R.p(0, 0, 2.3), (L_ * 0.3, 0.3, 0.1), None, 1)
+        B(M["walnut"], (w * 0.3, 0.7, 1.05), R.p(w * 0.25, d / 2 - 1.0, 0.52), r); B(M["bottles"], (w * 0.3, 0.3, 1.6), R.p(w * 0.25, d / 2 - 0.3, 1.5), r)
+    elif use == "study":
+        B(M["books"], (w * 0.7, 0.45, 2.6), R.p(0, d / 2 - 0.3, 1.3), r)
+        B(M["walnut"], (2.2, 1.0, 0.75), R.p(0, -d * 0.1, 0.37), r); B(M["screen"], (1.0, 0.05, 0.6), R.p(0, -d * 0.1 + 0.4, 1.05), r)
+        B(rnd.choice(M["sofa"]), (1.0, 1.0, 0.8), R.p(w * 0.3, -d * 0.25, 0.4), r); plant(K, M, R.p(-w * 0.35, -d * 0.3), rnd)
+    elif use == "bath":
+        B(M["travertine"], (2.2, 1.1, 0.6), R.p(0, 0, 0.3), r); B(M["water"], (1.9, 0.8, 0.05), R.p(0, 0, 0.58), r)
+        B(M["travertine"], (w * 0.5, 0.6, 0.9), R.p(0, d / 2 - 0.4, 0.45), r)
+        for u in (-w * 0.35, w * 0.35): plant(K, M, R.p(u, -d * 0.3), rnd)
+    elif use == "moss":
+        B(M["moss"], (w * 0.85, d * 0.8, 0.2), R.p(0, 0, 0.1), r); B(M["water"], (w * 0.3, d * 0.25, 0.05), R.p(-w * 0.15, -d * 0.1, 0.21), r)
+        tree(K, M, R.p(w * 0.18, d * 0.12, 0.2), 5.0, rnd)
+        for i in range(5): K.blob(M["rock"], R.p(rnd.uniform(-0.4, 0.4) * w, rnd.uniform(-0.35, 0.35) * d, 0.25), (0.5, 0.4, 0.3), rnd, 1)
+    elif use == "robots":
+        for u in [x * 2.0 - w * 0.4 for x in range(max(1, int(w * 0.8 / 2.0) + 1))]:
+            B(M["dark"], (1.2, 0.5, 1.8), R.p(u, d / 2 - 0.5, 0.9), r); K.blob(M["white"], R.p(u, d / 2 - 1.2, 0.8), (0.3, 0.3, 0.8), None, 1)
+    elif use == "memory":
+        for u in (-w * 0.25, 0.0, w * 0.25): B(M["walnut"], (1.1, 0.7, 0.8), R.p(u, 0, 0.4), r); B(M["glass"], (1.0, 0.6, 0.6), R.p(u, 0, 1.1), r)
+        B(rnd.choice(M["rugs"]), (w * 0.5, d * 0.4, 0.02), R.p(0, -d * 0.2, 0.01), r); B(rnd.choice(M["sofa"]), (2.4, 0.9, 0.8), R.p(0, -d * 0.3, 0.4), r)
+    elif use == "ballroom":
+        B(M["stonefloor"], (w * 0.85, d * 0.8, 0.03), R.p(0, 0, 0.015), r)
+        for u in (-w * 0.25, 0.0, w * 0.25): K.blob(M["lamp"], R.p(u, 0, h - 2.2), (0.9, 0.9, 0.7), None, 2)
+        for u in (-w * 0.42, w * 0.42): B(M["walnut"], (0.6, d * 0.6, 1.0), R.p(u, 0, 0.5), r)
+    elif use == "sports":
+        B(M["felt"], (w * 0.8, d * 0.75, 0.03), R.p(0, 0, 0.015), r)
+        B(M["rock"], (0.6, d * 0.7, h * 0.85), R.p(w / 2 - 0.6, 0, h * 0.42), r)
+        for u in (-w * 0.38, w * 0.3): B(M["white"], (0.1, 1.8, 1.2), R.p(u, 0, 3.0), r)
+    elif use == "server":
+        for v in [x * 1.8 - d / 2 + 1.2 for x in range(int((d - 1.2) / 1.8))]:
+            B(M["black"], (w * 0.8, 0.8, 2.2), R.p(0, v, 1.1), r); B(M["screen"], (w * 0.8, 0.02, 0.05), R.p(0, v - 0.41, 1.9), r)
+    elif use == "suits":
+        for u in [x * 1.1 - w * 0.4 for x in range(max(1, int(w * 0.8 / 1.1) + 1))]: K.blob(M["white"], R.p(u, d / 2 - 0.6, 1.0), (0.3, 0.25, 0.9), None, 1)
+        B(M["walnut"], (w * 0.6, 0.5, 0.45), R.p(0, 0, 0.22), r)
     elif use in ("spa", "thermal", "pool", "sauna"):
         if use == "pool": ww, dd = w * 0.8, d * 0.6
         else: ww, dd = min(8.0, w * 0.5), d * 0.45
@@ -505,29 +615,28 @@ def level(M, lv, rnd):
     if kind == "garden":
         garden_level(M, lv, K, rnd)
     else:
+        wall_mat = M["plaster"] if kind == "home" else M["workwall"]; light = M["warm"] if kind == "home" else M["cool"]
         for k in range(5):
             side_band(name + " floor", APA, PA, f, f + 0.06, k, floor_mat)
-            for (a0, a1) in STREETS:
-                side_band(name + " street light", a0 + 1.2, a1 - 1.2, t - 0.1, t - 0.02, k, M["street"])
+            bands = [band_rooms(name, k, ri) for ri in range(5)]
+            for i, (a0, a1) in enumerate(STREETS):
+                if not bands[i][1]: side_band(name + " street light", a0 + 1.2, a1 - 1.2, t - 0.1, t - 0.02, k, M["street"])
             for ri, (a0, a1) in enumerate(RINGS):
-                for a in (a0, a1):
-                    if a != RINGS[0][0]: side_band(name + " wall", a - 0.15, a + 0.15, f, t, k, M["plaster"] if kind == "home" else M["workwall"])
-                nx = max(2, int(2 * a1 * T36 / 14.0)); ss = [-1 + 2 * i / nx for i in range(nx + 1)]
-                for s in ss[1:-1]: side_band(name + " cross wall", a0, a1, f, t, k, M["plaster"] if kind == "home" else M["workwall"], s - 0.15 / (a1 * T36), s + 0.15 / (a1 * T36))
-                light = M["warm"] if kind == "home" else M["cool"]
-                side_band(name + " ceiling light", a0 + 0.4, a1 - 0.4, t - 0.08, t - 0.02, k, light)
-                use = USES[name][k][ri] if name == "L1" else USES[name][ri]
-                two = kind in ("home", "work") and use not in TALL
-                if two:     # a floor between the two storeys, lit underneath
-                    side_band(name + " mid floor", a0 + 0.15, a1 - 0.15, f + MID, f + MID + 0.4, k, M["concrete"])
-                    side_band(name + " mid finish", a0 + 0.15, a1 - 0.15, f + MID + 0.4, f + MID + 0.46, k, floor_mat)
-                    side_band(name + " mid light", a0 + 0.4, a1 - 0.4, f + MID - 0.08, f + MID - 0.02, k, light)
-                for s0, s1 in zip(ss, ss[1:]):
-                    if front(Room(k, a0, a1, s0, s1, f, t).c, 12.0): continue
-                    if two:
-                        furnish(K, M, Room(k, a0, a1, s0, s1, f, f + MID), use, rnd)
-                        furnish(K, M, Room(k, a0, a1, s0, s1, f + MID + 0.4, t), UPPER[kind][ri], rnd)
-                    else: furnish(K, M, Room(k, a0, a1, s0, s1, f, t), use, rnd)
+                segs, joined = bands[ri]
+                if ri > 0 and not bands[ri - 1][1]: side_band(name + " wall", a0 - 0.15, a0 + 0.15, f, t, k, wall_mat)
+                if not joined: side_band(name + " wall", a1 - 0.15, a1 + 0.15, f, t, k, wall_mat)
+                for (s0, s1, use, up, code) in segs:
+                    if s0 > -1 + 1e-6: side_band(name + " cross wall", a0, a1, f, t, k, wall_mat, s0 - 0.15 / (a1 * T36), s0 + 0.15 / (a1 * T36))
+                    if up:     # a floor between the two storeys, lit underneath
+                        side_band(name + " mid floor", a0 + 0.15, a1 - 0.15, f + MID, f + MID + 0.4, k, M["concrete"], s0, s1)
+                        side_band(name + " mid finish", a0 + 0.15, a1 - 0.15, f + MID + 0.4, f + MID + 0.46, k, floor_mat, s0, s1)
+                        side_band(name + " mid light", a0 + 0.4, a1 - 0.4, f + MID - 0.08, f + MID - 0.02, k, light, s0, s1)
+                    side_band(name + " ceiling light", a0 + 0.4, a1 - 0.4, t - 0.08, t - 0.02, k, light, s0, s1)
+                    for (m0, m1) in modules(use, a0, a1, s0, s1):
+                        R = Room(k, a0, a1, m0, m1, f, f + MID if up else t)
+                        if all_front(R): continue
+                        furnish(K, M, R, use, rnd)
+                        if up: furnish(K, M, Room(k, a0, a1, m0, m1, f + MID + 0.4, t), up, rnd)
             # the glass onto the atrium, with mullions
             side_band(name + " glass", APA - 0.03, APA + 0.03, f, t, k, M["glass"])
             n = NORMALS[k]
@@ -549,20 +658,47 @@ def level(M, lv, rnd):
 
 
 def garden_level(M, lv, K, rnd):
-    """L2, 16 m tall under a sky of lamps: grass, trees, the lake, slender columns planted from foot to head"""
+    """L2, 16 m tall under a sky of lamps, as floor plans Rev G: the orchard (sector 1, side 1), the farm (2), the lake
+    that is the water reserve (3), the forest (4) and the meadow with the tea house (5, side 0); slender columns
+    planted from foot to head"""
     name, f, t, kind = lv
     for k in range(5):
         side_band("L2 ground", APA + 0.2, PA, f, f + 0.4, k, M["grass"])
         side_band("L2 sky of lamps", APA, PA, t - 0.12, t - 0.02, k, M["lampsky"])
         side_band("L2 glass", APA - 0.03, APA + 0.03, f, t, k, M["glass"])
-    side_band("L2 lake", 50.0, 92.0, f + 0.05, f + 0.36, 4, M["water"], -0.55, 0.4)
-    side_band("L2 lake bed", 50.0, 92.0, f + 0.02, f + 0.06, 4, M["lakebed"], -0.55, 0.4)
-    for i in range(340):
-        b = rnd.uniform(0, 360); r = rnd.uniform(APA + 6, PA * 0.98 / math.cos(((b - 18) % 72 - 36) * D) - 4); p = BP(r, b)
-        if 4 * 72 + 18 - 30 < (b % 360) < 4 * 72 + 18 + 30 and 55 < r < 90: continue      # keep the lake clear
-        tree(K, M, (p.x, p.y, f + 0.4), rnd.uniform(6.0, 12.0), rnd)
+    LA0, LA1, LS = APA + 4.0, RINGS[2][1], 0.78                         # L2-11 the lake: rings A to C of sector 3
+    side_band("L2 lake", LA0, LA1, f + 0.05, f + 0.36, 3, M["water"], -LS, LS)
+    side_band("L2 lake bed", LA0, LA1, f + 0.02, f + 0.06, 3, M["lakebed"], -LS, LS)
+    def at(k, a, u): q = bdir(NORMALS[k]) * a + bdir(NORMALS[k] + 90) * u; return (q.x, q.y, f + 0.4)
+    def in_lake(k, a, u): return k == 3 and LA0 - 3 < a < LA1 + 3 and abs(u) < LS * a * T36 + 3
+    # sector 1, the orchard: fruit trees in rows (citrus, apples and pears, olives and figs, the vineyard, the nursery)
+    for a in [APA + 7 + 6.5 * i for i in range(int((PA - APA - 11) / 6.5))]:
+        uu = a * T36 - 4.0
+        for u in [-uu + 6.0 * j for j in range(int(2 * uu / 6.0) + 1)]:
+            tree(K, M, at(1, a, u + rnd.uniform(-0.4, 0.4)), rnd.uniform(4.0, 6.0), rnd, olive=(RINGS[2][0] < a < RINGS[2][1]))
+    # sector 2, the farm: beds in rows, and the vertical farm's racks in ring B
+    for a in [APA + 5 + 3.0 * i for i in range(int((PA - APA - 9) / 3.0))]:
+        if RINGS[1][0] - 1 < a < RINGS[1][1] + 1: continue
+        side_band("L2 crops", a, a + 1.5, f + 0.4, f + 0.85, 2, M["leaves"], -0.86, 0.86)
+    for a in (RINGS[1][0] + 2.5, RINGS[1][0] + 7.0, RINGS[1][0] + 11.5):
+        side_band("L2 vertical farm", a, a + 1.4, f + 0.4, f + 9.0, 2, M["leaves"], -0.8, 0.8)
+    # sector 3, the lake, with willows round it; sector 4, the forest; sector 5, the meadow
+    for i in range(1400):
+        b = rnd.uniform(0, 360); k = int(((b - 18) % 360) // 72); n = NORMALS[k]
+        if k in (1, 2): continue
+        r = rnd.uniform(APA + 6, PA * 0.98 / math.cos((b - n) * D) - 4); a = r * math.cos((b - n) * D); u = r * math.sin((b - n) * D)
+        if in_lake(k, a, u): continue
+        keep = {3: 0.22, 4: 1.0, 0: 0.08}[k]
+        if rnd.random() > keep: continue
+        p = BP(r, b); tree(K, M, (p.x, p.y, f + 0.4), rnd.uniform(9.0, 13.0) if k == 4 else rnd.uniform(6.0, 9.0), rnd)
+    for i in range(160):                                              # the meadow's flowers
+        b = rnd.uniform(NORMALS[0] - 34, NORMALS[0] + 34); r = rnd.uniform(APA + 6, PA * 0.95); p = BP(r, b)
+        K.blob(rnd.choice((M["red"], M["linen"], M["yellow"])), (p.x, p.y, f + 0.55), (1.2, 1.2, 0.18), rnd, 1)
+    tp = at(0, (RINGS[2][0] + RINGS[2][1]) / 2, 0.0)                  # L2-19 the tea house
+    K.box(M["walnut"], (6.0, 6.0, 2.8), (tp[0], tp[1], tp[2] + 1.4), -NORMALS[0] * D); K.box(M["dark"], (8.0, 8.0, 0.3), (tp[0], tp[1], tp[2] + 3.0), -NORMALS[0] * D)
     for i in range(110):
-        b = rnd.uniform(0, 360); r = rnd.uniform(35, 100); p = BP(r, b)
+        b = rnd.uniform(0, 360); r = rnd.uniform(35, 100); p = BP(r, b); k = int(((b - 18) % 360) // 72)
+        if in_lake(k, r * math.cos((b - NORMALS[k]) * D), r * math.sin((b - NORMALS[k]) * D)): continue
         K.cyl(M["concrete"], 0.6, t - f - 2.0, (p.x, p.y, f), 16); K.cyl(M["concrete"], 0.6, 2.0, (p.x, p.y, t - 2.0), 16, 1.5)
         K.cyl(M["leaves"], 0.78, t - f - 4.0, (p.x, p.y, f + 0.5), 12)
 
@@ -632,11 +768,11 @@ def spots_for(cam, az):
 if __name__ == "__main__":
     jobs = sys.argv[1].split(","); out = sys.argv[2]
     w, h, spp = (int(a) for a in (sys.argv[3:6] if len(sys.argv) > 5 else (1600, 900, 96)))
-    todo = [j for j in jobs if j == "spots" or not os.path.exists(out.replace("%s", j))]
+    todo = [j for j in jobs if j.startswith("spots") or not os.path.exists(out.replace("%s", j))]
     if not todo: print("nothing to do"); sys.exit(0)
     for j in todo:
-        if j == "spots":
-            lib.reset(); n = 24; data = {"hero": None, "frames": []}
+        if j.startswith("spots"):
+            lib.reset(); n = int(j[5:] or 24); data = {"hero": None, "frames": []}
             sc = bpy.context.scene; sc.render.resolution_x, sc.render.resolution_y = 1600, 900
             data["hero"] = spots_for(cam_at(HERO_AZ), HERO_AZ)
             for i in range(n):

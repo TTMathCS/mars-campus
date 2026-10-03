@@ -1,7 +1,8 @@
-"""Floor plans Rev G: draws every plan from the room program (room_program.py) and writes the review pages.
+"""Floor plans Rev G: draws every plan from the room program (room_program.py) and writes the plan pages.
   python3 palace/tools/draw_plans.py
-Writes palace/plans/rev-g/: the SVG plans (svg/), one page per sheet, per Crown part and per L1 sector, the pairs, the
-changes and the index of every code, and rooms.json; and short summaries in palace/docs/plans-rev-g/.
+Writes palace/plans/: the SVG plans (svg/), one page per sheet, per Crown part and per L1 sector, the pairs and the
+index of every code, and rooms.json; and short summaries in palace/docs/plans/. Rev G was approved by Jim on 2 Oct 2026,
+with the Orb of Rev F (48 m across, five rooms on each floor between two lanes).
 Geometry: the Pentagon's rings and sectors as in chapter 03 (160 m sides, an atrium of 35 m sides, rings 14 m deep with
 4 m streets, avenues 5 m wide); the Crown's ring as in the render scenes (rooms between radii 128.5 and 135 m, the
 Glide between 125 and 128.5 m)."""
@@ -10,11 +11,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import room_program as P
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-OUT = os.path.join(REPO, "palace", "plans", "rev-g"); SVG = os.path.join(OUT, "svg"); DOCS = os.path.join(REPO, "palace", "docs", "plans-rev-g")
+OUT = os.path.join(REPO, "palace", "plans"); SVG = os.path.join(OUT, "svg"); DOCS = os.path.join(REPO, "palace", "docs", "plans")
 D = math.pi / 180
 T36, C36, S36 = math.tan(36 * D), math.cos(36 * D), math.sin(36 * D)
 R = 160 / (2 * S36); AP = R * C36; RA = 35 / (2 * S36); APA = RA * C36; RING = (AP - APA - 16) / 5; AVE = 5.0
 R_IN, R_GL, R_OUT, R_SHELL0, R_SHELL1 = 125.0, 128.5, 135.0, 122.0, 138.0
+ORB_R, ORB_SHELL, ORB_HALL, LANE = 24.0, 2.0, 12.0, 2.4      # the Orb: its radius, its shell, the Gate's round space, a lane
 E = html.escape
 KIND = {  # fill, label
     "living": ("#E9D8BC", "Living"), "sleep": ("#D5E0EC", "Sleeping"), "food": ("#F0D9A6", "Dining and kitchens"),
@@ -61,6 +63,19 @@ def crown_area(b0, b1, r0=R_GL, r1=R_OUT): return (((b1 - b0) % 360) or 360) * D
 
 
 def bearing_pt(b, r): return (r * math.sin(b * D), r * math.cos(b * D))
+
+
+def orb_floor_r(fl): return math.sqrt((ORB_R - ORB_SHELL) ** 2 - (fl - 72.0) ** 2)     # the inside of the shell at a floor
+
+
+def orb_rooms_r(fl): return ORB_HALL + LANE, orb_floor_r(fl) - LANE                      # the rooms, between the lanes
+
+
+def orb_gap(r): return LANE / r / D                                                     # a passage, in degrees at radius r
+
+
+def orb_room_area(fl):
+    r0, r1 = orb_rooms_r(fl); return (72.0 - orb_gap((r0 + r1) / 2)) * D / 2 * (r1 * r1 - r0 * r0)
 
 
 # ------------------------------------------------------------------------------------------------ svg helpers
@@ -176,7 +191,7 @@ def level_svg(L, scale=3.3):
             x, y = S(world(k, 0, AP + 6)); rot = sector_c(k) % 360; rot = rot - 180 if 90 < rot <= 270 else rot
             svg.text(x, y, "Sector %d" % k, 12, 700, "#5E6A70", rot=rot)
     svg.text(24, 30, "%s · %s · floor %d m" % (L["id"], L["name"], L["floor"]), 20, 700, anchor="start")
-    svg.text(24, 52, "Floor plans Rev G, for review · north up · codes on every room", 11.5, 400, "#4E575B", anchor="start")
+    svg.text(24, 52, "Floor plans Rev G · north up · codes on every room", 11.5, 400, "#4E575B", anchor="start")
     north(svg, W - 40, 44); scalebar(svg, 28, H - 34, scale)
     kinds = sorted({r["kind"] for r in rooms}, key=list(KIND).index)
     svg.text(1000, 120, "Key", 12, 700, anchor="start"); legend(svg, 1000, 142, kinds)
@@ -261,7 +276,7 @@ def crown_svg(scale=2.95):
     svg.text(cx, cy - 4, "The Orb", 12, 700, "#3B4A55"); svg.text(cx, cy + 12, "O-00 to O-17", 10, 400, "#3B4A55")
     svg.text(cx, cy + 40 * scale, "G-01 Stone Garden, 40 m below", 11, 400, "#6C777C", italic=True)
     svg.text(24, 30, "The Crown · main floor, 41 m above the plain", 20, 700, anchor="start")
-    svg.text(24, 52, "Floor plans Rev G, for review · north up · numbers are room codes: 10 is C-10 · ▲ a spire, with an upper floor", 11.5, 400, "#4E575B", anchor="start")
+    svg.text(24, 52, "Floor plans Rev G · north up · numbers are room codes: 10 is C-10 · ▲ a spire, with an upper floor", 11.5, 400, "#4E575B", anchor="start")
     north(svg, W - 40, 44); scalebar(svg, 28, H - 34, scale)
     kinds = sorted({r["kind"] for r in P.CROWN}, key=list(KIND).index)
     svg.text(1000, 120, "Key", 12, 700, anchor="start"); legend(svg, 1000, 142, kinds)
@@ -300,28 +315,41 @@ def crown_part_svg(part):
 
 
 def orb_svg():
-    W, H = 980, 440; svg = Svg(W, H, "The Orb, Rev G (as Rev E)")
-    svg.text(24, 28, "The Orb · three floors round the Wormhole Gate (Rev E, as reviewed; Rev F is Jim's open question)", 15, 700, anchor="start")
-    for j, (fl, r_out, items, title) in enumerate(((64, 18.3, [o for o in P.ORB if o["floor"] == 64 and o.get("slot") is not None], "+64 m · portal ring"),
-                                                   (72, 20.0, [o for o in P.ORB if o["floor"] == 72 and o.get("slot") is not None], "+72 m · universe lounges"),
-                                                   (80, 18.3, [o for o in P.ORB if o["floor"] == 80], "+80 m · rest rooms"))):
-        cx, cy, sc = 170 + j * 320, 225, 7.2
+    W, H = 980, 480; svg = Svg(W, H, "The Orb, Rev G")
+    svg.text(24, 28, "The Orb · three floors, 48 m across: five rooms between two lanes round the Wormhole Gate", 15, 700, anchor="start")
+    svg.text(24, 47, "Floor plans Rev G · north up · the outer lane along the windows, the inner lane along the glass onto the Gate, a passage under each spire", 10.5, 400, "#4E575B", anchor="start")
+    floors = ((64, [o for o in P.ORB if o["floor"] == 64 and o.get("slot") is not None], "+64 m · portal floor"),
+              (72, [o for o in P.ORB if o["floor"] == 72 and o.get("slot") is not None], "+72 m · universe lounges"),
+              (80, [o for o in P.ORB if o["floor"] == 80], "+80 m · rest rooms"))
+    for j, (fl, items, title) in enumerate(floors):
+        cx, cy, sc = 170 + j * 320, 262, 6.2
         S = lambda p: (cx + p[0] * sc, cy - p[1] * sc)
+        rf = orb_floor_r(fl); r0, r1 = orb_rooms_r(fl); g = orb_gap((r0 + r1) / 2) / 2
+        svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#E6EAEE" stroke="#33302C" stroke-width="1.3"/>' % (cx, cy, ORB_R * sc))     # the shell, cut at this floor
+        svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#F4EFE6" stroke="#33302C" stroke-width="0.9"/>' % (cx, cy, rf * sc))        # the floor: lanes and passages
         for i, o in enumerate(items):
-            b0 = -36 + 72 * i + 1.5; b1 = b0 + 69
-            svg.poly(arc_path(b0, b1, 12.4, r_out - 0.4, S), KIND[o["kind"]][0], "#33302C", 1.0)
-            x, y = S(bearing_pt(b0 + 34.5, (12.4 + r_out) / 2)); nm = o["name"].replace(" lounge", ""); w = nm.split()
-            if i and len(nm) > 8 and len(w) > 1:  # the side rooms are narrow across: the name on two lines
-                svg.text(x, y - 9, o["code"], 11, 700); svg.text(x, y + 4, w[0], 8.6, 400, "#3A4246"); svg.text(x, y + 14, " ".join(w[1:]), 8.6, 400, "#3A4246")
+            b0 = 18 + 72 * i + g; b1 = 18 + 72 * (i + 1) - g                                       # a room between two spires
+            svg.poly(arc_path(b0, b1, r0, r1, S), KIND[o["kind"]][0], "#33302C", 1.0)
+            x, y = S(bearing_pt((b0 + b1) / 2, (r0 + r1) / 2)); nm = o["name"].replace(" lounge", ""); w = nm.split()
+            m = (b0 + b1) / 2
+            if abs(math.sin(m * D)) > 0.9:                                                           # a room due east or west: along the ring
+                rot = -90 if m > 180 else 90; dx = 6 if m > 180 else -6
+                svg.text(x - dx, y, o["code"], 10.5, 700, rot=rot); svg.text(x + dx, y, nm, 8.2, 400, "#3A4246", rot=rot)
+            elif len(nm) > 9 and len(w) > 1 and 30 < m % 180 < 150:                                   # rooms to the east and west: two lines
+                svg.text(x, y - 8, o["code"], 10.5, 700); svg.text(x, y + 4, w[0], 8.2, 400, "#3A4246"); svg.text(x, y + 13, " ".join(w[1:]), 8.2, 400, "#3A4246")
             else:
-                svg.text(x, y - 5, o["code"], 11, 700); svg.text(x, y + 9, nm, 8.6, 400, "#3A4246")
-        svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#D7DEE8" stroke="#3B5FB0" stroke-width="1.4"/>' % (cx, cy, 9 * sc))
-        svg.text(cx, cy, "O-00 Gate", 10.5, 700, "#3B5FB0")
-        if fl == 64: svg.text(cx, cy + r_out * sc + 18, "O-01 Foyer, under the Gate", 10.5, 700, "#4E575B")
+                svg.text(x, y - 3, o["code"], 10.5, 700); svg.text(x, y + 9, nm, 8.2, 400, "#3A4246")
+        svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#FBFCFD" stroke="#3B7FB0" stroke-width="1.6"/>' % (cx, cy, ORB_HALL * sc))   # the glass round the Gate
+        svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#D7DEE8" stroke="#3B5FB0" stroke-width="1.2"%s/>' % (cx, cy, 9.0 * sc, "" if fl == 72 else ' stroke-dasharray="4 3" fill-opacity="0.45"'))
+        svg.text(cx, cy - 2, "O-00 Gate", 10, 700, "#3B5FB0"); svg.text(cx, cy + 11, {64: "above", 72: "Ø 18 m", 80: "below"}[fl], 8.5, 400, "#3B5FB0")
         if fl == 72:
-            p0, p1 = S(bearing_pt(180, 9)), S(bearing_pt(180, 12.4)); svg.add('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="#B98A2C"/>' % (p0[0] - 1.5 * sc, p0[1], 3 * sc, p1[1] - p0[1]))
-            svg.text(cx, cy + r_out * sc + 18, "O-12 bridge into the Gate (gold)", 10.5, 700, "#8A6A1E")
-        svg.text(cx, 62, title, 13, 700)
+            p0, p1 = S(bearing_pt(180, 9.0)), S(bearing_pt(180, ORB_HALL)); svg.add('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="#B98A2C"/>' % (p0[0] - 1.5 * sc, p0[1], 3 * sc, p1[1] - p0[1]))
+        for rr, t in ((rf - LANE / 2, "outer lane"), (ORB_HALL + LANE / 2, "inner lane")):
+            lx, ly = S(bearing_pt(234, rr)); svg.text(lx, ly + 3, t, 7.4, 600, "#6C777C")
+        svg.text(cx, 84, title, 13, 700)
+        svg.text(cx, cy + ORB_R * sc + 22, {64: "O-01 Foyer, under the Gate", 72: "O-12 bridge into the Gate (gold)", 80: "windows in radiation glass"}[fl], 10.2, 700,
+                 {64: "#4E575B", 72: "#8A6A1E", 80: "#4E575B"}[fl])
+    scalebar(svg, 24, H - 24, 6.2, 10)
     return svg.save("orb.svg")
 
 
@@ -351,8 +379,8 @@ def seen_link(r):
     """The marker by a room's name: its 360° in the tour if published, else its picture if there is one, else nothing."""
     s = r.get("seen")
     if not s: return ""
-    if s in READY: return ' <a class="seen" href="../../tour/#%s" title="See it in 360°">◉ 360°</a>' % s
-    if os.path.exists(os.path.join(TOUR, "photos", s + ".jpg")): return ' <a class="seen" href="../../tour/photos/%s.jpg" title="See the picture">◉ picture</a>' % s
+    if s in READY: return ' <a class="seen" href="../tour/#%s" title="See it in 360°">◉ 360°</a>' % s
+    if os.path.exists(os.path.join(TOUR, "photos", s + ".jpg")): return ' <a class="seen" href="../tour/photos/%s.jpg" title="See the picture">◉ picture</a>' % s
     return ""
 
 
@@ -375,6 +403,7 @@ def m2(a):
 
 def size_of(r):
     if r["place"] == "C": return crown_area(*r["at"])
+    if r["place"] == "O": return orb_room_area(r["floor"]) if r.get("slot") is not None else None
     if r["place"].startswith("L"): return area(room_local(r)[1])
     return None
 
@@ -393,7 +422,7 @@ def table(rooms, show_where=True):
 
 
 NAV = [("index.html", "Overview"), ("crown.html", "Crown"), ("orb.html", "Orb"), ("l1.html", "L1"), ("l2.html", "L2"), ("l3.html", "L3"),
-       ("l4.html", "L4"), ("l5.html", "L5"), ("pairs.html", "Two of a kind"), ("changes.html", "Changes"), ("rooms.html", "All codes")]
+       ("l4.html", "L4"), ("l5.html", "L5"), ("pairs.html", "Two of a kind"), ("rooms.html", "All codes")]
 
 
 def page(fname, title, body, here, sub=None):
@@ -404,17 +433,17 @@ def page(fname, title, body, here, sub=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>%s · Floor plans Rev G · Mars – No Way Home</title>
+<title>%s · Floor plans · Mars – No Way Home</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="plans.css">
 </head>
 <body>
-<header class="top"><div class="in"><div class="crumb"><a href="../../../">Mars – No Way Home</a> · <a href="../../design/">Design plan</a> · <a href="index.html">Floor plans Rev G</a> · <b>for Jim's review</b></div><nav>%s</nav></div>%s</header>
+<header class="top"><div class="in"><div class="crumb"><a href="../../">Mars – No Way Home</a> · <a href="../design/">Design plan</a> · <a href="index.html">Floor plans</a></div><nav>%s</nav></div>%s</header>
 <main>
 %s
 </main>
-<footer><p>Floor plans Rev G, drawn by <code>palace/tools/draw_plans.py</code> from the room program in <code>palace/tools/room_program.py</code>. Rev B, approved on 30 Sep 2026, is <a href="../">kept here</a>.</p></footer>
+<footer><p>Floor plans Rev G, approved by Jim on 2 Oct 2026. Drawn by <code>palace/tools/draw_plans.py</code> from the room program in <code>palace/tools/room_program.py</code>.</p></footer>
 </body>
 </html>
 """ % (E(title), nav, subnav, body)
@@ -464,8 +493,9 @@ def build():
              "crown.html", subs)
     # ---- the Orb
     osrc = orb_svg()
-    page("orb.html", "The Orb", '<h1>The Orb <small>the universe and the Wormhole Gate</small></h1><p class="lede">As reviewed in Rev E: three floors of five rooms round the Gate. Each universe lounge has its own purpose, a part of the universe it opens on. Jim\'s open question on the Orb (Rev F) can still change this sheet.</p>%s%s' %
-         (fig(osrc, "Plans of the Orb's three floors", "<b>The Orb's three floors</b>, each round the Gate."), table(P.ORB)), "orb.html")
+    page("orb.html", "The Orb", '<h1>The Orb <small>48 m across, +48 to +96 m, over the middle of the ring</small></h1><p class="lede">Three floors round the Wormhole Gate. On each, five rooms sit in the middle of the ring between two lanes: the outer lane along the windows looks out over the plain, the inner lane along the glass looks in onto the Gate, and a passage under each spire joins them. Each universe lounge opens on its own part of the universe.</p>%s%s<p class="note">Shared on every floor: %s.</p>' %
+         (fig(osrc, "Plans of the Orb's three floors", "<b>The Orb's three floors</b>, each round the Gate. Floor areas: +72 m 1,070 m², +64 and +80 m 870 m² each."), table(P.ORB),
+          "; ".join("<b>O-%s</b> %s: %s" % (k, E(v[0]).lower(), E(v[1])) for k, v in P.ORB_SHARED.items())), "orb.html")
     # ---- two of a kind
     seen = set(); rows = []
     for r in ALL:
@@ -479,13 +509,6 @@ def build():
     page("pairs.html", "Two of a kind",
          '<h1>Two of a kind</h1><p class="lede">Jim, 2 Oct 2026: two of a kind is fine "as long as they could be used for multiple purpose". Each pair below has two different jobs. Most pairs follow the house\'s rule: <b>by day up in the Crown</b>, in the light and the view, for about six hours; <b>by night down in the Pentagon</b>, under 16 m of soil, where everyone sleeps.</p><div class="tw"><table class="pairs"><thead><tr><th>Up, or the first</th><th>Down, or the second</th></tr></thead><tbody>%s</tbody></table></div>' % "\n".join(rows),
          "pairs.html")
-    # ---- changes
-    rem = "".join("<li><b>%s</b>: %s</li>" % (E(a), E(b)) for a, b in P.REMOVED)
-    new = "".join("<li><b>%s</b>: %s</li>" % (E(a), E(b)) for a, b in P.NEW)
-    seen_rooms = ", ".join("%s %s%s" % (link(r["code"]), E(r["name"]), seen_link(r)) for r in ALL if seen_link(r))
-    page("changes.html", "Changes from Rev B",
-         '<h1>Changes from Rev B</h1><p class="lede">Rev B, approved on 30 Sep 2026, named each ring of each sector with one use. Rev G designs the rooms inside: every room has a code, a purpose, a second use where it can, a place and a size, and the pictures follow it.</p><h2>Taken out: two of a kind with no second purpose</h2><ul>%s</ul><h2>New</h2><ul>%s</ul><h2>Moved or renamed</h2><ul><li><b>Jim\'s residence (L1 sector 1)</b>: the front ring is three rooms, as rendered: the music room, the family room and the dining room with its bar (L1-01 to L1-03), with the study above (L1-04); the kitchen is across the street from the dining room (L1-10).</li><li><b>The club (L1 sector 2)</b>: cinema, games room, a new ballroom, the wine cellar, stores.</li><li><b>The piano room</b> in the Salon is the <b>recital room</b> (C-11).</li><li><b>The art studio on L3</b> is the <b>sculpture and casting hall</b> (L3-02), for work too big for the Crown\'s studio.</li></ul><h2>The pictures that follow this plan already</h2><p>%s. None of them changes. The other rooms are drawn once this plan is approved, one at a time.</p>' % (rem, new, seen_rooms),
-         "changes.html")
     # ---- all codes
     blocks = []
     for L in P.LEVELS: blocks.append('<h2>%s · %s</h2>%s' % (L["id"], E(L["name"]), table(L["rooms"])))
@@ -495,9 +518,8 @@ def build():
           "".join("<li><b>L1-%s</b> (and L2-%s … L5-%s) %s: %s</li>" % (k, k, k, E(v[0]), E(v[1])) for k, v in P.SHARED.items())), "rooms.html")
     # ---- the overview
     page("index.html", "Overview",
-         """<h1>Floor plans Rev G <small>for Jim's review</small></h1>
-<p class="lede">Every room designed before any more pictures are drawn: what it is for, what else it can be used for, where it is and how big, and a code to refer to it. Two of a kind only where the two have different jobs. %d rooms and areas.</p>
-<p class="note">Why G: one set of letters runs through the whole design. Rev A and Rev B were floor plans (B approved on 30 Sep 2026), Rev C to E the design book, Rev F the Orb's rooms, still a question for Jim.</p>
+         """<h1>Floor plans <small>Rev G, approved by Jim on 2 October 2026</small></h1>
+<p class="lede">Every room of the house: what it is for, what else it can be used for, where it is and how big, and a code to refer to it. Two of a kind only where the two have different jobs. %d rooms and areas.</p>
 <div class="two"><div>
 <h2>How the house is planned</h2>
 <ul>
@@ -511,20 +533,19 @@ def build():
 <li><b>L1-02</b>: the Pentagon, level 1, room 02. Numbered level by level, sector by sector, from the atrium outwards.</li>
 <li><b>C-10</b>: the Crown, room 10, numbered clockwise from the Arrival part; a spire's upper floor follows its part.</li>
 <li><b>O-07</b>: the Orb; O-00 is the Wormhole Gate. <b>G-01</b>: the ground.</li>
-<li>Shared areas have letters: <b>L1-AT</b> atrium terrace, <b>L1-PC</b> portal column, <b>L1-ST</b> streets, <b>L1-AV</b> avenues, <b>CC1</b> to <b>CC5</b> corner cores, <b>C-GL</b> the Glide.</li>
+<li>Shared areas have letters: <b>L1-AT</b> atrium terrace, <b>L1-PC</b> portal column, <b>L1-ST</b> streets, <b>L1-AV</b> avenues, <b>CC1</b> to <b>CC5</b> corner cores, <b>C-GL</b> the Glide, <b>O-OL</b> and <b>O-IL</b> the Orb's lanes.</li>
 </ul>
 </div><div>
 <h2>The sheets</h2>
 <div class="cards one">
 <a class="card" href="crown.html"><b>The Crown</b><span>The ring and its ten parts, C-01 to C-34</span></a>
-<a class="card" href="orb.html"><b>The Orb</b><span>Three floors round the Gate, O-00 to O-17</span></a>
+<a class="card" href="orb.html"><b>The Orb</b><span>Three floors round the Gate, rooms between two lanes: O-00 to O-17</span></a>
 <a class="card" href="l1.html"><b>L1 · Residence</b><span>Jim's home, the club, the baths, the library, the guests: L1-01 to L1-43</span></a>
 <a class="card" href="l2.html"><b>L2 · Garden</b><span>L2-01 to L2-21</span></a>
 <a class="card" href="l3.html"><b>L3 · Studio</b><span>L3-01 to L3-23</span></a>
 <a class="card" href="l4.html"><b>L4 · Life support</b><span>L4-01 to L4-19</span></a>
 <a class="card" href="l5.html"><b>L5 · Transit</b><span>L5-01 to L5-21</span></a>
 <a class="card" href="pairs.html"><b>Two of a kind</b><span>Each pair and its two purposes</span></a>
-<a class="card" href="changes.html"><b>Changes from Rev B</b><span>What was taken out, what is new</span></a>
 <a class="card" href="rooms.html"><b>All codes</b><span>Every room in one list</span></a>
 </div>
 <h2 id="ground">The ground</h2>
@@ -547,16 +568,17 @@ def docs():
         o = ["| Code | Room | What it is for | Two of a kind |", "| --- | --- | --- | --- |"]
         for r in rooms: o.append("| **%s** | %s | %s | %s |" % (r["code"], r["name"], (r.get("use") or "").replace("|", "/"), r.get("pair", "")))
         return "\n".join(o)
-    live = "https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/"
+    live = "https://ttmathcs.github.io/mars-campus/palace/plans/"
     files = [("crown.md", "The Crown", "crown.svg", P.CROWN, "crown.html"), ("orb.md", "The Orb", "orb.svg", P.ORB, "orb.html")] + \
             [("%s.md" % L["id"].lower(), "%s · %s" % (L["id"], L["name"]), "%s.svg" % L["id"].lower(), L["rooms"], "%s.html" % L["id"].lower()) for L in P.LEVELS]
     for fn, title, svgf, rooms, pg in files:
-        open(os.path.join(DOCS, fn), "w").write("# Floor plans Rev G · %s\n\n[All sheets](README.md) · **[Open on the live site ↗](%s%s)**\n\n![%s](../../plans/rev-g/svg/%s)\n\n%s\n" %
+        open(os.path.join(DOCS, fn), "w").write("# Floor plans · %s\n\n[All sheets](README.md) · **[Open on the live site ↗](%s%s)**\n\n![%s](../../plans/svg/%s)\n\n%s\n" %
                                                 (title, live, pg, title, svgf, md_table(rooms)))
     open(os.path.join(DOCS, "README.md"), "w").write(
-        "# Floor plans Rev G, for Jim's review\n\n**[Open on the live site ↗](%sindex.html)** · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`\n\n"
+        "# Floor plans\n\n**[Open on the live site ↗](%sindex.html)** · Rev G, approved by Jim on 2 Oct 2026 · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`\n\n"
         "Every room has a code, a purpose, a place and a size, and two of a kind only where the two have different jobs "
-        "(Jim, 2 Oct 2026). Codes: **L1-02** (Pentagon level 1, room 02), **C-10** (Crown), **O-07** (Orb), **G-01** (ground).\n\n"
+        "(Jim, 2 Oct 2026). Codes: **L1-02** (Pentagon level 1, room 02), **C-10** (Crown), **O-07** (Orb), **G-01** (ground). "
+        "The Orb is 48 m across, with five rooms on each floor between an outer and an inner lane (Rev F).\n\n"
         "| Sheet | |\n| --- | --- |\n%s\n\n## Taken out of Rev B\n\n%s\n\n## New\n\n%s\n" %
         (live, "\n".join("| [%s](%s) | %d rooms |" % (t, fn, len(r)) for fn, t, s, r, p in files),
          "\n".join("- **%s**: %s" % x for x in P.REMOVED), "\n".join("- **%s**: %s" % x for x in P.NEW)))

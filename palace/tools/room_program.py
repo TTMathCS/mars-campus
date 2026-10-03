@@ -289,12 +289,18 @@ CROWN = [
 ]
 CROWN_SHARED = {"GL": ("The Glide", "The moving walkway along the garden side, 779 m round, past every room.")}
 
-# ---------------------------------------------------------------------------------------------- the Orb (Rev E)
+# ---------------------------------------------------------------------------------------------- the Orb
+# 48 m across, from +48 to +96 m (Rev F, 2 Oct 2026). On each floor five rooms sit between two lanes, 2.4 m wide: the
+# outer lane along the windows, the inner lane along the glass onto the Gate's round space (24 m across); five
+# passages join the lanes under the spires. "slot" is the room's place round the floor, clockwise from the north-east.
+ORB_SHARED = {"OL": ("Outer lane", "2.4 m wide along the windows, on every floor: the view out over the plain."),
+              "IL": ("Inner lane", "2.4 m wide along the glass, on every floor: the view in onto the Wormhole Gate."),
+              "PS": ("Passages", "Five on every floor, 2.4 m wide, joining the lanes under the five spires.")}
 ORB = [
     dict(code="O-00", name="Wormhole Gate", kind="culture", floor=0, use="A ball 18 m across in the middle of the Orb: it sends Jim to any place and time.", also=""),
     dict(code="O-01", name="Foyer", kind="move", floor=64, use="Under the Gate, round which the portals open.", also=""),
 ] + [dict(code="O-%02d" % (2 + i), name="Portal %d" % (i + 1), kind="move", floor=64, slot=i,
-          use="A portal from the %s spire." % n, also="") for i, n in enumerate(("Arrival", "Salon", "Dining", "Library", "Observatory"))] + [
+          use="The portal from the %s spire, in a room between the lanes, with seats to wait in." % n, also="") for i, n in enumerate(("Arrival", "Salon", "Dining", "Library", "Observatory"))] + [
     dict(code="O-%02d" % (7 + i), name=n, kind="culture", floor=72, slot=i, use=u, also="The universe fills the room at a switch.",
          **({"pair": "L1-17"} if i == 0 else {}))
     for i, (n, u) in enumerate((("Earth lounge", "The universe zoomed to Earth: home, its weather, its news."),
@@ -302,7 +308,7 @@ ORB = [
                                 ("Solar system lounge", "The planets and their moons."),
                                 ("Galaxy lounge", "The Milky Way: choosing far places for the Gate."),
                                 ("Deep universe lounge", "The web of galaxies and time.")))] + [
-    dict(code="O-12", name="Bridge into the Gate", kind="move", floor=72, use="3 m wide, from the lounges into the Gate.", also="")] + [
+    dict(code="O-12", name="Bridge into the Gate", kind="move", floor=72, use="3 m wide, from the inner lane into the Gate.", also="")] + [
     dict(code="O-%02d" % (13 + i), name=("Jim's rest room" if i == 0 else "Rest room %d" % (i + 1)), kind="sleep", floor=80, slot=i,
          use="A day bed, a window to the sky behind radiation glass, a glass wall onto the Gate that turns frosted.", also="")
     for i in range(5)]

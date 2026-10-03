@@ -5,7 +5,61 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## 0. Where the work stopped (2 Oct 2026, about 23:59 UTC) — read this first
+## 0. Where the work stopped (3 Oct 2026, about 00:45 UTC) — read this first
+
+**Jim's latest answers and asks (3 Oct):**
+- **Floor plans Rev G: approved** ("q1: approve"). They now live at `palace/plans/` (written by
+  `palace/tools/draw_plans.py` from `palace/tools/room_program.py`; `palace/plans/rev-g/` only redirects there).
+  Rev B is archived at `palace/archive/plans-rev-b/`.
+- **The Orb (Rev F): "do per your best judgements"** → decided: **the Orb grows to 48 m across** (+48 to +96 m,
+  centre +72; shell 2 m, so 22 m inside), **the Gate stays 18 m** in its round space 24 m across. On each floor
+  (+64, +72, +80) five rooms sit between two lanes 2.4 m wide (outer lane along the windows, inner lane along the
+  glass onto the Gate), with a passage under each spire; the bridge leaves the inner lane at +72. The rooms are
+  Rev G's (portals, the five universe lounges, the rest rooms), not Rev F's bar/library/gallery (duplicates).
+  Floor areas: +72 1,070 m², +64 and +80 870 m² each, **the Orb 2,800 m²** (was 2,410), **the Crown 19,500 m²**
+  (was 19,100; 5.7 times the 3,400 m² TTMath campus). Done in the plans (`orb.html`, `svg/orb.svg`, codes O-OL,
+  O-IL, O-PS for the lanes and passages) and in the house render scene (`overall.py`, sphere radius 24).
+- *"after new design, archive or remove all old files to avoid messy confusions"* and *"on homepage remove FOR JIM
+  Decisions ... For review ... remove all those notes/archived things. keep the page clean and clear"*. **Done so
+  far:** the design plan's home page (`palace/design/index.html`) has no Decisions, For review or Revisions sections
+  and no "Rev E" label; the plans pages have no review notes and no Changes page; Rev B plans archived.
+
+**Next, in order (the new account starts here):**
+1. **Finish the Orb in the design book**, `palace/design/crown.html`: the `#orb` section still says 40 m, "Rev E,
+   for Jim's review", 804 m² rings, and has a `div.decide` "For Jim's review" box (remove it). Update the heading
+   (just "The Orb"), the intro, the table (+80 870, +72 1,070, +64 870, total 2,800 m²), the note under it, the top
+   numbers (19,500 m², 5.7 times), "a mirror sphere 48 m across from +48 to +96 m" in `#look`, the areas table
+   (Orb 2,800, Crown 19,500) and drop the Rev B/Rev D history paragraph. Redraw the section script `fOrbIn`
+   (constants `R = 24, RI = 22`, `k` about 11, `H0` about 98; floors' inner edge at the glass r = 12 on all three
+   floors; rooms as boxes between the lanes, 14.4 m out to 2.4 m inside the shell; windows at about 27–55°;
+   heights +48/+96; label targets moved). Same numbers in `palace/design/interiors.html` (its Orb heading also
+   says "Rev E, for Jim's review"), `explorer.js` ("40 m", "52 to 92 m up"), `atlas/atlas.js` ("40 m"), the site
+   plan's dashed "Orb above" circle in `site.html` (r 20 → 24), `palace/README.md` (numbers, the "One question for
+   Jim" paragraph: answered), `REQUIREMENTS.md` (CR-3 19,500 m², OR rows, open questions: none),
+   `docs/design/02-crown.md`, `04-interiors.md`, `docs/design/README.md`, `docs/decisions.md` (record the two
+   answers above under 3 Oct, and remove the "For Jim's review" table, now answered), and this file's §2c numbers.
+   Then remove every other "For Jim's review" note in the pages (Jim wants them clean).
+2. **Archive or remove the rest of the old files** (Jim's ask): `palace/docs/plans.md` (Rev B) →
+   `palace/docs/archive/`; the Rev B sheet images in `palace/docs/img/plans/` once `gen_plan.py` stops using them
+   (step 3); the unlinked real-time 3D demo (`palace/index.html`, `palace-debug.html`, `src/`, `build.sh`,
+   `crown/`, `orb/`, `pentagon/` and their shot tools in `palace/tools/`) → `palace/archive/3d-demo/`, with
+   `palace/index.html` replaced by a redirect to `design/` (check the pages.yml key-file list, which names
+   `palace/index.html`); `palace/design/mars.html` and `living.html` (redirects to `science/`) and
+   `docs/design/00a-mars.md`, `00b-living.md`; images nothing links to. Run a link check after (no missing files).
+3. **Rev G names and codes in the design plan**: `palace/tools/gen_plan.py` (room pages and
+   `explorer-rooms.json`): show each room's code, rename the Crown's piano room to the recital room (C-11), and use
+   the Rev G drawings (`palace/plans/svg/l1.svg`, `crown.svg`) instead of the Rev B sheets.
+4. **Renders, one at a time** (Jim's rule). The queue is in `palace/tools/render/queue_a.txt` (copy of the scratch
+   queue). It was running when the session ended: the Crown pool (wellness) still was done, its 360 was rendering.
+   The scratch folder does not move to a new account: rebuild it (bvenv = Python 3.11 + `bpy==4.2.0` + Pillow from
+   PyPI; `fetch_assets.py`), copy `palace/tools/render/*` into `blend/`, and start `runner.py a`. The second job
+   is a quick test of the new house scene (`overall.py`, now built from the room program, with the 48 m Orb and
+   L2 as Rev G: orchard, farm, lake in sector 3, forest, meadow): look at `final/house_test/*.jpg`, then queue
+   `overall.py hero,whole,turn0of72,...,turn71of72,spots72` and publish with `pub_house.py` after changing it
+   (and `explorer.js`'s drag step) from 24 to 72 frames. Then the rest of the queue, publishing each with `pub.py`
+   and `gen_plan.py`.
+
+### Earlier on 2 Oct
 
 The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
 pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
@@ -51,11 +105,11 @@ pages are unlinked. The render scenes and tools are in `palace/tools/render/` (c
 9. *"your photo images don't follow the floor plan? ... I like you to design it and plan it well before draw the
    images"*, *"it is OK to have duplicates but just need to design well as long as they could be used for multiple
    purpose"*, *"each room / area give it some code"* (he suggested L1-01). **Done, waiting for his approval:**
-   **floor plans Rev G**, <https://ttmathcs.github.io/mars-campus/palace/plans/rev-g/>. 179 rooms and areas, each
+   **floor plans Rev G**, <https://ttmathcs.github.io/mars-campus/palace/plans/>. 179 rooms and areas, each
    with a code, a purpose, a second use, a place and a size; the pairs and why; what changed from Rev B. Source of
    truth: `palace/tools/room_program.py` (one entry per room); `palace/tools/draw_plans.py` draws the SVGs and writes
-   the pages (`palace/plans/rev-g/`, one per sheet, per Crown part and per L1 sector, with `plans.css`) and the short
-   docs (`palace/docs/plans-rev-g/`). A room's "◉ 360°" or "◉ picture" mark appears only when the tour has it.
+   the pages (`palace/plans/`, one per sheet, per Crown part and per L1 sector, with `plans.css`) and the short
+   docs (`palace/docs/plans/`). A room's "◉ 360°" or "◉ picture" mark appears only when the tour has it.
    Named **Rev G** because the letters run through the whole design (C–E the design book, F the Orb's question).
    **Rule (CLAUDE.md): no picture of a room before it is in the room program.**
 10. *"drag to turn the house. the turnning is not smooth at all"*. **Better:** `explorer.js` draws the frames on a
@@ -345,8 +399,8 @@ look at every final critically before it goes up.
   `atlas/#place=house` or `atlas/#@lat,lon,distkm,...`.
 
 **Demo 2 plans Rev G** (the rooms, for Jim's review): edit the room in `palace/tools/room_program.py`, then run
-`python3 palace/tools/draw_plans.py`; it rewrites `palace/plans/rev-g/` (pages, `svg/`, `rooms.json`) and
-`palace/docs/plans-rev-g/`. Don't edit the generated pages by hand. Codes: `L1-01` (level, room, numbered sector by
+`python3 palace/tools/draw_plans.py`; it rewrites `palace/plans/` (pages, `svg/`, `rooms.json`) and
+`palace/docs/plans/`. Don't edit the generated pages by hand. Codes: `L1-01` (level, room, numbered sector by
 sector from the atrium out), `C-01` to `C-34` (Crown, clockwise from Arrival), `O-00` to `O-17` (Orb), `G-01` to
 `G-08` (ground), letters for shared areas (`L1-AT`, `CC1`, `C-GL`).
 
@@ -420,7 +474,8 @@ palace/                       demo 2
 ├── design/                   the design book: index.html (cover), site/crown/pentagon/... .html, book.css, book.js
 │   ├── img/                  renders, thumbnails and mars-map.jpg (README.md lists them)
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
-├── plans/                    floor plans Rev B (index.html, self-contained); rev-g/, Rev G written by tools/draw_plans.py
+├── plans/                    floor plans Rev G, a page per sheet, written by tools/draw_plans.py (rev-g/ only redirects)
+├── archive/plans-rev-b/      floor plans Rev B, archived (self-contained page)
 ├── src/                      the 3D demo's source; build.sh builds it
 ├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
 ├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md

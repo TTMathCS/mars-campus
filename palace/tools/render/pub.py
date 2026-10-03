@@ -3,7 +3,16 @@
   python3 pub.py photo <src.jpg> <name> <caption>  -> palace/tour/photos/<name>.jpg, added to TOUR_PHOTOS"""
 import os, re, sys, json
 from PIL import Image
-TOUR = "/home/user/mars-campus/palace/tour"; STOPS = os.path.join(TOUR, "stops.js")
+
+
+def _repo():
+    """the mars-campus checkout: $MARS_REPO, or the first of the usual places that has it"""
+    for p in (os.environ.get("MARS_REPO"), "/home/user/mars-campus", "/home/claude/mars-campus", os.path.expanduser("~/mars-campus"), os.getcwd()):
+        if p and os.path.exists(os.path.join(p, "palace", "tools", "room_program.py")): return p
+    sys.exit("set MARS_REPO to the mars-campus checkout")
+
+
+TOUR = os.path.join(_repo(), "palace", "tour"); STOPS = os.path.join(TOUR, "stops.js")
 kind, src, name = sys.argv[1], sys.argv[2], sys.argv[3]
 if kind == "pano":
     dst = os.path.join(TOUR, "pano", name + ".jpg"); Image.open(src).convert("RGB").save(dst, "JPEG", quality=86, optimize=True, progressive=True)

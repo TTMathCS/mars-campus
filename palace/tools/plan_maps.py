@@ -2,7 +2,7 @@
   python plan_maps.py [test]   -> palace/design/img/plan/<id>.jpg"""
 import math, os, sys
 from PIL import Image, ImageDraw, ImageFont
-REPO = "/home/user/mars-campus/palace"; OUT = os.path.join(REPO, "design/img/plan")
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); OUT = os.path.join(REPO, "design/img/plan")   # palace/
 L1 = dict(sheet="a301-pentagon-L1", c=(856.0, 640.5), s=4.04)          # pixels of the portal column, pixels a metre
 CR = dict(sheet="a201-crown-main-floor", c=(850.5, 640.3), s=2.92)
 HW0, HW1, DEP, APA = 14.4, 24.5, 13.9, 24.09

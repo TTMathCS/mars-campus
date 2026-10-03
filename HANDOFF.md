@@ -7,10 +7,38 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
-- **3 Oct, session `session_0138qEhb9MCkMbnmY4BcMa8s`:** picked up the list below. Working on step 1 (the Orb at 48 m
-  in the design book) and bringing the book's room lists (chapters 02, 03, 04) to Rev G names and codes, read from one
-  generated file (`palace/plans/rooms.js`, written by `draw_plans.py`) so the book can't drift from the room program
-  again. Render setup is being rebuilt in the session scratch folder (bvenv: Python 3.11 + `bpy==4.2.0` + Pillow).
+- **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
+  session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
+  raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
+  **Done and pushed:**
+  - `palace/plans/rooms.js` (new, written by `draw_plans.py`): every room of the room program as `window.PLANS`, with
+    the Crown's parts, the levels, the Orb's floor areas and the geometry. `book.js` has `BOOK.rooms` (room shapes,
+    code ranges, the plans' colours). **Chapters 02, 03 and 04 now take every room name and code from it**, so they
+    can't drift from the room program again: re-run `python3 palace/tools/draw_plans.py` after editing
+    `room_program.py` and the chapters follow.
+  - Chapter 02 `crown.html`: the Orb at 48 m (new section drawing `fOrbIn` through the bridge, looking west: rooms
+    between two lanes, the round space of glass +60 to +84, the foyer O-01 at +60, window slots per floor and the rest
+    rooms' big windows; the floor table read from the plans, 870 / 1,070 / 870 = 2,800 m²; the dock numbers for the
+    bigger ball: it comes down about 45 m and clears the ring by half a metre and the lens by 2.4 m), the main floor's
+    rooms as Rev G with codes, the Crown 19,500 m² and 5.7 times the campus, no review box, no Rev history, no links
+    to the 3D pages.
+  - Chapter 03 `pentagon.html`: the level plan draws every Rev G room numbered as on the plans; the table lists each
+    sector ring by ring with codes; the section's Orb is 48 m; no 3D-page links.
+  - Chapter 04 `interiors.html`: the map of the Crown and L1, the room cards, the Orb's floors and the two master
+    suites (up C-06 to C-08, down L1-06 to L1-09) all from the plans; no review label.
+  - `site.html` (Orb Ø 48 m, 48–96 m up; dashed circle r 24), `atlas/atlas.js` (sphere r 24), `explorer.js` (48 to
+    96 m; the Sun Well text now matches chapter 02).
+  - The render tools find the repo wherever it is cloned (`pub.py`, `pub_house.py`, `overall.py`, `plan_maps.py`:
+    `$MARS_REPO`, else `/home/user/mars-campus`, `/home/claude/mars-campus` or `~/mars-campus`).
+  **Still to do from step 1** (next session): `palace/README.md` (numbers, the answered "One question for Jim",
+  status rows), `REQUIREMENTS.md` (header, CR-3 19,500 m² 5.7×, OR-1 to OR-9 and GN-13 as approved with Rev G,
+  section 10 "None"), `docs/design/02-crown.md`, `03-pentagon.md`, `04-interiors.md`, `docs/design/README.md`
+  (Orb 48 m, 2,800 / 19,500 m², Rev G rooms, no "for review"), `docs/decisions.md` (delete the "For Jim's review"
+  table at the top, now answered; keep the "decided with our best judgment" table under its own heading; add to the
+  3 Oct entry that Rev E's Orb and the built ground stand, no changes asked), and §1, §2 and §2c below (numbers
+  updated in §2c already). Then steps 2 and 3 as listed. Re-export the book drawings that changed with
+  `python3 palace/tools/docs_export.py book` (crown-orb-inside, crown-plan, pentagon-plan, interiors-map,
+  interiors-suites).
 
 ## 0. Where the work stopped (3 Oct 2026, about 00:45 UTC) — read this first
 
@@ -57,9 +85,21 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
    `explorer-rooms.json`): show each room's code, rename the Crown's piano room to the recital room (C-11), and use
    the Rev G drawings (`palace/plans/svg/l1.svg`, `crown.svg`) instead of the Rev B sheets.
 4. **Renders, one at a time** (Jim's rule). The queue is in `palace/tools/render/queue_a.txt` (copy of the scratch
-   queue). It was running when the session ended: the Crown pool (wellness) still was done, its 360 was rendering.
-   The scratch folder does not move to a new account: rebuild it (bvenv = Python 3.11 + `bpy==4.2.0` + Pillow from
-   PyPI; `fetch_assets.py`), copy `palace/tools/render/*` into `blend/`, and start `runner.py a`. The second job
+   queue). The session needs network access to **pypi.org, files.pythonhosted.org and raw.githubusercontent.com**
+   (check: `curl -sI https://pypi.org/simple/bpy/` must not say 403). Set up a scratch folder outside the repo, once:
+   ```sh
+   S=<scratch folder>; mkdir -p $S/blend $S/final && cd $S
+   python3.11 -m venv bvenv && ./bvenv/bin/pip install bpy==4.2.0 Pillow
+   cp -r <repo>/palace/tools/render/* blend/
+   python3 blend/fetch_assets.py && python3 blend/make_spines.py blend/assets
+   export MARS_REPO=<repo>          # pub.py and pub_house.py write into the repo; they also look in the usual places
+   setsid nohup python3 blend/runner.py a > /dev/null 2>&1 &     # ONE runner; it works down blend/queue_a.txt
+   ```
+   Watch `blend/log_a.txt`. Each job skips pictures already made, so after a restart just start the runner again.
+   The first job re-renders the Crown pool (wellness: still, 360, plan from above) with the pool steps the right way
+   up. Publish each finished picture at once (`python3 blend/pub.py pano final/crown/pano_wellness.jpg crown_wellness`
+   for a 360; stills and plans as in `gen_plan.py`'s room data), run `python3 palace/tools/gen_plan.py`, commit and
+   `git pull --rebase` before every push (another session may be editing the design plan at the same time). The second job
    is a quick test of the new house scene (`overall.py`, now built from the room program, with the 48 m Orb and
    L2 as Rev G: orchard, farm, lake in sector 3, forest, meadow): look at `final/house_test/*.jpg`, then queue
    `overall.py hero,whole,turn0of72,...,turn71of72,spots72` and publish with `pub_house.py` after changing it
@@ -240,11 +280,14 @@ Keep new pages consistent with these (sources and working are in the chapters):
   port. House to Olympus Mons 1,780 km, to Gale crater (TTMath campus) 4,360 km, to Jezero 6,030 km.
 - The Crown: ring 244–276 m across (radius 122–138), underside +40, main floor +41, roof 50 + 40·c⁶ (spires +90,
   dips +50), where c = (1 + cos 5φ) / 2; walls and roof 3 m (0.1 skin, 0.3 sintered shell, 2.2 ice, 0.2 aerogel, 0.2
-  liner); about 90,000 t of wall ice; mass about 155,000 t, 115 MN per drive. Floor area **19,110 m²** (main floor
-  9,950 + the Glide 3,120 + spire upper floors 3,630 + the Orb 2,410), 5.6 times the TTMath campus.
-- The Orb: Ø 40 m, +52 to +92; a round space Ø 24 m from +60 to +84 with the Wormhole Gate in it, a ball Ø 18 m; a
-  bridge 3 m wide from the +72 floor to the Gate; rings at +64, +72 and +80 of 804 m² each; five rest rooms on the top
-  ring.
+  liner); about 90,000 t of wall ice; mass about 155,000 t, 115 MN per drive. Floor area **19,500 m²** gross (main
+  floor 9,950 + the Glide 3,120 + spire upper floors 3,630 + the Orb 2,800), 5.7 times the TTMath campus. Room sizes
+  on the floor plans are net, inside the walls (rooms between radii 128.5 and 135 m).
+- The Orb: Ø 48 m, +48 to +96, shell 2 m (22 m inside); a round space of glass Ø 24 m from +60 to +84 with the
+  Wormhole Gate in it, a ball Ø 18 m; floors at +64, +72 and +80, each with five rooms between an outer lane (along
+  the windows) and an inner lane (along the glass), lanes 2.4 m, a passage under each spire; areas to the inside of
+  the shell 870, 1,070 and 870 m² (2,800); the foyer O-01 at +60 under the Gate; the bridge O-12, 3 m wide, from the
+  +72 inner lane into the Gate; five rest rooms at +80 under windows of radiation glass.
 - The Stone Garden: Ø 224 m (gravel to r 112 m), raked gravel and seven basalt stones of 2 to 4 m; no mirrors, no
   panels. The Sun Well lens Ø 20.4 m, a sky lens with lamps; it closes under an iris in a storm.
 - The built ground: paved pentagon with inradius 114.1 m and circumradius 141.0 m (166 m sides), corners at bearings

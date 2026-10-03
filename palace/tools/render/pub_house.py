@@ -4,10 +4,19 @@
   final/house/whole.jpg         -> palace/design/img/house-whole.jpg (the same view, the ground left whole)
   final/house/spots.json        -> palace/design/img/house/spots.json, with "have": the frames published so far
   python3 pub_house.py"""
-import json, os
+import json, os, sys
 from PIL import Image
+
+
+def _repo():
+    """the mars-campus checkout: $MARS_REPO, or the first of the usual places that has it"""
+    for p in (os.environ.get("MARS_REPO"), "/home/user/mars-campus", "/home/claude/mars-campus", os.path.expanduser("~/mars-campus"), os.getcwd()):
+        if p and os.path.exists(os.path.join(p, "palace", "tools", "room_program.py")): return p
+    sys.exit("set MARS_REPO to the mars-campus checkout")
+
+
 HERE = os.path.dirname(os.path.abspath(__file__)); SRC = os.path.join(HERE, "final", "house")
-DES = "/home/user/mars-campus/palace/design"; DST = os.path.join(DES, "img", "house")
+DES = os.path.join(_repo(), "palace", "design"); DST = os.path.join(DES, "img", "house")
 os.makedirs(DST, exist_ok=True)
 
 

@@ -14,7 +14,8 @@ from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib, crown
 for _d in (os.path.dirname(os.path.abspath(__file__)), os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."),
-           os.environ.get("ROOM_PROGRAM_DIR", "/home/user/mars-campus/palace/tools")):
+           os.environ.get("ROOM_PROGRAM_DIR", ""), os.path.join(os.environ.get("MARS_REPO", ""), "palace", "tools"),
+           "/home/user/mars-campus/palace/tools", "/home/claude/mars-campus/palace/tools", os.path.expanduser("~/mars-campus/palace/tools")):
     if os.path.exists(os.path.join(_d, "room_program.py")): sys.path.insert(0, os.path.abspath(_d)); break
 import room_program as RP
 

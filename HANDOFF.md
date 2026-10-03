@@ -113,6 +113,20 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     seconds), so the long jobs behind wait until the previews are checked. Delete the flag to go on.
   - **`pgrep -f "blend/runner.py a"` matches its own shell** and says the runner is alive when it is not: check with
     `ps -eo args | grep "^python3 blend/runner.py a"`.
+  - **Two more scenes:** the guest lounge (`pent_rooms.py guests`, L1-32: two storeys on the atrium glass, a gallery
+    with the eight suite doors and lamps, sofas by the glass, a walnut table for twelve, a spiral stair up) and the
+    kitchen (`suite.py kitchen()`, L1-10, beyond the master bedroom's end wall: counters and lit open shelves along the
+    back wall, tall units, an island with stools for breakfast, a table for six, the robot that cooks on a ceiling
+    rail). The kitchen renders in the suite's job (`s_kitchen`, `pano:kitchen`). Their tour stops (`guests`,
+    `kitchen`) and design-plan entries wait for the pictures.
+  - **Published tonight:** the Studio (photos `crown_studio`, `crown_craft`, the 360 and the plan from above), the
+    star lounge (photo `crown_stars`). The queue, in order: the telescope room and the star lounge's 360, the
+    Observatory's plan, the Garden room, the guest lounge, the Arrival hall, the sunset lounge, the master suite down
+    with the kitchen, the atrium's 360s, the music and dining stills, the Crown bedroom's plan, then the turntable's
+    other 48 frames. Publish each with `pub.py` (photos and 360s), the plan into `design/img/above/`, then
+    `gen_plan.py`; the design plan's entries already name the files.
+  - **Rooms with no scene yet:** the Orb's rooms, the L2 garden level, L3 (workshops, studio, science, the house
+    mind), L4, L5, the guest suites, the memory rooms (L1-14), the robot bay and stores.
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.

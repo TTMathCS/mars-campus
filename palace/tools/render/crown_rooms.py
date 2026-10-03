@@ -907,6 +907,30 @@ def observatory(M, rnd):
     washers(b0, b1, 8, (1.0, 0.72, 0.45))
 
 
+def gravel_material():
+    """the sky garden's gravel: pebbles about 2 cm across, each its own grey or buff, dark in the gaps between them,
+    rounded in the bump"""
+    m, nt = lib._mat("garden gravel")
+    if nt is None: return m
+    N = nt.nodes; L = nt.links; b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.82
+    tc = N.new("ShaderNodeTexCoord")
+    v = N.new("ShaderNodeTexVoronoi"); v.voronoi_dimensions = "3D"; v.inputs["Scale"].default_value = 42.0; v.inputs["Randomness"].default_value = 0.9; L.new(tc.outputs["Object"], v.inputs["Vector"])
+    e = N.new("ShaderNodeTexVoronoi"); e.voronoi_dimensions = "3D"; e.feature = "DISTANCE_TO_EDGE"; e.inputs["Scale"].default_value = 42.0; e.inputs["Randomness"].default_value = 0.9; L.new(tc.outputs["Object"], e.inputs["Vector"])
+    sep = N.new("ShaderNodeSeparateColor"); L.new(v.outputs["Color"], sep.inputs["Color"])
+    pal = N.new("ShaderNodeValToRGB"); E = pal.color_ramp.elements
+    E[0].position = 0.0; E[0].color = (0.20, 0.19, 0.18, 1); E[1].position = 1.0; E[1].color = (0.66, 0.62, 0.55, 1)
+    x = E.new(0.45); x.color = (0.40, 0.38, 0.35, 1); x2 = E.new(0.8); x2.color = (0.52, 0.46, 0.38, 1)
+    L.new(sep.outputs[0], pal.inputs["Fac"])
+    gap = N.new("ShaderNodeMapRange"); gap.inputs["From Min"].default_value = 0.0; gap.inputs["From Max"].default_value = 0.12; gap.inputs["To Min"].default_value = 0.35; gap.inputs["To Max"].default_value = 1.0
+    L.new(e.outputs["Distance"], gap.inputs["Value"])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 1.0; L.new(pal.outputs["Color"], mx.inputs[6])
+    cmb = N.new("ShaderNodeCombineColor"); L.new(gap.outputs["Result"], cmb.inputs[0]); L.new(gap.outputs["Result"], cmb.inputs[1]); L.new(gap.outputs["Result"], cmb.inputs[2]); L.new(cmb.outputs[0], mx.inputs[7])
+    L.new(mx.outputs[2], b.inputs["Base Color"])
+    dome = N.new("ShaderNodeMapRange"); dome.inputs["From Min"].default_value = 0.0; dome.inputs["From Max"].default_value = 0.25; L.new(e.outputs["Distance"], dome.inputs["Value"])
+    bm = N.new("ShaderNodeBump"); bm.inputs["Strength"].default_value = 0.9; bm.inputs["Distance"].default_value = 0.006; L.new(lib._math(nt, "SQRT", dome.outputs["Result"]), bm.inputs["Height"]); L.new(bm.outputs["Normal"], b.inputs["Normal"])
+    return m
+
+
 def herb_bed(name, r0, r1, b0, b1, z, M, rnd, density=5.5):
     """a bed of herbs and flowers: rounded clumps of small leaves (basil green, sage grey, rosemary dark), some in flower"""
     import atrium
@@ -989,7 +1013,7 @@ def garden_room(M, rnd):
     p = at(R_OUT - 1.0, 39.6, 0.0); lib.box("tree planter", (0.9, 0.9, 0.55), (p[0], p[1], 0.275), M["basalt"], bevel=0.01, rot_z=-39.6 * D)
     furn.olive_tree("breakfast olive", (p[0], p[1], 0.55), 4242, M, height=3.4, leaves=15000)
     # C-34, the sky garden: raised beds of basalt along both walls, gravel between, trees, benches, grow lights
-    gravel = lib.principled("raked gravel", (0.42, 0.40, 0.37), 0.9)
+    gravel = gravel_material()
     crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + 0.5, 0.0, 0.012, gravel)
     beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]
     for (a, b) in beds_out:

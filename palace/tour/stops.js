@@ -97,7 +97,7 @@ window.TOUR_STOPS = [
   { id: "crown_stars", place: "crown", name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [28.21, 128.29], az0: 40, img: "pano/crown_stars.jpg",
     d: "The Observatory at night: reclining chairs in pairs under the outer slots full of stars, candles on the side tables, a floor of polished basalt. Across the ring the other rooms' slots glow. The telescope room is through the opening, with the portal up to the dome.",
     links: [{ id: "crown_studio", at: [15.45, 125.81, 0], label: "The Glide: to the Studio" }, { id: "crown_garden", at: [39.17, 120.55, 0], label: "The Glide: to the Garden room" }] },
-  { id: "crown_garden", place: "crown", ready: false, name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",
+  { id: "crown_garden", place: "crown", name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",
     d: "A conservatory in the ring at sunrise: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun through the east slots. The breakfast room is through the opening.",
     links: [{ id: "crown_stars", at: [102.54, 74.5, 0], label: "The Glide: to the Observatory" }, { id: "crown_arrival", at: [114.4, 54.57, 0], label: "The Glide: to the Arrival hall" }] }
 ];

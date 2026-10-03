@@ -216,7 +216,8 @@ CROWN = dict(
              facts=[("Rooms", "C-33 Breakfast room · C-34 Sky garden"), ("Made of", "Oak and linen-coloured stone, basalt beds, raked gravel."),
                     ("In it", "A round oak table for six under a glass globe, a sitting corner by the slots; beds of basil, sage, rosemary and thyme, lavender, marigolds and poppies under small lemon and olive trees; grow lights on long cables.")],
              photos=[("../tour/photos/crown_breakfast.jpg", "The breakfast room at sunrise, the sun through the east slots."), ("../tour/photos/crown_garden.jpg", "The sky garden: herbs and flowers under lemon and olive trees.")],
-             views=[("crown_garden", "The sky garden")], plan=("img/plan/crown-garden_room.jpg", "Part 10, north-east.")),
+             views=[("crown_garden", "The sky garden")], plan=("img/plan/crown-garden_room.jpg", "Part 10, north-east."),
+             above=("img/above/crown-garden.jpg", "the breakfast room at the left end: the round table for six under its globe, the sideboard along the Glide, the sitting corner and an olive tree by the slots; then the sky garden, its raised beds of herbs and flowers along both walls under lemon and olive trees, two benches, and the grow lights in rows overhead.")),
     ])
 
 AREAS = [CROWN, RESIDENCE, ATRIUM]

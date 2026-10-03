@@ -108,5 +108,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." },
   { img: "photos/crown_stars.jpg", caption: "The star lounge in the Crown's Observatory at night: reclining chairs under the slots full of stars, candles on the side tables, a floor of polished basalt." },
   { img: "photos/crown_telescope.jpg", caption: "The telescope room in the Crown's Observatory at night: screens showing what the telescope sees, the Milky Way in the slots, and the portal up to the dome." },
-  { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for six under a glass globe, an olive tree, and the morning sun through the east slots laid across the inner wall." }
+  { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for six under a glass globe, an olive tree, and the morning sun through the east slots laid across the inner wall." },
+  { img: "photos/crown_garden.jpg", caption: "The sky garden in the Crown: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun on the inner wall." }
 ];

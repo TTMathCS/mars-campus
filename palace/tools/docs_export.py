@@ -1,7 +1,7 @@
 """Export the design book's drawings, the floor plan sheets and a few Mars Atlas views as images, so the
 Markdown docs in palace/docs/ can show them on GitHub (the HTML pages only render on the live site).
 usage: python3 palace/tools/docs_export.py [book|plans|atlas|all]     (default: all)
-Writes palace/docs/img/book/<chapter>-<name>.png, palace/docs/img/plans/<sheet>.png and
+Writes palace/docs/img/book/<chapter>-<name>.png, palace/docs/archive/img/plans-rev-b/<sheet>.png (the archived Rev B sheets) and
 palace/docs/img/atlas/<view>.jpg. Drawings are saved as 256-colour PNGs at 1.5 times the page size;
 drawings with Mars imagery as JPEG. The NASA tiles are blocked on purpose, so map figures show the real
 base map (img/mars-map.jpg). Web fonts load from Google Fonts when it can be reached.
@@ -78,14 +78,14 @@ async def run():
                             await shot(pg, "#fPlan", os.path.join(OUT, "book", "pentagon-plan-L%d.png" % (i + 1)))
                     await pg.close()
             if WHAT in ("plans", "all"):
-                os.makedirs(os.path.join(OUT, "plans"), exist_ok=True)
+                PL = os.path.join(OUT, "..", "archive", "img", "plans-rev-b"); os.makedirs(PL, exist_ok=True)
                 print("plans", flush=True)
                 pg = await page(ctx, "http://localhost:%d/palace/archive/plans-rev-b/" % PORT)       # the Rev B sheets, archived
                 for sid, name in SHEETS:
-                    await shot(pg, "#" + sid, os.path.join(OUT, "plans", name + ".png"))
+                    await shot(pg, "#" + sid, os.path.join(PL, name + ".png"))
                 for lv in ["L2", "L3", "L4", "L5"]:
                     await pg.click("#lv-" + lv); await pg.wait_for_timeout(200)
-                    await shot(pg, "#svg-pent", os.path.join(OUT, "plans", "a301-pentagon-%s.png" % lv))
+                    await shot(pg, "#svg-pent", os.path.join(PL, "a301-pentagon-%s.png" % lv))
                 await pg.close()
             if WHAT in ("atlas", "all"):
                 os.makedirs(os.path.join(OUT, "atlas"), exist_ok=True)

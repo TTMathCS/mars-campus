@@ -35,7 +35,7 @@ can be seen here. Areas are gross floor areas, rounded.
 
 ## A-001 The Crown, bird's-eye view from the south
 
-![A-001 The Crown, bird's-eye view](../img/plans/a001-crown-birdseye.png)
+![A-001 The Crown, bird's-eye view](img/plans-rev-b/a001-crown-birdseye.png)
 
 Nothing touches the ground: anti-gravity drives in the five spires hold the ring 40 m above the plain, and the rings
 on the ground show where their fields reach. The spires rise to 90 m, the dips to 50 m. The Orb floats over the Sun
@@ -47,13 +47,13 @@ Garden is raked gravel and seven stones, and the Sun Well is a sky lens.*
 
 ## A-002 Size check
 
-![A-002 Size check](../img/plans/a002-size-check.png)
+![A-002 Size check](img/plans-rev-b/a002-size-check.png)
 
 All three to the same scale: the Crown (276 m across), the Pentagon (160 m sides) and the TTMath campus of demo 1.
 
 ## A-101 Site and flight corridor
 
-![A-101 Site and flight corridor](../img/plans/a101-site-corridor.png)
+![A-101 Site and flight corridor](img/plans-rev-b/a101-site-corridor.png)
 
 The house and the spaceport sit on the flat, ice-rich floor of Arcadia Planitia; the ice gives water, air and rocket
 fuel. The pod's 37 km scenic route crosses the Dune Sea, a 3 km crater, the Ice Cliffs and a dust storm, then circles
@@ -63,7 +63,7 @@ at the spaceport can be seen.
 
 ## A-102 How the city grows
 
-![A-102 How the city grows](../img/plans/a102-city-growth.png)
+![A-102 How the city grows](img/plans-rev-b/a102-city-growth.png)
 
 Every new home takes the next seed of a sunflower spiral, turned 137.5° (the golden angle) from the one before, about
 450 m apart. Civic buildings take the Fibonacci seeds (21 school, 34 hospital, 55 market hall, 89 university, 144
@@ -72,7 +72,7 @@ and the maglev. Phase 3: Arcadia City, 233 homes, 3.8 km out. Phase 4: links to 
 
 ## A-201 The Crown, main floor
 
-![A-201 The Crown, main floor](../img/plans/a201-crown-main-floor.png)
+![A-201 The Crown, main floor](img/plans-rev-b/a201-crown-main-floor.png)
 
 Ten parts round a 16 m ring at +41 m: five spires, each with an upper floor, an anti-gravity drive and a portal, and
 five dips. The Glide walkway runs 779 m round the inside edge. Window slots 1.2 m tall, set 3 m deep, with storm
@@ -82,11 +82,11 @@ shutters. There are no legs and no lifts.
 
 | L1 Residence | L2 Garden |
 | --- | --- |
-| ![L1](../img/plans/a301-pentagon-L1.png) | ![L2](../img/plans/a301-pentagon-L2.png) |
+| ![L1](img/plans-rev-b/a301-pentagon-L1.png) | ![L2](img/plans-rev-b/a301-pentagon-L2.png) |
 | **L3 Studio** | **L4 Life support** |
-| ![L3](../img/plans/a301-pentagon-L3.png) | ![L4](../img/plans/a301-pentagon-L4.png) |
+| ![L3](img/plans-rev-b/a301-pentagon-L3.png) | ![L4](img/plans-rev-b/a301-pentagon-L4.png) |
 | **L5 Transit** | |
-| ![L5](../img/plans/a301-pentagon-L5.png) | |
+| ![L5](img/plans-rev-b/a301-pentagon-L5.png) | |
 
 One solid block under 16 m of soil, which weighs as much as the air inside pushes up and stops cosmic radiation.
 Five rings (A inside to E outside) with 4 m streets, and five 5 m avenues out to the corner cores, each with a portal
@@ -95,7 +95,7 @@ from a portal. The master suite down is on L1, sector 1.
 
 ## A-401 Section east to west
 
-![A-401 Section east to west](../img/plans/a401-section.png)
+![A-401 Section east to west](img/plans-rev-b/a401-section.png)
 
 Through the east spire (Arrival, with the pod hangar), the Orb and the west dip (the Sunset lounge). The Crown floats
 at +40 m; the Orb hovers from +52 to +92 m. The Sun Well is the one big piece of glass in the house, a thick lens under
@@ -103,7 +103,7 @@ a solid iris; the atrium drops 68 m to the floor of L5.
 
 ## A-501 Arcadia Spaceport
 
-![A-501 Arcadia Spaceport](../img/plans/a501-spaceport.png)
+![A-501 Arcadia Spaceport](img/plans-rev-b/a501-spaceport.png)
 
 Three landing pads 1.6 km from the terminal, each behind a berm because landing rockets throw rocks. The fuel plant
 turns ground ice and the air's CO₂ into methane and oxygen. Passengers ride a bus from the pad to the terminal and walk
@@ -114,7 +114,7 @@ ground.*
 
 ## A-601 The pod's scenic flight
 
-![A-601 The pod's scenic flight](../img/plans/a601-flight.png)
+![A-601 The pod's scenic flight](img/plans-rev-b/a601-flight.png)
 
 Height above the plain against time: 37 km, about 4 min 40 s from lift-off to the hangar, highest point 400 m, lowest
 pass 30 m under the ring. It plays in real time, with cockpit, chase and director cameras, and can be skipped. See the

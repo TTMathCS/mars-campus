@@ -44,7 +44,20 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     routes). Left: the Rev B sheet images in `docs/img/plans/`, once step 3 stops using them.
   - **Background processes die when the session goes idle** (the runner stopped at 02:23 and restarted at 12:07):
     renders only run while a turn is active. Each job skips what it has made, so just start the runner again.
-  - Next: step 3, the rest of step 2, step 4 (the renders run all the time, one at a time).
+  - **Step 3 done:** the design plan's room pages and the explorer follow Rev G. `draw_plans.py` tags every room
+    polygon with its code and writes `palace/plans/shapes.json` (each sheet's size and every room's polygons by code).
+    `gen_plan.py`: each room has `codes=[...]` (its label starts with them; its *Rooms* row lists Rev G's rooms with
+    codes: the recital room C-11, no planetarium, no private spa, the Crown's Studio and Garden room as Rev G); sizes as
+    the plans; the explorer's click areas come from `shapes.json` over the Rev G sheets (`../plans/svg/*.svg`).
+    `plan_maps.py` (rewritten; needs Playwright) draws every "where it is" map from the Rev G sheet with the room's
+    codes shaded; run it after changing a room's codes. Rooms with no pictures show their map instead of a "still to
+    make" box (GN-18); `explorer.js` reads the sheet's size and uses the Rev G sheets for L2–L5 too. The Crown sheet's
+    Orb circle was still 40 m: now `ORB_R`.
+  - **Step 2 done:** the Rev B sheet images are in `palace/docs/archive/img/plans-rev-b/` (`docs_export.py plans`
+    writes there).
+  - **Published:** the Crown's pool (C-14) again, with stone edges at both ends: the 360, a new still
+    (`tour/photos/crown_wellness.jpg`) and the plan from above.
+  - Next: step 4, the rest of the queue (the house test is rendering), one at a time.
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -100,14 +113,14 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 **Next, in order (the new account starts here):**
 1. **Done (3 Oct, session `session_01U4NrzcFVFwFYPq6dhgJtP1`):** the Orb at 48 m and Rev G in every page and doc;
    no review notes left on any page; the book's drawings re-exported.
-2. **Archive or remove the rest of the old files** (Jim's ask): `palace/docs/plans.md` (Rev B) →
+2. **Done (3 Oct):** archive or remove the rest of the old files (Jim's ask): `palace/docs/plans.md` (Rev B) →
    `palace/docs/archive/`; the Rev B sheet images in `palace/docs/img/plans/` once `gen_plan.py` stops using them
    (step 3); the unlinked real-time 3D demo (`palace/index.html`, `palace-debug.html`, `src/`, `build.sh`,
    `crown/`, `orb/`, `pentagon/` and their shot tools in `palace/tools/`) → `palace/archive/3d-demo/`, with
    `palace/index.html` replaced by a redirect to `design/` (check the pages.yml key-file list, which names
    `palace/index.html`); `palace/design/mars.html` and `living.html` (redirects to `science/`) and
    `docs/design/00a-mars.md`, `00b-living.md`; images nothing links to. Run a link check after (no missing files).
-3. **Rev G names and codes in the design plan**: `palace/tools/gen_plan.py` (room pages and
+3. **Done (3 Oct):** Rev G names and codes in the design plan: `palace/tools/gen_plan.py` (room pages and
    `explorer-rooms.json`): show each room's code, rename the Crown's piano room to the recital room (C-11), and use
    the Rev G drawings (`palace/plans/svg/l1.svg`, `crown.svg`) instead of the Rev B sheets.
 4. **Renders, one at a time** (Jim's rule). The queue is in `palace/tools/render/queue_a.txt` (copy of the scratch

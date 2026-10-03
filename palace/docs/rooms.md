@@ -111,7 +111,7 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
   end and the concert grand at the other.
 - **Walk round it:** [the great salon](https://ttmathcs.github.io/mars-campus/palace/tour/#crown_salon)
 
-![The great salon from above, the ceiling taken off: the hearth room, three groups of sofas with olive trees, the piano room, the Glide along the garden side](../design/img/above/crown-salon.jpg)
+![The great salon from above, the ceiling taken off: the hearth room, three groups of sofas with olive trees, the recital room, the Glide along the garden side](../design/img/above/crown-salon.jpg)
 
 ### The master suite up
 
@@ -148,9 +148,11 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 
 ### The pool
 
+![The pool in the Crown: 25 m along the ring, lit from below, with stone edges all round and loungers along the Glide](../tour/photos/crown_wellness.jpg)
+
 ![Wellness in the Crown from above, the ceiling taken off: the sauna and hot pool, the 25 m pool, the gym](../design/img/above/crown-wellness.jpg)
 
-- **The room:** part 4 of the ring, south-west: exercise and rest.
+- **The room:** C-13 to C-15, part 4 of the ring, south-west: exercise and rest.
 - **Made of:** a deck of polished basalt, pale stone in the pool, cedar, an oak-slat ceiling.
 - **In it:** a pool 25 m by 4 m, lit from below, where low gravity makes every wave rise high and fall slowly;
   loungers along the Glide; a round hot pool and a cedar sauna at the spa end; the gym at the other.
@@ -159,5 +161,5 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 ## Still to come
 
 The Crown's
-studio, the observatory and the garden room; the Orb's rooms, once Jim decides between Rev F's two sizes; the guest
-suites, the kitchen and the private spa on L1; the garden level (L2) and Jim's studio (L3).
+studio, the observatory and the garden room; the Orb's rooms; the guest suites and the kitchen on L1; the garden
+level (L2) and Jim's studio (L3). Each is rendered as it is on the floor plans, one at a time.

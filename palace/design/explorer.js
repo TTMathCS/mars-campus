@@ -23,14 +23,14 @@
     pentagon: { kick: "Below ground · five levels, 24 to 68 m down", title: "The Pentagon", levels: true, fig: ["../docs/img/book/pentagon-section.png", "Section east to west through the middle, to scale: the five levels round the atrium, the Sun Well above, the sun court at the bottom."], more: [["pentagon.html", "Chapter 03: the Pentagon"]],
       text: "One solid five-sided block, 160 m on each side and five levels deep, dug into thick ice under 16 m of soil: 209,700 m², eleven times the Crown. Round the atrium run five rings of rooms with streets between them, and avenues lead out to the corner cores under the spires. Choose a level." },
     l1: { kick: "The Pentagon · 24 m down · 8 m high", title: "L1 · Residence", plan: "l1", more: [["rooms-residence.html", "Jim's residence, room by room"], ["rooms-atrium.html", "Round the atrium"]],
-      text: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema and a bar, thermal baths and a 50 m pool, the great library and the guest suites. Click a room on the plan." },
-    l2: { kick: "The Pentagon · 41 m down · 16 m high", title: "L2 · Garden", sheet: "../docs/img/plans/a301-pentagon-L2.png", more: [["pentagon.html#levels", "Chapter 03: the five levels"]],
+      text: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema and a ballroom, thermal baths and a 50 m pool, the great library and the guest suites. Click a room on the plan." },
+    l2: { kick: "The Pentagon · 41 m down · 16 m high", title: "L2 · Garden", sheet: "../plans/svg/l2.svg", more: [["pentagon.html#levels", "Chapter 03: the five levels"]],
       text: "Under a sky of lamps: orchards, a farm, a lake that is also the water reserve, a forest with a stream, and a meadow with bees." },
-    l3: { kick: "The Pentagon · 50 m down", title: "L3 · Studio", sheet: "../docs/img/plans/a301-pentagon-L3.png", more: [["pentagon.html#levels", "Chapter 03: the five levels"]],
+    l3: { kick: "The Pentagon · 50 m down", title: "L3 · Studio", sheet: "../plans/svg/l3.svg", more: [["pentagon.html#levels", "Chapter 03: the five levels"]],
       text: "Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms." },
-    l4: { kick: "The Pentagon · 59 m down", title: "L4 · Life support", sheet: "../docs/img/plans/a301-pentagon-L4.png", more: [["pentagon.html#levels", "Chapter 03: the five levels"], ["power.html", "Chapter 05: power"]],
+    l4: { kick: "The Pentagon · 59 m down", title: "L4 · Life support", sheet: "../plans/svg/l4.svg", more: [["pentagon.html#levels", "Chapter 03: the five levels"], ["power.html", "Chapter 05: power"]],
       text: "Two fission reactors and a bay kept for fusion, water from ice, the air plant, the storm reserve of two years' food, and recycling." },
-    l5: { kick: "The Pentagon · 68 m down", title: "L5 · Transit", sheet: "../docs/img/plans/a301-pentagon-L5.png", more: [["pentagon.html#levels", "Chapter 03: the five levels"], ["transport.html", "Chapter 06: transport"]],
+    l5: { kick: "The Pentagon · 68 m down", title: "L5 · Transit", sheet: "../plans/svg/l5.svg", more: [["pentagon.html#levels", "Chapter 03: the five levels"], ["transport.html", "Chapter 06: transport"]],
       text: "The maglev station (phase 2), the cargo halls, the seed vault, the tunnel works, and the rover hall with the tunnel up to the plain. The sun court is at its centre." },
     court: { kick: "The bottom of the atrium · 68 m down", title: "The atrium and the sun court", room: "l1:court", more: [["rooms-atrium.html", "Round the atrium"], ["pentagon.html#atrium", "Chapter 03: the atrium"]],
       text: "A five-sided shaft 35 m across and 68 m deep, with terraces of hanging gardens on every level and a bridge from each to the portal column. At the bottom, a garden of 2,100 m² round a pool, lit with the colour and warmth of a clear Mars noon." }
@@ -147,22 +147,22 @@
     Object.keys(p.shapes).forEach(function (id) {
       var r = data.rooms[p.prefix + id]; if (!r) return;
       p.shapes[id].forEach(function (poly) {
-        svg += '<polygon data-room="' + p.prefix + id + '" points="' + poly.map(function (q) { return (q[0] * 1701).toFixed(1) + "," + (q[1] * 1271).toFixed(1); }).join(" ") + '"><title>' + E(r.name) + "</title></polygon>";
+        svg += '<polygon data-room="' + p.prefix + id + '" points="' + poly.map(function (q) { return q[0] + "," + q[1]; }).join(" ") + '"><title>' + E(r.name) + "</title></polygon>";
       });
     });
     var list = Object.keys(p.shapes).map(function (id) {
       var r = data.rooms[p.prefix + id]; if (!r) return "";
       var th = r.photos.length ? r.photos[0].src : (r.views.length ? r.views[0].poster : "");
-      return '<button type="button" data-room="' + p.prefix + id + '">' + (th ? '<img src="' + th + '" alt="" loading="lazy">' : '<span class="noimg">pictures to come</span>') + "<b>" + E(r.name) + "</b></button>";
+      return '<button type="button" data-room="' + p.prefix + id + '">' + (th ? '<img src="' + th + '" alt="" loading="lazy">' : '<span class="noimg"></span>') + "<b>" + E(r.name) + "</b></button>";
     }).join("");
-    return '<figure class="xp-plan"><div class="xp-sheet"><img src="' + p.sheet + '" alt="Floor plan" width="1701" height="1271"><svg viewBox="0 0 1701 1271" preserveAspectRatio="none">' + svg + "</svg></div>" +
+    return '<figure class="xp-plan"><div class="xp-sheet"><img src="' + p.sheet + '" alt="Floor plan" width="' + p.w + '" height="' + p.h + '"><svg viewBox="0 0 ' + p.w + " " + p.h + '" preserveAspectRatio="none">' + svg + "</svg></div>" +
       "<figcaption>Click a shaded room, or choose one below.</figcaption></figure>" + '<div class="xp-rooms">' + list + "</div>";
   }
   function openPart(k) {
     var P = PARTS[k], h = '<div class="xp-kick">' + E(P.kick) + "</div><h2>" + E(P.title) + '</h2><p class="xp-text">' + E(P.text) + "</p>";
     if (P.levels) h += '<div class="xp-levels">' + ["l1", "l2", "l3", "l4", "l5"].map(function (l) { return '<button type="button" data-part="' + l + '"><b>' + E(PARTS[l].title) + "</b><span>" + E(PARTS[l].kick.replace("The Pentagon · ", "")) + "</span></button>"; }).join("") + "</div>";
     if (P.plan) h += data ? planHtml(P.plan) : "<p>Loading the plan…</p>";
-    else if (P.sheet) h += '<figure class="xp-fig"><a href="' + P.sheet + '" target="_blank" rel="noopener"><img src="' + P.sheet + '" alt="Floor plan of ' + E(P.title) + '"></a><figcaption>The floor plan, sheet A301. Its rooms and pictures are still to make.</figcaption></figure>';
+    else if (P.sheet) h += '<figure class="xp-fig"><a href="' + P.sheet + '" target="_blank" rel="noopener"><img src="' + P.sheet + '" alt="Floor plan of ' + E(P.title) + '"></a><figcaption>The floor plan of ' + E(P.title) + ', with every room\'s code.</figcaption></figure>';
     else if (P.fig) h += '<figure class="xp-fig"><img src="' + P.fig[0] + '" alt=""><figcaption>' + E(P.fig[1]) + "</figcaption></figure>";
     if (P.room && data && data.rooms[P.room]) h += roomMedia(data.rooms[P.room]);
     openPanel(h + links(P.more));

@@ -79,16 +79,21 @@ def orb_room_area(fl):
 
 
 # ------------------------------------------------------------------------------------------------ svg helpers
+SHAPES = {}     # sheet -> its size and every room's polygons by code (plans/shapes.json: the design plan's room maps and click areas)
+
+
 class Svg:
     def __init__(self, w, h, title):
+        self.shapes = {}                                   # room code -> its polygons on this sheet, for shapes.json
         self.w, self.h = w, h; self.o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d" font-family="%s">' % (w, h, w, h, FONT),
                                           '<title>%s</title>' % E(title), '<rect width="%d" height="%d" fill="#F7F5F0"/>' % (w, h)]
 
     def add(self, s): self.o.append(s)
 
-    def poly(self, pts, fill, stroke="#33302C", sw=1.0, dash=None, op=1.0):
+    def poly(self, pts, fill, stroke="#33302C", sw=1.0, dash=None, op=1.0, code=None):
         d = " ".join("%.1f,%.1f" % p for p in pts)
-        self.add('<polygon points="%s" fill="%s" fill-opacity="%.2f" stroke="%s" stroke-width="%.2f"%s/>' % (d, fill, op, stroke, sw, ' stroke-dasharray="%s"' % dash if dash else ""))
+        if code: self.shapes.setdefault(code, []).append([[round(x, 1), round(y, 1)] for (x, y) in pts])
+        self.add('<polygon%s points="%s" fill="%s" fill-opacity="%.2f" stroke="%s" stroke-width="%.2f"%s/>' % (' data-code="%s"' % code if code else "", d, fill, op, stroke, sw, ' stroke-dasharray="%s"' % dash if dash else ""))
 
     def text(self, x, y, s, size=11, weight=400, fill="#1C2124", anchor="middle", rot=0.0, italic=False):
         tr = ' transform="rotate(%.1f %.1f %.1f)"' % (rot, x, y) if rot else ""
@@ -96,6 +101,7 @@ class Svg:
                  (x, y, size, weight, ' font-style="italic"' if italic else "", fill, anchor, tr, E(s)))
 
     def save(self, name):
+        SHAPES[name[:-4]] = dict(w=self.w, h=self.h, shapes=self.shapes)
         self.o.append("</svg>"); open(os.path.join(SVG, name), "w").write("\n".join(self.o)); return "svg/" + name
 
 
@@ -150,11 +156,11 @@ def level_svg(L, scale=3.3):
         k, loc = room_local(rm)
         pts = [S(world(k, u, v)) for (u, v) in loc]
         if rm.get("upper"): upper.append((rm, pts, loc, k)); continue
-        svg.poly(pts, KIND[rm["kind"]][0], "#33302C", 0.9)
-    for rm, pts, loc, k in upper: svg.poly(pts, "none", "#2A6E8E", 1.4, "5 3")
+        svg.poly(pts, KIND[rm["kind"]][0], "#33302C", 0.9, code=rm["code"])
+    for rm, pts, loc, k in upper: svg.poly(pts, "none", "#2A6E8E", 1.4, "5 3", code=rm["code"])
     # the atrium, its terrace and the portal column with its bridges
     atr = [S(bearing_pt(18 + 72 * i, RA)) for i in range(5)]
-    svg.poly(atr, "#FBF6EA" if L["id"] != "L5" else "#DCEBC8", "#1C2124", 1.8)
+    svg.poly(atr, "#FBF6EA" if L["id"] != "L5" else "#DCEBC8", "#1C2124", 1.8, code="%s-AT" % L["id"] if L["id"] != "L5" else "L5-SC")
     for i in range(5):
         b = 54 + 72 * i; p0 = S(bearing_pt(b, 5)); p1 = S(bearing_pt(b, APA))
         if L["id"] != "L5": svg.add('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#8A9395" stroke-width="%.1f"/>' % (p0[0], p0[1], p1[0], p1[1], 3.2 * scale / 3.9))
@@ -214,8 +220,8 @@ def sector_svg(L, k, scale=6.2):
     for rm in rooms:
         _, loc = room_local(rm); pts = [S(u, v) for (u, v) in loc]
         if rm.get("upper"): ups.append((rm, pts, loc)); continue
-        svg.poly(pts, KIND[rm["kind"]][0], "#33302C", 1.1)
-    for rm, pts, loc in ups: svg.poly(pts, "none", "#2A6E8E", 1.6, "6 4")
+        svg.poly(pts, KIND[rm["kind"]][0], "#33302C", 1.1, code=rm["code"])
+    for rm, pts, loc in ups: svg.poly(pts, "none", "#2A6E8E", 1.6, "6 4", code=rm["code"])
     for rm in rooms:
         _, loc = room_local(rm)
         uc = (loc[0][0] + loc[1][0] + loc[2][0] + loc[3][0]) / 4; vc = (loc[0][1] + loc[2][1]) / 2
@@ -256,7 +262,7 @@ def crown_svg(scale=2.95):
     svg.poly(arc_path(0, 360, R_IN, R_GL, S), "#F1E7DA", "#8A9395", 0.6)
     for rm in P.CROWN:
         if rm.get("up"): continue
-        b0, b1 = rm["at"]; svg.poly(arc_path(b0, b1, R_GL, R_OUT, S), KIND[rm["kind"]][0], "#33302C", 0.8)
+        b0, b1 = rm["at"]; svg.poly(arc_path(b0, b1, R_GL, R_OUT, S), KIND[rm["kind"]][0], "#33302C", 0.8, code=rm["code"])
     for num, nm, b0, b1, spire, comp in P.CROWN_PARTS:
         for b in (b0,):
             p0, p1 = S(bearing_pt(b, R_SHELL0 - 2)), S(bearing_pt(b, R_SHELL1 + 2))
@@ -272,7 +278,7 @@ def crown_svg(scale=2.95):
         svg.text(x, y, rm["code"].replace("C-", ""), 8.6 if along > 22 else 7.2, 700, rot=rot)
     # the Glide, the Orb, the garden
     x, y = S(bearing_pt(225, (R_IN + R_GL) / 2 - 7)); svg.text(x, y, "C-GL the Glide", 10, 700, "#8A6A3E", rot=45)
-    svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#E6EBEF" stroke="#5E6A70" stroke-width="1.2"/>' % (cx, cy, 20 * scale))
+    svg.add('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#E6EBEF" stroke="#5E6A70" stroke-width="1.2"/>' % (cx, cy, ORB_R * scale))       # the Orb, 48 m across, over the middle
     svg.text(cx, cy - 4, "The Orb", 12, 700, "#3B4A55"); svg.text(cx, cy + 12, "O-00 to O-17", 10, 400, "#3B4A55")
     svg.text(cx, cy + 40 * scale, "G-01 Stone Garden, 40 m below", 11, 400, "#6C777C", italic=True)
     svg.text(24, 30, "The Crown · main floor, 41 m above the plain", 20, 700, anchor="start")
@@ -299,7 +305,7 @@ def crown_part_svg(part):
     rooms = [r for r in P.CROWN if r["part"] == num]
     for rm in rooms:
         if rm.get("up"): continue
-        a, b = rm["at"]; svg.poly([(X(a), yR), (X(b), yR), (X(b), yR + hr), (X(a), yR + hr)], KIND[rm["kind"]][0], "#33302C", 1.1)
+        a, b = rm["at"]; svg.poly([(X(a), yR), (X(b), yR), (X(b), yR + hr), (X(a), yR + hr)], KIND[rm["kind"]][0], "#33302C", 1.1, code=rm["code"])
         cxm = (X(a) + X(b)) / 2; label(svg, cxm, yR + hr / 2 - 4, 0, rm["code"], rm["name"], X(b) - X(a), hr, big=True)
         ar = crown_area(a, b); svg.text(cxm, yR + hr - 9, m2(ar), 9.5, 400, "#6C777C")
     svg.poly([(x0, yR + hr), (x0 + 900, yR + hr), (x0 + 900, yR + hr + hg), (x0, yR + hr + hg)], "#F1E7DA", "#8A9395", 0.8)
@@ -308,7 +314,7 @@ def crown_part_svg(part):
     for rm in rooms:
         if not rm.get("up"): continue
         a, b = rm["at"]; yu = 40
-        svg.poly([(X(a), yu), (X(b), yu), (X(b), yu + 22), (X(a), yu + 22)], KIND[rm["kind"]][0], "#2A6E8E", 1.2, "6 4", 0.7)
+        svg.poly([(X(a), yu), (X(b), yu), (X(b), yu + 22), (X(a), yu + 22)], KIND[rm["kind"]][0], "#2A6E8E", 1.2, "6 4", 0.7, code=rm["code"])
         svg.text((X(a) + X(b)) / 2, yu + 11, "%s %s · upper floor, in the spire" % (rm["code"], rm["name"]), 10.5, 700, "#2A6E8E")
     scalebar(svg, x0, H - 22, scale, 10)
     return svg.save("crown-%d.svg" % num)
@@ -554,6 +560,7 @@ def build():
     # ---- data and docs
     rows = [{k: v for k, v in r.items() if k in ("code", "name", "kind", "place", "part", "at", "rings", "upper", "up", "use", "also", "pair", "seen", "floor", "slot")} | {"m2": round(size_of(r) or 0)} for r in ALL]
     json.dump(rows, open(os.path.join(OUT, "rooms.json"), "w"), indent=0, ensure_ascii=False)
+    json.dump(SHAPES, open(os.path.join(OUT, "shapes.json"), "w"), separators=(",", ":"))      # every room's polygons by sheet and code
     # The same rooms for the design plan's chapters (02 Crown, 03 Pentagon, 04 Interiors), as a script so that it works
     # opened from disk too: the chapters take every room's name, code and place from here, never from a copy of their own.
     meta = {"kinds": {k: list(v) for k, v in KIND.items()}, "sectors": P.SECTORS,

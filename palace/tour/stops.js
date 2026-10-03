@@ -105,5 +105,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." },
   { img: "photos/crown_wellness.jpg", caption: "The pool, 25 m along the ring, with stone edges all round; loungers along the Glide." },
   { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." },
-  { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." }
+  { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." },
+  { img: "photos/crown_stars.jpg", caption: "The star lounge in the Crown's Observatory at night: reclining chairs under the slots full of stars, candles on the side tables, a floor of polished basalt." }
 ];

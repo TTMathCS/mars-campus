@@ -1,7 +1,7 @@
 """Floor plans Rev G: draws every plan from the room program (room_program.py) and writes the plan pages.
   python3 palace/tools/draw_plans.py
 Writes palace/plans/: the SVG plans (svg/), one page per sheet, per Crown part and per L1 sector, the pairs and the
-index of every code, and rooms.json; and short summaries in palace/docs/plans/. Rev G was approved by Jim on 2 Oct 2026,
+index of every code, and rooms.json; and short summaries in palace/docs/plans/. Rev G was approved by Jim on 3 Oct 2026,
 with the Orb of Rev F (48 m across, five rooms on each floor between two lanes).
 Geometry: the Pentagon's rings and sectors as in chapter 03 (160 m sides, an atrium of 35 m sides, rings 14 m deep with
 4 m streets, avenues 5 m wide); the Crown's ring as in the render scenes (rooms between radii 128.5 and 135 m, the
@@ -443,7 +443,6 @@ def page(fname, title, body, here, sub=None):
 <main>
 %s
 </main>
-<footer><p>Floor plans Rev G, approved by Jim on 2 Oct 2026. Drawn by <code>palace/tools/draw_plans.py</code> from the room program in <code>palace/tools/room_program.py</code>.</p></footer>
 </body>
 </html>
 """ % (E(title), nav, subnav, body)
@@ -482,7 +481,7 @@ def build():
     cards = "".join('<a class="card" href="crown-%d.html"><b>%d · %s</b><span>%s · %s</span></a>' %
                     (p[0], p[0], E(p[1]), p[5], E(", ".join("%s %s" % (r["code"], r["name"]) for r in P.CROWN if r["part"] == p[0]))) for p in P.CROWN_PARTS)
     page("crown.html", "The Crown",
-         '<h1>The Crown <small>the day house, 41 m above the plain</small></h1><p class="lede">Light, views and company, for about six hours a day: the rooms are placed by the sun, so there is one for every hour of the sol. Morning in the east (breakfast, the bedroom up), midday in the south (the salon, the pool), evening in the west (dining, the sunset lounge), the north light for the library and the studio, and the night sky in the north-east.</p>%s<h2>The ten parts</h2><div class="cards">%s</div><p class="note">%s</p>' %
+         '<h1>The Crown <small>for the day, 41 m above the plain</small></h1><p class="lede">Light, views and company, for about six hours a day: the rooms are placed by the sun, so there is one for every hour of the sol. Morning in the east (breakfast, the bedroom up), midday in the south (the salon, the pool), evening in the west (dining, the sunset lounge), the north light for the library and the studio, and the night sky in the north-east.</p>%s<h2>The ten parts</h2><div class="cards">%s</div><p class="note">%s</p>' %
          (fig(csrc, "Plan of the Crown's ring with every room code", "<b>The Crown's main floor</b>, north up. The numbers are room codes (10 is C-10); ▲ marks a spire with an upper floor."), cards,
           "C-GL The Glide: the moving walkway along the garden side, 779 m round, past every room."), "crown.html", subs)
     for p in P.CROWN_PARTS:
@@ -518,12 +517,12 @@ def build():
           "".join("<li><b>L1-%s</b> (and L2-%s … L5-%s) %s: %s</li>" % (k, k, k, E(v[0]), E(v[1])) for k, v in P.SHARED.items())), "rooms.html")
     # ---- the overview
     page("index.html", "Overview",
-         """<h1>Floor plans <small>Rev G, approved by Jim on 2 October 2026</small></h1>
-<p class="lede">Every room of the house: what it is for, what else it can be used for, where it is and how big, and a code to refer to it. Two of a kind only where the two have different jobs. %d rooms and areas.</p>
+         """<h1>Floor plans</h1>
+<p class="lede">Every room of Arcadia: what it is for, what else it can be used for, where it is and how big, and a code to refer to it. Two of a kind only where the two have different jobs. %d rooms and areas.</p>
 <div class="two"><div>
-<h2>How the house is planned</h2>
+<h2>How Arcadia is planned</h2>
 <ul>
-<li><b>Day up, night down.</b> The Crown is the day house: light, views and company, about six hours a day. The Pentagon is home for the evenings and the nights, under 16 m of soil, where everyone sleeps, Jim and his guests.</li>
+<li><b>Day up, night down.</b> The Crown is for the day: light, views and company, about six hours a day. The Pentagon is home for the evenings and the nights, under 16 m of soil, where everyone sleeps, Jim and his guests.</li>
 <li><b>A room for every hour.</b> The Crown's rooms are placed by the sun: breakfast in the east, the salon and the pool in the south, dinner and the sunset in the west, the library and the studio in the north light, the stars in the north-east.</li>
 <li><b>Jim's home is one sector.</b> On L1, sector 1 holds everything he uses every day, close together: music room, family room, dining room, study, bedroom, bath, kitchen.</li>
 <li><b>The rest by use</b>: the club, the baths, the library and the guests on L1; gardens on L2; making and running the house on L3; life support on L4; arrivals on L5.</li>
@@ -586,7 +585,7 @@ def docs():
         open(os.path.join(DOCS, fn), "w").write("# Floor plans · %s\n\n[All sheets](README.md) · **[Open on the live site ↗](%s%s)**\n\n![%s](../../plans/svg/%s)\n\n%s\n" %
                                                 (title, live, pg, title, svgf, md_table(rooms)))
     open(os.path.join(DOCS, "README.md"), "w").write(
-        "# Floor plans\n\n**[Open on the live site ↗](%sindex.html)** · Rev G, approved by Jim on 2 Oct 2026 · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`\n\n"
+        "# Floor plans\n\n**[Open on the live site ↗](%sindex.html)** · Rev G, approved by Jim on 3 Oct 2026 · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`\n\n"
         "Every room has a code, a purpose, a place and a size, and two of a kind only where the two have different jobs "
         "(Jim, 2 Oct 2026). Codes: **L1-02** (Pentagon level 1, room 02), **C-10** (Crown), **O-07** (Orb), **G-01** (ground). "
         "The Orb is 48 m across, with five rooms on each floor between an outer and an inner lane (Rev F).\n\n"

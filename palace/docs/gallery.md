@@ -103,19 +103,19 @@ The pod rises from the pod station on four blue methane flames, with the termina
 
 ![The pod heading west into the low sun](../design/img/flight-west.jpg)
 
-Heading west into the low sun after lift-off, with dust devils marching across the plain. *[Chapter 06](design/06-transport.md#the-flight-home).*
+Heading west into the low sun after lift-off, with dust devils marching across the plain. *[Chapter 06](design/06-transport.md#the-scenic-flight).*
 
 ### 3 The Dune Sea
 
 ![Dunes and dust devils](../design/img/flight-dunes.jpg)
 
-Down to 55 m over the black basalt sand of the Dune Sea, between the dust devils. *[Chapter 06](design/06-transport.md#the-flight-home).*
+Down to 55 m over the black basalt sand of the Dune Sea, between the dust devils. *[Chapter 06](design/06-transport.md#the-scenic-flight).*
 
 ### 4 Over the crater
 
 ![The pod over the crater's rim](../design/img/flight-crater.jpg)
 
-The climb over the rim of a crater 3.2 km across, with frost in its shadows. *[Chapter 06](design/06-transport.md#the-flight-home).*
+The climb over the rim of a crater 3.2 km across, with frost in its shadows. *[Chapter 06](design/06-transport.md#the-scenic-flight).*
 
 ### 5 The Ice Cliffs
 

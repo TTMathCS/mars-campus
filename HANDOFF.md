@@ -27,7 +27,15 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
   - Renders: the scratch folder is this session's scratchpad (`.../scratchpad/blend`, `bvenv` with bpy 4.2.0); one
     runner works down `blend/queue_a.txt` (the repo's queue, the dining still dropped: it is published and its scene
     has not changed).
-  - Next: the rest of step 1 (the docs), then steps 2, 3 and 4 below.
+  - **Step 1 done:** `palace/README.md` (Arcadia, the numbers, the status, no question left), `REQUIREMENTS.md` (the OR
+    rows and GN-13 stand, CR-3 19,500 m², section 10 "None"), `docs/design/02-crown.md`, `03-pentagon.md`,
+    `04-interiors.md` and `README.md` as the live chapters (the Orb at 48 m, Rev G codes, no 3D links), the decision
+    log (the answered review table gone, the best-judgment table under its own heading), §1, §2 and §2b here. The
+    plans pages lost their "approved by Jim on…" subtitle and footer (a status note, GN-18); three rooms' Rev B notes
+    left the room program. The book's drawings re-exported (`docs_export.py book`; the unchanged ones restored).
+  - **The Crown pool's ends** had no stone coping, so the end walls' tops lay level with the floor and rendered as a
+    black band: fixed in `crown_rooms.py` (copings at both ends) before the wellness renders went on.
+  - Next: steps 2, 3 and 4 below (the renders run all the time, one at a time).
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -81,20 +89,8 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
   and no "Rev E" label; the plans pages have no review notes and no Changes page; Rev B plans archived.
 
 **Next, in order (the new account starts here):**
-1. **Finish the Orb in the design book**, `palace/design/crown.html`: the `#orb` section still says 40 m, "Rev E,
-   for Jim's review", 804 m² rings, and has a `div.decide` "For Jim's review" box (remove it). Update the heading
-   (just "The Orb"), the intro, the table (+80 870, +72 1,070, +64 870, total 2,800 m²), the note under it, the top
-   numbers (19,500 m², 5.7 times), "a mirror sphere 48 m across from +48 to +96 m" in `#look`, the areas table
-   (Orb 2,800, Crown 19,500) and drop the Rev B/Rev D history paragraph. Redraw the section script `fOrbIn`
-   (constants `R = 24, RI = 22`, `k` about 11, `H0` about 98; floors' inner edge at the glass r = 12 on all three
-   floors; rooms as boxes between the lanes, 14.4 m out to 2.4 m inside the shell; windows at about 27–55°;
-   heights +48/+96; label targets moved). Same numbers in `palace/design/interiors.html` (its Orb heading also
-   says "Rev E, for Jim's review"), `explorer.js` ("40 m", "52 to 92 m up"), `atlas/atlas.js` ("40 m"), the site
-   plan's dashed "Orb above" circle in `site.html` (r 20 → 24), `palace/README.md` (numbers, the "One question for
-   Jim" paragraph: answered), `REQUIREMENTS.md` (CR-3 19,500 m², OR rows, open questions: none),
-   `docs/design/02-crown.md`, `04-interiors.md`, `docs/design/README.md`, `docs/decisions.md` (record the two
-   answers above under 3 Oct, and remove the "For Jim's review" table, now answered), and this file's §2c numbers.
-   Then remove every other "For Jim's review" note in the pages (Jim wants them clean).
+1. **Done (3 Oct, session `session_01U4NrzcFVFwFYPq6dhgJtP1`):** the Orb at 48 m and Rev G in every page and doc;
+   no review notes left on any page; the book's drawings re-exported.
 2. **Archive or remove the rest of the old files** (Jim's ask): `palace/docs/plans.md` (Rev B) →
    `palace/docs/archive/`; the Rev B sheet images in `palace/docs/img/plans/` once `gen_plan.py` stops using them
    (step 3); the unlinked real-time 3D demo (`palace/index.html`, `palace-debug.html`, `src/`, `build.sh`,
@@ -207,12 +203,12 @@ The Orb's Rev F question to Jim is still open.
 | Hub page | `index.html`, `site.css` | Live, titled **Mars – your new home** (Jim, 3 Oct 2026): *A city rising on Mars*, one card per place, never the word "demo", no notes for visitors; the Arcadia card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
 | The science | `science/` | Live since 2 Oct 2026. Real, with sources, one subject a page: Mars facts (8 pages) and Building on Mars (12 pages). See [science/README.md](science/README.md). |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
-| Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
-| Demo 2, requirements | `palace/REQUIREMENTS.md` | Rewritten 1 Oct 2026 by area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links. **No open questions.** |
-| Demo 2, design book | `palace/design/` | **Rev E, live** at https://ttmathcs.github.io/mars-campus/palace/design/. Chapters 01–07 written; 08 Life support, 09 Communications and space, 10 Building it still to write. For Jim's review: the Orb, Rev E. |
-| Demo 2, floor plans | `palace/plans/` | Rev B, **approved by Jim on 30 Sep 2026** ("Approve. Go"). B.1 (1 Oct): the garden mirrors and the solar field taken off at his request. The Orb is still drawn as Rev B. |
-| Demo 2, 3D build | `palace/src/` → `palace/index.html` | **Phase 1 live** since 1 Oct 2026 (Jim, the night before: "please go ahead to build, you have my pre approve"): terrain, sky, spaceport, pod, the Crown with the Orb and the built ground, storm, the 10-shot flight, cameras, look-around. Phase 2 is live: **the Crown's main floor** at `palace/crown/` (the hangar, the Door, the Arrival hall, the Glide, 30 furnished rooms, the sun through the slots at five times of day, a map, portals) and **the Orb** at `palace/orb/` (the universe switch, the zoom from the cosmic web to the house, the Earth and Mars dashboard, the Gate sending you to demo 1). Phase 3 has started: **the Pentagon** at `palace/pentagon/` (the atrium, its bridges and the portal column; the rooms of ring A seen through the glass on every level; the garden level with the lake, forest, orchard, farm and meadow; the sun court; Jim's residence on L1 to walk into, with the piano, the TV and the books). Next: the rest of L1. |
-| Demo 2, photo tour | `palace/tour/` | **Live since 1 Oct 2026.** Jim found the real-time 3D pages cartoonish ("WTH IS THIS? CATOON? nothing is real or feel real at all"), so the house is now shown as path-traced 360° photographs (Blender Cycles, scanned furniture). He likes them ("so great and almost perfect. i need all rooms to be like this"): **every room is to be rendered this way.** Live: the family room. Rendering: the rest of Jim's L1 rooms, the atrium, the sun court; next the master suite down, the Crown's rooms (the great salon first), then the Orb. The scenes are scripts in `palace/tools/render/`. |
+| Demo 2 home | `palace/README.md` | **Start here for demo 2, Arcadia.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
+| Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
+| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–07 with the Orb at 48 m and every room as Rev G; 08 Life support, 09 Communications and space, 10 Building it still to write. |
+| Demo 2, floor plans | `palace/plans/` | **Rev G, approved by Jim on 3 Oct 2026** ("approve"): 179 rooms and areas with codes, written by `palace/tools/draw_plans.py` from `room_program.py`; the Orb at 48 m. Rev B is archived at `palace/archive/plans-rev-b/`. |
+| Demo 2, real-time 3D | `palace/src/` → `palace/index.html`, `crown/`, `orb/`, `pentagon/` | Hidden since 2 Oct 2026 (Jim: "far from satisfying"); to be archived (step 2 above). |
+| Demo 2, photo tour | `palace/tour/` | Live since 1 Oct 2026: path-traced 360s and stills (Blender Cycles), the standard for every picture (Jim: "so great and almost perfect. i need all rooms to be like this"). Published: L1's family room, music room, dining room, library, baths and cinema; the Crown's salon, bedroom up, library, map room and pool. Rendering, one at a time: the rest (step 4). |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
 ## 2. Demo 2: where the design stands
@@ -220,17 +216,17 @@ The Orb's Rev F question to Jim is still open.
 The full record is in `palace/docs/decisions.md` (every question, Jim's words, what changed). In short:
 
 - **Above ground: the Crown.** A white ring 276 m across floats on anti-gravity 40 m over the Stone Garden, with five
-  spires to 90 m and no big windows. At its centre floats the **Orb**, a mirror ball 40 m across.
-- **The Orb, Rev E (1 Oct 2026, for Jim's review).** The universe is **future-tech VR**: switched on, it appears in 3D
+  spires to 90 m and no big windows. At its centre floats the **Orb**, a mirror ball 48 m across (+48 to +96 m).
+- **The Orb (Rev E, 1 Oct 2026, stands; 48 m since 3 Oct).** The universe is **future-tech VR**: switched on, it appears in 3D
   directly in the space of the room, all round, with no projector, no screen and no ball (Jim: "not projector",
   "not inside a ball", "projected directly in the 3d space"). Jim zooms it like a 3D dashboard, from the whole universe
   down to Mars and the house; Earth and Mars float in the corner of his view with live weather, and can be hidden.
   The ball in the middle, 18 m across, is the **Wormhole Gate**: choose a place and a time in the universe, walk
   across a short bridge into the ball (things ride in on a cart or with a robot), press send, and it shoots you like a
   beam of light to that place and time, instantly ("this is how wormhole works"). The far end is a ball too, for the
-  way back. Rooms on three rings round it: +64 portal ring, +72 Universe lounges and the bridge, +80 five rest rooms
-  behind radiation glass.
-- **The ground, Rev E (1 Oct 2026, for Jim's review): built, not raw** (Jim: "the ground is raw and need some
+  way back. Three floors round it, each with five rooms between an outer lane (windows) and an inner lane (the glass
+  onto the Gate): +64 portal rooms, +72 universe lounges and the bridge, +80 five rest rooms behind radiation glass.
+- **The ground (Rev E, 1 Oct 2026, stands): built, not raw** (Jim: "the ground is raw and need some
   construction/design as well. and at least some hints that there is big part underground", GN-13). A **paved
   pentagon** 4 m wider than the Pentagon shows where the house lies; the **Stone Garden** (raked gravel 224 m across,
   seven basalt stones) is the circle inside it; five strips of glass trace the avenues; a glass **corner pavilion**
@@ -256,16 +252,13 @@ approved 30 Sep → Rev C, the design book, because Jim wants every plan designe
 Rev D, the Universe Hall, his decisions and the clean ground (1 Oct) → Rev E, the universe in VR and the ball as
 the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
 
-**Build order** once Jim approves the design book. Each phase is published at `palace/` (same link):
-1. The 30 km landscape, the spaceport and the pod flight video.
-2. The Crown and the Orb.
-3. The Pentagon, one level at a time.
+**Pictures, not real-time 3D:** every room is shown as path-traced stills and 360s, one render at a time, following
+the floor plans (Jim, 2 Oct 2026); the real-time 3D pages are hidden.
 
 ## 2b. Next steps, in order
 
-1. **Jim's review of the Orb (Rev E).** If he asks for changes, update `crown.html` (the Orb section and its figures
-   `fOrbIn`, `fDash`, `fZoom`), `interiors.html` (the Orb room cards), `docs/design/02-crown.md` and the decision log,
-   then re-export the drawings (section 3).
+1. **The pictures, one render at a time** (step 4 of section 0): the queue, then every room not drawn yet, each
+   checked against the room program first.
 2. **Write chapter 08 Life support** (`life.html`): air at 70 kPa with 27% oxygen (decided; breathes like Calgary;
    NASA's exploration atmosphere is 56.5 kPa with 34%); oxygen from electrolysis and the fuel plant's spare 100 t a
    ship; CO₂ scrubbing; the water loop (ice melt, over 95% recycling, the L2 lake as the reserve, the Crown's 90,000 t
@@ -287,11 +280,7 @@ the Wormhole Gate (1 Oct). The revisions are listed on the book's cover.
    01–07), add its figures to `BOOK` in `docs_export.py` and export, add its requirements' links in
    `REQUIREMENTS.md`, check it with `book_shot.py` (desktop, phone and dark), commit, push and tell Jim what it is
    before he opens it.
-6. **The 3D demo** (Jim pre-approved the build on 1 Oct 2026): phase 1 is live at `palace/`, phase 2 (the Crown's main
-   floor and the Orb) at `palace/crown/` and `palace/orb/`, and phase 3 has started at `palace/pentagon/`. Next in
-   the Pentagon: the rest of L1 (the club and cinema, the baths and the 50 m pool, the great library, the guests),
-   then the corner cores and the rooms of L3 to L5. Still to come above ground: the spires' upper floors and the Orb's rest rooms. The floor
-   plans' rooms are now Rev G (for Jim's review); its Orb sheet follows Rev E until Jim answers Rev F.
+6. The real-time 3D pages stay hidden (Jim, 2 Oct 2026: "far from satisfying") and go to the archive (step 2).
 
 ## 2c. Numbers used across the design book
 
@@ -469,7 +458,7 @@ look at every final critically before it goes up.
   `window.__atlas` has `jump(k)`, `select(id)`, `flyTo({...})` and `CAM`. Links can open a view:
   `atlas/#place=house` or `atlas/#@lat,lon,distkm,...`.
 
-**Demo 2 plans Rev G** (the rooms, for Jim's review): edit the room in `palace/tools/room_program.py`, then run
+**Demo 2 plans Rev G** (the rooms, approved by Jim on 3 Oct 2026): edit the room in `palace/tools/room_program.py`, then run
 `python3 palace/tools/draw_plans.py`; it rewrites `palace/plans/` (pages, `svg/`, `rooms.json`) and
 `palace/docs/plans/`. Don't edit the generated pages by hand. Codes: `L1-01` (level, room, numbered sector by
 sector from the atrium out), `C-01` to `C-34` (Crown, clockwise from Arrival), `O-00` to `O-17` (Orb), `G-01` to

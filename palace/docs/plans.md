@@ -118,4 +118,4 @@ ground.*
 
 Height above the plain against time: 37 km, about 4 min 40 s from lift-off to the hangar, highest point 400 m, lowest
 pass 30 m under the ring. It plays in real time, with cockpit, chase and director cameras, and can be skipped. See the
-[pictures from the flight](gallery.md#the-flight-home).
+[pictures from the flight](gallery.md#the-scenic-flight).

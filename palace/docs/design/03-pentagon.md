@@ -2,10 +2,10 @@
 
 [← 02 The Crown](02-crown.md) · [Design](README.md) · **03 The Pentagon** · [04 Interiors →](04-interiors.md)
 
-**[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html)** · **[Walk it in the 3D demo ↗](https://ttmathcs.github.io/mars-campus/palace/pentagon/)**
+**[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html)**
 
-The house below ground. One solid five-sided block, 160 m on each side and five levels deep, lies under the Stone
-Garden with 16 m of soil on top. It is the night house and the working house: where Jim sleeps, where the gardens and
+Arcadia below ground. One solid five-sided block, 160 m on each side and five levels deep, lies under the Stone
+Garden with 16 m of soil on top. It is for the nights and the work: where Jim sleeps, where the gardens and
 the workshops are, and where the air, water and power come from. **Requirements:** PG-1 to PG-3, LV-3, CR-4.
 
 ![Section east to west through the Pentagon and the Crown](../img/book/pentagon-section.png)
@@ -29,16 +29,26 @@ spire, with a portal to that spire, a portal to every level, a stair, and the sh
 atrium stands the **portal column**, reached by five bridges on every level. Sector 1 lies to the south-east, straight
 below the master suite up, and the sectors are numbered clockwise.
 
+L1's rooms, with the codes of the [floor plans](../plans/README.md), ring by ring from the atrium out:
+
+| Sector | Rings A to E |
+| --- | --- |
+| 1 · Jim's residence | A L1-01 Music room, L1-02 Family room, L1-03 Dining room and bar, L1-04 Study (upstairs) · B L1-05 Laundry and linen, L1-06 Bath, L1-07 Moss garden, L1-08 Bedroom, L1-09 Dressing room, L1-10 Kitchen · C L1-11 Pantry and cold store, L1-12 Robot bay, L1-13 Household stores · D L1-14 Memory rooms · E L1-15 Wardrobe and stores, L1-16 Residence plant room |
+| 2 · The club | A L1-17 Cinema · B L1-18 Games room · C L1-19 Ballroom · D L1-20 Wine cellar · E L1-21 Club stores |
+| 3 · Baths and sport | A L1-22 Thermal baths · B L1-23 Lap pool, 50 m · C L1-24 Sports hall · D L1-25 Sauna and steam · E L1-26 Treatment rooms |
+| 4 · Library and archive | A L1-27 Great library · B L1-28 Archive of Earth · C L1-29 Film and music archive · D L1-30 Book stacks · E L1-31 Conservation workshop |
+| 5 · Guests | A L1-32 Guest lounge · B L1-33 to L1-36 Guest suites 1 to 4 · C L1-37 to L1-40 Guest suites 5 to 8 · D L1-41, L1-42 Family apartments · E L1-43 Staff and robots |
+
 ## The five levels
 
-| L1 Residence, −24 m | L2 Garden, −41 m |
+| L1 Residence, −24 m · L1-01 to L1-43 | L2 Garden, −41 m · L2-01 to L2-21 |
 | --- | --- |
 | ![L1 Residence](../img/book/pentagon-plan-L1.png) | ![L2 Garden](../img/book/pentagon-plan-L2.png) |
-| Jim's home below ground: the master suite down, family rooms, a club with a cinema and a bar, thermal baths and a 50 m pool, the great library and the guest suites | 16 m tall under a sky of lamps: orchards, a farm, a lake that is also the water reserve, a forest with a stream, and a meadow with bees |
-| **L3 Studio, −50 m** | **L4 Life support, −59 m** |
+| Jim's home below ground, for the nights and the evenings: his residence, the club, the baths, the library and the guests. Everyone sleeps here, under 16 m of soil | 16 m tall under a sky of lamps: orchards, a farm, a lake that is also the water reserve, a forest with a stream, and a meadow with bees |
+| **L3 Studio, −50 m · L3-01 to L3-23** | **L4 Life support, −59 m · L4-01 to L4-19** |
 | ![L3 Studio](../img/book/pentagon-plan-L3.png) | ![L4 Life support](../img/book/pentagon-plan-L4.png) |
 | Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms | Two fission reactors and a bay kept for fusion, water from ice, the air plant, the storm reserve of two years' food, and recycling |
-| **L5 Transit, −68 m** | |
+| **L5 Transit, −68 m · L5-01 to L5-21** | |
 | ![L5 Transit](../img/book/pentagon-plan-L5.png) | |
 | The maglev station (phase 2), the cargo halls, the seed vault, the tunnel works, and the rover hall with the tunnel up to the plain. The sun court is at its centre | |
 

@@ -1,6 +1,6 @@
 # Floor plans
 
-**[Open on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/plans/index.html)** · Rev G, approved by Jim on 2 Oct 2026 · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`
+**[Open on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/plans/index.html)** · Rev G, approved by Jim on 3 Oct 2026 · drawn by `palace/tools/draw_plans.py` from `palace/tools/room_program.py`
 
 Every room has a code, a purpose, a place and a size, and two of a kind only where the two have different jobs (Jim, 2 Oct 2026). Codes: **L1-02** (Pentagon level 1, room 02), **C-10** (Crown), **O-07** (Orb), **G-01** (ground). The Orb is 48 m across, with five rooms on each floor between an outer and an inner lane (Rev F).
 

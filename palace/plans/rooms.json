@@ -886,7 +886,7 @@ null
 5
 ],
 "use": "A tea house in the meadow: tea, quiet, contemplation.",
-"also": "Small meetings away from the house. (The Crown's tea house of Rev B is folded into this one.)",
+"also": "Small meetings away from the house.",
 "place": "L2",
 "m2": 1279
 },
@@ -1886,7 +1886,7 @@ null
 144.0
 ],
 "use": "A bath with a soaking tub by the slots.",
-"also": "(The Rev B private spa is folded into the wellness rooms.)",
+"also": "",
 "place": "C",
 "m2": 204
 },
@@ -2230,7 +2230,7 @@ null
 36.0
 ],
 "use": "The controls of the telescope upstairs, and screens for what it sees.",
-"also": "(The Rev B planetarium is gone: the Orb shows the universe.)",
+"also": "",
 "place": "C",
 "m2": 179
 },

@@ -30,8 +30,11 @@ choice is recorded below. Shown for review:
 | The sun court (L5) | A paved walk round the lawn, and causeways over the pool to the portal column | So you can reach the portals on L5 as on the other levels |
 | The front of Jim's residence on L1 (for the photo tour) | Walls 8 m either side of the middle make three rooms behind the glass: a music room with the grand piano, the family room with the fire, and a dining room with the table for eight | One room 49 m long under a 3.8 m ceiling looks like a hotel lobby in a photograph; chapter 04 already lists a kitchen and dining room on L1 |
 
-## 3 Oct 2026: Rev G approved, the Orb at 48 m, and a clean site
+## 3 Oct 2026: Rev G approved, the Orb at 48 m, a clean site and a new name
 
+- **The site's name.** Jim: "the title should not be 'Mars – No Way Home', should be 'Mars - your new home'".
+  **Done:** the site is *Mars – your new home* on the homepage, in every page's header and in the browser tab;
+  the repository keeps its name.
 - **Floor plans Rev G.** Jim: "approve". The plans are now at [palace/plans/](https://ttmathcs.github.io/mars-campus/palace/plans/)
   ([summary](plans/README.md)); Rev B is archived. Room pictures carry on, one at a time, following the plan. → GN-16.
 - **The Orb's size (Rev F).** Jim: "do per your best judgements". **Decided:** the Orb grows from 40 m to **48 m**

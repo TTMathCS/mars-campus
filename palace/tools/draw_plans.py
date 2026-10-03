@@ -433,13 +433,13 @@ def page(fname, title, body, here, sub=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>%s · Floor plans · Mars – No Way Home</title>
+<title>%s · Floor plans · Mars – your new home</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="plans.css">
 </head>
 <body>
-<header class="top"><div class="in"><div class="crumb"><a href="../../">Mars – No Way Home</a> · <a href="../design/">Design plan</a> · <a href="index.html">Floor plans</a></div><nav>%s</nav></div>%s</header>
+<header class="top"><div class="in"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="../design/">Design plan</a> · <a href="index.html">Floor plans</a></div><nav>%s</nav></div>%s</header>
 <main>
 %s
 </main>

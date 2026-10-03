@@ -7,6 +7,13 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
+- **3 Oct, from 01:50 UTC, session `session_01U4NrzcFVFwFYPq6dhgJtP1` (working; it can reach PyPI, so it runs the
+  renders):**
+  - **The site is now *Mars – your new home*** (Jim, 3 Oct: "the title should not be 'Mars – No Way Home', should
+    be 'Mars - your new home'"; the dash set as before, his lowercase kept): the homepage, every page's header and
+    browser tab (`book.js`, `science.js`, `draw_plans.py`, plans re-drawn), the unlinked 3D pages, both READMEs and
+    the decision log. Only the archives and the log's quotes keep the old name.
+  - Next: the rest of step 1 (the docs), then steps 2, 3 and 4 below.
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -108,7 +115,7 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ### Earlier on 2 Oct
 
-The site is **Mars – No Way Home** (Jim's name). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
+The site is **Mars – your new home** (Jim's name since 3 Oct; it was *Mars – No Way Home* from 2 Oct). Demo 2 is **the design plan** (`palace/design/`); the real-time 3D
 pages are unlinked. The render scenes and tools are in `palace/tools/render/` (copied from the scratch folder).
 
 **Jim's asks today, newest last (all done or in hand):**
@@ -183,7 +190,7 @@ The Orb's Rev F question to Jim is still open.
 
 | Part | Where | State |
 | --- | --- | --- |
-| Hub page | `index.html`, `site.css` | Live, titled **Mars – No Way Home**. One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
+| Hub page | `index.html`, `site.css` | Live, titled **Mars – your new home** (Jim, 3 Oct 2026). One card per demo, never more; the demo 2 card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
 | The science | `science/` | Live since 2 Oct 2026. Real, with sources, one subject a page: Mars facts (8 pages) and Building on Mars (12 pages). See [science/README.md](science/README.md). |
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |

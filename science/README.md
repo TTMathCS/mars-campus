@@ -1,6 +1,6 @@
 # The science
 
-[Mars – No Way Home](../README.md) · **The science** · live at https://ttmathcs.github.io/mars-campus/science/
+[Mars – your new home](../README.md) · **The science** · live at https://ttmathcs.github.io/mars-campus/science/
 
 The real part of the site, beside the two imagined demos: Mars as spacecraft have measured it, and the research on how
 people could build and live there. **One subject a page**, each with its sources at the end; the few numbers that are

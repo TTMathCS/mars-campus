@@ -1,6 +1,6 @@
-# Mars – No Way Home
+# Mars – your new home
 
-The site is called *Mars – No Way Home* (Jim's choice, 2 Oct 2026); the repository keeps its name, `mars-campus`.
+The site is called *Mars – your new home* (Jim's choice, 3 Oct 2026); the repository keeps its name, `mars-campus`.
 
 Walkable 3D places on Mars that run in the browser. Each demo is an imagined place to discover on foot; demo 1 stands on real NASA ground from Gale Crater.
 

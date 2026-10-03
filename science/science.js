@@ -18,7 +18,7 @@
   function href(p) { return p === "index" ? "./" : p + ".html"; }
   var idx = S ? S.pages.map(function (p) { return p[0]; }).indexOf(page) : -1;
 
-  var crumb = '<a href="' + home + '">Mars – No Way Home</a> · ' + (S ? '<a href="' + up + '">The science</a>' : "The science");
+  var crumb = '<a href="' + home + '">Mars – your new home</a> · ' + (S ? '<a href="' + up + '">The science</a>' : "The science");
   if (S) crumb += " · " + (page === "index" ? S.name : '<a href="./">' + S.name + "</a> · " + S.pages[idx][1]);
   var nav = '<nav aria-label="The science"><a href="' + up + 'mars-facts/"' + (sec === "mars-facts" ? ' class="on"' : "") + '>Mars facts</a>' +
     '<a href="' + up + 'building-on-mars/"' + (sec === "building-on-mars" ? ' class="on"' : "") + ">Building on Mars</a></nav>";
@@ -42,6 +42,6 @@
             : '<a class="next" href="' + up + other[0] + '/"><span>Next →</span><b>' + other[1] + "</b></a>") + "</nav>");
   }
   document.body.insertAdjacentHTML("beforeend", '<footer class="foot"><div class="in"><p>Real science, with the sources at the end of every page; the few numbers that are our own estimates say so. ' +
-    'The two demos on the homepage are imagined.</p><p><a href="' + home + '">Mars – No Way Home</a> · <a href="' + up + 'mars-facts/">Mars facts</a> · <a href="' + up +
+    'The two demos on the homepage are imagined.</p><p><a href="' + home + '">Mars – your new home</a> · <a href="' + up + 'mars-facts/">Mars facts</a> · <a href="' + up +
     'building-on-mars/">Building on Mars</a> · <a href="https://github.com/TTMathCS/mars-campus">Source on GitHub</a></p></div></footer>');
 })();

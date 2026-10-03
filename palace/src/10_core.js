@@ -1,5 +1,5 @@
   /* ==========================================================================================
-     The Crown · demo 2 of Mars – No Way Home. Core: renderer, shared uniforms, shader chunks, HDR post.
+     The Crown · demo 2 of Mars – your new home. Core: renderer, shared uniforms, shader chunks, HDR post.
      World units are metres. x = east, z = south, y = up. The Crown's centre is the origin;
      Arcadia Spaceport's terminal is at x = 30 000. All vertex shaders bend the world with the
      curvature of Mars (radius 3 389.5 km) around the camera, so the horizon is where it really is.

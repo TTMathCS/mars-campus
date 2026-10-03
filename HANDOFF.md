@@ -75,7 +75,22 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
   - **No "house" for Arcadia** in what visitors read: the Atlas (its labels, and Relay 1's text now says 3 to 22 min),
     the science pages' callouts and figure text, "the day house" and "the night house" in chapters 02 and 03, the Power
     chapter's labels. Three room texts promised live "calls" home, which the delay rules out: now video letters.
-  - Next: the renders as they finish; then chapter 10 Building it (§2b step 4).
+  - **Published:** Arcadia in section rendered again with the Orb at 48 m and the rooms as Rev G
+    (`design/img/house-hero.jpg`, the homepage card, and `house-whole.jpg`); the 72 turntable frames follow.
+  - **Chapter 10 Building it written** (§2b step 4): `palace/design/phases.html` with three drawings (the order of work
+    2022–2030 against the launch windows, what each wave of ships brings, homes year by year to the 2060s),
+    `docs/design/10-phases.md`, `phases` in `READY` and `BOOK`; SY-6 and GN-7 link to it; **all ten chapters are
+    written**. The plan it sets (our best judgment; nothing here was asked of Jim): windows Aug–Sep 2022, Oct–Nov 2024,
+    Nov–Dec 2026, Jan 2029 (worked from JPL's elements); 12 cargo ships land in early 2023 (the port's reactors, the
+    ice mine, the fuel plant, the pads, the road and cable), 20 in spring 2025 (Arcadia's reactors, life support, the
+    fittings, the drives); the dig 2024–25, the Pentagon bottom up 2025–26, air made through 2026 and let in early 2027,
+    the Crown assembled 2026–27 and lifted in April 2027, the gardens planted early 2027 from saplings raised in a
+    ship's hold; Jim and 4 cargo ships land in June 2027, by ship this once (the Orb is still being built when he
+    leaves). The first two waves' cargo ships stay on the plain (stores, the first greenhouse, steel for the foundry).
+    About 90 robots and 3,600 t from Earth; Mars gives over 200 t for each. Phase 2 2029–2038 (13 homes, the maglev
+    opens 2033), phase 3 2038 to the early 2060s (233 homes; the civic seeds about 2040–2062), phase 4 after.
+  - Next: the renders as they finish (the turntable's 24 frames at every third angle, then the other 48; the master
+    suite down, the Arrival hall, the sunset lounge, the atrium's 360s, the music and dining stills).
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -245,7 +260,7 @@ The Orb's Rev F question to Jim is still open.
 | Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2, Arcadia.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
-| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–09 with the Orb at 48 m and every room as Rev G; 10 Building it still to write. |
+| Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), all ten chapters with the Orb at 48 m and every room as Rev G. |
 | Demo 2, floor plans | `palace/plans/` | **Rev G, approved by Jim on 3 Oct 2026** ("approve"): 179 rooms and areas with codes, written by `palace/tools/draw_plans.py` from `room_program.py`; the Orb at 48 m. Rev B is archived at `palace/archive/plans-rev-b/`. |
 | Demo 2, real-time 3D | `palace/archive/3d-demo/` | Hidden on 2 Oct 2026 (Jim: "far from satisfying") and archived on 3 Oct, with its tools and notes ([README](palace/archive/3d-demo/README.md)); `palace/index.html` now opens the design plan. |
 | Demo 2, photo tour | `palace/tour/` | Live since 1 Oct 2026: path-traced 360s and stills (Blender Cycles), the standard for every picture (Jim: "so great and almost perfect. i need all rooms to be like this"). Published: L1's family room, music room, dining room, library, baths and cinema; the Crown's salon, bedroom up, library, map room and pool. Rendering, one at a time: the rest (step 4). |
@@ -305,10 +320,8 @@ the floor plans (Jim, 2 Oct 2026); the real-time 3D pages are hidden.
 3. **Done (3 Oct):** chapter 09 Communications and space, `space.html` and `docs/design/09-space.md`: the delay, the
    relays and Relay 4 at Sun–Earth L4, the lasers, living with the delay, Phobos, Deimos and Earth in the sky, Mars
    time and Mars Year 39.
-4. **Write chapter 10 Building it** (`phases.html`): year 0 is 2027, when Jim lands. Robots land two launch windows
-   ahead (about 4½ years before); the order of work (power and the fuel plant at the port first, then the road and
-   cable, the Pentagon dig and L4/L5, the Crown's pads and ring, the gardens); the city's phases 1 to 4 (chapter 01).
-   Use a timeline drawing with the 26-month windows.
+4. **Done (3 Oct):** chapter 10 Building it, `phases.html` and `docs/design/10-phases.md`: the order of work from the
+   first landing in 2023 to Jim's in June 2027, the robots, the three waves of ships, the city's phases with dates.
 5. For each new chapter: add it to `READY` in `book.js`, write its page in `palace/docs/design/` (copy the pattern of
    01–07), add its figures to `BOOK` in `docs_export.py` and export, add its requirements' links in
    `REQUIREMENTS.md`, check it with `book_shot.py` (desktop, phone and dark), commit, push and tell Jim what it is

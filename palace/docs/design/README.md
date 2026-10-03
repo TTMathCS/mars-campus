@@ -7,7 +7,7 @@ is the full design: for each part, *what it looks like* and *how it works*, with
 numbers. These pages carry each chapter's diagrams and pictures and its main points, so the design can be read
 here too. Each page links to its full chapter.
 
-Chapters 01–09 are written; 10 is still to write. Every room is as on the floor plans Rev G, which Jim approved
+All ten chapters are written. Every room is as on the floor plans Rev G, which Jim approved
 on 3 Oct 2026, with the Orb 48 m across.
 
 | | Chapter | What it covers | Live chapter |
@@ -23,7 +23,7 @@ on 3 Oct 2026, with the Orb 48 m across.
 | <a href="07-spaceport.md"><img src="../../design/img/port-aerial.jpg" width="160" alt=""></a> | **[07 Arcadia Spaceport](07-spaceport.md)** | The pads, the terminal, the fuel plant that makes rocket fuel from ice and air, the ice mine | [spaceport.html](https://ttmathcs.github.io/mars-campus/palace/design/spaceport.html) |
 | <a href="08-life.md"><img src="../img/book/life-loops.png" width="160" alt=""></a> | **[08 Life support](08-life.md)** | Air at 70 kPa with 27% oxygen, water recycled 98%, food from L2 and a two-year reserve, warmth, Jim's radiation budget, dust, fire, health | [life.html](https://ttmathcs.github.io/mars-campus/palace/design/life.html) |
 | <a href="09-space.md"><img src="../img/book/space-link.png" width="160" alt=""></a> | **[09 Communications and space](09-space.md)** | The 3 to 22 minute delay, relays over Mars and lasers to Earth, a relay to see round the Sun, Phobos and Deimos, Mars time | [space.html](https://ttmathcs.github.io/mars-campus/palace/design/space.html) |
-| ⏳ | **10 Building it** · to write | Robots first, the order of work, the city's phases, dated from Jim's arrival in 2027 | — |
+| <a href="10-phases.md"><img src="../img/book/phases-build.png" width="160" alt=""></a> | **[10 Building it](10-phases.md)** | Robots first from 2023, the order of work, three waves of ships, Jim's arrival in June 2027, and the city's phases to the 2060s | [phases.html](https://ttmathcs.github.io/mars-campus/palace/design/phases.html) |
 
 ## Real, or future?
 

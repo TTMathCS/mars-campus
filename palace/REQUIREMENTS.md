@@ -15,7 +15,7 @@ goes here first.
 >   **48 m** across, decided with our best judgment as he asked ("do per your best judgements"; OR-1 to OR-9).
 > - **Nothing waits for an answer.** The Orb's design (Rev E) and the built ground (GN-13) stand as drawn: Jim asked
 >   for no changes.
-> - The design plan: chapters 01–09 are written; 10 Building it is still to write.
+> - The design plan: all ten chapters are written.
 > - **It must look real.** Every room is rendered as path-traced pictures and 360° views, one at a time, following the
 >   floor plans ([the photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/)). The real-time 3D pages are hidden from the site (2 Oct).
 
@@ -63,7 +63,7 @@ repo, with its diagrams and pictures.
 | GN-4 | It must look real: real materials, never cartoon. "Real is so important. I want everything to be so impressive." | Must | Applies to every design, picture and 3D view | [Pictures](docs/gallery.md) |
 | GN-5 | Real science and engineering with worked numbers. Dreams are marked as future technology, with a real fallback | Must | ✅ Done in every chapter | [Summary](docs/design/README.md#real-or-future) |
 | GN-6 | Show the plans before building any detail, and wait for Jim's approval | Must | ✅ Rev A, B and G shown; Rev B approved on 30 Sep, Rev G on 3 Oct 2026 | [Floor plans](docs/plans/README.md) |
-| GN-7 | Design and document every plan, what it looks like and how it works, before more 3D work | Must | 🔧 Chapters 01–09 written; 10 to write | [Design](docs/design/README.md) |
+| GN-7 | Design and document every plan, what it looks like and how it works, before more 3D work | Must | ✅ All ten chapters written (3 Oct 2026) | [Design](docs/design/README.md) |
 | GN-8 | Keep all progress in this GitHub repo and on the live site, never as a chat artifact, so another account or AI can continue | Must | ✅ | [HANDOFF.md](../HANDOFF.md) |
 | GN-9 | Organised documents: requirements, plans and maps easy to move between, with the diagrams and pictures visible in the repo | Must | ✅ Done 1 Oct 2026: this file, [Demo 2 home](README.md) and [docs/](docs/design/README.md) | [Demo 2 home](README.md) |
 | GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | ✅ Done 1 Oct 2026: 39 diagrams exported, all ten pictures re-rendered; the cockpit view did not look real and was taken out | [Pictures](docs/gallery.md) |
@@ -163,7 +163,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | SY-3 | The air inside | Must | ☑️ Decided 1 Oct (Jim: "do your best judgment"): 70 kPa with 27% oxygen, which breathes like Calgary; 📐 how it is made and kept in chapter 08 | [Ch 08](https://ttmathcs.github.io/mars-campus/palace/design/life.html#air) · [Summary](docs/design/08-life.md#the-air) |
 | SY-4 | Life support: air, water, food, heat, radiation, dust, fire safety, medical care | Must | 📐 Chapter 08, 3 Oct 2026: L4 makes the air and water from Mars and takes them back (98% of the water); the farm on L2 and two years of food in store; 2 MW of reactor heat; Jim's dose about 19 mSv a year; suit ports; fire safety at 27%; the medical centre | [Ch 08](https://ttmathcs.github.io/mars-campus/palace/design/life.html) · [Summary](docs/design/08-life.md) |
 | SY-5 | Communications and space: the radio delay, relay satellites, the moons, Mars time | Should | 📐 Chapter 09, 3 Oct 2026: messages, not calls, 3 to 22 minutes each way; Arcadia by radio to a relay 17,032 km up, three relays round Mars and lasers to Earth; Relay 4 at Sun–Earth L4 for conjunction; Phobos, Deimos, Earth as a morning star; Mars time and Mars Year 39 | [Ch 09](https://ttmathcs.github.io/mars-campus/palace/design/space.html) · [Summary](docs/design/09-space.md) |
-| SY-6 | When Jim moves in, so the building timeline has dates | Must | ☑️ Decided 1 Oct: 2027. He launches in the Nov–Dec 2026 window and lands in mid-2027. ⏳ Chapter 10 | [Decisions](docs/decisions.md#1-oct-2026-jims-answers) |
+| SY-6 | When Jim moves in, so the building timeline has dates | Must | ☑️ Decided 1 Oct: 2027. He launches in the Nov–Dec 2026 window and lands in mid-2027. 📐 Chapter 10, 3 Oct 2026: robots land in early 2023 and 2025; the dig 2024–25, the Pentagon 2025–26, the Crown lifted in April 2027; Jim lands in June 2027; phase 2 2029–2038, phase 3 to the early 2060s | [Ch 10](https://ttmathcs.github.io/mars-campus/palace/design/phases.html) · [Summary](docs/design/10-phases.md) · [Decisions](docs/decisions.md#1-oct-2026-jims-answers) |
 | SY-7 | A page introducing Mars with facts of its geography, and topics on the engineering: building and moving materials to Mars, water, food, energy and the rest. Jim, 2 Oct 2026: "this subpage should be based on science" | Must | ✅ Now the science pages, one subject a page, from spacecraft measurements and published studies, with sources (GN-15) | [Mars facts](https://ttmathcs.github.io/mars-campus/science/mars-facts/) · [Building on Mars](https://ttmathcs.github.io/mars-campus/science/building-on-mars/) · [What is where](../science/README.md) |
 
 ## 9. What you can do in the demo

@@ -1,6 +1,6 @@
 # 09 · Communications and space
 
-[← 08 Life support](08-life.md) · [Design](README.md) · **09 Communications and space** · 10 Building it (to write)
+[← 08 Life support](08-life.md) · [Design](README.md) · **09 Communications and space** · [10 Building it →](10-phases.md)
 
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/space.html)**
 

@@ -20,7 +20,7 @@ var BOOK = (function () {
     ["phases", "10", "Building it", "Robots first: the order of work, from the first landing to the city"]
   ];
   // chapters that are written; the others show as "coming" and are not linked yet
-  var READY = { index: 1, mars: 1, living: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, interiors: 1, power: 1, transport: 1, spaceport: 1, life: 1, space: 1 };
+  var READY = { index: 1, mars: 1, living: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, interiors: 1, power: 1, transport: 1, spaceport: 1, life: 1, space: 1, phases: 1 };
   // a chapter's page: its own file, or (the science) a page elsewhere on the site
   function chHref(c) { return c[4] || (c[0] === "index" ? "./" : c[0] + ".html"); }
   var NS = "http://www.w3.org/2000/svg";

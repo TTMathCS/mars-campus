@@ -113,7 +113,7 @@
   // parts of the site, in the design frame
   var SITEP = [
     ["crown", "The Crown", 0, 0, 90, 4, "The house above ground. Its five spires hold the anti-gravity drives; the pod hangar is in the east spire."],
-    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 40 m across floating over the Sun Well. Inside, rooms ring the Wormhole Gate, a ball that shoots you like light to any place and time. Switch the universe on and it fills the room in 3D, with Earth and Mars and their weather in the corner. Rest rooms behind radiation glass."],
+    ["orb", "The Orb", 0, 0, 72, 3.2, "A mirror sphere 48 m across floating over the Sun Well. Inside, rooms ring the Wormhole Gate, a ball that shoots you like light to any place and time. Switch the universe on and it fills the room in 3D, with Earth and Mars and their weather in the corner. Rest rooms behind radiation glass."],
     ["garden", "Stone Garden", -75, 60, 1, 1.4, "Raked gravel and seven basalt stones round the Sun Well's sky lens. Nothing else stands on the ground."],
     ["pentagon", "The Pentagon", 118, -118, 0, 3, "Five levels below ground, from 24 to 68 m down, under 16 m of soil that stops radiation."],
     ["terminal", "Terminal", 30000, 0, 34, 8, "Arrivals, health check and lounge. A maglev station opens under it in phase 2."],
@@ -466,7 +466,7 @@
     }
     var g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.computeVertexNormals();
     add(g, mWhite);
-    add(new THREE.SphereGeometry(20, 48, 24), mOrb, 0, 72, 0);
+    add(new THREE.SphereGeometry(24, 48, 24), mOrb, 0, 72, 0);   // 48 m across, +48 to +96 m
     add(new THREE.CircleGeometry(10.2, 48).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffe2b0 }), 0, 1.6, 0);
     [18, 90, 162, 234, 306].forEach(function (pb) { var p = P(130, pb, 0); [8, 16, 24].forEach(function (rr, j) { var l = add(new THREE.RingGeometry(rr - 0.8, rr, 64).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x8fb8ff, transparent: true, opacity: 0.7 - j * 0.18, depthWrite: false }), p[0], 1.8, p[2]); }); });
   })();

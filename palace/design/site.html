@@ -78,7 +78,7 @@
         <p>A field of <b>radiators</b> 400 m north gets rid of the spare heat from the reactors (chapter 05).</p>
         <table class="spec"><tbody>
           <tr><td>The Crown's ring</td><td class="n">Ø 244–276 m, 40 m up</td></tr>
-          <tr><td>The Orb, over the Sun Well</td><td class="n">Ø 40 m, 52–92 m up</td></tr>
+          <tr><td>The Orb, over the Sun Well</td><td class="n">Ø 48 m, 48–96 m up</td></tr>
           <tr><td>Paved pentagon over the Pentagon</td><td class="n">166 m sides</td></tr>
           <tr><td>Stone Garden</td><td class="n">Ø 224 m</td></tr>
           <tr><td>Basalt stones</td><td class="n">7, 2 to 4 m</td></tr>
@@ -337,9 +337,9 @@
     // the Sun Well and the Orb above it
     S("circle", { cx: c, cy: c, r: r1(11.4 * k), fill: "#a8a39c", stroke: "var(--ink)", "stroke-width": 1 }, svg);
     S("circle", { cx: c, cy: c, r: r1(10.2 * k), "class": "goldf" }, svg);
-    S("circle", { cx: c, cy: c, r: r1(20 * k), fill: "none", stroke: "var(--ink)", "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
+    S("circle", { cx: c, cy: c, r: r1(24 * k), fill: "none", stroke: "var(--ink)", "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
     // labels: rooms of the Crown round the outside, ground features inside
-    var RL = [[90, "Arrival and hangar", ""], [126, "Master suite up", ""], [162, "Salon", ""], [198, "Wellness", ""], [234, "Dining", ""], [270, "Sunset lounge", ""], [306, "Library", ""], [342, "Studio", ""], [18, "Observatory", ""], [54, "Garden room", ""]];
+    var RL = [[90, "Arrival and hangar", ""], [126, "Master suite up", ""], [162, "Salon", ""], [198, "Wellness", ""], [234, "Dining", ""], [270, "Sunset", ""], [306, "Library", ""], [342, "Studio", ""], [18, "Observatory", ""], [54, "Garden room", ""]];
     RL.forEach(function (l) { var q = pl(l[0], CN.indexOf(l[0]) >= 0 ? 186 : 160), an = Math.sin(l[0] * D), east = l[0] === 90; T(svg, east ? 634 : q[0], q[1] + (east ? -16 : 4), l[1], CN.indexOf(l[0]) >= 0 ? "disp" : "t2", { "text-anchor": east ? "end" : an > 0.3 ? "start" : an < -0.3 ? "end" : "middle", style: CN.indexOf(l[0]) >= 0 ? "font-size:15px;font-weight:600" : "font-size:12.5px" }); if (l[2]) T(svg, q[0], q[1] + 19, l[2], "t2", { "text-anchor": "start", style: "font-size:12px" }); });
     var lab = [["Orb's dock", 0, 27, "middle", "halo"], ["Orb above", 0, -29, "middle", "halo"], ["Stone Garden", -80, -2, "middle", "halo"], ["raked gravel, 7 stones", -80, 13, "middle", "t2 halo"], ["pad and field ring", 98, -134, "start", "ti halo"], ["hangar door", 114, 17, "end", "tr halo"], ["Pentagon below (dashed)", -128, -150, "end", "ti"], ["paved pentagon over it", -128, -136, "end", "t2"], ["corner pavilion", 46, -100, "start", "halo"], ["glass over the avenue", 40, 58, "start", "ti halo"], ["rover tunnel from L5", 212, 20, "middle", "ti halo"]];
     lab.forEach(function (l) { var q = M(l[1], l[2]); T(svg, q[0], q[1], l[0], l[4], { "text-anchor": l[3], style: "font-size:12.5px" }); });

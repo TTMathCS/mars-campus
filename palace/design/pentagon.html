@@ -50,7 +50,7 @@
 
   <section class="part" id="levels">
     <h2><small>The levels</small>From the residence down to the trains</h2>
-    <p class="intro"><b><a href="../pentagon/">Walk it in the demo →</a></b> Take the portal column to any level. On every level the rooms of ring A look into the atrium through glass; on L2 you walk out into the garden, and on L5 into the sun court.</p>
+    <p class="intro">Take the portal column to any level. On every level the rooms of ring A look into the atrium through glass; on L2 you walk out into the garden, and on L5 into the sun court.</p>
     <div class="rooms" id="lvCards"></div>
   </section>
 
@@ -73,7 +73,7 @@
     <h2><small>The heart</small>The atrium and the sun court</h2>
     <div class="two">
       <div>
-        <p><b><a href="../pentagon/">Walk it in the demo →</a></b> The atrium is a five-sided shaft 35 m across and 68 m deep. Light from the Sun Well's sky lens falls down its middle; the portal column rises through it; five bridges cross to the column on every level. Its walls are terraces of hanging gardens that catch the light, with water running down them from the lake on L2.</p>
+        <p>The atrium is a five-sided shaft 35 m across and 68 m deep. Light from the Sun Well's sky lens falls down its middle; the portal column rises through it; five bridges cross to the column on every level. Its walls are terraces of hanging gardens that catch the light, with water running down them from the lake on L2.</p>
         <p>At the bottom, on L5, the <b>sun court</b> is a garden of 2,100 m² under the sky lens: lawns, fruit trees and a pool under the column, lit with the colour and warmth of a clear Mars noon.</p>
         <p>The lens shows the sky that is outside, sunrise to sunset; in a dust storm it keeps the same bright sky for as long as the storm lasts. Jim takes the real sun up in the Crown and the Orb.</p>
         <table class="spec"><tbody>
@@ -116,24 +116,21 @@
     </tbody></table>
   </section>
 </main>
+<script src="../plans/rooms.js"></script>
 <script src="book.js"></script>
 <script>
 (function () {
   var S = BOOK.S, T = BOOK.T, P = BOOK.path, D = Math.PI / 180, r1 = BOOK.r1;
   var R = 160 / (2 * Math.sin(36 * D)), RA = 35 / (2 * Math.sin(36 * D)), AP = R * Math.cos(36 * D), APA = RA * Math.cos(36 * D), RING = (AP - APA - 16) / 5;
-  var LEVELS = [
-    { id: "L1", name: "Residence", floor: -24, top: -16, col: "var(--z1)", d: "Jim's home below ground: the master suite down, the family rooms, a club with a cinema and a bar, thermal baths and a 50 m pool, the great library and eight guest suites.",
-      sec: [["Jim's residence", ["Family room", "Master suite down", "Kitchen and dining", "Private spa", "Wardrobes and store"]], ["Club", ["Cinema, 40 seats", "Music room", "Games and billiards", "Bar", "Wine vault"]], ["Baths", ["Thermal pools", "Pool, 50 m", "Sauna and steam", "Gym", "Treatment rooms"]], ["Library", ["Great library", "Archive of Earth", "Reading rooms", "Film and music archive", "Book stacks"]], ["Guests", ["Guest lounge", "Guest suites 1–4", "Guest suites 5–8", "Family apartments", "Staff and robots"]]] },
-    { id: "L2", name: "Garden", floor: -41, top: -25, col: "var(--z2)", d: "Sixteen metres tall, under a sky of lamps: orchards, a farm, a lake that is also the house's water reserve, a forest with a stream, and a meadow with bees.",
-      sec: [["Orchard", ["Citrus grove", "Apples and pears", "Olives and figs", "Vineyard", "Tree nursery"]], ["Farm", ["Market garden", "Vertical farm", "Grain and rice", "Mushroom cellar", "Seed store"]], ["Lake", [["Lake · the water reserve", 0, 2], ["Fish farm", 3, 3], ["Pumps and filters", 4, 4]]], ["Forest", [["Forest walk", 0, 2], ["Stream and falls", 3, 3], ["Forest nursery", 4, 4]]], ["Meadow", ["Meadow and bees", "Flower garden", "Tea house", "Aquaponics", "Compost and soil"]]] },
-    { id: "L3", name: "Studio", floor: -50, top: -42, col: "var(--z3)", d: "Where things are made and run: Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms.",
-      sec: [["Jim's studio", ["Workshop", "Art studio", "Model hall", "Tool store", "Materials"]], ["Foundry", [["Robot foundry · prints city parts", 0, 2], ["Regolith kilns", 3, 3], ["Parts yard", 4, 4]]], ["Science", ["Labs", "Medical centre", "Clean rooms", "Test halls", "Stores"]], ["House mind", ["AI core", "Data vault", "Earth link", "Cooling", "Backup core"]], ["Control", ["City control room", "Storm watch", "Pod flight control", "Training", "Stores"]]] },
-    { id: "L4", name: "Life support", floor: -59, top: -51, col: "var(--z4)", d: "The machine room of the house: two fission reactors and a bay kept for fusion, water from ice, the air plant, the storm reserve and recycling. Chapters 05 and 08 describe how it works.",
-      sec: [["Power", [["Two fission microreactors", 0, 1], ["Fusion-ready bay", 2, 2], ["Batteries and heat store", 3, 3], ["Switchgear", 4, 4]]], ["Water", ["Ice melt", "Purification", "Recycling", ["Water tanks", 3, 4]]], ["Air", ["Oxygen plant", "CO₂ scrubbers", "Nitrogen and argon", ["Air tanks", 3, 4]]], ["Storm reserve", [["Food for two years", 0, 2], ["Spare parts", 3, 4]]], ["Recycling", ["Waste to soil", "Metals", "Plastics", "Maintenance", "Stores"]]] },
-    { id: "L5", name: "Transit", floor: -68, top: -60, col: "var(--z5)", d: "Where things arrive: the maglev station for the spaceport (phase 2), the cargo halls, the seed vault, the tunnel works that dig the city's roots, and the rover hall with the tunnel up to the plain. The sun court is at its centre.",
-      sec: [["Maglev station", [["Maglev hall · phase 2", 0, 2], ["Platforms", 3, 3], ["Tunnel portal", 4, 4]]], ["Cargo", ["Freight portals", "Cargo hall", "Sorting", "Cold store", "Loading"]], ["Seed vault", ["Seed vault", "DNA archive", "Earth memory vault", "Vault services", "Stores"]], ["Tunnel works", [["Tunnel boring machines", 0, 2], ["Spoil to bricks", 3, 3], ["City roots · the tunnels", 4, 4]]], ["Rovers", ["Rover hall", "Garage", "Charging", "Suit room", "Tunnel to the surface"]]] }
-  ];
-  function zones(sc) { return sc[1].map(function (z, i) { return Array.isArray(z) ? { n: z[0], k0: z[1], k1: z[2] } : { n: z, k0: i, k1: i }; }); }
+  // The levels and their rooms come from the floor plans Rev G (palace/plans/rooms.js, written from the room program); only
+  // each level's colour here and the titles of its five sectors (L1's are the plans' own).
+  var COL = { L1: "var(--z1)", L2: "var(--z2)", L3: "var(--z3)", L4: "var(--z4)", L5: "var(--z5)" };
+  var SECT = { L2: ["Orchard", "Farm", "Lake", "Forest", "Meadow"], L3: ["Jim's studio", "Foundry", "Science", "House mind", "Control"],
+               L4: ["Power", "Water", "Air", "Storm reserve", "Recycling"], L5: ["Maglev station", "Cargo", "Seed vault", "Tunnel works", "Rovers"] };
+  var LEVELS = PLANS.levels.map(function (L) {
+    return { id: L.id, name: L.name, floor: L.floor, top: L.floor + L.height, col: COL[L.id], d: L.intro, rooms: BOOK.rooms.of(L.id),
+             sec: [1, 2, 3, 4, 5].map(function (k) { return L.id === "L1" ? PLANS.sectors[k] : SECT[L.id][k - 1]; }) };
+  });
 
   /* ---------------- section east to west */
   (function () {
@@ -199,11 +196,11 @@
     var eS = [E(122, 40), E(138, 40), E(138, top(90)), E(122, top(90))], wS = [E(-138, 40), E(-122, 40), E(-122, top(270)), E(-138, top(270))];
     S("path", { d: P(eS, true), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
     S("path", { d: P(wS, true), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
-    var o = E(0, 72); S("circle", { cx: r1(o[0]), cy: r1(o[1]), r: r1(20 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
-    [64, 72, 80].forEach(function (h) { var w = Math.sqrt(400 - (h - 72) * (h - 72)), a = E(-w, h), b = E(w, h); S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(b[0]), y2: r1(b[1]), "class": "ink2", "stroke-width": 1 }, svg); });
+    var o = E(0, 72); S("circle", { cx: r1(o[0]), cy: r1(o[1]), r: r1(24 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
+    [64, 72, 80].forEach(function (h) { var w = Math.sqrt(484 - (h - 72) * (h - 72)), a = E(-w, h), b = E(w, h); S("line", { x1: r1(a[0]), y1: r1(a[1]), x2: r1(b[0]), y2: r1(b[1]), "class": "ink2", "stroke-width": 1 }, svg); });
     T(svg, E(130, 90)[0], E(130, 90)[1] - 8, "Arrival spire +90", "", { "text-anchor": "middle", style: "font-size:12px" });
-    T(svg, E(-130, 50)[0], E(-130, 50)[1] - 8, "Sunset lounge +50", "", { "text-anchor": "middle", style: "font-size:12px" });
-    T(svg, E(0, 92)[0], E(0, 92)[1] - 8, "the Orb", "", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, E(-130, 50)[0], E(-130, 50)[1] - 8, "Sunset +50", "", { "text-anchor": "middle", style: "font-size:12px" });
+    T(svg, E(0, 96)[0], E(0, 96)[1] - 8, "the Orb", "", { "text-anchor": "middle", style: "font-size:12px" });
     T(svg, E(-70, 0)[0], Y0 - 26, "Stone Garden", "t2", { "text-anchor": "middle", style: "font-size:12px" });
     // the cover and the tunnels
     var cv = E(-40, -8); T(svg, cv[0], cv[1] + 4, "16 m of soil", "halo", { "text-anchor": "middle", style: "font-size:13px;font-weight:600" });
@@ -223,18 +220,17 @@
     S("rect", { x: 0, y: 0, width: 640, height: 640, "class": "panelf" }, svg);
     var CN = [18, 90, 162, 234, 306];
     S("path", { d: P(CN.map(function (b) { return [c + R * k * Math.sin(b * D), c - R * k * Math.cos(b * D)]; }), true), fill: "var(--sheet)", stroke: "var(--ink)", "stroke-width": 2 }, svg);
-    L.sec.forEach(function (sc, si) {
-      var th = (126 + 72 * si) % 360;
-      zones(sc).forEach(function (z) {
-        var v0 = APA + z.k0 * (RING + 4), v1 = APA + z.k1 * (RING + 4) + RING, off = 2.5 / Math.sin(54 * D);
-        var u0 = v0 * Math.tan(36 * D) - off, u1 = v1 * Math.tan(36 * D) - off;
-        var pts = [W(-u0, v0, th), W(u0, v0, th), W(u1, v1, th), W(-u1, v1, th)];
-        S("path", { d: P(pts, true), fill: L.col, "fill-opacity": z.n === "Master suite down" ? .75 : .38, stroke: "var(--ink-2)", "stroke-width": .7 }, svg);
-        var vm = (v0 + v1) / 2, pm = W(0, vm, th), rot = th > 90 && th < 270 ? th - 180 : th;
-        var t = T(svg, pm[0], pm[1] + 3.5, z.n, "", { "text-anchor": "middle", transform: "rotate(" + r1(rot) + " " + r1(pm[0]) + " " + r1(pm[1]) + ")", style: "font-size:" + (z.k1 > z.k0 ? 11.5 : 9.6) + "px" });
-      });
-      var lp = W(0, AP + 16, th), rot2 = th > 90 && th < 270 ? th - 180 : th;
-      T(svg, lp[0], lp[1] + 5, (si + 1) + " · " + sc[0], "disp", { "text-anchor": "middle", transform: "rotate(" + r1(rot2) + " " + r1(lp[0]) + " " + r1(lp[1]) + ")", style: "font-size:15px;font-weight:600" });
+    var RM = BOOK.rooms;
+    function Wp(p) { return [c + p[0] * k, c - p[1] * k]; }
+    L.rooms.filter(function (r) { return !r.upper; }).forEach(function (r) {
+      var lo = RM.local(r), pts = lo[1].map(function (q) { return Wp(RM.world(lo[0], q[0], q[1])); });
+      S("path", { d: P(pts, true), fill: RM.kind(r.kind), stroke: "var(--ink-2)", "stroke-width": .7 }, svg);
+      var um = (lo[1][0][0] + lo[1][1][0] + lo[1][2][0] + lo[1][3][0]) / 4, vm = (lo[1][0][1] + lo[1][2][1]) / 2, pm = Wp(RM.world(lo[0], um, vm)), th = RM.sectorC(lo[0]), rot = th > 90 && th < 270 ? th - 180 : th;
+      T(svg, pm[0], pm[1] + 3.5, r.code.split("-")[1] + (r.rings ? " " + r.name : ""), "mono", { "text-anchor": "middle", transform: "rotate(" + r1(rot) + " " + r1(pm[0]) + " " + r1(pm[1]) + ")", style: "font-size:" + (r.rings ? 10 : 9.5) + "px" });
+    });
+    L.sec.forEach(function (name, si) {
+      var lp = Wp(RM.world(si + 1, 0, AP + 16)), th = RM.sectorC(si + 1), rot2 = th > 90 && th < 270 ? th - 180 : th;
+      T(svg, lp[0], lp[1] + 5, (si + 1) + " · " + name, "disp", { "text-anchor": "middle", transform: "rotate(" + r1(rot2) + " " + r1(lp[0]) + " " + r1(lp[1]) + ")", style: "font-size:15px;font-weight:600" });
     });
     // atrium, portal column, corner cores
     S("path", { d: P(CN.map(function (b) { return [c + RA * k * Math.sin(b * D), c - RA * k * Math.cos(b * D)]; }), true), fill: "#fbf4e6", stroke: "var(--ink)", "stroke-width": 1.4 }, svg);
@@ -245,7 +241,15 @@
     BOOK.north(svg, 606, 48); BOOK.scalebar(svg, 24, 612, k, [0, 50, 100], "m");
     // the table
     var tb = document.querySelector("#tZones tbody"); tb.innerHTML = "";
-    L.sec.forEach(function (sc, si) { var tr = document.createElement("tr"); tr.innerHTML = "<td><b>" + (si + 1) + " · " + sc[0] + "</b></td><td>" + zones(sc).map(function (z) { return z.n + (z.k1 > z.k0 ? " <small>(" + "ABCDE"[z.k0] + "–" + "ABCDE"[z.k1] + ")</small>" : ""); }).join(" · ") + "</td>"; tb.appendChild(tr); });
+    L.sec.forEach(function (name, si) {
+      var rs = L.rooms.filter(function (r) { return r.at[1] === si + 1; }), cells = [];
+      "ABCDE".split("").forEach(function (ring) {
+        var here = rs.filter(function (r) { return r.at[0] === ring; });
+        if (here.length) cells.push("<b>" + ring + (here[0].rings ? "–" + here[0].rings[1] : "") + "</b> " + here.map(function (r) { return '<span class="mono t2" style="font-size:11.5px;white-space:nowrap">' + r.code + "</span> " + r.name + (r.upper ? " <small>(upstairs)</small>" : ""); }).join(", "));
+      });
+      var tr = document.createElement("tr"), sheet = L.id === "L1" ? "l1-" + (si + 1) + ".html" : L.id.toLowerCase() + ".html";
+      tr.innerHTML = '<td><b><a href="../plans/' + sheet + '">' + (si + 1) + " · " + name + "</a></b></td><td>" + cells.join(" · ") + "</td>"; tb.appendChild(tr);
+    });
     document.querySelectorAll("#lvb button").forEach(function (b, i) { b.setAttribute("aria-pressed", i === cur ? "true" : "false"); });
   }
   var lvb = document.getElementById("lvb");
@@ -254,7 +258,7 @@
 
   /* ---------------- level cards */
   var lc = document.getElementById("lvCards");
-  LEVELS.forEach(function (L) { var d = document.createElement("div"); d.className = "room"; d.style.borderTop = "4px solid " + L.col; d.innerHTML = '<div class="k">' + L.id + " · floor " + L.floor + " m · " + (L.top - L.floor) + ' m tall · 41,940 m²</div><h4>' + L.name + "</h4><p>" + L.d + '</p><div class="tags">' + L.sec.map(function (s) { return s[0]; }).join(" · ") + "</div>"; lc.appendChild(d); });
+  LEVELS.forEach(function (L) { var d = document.createElement("div"); d.className = "room"; d.style.borderTop = "4px solid " + L.col; d.innerHTML = '<div class="k">' + L.id + " · floor " + L.floor + " m · " + (L.top - L.floor) + " m tall · 41,940 m² · " + BOOK.rooms.range(L.rooms) + '</div><h4><a href="../plans/' + L.id.toLowerCase() + '.html">' + L.name + "</a></h4><p>" + L.d + '</p><div class="tags">' + L.sec.join(" · ") + "</div>"; lc.appendChild(d); });
 
   /* ---------------- radiation by place */
   (function () {

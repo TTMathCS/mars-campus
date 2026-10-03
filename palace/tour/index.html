@@ -215,7 +215,7 @@
       var o = P(0, 0).split(",");
       out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (130 * s).toFixed(1) + '" fill="none" stroke="rgba(255,155,107,.45)" stroke-width="' + (10 * s).toFixed(1) + '"/>');
       for (var k = 0; k < 10; k++) { var b = (36 * k) * D; out.push('<path d="M' + P(124 * Math.sin(b), 124 * Math.cos(b)) + " L" + P(136 * Math.sin(b), 136 * Math.cos(b)) + '" stroke="rgba(16,11,9,.8)" stroke-width="1.2"/>'); }
-      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (20 * s).toFixed(1) + '" fill="rgba(200,215,230,.25)" stroke="rgba(243,232,218,.4)" stroke-width=".8"/>');
+      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (24 * s).toFixed(1) + '" fill="rgba(200,215,230,.25)" stroke="rgba(243,232,218,.4)" stroke-width=".8"/>');      // the Orb, 48 m across
     }
     STOPS.forEach(function (st) {
       if (placeOf(st) !== pl) return;

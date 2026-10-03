@@ -553,8 +553,19 @@ def build():
 </div></div>""" % (n_rooms, "".join("<li><b>%s</b> %s</li>" % (g["code"], E(g["name"])) for g in P.GROUND)),
          "index.html")
     # ---- data and docs
-    json.dump([{k: v for k, v in r.items() if k in ("code", "name", "kind", "place", "part", "at", "rings", "upper", "up", "use", "also", "pair", "seen", "floor")} | {"m2": round(size_of(r) or 0)} for r in ALL],
-              open(os.path.join(OUT, "rooms.json"), "w"), indent=0, ensure_ascii=False)
+    rows = [{k: v for k, v in r.items() if k in ("code", "name", "kind", "place", "part", "at", "rings", "upper", "up", "use", "also", "pair", "seen", "floor", "slot")} | {"m2": round(size_of(r) or 0)} for r in ALL]
+    json.dump(rows, open(os.path.join(OUT, "rooms.json"), "w"), indent=0, ensure_ascii=False)
+    # The same rooms for the design plan's chapters (02 Crown, 03 Pentagon, 04 Interiors), as a script so that it works
+    # opened from disk too: the chapters take every room's name, code and place from here, never from a copy of their own.
+    meta = {"kinds": {k: list(v) for k, v in KIND.items()}, "sectors": P.SECTORS,
+            "crownParts": [list(p) for p in P.CROWN_PARTS],
+            "levels": [{k: L[k] for k in ("id", "name", "floor", "height", "intro")} for L in P.LEVELS],
+            "ground": [dict(g) for g in P.GROUND],
+            "orbFloors": {str(fl): round(math.pi * (orb_floor_r(fl) ** 2 - ORB_HALL ** 2)) for fl in (64, 72, 80)},
+            "geom": {"R": R, "AP": AP, "RA": RA, "APA": APA, "RING": RING, "AVE": AVE, "R_IN": R_IN, "R_GL": R_GL, "R_OUT": R_OUT,
+                     "R_SHELL0": R_SHELL0, "R_SHELL1": R_SHELL1, "ORB_R": ORB_R, "ORB_SHELL": ORB_SHELL, "ORB_HALL": ORB_HALL, "LANE": LANE}}
+    open(os.path.join(OUT, "rooms.js"), "w").write("/* Floor plans Rev G: every room and area. Written by palace/tools/draw_plans.py from palace/tools/room_program.py;"
+                                                   " do not edit by hand. */\nwindow.PLANS = " + json.dumps(dict(rooms=rows, **meta), ensure_ascii=False, separators=(",", ":")) + ";\n")
     docs()
     print("rooms", n_rooms, "pages", len([f for f in os.listdir(OUT) if f.endswith(".html")]), "drawings", len(os.listdir(SVG)))
 

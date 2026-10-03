@@ -46,12 +46,13 @@ def gate_material():
     return m
 
 
-def earth_material(sun):
-    """the Earth as the universe shows it: Blue Marble, lit on the side towards the Sun, the night side faint"""
-    m, nt = lib._mat("universe earth")
+def earth_material(sun, name="universe earth", path=None):
+    """the Earth as the universe shows it: Blue Marble, lit on the side towards the Sun, the night side faint (another
+    planet's map in path)"""
+    m, nt = lib._mat(name)
     if nt is None: return m
     N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"]); em = N.new("ShaderNodeEmission")
-    t = lib._tex(nt, os.path.join(A, "earth4k.jpg")); tc = N.new("ShaderNodeTexCoord"); L.new(tc.outputs["UV"], t.inputs["Vector"])
+    t = lib._tex(nt, path or os.path.join(A, "earth4k.jpg")); tc = N.new("ShaderNodeTexCoord"); L.new(tc.outputs["UV"], t.inputs["Vector"])
     geo = N.new("ShaderNodeNewGeometry"); dp = N.new("ShaderNodeVectorMath"); dp.operation = "DOT_PRODUCT"; L.new(geo.outputs["Normal"], dp.inputs[0]); dp.inputs[1].default_value = tuple(sun)
     mr = N.new("ShaderNodeMapRange"); mr.interpolation_type = "SMOOTHSTEP"; mr.inputs["From Min"].default_value = -0.15; mr.inputs["From Max"].default_value = 0.35; mr.inputs["To Min"].default_value = 0.04; mr.inputs["To Max"].default_value = 1.0
     L.new(dp.outputs["Value"], mr.inputs["Value"])
@@ -78,13 +79,13 @@ def moon_material(sun):
     return m
 
 
-def air_material():
+def air_material(name="universe air", color=(0.35, 0.6, 1.0)):
     """the thin blue rim of air round the Earth: clear in the middle, glowing at the edge"""
-    m, nt = lib._mat("universe air")
+    m, nt = lib._mat(name)
     if nt is None: return m
     N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"])
     lw = N.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = 0.25
-    tr = N.new("ShaderNodeBsdfTransparent"); em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (0.35, 0.6, 1.0, 1); em.inputs["Strength"].default_value = 3.0
+    tr = N.new("ShaderNodeBsdfTransparent"); em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (*color, 1); em.inputs["Strength"].default_value = 3.0
     mx = N.new("ShaderNodeMixShader"); L.new(lib._math(nt, "POWER", lw.outputs["Facing"], 3.0), mx.inputs["Fac"]); L.new(tr.outputs[0], mx.inputs[1]); L.new(em.outputs[0], mx.inputs[2])
     L.new(mx.outputs[0], N["Material Output"].inputs["Surface"])
     return m
@@ -115,18 +116,24 @@ def universe(b0, b1, rnd, earth_at, sun_dir):
     sphere("universe moon", tuple(mo), 0.38, moon_material(sun_dir), 64, 32)
     sun_at = Vector(earth_at) + sun_dir.normalized() * 6.0
     sphere("universe sun", tuple(sun_at), 0.12, lib.emission("universe sun", (1.0, 0.95, 0.85), 60.0), 24, 12)
-    # stars: points through the room's air, a small glowing ball on each
+    stars(b0, b1, rnd, [(Vector(earth_at), 3.0), (mo, 0.8)])
+
+
+def stars(b0, b1, rnd, keep_clear=(), n=3500, name="universe stars", color=(0.92, 0.95, 1.0), strength=22.0, box=None):
+    """stars through the room's air, a small glowing ball on each, none within the given distances of the given points"""
     pts = []
-    for i in range(3500):
-        r = rnd.uniform(R0 + 0.2, R1 - 0.2); b = rnd.uniform(b0 + 0.3, b1 - 0.3); z = rnd.uniform(Z72 + 0.2, Z72 + H - 0.2)
-        p = Vector(at(r, b, z))
-        if (p - Vector(earth_at)).length > 3.0 and (p - mo).length > 0.8: pts.append(p)
-    st = bpy.data.objects.get("universe star")
+    for i in range(n):
+        if box: p = Vector((rnd.uniform(box[0][0], box[1][0]), rnd.uniform(box[0][1], box[1][1]), rnd.uniform(box[0][2], box[1][2])))
+        else:
+            r = rnd.uniform(R0 + 0.2, R1 - 0.2); b = rnd.uniform(b0 + 0.3, b1 - 0.3); z = rnd.uniform(Z72 + 0.2, Z72 + H - 0.2); p = Vector(at(r, b, z))
+        if all((p - c).length > d for (c, d) in keep_clear): pts.append(p)
+    st = bpy.data.objects.get(name + " ball")
     if st is None:
-        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=0.0025, location=(0, 0, -500)); st = bpy.context.active_object; st.name = "universe star"
-        st.data.materials.append(shown_light("universe star", (0.92, 0.95, 1.0), 22.0))
-    me = bpy.data.meshes.new("universe stars"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("universe stars", me))
-    import atrium; atrium.scatter_leaves(ob, st, "universe stars", 0.5, 1.6)
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=0.0025, location=(0, 0, -500)); st = bpy.context.active_object; st.name = name + " ball"
+        st.data.materials.append(shown_light(name, color, strength))
+    me = bpy.data.meshes.new(name); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new(name, me))
+    import atrium; atrium.scatter_leaves(ob, st, name, 0.5, 1.6)
+    return ob
 
 
 def build_orb(M, rnd, lounge=0):
@@ -173,17 +180,67 @@ def earth_lounge(M, rnd):
     b0, b1 = slot(0); S = crown_rooms.imports(M)
     earth_at = at(17.0, 54.0, Z72 + 3.1); sun_dir = Vector((-0.75, 0.45, 0.35)).normalized()
     universe(b0, b1, rnd, earth_at, sun_dir)
-    # low sofas and chairs facing the Earth, a dark rug, side tables with a little light
-    lib.box("lounge rug", (11.0, 4.4, 0.014), at(17.0, 54.0, Z72 + 0.007), M["rug2"], bevel=0.006, rot_z=face_in(54.0), segs=2)
-    for (bb, r_) in ((47.0, 18.7), (61.0, 18.7)):
-        lib.instance_of(S["sofa"], at(r_, bb, Z72 + 0.014), face_in(bb) + (0.6 if bb < 54 else -0.6), name="lounge sofa")
-    for (bb, r_) in ((44.6, 16.2), (63.4, 16.2)):
-        lib.instance_of(S["chair"], at(r_, bb, Z72 + 0.014), face_in(bb) + (1.3 if bb < 54 else -1.3), name="lounge chair")
-    for bb in (50.5, 57.5):
-        q = at(18.6, bb, Z72); furn.side_table("side table", q, M, r=0.24, h=0.48)
+    furnish_lounge(M, S, b0, b1)
+
+
+def furnish_lounge(M, S, b0, b1):
+    """low sofas and chairs facing the middle of the room, a dark rug, side tables with a little light, a low cove"""
+    bc = (b0 + b1) / 2
+    lib.box("lounge rug", (11.0, 4.4, 0.014), at(17.0, bc, Z72 + 0.007), M["rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
+    for (db, r_) in ((-7.0, 18.7), (7.0, 18.7)):
+        bb = bc + db; lib.instance_of(S["sofa"], at(r_, bb, Z72 + 0.014), face_in(bb) + (0.6 if db < 0 else -0.6), name="lounge sofa")
+    for (db, r_) in ((-9.4, 16.2), (9.4, 16.2)):
+        bb = bc + db; lib.instance_of(S["chair"], at(r_, bb, Z72 + 0.014), face_in(bb) + (1.3 if db < 0 else -1.3), name="lounge chair")
+    for db in (-3.5, 3.5):
+        q = at(18.6, bc + db, Z72); furn.side_table("side table", q, M, r=0.24, h=0.48)
         lib.point_light("table light", (q[0], q[1], Z72 + 0.62), 4.0, (1.0, 0.65, 0.35), 0.04)
     cove = lib.emission("lounge cove", (1.0, 0.72, 0.48), 1.6)
     crown.curved_box("lounge cove", R1 - 0.12, R1 - 0.02, b0 + 0.5, b1 - 0.5, Z72 + 0.05, Z72 + 0.09, cove)
+
+
+def mars_lounge(M, rnd):
+    """O-08, the Mars lounge (bearings 94 to 158): the universe zoomed to Mars, its dusty rim of air, Phobos and Deimos"""
+    crown_rooms.extra_materials(M)
+    build_orb(M, rnd, lounge=1)
+    b0, b1 = slot(1); S = crown_rooms.imports(M); bc = (b0 + b1) / 2
+    c = at(17.0, bc, Z72 + 3.1); sun_dir = Vector((-0.2, -0.9, 0.35)).normalized()
+    mp = crown_rooms.repo_file("palace", "design", "img", "mars-map.jpg")
+    mars = sphere("universe mars", c, 1.5, earth_material(sun_dir, "universe mars", mp)); mars.rotation_euler = (math.radians(25.2), 0, math.radians(110))
+    sphere("universe dust", c, 1.55, air_material("universe dust", (0.85, 0.55, 0.38)))
+    grey = moon_material(sun_dir)
+    ph = Vector(c) + Vector((1.6, 1.4, 0.4)); de = Vector(c) + Vector((-2.6, -1.9, 1.0))
+    sphere("universe phobos", tuple(ph), 0.16, grey, 32, 16); sphere("universe deimos", tuple(de), 0.1, grey, 24, 12)
+    stars(b0, b1, rnd, [(Vector(c), 3.0), (ph, 0.5), (de, 0.5)])
+    furnish_lounge(M, S, b0, b1)
+
+
+def galaxy_lounge(M, rnd):
+    """O-10, the Galaxy lounge (bearings 238 to 302): the Milky Way filling the room, where far places for the Gate
+    are chosen: two arms of blue-white stars wound round a yellow core, tilted, the room dark round it"""
+    crown_rooms.extra_materials(M)
+    build_orb(M, rnd, lounge=3)
+    b0, b1 = slot(3); S = crown_rooms.imports(M); bc = (b0 + b1) / 2
+    c = Vector(at(17.0, bc, Z72 + 3.0)); tilt = math.radians(28)
+    def place(x, y, z):        # tilt the galaxy's disc about the line along the room
+        u = Vector((math.cos(bc * D), -math.sin(bc * D), 0)); v = Vector((math.sin(bc * D), math.cos(bc * D), 0)); w = Vector((0, 0, 1))
+        y2, z2 = y * math.cos(tilt) - z * math.sin(tilt), y * math.sin(tilt) + z * math.cos(tilt)
+        return c + u * x + v * y2 + w * z2
+    arms, core = [], []
+    for i in range(26000):
+        arm = i % 2; t = rnd.random() ** 0.7; rr = 0.25 + t * 3.3; a = arm * math.pi + rr * 1.35 + rnd.gauss(0, 0.28)
+        arms.append(place(rr * math.cos(a), rr * math.sin(a) * 0.62, rnd.gauss(0, 0.05 * (1.2 - t))))
+    for i in range(6000):
+        rr = abs(rnd.gauss(0, 0.32)); a = rnd.uniform(0, 2 * math.pi); core.append(place(rr * math.cos(a), rr * math.sin(a) * 0.62, rnd.gauss(0, 0.12)))
+    for (pts, nm, col, k) in ((arms, "galaxy arms", (0.78, 0.86, 1.0), 16.0), (core, "galaxy core", (1.0, 0.86, 0.6), 18.0)):
+        st = bpy.data.objects.get(nm + " ball")
+        if st is None:
+            bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=0.003, location=(0, 0, -500)); st = bpy.context.active_object; st.name = nm + " ball"
+            st.data.materials.append(shown_light(nm, col, k))
+        me = bpy.data.meshes.new("universe " + nm); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("universe " + nm, me))
+        import atrium; atrium.scatter_leaves(ob, st, nm, 0.6, 1.4)
+    sphere("universe galaxy glow", tuple(c), 0.22, shown_light("galaxy glow", (1.0, 0.85, 0.6), 6.0), 32, 16)
+    stars(b0, b1, rnd, [(c, 3.9)], n=2000)
+    furnish_lounge(M, S, b0, b1)
 
 
 ROOMS = {
@@ -191,6 +248,12 @@ ROOMS = {
         "earth": dict(loc=at(18.9, 27.5, Z72 + 1.45), target=at(17.0, 54.0, Z72 + 2.9), lens=18),
         "earth2": dict(loc=at(15.0, 76.0, Z72 + 1.5), target=at(17.6, 50.0, Z72 + 2.8), lens=19),
     }, stops={"earth": at(17.4, 44.0, Z72)}),
+    "mars": dict(build=mars_lounge, cams={
+        "mars": dict(loc=at(18.9, 99.5, Z72 + 1.45), target=at(17.0, 126.0, Z72 + 2.9), lens=18),
+    }, stops={"mars": at(17.4, 116.0, Z72)}),
+    "galaxy": dict(build=galaxy_lounge, cams={
+        "galaxy": dict(loc=at(18.9, 243.5, Z72 + 1.45), target=at(17.0, 270.0, Z72 + 2.9), lens=18),
+    }, stops={"galaxy": at(17.4, 260.0, Z72)}),
 }
 
 

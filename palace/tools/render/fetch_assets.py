@@ -22,3 +22,11 @@ for name, url in FILES.items():
     path = os.path.join(OUT, name)
     if os.path.exists(path): print("have", name); continue
     data = urllib.request.urlopen(url, timeout=120).read(); open(path, "wb").write(data); print("got", name, len(data) // 1024, "KB")
+# Mars for the map room's globe and the Orb's Mars lounge: the design plan's own colour map (the Atlas's; NASA/JPL/USGS
+# Viking mosaic over a base map by Solar System Scope, CC BY 4.0), copied from the checkout
+import shutil
+for repo in (os.environ.get("MARS_REPO"), "/home/user/mars-campus", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")):
+    src = repo and os.path.join(repo, "palace", "design", "img", "mars-map.jpg")
+    if src and os.path.exists(src):
+        if not os.path.exists(os.path.join(OUT, "mars2k.jpg")): shutil.copy(src, os.path.join(OUT, "mars2k.jpg")); print("copied mars2k.jpg")
+        break

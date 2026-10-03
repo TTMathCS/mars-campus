@@ -42,7 +42,7 @@ def gate_material():
     cr = N.new("ShaderNodeValToRGB"); E = cr.color_ramp.elements
     E[0].position = 0.38; E[0].color = (0.0, 0.0, 0.0, 1); E[1].position = 0.82; E[1].color = (0.55, 0.75, 1.0, 1)
     e = E.new(0.55); e.color = (0.10, 0.06, 0.32, 1); e = E.new(0.68); e.color = (0.45, 0.12, 0.42, 1); e = E.new(0.75); e.color = (0.05, 0.35, 0.40, 1)
-    L.new(n1.outputs["Fac"], cr.inputs["Fac"]); L.new(cr.outputs["Color"], b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = 2.2
+    L.new(n1.outputs["Fac"], cr.inputs["Fac"]); L.new(cr.outputs["Color"], b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = 1.4
     return m
 
 
@@ -57,8 +57,24 @@ def earth_material(sun):
     L.new(dp.outputs["Value"], mr.inputs["Value"])
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 1.0
     L.new(t.outputs["Color"], mx.inputs[6]); L.new(mr.outputs["Result"], mx.inputs[7])
-    L.new(mx.outputs[2], em.inputs["Color"]); em.inputs["Strength"].default_value = 1.6
+    L.new(mx.outputs[2], em.inputs["Color"]); em.inputs["Strength"].default_value = 1.3
     L.new(em.outputs[0], N["Material Output"].inputs["Surface"])
+    return m
+
+
+def moon_material(sun):
+    """the Moon as the universe shows it: grey maria and bright highlands, lit on the side towards the Sun"""
+    m, nt = lib._mat("universe moon")
+    if nt is None: return m
+    N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"]); em = N.new("ShaderNodeEmission")
+    tc = N.new("ShaderNodeTexCoord"); nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 2.2; nz.inputs["Detail"].default_value = 10; L.new(tc.outputs["Object"], nz.inputs["Vector"])
+    cr = N.new("ShaderNodeValToRGB"); cr.color_ramp.elements[0].position = 0.42; cr.color_ramp.elements[0].color = (0.22, 0.22, 0.21, 1); cr.color_ramp.elements[1].position = 0.62; cr.color_ramp.elements[1].color = (0.72, 0.71, 0.68, 1)
+    L.new(nz.outputs["Fac"], cr.inputs["Fac"])
+    geo = N.new("ShaderNodeNewGeometry"); dp = N.new("ShaderNodeVectorMath"); dp.operation = "DOT_PRODUCT"; L.new(geo.outputs["Normal"], dp.inputs[0]); dp.inputs[1].default_value = tuple(sun)
+    mr = N.new("ShaderNodeMapRange"); mr.interpolation_type = "SMOOTHSTEP"; mr.inputs["From Min"].default_value = -0.05; mr.inputs["From Max"].default_value = 0.3; mr.inputs["To Min"].default_value = 0.02; mr.inputs["To Max"].default_value = 1.0
+    L.new(dp.outputs["Value"], mr.inputs["Value"])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 1.0; L.new(cr.outputs["Color"], mx.inputs[6]); L.new(mr.outputs["Result"], mx.inputs[7])
+    L.new(mx.outputs[2], em.inputs["Color"]); em.inputs["Strength"].default_value = 1.2; L.new(em.outputs[0], N["Material Output"].inputs["Surface"])
     return m
 
 
@@ -74,6 +90,17 @@ def air_material():
     return m
 
 
+def shown_light(name, color, strength):
+    """light that the eye sees but that lights nothing, as a picture in the air would: emission for camera rays only"""
+    m, nt = lib._mat(name)
+    if nt is None: return m
+    N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"])
+    lp = N.new("ShaderNodeLightPath"); em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (*color, 1); em.inputs["Strength"].default_value = strength
+    tr = N.new("ShaderNodeBsdfTransparent"); mx = N.new("ShaderNodeMixShader")
+    L.new(lp.outputs["Is Camera Ray"], mx.inputs["Fac"]); L.new(tr.outputs[0], mx.inputs[1]); L.new(em.outputs[0], mx.inputs[2]); L.new(mx.outputs[0], N["Material Output"].inputs["Surface"])
+    return m
+
+
 def sphere(name, loc, r, mat, segs=96, rings=48):
     bpy.ops.mesh.primitive_uv_sphere_add(segments=segs, ring_count=rings, radius=r, location=loc); o = bpy.context.active_object; o.name = name
     for p_ in o.data.polygons: p_.use_smooth = True
@@ -84,22 +111,22 @@ def universe(b0, b1, rnd, earth_at, sun_dir):
     """the universe switched on in a lounge: the Earth, its air and the Moon, the Sun far off, and stars all round"""
     e = sphere("universe earth", earth_at, 1.4, earth_material(sun_dir)); e.rotation_euler = (math.radians(23.4), 0, math.radians(200))
     sphere("universe air", earth_at, 1.46, air_material())
-    mo = Vector(earth_at) + Vector((-2.4, 1.9, 0.6)); moon = lib.principled("universe moon", (0.0, 0.0, 0.0), 0.9, **{"Emission Color": (0.62, 0.61, 0.58, 1), "Emission Strength": 0.9})
-    sphere("universe moon", tuple(mo), 0.38, moon, 48, 24)
+    mo = Vector(earth_at) + Vector((-2.4, 1.9, 0.6))
+    sphere("universe moon", tuple(mo), 0.38, moon_material(sun_dir), 64, 32)
     sun_at = Vector(earth_at) + sun_dir.normalized() * 6.0
     sphere("universe sun", tuple(sun_at), 0.12, lib.emission("universe sun", (1.0, 0.95, 0.85), 60.0), 24, 12)
     # stars: points through the room's air, a small glowing ball on each
     pts = []
-    for i in range(6000):
+    for i in range(3500):
         r = rnd.uniform(R0 + 0.2, R1 - 0.2); b = rnd.uniform(b0 + 0.3, b1 - 0.3); z = rnd.uniform(Z72 + 0.2, Z72 + H - 0.2)
         p = Vector(at(r, b, z))
-        if (p - Vector(earth_at)).length > 1.9: pts.append(p)
+        if (p - Vector(earth_at)).length > 3.0 and (p - mo).length > 0.8: pts.append(p)
     st = bpy.data.objects.get("universe star")
     if st is None:
-        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=0.006, location=(0, 0, -500)); st = bpy.context.active_object; st.name = "universe star"
-        st.data.materials.append(lib.emission("universe star", (0.92, 0.95, 1.0), 40.0))
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=0.0025, location=(0, 0, -500)); st = bpy.context.active_object; st.name = "universe star"
+        st.data.materials.append(shown_light("universe star", (0.92, 0.95, 1.0), 22.0))
     me = bpy.data.meshes.new("universe stars"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("universe stars", me))
-    import atrium; atrium.scatter_leaves(ob, st, "universe stars", 0.5, 2.2)
+    import atrium; atrium.scatter_leaves(ob, st, "universe stars", 0.5, 1.6)
 
 
 def build_orb(M, rnd, lounge=0):

@@ -1,8 +1,0 @@
-./bvenv/bin/python blend/crown_rooms.py bedroom bedroom2,pano:bedroom final/crown/%s.jpg 1600 900 96 1.5 4096 28
-./bvenv/bin/python blend/crown_rooms.py salon pano:salon,plan:c_salon final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py library library_up,maproom,pano:library,pano:maproom,plan:c_library final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py wellness wellness,pano:wellness,plan:c_wellness final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py dining dining,pano:dining,plan:c_dining final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py arrival arrival,pano:arrival,plan:c_arrival final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py sunset sunset2,pano:sunset,plan:c_sunset final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/crown_rooms.py bedroom plan:c_bedroom final/crown/%s.jpg 1600 900 96 1.5 4096 28

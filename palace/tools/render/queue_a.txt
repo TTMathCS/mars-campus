@@ -1,9 +1,9 @@
-./bvenv/bin/python blend/crown_rooms.py wellness wellness,pano:wellness,plan:c_wellness final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/overall.py turn0of72,turn10of72,turn28of72,turn46of72,turn62of72 final/house_test/%s.jpg 960 540 16
-./bvenv/bin/python blend/crown_rooms.py dining dining,pano:dining,plan:c_dining final/crown/%s.jpg 1600 900 96 1.0 4096 28
+./bvenv/bin/python blend/crown_rooms.py dining pano:dining,plan:c_dining final/crown/%s.jpg 1600 900 96 1.0 4096 28
+./bvenv/bin/python blend/overall.py hero,whole final/house/%s.jpg 1600 900 128
+./bvenv/bin/python blend/overall.py spots72,turn0of72,turn3of72,turn6of72,turn9of72,turn12of72,turn15of72,turn18of72,turn21of72,turn24of72,turn27of72,turn30of72,turn33of72,turn36of72,turn39of72,turn42of72,turn45of72,turn48of72,turn51of72,turn54of72,turn57of72,turn60of72,turn63of72,turn66of72,turn69of72 final/house/%s.jpg 1280 720 32
+./bvenv/bin/python blend/overall.py turn1of72,turn4of72,turn7of72,turn10of72,turn13of72,turn16of72,turn19of72,turn22of72,turn25of72,turn28of72,turn31of72,turn34of72,turn37of72,turn40of72,turn43of72,turn46of72,turn49of72,turn52of72,turn55of72,turn58of72,turn61of72,turn64of72,turn67of72,turn70of72,turn2of72,turn5of72,turn8of72,turn11of72,turn14of72,turn17of72,turn20of72,turn23of72,turn26of72,turn29of72,turn32of72,turn35of72,turn38of72,turn41of72,turn44of72,turn47of72,turn50of72,turn53of72,turn56of72,turn59of72,turn62of72,turn65of72,turn68of72,turn71of72 final/house/%s.jpg 1280 720 32
 ./bvenv/bin/python blend/final.py s_bedroom,pano:bedroom,s_garden,pano:garden,s_bath,pano:bath,plan:suite,plan:residence final 1600 900 128 4096 30
 ./bvenv/bin/python blend/crown_rooms.py arrival arrival,pano:arrival,plan:c_arrival final/crown/%s.jpg 1600 900 96 1.0 4096 28
-./bvenv/bin/python blend/patch.py fire final/pano_fire.jpg final/pano_fire_v2.jpg 780,880,1090,1180 3020,850,3350,1200
 ./bvenv/bin/python blend/crown_rooms.py sunset sunset2,pano:sunset,plan:c_sunset final/crown/%s.jpg 1600 900 96 1.0 4096 28
 ./bvenv/bin/python blend/final.py pano:terrace,pano:bridge,pano:court final 1600 900 128 4096 32
 ./bvenv/bin/python blend/final.py music,dining final 1600 900 128 4096 32

@@ -88,7 +88,7 @@
   }
   function go() { if (!raf) raf = requestAnimationFrame(tick); }
   function leaveWhole() { if (wimg && !wimg.hidden) { wimg.hidden = true; labs.hidden = false; wb.textContent = "Without the cut"; stage.classList.remove("whole"); } }
-  function turnBy(k) { leaveWhole(); vel = 0; target = Math.round(target) + k; go(); }
+  function turnBy(k) { leaveWhole(); vel = 0; target = Math.round(target) + k * Math.max(1, Math.round(have.length / 24)); go(); }   // a click or a key: 15°, with 24 or 72 frames
   function show(i) {                                              // to frame i the short way round
     var n = have.length; vel = 0; target = i + n * Math.round((pos - i) / n); go();
   }
@@ -110,7 +110,7 @@
   });
   stage.addEventListener("pointermove", function (e) {
     if (!drag) return;
-    var step = Math.max(12, stage.clientWidth / 32), now = performance.now(), dt = Math.max(1, now - drag.lt);
+    var step = Math.max(4, stage.clientWidth * 0.75 / have.length), now = performance.now(), dt = Math.max(1, now - drag.lt);   // a whole turn over 3/4 of the width
     target = drag.t0 + (drag.x - e.clientX) / step;
     drag.v = 0.7 * drag.v + 0.3 * ((drag.lx - e.clientX) / step) / dt * 16.7;      // frames per tick at 60 Hz
     drag.lx = e.clientX; drag.lt = now; go();

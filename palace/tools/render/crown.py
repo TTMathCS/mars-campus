@@ -132,8 +132,9 @@ def mars_ground_material():
     return m
 
 
-def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None):
-    """the world round the ring: sky, sun, the plain 41 m down, the Stone Garden inside the ring, the Orb"""
+def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None, roof=False):
+    """the world round the ring: sky, sun, the plain 41 m down, the Stone Garden inside the ring, the Orb. roof: the
+    rest of the ring up to its roof and spires (seen from the Orb), not only as high as the rooms' ceilings"""
     sd = mars_sky(sun_az, sun_el, 1.0)
     lib.sun(sun_el, sun_az, sun_strength, angle_deg=0.35, color=(1.0, 0.86, 0.68))
     g = lib.cyl("plain", 9000, 0.1, (0, 0, -FL - 0.1), mars_ground_material(), verts=96, smooth=False)
@@ -146,10 +147,11 @@ def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None):
     # the rest of the ring, seen across the garden: one smooth white band (only for what the slots show)
     # (leaving out the stretch the rooms are built in, with a degree to spare)
     lo, hi = (skip[0] - 1.0, skip[1] + 1.0) if skip else (0.0, 0.0)
-    bm = bmesh.new(); bs = [b for b in steps(hi, lo + 360.0, 1)] if skip else steps(0, 360, 1)
+    bm = bmesh.new(); bs = [b for b in steps(hi, lo + 360.0, 1)] if skip else steps(0, 360, 4 if roof else 1)
     prev = None
     for b in bs:
-        cur = [bm.verts.new(P(R_IN - 0.6, b, -9.0)), bm.verts.new(P(R_IN - 0.6, b, ceil_at(b) + 0.6)), bm.verts.new(P(R_OUT + 0.6, b, ceil_at(b) + 0.6)), bm.verts.new(P(R_OUT + 0.6, b, -9.0))]
+        top = roof_top(b) - FL if roof else ceil_at(b) + 0.6
+        cur = [bm.verts.new(P(R_IN - 0.6, b, -9.0)), bm.verts.new(P(R_IN - 0.6, b, top)), bm.verts.new(P(R_OUT + 0.6, b, top)), bm.verts.new(P(R_OUT + 0.6, b, -9.0))]
         if prev:
             for k in range(4): bm.faces.new((prev[k], cur[k], cur[(k + 1) % 4], prev[(k + 1) % 4]))
         prev = cur

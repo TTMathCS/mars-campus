@@ -85,7 +85,7 @@ window.TOUR_STOPS = [
   { id: "crown_studio", place: "crown", name: "The Studio", short: "Studio", k: "The Crown · Studio", p: [-61.59, 116.81], az0: 110, img: "pano/crown_studio.jpg",
     d: "Jim's art studio in the steady north light: three easels by the outer wall's slots, a long work table of brushes and paints, canvases stacked against the wall. Through the opening, the print room with his photographs of Mars, and beyond it the craft room with the potter's wheel and the kiln.",
     links: [{ id: "crown_library", at: [-70.88, 105.08, 0], label: "The Glide: to the library" }, { id: "crown_stars", at: [-49.53, 116.67, 0], label: "The Glide: to the Observatory" }] },
-  { id: "crown_stars", place: "crown", ready: false, name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [28.21, 128.29], az0: 40, img: "pano/crown_stars.jpg",
+  { id: "crown_stars", place: "crown", name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [28.21, 128.29], az0: 40, img: "pano/crown_stars.jpg",
     d: "The Observatory at night: reclining chairs in pairs under the outer slots full of stars, candles on the side tables, a floor of polished basalt. Across the ring the other rooms' slots glow. The telescope room is through the opening, with the portal up to the dome.",
     links: [{ id: "crown_studio", at: [15.45, 125.81, 0], label: "The Glide: to the Studio" }, { id: "crown_garden", at: [39.17, 120.55, 0], label: "The Glide: to the Garden room" }] },
   { id: "crown_garden", place: "crown", ready: false, name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",

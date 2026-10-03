@@ -14,6 +14,7 @@ VIEWS = {   # scene, centre (x, y), size across (m), size up the page (m), turn 
     "baths": ("pent:baths", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
     "cinema": ("pent:cinema", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
     "guests": ("pent:guests", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
+    "o_lounges": ("orb:earth", (0.0, 0.0), 50.0, 50.0, 0.0, 72.0 - 41.0 + 2.9),      # the Orb's +72 m floor
 }
 CROWN_SPANS = {"c_arrival": (72.0, 108.0), "c_bedroom": (108.0, 144.0), "c_salon": (144.0, 180.0), "c_wellness": (180.0, 216.0), "c_dining": (216.0, 252.0), "c_sunset": (252.0, 288.0), "c_library": (288.0, 324.0),
                "c_studio": (324.0, 360.0), "c_observatory": (0.0, 36.0), "c_garden": (36.0, 72.0)}
@@ -24,6 +25,8 @@ def build(scene):
         import family; family.build(); return
     if scene.startswith("pent:"):
         import pent_rooms; pent_rooms.build(scene[5:]); return
+    if scene.startswith("orb:"):
+        import orb; orb.build(scene[4:], False); return
     import crown_rooms; crown_rooms.build(scene[6:], False)        # plans by day, the Observatory too
 
 
@@ -32,7 +35,7 @@ def plan(cx, cy, w, h, turn, cut, px_w=1600):
     for o in sc.objects:
         if o.type not in ("MESH", "CURVE") or o.hide_render: continue
         zmin = min((o.matrix_world @ Vector(c)).z for c in o.bound_box)
-        if zmin > cut or any(k in o.name.lower() for k in ("ceiling", "roof", "slats", "felt", "storey band", "skylight", "well trim", "lens", "downlight", "washer trim", "cove", "pendant", "cable", "cord", "stars")):
+        if zmin > cut or any(k in o.name.lower() for k in ("ceiling", "roof", "slats", "felt", "storey band", "skylight", "well trim", "lens", "downlight", "washer trim", "cove", "pendant", "cable", "cord", "stars", "universe")):
             o.hide_render = True; hidden += 1
     for o in sc.objects:                       # soft light from high above instead of the pictures' sun
         if o.type == "LIGHT" and o.data.type == "SUN":

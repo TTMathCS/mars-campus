@@ -1,6 +1,6 @@
 # Decisions with Jim
 
-[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · **Decisions** · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans.md) · [Pictures](gallery.md)
+[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · **Decisions** · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans/README.md) · [Pictures](gallery.md)
 
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
@@ -127,8 +127,8 @@ Jim asked us to decide these; he can change any of them.
 - **Mars, the science.** Jim: "I am thinking creating another subpage to introduce Mars with facts of geography. also
   separate topics on the engineering on how to build / move materials to mars to build, how to get water and food /
   energy/etc. this subpage should be based on science". **Done:** two new pages in the design plan,
-  [Mars, the planet](design/00a-mars.md) (00·1: the numbers next to Earth's, a labelled map, the air and weather, water
-  and ice, radiation, the moons, the site) and [Living on Mars](design/00b-living.md) (00·2: getting there and what to
+  *Mars, the planet* (00·1: the numbers next to Earth's, a labelled map, the air and weather, water
+  and ice, radiation, the moons, the site) and *Living on Mars* (00·2: getting there and what to
   bring, building, water, air, food, energy, radiation, rocket fuel, talking to Earth, each with how the house does
   it). The numbers come from spacecraft and published studies, listed at the end of each page; our own estimates
   say so. → SY-7.
@@ -167,7 +167,7 @@ Jim, in the Orb:
 > "in the orb, I don't like it be all open area. there should be seprate rooms in the middle of the circle, while
 > leaving outer and inner circle to be visitor lanes so they can see the view outer or inner."
 
-**Drawn for his review, Rev F** ([the plan](img/book/orb-rev-f.png)): on each of the three floors, five rooms in the
+**Drawn for his review, Rev F** ([the plan](archive/img/orb-rev-f.png)): on each of the three floors, five rooms in the
 middle of the ring (on +72 two universe lounges, the bar, a sky library and a gallery; on +80 the rest rooms; on +64
 the portals), a lane 2.4 m wide along the windows and one along the glass onto the Gate, and five passages between the
 lanes. It needs a bigger Orb or a smaller Gate (the question above). → OR-1 to OR-8
@@ -182,7 +182,7 @@ brightness, by up to a seventh in one frame. Now the old picture fades into the 
 out of Jim's residence changes the light over a second. Measured on a walk across the family room: the biggest jump
 at a new probe went from 17 levels (of 255) to 1.5.
 
-![The Orb, Rev F: the +72 floor and a section](img/book/orb-rev-f.png)
+![The Orb, Rev F: the +72 floor and a section](archive/img/orb-rev-f.png)
 
 ## 1 Oct 2026: it must look real, so a photo tour
 

@@ -1,6 +1,6 @@
 # The photo tour · demo 2
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans/README.md) · [Pictures](../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/tour/**. A tour of Jim's house in 360° photographs, like an
 estate agent's: drag to look round, click a ring to walk there, use the map (top right) or the buttons below. Each
@@ -25,7 +25,7 @@ finishes, about 25 minutes apiece.
 | The sun court | L5, 68 m down | A lawn with olive trees round a pool at the foot of the column |
 
 The family room, the music room and the dining room are the front of ring A on L1, sector 1, as on the
-[floor plans](../docs/plans.md): 28.8 m of glass onto the atrium, 13.9 m deep, a ceiling at 3.8 m (Jim's study is the
+[floor plans](../docs/plans/README.md): 28.8 m of glass onto the atrium, 13.9 m deep, a ceiling at 3.8 m (Jim's study is the
 storey above). The walls between them stand on the mullions 8 m either side of the middle.
 
 ## How it is made

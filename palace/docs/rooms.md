@@ -1,12 +1,12 @@
 # The rooms, in pictures
 
-[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · **Rooms** · [Floor plans](plans.md) · [Pictures](gallery.md)
+[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · **Rooms** · [Floor plans](plans/README.md) · [Pictures](gallery.md)
 
 Arcadia, room by room, picture first. Each picture is path-traced in Blender Cycles from the same model as the 3D
 demo: real bounced light, real glass, and furniture scanned from real things. Nothing is painted by hand. Under each
 picture: what the room is, what it is made of, and a link to walk round it in 360° in the
 **[photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/)**. The design behind the rooms is in
-[chapter 04, Interiors](design/04-interiors.md); where they are is on the [floor plans](plans.md).
+[chapter 04, Interiors](design/04-interiors.md); where they are is on the [floor plans](plans/README.md).
 
 | | | |
 | --- | --- | --- |

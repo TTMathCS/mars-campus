@@ -1,6 +1,6 @@
 # The Pentagon · demo 2, phase 3
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../../../README.md) · [Requirements](../../../REQUIREMENTS.md) · [Decisions](../../../docs/decisions.md) · [Design](../../../docs/design/README.md) · [Rooms](../../../docs/rooms.md) · [Floor plans](../../../docs/archive/plans-rev-b.md) · [Pictures](../../../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/pentagon/**. The house below ground, as in chapter 03 and the
 floor plans. You come down by portal to L1, onto a bridge in the atrium.
@@ -42,7 +42,7 @@ Light: a 4096 shadow map, the lens or the sky of lamps as the sun, and a probe o
 image-based light; when the probe is taken again as you walk, the new light fades in over 1.5 s (`ENVB`), as a sudden
 change made the rooms flash.
 
-Test with `python3 palace/tools/pentagon_shot.py` (see its docstring): `?debug` exposes `window.__pent` with
+Test with `python3 palace/archive/3d-demo/tools/pentagon_shot.py` (see its docstring): `?debug` exposes `window.__pent` with
 `enter()`, `on(level, bearing)`, `at(level, x, z, yaw, pitch)`, `look(yaw, pitch)`, `step(n)` and `ev("js")`.
 
 `RES` builds the residence in (a, u) coordinates (a out from the centre, square to side 1; u along it), with the

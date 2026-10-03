@@ -46,5 +46,5 @@ Each Building on Mars page ends with a box, *In demo 2, Jim's house*, linking to
   as such in their captions.
 - Sources: published papers (with DOIs), NASA and other agency records. NASA's own websites are blocked from the build
   container, so numbers were taken from the published values, not re-checked live.
-- The design plan's old science chapters, `palace/design/mars.html` and `living.html`, now redirect here, section by
-  section.
+- The design plan's old science chapters (Mars, the planet; Living on Mars) were replaced by these pages on 2 Oct 2026
+  and removed on 3 Oct.

@@ -5,8 +5,8 @@ north-west. Writes palace/design/atlas/site-terrain.jpg covering x -6..34 km, z 
 import asyncio, os, subprocess, time, base64, io, sys
 from playwright.async_api import async_playwright
 from PIL import Image
-TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
-THREE = os.path.join(TOOLS, "three.min.js")
+TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", "..", "..", ".."))
+THREE = os.path.join(REPO, "palace", "tools", "three.min.js")
 X0, X1, Z0, Z1, BLK, PX = -6000, 34000, -6000, 6000, 2000, 800
 OUTM = 10.0   # metres per output pixel
 SETUP = """(function(){ var e = __crown.ev;
@@ -30,7 +30,7 @@ async def main():
             three = open(THREE, encoding="utf-8").read()
             await pg.route("**/three.min.js", lambda r: r.fulfill(body=three, content_type="application/javascript"))
             await pg.route("https://fonts.*/**", lambda r: r.abort())
-            await pg.goto("http://localhost:8783/palace/palace-debug.html")
+            await pg.goto("http://localhost:8783/palace/archive/3d-demo/palace-debug.html")
             await pg.wait_for_function("window.__crownReady === true", timeout=300000)
             await pg.evaluate(SETUP)
             W = int((X1 - X0) / OUTM); H = int((Z1 - Z0) / OUTM)

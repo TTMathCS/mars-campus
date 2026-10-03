@@ -9,8 +9,8 @@
 <meta name="description" content="Inside the Orb of Jim's house on Mars: switch the universe on, zoom from the whole universe down to Mars and the house, see Earth and Mars with their weather, and step into the Wormhole Gate.">
 <meta property="og:title" content="The Orb · Jim's house on Mars">
 <meta property="og:description" content="Switch the universe on, zoom from the whole universe to Mars and the house, and step into the Wormhole Gate.">
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="icon" href="../../../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../../../apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -166,7 +166,7 @@
     <h1>The Orb</h1>
     <p>You came up by portal from the Crown into a lounge on the +72 floor of the Orb, the mirror ball at the centre of the Crown. In front of you, behind glass, floats the Wormhole Gate.</p>
     <p>Switch the universe on and it appears in the room, all around you. Zoom from the whole universe down to Mars and your house, with Earth and Mars and their weather in the corner. Then choose a place and a time, and step into the Gate.</p>
-    <div class="row"><button type="button" class="go" id="bEnter">Enter the Orb</button><a href="../crown/">The Crown</a><a href="../pentagon/">The Pentagon</a><a href="../design/crown.html#orb">The design</a></div>
+    <div class="row"><button type="button" class="go" id="bEnter">Enter the Orb</button><a href="../crown/">The Crown</a><a href="../pentagon/">The Pentagon</a><a href="../../../design/crown.html#orb">The design</a></div>
     <div class="small">Drag to look round · W A S D to walk · U switches the universe · scroll or + − to zoom · D shows or hides Earth and Mars</div>
     <div class="small" style="font-size:11px;opacity:.8">The universe in VR and the Wormhole Gate are future technology. Planet maps: Solar System Scope (CC BY 4.0, from NASA imagery) and NASA Blue Marble; galaxy and Mars positions are computed for today. Live weather on Earth: Open-Meteo.</div>
   </div>
@@ -435,9 +435,9 @@
   var STAGE = new THREE.Vector3(15.0 * Math.cos(STAGE_ANG * D), 3.1, 15.0 * Math.sin(STAGE_ANG * D));
   var TEX = {}, texLoader = new THREE.TextureLoader(), pending = 0;
   function tex(url) { pending++; var t = texLoader.load(url, function () { pending--; }, undefined, function () { pending--; }); t.anisotropy = 8; return t; }
-  TEX.mars = tex("../design/img/mars-map.jpg"); TEX.earth = tex("tex/earth.jpg"); TEX.sun = tex("tex/sun.jpg"); TEX.mercury = tex("tex/mercury.jpg"); TEX.venus = tex("tex/venus.jpg");
+  TEX.mars = tex("../../../design/img/mars-map.jpg"); TEX.earth = tex("tex/earth.jpg"); TEX.sun = tex("tex/sun.jpg"); TEX.mercury = tex("tex/mercury.jpg"); TEX.venus = tex("tex/venus.jpg");
   TEX.jupiter = tex("tex/jupiter.jpg"); TEX.saturn = tex("tex/saturn.jpg"); TEX.uranus = tex("tex/uranus.jpg"); TEX.neptune = tex("tex/neptune.jpg"); TEX.ring = tex("tex/saturn-ring.png");
-  TEX.site = tex("../design/atlas/site-terrain.jpg");
+  TEX.site = tex("../../../design/atlas/site-terrain.jpg");
 
   // each level: a group at the stage, its materials (faded together), a focus point (local) where the next level lives,
   // labels (local positions), and an update for slow motion
@@ -1082,7 +1082,7 @@
       var f = ease((t - 5.2) / 0.8); if (t > 5.2) { st.pos.lerpVectors(BR1, tw, f); var d2 = tw.clone().sub(BR1); st.yaw = Math.atan2(-d2.x, -d2.z); st.pitch = Math.atan2(d2.y, Math.hypot(d2.x, d2.z)); }
     }
     $("flash").style.opacity = smooth(5.6, 6.4, t);
-    if (t > 6.8 && !S.gone) { S.gone = true; if (!DEBUG) location.href = "../../ttmath/"; }
+    if (t > 6.8 && !S.gone) { S.gone = true; if (!DEBUG) location.href = "../../../../ttmath/"; }
   }
 
   /* ------------------------------------------------------------------ input */

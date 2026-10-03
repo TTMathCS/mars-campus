@@ -35,7 +35,16 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     left the room program. The book's drawings re-exported (`docs_export.py book`; the unchanged ones restored).
   - **The Crown pool's ends** had no stone coping, so the end walls' tops lay level with the floor and rendered as a
     black band: fixed in `crown_rooms.py` (copings at both ends) before the wellness renders went on.
-  - Next: steps 2, 3 and 4 below (the renders run all the time, one at a time).
+  - **Step 2 mostly done:** the real-time 3D demo (`index.html`, `src/`, `build.sh`, `crown/`, `orb/`, `pentagon/`
+    and their tools) is in `palace/archive/3d-demo/` with a README (its how-to moved there from §3); its links, tools
+    and `build.sh` work from there (the rebuild is identical). `palace/index.html` redirects to `design/`. Rev B's
+    summary is `palace/docs/archive/plans-rev-b.md`, `plans_snap.py` sits beside the archived Rev B page, and
+    `docs_export.py plans` reads it. `design/mars.html`, `living.html`, `docs/design/00a-mars.md` and `00b-living.md`
+    are gone; the Rev F drawing is in `docs/archive/img/`. Link check clean (the tour's `#stop` links are script
+    routes). Left: the Rev B sheet images in `docs/img/plans/`, once step 3 stops using them.
+  - **Background processes die when the session goes idle** (the runner stopped at 02:23 and restarted at 12:07):
+    renders only run while a turn is active. Each job skips what it has made, so just start the runner again.
+  - Next: step 3, the rest of step 2, step 4 (the renders run all the time, one at a time).
 - **3 Oct, about 02:00 UTC, session `session_0138qEhb9MCkMbnmY4BcMa8s` (stopped here; Jim moved to a new cloud
   session):** that session could not reach PyPI (its network allowlist blocked pypi.org, files.pythonhosted.org and
   raw.githubusercontent.com), so it did the design-plan work and left the renders (step 4) to a session that can.
@@ -207,7 +216,7 @@ The Orb's Rev F question to Jim is still open.
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
 | Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), chapters 01–07 with the Orb at 48 m and every room as Rev G; 08 Life support, 09 Communications and space, 10 Building it still to write. |
 | Demo 2, floor plans | `palace/plans/` | **Rev G, approved by Jim on 3 Oct 2026** ("approve"): 179 rooms and areas with codes, written by `palace/tools/draw_plans.py` from `room_program.py`; the Orb at 48 m. Rev B is archived at `palace/archive/plans-rev-b/`. |
-| Demo 2, real-time 3D | `palace/src/` → `palace/index.html`, `crown/`, `orb/`, `pentagon/` | Hidden since 2 Oct 2026 (Jim: "far from satisfying"); to be archived (step 2 above). |
+| Demo 2, real-time 3D | `palace/archive/3d-demo/` | Hidden on 2 Oct 2026 (Jim: "far from satisfying") and archived on 3 Oct, with its tools and notes ([README](palace/archive/3d-demo/README.md)); `palace/index.html` now opens the design plan. |
 | Demo 2, photo tour | `palace/tour/` | Live since 1 Oct 2026: path-traced 360s and stills (Blender Cycles), the standard for every picture (Jim: "so great and almost perfect. i need all rooms to be like this"). Published: L1's family room, music room, dining room, library, baths and cinema; the Crown's salon, bedroom up, library, map room and pool. Rendering, one at a time: the rest (step 4). |
 | Demo 2, first palace | `palace/archive/old-palace/` | Archived (Jim rejected it: "far from satisfactory"). Its requirements are in `palace/docs/archive/old-palace.md`. |
 
@@ -357,62 +366,8 @@ Tests in `ttmath/tools/` use headless Chromium with Playwright:
 - When Jim answers or asks for something new: add it to `REQUIREMENTS.md` first, log his words in `docs/decisions.md`,
   then change the design.
 
-**Demo 2, 3D build** (`palace/src/`): plain JavaScript on three.js r128, no build tools beyond `sh`.
-- `palace/build.sh` joins `src/00_head.html` and `src/[1-9]*.js` (in name order, inside one function) into one page.
-  - `sh palace/build.sh debug` writes `palace/palace-debug.html` (git-ignored) with test hooks. Use this while working.
-  - `sh palace/build.sh` writes the published `palace/index.html` (phase 1 is live). Run it after every change to
-    `src/` and commit the result with the source.
-- Source files: `10_core.js` renderer, shared uniforms, shader chunks, HDR bloom and tone mapping; `20_sky.js` sun,
-  sky, Phobos, stars; `30_terrain.js` the height function (GLSL and a JS twin that must match), ground detail (dunes,
-  speckle pebbles, frost, dust) and ten nested terrain grids; `40_mat.js` building material (patterns 1 shell, 2 solar
-  (unused now), 3 pad, 4 steel, 5 pod skin, 6 white ceramic, 7 soft-touch trim; optional `ENV_CUBE` reflections) and
-  shadow map; `45_lights.js` point lights; `50_port.js` spaceport (two reactor domes, no solar field); `55_pod.js` pod
-  and cockpit; `60_crown.js` the Crown, the Orb, the Stone Garden (`STONES`, smooth-normal boulders, no mirrors), the
-  Orb's dock and the corner pavilions (the paving, kerb, glass strips and pads are drawn in the terrain shader);
-  `70_fx.js` dust devils, storm, sparks; `80_flight.js` the path, the ten shots and the cameras; `90_ui.js` HUD,
-  cards, look-around, sound; `99_main.js` the main loop.
-- World: metres, x east, z south, y up, the Crown's centre at the origin, the spaceport terminal at x = 30 000. Plan
-  coordinates (x, y north) map to world (x, −y). Every vertex shader bends the world with the curvature of Mars.
-- Test: `python3 palace/tools/crown_shot.py '[["name", "js", waitMs], ...]' 960x540` loads the debug page headless and
-  saves PNGs to `palace/tools/out/`. In the page, `__crown.at(t)` jumps the flight video to time t (director's
-  camera), `__crown.view(x, y, z, tx, ty, tz)` places the camera, `__crown.exp(e)` sets the exposure, `__crown.step(n)`
-  renders n frames and `__crown.ev("js")` runs code inside the page's scope (FLIGHT, CROWN, U, camera, setSun ...).
-  Each frame takes about 8 s at 960×540 in SwiftShader; long jobs must run in the background (`nohup ... &`). Node
-  helpers: `shot.js`, `probe.js` (evaluate one expression), `grid.js` (contact sheet of a folder of PNGs).
-- **Pictures for the book:** `python3 palace/tools/book_renders.py [name,name,...]` renders the views listed in
-  `RENDERS` (a fixed camera via `SHOT(...)`, or a time in the flight) to `palace/design/img/<name>.jpg`, 1600 × 900,
-  about 25–45 s each. Set `RENDER_OUT=some/dir` to try views without touching the book. Jim judges every picture on
-  whether it looks real; drop a view rather than publish one that looks like a game (the cockpit view was dropped on
-  1 Oct 2026 for that reason).
-
-**Demo 2, the Crown's main floor** (`palace/crown/index.html`): one self-contained page, three.js r128. Read
-`palace/crown/README.md` first. The ring is built in 9° chunks from `roofTop(b)` and `ceilAt(b)`; `ROOMS` comes from
-`SEGS` (the same list as chapter 02); each room's furniture is placed in its frame (`roomFrame`: x clockwise round the
-ring, z towards the garden) with the kit (`sofa`, `table`, `bed`, `shelves`, `piano`, `tree`, `fern`, `pool` ...).
-Light: a 4096 shadow map that follows you, `TOD` for the five times of day, and `probe()`, a cube camera turned into
-image-based light every 14 m. Test with `python3 palace/tools/crown_in_shot.py`.
-
-**Demo 2, the Orb** (`palace/orb/index.html`): one self-contained page, no build step, three.js r128. Read
-`palace/orb/README.md` first. Levels are built in `LV` (web, mw, sol, mars, arc, home, earth), each a group with a slow
-spin, a focus point where its child level sits, and labels; `go(id)` zooms there through the chain (`PARENT`).
-`ASTRO` has the planets' positions today, the Mars clock (Mars24's algorithm) and the Sun over Earth; `DASH` draws the
-two globes into the canvas behind the dashboard and fetches Earth's weather (Open-Meteo) for the home town kept in
-`localStorage`. The send sequence is `sending()`. Test with `python3 palace/tools/orb_shot.py` (`?debug` exposes
-`window.__orb`); the planet maps come from `python3 palace/tools/fetch_textures.py`.
-
-**Demo 2, the Pentagon** (`palace/pentagon/index.html`): one self-contained page, no build step, three.js r128. Read
-`palace/pentagon/README.md` first. `LV` holds the five levels; the atrium is built side by side (`onSide(a, k, t, y)`:
-the point at apothem `a` on side `k`, a fraction `t` along it). The rooms behind the glass are interior-mapped: `ROOMS`
-lists them per level and side as on the plans, and `ROOM_FS` draws each kind (walls, floor, ceiling, lights, then the
-furniture on a plane halfway back). `GARDEN` builds L2 (`lakeD` is the lake's shape, `each(sector, ...)` plants a sector
-row by row, `BLOCK` holds what you can't walk through); its sky shader also draws the far horizon on the outer walls.
-`canStand` decides where you can walk. `RES` is Jim's residence on L1 (walkable rooms, built in (a, u) coordinates
-with the Crown's furniture kit) and `ACTS` the things to do there. Static meshes are merged by material at the end
-(`mergeStatic`; the residence separately, so its shell can stop casting shadows on L2). The render
-target has a 24-bit depth buffer (three r128 gives render targets 16 bits otherwise, and surfaces 2 cm apart flicker).
-Test with `python3 palace/tools/pentagon_shot.py` (`?debug` exposes `window.__pent`). The probe's re-captures fade in
-over 1.5 s (`ENVB`: every standard material's shader blends the previous environment map into the new one); a sudden
-swap made the rooms flash every few seconds as you walked (Jim, 1 Oct 2026). The Crown has the same `ENVB`.
+**Demo 2, the real-time 3D demo** (archived on 3 Oct 2026, `palace/archive/3d-demo/`): how it is built and tested is in
+[its README](palace/archive/3d-demo/README.md). Jim hid it on 2 Oct; Arcadia is shown with path-traced pictures.
 
 **Demo 2, the photo tour** (`palace/tour/`): read `palace/tour/README.md` first. The viewer `index.html` (three.js r128,
 no build step) puts each 360° JPEG from `pano/` on the inside of a sphere; `stops.js` lists the stops (where each was
@@ -453,7 +408,7 @@ look at every final critically before it goes up.
 - **The Mars Atlas** (`atlas/index.html` + `atlas/atlas.js`): three.js r128, camera-relative rendering in km, a
   quadtree of OnMars tiles (MDIM and the colour elevation map) over the real base map, the planets and moons, and
   Jim's site placed in the demo's frame (metres, x east, z south, the Crown at the origin). `atlas/site-terrain.jpg`
-  is the demo's own 40 × 12 km landscape seen from above, baked by `python3 palace/tools/bake_site.py` (about 17 min,
+  is the demo's own 40 × 12 km landscape seen from above, baked by `python3 palace/archive/3d-demo/tools/bake_site.py` (from the archived phase 1 landscape) (about 17 min,
   run in the background). Test with `python3 palace/tools/atlas_shot.py '[["name", "js", waitMs]]' 1280x720 fake|none`;
   `window.__atlas` has `jump(k)`, `select(id)`, `flyTo({...})` and `CAM`. Links can open a view:
   `atlas/#place=house` or `atlas/#@lat,lon,distkm,...`.
@@ -464,12 +419,8 @@ look at every final critically before it goes up.
 sector from the atrium out), `C-01` to `C-34` (Crown, clockwise from Arrival), `O-00` to `O-17` (Orb), `G-01` to
 `G-08` (ground), letters for shared areas (`L1-AT`, `CC1`, `C-GL`).
 
-**Demo 2 plans Rev B** (approved, kept as drawn): edit `palace/plans/index.html` directly. It is one self-contained page, and every drawing is SVG
-built by its script. The geometry constants sit near the top of the script:
-- `CR` is the Crown.
-- `PG` is the Pentagon.
-- `SEGS` holds the Crown's rooms.
-- `LEVELS` holds the Pentagon's rooms.
+**Demo 2 plans Rev B** (archived): one self-contained page at `palace/archive/plans-rev-b/index.html`, kept as
+approved; `plans_snap.py` beside it shoots its sheets, and `docs_export.py plans` exports them for the archived docs.
 
 The areas on the page are computed from these constants, so keep the numbers in the text in step with them. Rev B is
 approved, so change it only for what Jim asks, and say so on the page (`.newer` at the top, `.since` under a sheet),
@@ -519,7 +470,7 @@ and `src/60_crown.js`. Check with `python3 palace/tools/plans_snap.py light` (or
 ## 5. File map
 
 ```
-index.html, site.css          hub page: one card per demo, then the two science cards
+index.html, site.css          hub page: *A city rising on Mars*, one card per place, then the two science cards
 science/                      the science: mars-facts/, building-on-mars/, science.css, science.js, README.md
 HANDOFF.md                    this file
 data/                         NASA terrain for demo 1 (Dingo Gap tiles as base64 text)
@@ -529,24 +480,19 @@ ttmath/tools/                 Playwright tests; hraster.npy + lay/ for the hidde
 palace/                       demo 2
 ├── README.md                 demo 2 home: start here
 ├── REQUIREMENTS.md           what Jim wants: the source of truth
-├── docs/                     decisions.md, design/ (chapter summaries), plans.md, gallery.md, img/, archive/
-├── design/                   the design book: index.html (cover), site/crown/pentagon/... .html, book.css, book.js
-│   ├── img/                  renders, thumbnails and mars-map.jpg (README.md lists them)
+├── docs/                     decisions.md, design/ (chapter summaries), plans/ (Rev G), rooms.md, gallery.md, img/, archive/
+├── design/                   the design plan: index.html (cover, the house explorer), rooms-*.html, site/crown/pentagon/... .html,
+│   │                         book.css, book.js, explorer.js, explorer-rooms.json
+│   ├── img/                  renders, thumbnails, plan maps and mars-map.jpg (README.md lists them)
 │   └── atlas/                the Mars Atlas: index.html, atlas.js, site-terrain.jpg
 ├── plans/                    floor plans Rev G, a page per sheet, written by tools/draw_plans.py (rev-g/ only redirects)
-├── archive/plans-rev-b/      floor plans Rev B, archived (self-contained page)
-├── src/                      the 3D demo's source; build.sh builds it
-├── crown/                    the Crown's main floor, phase 2: index.html (self-contained), README.md
-├── orb/                      the Orb, phase 2: index.html (self-contained), tex/ planet maps, README.md
-├── pentagon/                 the Pentagon, phase 3: index.html (self-contained), README.md
 ├── tour/                     the photo tour: index.html (viewer), stops.js, pano/ (360s), photos/, README.md
-├── tools/render/             Blender scenes for the photo tour: lib, furn, atrium, family, pano, final, fetch_assets
+├── tools/render/             Blender scenes: lib, furn, atrium, family, crown, crown_rooms, pent_rooms, overall, pano, final,
+│                             runner.py and queue_a.txt, pub.py, pub_house.py, fetch_assets
 ├── tools/room_program.py     every room and area with its code (Rev G); tools/draw_plans.py draws it
-├── tools/                    crown_shot.py, crown_in_shot.py, orb_shot.py, pentagon_shot.py, book_renders.py, book_shot.py, atlas_shot.py, plans_snap.py,
-│                             docs_export.py, fetch_marsmap.py, bake_site.py, scene_render.py with
-│                             orb_scene.html and mars_scene.html; shot.js, probe.js, grid.js
-├── archive/old-palace/       the first palace, kept for reference
-├── build.sh                  builds src/ into palace-debug.html or index.html
-└── index.html                the published 3D demo, built from src/ by build.sh
+├── tools/                    gen_plan.py, plan_maps.py, docs_export.py, book_shot.py, atlas_shot.py, fetch_marsmap.py,
+│                             scene_render.py with orb_scene.html and mars_scene.html, grid.js
+├── archive/                  3d-demo/ (the real-time 3D pages, their source and tools), plans-rev-b/, old-palace/
+└── index.html                opens the design plan (a redirect)
 .github/workflows/pages.yml   deploys to GitHub Pages on every push to main
 ```

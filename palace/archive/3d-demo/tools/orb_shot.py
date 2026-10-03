@@ -1,5 +1,5 @@
 """Headless screenshots of the Orb (palace/orb/index.html?debug), for checking it without a GPU.
-usage: python3 palace/tools/orb_shot.py '[["name", "js", frames], ...]' [WxH]
+usage: python3 palace/archive/3d-demo/tools/orb_shot.py '[["name", "js", frames], ...]' [WxH]
 Loads the page from a local server at the repo root, waits for window.__orbReady and the planet maps, then for each
 shot runs the js, renders that many frames of 1/60 s (the debug page has no loop of its own) and saves
 palace/tools/out/<name>.png. window.__orb has enter(), on(true|false), set(level) (web, mw, sol, mars, arc, home,
@@ -8,9 +8,9 @@ Example: '[["mars", "__orb.enter(); __orb.on(true); __orb.set(\\"mars\\")", 30],
 The weather service is blocked, so Earth's weather shows as not set."""
 import asyncio, os, subprocess, time, sys, json
 from playwright.async_api import async_playwright
-TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
+TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", "..", "..", ".."))
 OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
-THREE = os.path.join(TOOLS, "three.min.js")
+THREE = os.path.join(REPO, "palace", "tools", "three.min.js")
 SHOTS = json.loads(sys.argv[1]) if len(sys.argv) > 1 else [["orb", "__orb.enter()", 2]]
 W, H = (int(v) for v in (sys.argv[2] if len(sys.argv) > 2 else "960x540").split("x"))
 async def main():
@@ -26,7 +26,7 @@ async def main():
                 await pg.route("**/three.min.js", lambda r: r.fulfill(body=three, content_type="application/javascript"))
             await pg.route("https://fonts.*/**", lambda r: r.abort())
             await pg.route("https://*open-meteo.com/**", lambda r: r.abort())
-            t0 = time.time(); await pg.goto("http://localhost:8789/palace/orb/index.html?debug")
+            t0 = time.time(); await pg.goto("http://localhost:8789/palace/archive/3d-demo/orb/index.html?debug")
             await pg.wait_for_function("window.__orbReady === true", timeout=400000)
             await pg.wait_for_function("window.__orb.pending() === 0", timeout=120000)
             print("ready", round(time.time() - t0, 1), "s", flush=True)

@@ -1,6 +1,6 @@
 # The Crown · demo 2, phase 2
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../../../README.md) · [Requirements](../../../REQUIREMENTS.md) · [Decisions](../../../docs/decisions.md) · [Design](../../../docs/design/README.md) · [Rooms](../../../docs/rooms.md) · [Floor plans](../../../docs/archive/plans-rev-b.md) · [Pictures](../../../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/crown/**. The Crown's main floor at +41 m, as in chapter 02
 and the floor plans:
@@ -19,4 +19,4 @@ and the floor plans:
 
 One self-contained page, `index.html`, three.js r128. Shadows are a 4096 map that follows you; the probe is a cube
 camera turned into image-based light every 14 m; each new one fades in over 1.5 s (`ENVB`), as a sudden swap made the
-rooms flash. Test with `python3 palace/tools/crown_in_shot.py` (see its docstring).
+rooms flash. Test with `python3 palace/archive/3d-demo/tools/crown_in_shot.py` (see its docstring).

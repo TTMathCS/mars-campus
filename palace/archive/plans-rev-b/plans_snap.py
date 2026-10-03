@@ -1,13 +1,13 @@
-"""Screenshots of the demo 2 floor plans page (palace/plans/index.html), one PNG per sheet.
-usage: python3 palace/tools/plans_snap.py [light|dark|all]
+"""Screenshots of the archived floor plans Rev B (palace/archive/plans-rev-b/index.html), one PNG per sheet.
+usage: python3 palace/archive/plans-rev-b/plans_snap.py [light|dark|all]
 Writes to palace/tools/out/. Web fonts are swapped for local stand-ins when Google Fonts can't be reached,
 so text in the shots runs a little wider than on the live page. Also reports script errors and any
 horizontal overflow of the page body."""
 import asyncio, sys, os
 from playwright.async_api import async_playwright
 TOOLS = os.path.dirname(os.path.abspath(__file__))
-PAGE = os.path.join(TOOLS, "..", "plans", "index.html")
-OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
+PAGE = os.path.join(TOOLS, "index.html")
+OUT = os.path.join(TOOLS, "..", "..", "tools", "out"); os.makedirs(OUT, exist_ok=True)
 FONTCSS = """
 @font-face{font-family:'Saira Condensed';font-weight:400 700;src:local('DejaVu Sans Condensed');}
 @font-face{font-family:'Barlow';font-weight:400 600;src:local('Liberation Sans');}

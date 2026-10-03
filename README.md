@@ -59,13 +59,14 @@ ttmath/src/       Demo 1 source: page.html, blocks/*.js, assemble.py, build.py
 ttmath/tools/     Demo 1 headless tests (screenshots, walk tests, line-of-sight check)
 palace/           Demo 2: Arcadia, Jim's home on Mars. README.md (start here), REQUIREMENTS.md
 palace/docs/      Demo 2 docs: decisions, the design chapter by chapter, floor plans, pictures, archive
-palace/design/    Demo 2 design book and Mars Atlas (live pages)
+palace/design/    Demo 2 design plan and Mars Atlas (live pages)
+palace/tour/      Demo 2 photo tour: path-traced 360s and stills
 palace/plans/     Demo 2 floor plans Rev G, approved (written by palace/tools/draw_plans.py)
-palace/src/       Demo 2 3D build, phase 1 (paused), built by palace/build.sh
-palace/archive/   the first palace from rounds 1 and 2, kept for reference
+palace/tools/     Demo 2 room program, plan and page generators, docs export, the Blender scenes (tools/render/)
+palace/archive/   kept for reference: the real-time 3D demo (3d-demo/), floor plans Rev B, the first palace
 ```
 
-Demo 1 loads the shared terrain from `../data/`; its `index.html` is built from `ttmath/src/` with `assemble.py` and `build.py`. Demo 2's 3D build generates its own landscape from `palace/src/` with `palace/build.sh`; until it is ready, `palace/` opens the design book.
+Demo 1 loads the shared terrain from `../data/`; its `index.html` is built from `ttmath/src/` with `assemble.py` and `build.py`. Demo 2 is shown as path-traced pictures in its design plan; `palace/` opens it. Its real-time 3D pages are archived in `palace/archive/3d-demo/`.
 
 ## Publishing
 

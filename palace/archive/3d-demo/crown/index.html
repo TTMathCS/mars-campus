@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#0b0706">
 <title>The Crown · Jim's house on Mars</title>
 <meta name="description" content="Walk the main floor of the Crown, Jim's house on Mars: from the pod hangar through the Door into the Arrival hall, then round the ring on the Glide past every room, with the sun through the window slots.">
-<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="icon" href="../../../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../../../apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -95,7 +95,7 @@
     <h1>Welcome home</h1>
     <p>The pod is in the hangar and the air is back. In front of you is the Door, a round opening 5 m across closed by an iris of light. It knows you.</p>
     <p>Walk through into the Arrival hall, then round the ring on the Glide, a moving walkway 779 m long, past all ten parts of the house. The sun comes in through the window slots; change the time of day and watch it move.</p>
-    <div class="row"><button type="button" class="go" id="bEnter">Step through the Door</button><a href="../orb/">Go to the Orb</a><a href="../pentagon/">Down to the Pentagon</a><a href="../design/crown.html#plan">The plan</a></div>
+    <div class="row"><button type="button" class="go" id="bEnter">Step through the Door</button><a href="../orb/">Go to the Orb</a><a href="../pentagon/">Down to the Pentagon</a><a href="../../../design/crown.html#plan">The plan</a></div>
     <div class="small">Drag to look round · W A S D or arrows to walk · on the Glide you ride round the ring · click the map to glide to a room · portals in the spires go up to the Orb · the portal button takes you down to the Pentagon</div>
   </div>
 </div>
@@ -726,7 +726,7 @@
     armchair(g, FAB.rust, -L / 2 + 2.2, 0.6, Math.PI / 2); armchair(g, FAB.rust, L / 2 - 2.2, 0.6, -Math.PI / 2); rug(g, 9, 3.4, FAB.rugDark, 0, 0.6);
     portal(306 + 6.5, 131.2, "UP TO THE ORB");
     rm = room("Map room"); g = roomFrame(rm); L = span(rm);
-    (function () { var tx = new THREE.TextureLoader().load("../design/img/mars-map.jpg"); var gm = put(g, new THREE.SphereGeometry(0.75, 64, 48), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.7 }), 0, 1.45, -0.8); gm.rotation.z = 25.2 * D; var ring = put(g, new THREE.TorusGeometry(0.82, 0.02, 8, 64), M.bronze, 0, 1.45, -0.8); ring.rotation.y = Math.PI / 2; cyl(g, 0.06, 0.25, 0.7, M.walnut, 0, 0.35, -0.8); })();
+    (function () { var tx = new THREE.TextureLoader().load("../../../design/img/mars-map.jpg"); var gm = put(g, new THREE.SphereGeometry(0.75, 64, 48), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.7 }), 0, 1.45, -0.8); gm.rotation.z = 25.2 * D; var ring = put(g, new THREE.TorusGeometry(0.82, 0.02, 8, 64), M.bronze, 0, 1.45, -0.8); ring.rotation.y = Math.PI / 2; cyl(g, 0.06, 0.25, 0.7, M.walnut, 0, 0.35, -0.8); })();
     table(g, 2.4, 1.2, 0.9, M.oak, 0, 1.6);
     // Studio
     rm = room("Music room"); g = roomFrame(rm); L = span(rm); piano(g, -L / 4, -0.6, Math.PI * 0.5); for (var mi = 0; mi < 4; mi++) { chair(g, FAB.ink, L / 6 + mi * 1.1, -1.2, Math.PI); var ms = grp(g); ms.position.set(L / 6 + mi * 1.1, 0, -2.0); cyl(ms, 0.01, 0.01, 1.2, M.bronze, 0, 0.6, 0, 6); box(ms, 0.5, 0.35, 0.02, MX.black, 0, 1.25, 0); }

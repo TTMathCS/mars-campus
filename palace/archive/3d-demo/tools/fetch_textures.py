@@ -1,5 +1,5 @@
 """Fetch the planet maps for the Orb (palace/orb/): the solar system and the dashboard globes.
-usage: python3 palace/tools/fetch_textures.py
+usage: python3 palace/archive/3d-demo/tools/fetch_textures.py
 Sources:
 - Sun, Mercury, Venus (atmosphere), Jupiter, Saturn and its rings, Uranus, Neptune, the Moon: Solar System Scope
   textures (https://www.solarsystemscope.com/textures/, CC BY 4.0, based on NASA imagery), from the PyVista

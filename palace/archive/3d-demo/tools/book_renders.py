@@ -1,5 +1,5 @@
 """Render the design book's pictures from demo 2, without the on-screen display.
-usage: python3 palace/tools/book_renders.py [name,name,...]    (default: all)
+usage: python3 palace/archive/3d-demo/tools/book_renders.py [name,name,...]    (default: all)
 Run ./build.sh debug first. Loads palace/palace-debug.html in headless Chromium (SwiftShader, so each
 frame takes several seconds), sets up each view through window.__crown and saves a 1600 x 900 JPEG to
 palace/design/img/<name>.jpg (or RENDER_OUT). Views are either a time in the flight video (the director's camera) or a
@@ -7,9 +7,9 @@ fixed camera. Takes about a minute to load and 20-40 s per picture."""
 import asyncio, sys, os, subprocess, time, io
 from playwright.async_api import async_playwright
 from PIL import Image
-TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
+TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", "..", "..", ".."))
 IMG = os.environ.get("RENDER_OUT") or os.path.join(REPO, "palace", "design", "img"); os.makedirs(IMG, exist_ok=True)   # RENDER_OUT=dir to try views without touching the book
-THREE = os.path.join(TOOLS, "three.min.js")
+THREE = os.path.join(REPO, "palace", "tools", "three.min.js")
 W, H = 1600, 900
 HIDE = "['load','shot','data','radar','bar','ctl','welcome','start','end'].forEach(function(id){ var e = document.getElementById(id); if (e) e.hidden = true; }); 1"
 # A fixed camera: SHOT(camera x, y, z, target x, y, z, fov, sun elevation, sun azimuth, flight time for the pod, unused, exposure)
@@ -51,7 +51,7 @@ async def main():
             await pg.route("**/three.min.js", lambda r: r.fulfill(body=three, content_type="application/javascript"))
             await pg.route("https://fonts.*/**", lambda r: r.abort())
             t0 = time.time()
-            await pg.goto("http://localhost:8785/palace/palace-debug.html")
+            await pg.goto("http://localhost:8785/palace/archive/3d-demo/palace-debug.html")
             await pg.wait_for_function("window.__crownReady === true", timeout=400000)
             print("ready", round(time.time() - t0), "s", flush=True)
             await pg.evaluate("__crown.ev(%r)" % ("window.SHOT = " + SHOT.replace("function SHOT", "function") + "; 1"))

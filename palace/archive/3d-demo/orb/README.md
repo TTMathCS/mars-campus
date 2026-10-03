@@ -1,6 +1,6 @@
 # The Orb · demo 2, phase 2
 
-**[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](../docs/decisions.md) · [Design](../docs/design/README.md) · [Rooms](../docs/rooms.md) · [Floor plans](../docs/plans.md) · [Pictures](../docs/gallery.md)**
+**[Demo 2 home](../../../README.md) · [Requirements](../../../REQUIREMENTS.md) · [Decisions](../../../docs/decisions.md) · [Design](../../../docs/design/README.md) · [Rooms](../../../docs/rooms.md) · [Floor plans](../../../docs/archive/plans-rev-b.md) · [Pictures](../../../docs/gallery.md)**
 
 Live at **https://ttmathcs.github.io/mars-campus/palace/orb/**. A lounge on the +72 floor of the Orb, Rev E (chapter 02):
 
@@ -18,6 +18,6 @@ Live at **https://ttmathcs.github.io/mars-campus/palace/orb/**. A lounge on the 
   takes you to the TTMath campus in Gale crater, demo 1.
 
 One self-contained page, `index.html`, three.js r128. Planet maps in `tex/` come from
-`python3 palace/tools/fetch_textures.py` (Solar System Scope, CC BY 4.0; NASA Blue Marble, public domain); Mars uses
+`python3 palace/archive/3d-demo/tools/fetch_textures.py` (Solar System Scope, CC BY 4.0; NASA Blue Marble, public domain); Mars uses
 `../design/img/mars-map.jpg` and Arcadia `../design/atlas/site-terrain.jpg`. Test headless with
-`python3 palace/tools/orb_shot.py` (see its docstring).
+`python3 palace/archive/3d-demo/tools/orb_shot.py` (see its docstring).

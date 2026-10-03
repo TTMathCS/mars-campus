@@ -1,5 +1,5 @@
 """Headless screenshots of the Pentagon (palace/pentagon/index.html?debug), for checking it without a GPU.
-usage: python3 palace/tools/pentagon_shot.py '[["name", "js", frames], ...]' [WxH]
+usage: python3 palace/archive/3d-demo/tools/pentagon_shot.py '[["name", "js", frames], ...]' [WxH]
 Loads the page from a local server at the repo root, waits for window.__pentReady, then for each shot runs the js,
 renders that many frames of 1/60 s (the debug page has no loop of its own) and saves palace/tools/out/<name>.png.
 window.__pent has enter() (hides the card), on(level, bearing) (on that level's bridge at that bearing, 14 m from the
@@ -10,9 +10,9 @@ Example: '[["atrium", "__pent.enter(); __pent.on(0, 90); __pent.look(250, -8)", 
            ["meadow", "__pent.at(1, 13.9, -42.8, -100, 2)", 2], ["court", "__pent.at(4, -16, -8, -117, 12)", 2]]'"""
 import asyncio, os, subprocess, time, sys, json
 from playwright.async_api import async_playwright
-TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
+TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", "..", "..", ".."))
 OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
-THREE = os.path.join(TOOLS, "three.min.js")
+THREE = os.path.join(REPO, "palace", "tools", "three.min.js")
 SHOTS = json.loads(sys.argv[1]) if len(sys.argv) > 1 else [["pentagon", "__pent.enter(); __pent.on(0, 90); __pent.look(250, -8)", 2]]
 W, H = (int(v) for v in (sys.argv[2] if len(sys.argv) > 2 else "960x540").split("x"))
 async def main():
@@ -27,7 +27,7 @@ async def main():
                 three = open(THREE, encoding="utf-8").read()
                 await pg.route("**/three.min.js", lambda r: r.fulfill(body=three, content_type="application/javascript"))
             await pg.route("https://fonts.*/**", lambda r: r.abort())
-            t0 = time.time(); await pg.goto("http://localhost:8791/palace/pentagon/index.html?debug")
+            t0 = time.time(); await pg.goto("http://localhost:8791/palace/archive/3d-demo/pentagon/index.html?debug")
             await pg.wait_for_function("window.__pentReady === true", timeout=400000)
             print("ready", round(time.time() - t0, 1), "s", flush=True)
             for name, js, n in SHOTS:

@@ -80,7 +80,7 @@ async def run():
             if WHAT in ("plans", "all"):
                 os.makedirs(os.path.join(OUT, "plans"), exist_ok=True)
                 print("plans", flush=True)
-                pg = await page(ctx, "http://localhost:%d/palace/plans/" % PORT)
+                pg = await page(ctx, "http://localhost:%d/palace/archive/plans-rev-b/" % PORT)       # the Rev B sheets, archived
                 for sid, name in SHEETS:
                     await shot(pg, "#" + sid, os.path.join(OUT, "plans", name + ".png"))
                 for lv in ["L2", "L3", "L4", "L5"]:

@@ -1,5 +1,5 @@
 """Headless screenshots of the Crown's main floor (palace/crown/index.html?debug), for checking it without a GPU.
-usage: python3 palace/tools/crown_in_shot.py '[["name", "js", frames], ...]' [WxH]
+usage: python3 palace/archive/3d-demo/tools/crown_in_shot.py '[["name", "js", frames], ...]' [WxH]
 Loads the page from a local server at the repo root, waits for window.__crownInReady, then for each shot runs the js,
 renders that many frames of 1/60 s (the debug page has no loop of its own) and saves palace/tools/out/<name>.png.
 window.__crownIn has enter() (hides the card and opens the Door, which walks you in), at(bearing, radius, yawDeg,
@@ -9,9 +9,9 @@ SwiftShader, and the light probe adds six renders every 14 m, so keep frame coun
 Example: '[["salon", "__crownIn.enter(); __crownIn.ev(\\"ME.script = null\\"); __crownIn.at(154, 129.4); __crownIn.look(6, -1.5, -4)", 3]]'"""
 import asyncio, os, subprocess, time, sys, json
 from playwright.async_api import async_playwright
-TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", ".."))
+TOOLS = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.normpath(os.path.join(TOOLS, "..", "..", "..", ".."))
 OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
-THREE = os.path.join(TOOLS, "three.min.js")
+THREE = os.path.join(REPO, "palace", "tools", "three.min.js")
 SHOTS = json.loads(sys.argv[1]) if len(sys.argv) > 1 else [["crown", "__crownIn.enter()", 2]]
 W, H = (int(v) for v in (sys.argv[2] if len(sys.argv) > 2 else "960x540").split("x"))
 async def main():
@@ -26,7 +26,7 @@ async def main():
                 three = open(THREE, encoding="utf-8").read()
                 await pg.route("**/three.min.js", lambda r: r.fulfill(body=three, content_type="application/javascript"))
             await pg.route("https://fonts.*/**", lambda r: r.abort())
-            t0 = time.time(); await pg.goto("http://localhost:8790/palace/crown/index.html?debug")
+            t0 = time.time(); await pg.goto("http://localhost:8790/palace/archive/3d-demo/crown/index.html?debug")
             await pg.wait_for_function("window.__crownInReady === true", timeout=400000)
             print("ready", round(time.time() - t0, 1), "s", flush=True)
             for name, js, n in SHOTS:

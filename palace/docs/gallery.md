@@ -1,11 +1,11 @@
 # Pictures
 
-[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans.md) · **Pictures**
+[Demo 2 home](../README.md) · [Requirements](../REQUIREMENTS.md) · [Decisions](decisions.md) · [Design](design/README.md) · [Rooms](rooms.md) · [Floor plans](plans/README.md) · **Pictures**
 
 Every picture of demo 2. They are rendered from the new 3D build (`palace/src/`), the same scene the flight video
 plays, so they show the design as it will look in the demo. They are simulations, not photographs. On 1 Oct 2026 the
 weak ones were redone so they look real; the cockpit view did not, so it was taken out. The diagrams are
-on the [design pages](design/README.md) and the plan sheets on [Floor plans](plans.md).
+on the [design pages](design/README.md) and the plan sheets on [Floor plans](plans/README.md).
 
 **The rooms come first:** each is path-traced, with what it is made of, in **[The rooms, in pictures](rooms.md)**.
 

@@ -33,17 +33,14 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | 🔭 | **The science** (now its own part of the site, one subject a page): Mars facts (surface, inside, weather, space, resources, hazards, numbers, exploration) and Building on Mars (every factor, getting there, construction, water, air, food, energy, shielding, health, fuel, talking to Earth, protecting Mars), with sources | [science/README.md](../science/README.md) | [Mars facts](https://ttmathcs.github.io/mars-campus/science/mars-facts/) · [Building on Mars](https://ttmathcs.github.io/mars-campus/science/building-on-mars/) |
 | 🛋️ | **The rooms, in pictures**: every room path-traced, picture first, with what it is made of | [docs/rooms.md](docs/rooms.md) | |
 | 📸 | **The photo tour**: Arcadia's rooms in path-traced 360° photographs, on L1 and in the Crown; drag to look round, click to walk | [tour/](tour/) | [The tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
-| ▶️ | **The 3D demo**, phase 1: fly home from the spaceport to the Crown and look around it *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [src/](src/) | [Demo 2](https://ttmathcs.github.io/mars-campus/palace/) |
-| 🏛️ | **The Crown**, phase 2: step through the Door and walk the main floor, ride the Glide past every room *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [crown/](crown/) | [The Crown](https://ttmathcs.github.io/mars-campus/palace/crown/) |
-| 🌌 | **The Orb**, phase 2: switch the universe on, zoom from the cosmic web to Mars and the house, step into the Wormhole Gate *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [orb/](orb/) | [The Orb](https://ttmathcs.github.io/mars-campus/palace/orb/) |
-| 🌳 | **The Pentagon**, phase 3: the atrium 68 m deep with rooms behind glass on every level, the garden level with its lake, forest and meadow, and the sun court *(hidden from the homepage since 2 Oct 2026: Jim finds the real-time 3D far from satisfying)* | [pentagon/](pentagon/) | [The Pentagon](https://ttmathcs.github.io/mars-campus/palace/pentagon/) |
+| 🗄️ | **The real-time 3D pages** (the flight home, the Crown, the Orb, the Pentagon), hidden since 2 Oct 2026 and archived: Jim found them far from satisfying | [archive/3d-demo/](archive/3d-demo/README.md) | |
 | 📋 | **Requirements**: everything Jim asked for, with status | [REQUIREMENTS.md](REQUIREMENTS.md) | |
 | ✅ | **Decisions**: every question to Jim, his answers, and what they changed | [docs/decisions.md](docs/decisions.md) | |
 | 📐 | **The design, chapter by chapter**: what each part looks like and how it works, with every diagram | [docs/design/](docs/design/README.md) | [Design plan](https://ttmathcs.github.io/mars-campus/palace/design/) |
 | 🗺️ | **Floor plans Rev G**, approved by Jim on 3 Oct 2026: every room designed, with a code | [docs/plans/](docs/plans/README.md) | [Floor plans](https://ttmathcs.github.io/mars-campus/palace/plans/) |
 | 🌍 | **Mars Atlas**: zoom from the solar system to the house, Google Earth style | [Atlas views](docs/design/01-site-and-city.md#the-mars-atlas) | [Mars Atlas](https://ttmathcs.github.io/mars-campus/palace/design/atlas/) |
 | 🖼️ | **Pictures**: every picture rendered from the 3D build | [docs/gallery.md](docs/gallery.md) | |
-| 🗄️ | **The first palace** (rounds 1 and 2), archived | [docs/archive/old-palace.md](docs/archive/old-palace.md) | [Old palace](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
+| 🗄️ | **The first palace** (rounds 1 and 2) and **floor plans Rev B**, archived | [docs/archive/old-palace.md](docs/archive/old-palace.md) | [Old palace](https://ttmathcs.github.io/mars-campus/palace/archive/old-palace/) |
 | 🛠️ | **How to build and test**, for whoever continues the work | [HANDOFF.md](../HANDOFF.md) | |
 
 ## Status
@@ -55,7 +52,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | Design plan | Chapters 01–07 written, with the Orb at 48 m and every room as Rev G | Write 08 Life support, 09 Communications and space, 10 Building it |
 | Pictures | Path-traced, one render at a time: the house in section (24 frames to turn), L1's residence, library, baths and cinema, and the Crown's salon, bedroom, library, map room and pool | The Crown's pool again (stone edges at both ends), the dining hall, the Arrival hall and the sunset lounge; the master suite down; the atrium; then 72 frames so the house turns smoothly |
 | Mars Atlas | Live, over a real colour map of Mars | — |
-| Real-time 3D pages | Hidden since 2 Oct 2026: Jim found them far from satisfying | To the archive |
+| Real-time 3D pages | Hidden on 2 Oct 2026 (Jim found them far from satisfying) and archived on 3 Oct | — |
 | First palace | Archived | — |
 
 ## The design at a glance
@@ -91,16 +88,12 @@ palace/
 │   ├── img/             diagrams, plan sheets and Atlas views exported for these docs
 │   └── archive/         the first palace's requirements
 ├── design/              the design book and the Mars Atlas (live pages)
-│   └── img/             pictures rendered from the 3D build, and the maps
+│   └── img/             the pictures (path-traced), the thumbnails and the maps
 ├── plans/               the floor plans Rev G, a page per sheet (written by tools/draw_plans.py)
-├── archive/plans-rev-b/ the floor plans Rev B, archived
-├── src/                 the 3D demo's phase 1 (the flight); build.sh builds it into index.html
-├── crown/               the Crown's main floor, phase 2 (one self-contained page)
-├── orb/                 the Orb, phase 2 (one self-contained page, and its planet maps)
-├── pentagon/            the Pentagon, phase 3 (one self-contained page)
-├── tools/               headless tests, renders and exports
-├── archive/old-palace/  the first palace, kept for reference
-└── index.html           the published 3D demo: the flight home
+├── tour/                the photo tour: the viewer, stops.js, the 360s and the stills
+├── tools/               the room program, the plans and design-plan generators, docs export, the render scenes
+├── archive/             the real-time 3D demo (3d-demo/), floor plans Rev B (plans-rev-b/), the first palace (old-palace/)
+└── index.html           opens the design plan
 ```
 
 The diagrams in `docs/img/` are exported from the live pages by `python3 palace/tools/docs_export.py`. Run it again

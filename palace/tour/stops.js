@@ -59,7 +59,7 @@ window.TOUR_STOPS = [
   { id: "memory", ready: false, name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.7], az0: 10, img: "pano/memory.jpg",
     d: "Jim's keepsakes from Earth: photographs of the places of his life hung close on walls of deep green under brass picture lights, two glass cases of letters, a pocket watch and the things he brought from home, the albums on a reading table, and the desk where he records his memoirs.",
     links: [{ id: "kitchen", label: "Back along the streets: the kitchen" }] },
-  { id: "cellar", ready: false, rot: 288, name: "The wine cellar", short: "Wine cellar", k: "L1 · The club", p: [79.67, -0.73], az0: 49, img: "pano/cellar.jpg",
+  { id: "cellar", rot: 288, name: "The wine cellar", short: "Wine cellar", k: "L1 · The club", p: [79.67, -0.73], az0: 49, img: "pano/cellar.jpg",
     d: "Arcadia's one cellar, under vaults of brick fired from Mars soil: a tasting room with an oak table for ten under an iron chandelier, and aisles of racks and casks running 44 m along the ring each way.",
     links: [{ id: "cinema", label: "Back along the streets: the cinema" }] },
   { id: "pool", ready: false, rot: 216, name: "The lap pool", short: "Lap pool", k: "L1 · Baths and sport", p: [30.68, -69.71], az0: -105, img: "pano/pool.jpg",

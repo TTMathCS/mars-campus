@@ -12,7 +12,7 @@ def reset():
     sc = bpy.context.scene
     sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"
     sc.cycles.use_denoising = True; sc.cycles.denoiser = "OPENIMAGEDENOISE"
-    sc.cycles.use_adaptive_sampling = True; sc.cycles.adaptive_threshold = 0.01
+    sc.cycles.use_adaptive_sampling = True; sc.cycles.adaptive_threshold = 0.025      # the denoiser hides the rest; 1.5x faster than 0.01
     sc.cycles.max_bounces = 10; sc.cycles.diffuse_bounces = 4; sc.cycles.glossy_bounces = 4; sc.cycles.transmission_bounces = 10; sc.cycles.transparent_max_bounces = 16; sc.cycles.volume_bounces = 0
     sc.cycles.caustics_reflective = False; sc.cycles.caustics_refractive = False; sc.cycles.blur_glossy = 1.0
     sc.cycles.sample_clamp_indirect = 8.0

@@ -11,8 +11,10 @@ Publishing is a push to `main` (GitHub Pages).
   hub page stays short: an intro and links to its subpages. Shared styles and scripts go in their own files; docs
   are several short files. Jim, 2 Oct 2026: "I would like to separate things into different pages/files … please
   keep this as global rule."
-- **Renders run one at a time**, in one queue, never in parallel: a restart kills every running process and wastes
-  the work. Jim, 2 Oct 2026: "don't run in parallel since if hit limit and restarted, all processes could be gone".
+- **Renders run at most two at a time** (Jim, 4 Oct 2026: "render too slow, maybe 2 at a time"; before, 2 Oct: "don't
+  run in parallel since if hit limit and restarted, all processes could be gone"). A session's machine has 4 cores and
+  one Cycles render uses all of them, so the second render goes to a second machine (a second cloud session with its
+  own queue), not beside the first; each queue keeps its jobs in a file and skips what is already done.
 - **Design before drawing.** Every room gets a code (L1-01, C-10, O-07 …), a purpose, a second use where it can,
   a place and a size in the room program (`palace/tools/room_program.py`) before any picture of it is made, and the
   pictures follow the plan. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it

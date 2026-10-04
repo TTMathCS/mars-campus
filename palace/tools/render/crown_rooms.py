@@ -739,6 +739,21 @@ def studio(M, rnd):
     leaning_canvases(w1, R_OUT - 1.3, M, rnd, side=-1, n=5)
     lib.instance_of(S["chair"], at(R_GL + 1.3, 336.4, 0.0), face_out(336.4) - 0.6)
     lib.instance_of(S["plant"], at(R_GL + 0.8, 337.9, 0.0), 0.8, 1.9)
+    # where Jim sits back to look at the work: a sofa and a chair facing the easels on a rug, a low table of art books;
+    # a still life set up on a small table by the easels
+    sb = 329.4
+    lib.box("studio rug", (3.4, 2.6, 0.014), at(R_GL + 2.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    lib.instance_of(S["sofa"], at(R_GL + 1.2, sb, 0.014), face_out(sb), name="studio sofa")
+    lib.instance_of(S["pouf"], at(R_GL + 2.3, sb - tang(1.15, R_GL + 2.3), 0.014), 0.4, name="studio pouf")
+    lib.box("low table", (1.1, 0.6, 0.06), at(R_GL + 2.3, sb, 0.38), M["walnut"], bevel=0.01, rot_z=face_in(sb))
+    lib.box("low table base", (0.9, 0.45, 0.35), at(R_GL + 2.3, sb, 0.175), M["walnut_v"], bevel=0.006, rot_z=face_in(sb))
+    for k in range(4):
+        q = at(R_GL + 2.25, sb + tang(-0.25 + 0.03 * k, R_GL + 2.25), 0.41 + 0.035 * k)
+        lib.box("art book", (0.32, 0.24, 0.032), q, (M["ceramics"] + [M["walnut"]])[k % 4], bevel=0.004, rot_z=face_in(sb) + rnd.uniform(-0.2, 0.2))
+    st = 332.4; q = at(R_OUT - 3.0, st, 0.0)
+    lib.box("still life table", (0.8, 0.6, 0.78), (q[0], q[1], 0.39), M["raw_canvas"], bevel=0.01, rot_z=face_in(st))
+    lib.instance_of(S["vase"], (q[0], q[1], 0.78), 0.4, 1.5, name="still life flowers")
+    dish = lib.import_glb(os.path.join(A, "IridescentDishWithOlives.glb"), (q[0] + 0.2, q[1] - 0.12, 0.78), 0.3, 1.0, name="still life dish")
     for bb in (326.6, 330.4, 334.2):       # daylight spots on the canvases
         q = Vector(at(RM - 0.6, bb + tang(1.2), ceil_at(bb) - 0.25)); tg = Vector(at(R_OUT - 1.9, bb, 1.5))
         sp = lib.spot_light("canvas light", tuple(q), 300, (1.0, 0.95, 0.88), 0.04, 32, 0.6); sp.rotation_euler = (tg - q).to_track_quat("-Z", "Y").to_euler()
@@ -1112,7 +1127,7 @@ ROOMS = {
         "wellness2": dict(loc=at(R_OUT - 1.0, 205.9, 1.3), target=at(R_GL + 0.6, 195.5, 0.8), lens=19),
     }, stops={"wellness": at(R_GL + 1.6, 198.6, 0.0)}),
     "studio": dict(build=studio, span=(324.0, 360.0), sun=(192.0, 36.0), cams={
-        "studio": dict(loc=at(RM - 0.6, 336.0, 1.5), target=at(R_OUT - 1.6, 328.0, 1.25), lens=20),
+        "studio": dict(loc=at(R_GL + 0.9, 335.6, 1.4), target=at(R_OUT - 2.4, 328.6, 1.2), lens=21),
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
     }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
     "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={

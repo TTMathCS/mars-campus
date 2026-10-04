@@ -940,7 +940,7 @@ def herb_bed(name, r0, r1, b0, b1, z, M, rnd, density=5.5):
     area = (r1 - r0) * (b1 - b0) * D * (r0 + r1) / 2; n = int(area * density)
     for i in range(n):
         r = rnd.uniform(r0 + 0.12, r1 - 0.12); b = rnd.uniform(b0 + tang(0.12, r), b1 - tang(0.12, r)); c = Vector(at(r, b, z))
-        kd = rnd.choice(kinds); rr = rnd.uniform(0.1, 0.2); hh = rnd.uniform(0.12, 0.32)
+        kd = rnd.choice(kinds); rr = rnd.uniform(0.14, 0.28); hh = rnd.uniform(0.18, 0.45)
         for j in range(int(rr * rr * 9000)):
             a = rnd.uniform(0, 2 * math.pi); d = rr * math.sqrt(rnd.random()); t = d / rr
             pts[kd[0]].append(c + Vector((d * math.cos(a), d * math.sin(a), hh * math.sqrt(max(0.0, 1 - t * t)) * rnd.uniform(0.6, 1.0))))
@@ -1012,30 +1012,68 @@ def garden_room(M, rnd):
     furn.side_table("coffee table", at(R_OUT - 2.0, cb, 0.0), M, r=0.3, h=0.42)
     p = at(R_OUT - 1.0, 39.6, 0.0); lib.box("tree planter", (0.9, 0.9, 0.55), (p[0], p[1], 0.275), M["basalt"], bevel=0.01, rot_z=-39.6 * D)
     furn.olive_tree("breakfast olive", (p[0], p[1], 0.55), 4242, M, height=3.4, leaves=15000)
-    # C-34, the sky garden: raised beds of basalt along both walls, gravel between, trees, benches, grow lights
+    # C-34, the sky garden: raised beds of basalt along both walls, full of herbs and flowers, clipped box at their
+    # ends, lemon and olive trees; a gravel path with stepping stones; a stone basin of water in the middle; ivy up
+    # the outer wall between the slots; benches
     gravel = gravel_material()
     crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + 0.5, 0.0, 0.012, gravel)
     beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]
     for (a, b) in beds_out:
         crown.curved_box("bed wall", R_OUT - 1.9, R_OUT - 0.1, a, b, 0.0, 0.5, M["basalt"])
         crown.curved_box("bed soil", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.08, R_OUT - 1), b - tang(0.08, R_OUT - 1), 0.5, 0.505, M["soil"])
-        herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), 0.505, M, rnd)
+        herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), 0.505, M, rnd, density=11.0)
     for (a, b) in beds_in:
         crown.curved_box("bed wall", R_GL + 0.15, R_GL + 1.15, a, b, 0.0, 0.42, M["basalt"])
         crown.curved_box("bed soil", R_GL + 0.23, R_GL + 1.07, a + tang(0.08, R_GL + 0.6), b - tang(0.08, R_GL + 0.6), 0.42, 0.425, M["soil"])
-        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), 0.425, M, rnd)
+        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), 0.425, M, rnd, density=11.0)
+    import atrium
+    box_leaf = bpy.data.objects.get("box leaf") or atrium.leaf_object("box leaf", 0.022, 0.012, lib.leaf("box leaf", (0.06, 0.13, 0.035), 0.3, 0.45))
+    balls = []
+    for (a, b) in beds_out:
+        for bb in (a + tang(0.45, R_OUT - 1.0), b - tang(0.45, R_OUT - 1.0)): balls.append((Vector(at(R_OUT - 1.0, bb, 0.5)), rnd.uniform(0.3, 0.38)))
+    for (a, b) in beds_in:
+        for bb in (a + tang(0.4, R_GL + 0.65), b - tang(0.4, R_GL + 0.65)): balls.append((Vector(at(R_GL + 0.65, bb, 0.42)), rnd.uniform(0.26, 0.32)))
+    pts = []
+    for (c, r) in balls:
+        for i in range(int(r * r * 26000)):
+            v = Vector((rnd.gauss(0, 1), rnd.gauss(0, 1), rnd.gauss(0, 1))).normalized() * r * rnd.uniform(0.86, 1.0)
+            pts.append(c + Vector((v.x, v.y, abs(v.z) * 0.9 + r * 0.85)))
+    me = bpy.data.meshes.new("box balls"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("box balls", me))
+    atrium.scatter_leaves(ob, box_leaf, "box leaves", 0.7, 1.3)
     for k, (bb, kind, hgt) in enumerate(((51.0, "lemon", 2.6), (54.0, "olive", 3.2), (58.4, "lemon", 2.4), (61.2, "olive", 3.0), (65.6, "lemon", 2.7), (69.4, "olive", 3.1))):
-        p = at(R_OUT - 1.0, bb, 0.5); furn.olive_tree(kind + " tree", p, 300 + k, M, height=hgt, leaves=14000, kind=kind)
+        p = at(R_OUT - 1.0, bb, 0.5); furn.olive_tree(kind + " tree", p, 300 + k, M, height=hgt, leaves=22000, kind=kind)
+    for k, bb in enumerate((53.0, 67.0)):                         # two more lemons on the inner side
+        p = at(R_GL + 0.65, bb, 0.42); furn.olive_tree("lemon tree", p, 320 + k, M, height=2.2, leaves=18000, kind="lemon")
+    # stepping stones along the path, and the basin in the middle of the garden
+    pr = (R_GL + 1.15 + R_OUT - 1.9) / 2
+    bb = w1 + 1.6
+    while bb < b1 - 1.0:
+        if abs(bb - 60.0) > tang(1.4, pr):
+            lib.box("stepping stone", (0.62, 0.95, 0.04), at(pr + rnd.uniform(-0.08, 0.08), bb, 0.02), M["stone_linen"], bevel=0.012, rot_z=face_in(bb) + rnd.uniform(-0.06, 0.06))
+        bb += tang(0.82, pr)
+    c = at(pr, 60.0, 0.0)
+    lib.cyl("basin", 1.0, 0.45, c, M["basalt"], verts=96, bevel=0.02)
+    lib.cyl("basin water", 0.9, 0.01, (c[0], c[1], 0.40), lib.glass("basin water", (0.80, 0.90, 0.88), 0.0, 1.33), verts=96)
+    lib.cyl("basin inside", 0.9, 0.02, (c[0], c[1], 0.12), M["basalt"], verts=96)
+    lib.cyl("basin spout", 0.04, 0.25, (c[0], c[1], 0.4), M["bronze"], verts=24)
     for bb in (56.0, 63.2):
         q = at(R_OUT - 1.05, bb, 0.0)
         for dx in (-0.55, 0.55): lib.box("bench block", (0.32, 0.4, 0.42), at(R_OUT - 1.05, bb + tang(dx, R_OUT - 1.05), 0.21), M["basalt"], bevel=0.01, rot_z=face_in(bb))
         lib.box("bench seat", (1.6, 0.46, 0.06), at(R_OUT - 1.05, bb, 0.45), M["oak_top"], bevel=0.008, rot_z=face_in(bb))
-    lib.instance_of(S["chair"], at(RM - 0.6, 59.8, 0.0), face_out(59.8) + 0.8)
-    for bb in crown.steps(w1 + 1.0, b1 - 1.0, 1.0 / tang(3.4)):
+    lib.instance_of(S["chair"], at(RM - 0.6, 57.8, 0.0), face_out(57.8) + 0.8)
+    # ivy up the outer wall between and under the slots
+    ivy_leaf = bpy.data.objects.get("ivy leaf") or atrium.leaf_object("ivy leaf", 0.06, 0.05, lib.leaf("ivy", (0.045, 0.095, 0.028), 0.35, 0.35))
+    pts = []
+    for i in range(70000):
+        bb = rnd.uniform(w1 + 0.4, b1 - 0.4); z = 0.5 + 2.6 * (1 - math.sqrt(rnd.random()))
+        if 3.0 < z: continue
+        pts.append(Vector(at(R_OUT - 0.03 - abs(rnd.gauss(0, 0.05)), bb, z)))
+    me = bpy.data.meshes.new("wall ivy"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("wall ivy", me))
+    atrium.scatter_leaves(ob, ivy_leaf, "ivy leaves", 0.7, 1.3)
+    # warm downlights for the evening (the grow lights are flush in the ceiling)
+    for bb in crown.steps(w1 + 1.0, b1 - 1.0, 1.0 / tang(3.0)):
         for r in (R_OUT - 1.0, R_GL + 0.65):
-            lib.box("grow light", (1.2, 0.1, 0.04), at(r, bb, 2.9), lib.emission("grow light", (1.0, 0.88, 0.72), 9.0), rot_z=face_in(bb))
-            lib.cyl("grow light cable", 0.002, ceil_at(bb) - 2.92, at(r, bb, 2.92), M["shadow"], verts=8)
-            lib.area_light("grow light", at(r, bb, 2.87), 1.1, 70, (1.0, 0.88, 0.72), size_y=0.12, rot=(0, 0, face_in(bb)))
+            lib.spot_light("garden downlight", at(r, bb, ceil_at(bb) - 0.06), 45, (1.0, 0.84, 0.66), 0.03, 50, 0.6)
     for bc in (38.0, 41.6, 45.2):
         for r in (RM - 1.4, RM + 1.4):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 80, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
@@ -1083,7 +1121,7 @@ ROOMS = {
     }, stops={"stars": at(RM - 0.4, 12.4, 0.0)}),
     "garden": dict(build=garden_room, span=(36.0, 72.0), sun=(66.0, 6.0), sun_strength=10.0, cams={
         "breakfast": dict(loc=at(RM - 0.6, 44.3, 1.4), target=at(RM + 0.7, 40.9, 0.8), lens=22),
-        "garden": dict(loc=at(RM - 0.4, 49.4, 1.55), target=at(RM + 0.2, 63.5, 1.3), lens=18),
+        "garden": dict(loc=at(R_GL + 1.5, 52.2, 1.3), target=at(R_OUT - 1.2, 61.5, 1.0), lens=20),
     }, stops={"garden": at(RM - 0.3, 59.2, 0.0)}),
 }
 

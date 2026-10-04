@@ -14,10 +14,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib, furn, family, crown_rooms
 
 A = lib.ASSETS
-Y0, Y1, HM = 54.2, 67.8, 4.2           # the room's walls across the ring, and its ceiling
-X0, X1 = -8.0, 8.0                     # its end walls, with the doorways to the next rooms
+Y0, Y1, HM = 56.5, 65.5, 3.6           # the room's walls across the ring (a passage behind each), and its ceiling
+X0, X1 = -6.0, 6.0                     # its end walls, with the doorways to the next rooms
 YM = (Y0 + Y1) / 2
-SKY = (0.0, YM, 6.0, 4.0)              # the sky ceiling: centre and size
+SKY = (0.0, YM, 3.6, 2.4)              # the sky ceiling: centre and size
 
 
 def photo(i): return os.path.join(A, "photos", "photo_%02d.jpg" % (i % 12))
@@ -27,6 +27,7 @@ def materials(M):
     P = lib.principled
     M["green"] = lib.plaster("gallery green", (0.105, 0.15, 0.125), 0.85, 0.02)
     M["walnut_dado"] = lib.wood("walnut dado", (0.20, 0.11, 0.06), (0.085, 0.045, 0.025), 0.32, along="X")
+    M["walnut_dado_y"] = lib.wood("walnut dado across", (0.20, 0.11, 0.06), (0.085, 0.045, 0.025), 0.32, along="Y")
     M["gilt"] = P("gilt", (0.72, 0.52, 0.24), 0.32, 1.0)
     M["ebony_frame"] = P("black frame", (0.02, 0.018, 0.016), 0.4)
     M["oak_frame"] = lib.wood("oak frame", (0.45, 0.31, 0.18), (0.30, 0.20, 0.11), 0.4)
@@ -41,7 +42,7 @@ def materials(M):
     M["leather_book2"] = P("album leather green", (0.05, 0.10, 0.07), 0.55)
     M["chair_leather"] = P("cognac leather", (0.30, 0.13, 0.05), 0.42, **{"Coat Weight": 0.25})
     M["picture_light"] = lib.emission("picture light", (1.0, 0.80, 0.56), 12.0)
-    M["sky"] = lib.emission("sky ceiling", (0.88, 0.93, 1.0), 3.0)
+    M["sky"] = lib.emission("sky ceiling", (0.88, 0.93, 1.0), 1.4)
     M["deep"] = P("dark beyond", (0.02, 0.02, 0.02), 0.9)
     return M
 
@@ -77,7 +78,7 @@ def walls(M):
     for (x, s_) in ((X0, -1), (X1, 1)):            # end walls with doorways 2.4 m wide onto the next rooms
         for (a, b) in ((Y0, YM - 1.2), (YM + 1.2, Y1)):
             lib.box("end wall", (0.3, b - a, HM + 0.4), (x + s_ * 0.15, (a + b) / 2, (HM + 0.4) / 2), M["green"])
-            lib.box("dado", (0.025, b - a, 0.95), (x - s_ * 0.0125, (a + b) / 2, 0.475), M["walnut_dado"], bevel=0.004)
+            lib.box("dado", (0.025, b - a, 0.95), (x - s_ * 0.0125, (a + b) / 2, 0.475), M["walnut_dado_y"], bevel=0.004)
         lib.box("door head", (0.3, 2.4, HM + 0.4 - 3.0), (x + s_ * 0.15, YM, 3.0 + (HM + 0.4 - 3.0) / 2), M["green"])
         for yy in (YM - 1.2, YM + 1.2): lib.box("door casing", (0.36, 0.08, 3.0), (x + s_ * 0.15, yy - math.copysign(0.04, yy - YM) * -1, 1.5), M["walnut_dado"])
         lib.box("door casing head", (0.36, 2.56, 0.08), (x + s_ * 0.15, YM, 3.04), M["walnut_dado"])
@@ -86,8 +87,7 @@ def walls(M):
     bo = ceil.modifiers.new("sky", "BOOLEAN"); bo.object = cut; bo.operation = "DIFFERENCE"; bo.solver = "EXACT"
     lib.box("sky panel", (SKY[2], SKY[3], 0.02), (SKY[0], SKY[1], HM + 0.55), M["sky"])
     for (sx, sy, px, py) in ((SKY[2], 0.04, 0, -SKY[3] / 2), (SKY[2], 0.04, 0, SKY[3] / 2), (0.04, SKY[3], -SKY[2] / 2, 0), (0.04, SKY[3], SKY[2] / 2, 0)):
-        lib.box("sky trim", (sx, sy, 0.4), (SKY[0] + px, SKY[1] + py, HM + 0.35), M["walnut_dado"])
-    lib.area_light("sky light", (SKY[0], SKY[1], HM + 0.1), SKY[2] - 0.2, 900, (0.88, 0.93, 1.0), size_y=SKY[3] - 0.2)
+        lib.box("sky trim", (sx, sy, 0.4), (SKY[0] + px, SKY[1] + py, HM + 0.35), M["ceiling"])
     # the doorway from the street in the middle of the inner wall: a pair of walnut doors, open on the street's light
     cut2 = lib.box("door cut", (2.0, 1.0, 2.8), (0, Y0, 1.4), None); cut2.hide_render = True; cut2.hide_viewport = True
     for o in bpy.data.objects:
@@ -106,13 +106,13 @@ def next_rooms(M, rnd):
     for (s_, x) in ((-1, X0), (1, X1)):
         lib.box("next room floor", (6.0, Y1 - Y0, 0.1), (x + s_ * 3.0, YM, -0.05), M["oak"])
         lib.box("next room wall", (0.3, Y1 - Y0, HM + 0.4), (x + s_ * 6.15, YM, (HM + 0.4) / 2), M["green"])
-        lib.box("next room dado", (0.025, Y1 - Y0, 0.95), (x + s_ * 6.0, YM, 0.475), M["walnut_dado"])
+        lib.box("next room dado", (0.025, Y1 - Y0, 0.95), (x + s_ * 6.0, YM, 0.475), M["walnut_dado_y"])
         for (y, ss) in ((Y0, -1), (Y1, 1)):
             lib.box("next room side", (6.3, 0.3, HM + 0.4), (x + s_ * 3.0, y + ss * 0.15, (HM + 0.4) / 2), M["green"])
         lib.box("next room ceiling", (6.3, Y1 - Y0 + 0.6, 0.3), (x + s_ * 3.0, YM, HM + 0.15), M["ceiling"])
         for k, dy in enumerate((-3.4, -1.6, 0.6, 2.6)):
             frame_photo("far photo", 3 + k * 2 + (s_ > 0), 0.5 if k % 2 else 0.42, 0.36 if k % 2 else 0.52, (x + s_ * 5.98, YM + dy, 1.75), -s_ * math.pi / 2, M, frame="black" if k % 2 else "oak", light=True)
-        lib.box("next room case", (1.4, 0.7, 0.9), (x + s_ * 3.4, YM + 0.2, 0.45), M["walnut"], bevel=0.01)
+        lib.box("next room case", (1.4, 0.7, 0.9), (x + s_ * 3.4, YM + 0.2, 0.45), M["walnut_v"], bevel=0.01)
         lib.box("next room case glass", (1.4, 0.7, 0.35), (x + s_ * 3.4, YM + 0.2, 1.08), M["case_glass"])
         lib.point_light("next room lamp", (x + s_ * 3.0, YM, HM - 0.3), 160, (1.0, 0.80, 0.58), 0.3)
 
@@ -144,7 +144,7 @@ def keepsakes(M, cx, cy, rnd, kind):
 
 def case(name, cx, cy, M, rnd, kind):
     """a glass case on a walnut stand, black velvet inside, a soft light along its top"""
-    lib.box(name + " stand", (1.6, 0.8, 0.86), (cx, cy, 0.43), M["walnut"], bevel=0.01)
+    lib.box(name + " stand", (1.6, 0.8, 0.86), (cx, cy, 0.43), M["walnut_v"], bevel=0.01)
     lib.box(name + " velvet", (1.5, 0.7, 0.04), (cx, cy, 0.885), M["velvet"])
     lib.box(name + " glass", (1.56, 0.76, 0.3), (cx, cy, 1.01), M["case_glass"])
     for (sx, sy, px, py) in ((1.58, 0.02, 0, -0.38), (1.58, 0.02, 0, 0.38), (0.02, 0.78, -0.78, 0), (0.02, 0.78, 0.78, 0)):
@@ -156,18 +156,21 @@ def case(name, cx, cy, M, rnd, kind):
 def gallery(M, rnd):
     materials(M); walls(M); next_rooms(M, rnd)
     # the long wall: photographs hung close in a salon hang, 14 of them, picture lights over the top row
-    hang = [(-6.2, 2.25, 0.7, 0.5, "gilt"), (-6.3, 1.45, 0.5, 0.36, "black"), (-5.2, 1.65, 0.42, 0.55, "oak"), (-4.15, 2.3, 0.9, 0.62, "gilt"),
-            (-4.0, 1.42, 0.5, 0.36, "black"), (-2.85, 1.8, 0.48, 0.62, "gilt"), (-1.6, 2.15, 1.05, 0.72, "gilt"), (-1.75, 1.3, 0.42, 0.3, "black"),
-            (-0.55, 1.3, 0.42, 0.3, "oak"), (0.6, 1.95, 0.5, 0.65, "black"), (1.75, 2.3, 0.72, 0.5, "gilt"), (1.8, 1.48, 0.6, 0.42, "oak"),
-            (3.05, 1.85, 0.5, 0.65, "gilt"), (4.3, 2.25, 0.84, 0.58, "black"), (4.2, 1.42, 0.5, 0.36, "gilt"), (5.6, 1.7, 0.45, 0.6, "oak"), (6.5, 2.35, 0.6, 0.42, "black")]
+    hang = []; frames = ("gilt", "black", "oak")
+    for row, (zc, hmin, hmax) in enumerate(((1.42, 0.3, 0.42), (2.02, 0.42, 0.62), (2.72, 0.36, 0.52))):
+        x = X0 + 0.55 + rnd.uniform(0.0, 0.3)
+        while True:
+            w = rnd.uniform(0.32, 0.86); h = rnd.uniform(hmin, hmax)
+            if x + w > X1 - 0.5: break
+            hang.append((x + w / 2, zc + rnd.uniform(-0.05, 0.05), w, h, frames[rnd.randrange(3)])); x += w + rnd.uniform(0.14, 0.24)
     for k, (x, z, w, h, fr) in enumerate(hang):
-        frame_photo("photo", k, w, h, (x, Y1 - 0.005, z), 0.0, M, frame=fr, mat=0.05 if fr != "gilt" else 0.07, light=z > 2.0)
-    for k, x in enumerate((-6.0, -4.2, -2.5, 2.5, 4.2, 6.0)):      # either side of the door on the inner wall
+        frame_photo("photo", k, w, h, (x, Y1 - 0.005, z), 0.0, M, frame=fr, mat=0.05 if fr != "gilt" else 0.07, light=z > 2.5)
+    for k, x in enumerate((-4.8, -3.3, -1.9, 1.9, 3.3, 4.8)):      # either side of the door on the inner wall
         frame_photo("photo", 7 + k, 0.6 if k % 2 else 0.45, 0.42 if k % 2 else 0.6, (x, Y0 + 0.005, 1.75), math.pi, M, frame="oak" if k % 2 else "gilt", light=True)
     # two cases of keepsakes in the middle of the room
-    case("case", -2.2, YM + 0.4, M, rnd, 0); case("case", 2.2, YM + 0.4, M, rnd, 1)
+    case("case", -1.7, YM + 0.6, M, rnd, 0); case("case", 1.7, YM + 0.6, M, rnd, 1)
     # the reading table with the albums, a lamp and two chairs; armchairs facing the photographs
-    tx, ty = -4.6, Y0 + 2.6
+    tx, ty = -3.6, Y0 + 1.75
     lib.box("reading table", (2.0, 0.95, 0.05), (tx, ty, 0.745), M["walnut"], bevel=0.008)
     for (dx, dy) in ((-0.9, -0.38), (0.9, -0.38), (-0.9, 0.38), (0.9, 0.38)): lib.box("table leg", (0.06, 0.06, 0.72), (tx + dx, ty + dy, 0.36), M["walnut"])
     for k, (dx, mat, th) in enumerate(((-0.6, "leather_book", 0.05), (-0.58, "leather_book2", 0.045))):
@@ -180,12 +183,13 @@ def gallery(M, rnd):
     Mc = dict(M); Mc["linen"] = M["chair_leather"]
     for dx in (-0.45, 0.45): furn.dining_chair("reading chair", (tx + dx, ty - 0.75, 0.0), math.pi, Mc)
     S = crown_rooms.imports(M)
-    for (x, rz) in ((3.6, math.pi + 0.5), (5.4, math.pi - 0.5)):
-        lib.instance_of(S["chair"], (x, Y0 + 2.4, 0.0), rz, name="armchair")
-    furn.side_table("side table", (4.5, Y0 + 1.9, 0.0), M, r=0.22, h=0.5)
-    lib.box("rug", (6.0, 3.6, 0.014), (0.0, YM + 0.3, 0.007), M["rug"], bevel=0.006, segs=2)
+    for (x, rz) in ((2.6, math.pi + 0.5), (4.3, math.pi - 0.5)):
+        lib.instance_of(S["chair"], (x, Y0 + 1.6, 0.0), rz, name="armchair")
+    furn.side_table("side table", (3.45, Y0 + 1.15, 0.0), M, r=0.22, h=0.5)
+    furn.floor_lamp("floor lamp", (5.2, Y0 + 0.9, 0.0), M, watts=40)
+    lib.box("rug", (5.4, 3.0, 0.014), (0.0, YM + 0.4, 0.007), M["rug"], bevel=0.006, segs=2)
     # the memoir desk by the far doorway: a microphone on its arm, headphones, a screen
-    dx_, dy_ = X1 - 1.4, Y1 - 1.7
+    dx_, dy_ = X1 - 1.2, Y1 - 1.6
     lib.box("desk", (1.6, 0.7, 0.04), (dx_, dy_, 0.74), M["walnut"], bevel=0.006)
     for (ax, ay) in ((-0.75, -0.3), (0.75, -0.3), (-0.75, 0.3), (0.75, 0.3)): lib.box("desk leg", (0.04, 0.04, 0.72), (dx_ + ax, dy_ + ay, 0.36), M["brass"])
     lib.cyl("mic arm", 0.008, 0.42, (dx_ - 0.5, dy_ + 0.2, 0.76), M["ebony_frame"], verts=8, rot=(0.6, 0, 0))
@@ -195,17 +199,17 @@ def gallery(M, rnd):
     furn.dining_chair("desk chair", (dx_, dy_ - 0.65, 0.0), math.pi, Mc)
     lib.instance_of(S["plant"], (X0 + 0.6, Y1 - 0.6, 0.0), 0.3, 1.6)
     # light: track spots on the photographs and the cases, warm and low
-    for x in (-5.5, -3.0, -0.5, 2.0, 4.5):
-        sp = lib.spot_light("track spot", (x, Y1 - 1.6, HM - 0.05), 70, (1.0, 0.82, 0.6), 0.02, 40, 0.5); sp.rotation_euler = (math.radians(38), 0, 0)
-    for x in (-2.2, 2.2):
+    for x in (-4.5, -2.2, 0.0, 2.2, 4.5):
+        sp = lib.spot_light("track spot", (x, Y1 - 1.4, HM - 0.05), 60, (1.0, 0.82, 0.6), 0.02, 40, 0.5); sp.rotation_euler = (math.radians(38), 0, 0)
+    for x in (-1.7, 1.7):
         sp = lib.spot_light("case spot", (x, YM - 0.8, HM - 0.05), 45, (1.0, 0.85, 0.65), 0.02, 30, 0.6); sp.rotation_euler = (math.radians(14), 0, 0)
 
 
 ROOMS = {
     "memory": dict(build=gallery, cams={
-        "memory": dict(loc=(-6.4, Y0 + 1.0, 1.55), target=(2.8, Y1 - 0.4, 1.5), lens=20, shift=0.06),
-        "memory2": dict(loc=(X1 - 0.5, YM - 1.6, 1.55), target=(X0 - 3.0, YM + 1.2, 1.45), lens=20, shift=0.05),
-    }, stops={"memory": (0.4, YM - 1.6, 0.0)}),
+        "memory": dict(loc=(-5.3, Y0 + 0.75, 1.5), target=(2.4, Y1 - 0.3, 1.55), lens=20, shift=0.05),
+        "memory2": dict(loc=(X1 - 0.45, YM - 1.3, 1.5), target=(X0 - 2.5, YM + 0.9, 1.45), lens=21, shift=0.04),
+    }, stops={"memory": (0.4, YM - 1.3, 0.0)}),
 }
 
 

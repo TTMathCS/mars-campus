@@ -253,7 +253,7 @@ def aisle(M, sgn, rnd, bottles):
             sc = Vector((x, YC + s_ * (AW - 0.2), 2.05))
             lib.box("sconce plate", (0.1, 0.03, 0.22), (x, YC + s_ * (AW - 0.175), 2.05), M["iron"], bevel=0.005)
             lib.cyl("sconce bulb", 0.022, 0.05, (sc.x, sc.y - s_ * 0.06, sc.z + 0.03), M["bulb"], verts=12)
-            lib.point_light("sconce", (sc.x, sc.y - s_ * 0.08, sc.z + 0.08), 9.0, (1.0, 0.64, 0.36), 0.03)
+            lib.point_light("sconce", (sc.x, sc.y - s_ * 0.08, sc.z + 0.08), 22.0, (1.0, 0.64, 0.36), 0.02)
         bm = bmesh.new(); seg = 24                                     # the rib over the pilasters
         for i in range(seg):
             a0_, a1_ = math.pi * i / seg, math.pi * (i + 1) / seg
@@ -268,7 +268,7 @@ def aisle(M, sgn, rnd, bottles):
             else: rack_bay(M, xl, xr, s_, rnd, bottles)
     # light up the vault from the top of the racks, and a glow at the far end
     for s_ in (-1, 1):
-        lib.area_light("vault wash", ((lo + hi) / 2, YC + s_ * (AW - 0.5), 2.42), hi - lo - 0.5, 260 * (hi - lo) / 10, (1.0, 0.66, 0.38), rot=(math.pi + s_ * 0.6, 0, 0), size_y=0.1)
+        lib.area_light("vault wash", ((lo + hi) / 2, YC + s_ * (AW - 0.5), 2.42), hi - lo - 0.5, 110 * (hi - lo) / 10, (1.0, 0.66, 0.38), rot=(math.pi + s_ * 0.6, 0, 0), size_y=0.1)
 
 
 def rack_bay(M, xl, xr, s_, rnd, bottles):
@@ -325,7 +325,7 @@ def chandelier(M, loc, r=0.9, n=12):
         lib.cyl("chandelier cup", 0.035, 0.03, (p[0], p[1], z + 0.02), M["iron"], verts=16)
         lib.cyl("chandelier candle", 0.012, 0.12, (p[0], p[1], z + 0.05), M["candle"], verts=12)
         lib.cyl("chandelier flame", 0.008, 0.03, (p[0], p[1], z + 0.17), M["bulb"], verts=8, r2=0.001)
-        lib.point_light("chandelier light", (p[0], p[1], z + 0.2), 9.0, (1.0, 0.62, 0.32), 0.015)
+        lib.point_light("chandelier light", (p[0], p[1], z + 0.2), 22.0, (1.0, 0.62, 0.32), 0.015)
 
 
 def tasting_room(M, rnd, bottles):
@@ -372,10 +372,12 @@ def tasting_room(M, rnd, bottles):
     lib.box("cellar floor", (2 * AX1 + 2.0, 14.0, 0.1), (0.0, YC, -0.05), M["terracotta"])
     lib.box("cellar slab", (2 * AX1 + 4.0, 16.0, 0.6), (0.0, YC, 8.3), M["plaster"])
     for sgn in (-1, 1):
-        lib.area_light("vault wash", (sgn * (TX - 0.6), YC, 3.2), 0.2, 600, (1.0, 0.66, 0.38), rot=(0, sgn * math.radians(150), 0), size_y=TY1 - TY0 - 1.0)
+        lib.area_light("vault wash", (sgn * (TX - 0.6), YC, 3.2), 0.2, 260, (1.0, 0.66, 0.38), rot=(0, sgn * math.radians(150), 0), size_y=TY1 - TY0 - 1.0)
     for (x, y) in ((-TX + 0.4, TY0 + 1.2), (TX - 0.4, TY0 + 1.2), (-TX + 0.4, TY1 - 1.2), (TX - 0.4, TY1 - 1.2)):
         lib.box("sconce plate", (0.03, 0.1, 0.22), (x, y, 2.2), M["iron"], bevel=0.005)
-        lib.point_light("sconce", (x - math.copysign(0.1, x), y, 2.3), 12.0, (1.0, 0.64, 0.36), 0.03)
+        lib.point_light("sconce", (x - math.copysign(0.1, x), y, 2.3), 25.0, (1.0, 0.64, 0.36), 0.03)
+    for x in (-4.6, -1.85, 0.9, 3.65):            # warm light grazing down the racks on the far wall
+        sp = lib.spot_light("rack spot", (x + 0.62, TY1 - 1.5, 4.0), 160, (1.0, 0.70, 0.42), 0.015, 38, 0.5); sp.rotation_euler = (math.radians(30), 0, 0)
 
 
 def rack_end(M, x0, x1, y, s_, rnd, bottles):
@@ -409,7 +411,7 @@ def cellar(M, rnd):
 
 ROOMS = {
     "cellar": dict(build=cellar, cams={
-        "cellar": dict(loc=(4.9, 56.0, 1.5), target=(-7.0, 61.6, 1.55), lens=19, shift=0.1),
+        "cellar": dict(loc=(3.7, 57.3, 1.45), target=(-3.2, 62.6, 1.5), lens=21, shift=0.08),
         "cellar2": dict(loc=(-24.0, YC - 0.4, 1.55), target=(0.0, YC + 0.2, 1.75), lens=24, shift=0.06),
     }, stops={"cellar": (2.4, 58.9, 0.0)}),
 }

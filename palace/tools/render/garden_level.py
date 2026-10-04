@@ -23,6 +23,7 @@ ROWS = {16.0: (4.5, 13.5, 22.5), 34.0: (4.5, 13.5, 22.5, 31.5)}      # the colum
 JX0, JX1, JY0, JY1 = 0.8, 3.2, 3.6, 21.0      # the jetty, and its head from JY1 to JY1 + 3 across HX0..HX1
 HX0, HX1 = -1.4, 5.4
 DECK = 0.3
+SUN = (10.2, 19.3)            # where the sky's sun shows, seen from the end of the jetty (the sun at 58 degrees, 112)
 
 
 def hw(y): return 14.41 + T36 * y           # the lake's half-width at y; the avenues beyond, 6.2 m across in x
@@ -40,15 +41,18 @@ def materials(M):
     M["cattail"] = P("cattail", (0.16, 0.08, 0.04), 0.9)
     M["lily"] = lib.leaf("lily pad", (0.045, 0.11, 0.025), 0.25, 0.22)
     M["lily_flower"] = lib.lampshade("water lily", (0.95, 0.93, 0.88))
-    M["broadleaf"] = lib.leaf("broadleaf", (0.05, 0.105, 0.028), 0.35, 0.5)
-    M["broadleaf2"] = lib.leaf("broadleaf 2", (0.07, 0.12, 0.03), 0.3, 0.45)
-    M["willow_leaf"] = lib.leaf("willow leaf", (0.14, 0.19, 0.055), 0.25, 0.5)
-    M["trunk"] = lib.wood("trunk bark", (0.20, 0.18, 0.16), (0.09, 0.08, 0.07), 0.9, scale=4.0, coat=0.0, along="Z")
+    M["broadleaf"] = lib.leaf("broadleaf", (0.075, 0.15, 0.035), 0.35, 0.5)
+    M["broadleaf2"] = lib.leaf("broadleaf 2", (0.10, 0.165, 0.04), 0.3, 0.45)
+    M["willow_leaf"] = lib.leaf("willow leaf", (0.20, 0.27, 0.075), 0.25, 0.5)
+    M["trunk"] = lib.wood("trunk bark", (0.24, 0.19, 0.14), (0.11, 0.085, 0.06), 0.9, scale=4.0, coat=0.0, along="Z")
     M["rock"] = suite.rock_material("lake rock", (0.10, 0.095, 0.09), (0.34, 0.32, 0.29), lichen=True)
     M["stainless"] = P("stainless", (0.62, 0.62, 0.62), 0.22, 1.0)
     M["basalt"] = P("wet basalt", (0.055, 0.055, 0.052), 0.38)
     M["rope"] = lib.fabric("rope", (0.62, 0.55, 0.42), 0.9, 0.2, 200)
     M["rib"] = P("ceiling rib", (0.06, 0.06, 0.065), 0.5)
+    M["sky_frame"] = P("sky frame", (0.62, 0.64, 0.66), 0.35, 0.8)
+    M["green_wall"] = lib.plaster("garden wall", (0.15, 0.17, 0.14), 0.9, 0.03)
+    M["sun_disc"] = lib.emission("sky sun", (1.0, 0.93, 0.80), 40.0)
     M["slab"] = lib.plaster("slab soffit", (0.70, 0.70, 0.68))
     M["sky"] = sky_material()
     M["sand"] = sand_material()
@@ -202,11 +206,15 @@ def structure(M):
     sky = lib.box("sky of lamps", (200.0, YW + 2.7, 0.02), (0.0, 0.3 + (YW + 2.7) / 2, TOP - 0.02), M["sky"])
     bm = bmesh.new(); x = -99.0
     while x < 99.0:
-        lib.bm_box(bm, (0.09, YW + 2.7, 0.22), (x, 0.3 + (YW + 2.7) / 2, TOP - 0.14)); x += 2.25
+        lib.bm_box(bm, (0.04, YW + 2.7, 0.07), (x, 0.3 + (YW + 2.7) / 2, TOP - 0.065)); x += 2.25
     y = 0.6
     while y < YW + 2.0:
-        lib.bm_box(bm, (198.0, 0.09, 0.22), (0.0, y, TOP - 0.14)); y += 2.25
-    lib.mesh_obj("sky ribs", bm, M["rib"])
+        lib.bm_box(bm, (198.0, 0.04, 0.07), (0.0, y, TOP - 0.065)); y += 2.25
+    lib.mesh_obj("sky ribs", bm, M["sky_frame"])
+    # the sun in the sky of lamps: projectors behind the panels throw parallel light as the sun does, from where the
+    # sun stands outside (the Sun Well's sun, family.lights), so the garden has the day's real light and shadows.
+    # The panels and the slab let it through (build() below); the disc shows where it stands, seen from the jetty
+    lib.cyl("sky sun", 0.9, 0.01, (SUN[0], SUN[1], TOP - 0.035), M["sun_disc"], verts=64)
     for yb in ROWS:
         lib.box("beam", (200.0, 1.3, 1.1), (0.0, yb, TOP - 0.55), M["column"])
     lib.box("beam", (200.0, 1.0, 1.1), (0.0, 0.1, TOP - 0.55), M["column"])
@@ -220,9 +228,9 @@ def structure(M):
                 lib.cyl("column foot", 0.86, max(0.2, 0.55 - zb), (x, yb, zb), M["basalt"], verts=48, bevel=0.02)
     # the walls round the garden: the far wall across the street behind the lake, walls far out beyond the avenues,
     # and the front wall either side of the atrium's glass (the corner cores stand at its ends)
-    lib.box("far wall", (200.0, 0.5, TOP), (0.0, YW + 0.25, TOP / 2), M["far_wall"])
+    lib.box("far wall", (200.0, 0.5, TOP), (0.0, YW + 0.25, TOP / 2), M["green_wall"])
     for sgn in (-1, 1):
-        lib.box("front wall", (60.0, 0.5, TOP), (sgn * (17.7 + 30.0), -0.25, TOP / 2), M["far_wall"])
+        lib.box("front wall", (60.0, 0.5, TOP), (sgn * (17.7 + 30.0), -0.25, TOP / 2), M["green_wall"])
         lib.box("side wall", (0.5, YW + 1.0, TOP), (sgn * 96.0, YW / 2, TOP / 2), M["far_wall"])
     # the doors in the middle bay of the glass, and the walk along it
     for (a, b_) in ((-1.565, 0.0), (0.0, 1.565)):
@@ -386,7 +394,7 @@ def broadleaf(name, loc, seed, M, height=12.0, leaves=90000, mat="broadleaf"):
     return wood, leaf_cloud(name, pts, loc, leaf, mat + " leaves", leaves, rnd)
 
 
-def willow(name, loc, seed, M, strands=520):
+def willow(name, loc, seed, M, strands=1100):
     """a weeping willow on the bank: a short trunk, limbs arching out, and curtains of long thin leaves hanging to
     the ground and the water"""
     rnd = random.Random(seed); bm = bmesh.new(); pts = []; tips = []
@@ -404,12 +412,12 @@ def willow(name, loc, seed, M, strands=520):
     for s in range(strands):
         base = rnd.choice(tips) + Vector((rnd.gauss(0, 0.7), rnd.gauss(0, 0.7), rnd.gauss(0.2, 0.35)))
         out = Vector((base.x, base.y, 0.0)); out = out.normalized() if out.length > 0.01 else Vector((1, 0, 0))
-        drop = rnd.uniform(0.55, 0.97) * (base.z - 0.25); n = max(4, int(drop / 0.05))
+        drop = rnd.uniform(0.55, 0.97) * (base.z - 0.25); n = max(4, int(drop / 0.035))
         for k in range(n):
             t = k / (n - 1); arch = 0.55 * math.sin(min(1.0, t * 2.5) * math.pi / 2)
             pts.append(base + out * arch + Vector((rnd.gauss(0, 0.035), rnd.gauss(0, 0.035), -drop * t)))
     wood = lib.mesh_obj(name + " wood", bm, M["trunk"], smooth=True); wood.location = loc
-    leaf = bpy.data.objects.get("willow leaf") or atrium.leaf_object("willow leaf", 0.12, 0.018, M["willow_leaf"])
+    leaf = bpy.data.objects.get("willow leaf") or atrium.leaf_object("willow leaf", 0.13, 0.022, M["willow_leaf"])
     return wood, leaf_cloud(name, pts, loc, leaf, "willow leaves", 200000, rnd, 0.8, 1.2)
 
 
@@ -564,6 +572,8 @@ def build(room):
     for o in list(bpy.data.objects):          # the garden seen through side 0's glass on L2 is this room: take out the stand-in
         if o.name.startswith("garden ") and o.matrix_world.translation.y > 0.0: bpy.data.objects.remove(o)
     family.lights()
+    for o in bpy.data.objects:                # the sky of lamps and the slab over it let the sky's sun through
+        if o.name.startswith(("slab over L2", "sky of lamps", "sky ribs", "sky sun")): o.visible_shadow = False
     return sc, R
 
 

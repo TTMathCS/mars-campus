@@ -56,7 +56,7 @@ window.TOUR_STOPS = [
     d: "Forty velvet seats in four rows under a ceiling of stars, walnut walls, curtains drawn across the glass, and a screen 12 m wide. Tonight: the Earth.",
     links: [{ id: "bridge", at: [22.34, -16.83, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
 
-  { id: "memory", ready: false, name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.4], az0: 10, img: "pano/memory.jpg",
+  { id: "memory", ready: false, name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.7], az0: 10, img: "pano/memory.jpg",
     d: "Jim's keepsakes from Earth: photographs of the places of his life hung close on walls of deep green under brass picture lights, two glass cases of letters, a pocket watch and the things he brought from home, the albums on a reading table, and the desk where he records his memoirs.",
     links: [{ id: "kitchen", label: "Back along the streets: the kitchen" }] },
   { id: "cellar", ready: false, rot: 288, name: "The wine cellar", short: "Wine cellar", k: "L1 · The club", p: [79.67, -0.73], az0: 49, img: "pano/cellar.jpg",

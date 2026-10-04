@@ -50,7 +50,6 @@ def materials(M):
     M["flag_a"] = P("flag red", (0.62, 0.05, 0.04), 0.7); M["flag_b"] = P("flag white", (0.88, 0.88, 0.86), 0.7); M["flag_c"] = P("flag blue", (0.03, 0.12, 0.5), 0.7)
     M["block"] = P("block white", (0.85, 0.85, 0.83), 0.35); M["tread"] = P("block tread", (0.04, 0.12, 0.30), 0.85)
     M["stainless"] = P("stainless", (0.62, 0.62, 0.62), 0.2, 1.0)
-    M["sky_slot"] = lib.emission("sky slot", (0.98, 0.97, 0.94), 4.0)
     M["towel"] = lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5)
     M["kick"] = P("kickboard", (0.95, 0.75, 0.05), 0.5)
     M["kick2"] = P("kickboard blue", (0.05, 0.25, 0.65), 0.5)
@@ -147,11 +146,12 @@ def lap_pool(M, rnd):
     # the street beyond the glass, lit from above, and ring A's back wall across it
     lib.box("street floor", (60.0, 4.0, 0.1), (0, Y0 - 2.2, -0.05), M["deck"])
     lib.box("street far wall", (60.0, 0.3, 8.0), (0, Y0 - 4.3, 4.0), M["street"])
-    lib.box("street sky", (60.0, 3.8, 0.05), (0, Y0 - 2.2, 8.0), lib.emission("street sky", (0.98, 0.96, 0.92), 14.0))
+    lib.box("street sky", (60.0, 3.8, 0.05), (0, Y0 - 2.2, 8.0), lib.emission("street sky", (0.98, 0.96, 0.92), 8.0))
     for x in range(-24, 25, 8):
         furn.olive_tree("street olive", (x + 2.0, Y0 - 3.0, 0.4), 70 + x, M, height=3.0, leaves=9000)
         lib.box("street planter", (1.0, 1.0, 0.4), (x + 2.0, Y0 - 3.0, 0.2), M["travertine"], bevel=0.01)
-    # the ceiling: oak slats on black felt, three slots of sky along the hall
+    # the ceiling: oak slats on black felt, three slots along the hall glazed to the sky: the sun comes through them in
+    # bands across the water and up the outer wall, and the sky's light (the area lights) falls through them
     edges = [Y0 - 0.3] + [v for y in SKY for v in (y - 0.6, y + 0.6)] + [Y1 + 0.3]
     edges = sorted(min(max(e, Y0 - 0.3), Y1 + 0.3) for e in edges)
     for i in range(0, len(edges) - 1, 2):
@@ -159,11 +159,11 @@ def lap_pool(M, rnd):
         if b - a < 0.05: continue
         lib.poly_prism("ceiling", [(-hw(a) - 0.4, a), (hw(a) + 0.4, a), (hw(b) + 0.4, b), (-hw(b) - 0.4, b)], HT, HT + 0.8, M["oak_slat"])
     for y in SKY:
-        if Y0 < y < Y1: lib.box("sky slot", (2 * hw(y) + 0.8, 1.2, 0.02), (0, y, HT + 0.6), M["sky_slot"])
-        a = lib.area_light("sky slot light", (0, min(max(y, Y0 + 0.7), Y1 - 0.7), HT - 0.02), 2 * hw(min(y, Y1)) - 2.0, 6000, (0.98, 0.97, 0.94), size_y=1.0)
+        if Y0 < y < Y1: lib.box("sky slot", (2 * hw(y) + 0.8, 1.2, 0.02), (0, y, HT + 0.75), M["glass"])
+        a = lib.area_light("sky slot light", (0, min(max(y, Y0 + 0.7), Y1 - 0.7), HT - 0.02), 2 * hw(min(y, Y1)) - 2.0, 900, (0.92, 0.95, 1.0), size_y=1.0)
     for (y, s_) in ((Y0 + 0.35, 1), (Y1 - 0.35, -1)):              # warm light washing up over the oak ceiling from both long walls
-        lib.area_light("ceiling wash", (0, y, HT - 0.6), 2 * hw(y) - 3.0, 5000, (1.0, 0.80, 0.58), rot=(math.pi - s_ * 0.5, 0, 0), size_y=0.1)
-        lib.box("cove", (2 * hw(y) - 2.0, 0.12, 0.03), (0, y, HT - 0.62), lib.emission("cove glow", (1.0, 0.82, 0.62), 6.0))
+        lib.area_light("ceiling wash", (0, y, HT - 0.6), 2 * hw(y) - 3.0, 900, (1.0, 0.80, 0.58), rot=(math.pi - s_ * 0.5, 0, 0), size_y=0.1)
+        lib.box("cove", (2 * hw(y) - 2.0, 0.12, 0.03), (0, y, HT - 0.62), lib.emission("cove glow", (1.0, 0.82, 0.62), 4.0))
     # loungers and towels along the outer wall, kickboards on a rack, a pace clock on the end wall
     for x in (-18.0, -16.6, -6.9, -5.5, 5.5, 6.9, 16.6, 18.0):
         pent_rooms.lounger("lounger", (x, Y1 - 1.25, 0.0), 0.0, M)
@@ -188,12 +188,12 @@ def lap_pool(M, rnd):
     for y in (Y0 + 1.4, Y1 - 1.4):
         x = -hw(y) + 3.0
         while x < hw(y) - 2.5:
-            lib.spot_light("downlight", (x, y, HT - 0.05), 70, (1.0, 0.84, 0.66), 0.03, 60, 0.6); x += 4.0
+            lib.spot_light("downlight", (x, y, HT - 0.05), 40, (1.0, 0.84, 0.66), 0.03, 60, 0.6); x += 4.0
 
 
 ROOMS = {
     "pool": dict(build=lap_pool, cams={
-        "pool": dict(loc=(PX0 - 1.4, Y1 - 0.75, 1.3), target=(PX1 - 12.0, PY0 + 0.6, 0.5), lens=20, shift=0.1),
+        "pool": dict(loc=(PX0 - 3.5, (PY0 + PY1) / 2 - 0.6, 1.5), target=(PX1, (PY0 + PY1) / 2 + 0.6, 1.0), lens=20, shift=0.08),
         "pool2": dict(loc=(PX1 + 1.8, PY0 - 1.5, 1.4), target=(-10.0, Y1 - 1.0, 0.8), lens=20, shift=0.1),
     }, stops={"pool": (2.0, PY1 + 1.25, 0.0)}),
 }
@@ -202,8 +202,7 @@ ROOMS = {
 def build(room):
     sc = lib.reset(); M = family.materials(); rnd = random.Random(67)
     R = ROOMS[room]; R["build"](M, rnd)
-    w = sc.world or bpy.data.worlds.new("world"); sc.world = w; w.use_nodes = True
-    bg = w.node_tree.nodes.get("Background"); bg.inputs["Color"].default_value = (0, 0, 0, 1); bg.inputs["Strength"].default_value = 0.0
+    family.lights()          # the sun and the sky, as over the thermal baths next door
     return sc, R
 
 

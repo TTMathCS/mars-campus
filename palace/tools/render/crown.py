@@ -11,6 +11,7 @@ import lib, furn
 R_IN, R_OUT, R_GL, FL, SLOT0, SLOT1 = 125.0, 135.0, 128.5, 41.0, 44.0, 45.2
 Z0, Z1 = SLOT0 - FL, SLOT1 - FL            # the slots, 3.0 to 4.2 m above the floor
 WT = 0.5                                   # walls 0.5 m thick
+PAD = 0.5                                  # a stretch is built half a degree past its ends (0 for the walk, where stretches meet)
 ORB_R, ORB_Z = 24.0, 72.0 - FL             # the Orb, 48 m across: radius, centre height above the floor
 D = math.pi / 180
 
@@ -163,20 +164,20 @@ def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None, roof=Fa
 def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, ceiling=None):
     """the shell of a stretch of the ring from bearing b0 to b1"""
     wall_mat = wall_mat or M["regolith"]; o = []
-    o.append(sector("floor", R_GL, R_OUT, b0 - 0.5, b1 + 0.5, 0.0, floor_mat))
+    o.append(sector("floor", R_GL, R_OUT, b0 - PAD, b1 + PAD, 0.0, floor_mat))
     if glide:
-        o.append(sector("glide", R_IN, R_GL - 0.25, b0 - 0.5, b1 + 0.5, 0.06, M["glide"]))
-        o.append(curved_box("glide edge", R_GL - 0.25, R_GL, b0 - 0.5, b1 + 0.5, -0.1, 0.06, M["titanium"]))
-        o.append(curved_box("glide rail", R_IN + 0.12, R_IN + 0.2, b0 - 0.5, b1 + 0.5, 0.92, 0.96, M["bronze"]))
-        for b in steps(b0 - 0.5, b1 + 0.5, 0.5):
+        o.append(sector("glide", R_IN, R_GL - 0.25, b0 - PAD, b1 + PAD, 0.06, M["glide"]))
+        o.append(curved_box("glide edge", R_GL - 0.25, R_GL, b0 - PAD, b1 + PAD, -0.1, 0.06, M["titanium"]))
+        o.append(curved_box("glide rail", R_IN + 0.12, R_IN + 0.2, b0 - PAD, b1 + PAD, 0.92, 0.96, M["bronze"]))
+        for b in steps(b0 - PAD, b1 + PAD, 0.5):
             o.append(curved_box("rail post", R_IN + 0.13, R_IN + 0.19, b - 0.012, b + 0.012, 0.06, 0.92, M["bronze"]))
     else:
-        o.append(sector("floor in", R_IN, R_GL, b0 - 0.5, b1 + 0.5, 0.0, floor_mat))
-    o.append(sector("ceiling", R_IN - 0.1, R_OUT + 0.1, b0 - 0.5, b1 + 0.5, 0.0, ceiling or M["ceiling"], flip=True, zf=lambda b: ceil_at(b)))
-    o += wall("inner wall", R_IN, -1, b0 - 0.5, b1 + 0.5, M, wall_mat)
-    o += wall("outer wall", R_OUT, 1, b0 - 0.5, b1 + 0.5, M, wall_mat)
+        o.append(sector("floor in", R_IN, R_GL, b0 - PAD, b1 + PAD, 0.0, floor_mat))
+    o.append(sector("ceiling", R_IN - 0.1, R_OUT + 0.1, b0 - PAD, b1 + PAD, 0.0, ceiling or M["ceiling"], flip=True, zf=lambda b: ceil_at(b)))
+    o += wall("inner wall", R_IN, -1, b0 - PAD, b1 + PAD, M, wall_mat)
+    o += wall("outer wall", R_OUT, 1, b0 - PAD, b1 + PAD, M, wall_mat)
     # the coves: a plaster ledge 0.6 m under the ceiling along both walls, with a strip of light on top washing the ceiling
-    glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 26.0); bs = steps(b0 - 0.5, b1 + 0.5)
+    glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 26.0); bs = steps(b0 - PAD, b1 + PAD)
     for (r0, r1, l0, l1) in ((R_IN, R_IN + 0.3, R_IN + 0.05, R_IN + 0.12), (R_OUT - 0.3, R_OUT, R_OUT - 0.12, R_OUT - 0.05)):
         bm = bmesh.new(); rings = []
         for b in bs:
@@ -199,7 +200,7 @@ def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, 
             o.append(curved_box("partition", R_GL + 0.05, R_OUT, b - th / 2, b + th / 2, 0, 9, wall_mat, zf1=lambda bb: ceil_at(bb) + 0.01))
     # where the model stops, close the Glide's lane too (the Glide runs on through the house, but not in this picture)
     th = 0.3 / 130.0 / D
-    for b in (b0 - 0.5 + th, b1 + 0.5 - th):
+    for b in (b0 - PAD + th, b1 + PAD - th):
         o.append(curved_box("glide end", R_IN - 0.6, R_GL + 0.06, b - th / 2, b + th / 2, -0.3, 9, wall_mat, zf1=lambda bb: ceil_at(bb) + 0.4))
     return o
 
@@ -217,6 +218,7 @@ def slat_ceiling(b0, b1, M, pitch=0.075, w=0.042, h=0.05, felt=True):
             a, c = rings[i], rings[i + 1]
             for k in range(4): bm.faces.new((a[k], c[k], c[(k + 1) % 4], a[(k + 1) % 4]))
         r += pitch
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])          # facing out (a bake shades the side a face faces)
     o = [lib.mesh_obj("slats", bm, M["oak_slat"])]
     if felt: o.append(sector("felt", R_IN, R_OUT, b0, b1, 0, M["felt"], flip=True, zf=lambda b: ceil_at(b) - 0.002))
     return o

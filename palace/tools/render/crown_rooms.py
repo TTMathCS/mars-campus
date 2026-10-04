@@ -133,7 +133,7 @@ def salon(M, rnd):
     """the Salon (bearings 144 to 180): the hearth room, the great salon 45 m long, the piano room"""
     b0, b1 = 144.0, 180.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     # low walls of olive wood with wide openings between the three rooms
     for b in (151.92, 172.08):
         th = 0.3 / 130 / D
@@ -266,7 +266,7 @@ def dining(M, rnd):
     """the dining hall (223.2 to 241.2) under the Dining spire: a table of polished basalt for twenty"""
     b0, b1 = 223.2, 241.2
     crown.ring_room(b0, b1, M, M["basalt"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = imports(M)
     bc = (b0 + b1) / 2; L_ = 10.5
     # the table: three slabs of basalt on two olive-wood trestles, curving with the ring
@@ -319,7 +319,7 @@ def bedroom_up(M, rnd):
     import bed
     b0, b1 = 116.64, 130.32
     crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = imports(M)
     bc = (b0 + b1) / 2 + 0.6
     # an oak screen between the Glide and the bedroom, 2.6 m tall, open at the end by the dressing room
@@ -365,7 +365,7 @@ def sunset_lounge(M, rnd):
     """the sunset lounge (261 to 279): low sofas face the west slots; at sunset the sun shines straight in"""
     b0, b1 = 261.0, 279.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = imports(M)
     for k, bc in enumerate((265.0, 270.0, 275.0)):
         lib.box("rug", (4.2, 5.4, 0.014), at(RM + 0.4, bc, 0.007), M["rug" if k != 1 else "rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
@@ -517,9 +517,9 @@ def wellness(M, rnd):
     b0, b1 = 180.0, 216.0; ps0, ps1 = 192.8, 192.8 + tang(25.0, 132.0); pr0, pr1 = 130.0, 134.0
     o = crown.ring_room(b0, b1, M, M["basalt"])
     bpy.data.objects.remove(o[0])                      # the floor: remade with a hole for the pool
-    for (r0, r1, a, b) in ((R_GL, R_OUT, b0 - 0.5, ps0), (R_GL, R_OUT, ps1, b1 + 0.5), (R_GL, pr0, ps0, ps1), (pr1, R_OUT, ps0, ps1)):
+    for (r0, r1, a, b) in ((R_GL, R_OUT, b0 - crown.PAD, ps0), (R_GL, R_OUT, ps1, b1 + crown.PAD), (R_GL, pr0, ps0, ps1), (pr1, R_OUT, ps0, ps1)):
         crown.sector("floor", r0, r1, a, b, 0.0, M["basalt"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = imports(M)
     water = pent_rooms.pool_water("pool water up", (0.74, 0.92, 0.90)); glow = lib.emission("pool light up", (0.85, 0.95, 1.0), 25.0)
     tile = lib.principled("pool tile up", (0.10, 0.22, 0.23), 0.3, **{"Coat Weight": 0.4})
@@ -892,7 +892,7 @@ def observatory(M, rnd):
     extra_materials(M)
     b0, b1, w1 = 0.0, 36.0, 24.0
     crown.ring_room(b0, b1, M, M["basalt"])
-    crown.slat_ceiling(b0 - 0.5, b1 + 0.5, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     room_wall(w1, M)
     S = imports(M)
     for k, bc in enumerate((3.2, 7.8, 12.4, 17.0, 21.4)):
@@ -982,8 +982,8 @@ def garden_room(M, rnd):
     extra_materials(M)
     b0, b1, w1 = 36.0, 72.0, 48.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
-    crown.slat_ceiling(b0 - 0.5, w1, M)
-    crown.sector("breakfast floor", R_GL + 0.05, R_OUT, b0 - 0.5, w1, 0.004, M["oak"])        # oak in the breakfast room
+    crown.slat_ceiling(b0 - crown.PAD, w1, M)
+    crown.sector("breakfast floor", R_GL + 0.05, R_OUT, b0 - crown.PAD, w1, 0.004, M["oak"])        # oak in the breakfast room
     room_wall(w1, M)
     S = imports(M)
     # C-33, breakfast: a round oak table for six under a pendant, the sideboard with the coffee
@@ -1031,7 +1031,7 @@ def garden_room(M, rnd):
     # ends, lemon and olive trees; a gravel path with stepping stones; a stone basin of water in the middle; ivy up
     # the outer wall between the slots; benches
     gravel = gravel_material()
-    crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + 0.5, 0.0, 0.012, gravel)
+    crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + crown.PAD, 0.0, 0.012, gravel)
     beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]
     for (a, b) in beds_out:
         crown.curved_box("bed wall", R_OUT - 1.9, R_OUT - 0.1, a, b, 0.0, 0.5, M["basalt"])
@@ -1100,7 +1100,7 @@ ROOMS = {
     "arrival": dict(build=arrival, span=(91.44, 108.0), sun=(250.0, 14.0), cams={
         "arrival": dict(loc=at(RM + 1.6, 106.2, 1.5), target=at(RM, 95.76, 2.6), lens=18),
         "arrival2": dict(loc=at(R_GL + 0.4, 99.0, 1.5), target=at(R_OUT - 0.5, 104.0, 2.0), lens=18),
-    }, stops={"arrival": at(RM + 0.3, 101.8, 0.0)}),
+    }, stops={"arrival": at(RM + 0.3, 99.0, 0.0)}),        # 6 m short of the olive tree: the tree, the bench and the portal ahead
     "dining": dict(build=dining, span=(223.2, 241.2), sun=(244.0, 13.0), cams={
         "dining": dict(loc=at(R_OUT - 1.15, 228.2, 1.55), target=at(RM - 0.8, 235.6, 0.9), lens=19),
         "dining2": dict(loc=at(RM + 0.35, 236.6, 1.4), target=at(RM - 0.1, 228.6, 0.8), lens=22),

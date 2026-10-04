@@ -7,6 +7,40 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
+- **4 Oct, from 12:40 UTC (same session; both machines had stopped at 05:20 when the account hit its usage limit):**
+  Jim: "render too slow, maybe 2 at a time. also after you finish rendering L1, I need to make walk on crown ... use
+  keyboard and mouse to walk around the crown and give me real life experience. I literally mean real impressive
+  feeling"; then "go".
+  - **Two render machines.** This session's queue (`blend/queue_a.txt`, `runner.py a`) and a second cloud session,
+    `session_01FjAVBjC6iYGKfCFcyGwjNW` ("Arcadia renders, second machine"), which renders `final.py` jobs and pushes
+    the raw pictures to `palace/blender/renders/residence/` (commits "Raw render: ... (second machine)"); this session
+    grades and publishes them. Its jobs now: `pano:bath, s_kitchen, pano:kitchen, plan:suite, plan:residence`, then
+    `pano:terrace, pano:bridge, pano:court`. Here: music and dining stills, the guest lounge, the lap pool's finals
+    (the sun now through glazed slots, exposure -1.5), a new Arrival 360 (the stop moved 6 m from the olive tree), then
+    the Crown walk's bakes.
+  - **Published:** the master suite down (bedroom, moss garden, bath; bedroom and garden in 360), the memory rooms
+    (two photos, a 360, the plan from above; their own entry on the residence page), the Arrival hall (photo, plan
+    from above). The cinema's `.blend` is archived; `make_screen.py` makes its screen picture (no script made it).
+  - **The Crown walk, `palace/walk/`** (not linked yet; data comes from the bakes): first person in three.js, its
+    own copy of three.js r186 in `walk/lib/` (`three.module.min.js` bundled with esbuild from npm `three@0.186.1`,
+    and the addons it imports), modules `ring.js` (the ring's frame), `walker.js` (keys, mouse, the floor map, the
+    Glide at 3.2 m/s clockwise, jumps in Mars gravity, head bob), `mirror.js` (reflections in polished floors),
+    `walk.js` (loading, materials). A view can be opened from the address: `#b=152&r=129&h=-25&p=8` (bearing,
+    radius, heading from clockwise, pitch).
+    - **How it is lit:** `palace/tools/render/walk_bake.py <rooms> <out> [spp texel chunk stage b0:b1]` builds the
+      rooms in one scene (`crown.PAD = 0`, so stretches meet) under one afternoon sun (bearing 195, 32 up), cuts the
+      ring into 6° chunks, joins each into one mesh (Blender bakes object by object and reloads the scene for each;
+      `keep_coords`/`rewrite` keep every material's Object and Generated coordinates as attributes), unwraps it,
+      and bakes its colour (`DIFFUSE` colour, about 1.25 cm a pixel) and the light on it (`DIFFUSE` direct+indirect,
+      half as fine, OpenImageDenoise, stored sRGB-encoded as light / 4). The browser draws colour x light with
+      three.js's light map and AgX, the pictures' curve, at exposure 2^1. Leaves, the ceilings' oak slats and lamp
+      shades keep their light in their vertices (16-bit). Then `node walk_pack.mjs <out> palace/walk/data`
+      (glTF-Transform and meshoptimizer from npm, in the scratchpad's `walk/`) welds, quantizes and compresses.
+    - Found on the way: the slats of every slat ceiling faced inward (renders do not care, bakes came out black);
+      `crown.slat_ceiling` now turns them outward.
+    - Test (salon, 4 samples, coarse): the hearth room, the salon's sofas and olive trees, the slat ceiling and the
+      Glide all come through; a full-quality test of two chunks is in the queue, then salon + wellness (144° to 216°).
+
 - **4 Oct, from 02:00 UTC (same session, after a restart of its worker):** Jim: "the newly created rendering are not
   as good as before"; "new ones are bit too bright and looks more not real"; "did you use blender for rendering? if so
   can you put original files somewhere so we can reproduce or improve later? just archives all those original design

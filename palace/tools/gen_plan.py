@@ -146,14 +146,14 @@ ATRIUM = dict(
              purpose="Where visitors from Earth gather. They come only once every 26 months and stay until the next launch window, so they have real apartments: eight guest suites above the lounge and behind it, and two family apartments.",
              facts=[("Rooms", "L1-32 Guest lounge, two storeys of 4 m, 546 m² · L1-33 to L1-40 Guest suites 1 to 8 · L1-41, L1-42 Family apartments · L1-43 Staff and robots")],
              photos=[("../tour/photos/guests.jpg", "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites."), ("../tour/photos/guests2.jpg", "From the gallery: the lounge and the atrium through the glass.")],
-             views=[("guests", "The guest lounge")], plan=("img/plan/l1-guests.jpg", "Ring A of sector 5, north-east of the atrium.")),
+             views=[("guests", "The guest lounge")], plan=("img/plan/l1-guests.jpg", "Ring A of sector 5, north-east of the atrium."),
+             above=("img/above/l1-guests.jpg", "the glass onto the atrium along the bottom; the sitting group round its low table on the left, the table for twelve on the right, and the spiral stair up to the gallery in the corner.")),
     ])
 
 CROWN = dict(
     id="rooms-crown", no="02 · 1", title="The Crown, room by room",
     lede="The Crown's main floor is a ring 10 m wide and 276 m across, 41 m above the Stone Garden. The rooms run along the outer wall; the Glide, a moving walkway, runs along the garden side and links every part in a 779 m loop. Window slots 1.2 m tall run through both walls, framing the plain on one side and the mirror Orb on the other. Five spires rise over the Arrival hall, the Salon, the Dining hall, the Library and the Observatory, and each holds a portal.",
-    plan=("../plans/svg/crown.svg", "The Crown's main floor: the ten parts of the ring, and in each room its code (10 is C-10). The Orb floats in the middle.",
-             above=("img/above/l1-guests.jpg", "the glass onto the atrium along the bottom; the sitting group round its low table on the left, the table for twelve on the right, and the spiral stair up to the gallery in the corner.")),
+    plan=("../plans/svg/crown.svg", "The Crown's main floor: the ten parts of the ring, and in each room its code (10 is C-10). The Orb floats in the middle."),
     rooms=[
         dict(id="arrival", codes=["C-01", "C-02", "C-03", "C-04"], k="C-01 to C-05 · part 1 · east · a spire", name="Arrival",
              purpose="Coming home. The pod flies into the hangar from the garden side; the hangar fills with air in about 90 seconds while the dust is blown off; then the Door, a ring of light 5 m across, opens for Jim and his guests alone. The Arrival hall beyond is 9 m tall, with the first window slot looking back over the garden to the Orb.",

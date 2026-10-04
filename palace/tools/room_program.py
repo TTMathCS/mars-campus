@@ -248,7 +248,7 @@ CROWN = [
     dict(code="C-01", part=1, name="Suit room", kind="move", at=(72.0, 78.0), use="Suits and the airlock with a dust room, for going out onto the hull or the plain.", also="", pair="L5-20"),
     dict(code="C-02", part=1, name="Pod hangar", kind="move", at=(78.0, 91.44), use="The pods dock here, through a door in the outer wall.", also=""),
     dict(code="C-03", part=1, name="The Door", kind="move", at=(91.44, 95.76), use="The front door of Arcadia, from the hangar.", also=""),
-    dict(code="C-04", part=1, name="Arrival hall", kind="move", at=(95.76, 108.0), seen="crown_arrival", use="Where everyone arrives: 9 m tall, an olive bench, the portal to the Orb, the spires and the Pentagon.", also="Where visitors are welcomed."),
+    dict(code="C-04", part=1, name="Arrival hall", kind="move", at=(95.76, 108.0), seen="crown_arrival", use="Where everyone arrives: 20 m tall under its spire, the great maple in its round banquette, the portal to the Orb, the spires and the Pentagon.", also="Where visitors are welcomed."),
     dict(code="C-05", part=1, name="Dock control", kind="work", at=(78.0, 108.0), up=True, use="Upstairs in the Arrival spire: watches the pods dock.", also="", pair="L3-21"),
     dict(code="C-06", part=2, name="Dressing room", kind="sleep", at=(108.0, 116.64), use="Clothes for the day, next to the bedroom up.", also=""),
     dict(code="C-07", part=2, name="Bedroom up", kind="sleep", at=(116.64, 130.32), seen="crown_bedroom",
@@ -287,7 +287,7 @@ CROWN = [
     dict(code="C-33", part=10, name="Breakfast room", kind="food", at=(36.0, 48.0), use="Breakfast with the sunrise through the east slots.", also="Morning coffee with guests."),
     dict(code="C-34", part=10, name="Sky garden", kind="garden", at=(48.0, 72.0), use="Herbs, flowers and small trees under the slots: a conservatory in the ring.", also="Fresh herbs for the chef's kitchen."),
 ]
-CROWN_SHARED = {"GL": ("The Glide", "The moving walkway along the garden side, 779 m round, past every room.")}
+CROWN_SHARED = {"GL": ("The Glide", "The moving walkway along the garden side, 734 m round, past every room.")}
 
 # ---------------------------------------------------------------------------------------------- the Orb
 # 48 m across, from +48 to +96 m (Rev F, 2 Oct 2026). On each floor five rooms sit between two lanes, 2.4 m wide: the

@@ -3,27 +3,27 @@
 <rect width="980" height="230" fill="#F7F5F0"/>
 <text x="24.0" y="26.0" font-size="17.0" font-weight="700" fill="#1C2124" text-anchor="start" dominant-baseline="middle">C · part 6 · Sunset (W, bearings 252° to 288°)</text>
 <rect x="40.0" y="55.0" width="900.0" height="5" fill="#FFFFFF" stroke="#33302C"/>
-<text x="40.0" y="48.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">outer wall, with the window slots, to the plain</text>
-<polygon data-code="C-20" points="40.0,62.0 265.0,62.0 265.0,132.7 40.0,132.7" fill="#E3D9EE" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="152.5" y="93.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-20</text>
-<text x="152.5" y="104.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Guests&#x27; day room</text>
-<text x="152.5" y="123.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">130 m²</text>
-<polygon data-code="C-21" points="265.0,62.0 715.0,62.0 715.0,132.7 265.0,132.7" fill="#E9D8BC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="490.0" y="93.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-21</text>
-<text x="490.0" y="104.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Sunset lounge</text>
-<text x="490.0" y="123.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">270 m²</text>
-<polygon data-code="C-22" points="715.0,62.0 940.0,62.0 940.0,132.7 715.0,132.7" fill="#DCE7CF" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="827.5" y="93.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-22</text>
-<text x="827.5" y="104.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Gallery</text>
-<text x="827.5" y="123.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">130 m²</text>
-<polygon points="40.0,132.7 940.0,132.7 940.0,170.7 40.0,170.7" fill="#F1E7DA" fill-opacity="1.00" stroke="#8A9395" stroke-width="0.80"/>
-<text x="490.0" y="151.7" font-size="10.5" font-weight="700" fill="#8A6A3E" text-anchor="middle" dominant-baseline="middle">C-GL · the Glide, a moving walkway</text>
-<text x="40.0" y="184.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">inner wall, with slots onto the Orb and the Stone Garden</text>
-<line x1="40.0" y1="208.0" x2="148.7" y2="208.0" stroke="#1C2124" stroke-width="2"/>
+<text x="40.0" y="48.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">outer wall, with its windows at eye level, to the plain</text>
+<polygon data-code="C-20" points="40.0,62.0 265.0,62.0 265.0,248.5 40.0,248.5" fill="#E3D9EE" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="152.5" y="151.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-20</text>
+<text x="152.5" y="162.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Guests&#x27; day room</text>
+<text x="152.5" y="239.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">330 m²</text>
+<polygon data-code="C-21" points="265.0,62.0 715.0,62.0 715.0,248.5 265.0,248.5" fill="#E9D8BC" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="490.0" y="151.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-21</text>
+<text x="490.0" y="162.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Sunset lounge</text>
+<text x="490.0" y="239.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">660 m²</text>
+<polygon data-code="C-22" points="715.0,62.0 940.0,62.0 940.0,248.5 715.0,248.5" fill="#DCE7CF" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="827.5" y="151.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-22</text>
+<text x="827.5" y="162.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Gallery</text>
+<text x="827.5" y="239.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">330 m²</text>
+<polygon points="40.0,248.5 940.0,248.5 940.0,288.0 40.0,288.0" fill="#F1E7DA" fill-opacity="1.00" stroke="#8A9395" stroke-width="0.80"/>
+<text x="490.0" y="268.2" font-size="10.5" font-weight="700" fill="#8A6A3E" text-anchor="middle" dominant-baseline="middle">C-GL · the Glide, a moving walkway</text>
+<text x="40.0" y="302.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">inner wall, with windows onto the Orb and the Stone Garden</text>
+<line x1="40.0" y1="208.0" x2="153.0" y2="208.0" stroke="#1C2124" stroke-width="2"/>
 <line x1="40.0" y1="203.0" x2="40.0" y2="213.0" stroke="#1C2124" stroke-width="1.4"/>
-<line x1="94.4" y1="203.0" x2="94.4" y2="213.0" stroke="#1C2124" stroke-width="1.4"/>
-<line x1="148.7" y1="203.0" x2="148.7" y2="213.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="96.5" y1="203.0" x2="96.5" y2="213.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="153.0" y1="203.0" x2="153.0" y2="213.0" stroke="#1C2124" stroke-width="1.4"/>
 <text x="40.0" y="223.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">0</text>
-<text x="94.4" y="223.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">5</text>
-<text x="148.7" y="223.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10 m</text>
+<text x="96.5" y="223.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">5</text>
+<text x="153.0" y="223.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10 m</text>
 </svg>

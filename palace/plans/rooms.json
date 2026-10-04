@@ -1785,7 +1785,7 @@ null
 "also": "",
 "pair": "L5-20",
 "place": "C",
-"m2": 90
+"m2": 219
 },
 {
 "code": "C-02",
@@ -1799,7 +1799,7 @@ null
 "use": "The pods dock here, through a door in the outer wall.",
 "also": "",
 "place": "C",
-"m2": 201
+"m2": 491
 },
 {
 "code": "C-03",
@@ -1813,7 +1813,7 @@ null
 "use": "The front door of Arcadia, from the hangar.",
 "also": "",
 "place": "C",
-"m2": 65
+"m2": 158
 },
 {
 "code": "C-04",
@@ -1825,10 +1825,10 @@ null
 108.0
 ],
 "seen": "crown_arrival",
-"use": "Where everyone arrives: 9 m tall, an olive bench, the portal to the Orb, the spires and the Pentagon.",
+"use": "Where everyone arrives: 20 m tall under its spire, the great maple in its round banquette, the portal to the Orb, the spires and the Pentagon.",
 "also": "Where visitors are welcomed.",
 "place": "C",
-"m2": 183
+"m2": 447
 },
 {
 "code": "C-05",
@@ -1844,7 +1844,7 @@ null
 "also": "",
 "pair": "L3-21",
 "place": "C",
-"m2": 448
+"m2": 1095
 },
 {
 "code": "C-06",
@@ -1858,7 +1858,7 @@ null
 "use": "Clothes for the day, next to the bedroom up.",
 "also": "",
 "place": "C",
-"m2": 129
+"m2": 315
 },
 {
 "code": "C-07",
@@ -1874,7 +1874,7 @@ null
 "also": "Changing between the morning and the afternoon.",
 "pair": "L1-08",
 "place": "C",
-"m2": 204
+"m2": 499
 },
 {
 "code": "C-08",
@@ -1888,7 +1888,7 @@ null
 "use": "A bath with a soaking tub by the slots.",
 "also": "",
 "place": "C",
-"m2": 204
+"m2": 499
 },
 {
 "code": "C-09",
@@ -1903,7 +1903,7 @@ null
 "use": "A fireside corner of the salon, a hearth of lit mist.",
 "also": "Quiet talks.",
 "place": "C",
-"m2": 118
+"m2": 289
 },
 {
 "code": "C-10",
@@ -1919,7 +1919,7 @@ null
 "also": "Receptions and parties when visitors come.",
 "pair": "L1-02",
 "place": "C",
-"m2": 301
+"m2": 736
 },
 {
 "code": "C-11",
@@ -1935,7 +1935,7 @@ null
 "also": "Rehearsing in daylight.",
 "pair": "L1-01",
 "place": "C",
-"m2": 118
+"m2": 289
 },
 {
 "code": "C-12",
@@ -1950,7 +1950,7 @@ null
 "use": "Upstairs in the Salon spire: the highest view over the plain by day.",
 "also": "A quiet retreat.",
 "place": "C",
-"m2": 538
+"m2": 1314
 },
 {
 "code": "C-13",
@@ -1965,7 +1965,7 @@ null
 "also": "",
 "pair": "L1-25",
 "place": "C",
-"m2": 191
+"m2": 467
 },
 {
 "code": "C-14",
@@ -1981,7 +1981,7 @@ null
 "also": "Lying by the water in the sun.",
 "pair": "L1-23",
 "place": "C",
-"m2": 162
+"m2": 396
 },
 {
 "code": "C-15",
@@ -1996,7 +1996,7 @@ null
 "also": "",
 "pair": "L1-24",
 "place": "C",
-"m2": 185
+"m2": 451
 },
 {
 "code": "C-16",
@@ -2010,7 +2010,7 @@ null
 "use": "Wine brought up from the cellar (L1-20) for the dinners, and served from here.",
 "also": "",
 "place": "C",
-"m2": 108
+"m2": 263
 },
 {
 "code": "C-17",
@@ -2026,7 +2026,7 @@ null
 "also": "Celebrations; meetings when visitors come.",
 "pair": "L1-03",
 "place": "C",
-"m2": 269
+"m2": 657
 },
 {
 "code": "C-18",
@@ -2041,7 +2041,7 @@ null
 "also": "",
 "pair": "L1-10",
 "place": "C",
-"m2": 161
+"m2": 394
 },
 {
 "code": "C-19",
@@ -2057,7 +2057,7 @@ null
 "also": "",
 "pair": "L1-03",
 "place": "C",
-"m2": 538
+"m2": 1314
 },
 {
 "code": "C-20",
@@ -2071,7 +2071,7 @@ null
 "use": "Where visitors spend their days up here: desks, sofas, a kitchenette, a corner for children.",
 "also": "(Guests sleep below ground, in the guest wing on L1.)",
 "place": "C",
-"m2": 135
+"m2": 329
 },
 {
 "code": "C-21",
@@ -2085,7 +2085,7 @@ null
 "use": "Low sofas facing the west slots: at sunset the sun shines straight in, in a blue sky.",
 "also": "Evening drinks before going down.",
 "place": "C",
-"m2": 269
+"m2": 657
 },
 {
 "code": "C-22",
@@ -2099,7 +2099,7 @@ null
 "use": "Jim's paintings from the studio and his photographs of Mars.",
 "also": "Exhibitions; a quiet room by the sunset lounge.",
 "place": "C",
-"m2": 135
+"m2": 329
 },
 {
 "code": "C-23",
@@ -2115,7 +2115,7 @@ null
 "also": "",
 "pair": "L1-04",
 "place": "C",
-"m2": 135
+"m2": 329
 },
 {
 "code": "C-24",
@@ -2131,7 +2131,7 @@ null
 "also": "",
 "pair": "L1-27",
 "place": "C",
-"m2": 296
+"m2": 723
 },
 {
 "code": "C-25",
@@ -2146,7 +2146,7 @@ null
 "use": "A globe of Mars 3 m across and chests of maps: planning trips and flights.",
 "also": "",
 "place": "C",
-"m2": 108
+"m2": 263
 },
 {
 "code": "C-26",
@@ -2161,7 +2161,7 @@ null
 "use": "Upstairs in the Library spire, a reading room under the roof.",
 "also": "",
 "place": "C",
-"m2": 538
+"m2": 1314
 },
 {
 "code": "C-27",
@@ -2176,7 +2176,7 @@ null
 "also": "",
 "pair": "L3-02",
 "place": "C",
-"m2": 224
+"m2": 548
 },
 {
 "code": "C-28",
@@ -2190,7 +2190,7 @@ null
 "use": "Printing Jim's photographs of Mars and his art.",
 "also": "",
 "place": "C",
-"m2": 149
+"m2": 365
 },
 {
 "code": "C-29",
@@ -2204,7 +2204,7 @@ null
 "use": "Pottery, models and small repairs (heavy work is in L3's workshops).",
 "also": "",
 "place": "C",
-"m2": 164
+"m2": 402
 },
 {
 "code": "C-30",
@@ -2218,7 +2218,7 @@ null
 "use": "Night: reclining chairs under the slots and the real stars.",
 "also": "Parties at night.",
 "place": "C",
-"m2": 359
+"m2": 876
 },
 {
 "code": "C-31",
@@ -2232,7 +2232,7 @@ null
 "use": "The controls of the telescope upstairs, and screens for what it sees.",
 "also": "",
 "place": "C",
-"m2": 179
+"m2": 438
 },
 {
 "code": "C-32",
@@ -2247,7 +2247,7 @@ null
 "use": "Upstairs in the Observatory spire: the telescope.",
 "also": "",
 "place": "C",
-"m2": 538
+"m2": 1314
 },
 {
 "code": "C-33",
@@ -2261,7 +2261,7 @@ null
 "use": "Breakfast with the sunrise through the east slots.",
 "also": "Morning coffee with guests.",
 "place": "C",
-"m2": 179
+"m2": 438
 },
 {
 "code": "C-34",
@@ -2275,7 +2275,7 @@ null
 "use": "Herbs, flowers and small trees under the slots: a conservatory in the ring.",
 "also": "Fresh herbs for the chef's kitchen.",
 "place": "C",
-"m2": 359
+"m2": 876
 },
 {
 "code": "O-00",

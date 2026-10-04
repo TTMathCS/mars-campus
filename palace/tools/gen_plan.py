@@ -152,11 +152,11 @@ ATRIUM = dict(
 
 CROWN = dict(
     id="rooms-crown", no="02 · 1", title="The Crown, room by room",
-    lede="The Crown's main floor is a ring 10 m wide and 276 m across, 41 m above the Stone Garden. The rooms run along the outer wall; the Glide, a moving walkway, runs along the garden side and links every part in a 779 m loop. Window slots 1.2 m tall run through both walls, framing the plain on one side and the mirror Orb on the other. Five spires rise over the Arrival hall, the Salon, the Dining hall, the Library and the Observatory, and each holds a portal.",
+    lede="The Crown's main floor is a ring 20 m wide inside and 276 m across, 41 m above the Stone Garden. Its rooms are 16.5 m deep and 12.5 m tall, 20 m in the halls under its five spires. The Glide, a moving walkway, runs along the garden side and links every part in a 734 m loop. Windows 2.5 m tall at eye level run through both walls, so walking along the ring one sees out on both sides: the plain on one, the Stone Garden and the mirror Orb on the other. The five spires rise over the Arrival hall, the Salon, the Dining hall, the Library and the Observatory, and each holds a portal.",
     plan=("../plans/svg/crown.svg", "The Crown's main floor: the ten parts of the ring, and in each room its code (10 is C-10). The Orb floats in the middle."),
     rooms=[
         dict(id="arrival", codes=["C-01", "C-02", "C-03", "C-04"], k="C-01 to C-05 · part 1 · east · a spire", name="Arrival",
-             purpose="Coming home. The pod flies into the hangar from the garden side; the hangar fills with air in about 90 seconds while the dust is blown off; then the Door, a ring of light 5 m across, opens for Jim and his guests alone. The Arrival hall beyond is 9 m tall, with the first window slot looking back over the garden to the Orb.",
+             purpose="Coming home. The pod flies into the hangar from the garden side; the hangar fills with air in about 90 seconds while the dust is blown off; then the Door, a ring of light 5 m across, opens for Jim and his guests alone. The Arrival hall beyond is 20 m tall under its spire: the great maple in its round banquette under a halo of light, the windows looking back over the garden to the Orb.",
              facts=[("Rooms", "C-01 Suit room · C-02 Pod hangar · C-03 The Door · C-04 Arrival hall; C-05 Dock control upstairs"),
                     ("Made of", "Polished basalt underfoot, regolith plaster, an olive-wood bench, bronze reveals round the slots."),
                     ("In it", "The bench, an olive tree, and at the far end the portal to the Orb, the other spires and the Pentagon.")],

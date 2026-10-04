@@ -4,8 +4,8 @@ Writes palace/plans/: the SVG plans (svg/), one page per sheet, per Crown part a
 index of every code, and rooms.json; and short summaries in palace/docs/plans/. Rev G was approved by Jim on 3 Oct 2026,
 with the Orb of Rev F (48 m across, five rooms on each floor between two lanes).
 Geometry: the Pentagon's rings and sectors as in chapter 03 (160 m sides, an atrium of 35 m sides, rings 14 m deep with
-4 m streets, avenues 5 m wide); the Crown's ring as in the render scenes (rooms between radii 128.5 and 135 m, the
-Glide between 125 and 128.5 m)."""
+4 m streets, avenues 5 m wide); the Crown's ring as in the render scenes, revision H of 4 Oct 2026 (rooms between radii
+118.5 and 135 m, the Glide between 115 and 118.5 m: the ring 20 m wide inside)."""
 import html, json, math, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import room_program as P
@@ -15,7 +15,7 @@ OUT = os.path.join(REPO, "palace", "plans"); SVG = os.path.join(OUT, "svg"); DOC
 D = math.pi / 180
 T36, C36, S36 = math.tan(36 * D), math.cos(36 * D), math.sin(36 * D)
 R = 160 / (2 * S36); AP = R * C36; RA = 35 / (2 * S36); APA = RA * C36; RING = (AP - APA - 16) / 5; AVE = 5.0
-R_IN, R_GL, R_OUT, R_SHELL0, R_SHELL1 = 125.0, 128.5, 135.0, 122.0, 138.0
+R_IN, R_GL, R_OUT, R_SHELL0, R_SHELL1 = 115.0, 118.5, 135.0, 112.0, 138.0
 ORB_R, ORB_SHELL, ORB_HALL, LANE = 24.0, 2.0, 12.0, 2.4      # the Orb: its radius, its shell, the Gate's round space, a lane
 E = html.escape
 KIND = {  # fill, label
@@ -301,7 +301,7 @@ def crown_part_svg(part):
     svg = Svg(W, H, "Crown part %d, Rev G" % num)
     svg.text(24, 26, "C · part %d · %s (%s, bearings %d° to %d°)%s" % (num, nm, comp, b0, b1, " · a spire" if spire else ""), 17, 700, anchor="start")
     svg.add('<rect x="%.1f" y="%.1f" width="%.1f" height="5" fill="#FFFFFF" stroke="#33302C"/>' % (x0, yR - 7, 900))
-    svg.text(x0, yR - 14, "outer wall, with the window slots, to the plain", 9.5, 400, "#6C777C", anchor="start")
+    svg.text(x0, yR - 14, "outer wall, with its windows at eye level, to the plain", 9.5, 400, "#6C777C", anchor="start")
     rooms = [r for r in P.CROWN if r["part"] == num]
     for rm in rooms:
         if rm.get("up"): continue
@@ -310,7 +310,7 @@ def crown_part_svg(part):
         ar = crown_area(a, b); svg.text(cxm, yR + hr - 9, m2(ar), 9.5, 400, "#6C777C")
     svg.poly([(x0, yR + hr), (x0 + 900, yR + hr), (x0 + 900, yR + hr + hg), (x0, yR + hr + hg)], "#F1E7DA", "#8A9395", 0.8)
     svg.text(x0 + 450, yR + hr + hg / 2, "C-GL · the Glide, a moving walkway", 10.5, 700, "#8A6A3E")
-    svg.text(x0, yR + hr + hg + 14, "inner wall, with slots onto the Orb and the Stone Garden", 9.5, 400, "#6C777C", anchor="start")
+    svg.text(x0, yR + hr + hg + 14, "inner wall, with windows onto the Orb and the Stone Garden", 9.5, 400, "#6C777C", anchor="start")
     for rm in rooms:
         if not rm.get("up"): continue
         a, b = rm["at"]; yu = 40
@@ -489,7 +489,7 @@ def build():
     page("crown.html", "The Crown",
          '<h1>The Crown <small>for the day, 41 m above the plain</small></h1><p class="lede">Light, views and company, for about six hours a day: the rooms are placed by the sun, so there is one for every hour of the sol. Morning in the east (breakfast, the bedroom up), midday in the south (the salon, the pool), evening in the west (dining, the sunset lounge), the north light for the library and the studio, and the night sky in the north-east.</p>%s<h2>The ten parts</h2><div class="cards">%s</div><p class="note">%s</p>' %
          (fig(csrc, "Plan of the Crown's ring with every room code", "<b>The Crown's main floor</b>, north up. The numbers are room codes (10 is C-10); ▲ marks a spire with an upper floor."), cards,
-          "C-GL The Glide: the moving walkway along the garden side, 779 m round, past every room."), "crown.html", subs)
+          "C-GL The Glide: the moving walkway along the garden side, 734 m round, past every room."), "crown.html", subs)
     for p in P.CROWN_PARTS:
         psrc = crown_part_svg(p); rooms = [r for r in P.CROWN if r["part"] == p[0]]
         page("crown-%d.html" % p[0], "Crown part %d · %s" % (p[0], p[1]),

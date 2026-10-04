@@ -9,7 +9,7 @@
 | **C-01** | Suit room | Suits and the airlock with a dust room, for going out onto the hull or the plain. | L5-20 |
 | **C-02** | Pod hangar | The pods dock here, through a door in the outer wall. |  |
 | **C-03** | The Door | The front door of Arcadia, from the hangar. |  |
-| **C-04** | Arrival hall | Where everyone arrives: 9 m tall, an olive bench, the portal to the Orb, the spires and the Pentagon. |  |
+| **C-04** | Arrival hall | Where everyone arrives: 20 m tall under its spire, the great maple in its round banquette, the portal to the Orb, the spires and the Pentagon. |  |
 | **C-05** | Dock control | Upstairs in the Arrival spire: watches the pods dock. | L3-21 |
 | **C-06** | Dressing room | Clothes for the day, next to the bedroom up. |  |
 | **C-07** | Bedroom up | Jim's day room to rest in: a nap after lunch, reading; the bed faces the south-east slots, where the sun rises. | L1-08 |

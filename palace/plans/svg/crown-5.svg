@@ -3,29 +3,29 @@
 <rect width="980" height="290" fill="#F7F5F0"/>
 <text x="24.0" y="26.0" font-size="17.0" font-weight="700" fill="#1C2124" text-anchor="start" dominant-baseline="middle">C · part 5 · Dining (SW, bearings 216° to 252°) · a spire</text>
 <rect x="40.0" y="85.0" width="900.0" height="5" fill="#FFFFFF" stroke="#33302C"/>
-<text x="40.0" y="78.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">outer wall, with the window slots, to the plain</text>
-<polygon data-code="C-16" points="40.0,92.0 220.0,92.0 220.0,162.7 40.0,162.7" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="130.0" y="123.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-16</text>
-<text x="130.0" y="134.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Wine room</text>
-<text x="130.0" y="153.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">110 m²</text>
-<polygon data-code="C-17" points="220.0,92.0 670.0,92.0 670.0,162.7 220.0,162.7" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="445.0" y="123.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-17</text>
-<text x="445.0" y="134.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Dining hall</text>
-<text x="445.0" y="153.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">270 m²</text>
-<polygon data-code="C-18" points="670.0,92.0 940.0,92.0 940.0,162.7 670.0,162.7" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
-<text x="805.0" y="123.3" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-18</text>
-<text x="805.0" y="134.6" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Chef&#x27;s kitchen</text>
-<text x="805.0" y="153.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">160 m²</text>
-<polygon points="40.0,162.7 940.0,162.7 940.0,200.7 40.0,200.7" fill="#F1E7DA" fill-opacity="1.00" stroke="#8A9395" stroke-width="0.80"/>
-<text x="490.0" y="181.7" font-size="10.5" font-weight="700" fill="#8A6A3E" text-anchor="middle" dominant-baseline="middle">C-GL · the Glide, a moving walkway</text>
-<text x="40.0" y="214.7" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">inner wall, with slots onto the Orb and the Stone Garden</text>
+<text x="40.0" y="78.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">outer wall, with its windows at eye level, to the plain</text>
+<polygon data-code="C-16" points="40.0,92.0 220.0,92.0 220.0,278.5 40.0,278.5" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="130.0" y="181.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-16</text>
+<text x="130.0" y="192.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Wine room</text>
+<text x="130.0" y="269.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">260 m²</text>
+<polygon data-code="C-17" points="220.0,92.0 670.0,92.0 670.0,278.5 220.0,278.5" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="445.0" y="181.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-17</text>
+<text x="445.0" y="192.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Dining hall</text>
+<text x="445.0" y="269.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">660 m²</text>
+<polygon data-code="C-18" points="670.0,92.0 940.0,92.0 940.0,278.5 670.0,278.5" fill="#F0D9A6" fill-opacity="1.00" stroke="#33302C" stroke-width="1.10"/>
+<text x="805.0" y="181.2" font-size="13.5" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">C-18</text>
+<text x="805.0" y="192.5" font-size="11.0" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle">Chef&#x27;s kitchen</text>
+<text x="805.0" y="269.5" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="middle" dominant-baseline="middle">390 m²</text>
+<polygon points="40.0,278.5 940.0,278.5 940.0,318.0 40.0,318.0" fill="#F1E7DA" fill-opacity="1.00" stroke="#8A9395" stroke-width="0.80"/>
+<text x="490.0" y="298.2" font-size="10.5" font-weight="700" fill="#8A6A3E" text-anchor="middle" dominant-baseline="middle">C-GL · the Glide, a moving walkway</text>
+<text x="40.0" y="332.0" font-size="9.5" font-weight="400" fill="#6C777C" text-anchor="start" dominant-baseline="middle">inner wall, with windows onto the Orb and the Stone Garden</text>
 <polygon data-code="C-19" points="40.0,40.0 940.0,40.0 940.0,62.0 40.0,62.0" fill="#F0D9A6" fill-opacity="0.70" stroke="#2A6E8E" stroke-width="1.20" stroke-dasharray="6 4"/>
 <text x="490.0" y="51.0" font-size="10.5" font-weight="700" fill="#2A6E8E" text-anchor="middle" dominant-baseline="middle">C-19 Sky bar · upper floor, in the spire</text>
-<line x1="40.0" y1="268.0" x2="148.7" y2="268.0" stroke="#1C2124" stroke-width="2"/>
+<line x1="40.0" y1="268.0" x2="153.0" y2="268.0" stroke="#1C2124" stroke-width="2"/>
 <line x1="40.0" y1="263.0" x2="40.0" y2="273.0" stroke="#1C2124" stroke-width="1.4"/>
-<line x1="94.4" y1="263.0" x2="94.4" y2="273.0" stroke="#1C2124" stroke-width="1.4"/>
-<line x1="148.7" y1="263.0" x2="148.7" y2="273.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="96.5" y1="263.0" x2="96.5" y2="273.0" stroke="#1C2124" stroke-width="1.4"/>
+<line x1="153.0" y1="263.0" x2="153.0" y2="273.0" stroke="#1C2124" stroke-width="1.4"/>
 <text x="40.0" y="283.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">0</text>
-<text x="94.4" y="283.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">5</text>
-<text x="148.7" y="283.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10 m</text>
+<text x="96.5" y="283.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">5</text>
+<text x="153.0" y="283.0" font-size="10.0" font-weight="400" fill="#1C2124" text-anchor="middle" dominant-baseline="middle">10 m</text>
 </svg>

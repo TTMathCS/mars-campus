@@ -46,6 +46,7 @@ a:hover { text-decoration-color: var(--route); }
 .bar nav details ol a { display: flex; gap: 10px; border: 0; background: none; padding: 6px 14px; }
 .bar nav details ol a span { font: 500 12px var(--f-mono); color: var(--route); width: 34px; flex: none; }
 .bar nav details ol a:hover { background: var(--panel); }
+.bar nav details ol li.grp { margin: 8px 0 2px; padding: 6px 14px 0; border-top: 1px solid var(--rule); font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
 .bar nav a.atlas { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
 
 /* chapter opening */
@@ -195,3 +196,11 @@ svg .dash { stroke-dasharray: 5 4; }
 svg .dots { stroke-dasharray: 1.5 3.5; }
 @media print { .bar { position: static; } .pager { display: none; } }
 .scroll.dark { background: #120d0a; }
+
+/* real science, or future technology: a pair of boxes; the future one dashed */
+.realfut { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0 16px; }
+.realfut > div { padding: 14px 16px 6px; background: var(--sheet); border: 1px solid var(--rule); }
+.realfut > div.f { border: 1.5px dashed var(--z3); }
+.realfut h4 { margin: 0 0 6px; font: 600 12.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.realfut > div.f h4 { color: var(--z3); }
+@media (max-width: 720px) { .realfut { grid-template-columns: 1fr; } }

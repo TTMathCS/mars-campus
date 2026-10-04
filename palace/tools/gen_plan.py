@@ -393,49 +393,14 @@ def toc_html(area):
 
 def page(area):
     plan_src, plan_cap = area["plan"]
-    body = ('<main class="wrap"><div class="open"><div class="no">Design plan · %s</div><h1>%s</h1><p class="lede">%s</p></div>%s'
+    body = ('<main class="wrap"><div class="open"><div class="no">Arcadia design plan · %s</div><h1>%s</h1><p class="lede">%s</p></div>%s'
             '<figure class="fig area-plan"><img class="zoom" src="%s" alt="Floor plan: %s" loading="lazy"><figcaption><b>The floor plan.</b> %s Click to enlarge.</figcaption></figure>%s</main>'
             % (E(area["no"]), E(area["title"]), E(area["lede"]), toc_html(area), plan_src, E(area["title"]), E(plan_cap), "".join(room_html(r) for r in area["rooms"])))
-    return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>%s · Design plan</title>\n'
+    return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>%s · Arcadia design plan</title>\n'
             '<meta name="description" content="%s">\n<link rel="icon" href="../../favicon.svg" type="image/svg+xml">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">\n'
             '<link rel="stylesheet" href="book.css">\n<style>%s</style>\n</head>\n<body data-ch="%s">\n%s\n<script src="book.js"></script>\n<script>%s</script>\n</body>\n</html>\n'
             % (E(area["title"]), E(area["lede"][:200]), CSS, area["id"], body, JS))
-
-
-def sheet_of(code):
-    """the floor plan (palace/plans/svg/) a room code is drawn on: C-10 -> crown, L1-02 -> l1"""
-    return "crown" if code.startswith("C-") else code.split("-")[0].lower()
-
-
-def explorer_json():
-    """for the explorer on the design plan's home page: every room's purpose, facts, pictures and 360s, and the
-    shapes to click on the floor plans Rev G (palace/plans/shapes.json, written by draw_plans.py: each room's
-    polygons by code, in the sheet's own units)"""
-    import json
-    SH = json.load(open(os.path.join(PAL, "plans", "shapes.json"), encoding="utf-8"))
-    rooms = {}
-    for a in AREAS:
-        for r in a["rooms"]:
-            key = ("crown:" if a is CROWN else "l2:" if a is GARDEN else "l1:") + r["id"]
-            rooms[key] = dict(name=r["name"], k=r["k"], purpose=r["purpose"], facts=r["facts"], page="%s.html#%s" % (a["id"], r["id"]),
-                              photos=[dict(src=ph[0], cap=ph[1]) for ph in r["photos"] if photo_ok(ph[0])] + ([dict(src=r["above"][0], cap="From above, the ceiling taken off: " + r["above"][1])] if r.get("above") and photo_ok(r["above"][0]) else []),
-                              views=[dict(stop=v[0], label=v[1], poster=poster(v[0])) for v in r["views"] if stop_ready(v[0])])
-    def shapes(sheet, area_list):
-        out = {}
-        for a in area_list:
-            for r in a["rooms"]:
-                cs = [c for c in r.get("codes", []) if sheet_of(c) == sheet]
-                if cs: out[r["id"]] = [poly for c in cs for poly in SH[sheet]["shapes"].get(c, [])]
-        return out
-    plans = {}
-    l1_areas = [a for a in AREAS if a not in (CROWN, GARDEN)]
-    for key, sheet, area_list, prefix in (("l1", "l1", l1_areas, "l1:"), ("crown", "crown", [CROWN], "crown:")):
-        plans[key] = dict(sheet="../plans/svg/%s.svg" % sheet, w=SH[sheet]["w"], h=SH[sheet]["h"], shapes=shapes(sheet, area_list), prefix=prefix)
-    l1, cr = plans["l1"]["shapes"], plans["crown"]["shapes"]
-    data = dict(rooms=rooms, plans=plans)
-    open(os.path.join(DES, "explorer-rooms.json"), "w", encoding="utf-8").write(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
-    print("explorer-rooms.json", len(rooms), "rooms,", len(l1) + len(cr), "shapes")
 
 
 if __name__ == "__main__":
@@ -444,5 +409,4 @@ if __name__ == "__main__":
         open(os.path.join(DES, a["id"] + ".html"), "w", encoding="utf-8").write(page(a))
         n_ph = sum(1 for r in a["rooms"] for p in r["photos"] if photo_ok(p[0])); n_v = sum(1 for r in a["rooms"] for v in r["views"] if stop_ready(v[0]))
         print(a["id"], "rooms", len(a["rooms"]), "photos", n_ph, "360s", n_v)
-    explorer_json()
     import tour_rooms; tour_rooms.main()

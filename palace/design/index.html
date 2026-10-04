@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Arcadia · Design Plan</title>
+<title>Arcadia · Design plan</title>
 <meta name="description" content="The design plan for Arcadia, Jim's home on Mars: the Crown, the Pentagon, Arcadia Spaceport, the pod flight and the future city, with how every part looks and works, and a zoomable Mars Atlas.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Arcadia · Design Plan">
+<meta property="og:title" content="Arcadia · Design plan">
 <meta property="og:description" content="Arcadia, Jim's home on Mars, area by area and room by room: what each space is for, its floor plan, path-traced pictures and 360° views.">
 <meta property="og:url" content="https://ttmathcs.github.io/mars-campus/palace/design/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
@@ -20,10 +20,7 @@
   .cover h1 { margin: 8px 0 0; font: 700 clamp(36px, 5.6vw, 66px)/0.95 var(--f-display); }
   .cover .no { font: 600 13px var(--f-mono); letter-spacing: .14em; color: var(--route); text-transform: uppercase; }
   .cover .lede { font-size: 18.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
-  .go { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 0; }
-  .go a { font: 600 15.5px var(--f-body); padding: 11px 16px; border: 1px solid var(--ink); text-decoration: none; }
-  .go a.main { background: var(--ink); color: var(--sheet); }
-  @media (max-width: 700px) { .cover { padding: 20px 0 12px; gap: 10px; } .cover .lede { font-size: 16px; } .go a { font-size: 14px; padding: 9px 12px; } }
+  @media (max-width: 700px) { .cover { padding: 20px 0 12px; gap: 10px; } .cover .lede { font-size: 16px; } }
   @media (max-width: 880px) { .cover { grid-template-columns: 1fr; } }
   .explore { margin: 0 0 8px; }
   .ex-stage { position: relative; aspect-ratio: 16 / 9; background: #7a563c; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; border: 1px solid var(--rule); }
@@ -41,43 +38,26 @@
   .ex-ctrl { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; }
   .ex-ctrl button { width: 42px; height: 36px; border: 0; background: rgba(16, 18, 20, .82); color: #f6f1ea; font-size: 15px; cursor: pointer; }
   .ex-hint { position: absolute; left: 12px; bottom: 12px; padding: 7px 10px; background: rgba(16, 18, 20, .72); color: #f6f1ea; font: 500 13px var(--f-body); pointer-events: none; }
-  .ex-parts { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
-  .ex-grp { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-right: 14px; }
-  .ex-grp small { font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-right: 2px; }
-  .ex-parts a { font: 600 14px var(--f-body); padding: 7px 11px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); text-decoration: none; }
-  .ex-parts a:hover { border-color: var(--route); color: var(--route); }
   .ex-whole { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
   .ex-ctrl .ex-wb { width: auto; padding: 0 12px; font: 600 13.5px var(--f-body); }
   .ex-stage.still .ex-ctrl button[data-step], .ex-stage.still .ex-hint { display: none; }
   .ex-stage.still { cursor: default; }
   .ex-cap { margin: 10px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 95ch; }
-  @media (max-width: 700px) { .ex-lab span { display: none; } .ex-lab i { width: 16px; height: 16px; } .ex-hint { font-size: 12px; padding: 5px 8px; } }
-  .atlasfig { position: relative; display: block; background: #0b0d10; border: 1px solid var(--rule); overflow: hidden; text-decoration: none; }
-  .atlasfig img { width: 100%; height: auto; opacity: .95; }
-  .atlasfig .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; background: linear-gradient(to top, rgba(8,10,12,.92), rgba(8,10,12,0)); color: #f1ede6; }
-  .atlasfig .cap b { display: block; font: 700 26px/1.05 var(--f-display); }
-  .atlasfig .cap span { font-size: 14.5px; color: #cfd4d2; }
-  .realfut { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0 16px; }
-  .realfut > div { padding: 14px 16px 6px; background: var(--sheet); border: 1px solid var(--rule); }
-  .realfut > div.f { border: 1.5px dashed var(--z3); }
-  .realfut h4 { margin: 0 0 6px; font: 600 12.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
-  .realfut > div.f h4 { color: var(--z3); }
-  @media (max-width: 720px) { .realfut { grid-template-columns: 1fr; } }
-  ol.dec { counter-reset: d; list-style: none; padding: 0; margin: 10px 0 16px; display: grid; gap: 10px; }
-  ol.dec li { counter-increment: d; display: grid; grid-template-columns: 40px 1fr; gap: 10px; background: var(--sheet); border: 1px solid var(--rule); padding: 12px 14px; margin: 0; }
-  ol.dec li::before { content: counter(d); font: 700 26px/1 var(--f-display); color: var(--route); }
-  ol.dec li b { display: block; font-size: 17px; }
-  ol.dec li span { color: var(--ink-2); font-size: 15.5px; }
-  .arealist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 10px 0 16px; }
-  .arealist a { display: block; background: var(--sheet); border: 1px solid var(--rule); text-decoration: none; }
-  .arealist a:hover { border-color: var(--route); }
-  .arealist img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-  .arealist span { display: block; padding: 10px 14px 14px; }
-  .arealist small { display: block; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--route); }
-  .arealist b { display: block; font: 700 24px/1.1 var(--f-display); margin: 4px 0 6px; }
-  .arealist em { font-style: normal; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
-  @media (max-width: 880px) { .arealist { grid-template-columns: minmax(0, 1fr); } }
-  ol.dec li em { display: block; font-style: normal; font: 500 12.5px/1.4 var(--f-mono); color: var(--ink-3); margin-top: 4px; }
+  @media (max-width: 700px) { .ex-lab span { display: none; } .ex-lab i { width: 16px; height: 16px; } .ex-hint { font-size: 12px; padding: 5px 8px; top: 10px; bottom: auto; left: 10px; } }
+  .places { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0 8px; }
+  .place { background: var(--sheet); border: 1px solid var(--rule); display: flex; flex-direction: column; }
+  .place .ph img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .place .tx { padding: 12px 16px 16px; }
+  .place small { display: block; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--route); }
+  .place b { display: block; font: 700 30px/1.05 var(--f-display); margin: 4px 0 6px; }
+  .place b a { text-decoration: none; }
+  .place em { display: block; font-style: normal; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  .place .links { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+  .place .links a { font: 600 14px var(--f-body); padding: 7px 11px; border: 1px solid var(--rule); text-decoration: none; }
+  .place .links a.main { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+  .place .links a:hover { border-color: var(--route); }
+  @media (max-width: 880px) { .places { grid-template-columns: minmax(0, 1fr); } }
+  .chapters .ch.sci .tx span { color: var(--ice); }
 </style>
 </head>
 <body data-ch="index">
@@ -97,63 +77,35 @@
       <div class="ex-hint">Drag to turn it · click a label</div>
       <div class="ex-ctrl"><button type="button" data-step="-1" aria-label="Turn left">◀</button><button type="button" data-step="1" aria-label="Turn right">▶</button></div>
     </div>
-    <div class="ex-parts" aria-label="Parts of Arcadia">
-      <span class="ex-grp"><small>Above ground</small><a href="rooms-crown.html">The Crown</a><a href="crown.html#orb">The Orb</a><a href="crown.html#dock">Stone Garden</a></span>
-      <span class="ex-grp"><small>Below ground</small><a href="pentagon.html">The Pentagon</a><a href="rooms-residence.html">L1 Residence</a><a href="pentagon.html#levels">L2 to L5</a><a href="rooms-atrium.html">The atrium</a></span>
-    </div>
     <p class="ex-cap">All of Arcadia, path-traced from the design model and cut through the middle, as in an architect's section: the Crown and the Orb above, the Stone Garden on the plain, and under 16 m of soil the Pentagon's five levels round the atrium, from Jim's residence on L1 down to the halls of L5.</p>
-    <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
   </section>
 
-  <div class="nums">
-    <div><b>39.8° N · 201.4° E</b><span>Arcadia, on the ice-rich plains of Arcadia Planitia, 3.9 km below Mars' average height</span></div>
-    <div><b>276 m</b><span>The Crown across, floating 40 m above the ground on five anti-gravity drives</span></div>
-    <div><b>209,700 m²</b><span>The Pentagon: five levels 24 to 68 m below ground, under 16 m of soil</span></div>
-    <div><b>30 km</b><span>East to Arcadia Spaceport, a real candidate landing site for SpaceX Starship</span></div>
-    <div><b>4 min 40 s</b><span>The pod's scenic flight, over dunes, a crater and ice cliffs; the Wormhole Gate does the travelling</span></div>
-    <div><b>0 lifts</b><span>Portals link the Crown, the Orb and every level below</span></div>
-  </div>
-
-  <section class="part" id="rooms">
-    <h2><small>Room by room</small>Every space: what it is for, its plan, its pictures</h2>
-    <p class="intro">Each area has its own page. For every room: what it is for, the facts (size, materials, what is in it, the light), where it is on the floor plan, and path-traced pictures and 360° views, with furniture scanned from real things.</p>
-    <div class="arealist">
-      <a href="rooms-crown.html"><img src="../tour/photos/crown_salon.jpg" alt="" loading="lazy"><span><small>Above ground · 02·1</small><b>The Crown, room by room</b><em>The ten parts of the ring: Arrival, the master suite up, the Salon, Wellness, Dining, the sunset lounge, the Library, the Studio, the Observatory, the Garden room.</em></span></a>
-      <a href="rooms-residence.html"><img src="../tour/photos/hero.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·1</small><b>Jim's residence</b><em>The family room, the music room, the dining room and its bar, the master suite down round its moss garden.</em></span></a>
-      <a href="rooms-atrium.html"><img src="../tour/photos/living.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·2</small><b>Round the atrium</b><em>The terraces, the bridges and the sun court; the great library, the thermal baths, the cinema and the guest lounge.</em></span></a>
-      <a href="rooms-club.html"><img src="../tour/photos/cellar2.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·3</small><b>The club</b><em>The wine cellar: a tasting room under a brick vault and aisles of racks and casks along the ring.</em></span></a>
-    </div>
-  </section>
-
-  <section class="part" id="science">
-    <h2><small>The science</small>Mars, and how to live on it</h2>
-    <p class="intro">The science has its own pages on the site, one subject a page, with their sources: the planet itself, and the engineering of living there, each topic ending with how Arcadia does it.</p>
-    <div class="arealist">
-      <a href="../../science/mars-facts/"><img src="img/mars-earth.jpg" alt="" loading="lazy"><span><small>The science</small><b>Mars facts</b><em>The surface, inside Mars, the weather, Mars in space, its resources and hazards, the numbers next to Earth's, and the missions that measured them.</em></span></a>
-      <a href="../../science/building-on-mars/"><img src="img/house-hero.jpg" alt="" loading="lazy"><span><small>The science</small><b>Building on Mars</b><em>Every factor a building must stand up to, getting there, construction, water, air, food, energy, shielding, health, rocket fuel, talking to Earth, protecting Mars.</em></span></a>
-    </div>
-  </section>
-
-  <section class="part">
-    <h2><small>The idea</small>By day in the sky, by night in the ground</h2>
-    <div class="two">
-      <div>
-        <p><b>Above ground, the Crown</b> is for light and views. Its white ring of fired Mars soil floats 40 m up, with five spires, window slots that keep out the harsh sun, a mirror Orb at the centre, where the universe fills the rooms in 3D at a switch and the Wormhole Gate floats in the middle, and a pod hangar in the east spire. It is where Jim watches the blue sunsets, plays the piano in the salon and greets guests arriving from Earth.</p>
-        <p><b>Below ground, the Pentagon</b> is for safety and abundance. Sixteen metres of soil stop the radiation, hold the air pressure in and keep the temperature steady. Its five levels hold Jim's residence, a garden level with orchards, a lake and a forest, his studio and workshops, the plant that makes air and water, and the halls where cargo, rovers and later a maglev train arrive.</p>
-        <p><b>Around it grows Arcadia City.</b> Each new home takes the next seed of a sunflower spiral. The spaceport, 30 km east, sends ships on voyages to see space, refuelled with fuel made on Mars; the Wormhole Gate does the travelling.</p>
+  <section class="part" id="places">
+    <h2><small>Two places</small>The Crown above, the Pentagon below</h2>
+    <div class="places">
+      <div class="place">
+        <a class="ph" href="rooms-crown.html"><img src="../tour/photos/crown_bedroom.jpg" alt="The master suite up in the Crown: the grand bed against its lit headboard wall, maples in basalt planters, the windows at eye level" loading="lazy" width="1600" height="900"></a>
+        <div class="tx">
+          <small>Above ground</small>
+          <b><a href="rooms-crown.html">The Crown</a></b>
+          <em>The ring 276 m across, floating 40 m over the Stone Garden: 29 rooms along the Glide, from the arrival hall and the master suite up to the salon, the dining hall, the library and the star lounge, with the mirror Orb in its middle.</em>
+          <div class="links"><a class="main" href="rooms-crown.html">Room by room</a><a href="crown.html">How it is made</a><a href="../plans/crown.html">Floor plan</a><a href="../tour/#crown_salon">360° tour</a></div>
+        </div>
       </div>
-      <figure class="fig"><img src="img/crown-garden.jpg" alt="The Crown seen from the paved terrace beside a corner pavilion: the ring and the mirror Orb overhead, and on the ground the Orb's dock and the basalt stones of the garden" width="1600" height="900" loading="lazy"><figcaption><b>Nothing holds it up.</b> From the paved terrace by a corner pavilion: the ring floats 40 m overhead with the Orb in its middle, over the Orb's dock and the Stone Garden.</figcaption></figure>
-    </div>
-    <h3>Real, or future?</h3>
-    <div class="realfut">
-      <div><h4>Real science and engineering</h4><p>Almost everything in the book uses what is known today: the site and its ice, the air and radiation on Mars, making fuel from ice and air, fission reactors, shielding with soil, rocket-powered flight in thin air, farming under lights, the 26-month launch windows. The numbers are worked out and shown.</p></div>
-      <div class="f"><h4>Future technology</h4><p>A few things are dreams, on purpose, because Jim asked for them: the <b>anti-gravity drives</b> that hold the Crown up, the <b>portals</b> that replace lifts, the <b>Wormhole Gate</b>, the <b>universe in VR</b> that fills the Orb's rooms in 3D and the <b>radiation glass</b> of its rest rooms. They are marked like this box wherever they appear, with a real fallback where safety needs one.</p></div>
+      <div class="place">
+        <a class="ph" href="rooms-residence.html"><img src="../tour/photos/hero.jpg" alt="Jim's family room on L1 of the Pentagon, its glass wall onto the atrium" loading="lazy" width="1600" height="900"></a>
+        <div class="tx">
+          <small>Below ground</small>
+          <b><a href="pentagon.html">The Pentagon</a></b>
+          <em>Five levels under 16 m of soil round the atrium and the sun court: Jim's residence and the club on L1, the garden level with its lake and forest, the studio and workshops, the plant that makes air and water, the halls.</em>
+          <div class="links"><a class="main" href="rooms-residence.html">Jim's residence</a><a href="rooms-atrium.html">Round the atrium</a><a href="rooms-club.html">The club</a><a href="pentagon.html">How it is built</a><a href="../plans/l1.html">Floor plans</a><a href="../tour/#fire">360° tour</a></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="part">
     <h2><small>Contents</small>The chapters</h2>
-    <p class="intro">Each chapter pairs <b>what it looks like</b> with <b>how it works</b>, with drawings and numbers.</p>
     <div class="chapters" id="chapters"></div>
   </section>
 </main>
@@ -161,12 +113,15 @@
 <script src="explorer.js"></script>
 <script>
 (function () {
-  var C = document.getElementById("chapters"), IMG = { mars: "th-mars.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", "rooms-club": "th-rooms-club.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
-  BOOK.CH.slice(1).forEach(function (c) {
-    var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[4] || c[0] + ".html";
-    a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";
+  var C = document.getElementById("chapters"), IMG = { idea: "th-idea.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", "rooms-club": "th-rooms-club.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  function card(href, no, title, text, img, cls) {
+    var a = document.createElement(href ? "a" : "div"); a.className = "ch" + (cls ? " " + cls : ""); if (href) a.href = href;
+    a.innerHTML = '<div class="th"><img src="img/' + img + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + no + "</span><b>" + title + "</b><em>" + text + "</em></div>";
     C.appendChild(a);
-  });
+  }
+  BOOK.CH.slice(1).forEach(function (c) { var ready = BOOK.READY[c[0]]; card(ready ? c[4] || c[0] + ".html" : null, c[1], c[2], c[3], IMG[c[0]], ready ? "" : "soon"); });
+  card("../../science/mars-facts/", "The science", "Mars facts", "The planet itself: the surface, inside Mars, the weather, Mars in space, its resources and hazards", "th-mars.jpg", "sci");
+  card("../../science/building-on-mars/", "The science", "Building on Mars", "Living there: every factor, getting there, construction, water, air, food, energy and more", "th-living.jpg", "sci");
 })();
 </script>
 </body>

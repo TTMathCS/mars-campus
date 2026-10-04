@@ -2,9 +2,8 @@
    used by the diagrams in every chapter. Each page sets <body data-ch="site"> and draws its own figures. */
 var BOOK = (function () {
   var CH = [
-    ["index", "00", "Overview", "What the design is, key numbers and the decisions for Jim"],
-    ["mars", "00·1", "Mars facts", "The science pages on the planet: surface, inside, weather, space, resources, hazards", "../../science/mars-facts/"],
-    ["living", "00·2", "Building on Mars", "The science pages on living there: every factor, getting there, construction, water, air, food, energy and more", "../../science/building-on-mars/"],
+    ["index", "00", "Overview", "Arcadia at a glance: the two places, and the ways in"],
+    ["idea", "00·1", "The idea", "By day in the sky, by night in the ground: the Crown, the Pentagon, the city, and what is real or future"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
     ["crown", "02", "The Crown", "The floating ring above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
     ["rooms-crown", "02·1", "The Crown, room by room", "Each part of the ring: what it is for, its plan, pictures and 360° views"],
@@ -20,8 +19,10 @@ var BOOK = (function () {
     ["space", "09", "Communications and space", "The link to Earth, the relays, the moons and time on Mars"],
     ["phases", "10", "Building it", "Robots first: the order of work, from the first landing to the city"]
   ];
+  // the science behind the plan: its own pages elsewhere on the site, listed after the chapters
+  var SCIENCE = [["Mars facts", "../../science/mars-facts/"], ["Building on Mars", "../../science/building-on-mars/"]];
   // chapters that are written; the others show as "coming" and are not linked yet
-  var READY = { index: 1, mars: 1, living: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, "rooms-club": 1, interiors: 1, power: 1, transport: 1, spaceport: 1, life: 1, space: 1, phases: 1 };
+  var READY = { index: 1, idea: 1, site: 1, crown: 1, "rooms-crown": 1, pentagon: 1, "rooms-residence": 1, "rooms-atrium": 1, "rooms-club": 1, interiors: 1, power: 1, transport: 1, spaceport: 1, life: 1, space: 1, phases: 1 };
   // a chapter's page: its own file, or (the science) a page elsewhere on the site
   function chHref(c) { return c[4] || (c[0] === "index" ? "./" : c[0] + ".html"); }
   var NS = "http://www.w3.org/2000/svg";
@@ -93,8 +94,9 @@ var BOOK = (function () {
     var id = document.body.getAttribute("data-ch") || "index", i = CH.findIndex(function (c) { return c[0] === id; });
     var root = id === "index" ? "./" : "./";
     var bar = document.createElement("header"); bar.className = "bar";
-    var items = CH.map(function (c) { return READY[c[0]] ? '<li><a href="' + chHref(c) + '"><span>' + c[1] + "</span>" + c[2] + "</a></li>" : '<li><span class="soon"><span>' + c[1] + "</span>" + c[2] + " · coming</span></li>"; }).join("");
-    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="./">Design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Drawings</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
+    var items = CH.map(function (c) { return READY[c[0]] ? '<li><a href="' + chHref(c) + '"><span>' + c[1] + "</span>" + c[2] + "</a></li>" : '<li><span class="soon"><span>' + c[1] + "</span>" + c[2] + " · coming</span></li>"; }).join("")
+      + '<li class="grp">The science</li>' + SCIENCE.map(function (c) { return '<li><a href="' + c[1] + '"><span></span>' + c[0] + "</a></li>"; }).join("");
+    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="./">Arcadia design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Floor plans</a><a href="../tour/">360° tour</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
     document.body.insertBefore(bar, document.body.firstChild);
     var main = document.querySelector("main");
     if (main && i >= 0) {
@@ -202,5 +204,5 @@ var BOOK = (function () {
     function kind(k) { return (window.PLANS.kinds[k] || ["#ddd", k])[0]; }        // the floor plans' colour for a kind of room
     return { ringV: ringV, half: half, sectorC: sectorC, local: local, world: world, of: of, byCode: byCode, range: range, kind: kind };
   })();
-  return { CH: CH, READY: READY, S: S, T: T, TL: TL, r1: r1, path: path, arrowDefs: arrowDefs, box: box, catmull: catmull, rng: rng, scalebar: scalebar, north: north, marsImagery: marsImagery, greatCircle: greatCircle, rooms: rooms, D2R: Math.PI / 180 };
+  return { CH: CH, SCIENCE: SCIENCE, READY: READY, S: S, T: T, TL: TL, r1: r1, path: path, arrowDefs: arrowDefs, box: box, catmull: catmull, rng: rng, scalebar: scalebar, north: north, marsImagery: marsImagery, greatCircle: greatCircle, rooms: rooms, D2R: Math.PI / 180 };
 })();

@@ -15,9 +15,8 @@ picture: what the room is, what it is made of, and a link to walk round it in 36
 | [<img src="../tour/photos/library.jpg" alt="The great library">](#the-great-library) | [<img src="../design/img/pano/table.jpg" alt="The dining room">](#the-dining-room-and-the-bar) | [<img src="../tour/photos/crown_bedroom.jpg" alt="The master suite up">](#the-master-suite-up) |
 | **[The great library](#the-great-library)**, L1 | **[The dining room](#the-dining-room-and-the-bar)**, L1 | **[The master suite up](#the-master-suite-up)**, the Crown |
 
-**Rendering now**, and added here as each one finishes: the cinema (L1, across the atrium);
-the master suite down, with its moss garden and bath; the Crown's library and map room, its pool, Arrival hall, dining
-hall and sunset lounge.
+**Rendering now**, and added here as each one finishes: the kitchen and the guest lounge (L1), the lap pool (L1, the
+baths), the Crown's sunset lounge.
 
 ## The Pentagon, L1: Jim's residence
 
@@ -55,6 +54,38 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 - **In it:** a walnut table for eight under five glass globes, a sideboard under a painting, shelves of books; at the
   back, the bar: bottles on lit bronze shelves, a walnut counter with a marble top, leather stools.
 - **Walk round it:** [at the table](https://ttmathcs.github.io/mars-campus/palace/tour/#table)
+
+### The master suite down
+
+![The bedroom down: the bed against its panelled wall, walnut and oak, the lamps lit for the evening](../tour/photos/suite_bedroom.jpg)
+
+![The moss garden: a maple, a stone lantern and a pool among the rocks, open to the light from above](../tour/photos/suite_garden.jpg)
+
+![The bath down: the vanity on its green marble wall, the shower and the bath](../tour/photos/suite_bath.jpg)
+
+- **The rooms:** L1-06 to L1-09, ring B of sector 1, across the street behind the family room: the bath, the moss
+  garden in the middle, the bedroom and the dressing room. Jim sleeps here most nights, 24 m below ground.
+- **Made of:** walnut and pale oak, a headboard wall upholstered in vertical channels, green marble in the bath.
+- **In it:** the bed facing the moss garden through the glass, two chairs by the window; in the garden, moss round a
+  pond, a Japanese maple, a stone lantern and a water basin under a sky ceiling; in the bath, a vanity with two round
+  mirrors, a walk-in shower and a bath.
+- **Walk round it:** [the bedroom](https://ttmathcs.github.io/mars-campus/palace/tour/#bedroom) · [the moss garden](https://ttmathcs.github.io/mars-campus/palace/tour/#garden)
+
+### The memory rooms
+
+![The memory rooms: Jim's photographs hung close on the deep green wall, the cases of keepsakes](../tour/photos/memory.jpg)
+
+![The memory rooms from the memoir desk: the cases, the reading table, the doorway to the next room](../tour/photos/memory2.jpg)
+
+- **The rooms:** L1-14, all of ring D of Jim's residence: a gallery of photographs 12 m by 9 m in the middle, the
+  letters room and the family's history on either side.
+- **Made of:** walls of deep green over a walnut dado, oak boards, brass picture lights, glass cases on walnut stands.
+- **In it:** photographs of the places of Jim's life hung close in three rows; cases of keepsakes (letters tied with a
+  ribbon, a pocket watch, spectacles, a compass, a key, a medal); a reading table with the albums; the desk where he
+  records his memoirs.
+- **Walk round it:** [in the memory rooms](https://ttmathcs.github.io/mars-campus/palace/tour/#memory)
+
+![The memory rooms from above, the ceiling taken off: the photographs along the top wall, the two cases on the rug, the reading table and the armchairs](../design/img/above/l1-memory.jpg)
 
 ## The Pentagon, L1: round the atrium
 
@@ -117,6 +148,17 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 
 The Crown's rooms run round the ring, 41 m above the plain, between the garden-side wall with the Glide along it and
 the outer wall; slots through both walls frame the Orb on one side and the plain on the other.
+
+### The Arrival hall
+
+![The Arrival hall in the Crown: polished basalt, the olive tree, the sun through the slots and the portal at the far end](../tour/photos/crown_arrival.jpg)
+
+- **The rooms:** C-01 to C-04, part 1 of the ring, east, under the Arrival spire: the suit room, the pod hangar, the
+  Door (a ring of light 5 m across) and the Arrival hall, 9 m tall.
+- **Made of:** polished basalt underfoot, regolith plaster, bronze reveals round the slots, an olive-wood bench.
+- **In it:** the bench, an olive tree, and at the far end the portal to the Orb, the other spires and the Pentagon.
+
+![Arrival from above, the ceiling taken off: the pod hangar, the Door, the hall with its bench, the olive tree and the portal, the Glide along the garden side](../design/img/above/crown-arrival.jpg)
 
 ### The great salon
 

@@ -157,7 +157,8 @@ CROWN = dict(
              facts=[("Rooms", "C-01 Suit room · C-02 Pod hangar · C-03 The Door · C-04 Arrival hall; C-05 Dock control upstairs"),
                     ("Made of", "Polished basalt underfoot, regolith plaster, an olive-wood bench, bronze reveals round the slots."),
                     ("In it", "The bench, an olive tree, and at the far end the portal to the Orb, the other spires and the Pentagon.")],
-             photos=[("../tour/photos/crown_arrival.jpg", "The Arrival hall: basalt, the bench and the slots.")], views=[("crown_arrival", "The Arrival hall")], plan=("img/plan/crown-arrival.jpg", "Part 1 of the ring, east.")),
+             photos=[("../tour/photos/crown_arrival.jpg", "The Arrival hall: polished basalt, the olive tree, the sun through the slots and the portal at the far end.")], views=[("crown_arrival", "The Arrival hall")], plan=("img/plan/crown-arrival.jpg", "Part 1 of the ring, east."),
+             above=("img/above/crown-arrival.jpg", "the pod hangar at the left end, then the Door, and the Arrival hall: the bench, the olive tree and the portal at the right end; the Glide along the garden side.")),
         dict(id="suite_up", codes=["C-06", "C-07", "C-08"], k="C-06 to C-08 · part 2 · south-east", name="The master suite up",
              purpose="Jim's morning rooms: the bed faces the south-east slot, so the sun rises straight across the room. He sleeps below ground most nights; this suite is for mornings, naps and the view.",
              facts=[("Rooms", "C-06 Dressing room · C-07 Bedroom up · C-08 Bath up, with a soaking tub by the slots"), ("Size", "537 m² inside the walls, in the Crown's south-east dip."),
@@ -287,7 +288,7 @@ MEMORY = dict(id="memory", codes=["L1-14"], k="L1-14 · ring D · Jim's residenc
                      ("Next to", "The letters room and the family's history on either side, through open doorways; the street in front.")],
               photos=[("../tour/photos/memory.jpg", "The gallery of photographs: the places of Jim's life hung close on the deep green wall, the cases of keepsakes."), ("../tour/photos/memory2.jpg", "From the memoir desk: the cases, the reading table and the doorway to the next room.")],
               views=[("memory", "In the memory rooms")], plan=("img/plan/l1-memory.jpg", "Ring D of Jim's residence, behind the suite and the kitchen."),
-              above=("img/above/l1-memory.jpg", "the photographs along the top wall, the two cases in the middle, the reading table and the armchairs by the door at the bottom, the memoir desk at the right, the doorways to the next rooms at either end."))
+              above=("img/above/l1-memory.jpg", "the photographs along the wall at the top, the two cases on the rug in the middle, the reading table at the bottom left and the armchairs at the bottom right, the memoir desk at the top right; the next rooms through the doorways at either end."))
 if photo_ok(MEMORY["photos"][0][0]):           # the memory rooms get their own entry once their first picture is published
     for r in RESIDENCE["rooms"]:
         if r["id"] == "back":

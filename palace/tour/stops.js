@@ -27,10 +27,10 @@ window.TOUR_STOPS = [
     links: [{ id: "bridge", at: [2.9, -28.1, -42.5], label: "Portal: up to L1" }] },
 
   /* The master suite down, across the street behind the family room (ring B of sector 1). */
-  { id: "bedroom", ready: false, name: "The bedroom down", short: "Bedroom", k: "L1 · Master suite down", p: [10.4, 23.4], az0: -87, img: "pano/bedroom.jpg",
+  { id: "bedroom", name: "The bedroom down", short: "Bedroom", k: "L1 · Master suite down", p: [10.4, 23.4], az0: -87, img: "pano/bedroom.jpg",
     d: "Where Jim sleeps most nights: an upholstered headboard wall in vertical channels, walnut and pale oak, the bed facing the moss garden through the glass, two chairs by the window and sheer curtains.",
     links: [{ id: "garden", at: [6.4, 22.0, 0], label: "Out into the moss garden" }, "bath"] },
-  { id: "garden", ready: false, name: "The moss garden", short: "Moss garden", k: "L1 · Master suite down", p: [2.17, 21.6], z: 0.05, az0: 38, img: "pano/garden.jpg",
+  { id: "garden", name: "The moss garden", short: "Moss garden", k: "L1 · Master suite down", p: [2.17, 21.6], z: 0.05, az0: 38, img: "pano/garden.jpg",
     d: "The heart of the suite, open to a sky ceiling: moss in cushions round a pond with maple leaves floating on it, a Japanese maple, a stone lantern that glows at night, a water basin fed by a bamboo spout, ferns and clipped box.",
     links: ["bedroom", "bath"] },
   { id: "bath", ready: false, name: "The bath down", short: "Bath", k: "L1 · Master suite down", p: [-11.6, 23.4], az0: 87, img: "pano/bath.jpg",
@@ -56,7 +56,7 @@ window.TOUR_STOPS = [
     d: "Forty velvet seats in four rows under a ceiling of stars, walnut walls, curtains drawn across the glass, and a screen 12 m wide. Tonight: the Earth.",
     links: [{ id: "bridge", at: [22.34, -16.83, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
 
-  { id: "memory", ready: false, name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.7], az0: 10, img: "pano/memory.jpg",
+  { id: "memory", name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.7], az0: 10, img: "pano/memory.jpg",
     d: "Jim's keepsakes from Earth: photographs of the places of his life hung close on walls of deep green under brass picture lights, two glass cases of letters, a pocket watch and the things he brought from home, the albums on a reading table, and the desk where he records his memoirs.",
     links: [{ id: "kitchen", label: "Back along the streets: the kitchen" }] },
   { id: "cellar", rot: 288, name: "The wine cellar", short: "Wine cellar", k: "L1 · The club", p: [79.67, -0.73], az0: 49, img: "pano/cellar.jpg",
@@ -134,5 +134,11 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_garden.jpg", caption: "The sky garden in the Crown: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun on the inner wall." },
   { img: "photos/guests.jpg", caption: "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites." },
   { img: "photos/cellar.jpg", caption: "The wine cellar: the tasting table under the iron chandelier, an aisle of racks and casks beyond the arch." },
-  { img: "photos/cellar2.jpg", caption: "Down an aisle of the wine cellar: racks and casks between the brick ribs, the tasting room at the end." }
+  { img: "photos/cellar2.jpg", caption: "Down an aisle of the wine cellar: racks and casks between the brick ribs, the tasting room at the end." },
+  { img: "photos/suite_bedroom.jpg", caption: "The bedroom down: the bed against its panelled wall, walnut and oak, the lamps lit for the evening." },
+  { img: "photos/suite_garden.jpg", caption: "The moss garden: a maple, a stone lantern and a pool among the rocks, open to the light from above." },
+  { img: "photos/suite_bath.jpg", caption: "The bath down: the vanity on its green marble wall, the shower and the bath." },
+  { img: "photos/memory.jpg", caption: "The memory rooms: Jim's photographs hung close on the deep green wall, the cases of keepsakes." },
+  { img: "photos/memory2.jpg", caption: "The memory rooms from the memoir desk: the cases, the reading table, the doorway to the next room." },
+  { img: "photos/crown_arrival.jpg", caption: "The Arrival hall in the Crown: polished basalt, the olive tree, the sun through the slots and the portal at the far end." }
 ];

@@ -132,5 +132,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_telescope.jpg", caption: "The telescope room in the Crown's Observatory at night: screens showing what the telescope sees, the Milky Way in the slots, and the portal up to the dome." },
   { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for six under a glass globe, an olive tree, and the morning sun through the east slots laid across the inner wall." },
   { img: "photos/crown_garden.jpg", caption: "The sky garden in the Crown: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun on the inner wall." },
-  { img: "photos/guests.jpg", caption: "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites." }
+  { img: "photos/guests.jpg", caption: "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites." },
+  { img: "photos/cellar.jpg", caption: "The wine cellar: the tasting table under the iron chandelier, an aisle of racks and casks beyond the arch." },
+  { img: "photos/cellar2.jpg", caption: "Down an aisle of the wine cellar: racks and casks between the brick ribs, the tasting room at the end." }
 ];

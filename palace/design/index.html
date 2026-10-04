@@ -158,6 +158,7 @@
       <a href="rooms-crown.html"><img src="../tour/photos/crown_salon.jpg" alt="" loading="lazy"><span><small>Above ground · 02·1</small><b>The Crown, room by room</b><em>The ten parts of the ring: Arrival, the master suite up, the Salon, Wellness, Dining, the sunset lounge, the Library, the Studio, the Observatory, the Garden room.</em></span></a>
       <a href="rooms-residence.html"><img src="../tour/photos/hero.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·1</small><b>Jim's residence</b><em>The family room, the music room, the dining room and its bar, the master suite down round its moss garden.</em></span></a>
       <a href="rooms-atrium.html"><img src="../tour/photos/living.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·2</small><b>Round the atrium</b><em>The terraces, the bridges and the sun court; the great library, the thermal baths, the cinema and the guest lounge.</em></span></a>
+      <a href="rooms-club.html"><img src="../tour/photos/cellar2.jpg" alt="" loading="lazy"><span><small>Below ground, L1 · 03·3</small><b>The club</b><em>The wine cellar: a tasting room under a brick vault and aisles of racks and casks along the ring.</em></span></a>
     </div>
   </section>
 
@@ -197,7 +198,7 @@
 <script src="explorer.js"></script>
 <script>
 (function () {
-  var C = document.getElementById("chapters"), IMG = { mars: "th-mars.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
+  var C = document.getElementById("chapters"), IMG = { mars: "th-mars.jpg", living: "th-living.jpg", site: "th-site.jpg", crown: "th-crown.jpg", "rooms-crown": "th-rooms-crown.jpg", "rooms-residence": "th-rooms-residence.jpg", "rooms-atrium": "th-rooms-atrium.jpg", "rooms-club": "th-rooms-club.jpg", pentagon: "th-pentagon.svg", interiors: "th-interiors.svg", power: "th-power.svg", transport: "th-transport.jpg", spaceport: "th-spaceport.jpg", life: "th-life.svg", space: "th-space.svg", phases: "th-phases.svg" };
   BOOK.CH.slice(1).forEach(function (c) {
     var ready = BOOK.READY[c[0]], a = document.createElement(ready ? "a" : "div"); a.className = "ch" + (ready ? "" : " soon"); if (ready) a.href = c[4] || c[0] + ".html";
     a.innerHTML = '<div class="th"><img src="img/' + IMG[c[0]] + '" alt="" loading="lazy" width="232" height="232"></div><div class="tx"><span>' + c[1] + "</span><b>" + c[2] + "</b><em>" + c[3] + "</em></div>";

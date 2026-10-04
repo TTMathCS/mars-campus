@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L1 · the club · Design plan</title>
+<meta name="description" content="Sector 2 of L1, behind the cinema: the rooms for evenings with guests. Across the first street, the games room; across the next, the ballroom, where visitors are welcomed every 26 months; then Arcadia">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="book.css">
+<style>
+  .area-plan { margin: 22px 0 0; max-width: 860px; }
+  .rm { padding: 34px 0 6px; border-top: 1px solid var(--rule); margin-top: 32px; }
+  .rm > small { display: block; font: 600 12.5px/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--route); margin-bottom: 8px; }
+  .rm > h2 { margin: 0 0 8px; font: 700 34px/1.05 var(--f-display); }
+  .rm .purpose { margin: 0 0 18px; max-width: 72ch; color: var(--ink-2); font-size: 18.5px; }
+  .rm .grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .rm .grid > div { display: grid; gap: 14px; min-width: 0; }
+  .rm figure { margin: 0; background: var(--sheet); border: 1px solid var(--rule); }
+  .rm figure img { width: 100%; height: auto; display: block; }
+  .rm figcaption { padding: 8px 12px 10px; font-size: 14px; line-height: 1.45; color: var(--ink-2); border-top: 1px solid var(--rule); }
+  .rm table.spec { margin: 0; }
+  .rm table.spec th { width: 92px; }
+  .pano { position: relative; aspect-ratio: 16 / 9; background: #0e1012; overflow: hidden; }
+  .pano img { width: 100%; height: 100%; object-fit: cover; }
+  .pano iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .pano .play { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .pano .play button, .pano .play a { font: 600 14.5px var(--f-body); padding: 9px 14px; border: 0; background: rgba(16, 18, 20, .82); color: #f4efe8; cursor: pointer; text-decoration: none; }
+  .pano .play button { background: #f4efe8; color: #16191b; }
+  .pano .tag { position: absolute; left: 12px; top: 12px; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; background: rgba(16, 18, 20, .78); color: #f4efe8; }
+  .toc { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin: 18px 0 0; }
+  .toc a { display: block; background: var(--sheet); border: 1px solid var(--rule); text-decoration: none; }
+  .toc a img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .toc a .nm { display: block; padding: 8px 10px; font: 600 17px/1.15 var(--f-display); }
+  .toc a .nm small { display: block; font: 500 11px var(--f-mono); color: var(--ink-3); letter-spacing: .04em; margin-bottom: 2px; }
+  .toc a img.map { object-fit: contain; background: #F7F5F0; }
+  @media (max-width: 880px) { .rm .grid { grid-template-columns: minmax(0, 1fr); } }
+  img.zoom { cursor: zoom-in; }
+  .lightbox { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 48px 16px 16px; background: rgba(12, 13, 14, .92); cursor: zoom-out; }
+  .lightbox img { max-width: calc(100vw - 32px); max-height: calc(100vh - 64px); object-fit: contain; background: #f6f6f4; }
+  .lightbox span { position: absolute; right: 16px; top: 10px; padding: 5px 10px; background: rgba(16, 18, 20, .9); color: #f4efe8; font: 600 14px var(--f-body); }
+</style>
+</head>
+<body data-ch="rooms-club">
+<main class="wrap"><div class="open"><div class="no">Design plan · 03 · 3</div><h1>L1 · the club</h1><p class="lede">Sector 2 of L1, behind the cinema: the rooms for evenings with guests. Across the first street, the games room; across the next, the ballroom, where visitors are welcomed every 26 months; then Arcadia&#x27;s one wine cellar, cool and steady below ground; and the club&#x27;s stores at the back.</p></div><div class="toc"><a href="#cellar"><img src="../tour/photos/cellar.jpg" alt="" loading="lazy"><span class="nm"><small>L1-20</small>The wine cellar</span></a></div><figure class="fig area-plan"><img class="zoom" src="img/plan/l1-club.jpg" alt="Floor plan: L1 · the club" loading="lazy"><figcaption><b>The floor plan.</b> Where it is: sector 2 of L1, behind the cinema. Shaded, rings B to E: the games room, the ballroom, the wine cellar and the club&#x27;s stores. Click to enlarge.</figcaption></figure><section class="rm" id="cellar"><small>L1-20 · ring D · sector 2</small><h2>The wine cellar</h2><p class="purpose">Arcadia&#x27;s one cellar, the whole of ring D behind the ballroom: a tasting room under a brick vault in the middle, and from it two aisles running 44 m along the ring each way, the bottles in racks between brick ribs and oak casks in some bays. It sends wine up to the Crown&#x27;s wine room (C-16) for the dinners.</p><div class="grid"><div><figure><img src="../tour/photos/cellar.jpg" alt="The tasting room: the oak table under the iron chandelier, an aisle of racks beyond the arch." loading="lazy" width="1600" height="900"><figcaption>The tasting room: the oak table under the iron chandelier, an aisle of racks beyond the arch.</figcaption></figure><figure><img src="../tour/photos/cellar2.jpg" alt="Down an aisle: racks and casks between the brick ribs, the tasting room&#x27;s light at the end." loading="lazy" width="1600" height="900"><figcaption>Down an aisle: racks and casks between the brick ribs, the tasting room&#x27;s light at the end.</figcaption></figure></div><div><table class="spec"><tbody><tr><th>Size</th><td>1,640 m²: ring D is 14 m deep and 107 to 128 m long. The tasting room 12 m square and 6.2 m high under its vault; the aisles 4.2 m wide and 4.6 m high.</td></tr><tr><th>Made of</th><td>Brick fired from Mars soil in the kilns that make the Pentagon&#x27;s panels; a floor of terracotta tiles from the same kilns; racks and casks of oak; black iron.</td></tr><tr><th>In it</th><td>Racks for about 30,000 bottles; oak casks on cradles; an oak table for ten with a decanter, glasses and candles under an iron chandelier; a sommelier&#x27;s counter by the door.</td></tr><tr><th>Keeps</th><td>13 °C and 70% humidity, all year: below ground nothing changes from day to night or summer to winter.</td></tr><tr><th>Light</th><td>Warm and low: a sconce on every pier, lamps on top of the racks washing the vaults, the chandelier and the candles at the table.</td></tr><tr><th>Next to</th><td>The street in front, the ballroom (L1-19) across it; the club&#x27;s stores (L1-21) behind.</td></tr></tbody></table><figure><img class="zoom" src="img/plan/l1-cellar.jpg" alt="Where The wine cellar is on the floor plan" loading="lazy"><figcaption><b>Where it is.</b> Ring D of sector 2. Click to enlarge.</figcaption></figure></div></div></section></main>
+<script src="book.js"></script>
+<script>
+document.querySelectorAll('.pano button[data-stop]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var box = b.closest('.pano'), f = document.createElement('iframe');
+    f.src = '../tour/index.html?embed#' + b.getAttribute('data-stop'); f.title = '360° view: ' + b.getAttribute('data-name'); f.allow = 'fullscreen';
+    box.querySelectorAll('img, .tag').forEach(function (e) { e.remove(); }); b.remove(); box.appendChild(f);
+  });
+});
+// a floor plan opens full size over the page; a click or Esc closes it
+function closeBox() { var l = document.querySelector('.lightbox'); if (l) l.remove(); }
+document.querySelectorAll('img.zoom').forEach(function (im) {
+  im.addEventListener('click', function () {
+    var l = document.createElement('div'); l.className = 'lightbox';
+    l.innerHTML = '<img alt=""><span>Close ✕</span>'; l.querySelector('img').src = im.src; l.querySelector('img').alt = im.alt;
+    l.addEventListener('click', closeBox); document.body.appendChild(l);
+  });
+});
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBox(); });
+</script>
+</body>
+</html>

@@ -95,6 +95,24 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 
 ![The cinema from above, the ceiling taken off: the screen, four rows of ten seats on their steps, the curtained glass onto the atrium](../design/img/above/l1-cinema.jpg)
 
+## The Pentagon, L1: the club
+
+### The wine cellar
+
+![The wine cellar: the tasting table under the iron chandelier, an aisle of racks and casks beyond the brick arch](../tour/photos/cellar.jpg)
+
+![Down an aisle of the wine cellar: racks and casks between the brick ribs, the tasting room at the end](../tour/photos/cellar2.jpg)
+
+- **The room:** L1-20, all of ring D of sector 2, behind the ballroom: 1,640 m². A tasting room 12 m square under a
+  brick vault 6.2 m high in the middle; from it two aisles 4.2 m wide run 44 m along the ring each way.
+- **Made of:** brick fired from Mars soil in the kilns that make the Pentagon's panels; terracotta tiles; oak racks
+  and casks; black iron.
+- **In it:** racks for about 30,000 bottles between the brick ribs, oak casks in some bays, an oak table for ten with
+  a decanter, glasses and candles under an iron chandelier, a sommelier's counter by the door. It sends wine up to
+  the Crown's wine room (C-16).
+- **Light:** a sconce on every pier and an uplight grazing the vault above it, a warm light over every rack, the
+  chandelier and the candles.
+
 ## The Crown
 
 The Crown's rooms run round the ring, 41 m above the plain, between the garden-side wall with the Glide along it and

@@ -36,10 +36,14 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
     vaults, a light over every rack); the memory rooms are close (a smaller room, photographs hung close in three
     rows; the skylight softened). The sky garden is reworked (pebbles, stepping stones, fuller beds, box, a basin, ivy
     up the wall, a low camera among the plants) and its final still and 360 are in the queue.
-  - Tour stops for the four new rooms are in `stops.js`, hidden. `gen_plan.py` has the new area pages ready but not
-    in `AREAS` (CLUB `rooms-club` 03·3, SPORT `rooms-sport` 03·4, GARDEN `rooms-garden` 03·5): add an area to
-    `AREAS` and to `book.js` (CH and READY) only when its first pictures are published; a memory-rooms entry for
-    RESIDENCE is still to write (take L1-14 out of the "back" entry).
+  - Tour stops for the four new rooms are in `stops.js`, hidden. `gen_plan.py` writes the new area pages (CLUB
+    `rooms-club` 03·3, SPORT `rooms-sport` 03·4, GARDEN `rooms-garden` 03·5) and the memory rooms' entry on the
+    residence page by itself, once their first photo exists; `book.js` (CH, READY) and the index card still need
+    adding by hand for each new page (for the club: `blend/add_club_page.py` in the scratchpad does it).
+  - Later the same morning: the sky garden's new photo and 360 published (pebbles, fuller beds, basin, ivy); trees'
+    leaves no longer stray into the air (`furn.olive_tree`); the Studio reworked (a sitting group facing the easels,
+    a still life, a closer camera; preview queued); the lap pool reworked (warm limestone, the oak ceiling washed
+    with light, the street lit); the lake reframed (lower, 22 mm, a bluer sky). The cellar's finals are rendering.
 
 - **3 Oct, from 01:50 UTC, session `session_01U4NrzcFVFwFYPq6dhgJtP1` (working; it can reach PyPI, so it runs the
   renders):**

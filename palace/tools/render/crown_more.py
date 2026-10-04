@@ -371,94 +371,105 @@ def gallery(M, rnd):
 
 
 # ---------------------------------------------------------------- C-06 the dressing room
-def hanging(r, bb, z_rail, M, rnd):
-    """clothes on hangers along a rail: jackets, shirts, a coat, in Jim's colours"""
-    cols = [(0.08, 0.09, 0.14), (0.75, 0.74, 0.70), (0.30, 0.26, 0.20), (0.45, 0.47, 0.50), (0.16, 0.12, 0.09), (0.62, 0.55, 0.42)]
-    k = 0; n = 7
-    for i in range(n):
-        b_ = bb + tang(-0.38 + 0.76 * i / (n - 1), r); h = rnd.choice((0.75, 0.8, 1.05, 1.2)); c = rnd.choice(cols)
-        lib.box("garment", (0.04, 0.5, h), at(r, b_, z_rail - 0.05 - h / 2), lib.fabric("garment %d" % (k % 6), c, 0.85, 0.3), bevel=0.012, rot_z=face_in(b_) + math.pi / 2 + rnd.uniform(-0.06, 0.06))
-        lib.box("hanger", (0.012, 0.42, 0.02), at(r, b_, z_rail - 0.04), M["walnut"], rot_z=face_in(b_) + math.pi / 2)
-        k += 1
-
-
 SUITE_DOORS = 109.3                       # the master suite's doors onto the Glide, in the dressing room
 
 
+def wardrobe_run(wb, side, r0, r1, M, rnd, H=3.2, D_=0.62, kinds=("door", "hang", "door", "shelves", "mirror")):
+    """walnut wardrobes 3.2 m tall along the cross wall at bearing wb, from radius r0 to r1, in bays about 1 m wide:
+    pairs of doors, open bays of hanging clothes lit from above, open shelves of folded clothes and shoes, a tall
+    mirror. side: +1 if the room lies clockwise of the wall, -1 if anticlockwise"""
+    w = wb + side * FACE; rot_in = face_cw(wb) if side > 0 else face_ccw(wb)
+    def B(d0, d1, r):                       # the bearings from d0 to d1 metres out from the wall, at radius r
+        a, b = w + side * tang(d0, r), w + side * tang(d1, r); return (min(a, b), max(a, b))
+    n = max(1, int(round((r1 - r0) / 1.0))); W = (r1 - r0) / n
+    garments = [lib.fabric("garment %d" % i, c, 0.85, 0.3) for i, c in enumerate(((0.08, 0.09, 0.14), (0.75, 0.74, 0.70), (0.30, 0.26, 0.20), (0.45, 0.47, 0.50), (0.16, 0.12, 0.09), (0.62, 0.55, 0.42)))]
+    for k in range(n):
+        ra, rc = r0 + k * W, r0 + (k + 1) * W; rm = (ra + rc) / 2; kind = kinds[k % len(kinds)]
+        crown.curved_box("wardrobe back", ra, rc, *B(0.0, 0.03, rm), 0.0, H, M["oak_panel"])
+        for e in (ra, rc): crown.curved_box("wardrobe side", e - 0.012, e + 0.012, *B(0.0, D_, e), 0.0, H, M["walnut_v"])
+        crown.curved_box("wardrobe top", ra, rc, *B(0.0, D_, rm), H - 0.04, H, M["walnut"])
+        crown.curved_box("wardrobe plinth", ra, rc, *B(0.0, D_ - 0.04, rm), 0.0, 0.08, M["shadow"])
+        if kind in ("door", "mirror"):
+            mat = M["mirror"] if kind == "mirror" else M["walnut_v"]
+            for (q0, q1) in ((ra + 0.006, rm - 0.004), (rm + 0.004, rc - 0.006)) if kind == "door" else ((ra + 0.03, rc - 0.03),):
+                crown.curved_box("wardrobe door", q0, q1, *B(D_ - 0.02, D_, rm), 0.09, H - 0.05, mat)
+            if kind == "mirror":
+                for (q0, q1) in ((ra + 0.006, ra + 0.03), (rc - 0.03, rc - 0.006)): crown.curved_box("mirror frame", q0, q1, *B(D_ - 0.025, D_, rm), 0.09, H - 0.05, M["bronze_dark"])
+            else:
+                for s_ in (-1, 1): lib.box("pull", (0.025, 0.012, 0.6), at(rm + s_ * 0.05, B(D_ + 0.012, D_ + 0.012, rm)[0], 1.25), M["bronze"], rot_z=rot_in)
+        elif kind == "hang":
+            crown.curved_box("rail", ra + 0.02, rc - 0.02, *B(D_ / 2 - 0.01, D_ / 2 + 0.01, rm), 2.25, 2.27, M["bronze"])
+            r = ra + 0.08
+            while r < rc - 0.06:
+                g = rnd.choice(garments); ln = rnd.choice((0.75, 0.9, 1.05, 1.3))
+                bb = (B(D_ / 2, D_ / 2, r)[0])
+                lib.box("garment", (0.46, 0.035, ln), at(r, bb, 2.22 - ln / 2), g, bevel=0.012, rot_z=face_in(bb))
+                r += rnd.uniform(0.07, 0.11)
+            crown.curved_box("hat shelf", ra, rc, *B(0.0, D_ - 0.02, rm), 2.42, 2.45, M["walnut"])
+            crown.curved_box("strip light", ra + 0.03, rc - 0.03, *B(D_ - 0.08, D_ - 0.06, rm), 2.405, 2.42, lib.emission("wardrobe light", (1.0, 0.82, 0.6), 8))
+        else:
+            for z in (0.45, 0.85, 1.25, 1.65, 2.05, 2.45):
+                crown.curved_box("shelf", ra, rc, *B(0.0, D_ - 0.04, rm), z, z + 0.025, M["walnut"])
+                for j in range(2):
+                    q = at(ra + (rc - ra) * (0.28 + 0.44 * j), B(0.3, 0.3, rm)[0], z + 0.025)
+                    c = rnd.choice(((0.75, 0.74, 0.70), (0.10, 0.11, 0.16), (0.42, 0.40, 0.38), (0.55, 0.46, 0.34)))
+                    for t in range(rnd.randint(3, 6)):
+                        lib.box("folded", (0.32, 0.26, 0.045), (q[0], q[1], q[2] + 0.023 + t * 0.046), lib.fabric("folded %d" % int(c[0] * 100), c, 0.9, 0.3), bevel=0.01, rot_z=rot_in + rnd.uniform(-0.04, 0.04))
+            for j in range(3):          # shoes on the bottom
+                q = at(ra + (rc - ra) * (0.2 + 0.3 * j), B(0.3, 0.3, rm)[0], 0.1)
+                lib.box("shoe", (0.1, 0.28, 0.08), (q[0], q[1], 0.14), M["leather"] if j != 1 else M["leather_tan"], bevel=0.03, rot_z=rot_in)
+
+
 def dressing_room(M, rnd):
-    """C-06, the dressing room (108 to 116.64), next to the bedroom up: clothes for the day. Walnut wardrobes along the
-    outer wall under the slots, some open on hanging clothes and folded shelves; an island of drawers; a long mirror;
-    a bench; pale oak walls and a screen onto the Glide, as in the bedroom"""
+    """C-06, the dressing room (108 to 116.64), next to the bedroom up: clothes for the day (furnishing.py). Walnut
+    wardrobes 3.2 m tall along both cross walls, so the windows stay clear: doors, open bays of hanging clothes lit from
+    above, shelves of folded clothes, a tall mirror; an island of walnut drawers with a marble top, 4 m, globes over
+    it; a round velvet ottoman 1.6 m across; a chaise by the window; Matisse's Woman with a Hat by the bedroom's door;
+    frosted glass onto the Glide with the suite's pivot doors"""
+    import seating, tables, lights, plants
     b0, b1 = 108.0, 116.64
     mats(M)
     crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"], part_walls=False)
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = CR.imports(M); bc = (b0 + b1) / 2
-    # the suite's front: glass onto the Glide, frosted, and its doors, a pair of walnut pivot doors 4 m tall
+    bc = (b0 + b1) / 2
     crown.partition(b0, M, M["oak_panel"]); crown.partition(b1, M, M["oak_panel"], opening=CR.SUITE_DOOR, head=3.6)
     crown.glass_wall("suite glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(SUITE_DOORS, 2.6)]); crown.glide_lights(b0, b1)
-    # wardrobes: 1 m sections, closed doors and open bays in turn
-    a = b0 + tang(0.7, R_OUT); W = tang(1.0, R_OUT - 0.3); n = int((b1 - tang(0.7, R_OUT) - a) / W)
-    for k in range(n):
-        s0, s1 = a + k * W, a + (k + 1) * W; sm = (s0 + s1) / 2; kind = ("door", "hang", "door", "shelves")[k % 4]
-        crown.curved_box("wardrobe back", R_OUT - 0.08, R_OUT - 0.05, s0, s1, 0.0, 2.6, M["oak_panel"])
-        for e in (s0, s1): crown.curved_box("wardrobe side", R_OUT - 0.66, R_OUT - 0.05, e - tang(0.012, R_OUT), e + tang(0.012, R_OUT), 0.0, 2.6, M["walnut_v"])
-        crown.curved_box("wardrobe top", R_OUT - 0.66, R_OUT - 0.05, s0, s1, 2.56, 2.6, M["walnut"])
-        crown.curved_box("wardrobe plinth", R_OUT - 0.62, R_OUT - 0.05, s0, s1, 0.0, 0.08, M["shadow"])
-        if kind == "door":
-            crown.curved_box("wardrobe door", R_OUT - 0.66, R_OUT - 0.64, s0 + tang(0.006, R_OUT), sm - tang(0.004, R_OUT), 0.09, 2.55, M["walnut_v"])
-            crown.curved_box("wardrobe door", R_OUT - 0.66, R_OUT - 0.64, sm + tang(0.004, R_OUT), s1 - tang(0.006, R_OUT), 0.09, 2.55, M["walnut_v"])
-            for s_ in (-1, 1): lib.box("pull", (0.012, 0.025, 0.6), at(R_OUT - 0.68, sm + s_ * tang(0.05, R_OUT), 1.2), M["bronze"], rot_z=face_in(sm))
-        elif kind == "hang":
-            crown.curved_box("rail", R_OUT - 0.36, R_OUT - 0.34, s0, s1, 1.95, 1.97, M["bronze"])
-            hanging(R_OUT - 0.35, sm, 1.97, M, rnd)
-            crown.curved_box("hat shelf", R_OUT - 0.62, R_OUT - 0.05, s0, s1, 2.1, 2.13, M["walnut"])
-            crown.curved_box("strip light", R_OUT - 0.55, R_OUT - 0.53, s0 + tang(0.03, R_OUT), s1 - tang(0.03, R_OUT), 2.095, 2.1, lib.emission("wardrobe light", (1.0, 0.82, 0.6), 8))
-        else:
-            for z in (0.45, 0.85, 1.25, 1.65, 2.05):
-                crown.curved_box("shelf", R_OUT - 0.62, R_OUT - 0.05, s0, s1, z, z + 0.025, M["walnut"])
-                for j in range(2):
-                    q = at(R_OUT - 0.32, s0 + (s1 - s0) * (0.28 + 0.44 * j), z + 0.025)
-                    c = rnd.choice(((0.75, 0.74, 0.70), (0.10, 0.11, 0.16), (0.42, 0.40, 0.38), (0.55, 0.46, 0.34)))
-                    for t in range(rnd.randint(3, 6)):
-                        lib.box("folded", (0.32, 0.26, 0.045), (q[0], q[1], q[2] + 0.023 + t * 0.046), lib.fabric("folded %d" % int(c[0] * 100), c, 0.9, 0.3), bevel=0.01, rot_z=face_in(sm) + rnd.uniform(-0.04, 0.04))
-            for j in range(3):          # shoes on the bottom
-                q = at(R_OUT - 0.3, s0 + (s1 - s0) * (0.2 + 0.3 * j), 0.1)
-                for s_ in (-0.05, 0.05):
-                    lib.box("shoe", (0.1, 0.28, 0.08), (q[0] + s_ * math.cos(sm * D), q[1] - s_ * math.sin(sm * D), 0.14), M["leather"] if j != 1 else M["leather_tan"], bevel=0.03, rot_z=face_in(sm))
-    # the island: walnut drawers, a glass top over watches and cufflinks
-    L_ = 2.4
-    crown.curved_box("island", RM - 0.1, RM + 0.75, bc - tang(L_ / 2), bc + tang(L_ / 2), 0.0, 0.88, M["walnut_v"])
+    wardrobe_run(b0, 1, R_GL + 4.4, R_OUT - 1.3, M, rnd)
+    wardrobe_run(b1, -1, R_OUT - 6.6, R_OUT - 1.3, M, rnd, kinds=("hang", "door", "shelves", "hang", "door"))
+    # the island: walnut drawers under a marble top, a glass tray of watches; globes over it; a white orchid
+    L_ = 4.0; ri = RM + 0.6
+    crown.curved_box("island", ri - 0.45, ri + 0.45, bc - tang(L_ / 2, ri), bc + tang(L_ / 2, ri), 0.0, 0.9, M["walnut_v"])
     for z in (0.3, 0.6):
-        crown.curved_box("drawer joint", RM - 0.105, RM - 0.1, bc - tang(L_ / 2 - 0.05), bc + tang(L_ / 2 - 0.05), z, z + 0.006, M["shadow"])
-        crown.curved_box("drawer joint", RM + 0.75, RM + 0.755, bc - tang(L_ / 2 - 0.05), bc + tang(L_ / 2 - 0.05), z, z + 0.006, M["shadow"])
-    crown.curved_box("island tray", RM - 0.05, RM + 0.7, bc - tang(L_ / 2 - 0.05), bc + tang(L_ / 2 - 0.05), 0.86, 0.88, M["leather_tan"])
-    crown.curved_box("island glass", RM - 0.1, RM + 0.75, bc - tang(L_ / 2), bc + tang(L_ / 2), 0.93, 0.945, M["glass"])
+        for e in (ri - 0.455, ri + 0.45): crown.curved_box("drawer joint", e, e + 0.005, bc - tang(L_ / 2 - 0.05, ri), bc + tang(L_ / 2 - 0.05, ri), z, z + 0.006, M["shadow"])
+    crown.curved_box("island top", ri - 0.5, ri + 0.5, bc - tang(L_ / 2 + 0.04, ri), bc + tang(L_ / 2 + 0.04, ri), 0.9, 0.94, M["marble"])
+    crown.curved_box("island tray", ri - 0.3, ri + 0.3, bc - tang(1.0, ri), bc + tang(0.4, ri), 0.94, 0.95, M["leather_tan"])
     for i in range(6):
-        q = at(RM + 0.32 + rnd.uniform(-0.15, 0.15), bc + tang(-0.9 + 0.36 * i), 0.885)
+        q = at(ri + rnd.uniform(-0.18, 0.18), bc + tang(-0.9 + 0.22 * i, ri), 0.95)
         lib.cyl("watch", 0.02, 0.012, q, M["steel"] if i % 2 else M["brass"], verts=24)
         lib.box("watch strap", (0.024, 0.16, 0.004), (q[0], q[1], q[2] + 0.002), M["leather"], rot_z=rnd.uniform(0, 3))
-    # the long mirror on the partition by the Door, a bench, a pouf, a valet stand, a rug
-    mb = b0 + FACE + tang(0.012, RM)
-    lib.box("mirror", (1.0, 0.01, 2.1), at(RM + 1.0, mb, 1.1), M["mirror"], rot_z=face_cw(mb))
-    lib.box("mirror frame", (1.06, 0.012, 2.16), at(RM + 1.0, mb - tang(0.005, RM), 1.1), M["bronze_dark"], rot_z=face_cw(mb))
-    lib.box("bench", (1.6, 0.45, 0.45), at(RM - 1.0, bc, 0.225), M["bed_fabric"], bevel=0.03, rot_z=face_in(bc), segs=4)
-    lib.instance_of(S["pouf"], at(RM + 0.3, bc + tang(2.4), 0.0), 0.0)
-    lib.box("rug", (4.6, 3.4, 0.014), at(RM + 0.3, bc, 0.007), M["rug"], bevel=0.006, rot_z=face_in(bc), segs=2)
-    vb = bc - tang(2.6)
-    lib.cyl("valet pole", 0.012, 1.3, at(RM + 1.2, vb, 0.0), M["walnut"], verts=12)
-    lib.box("valet bar", (0.44, 0.03, 0.03), at(RM + 1.2, vb, 1.3), M["walnut"], rot_z=face_in(vb))
-    lib.box("jacket", (0.48, 0.04, 0.75), at(RM + 1.2, vb, 0.9), lib.fabric("garment 0", (0.08, 0.09, 0.14), 0.85, 0.3), bevel=0.015, rot_z=face_in(vb))
-    lib.instance_of(S["plant"], at(R_GL + 0.6, b1 - tang(0.9), 0.0), 1.1, 1.7)
+    plants.make("orchid", at(ri, bc + tang(1.2, ri), 0.94), seed=110, pot=(0.24, 0.12, "white"), colour="white")
+    lights.globes("island globes", at(ri, bc), n=9, spread=1.4, low=2.2, high=3.0, ceiling=ceil_at(bc), watts=34, seed=6)
+    # the ottoman between the island and the Glide, the chaise by the window, a rug, a valet stand
+    lib.box("rug", (6.4, 4.6, 0.014), at(RM - 0.6, bc, 0.007), M["rug"], bevel=0.006, rot_z=face_in(bc), segs=2)
+    seating.ottoman("dressing ottoman", at(RM - 2.2, bc, 0.0), d=1.6, h=0.44, fabric_mat=seating.fabric("dusk velvet", (0.36, 0.26, 0.30), "velvet"), seed=111)
+    cb = bc + tang(1.6, R_OUT - 1.6)
+    seating.daybed("dressing chaise", at(R_OUT - 1.7, cb, 0.0), face_cw(cb) + 0.5, length=2.0, width=0.85, fabric_mat=seating.fabric("dressing linen", (0.70, 0.66, 0.58), "linen"), seed=112)
+    vb = bc - tang(2.6, R_OUT - 2.2)
+    lib.cyl("valet pole", 0.012, 1.3, at(R_OUT - 2.2, vb, 0.0), M["walnut"], verts=12)
+    lib.box("valet bar", (0.44, 0.03, 0.03), at(R_OUT - 2.2, vb, 1.3), M["walnut"], rot_z=face_in(vb))
+    lib.box("jacket", (0.48, 0.04, 0.75), at(R_OUT - 2.2, vb, 0.9), lib.fabric("garment 0", (0.08, 0.09, 0.14), 0.85, 0.3), bevel=0.015, rot_z=face_in(vb))
+    CR.paint("dressing painting", "matisse_woman_with_hat", 2.4, at(R_GL + 6.0, b1 - FACE - tang(0.02, R_GL + 6.0), 0.0), face_ccw(b1), 2.0, tall=True)
     downlights(b0, b1, 70)
 
 
 # ---------------------------------------------------------------- C-08 the bath up
 def bath_up(M, rnd):
-    """C-08, the bath up (130.32 to 144), the master suite up's bath: a soaking tub of white stone by the slots, where
-    the morning sun comes in; a walk-in shower behind glass; a double vanity under round mirrors; a closet for the
-    lavatory; honed travertine and pale oak"""
-    import pent_rooms
+    """C-08, the bath up (130.32 to 144), the master suite up's bath (furnishing.py): a soaking tub of white stone by
+    the windows, where the morning sun comes in, a white leather chaise beside it, alabaster pendants over it; a
+    walk-in shower behind glass with a teak bench; a double vanity of marble 4 m long on the cross wall under round
+    mirrors lit from behind; tree ferns in the humid corner; two daybeds in the sunny corner; Hokusai's Great Wave;
+    a closet for the lavatory by the Glide; honed travertine and pale oak"""
+    import pent_rooms, seating, tables, lights, plants
     b0, b1 = 130.32, 144.0
     mats(M)
     crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["bath_trav"], part_walls=False)
@@ -477,63 +488,63 @@ def bath_up(M, rnd):
     fb = tb - tang(1.15, R_OUT - 1.25)
     lib.cyl("filler", 0.02, 0.95, at(R_OUT - 1.25, fb, pz), M["bronze"], verts=16)
     lib.box("filler spout", (0.03, 0.28, 0.03), at(R_OUT - 1.25, fb + tang(0.12, R_OUT - 1.25), pz + 0.95), M["bronze"], rot_z=face_cw(fb))
-    sq = at(R_OUT - 2.3, tb + tang(0.6), pz); lib.cyl("bath stool", 0.2, 0.45, sq, M["oak_top"], verts=32, bevel=0.01)
+    sq = at(R_OUT - 2.3, tb + tang(0.6), pz); tables.drum("bath stool", sq, d=0.4, h=0.45, mat=M["bath_trav"])
     for t in range(3): lib.box("towel", (0.36, 0.26, 0.05), (sq[0], sq[1], pz + 0.47 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(tb) + 0.1 * t)
     for i in range(3):
         q = at(R_OUT - 0.25, tb + tang(-0.3 + 0.3 * i, R_OUT), pz)
         lib.cyl("candle", 0.04, 0.12 + 0.05 * i, q, lib.principled("wax", (0.85, 0.82, 0.74), 0.5, **{"Subsurface Weight": 0.4}), verts=24)
         lib.cyl("flame", 0.006, 0.02, (q[0], q[1], pz + 0.135 + 0.05 * i), lib.emission("flame", (1.0, 0.6, 0.25), 20), verts=8)
     lib.box("bath rug", (3.2, 2.0, 0.014), at(RM - 0.9, tb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(tb), segs=2)
-    tq2 = at(R_OUT - 0.9, tb - tang(2.6, R_OUT), 0.0)
-    lib.box("tree planter", (0.9, 0.9, 0.5), (tq2[0], tq2[1], 0.25), M["bath_trav"], bevel=0.01, rot_z=face_in(tb))
-    furn.olive_tree("bath olive", (tq2[0], tq2[1], 0.5), 2718, M, height=3.0, leaves=12000)
+    white = seating.fabric("white leather", (0.80, 0.78, 0.74), "leather")
+    cq = tb + tang(2.3, R_OUT - 2.0)
+    seating.daybed("bath chaise", at(R_OUT - 2.0, cq, 0.0), face_cw(cq) + math.pi + 0.3, length=2.1, width=0.85, fabric_mat=white, seed=140)
+    for k in (-1, 1): lights.alabaster_pendant("tub pendant", at(R_OUT - 1.25, tb + k * tang(0.7, R_OUT - 1.25)), z=2.3, ceiling=ceil_at(tb), d=0.32, h=0.46, watts=60)
     # a bench of stone along the screen, towels stacked on it, and a sunny corner to rest in at the far end
     crown.curved_box("towel bench", R_GL + 0.2, R_GL + 0.65, bc - tang(4.0, R_GL), bc + tang(1.0, R_GL), 0.0, 0.45, M["bath_trav"])
     for k in range(4):
         q = at(R_GL + 0.42, bc - tang(3.2 - 0.9 * k, R_GL), 0.45)
         for t in range(2 + k % 2): lib.box("towel", (0.4, 0.3, 0.05), (q[0], q[1], 0.47 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(bc) + 0.05 * t)
-    lb = b1 - tang(3.4)
-    lib.box("rest rug", (3.6, 3.0, 0.014), at(RM + 0.6, lb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(lb), segs=2)
+    lb = b1 - tang(4.0)                       # the sunny corner: two daybeds facing the windows, a drum between
+    lib.box("rest rug", (4.6, 3.6, 0.014), at(RM + 1.2, lb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(lb), segs=2)
     for k in (-1, 1):
-        bb = lb + k * tang(0.85); pent_rooms.lounger("lounger", at(RM + 0.9, bb, 0.014), face_out(bb), M)
-    furn.side_table("side table", at(RM + 0.9, lb, 0.014), M, r=0.22, h=0.42)
-    lib.instance_of(S["plant"], at(R_OUT - 0.6, lb + tang(1.6), 0.0), 0.9, 2.0)
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, tb + tang(1.8), 0.0), 2.2, 1.9)
+        bb = lb + k * tang(0.9, RM + 1.2); seating.daybed("bath daybed", at(RM + 1.2, bb, 0.0), face_cw(bb), length=2.2, width=1.0, fabric_mat=white, seed=141 + k)
+    tables.drum("rest drum", at(RM + 1.9, lb, 0.0), d=0.45, h=0.45)
     # the walk-in shower: a glass screen, a stone bench, a rain head from the ceiling, a line of drain
     sb = bc - tang(3.6); sw = tang(2.6, R_OUT - 1.2)
     crown.curved_box("shower glass", R_OUT - 2.3, R_OUT - 2.29, sb - sw / 2, sb + sw / 2 - tang(0.8, R_OUT - 2.3), 0.0, 2.4, M["glass"])
     crown.curved_box("shower side", R_OUT - 2.3, R_OUT - 0.05, sb - sw / 2 - tang(0.06, R_OUT), sb - sw / 2, 0.0, 2.4, M["bath_trav"])
-    crown.curved_box("shower bench", R_OUT - 0.5, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 0.0, 0.45, M["bath_trav"])
+    crown.curved_box("shower bench", R_OUT - 0.5, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 0.0, 0.45, lib.wood("teak", (0.36, 0.22, 0.12), (0.22, 0.13, 0.07), 0.45))
+    for k, (r, bb, h) in enumerate(((R_OUT - 0.9, sb - sw / 2 - tang(1.1, R_OUT), 2.8), (R_OUT - 1.8, sb - sw / 2 - tang(1.9, R_OUT), 2.3))):
+        plants.make("tree fern", at(r, bb, 0.0), seed=145 + k, pot=(0.95, 0.5, "travertine"), height=h)
     crown.curved_box("drain", R_OUT - 2.2, R_OUT - 2.15, sb - sw / 2 + tang(0.1, R_OUT), sb + sw / 2 - tang(0.1, R_OUT), 0.0, 0.004, M["shadow"])
     rq = at(R_OUT - 1.2, sb, 2.4)
     lib.cyl("rain head", 0.2, 0.02, rq, M["bronze"], verts=48); lib.cyl("rain pipe", 0.012, ceil_at(sb) - 2.42, (rq[0], rq[1], 2.42), M["bronze"], verts=12)
-    # the double vanity: walnut, a stone top, bowls, round mirrors lit from behind
-    vb = b0 + tang(4.0)
-    lib.box("vanity", (2.6, 0.55, 0.42), at(R_OUT - 0.33, vb, 0.66), M["walnut_v"], bevel=0.008, rot_z=face_in(vb))
-    lib.box("vanity top", (2.64, 0.57, 0.04), at(R_OUT - 0.33, vb, 0.89), M["marble"], bevel=0.004, rot_z=face_in(vb))
-    for k in (-1, 1):
-        bb = vb + k * tang(0.65, R_OUT - 0.4); q = at(R_OUT - 0.38, bb, 0.91)
+    # the double vanity of marble, 4 m, on the cross wall by the bedroom: two bowls, round mirrors lit from behind
+    w = b0 + FACE; vr0, vr1 = R_GL + 5.0, R_GL + 9.0; vm = (vr0 + vr1) / 2
+    crown.curved_box("vanity", vr0, vr1, w, w + tang(0.58, vm), 0.42, 0.86, M["walnut_v"])
+    crown.curved_box("vanity top", vr0 - 0.03, vr1 + 0.03, w, w + tang(0.62, vm), 0.86, 0.9, M["marble"])
+    for r in (vm - 1.0, vm + 1.0):
+        q = at(r, w + tang(0.32, r), 0.9)
         furn.lathe("basin", [(0.0, 0.0), (0.08, 0.0), (0.2, 0.06), (0.22, 0.14), (0.205, 0.14), (0.19, 0.07), (0.07, 0.02), (0.0, 0.02)], M["porcelain"], 48, q)
-        lib.cyl("tap", 0.012, 0.3, at(R_OUT - 0.12, bb, 0.91), M["bronze"], verts=12)
-        lib.box("spout", (0.02, 0.18, 0.02), at(R_OUT - 0.2, bb, 1.2), M["bronze"], rot_z=face_in(bb))
-        mq = at(R_OUT - 0.07, bb, 1.65)
-        lib.cyl("mirror", 0.4, 0.012, mq, M["mirror"], verts=64, rot=(math.pi / 2, 0, face_in(bb)))
-        bpy.ops.mesh.primitive_torus_add(major_radius=0.41, minor_radius=0.01, major_segments=96, minor_segments=8, location=(mq[0], mq[1], mq[2]), rotation=(math.pi / 2, 0, face_in(bb)))
+        lib.cyl("tap", 0.012, 0.3, at(r, w + tang(0.08, r), 0.9), M["bronze"], verts=12)
+        lib.box("spout", (0.02, 0.18, 0.02), at(r, w + tang(0.16, r), 1.19), M["bronze"], rot_z=face_cw(b0))
+        mq = at(r, w + tang(0.012, r), 1.68)
+        lib.cyl("mirror", 0.42, 0.012, mq, M["mirror"], verts=64, rot=(math.pi / 2, 0, face_cw(b0)))
+        bpy.ops.mesh.primitive_torus_add(major_radius=0.43, minor_radius=0.01, major_segments=96, minor_segments=8, location=(mq[0], mq[1], mq[2]), rotation=(math.pi / 2, 0, face_cw(b0)))
         bpy.context.active_object.name = "mirror light"; bpy.context.active_object.data.materials.append(lib.emission("mirror light", (1.0, 0.9, 0.78), 12))
-    for t in range(4): lib.box("towel", (0.4, 0.28, 0.05), at(R_OUT - 0.3, vb + tang(1.6, R_OUT), 0.05 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(vb))
-    # the lavatory's closet by the Glide at the near end, its door shut
-    w0, w1 = b0 + FACE, b0 + tang(2.0, R_GL + 1.0)
-    crown.curved_box("closet", R_GL + 0.2, R_GL + 2.2, w1 - tang(0.06, R_GL + 1.2), w1, 0.0, 2.6, M["oak_panel"])
-    crown.curved_box("closet front", R_GL + 2.15, R_GL + 2.2, w0, w1, 0.0, 2.6, M["oak_panel"])
-    crown.curved_box("closet door joint", R_GL + 2.2, R_GL + 2.205, w0 + tang(0.4, R_GL + 2.2), w0 + tang(0.41, R_GL + 2.2), 0.0, 2.1, M["shadow"])
-    lib.box("closet handle", (0.04, 0.12, 0.02), at(R_GL + 2.23, w0 + tang(1.2, R_GL + 2.2), 1.05), M["bronze"], rot_z=face_in(w0))
-    # a reading chair by the slots at the far end, a heated rail of towels
-    cb = b1 - tang(2.6)
-    lib.instance_of(S["chair"], at(R_OUT - 1.5, cb, 0.0), face_in(cb) - 0.5)
-    furn.side_table("side table", at(R_OUT - 0.9, cb + tang(0.8), 0.0), M, r=0.25, h=0.5)
+    plants.make("orchid", at(vm, w + tang(0.35, vm), 0.9), seed=147, pot=(0.22, 0.11, "white"), colour="white")
+    for t in range(4): lib.box("towel", (0.4, 0.28, 0.05), at(vr1 + 0.5, w + tang(0.3, vr1 + 0.5), 0.05 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_cw(b0))
+    # the lavatory's closet by the Glide at the far end, its door shut
+    c1 = b1 - FACE; c0 = c1 - tang(2.0, R_GL + 1.2)
+    crown.curved_box("closet", R_GL + 0.2, R_GL + 2.2, c0, c0 + tang(0.06, R_GL + 1.2), 0.0, 2.6, M["oak_panel"])
+    crown.curved_box("closet front", R_GL + 2.15, R_GL + 2.2, c0, c1, 0.0, 2.6, M["oak_panel"])
+    crown.curved_box("closet door joint", R_GL + 2.2, R_GL + 2.205, c1 - tang(0.41, R_GL + 2.2), c1 - tang(0.4, R_GL + 2.2), 0.0, 2.1, M["shadow"])
+    lib.box("closet handle", (0.04, 0.12, 0.02), at(R_GL + 2.23, c1 - tang(1.2, R_GL + 2.2), 1.05), M["bronze"], rot_z=face_in(c1))
+    # a heated rail of towels by the windows at the far end; Hokusai's Great Wave on the far wall
     for z in (0.5, 0.75, 1.0, 1.25):
         crown.curved_box("towel rail", R_OUT - 0.14, R_OUT - 0.12, b1 - FACE - tang(1.5, R_OUT), b1 - FACE - tang(0.4, R_OUT), z, z + 0.02, M["bronze"])
     lib.box("hung towel", (0.9, 0.04, 0.6), at(R_OUT - 0.17, b1 - FACE - tang(0.95, R_OUT), 1.0), M["towel"], bevel=0.015, rot_z=face_in(b1))
+    CR.paint("bath painting", "hokusai_great_wave", 2.8, at(RM + 1.0, b1 - FACE - tang(0.02, RM + 1.0), 0.0), face_ccw(b1), 2.1)
     downlights(b0, b1, 70)
     CR.washers(b0, b1, 40)
 

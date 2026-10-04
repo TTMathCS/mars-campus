@@ -588,11 +588,21 @@ def library_up(M, rnd):
     tables.desk("study desk", at(R_OUT - 2.2, db, 0.0), face_in(db), length=2.8, depth=1.0)
     seating.desk_chair("study chair", at(R_OUT - 3.3, db, 0.0), face_out(db) + 0.1)
     lights.alabaster_pendant("study pendant", at(R_OUT - 2.2, db - tang(0.8)), z=1.75, ceiling=ceil_at(db), watts=45)
-    seating.sofa("study sofa", at(RM - 2.6, db, 0.0), face_out(db), length=4.0, fabric_mat=seating.fabric("oat boucle", (0.58, 0.52, 0.44), "boucle"), seed=380)
-    seating.club_chair("study chair", at(RM, db + tang(2.6), 0.0), face_ccw(db + tang(2.6)) - 0.3, fabric_mat=leather, seed=381)
-    tables.coffee_table("study table", at(RM - 1.0, db, 0.0), face_in(db), length=1.8, width=0.9)
+    # the sitting group on its rug: a sofa facing the windows, two club chairs across the table from it
+    lib.box("study rug", (6.4, 5.4, 0.014), at(RM - 1.0, db, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(db), segs=2)
+    seating.sofa("study sofa", at(RM - 2.7, db, 0.0), face_out(db), length=4.0, fabric_mat=seating.fabric("oat boucle", (0.58, 0.52, 0.44), "boucle"), seed=380)
+    tables.coffee_table("study table", at(RM - 1.05, db, 0.0), face_in(db), length=1.8, width=0.9)
+    for s_ in (-1, 1):
+        bb = db + s_ * tang(1.05, RM + 0.6)
+        seating.club_chair("study chair", at(RM + 0.6, bb, 0.0), face_in(bb) - s_ * 0.3, fabric_mat=leather, seed=381 + s_)
+    lights.arc_lamp("study arc lamp", at(RM - 3.0, db - tang(2.6, RM - 3.0), 0.0), face_cw(db) - 0.5, reach=2.2)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.4, b0 + tang(1.5, R_OUT - 1.4), 0.0), seed=382, pot=(0.75, 0.62, "white"), height=2.9)
-    paint("study painting", "vangogh_self_portrait", 2.0, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.0, tall=True)
+    plants.make("kentia palm", at(R_GL + 1.3, bs0 - tang(1.4, R_GL + 1.3), 0.0), seed=383, pot=(0.95, 0.72, "black"), height=3.4)
+    # on the cross wall: a long walnut credenza with two lamps, Van Gogh's self-portrait over it
+    tables.console("study credenza", at(RM - 1.0, b0 + tang(0.45, RM - 1.0), 0.0), face_cw(b0), length=4.2, depth=0.5, h=0.78,
+                   mat=lib.wood("credenza walnut", (0.20, 0.12, 0.07), (0.10, 0.06, 0.035), 0.35))
+    for s_ in (-1, 1): furn.table_lamp("credenza lamp", at(RM - 1.0 + s_ * 1.6, b0 + tang(0.45, RM - 1.0 + s_ * 1.6), 0.78), M, watts=35, shade_r=0.17)
+    paint("study painting", "vangogh_self_portrait", 2.8, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.65, tall=True)
     # over the opening to the map room, hung high on the walnut as in a great library: Delaunay's portrait of the
     # painter and writer Jean Metzinger
     paint("library painting", "delaunay_metzinger", 3.4, at(RM, bs1 - tang(0.17, RM), 0.0), face_ccw(bs1), 6.3, tall=True)
@@ -979,6 +989,11 @@ def observatory(M, rnd):
     portal(RM - 0.4, b1 - 0.7, M, face_ccw(b1 - 0.7))
     for bb in (26.5, 30.0, 33.5):
         lib.spot_light("desk light", at(R_OUT - 1.0, bb, ceil_at(bb) - 0.1), 900, (1.0, 0.8, 0.6), 0.03, 20, 0.5)
+        lights.alabaster_pendant("desk pendant", at(R_OUT - 1.25, bb), z=1.95, ceiling=ceil_at(bb), d=0.28, h=0.4, watts=40)
+    # a sofa facing the screens for watching what the telescope sees, a low table, a kentia palm
+    seating.sofa("telescope sofa", at(RM - 1.2, 29.8, 0.0), face_out(29.8), length=4.4, fabric_mat=seating.fabric("ink velvet", (0.06, 0.08, 0.13), "velvet"), seed=66)
+    tables.coffee_table("telescope table", at(RM + 0.5, 29.8, 0.0), face_in(29.8), length=2.0, width=0.9, kind="stack")
+    plants.make("kentia palm", at(R_GL + 1.2, 33.8, 0.0), seed=67, pot=(0.95, 0.72, "black"), height=3.2)
     washers(w1, b1, 60, (1.0, 0.72, 0.45))
 
 

@@ -79,7 +79,7 @@ def oak_floor(name="oak floor", plank_w=0.19, tint=(0.62, 0.50, 0.40), sat=0.55,
     L.new(var.outputs[2], b.inputs["Base Color"])
     rr = nt.nodes.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.22; rr.inputs["To Max"].default_value = 0.55; L.new(r.outputs["Color"], rr.inputs["Value"]); L.new(rr.outputs["Result"], b.inputs["Roughness"])
     bm = nt.nodes.new("ShaderNodeBump"); bm.inputs["Strength"].default_value = 0.35; bm.inputs["Distance"].default_value = 0.001; L.new(bu.outputs["Color"], bm.inputs["Height"]); L.new(bm.outputs["Normal"], b.inputs["Normal"])
-    b.inputs["Coat Weight"].default_value = 0.35; b.inputs["Coat Roughness"].default_value = 0.12
+    b.inputs["Coat Weight"].default_value = 0.18; b.inputs["Coat Roughness"].default_value = 0.28      # a matt lacquer: soft reflections
     return m
 
 

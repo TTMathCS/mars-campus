@@ -36,10 +36,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
+      - name: Leave the Blender archive out of the site
+        # palace/blender keeps the original design files (Blender scenes, textures); they stay in the repository
+        run: rsync -a --exclude .git --exclude .github --exclude _site --exclude palace/blender ./ _site/
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v5
         with:
-          path: .
+          path: _site
 
       - name: Deploy
         id: deployment

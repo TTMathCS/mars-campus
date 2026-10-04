@@ -6,7 +6,7 @@ scene: residence | pent:<room> | crown:<room> | orb:<room> | garden:<room> | clu
        memory:<room> | overall:hero | overall:whole
 Writes <archive>/scenes/<scene>.blend (compressed), its textures into <archive>/assets/ (shared by all the scenes,
 paths relative), and the textures packed in the glTF models into <archive>/scenes/textures/."""
-import bpy, os, shutil, sys, time
+import bpy, hashlib, os, shutil, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib
 
@@ -66,9 +66,12 @@ if __name__ == "__main__":
     lib.photo_finish(0.3, 0.15)
     n = archive_textures(arch)
     out = os.path.join(arch, "scenes", scene.replace(":", "_") + ".blend"); os.makedirs(os.path.dirname(out), exist_ok=True)
-    bpy.ops.wm.save_as_mainfile(filepath=out, compress=True, relative_remap=True)
+    bpy.context.preferences.filepaths.save_version = 0          # no .blend1 backups beside it
     packed = [im for im in bpy.data.images if im.packed_file]
-    if packed:                                  # the glTF models' own textures: out of the file, beside it, shared
+    for im in packed:                           # the glTF models' own textures are called Image_0, Image_1 ... in every
+        im.name = "glb_" + hashlib.sha1(im.packed_file.data).hexdigest()[:12]      # model: name them by their content
+    bpy.ops.wm.save_as_mainfile(filepath=out, compress=True, relative_remap=True)
+    if packed:                                  # out of the file, beside it in scenes/textures, shared by the scenes
         bpy.ops.file.unpack_all(method="WRITE_LOCAL"); bpy.ops.file.make_paths_relative()
         bpy.ops.wm.save_as_mainfile(filepath=out, compress=True, relative_remap=True)
     print("saved %s: %d cameras, %d textures, %d unpacked, %.1f MB, %.0f s" % (out, len(stills) + len(panos), n, len(packed), os.path.getsize(out) / 1e6, time.time() - t), flush=True)

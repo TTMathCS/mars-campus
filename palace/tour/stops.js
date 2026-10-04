@@ -33,7 +33,7 @@ window.TOUR_STOPS = [
   { id: "garden", name: "The moss garden", short: "Moss garden", k: "L1 · Master suite down", p: [2.17, 21.6], z: 0.05, az0: 38, img: "pano/garden.jpg",
     d: "The heart of the suite, open to a sky ceiling: moss in cushions round a pond with maple leaves floating on it, a Japanese maple, a stone lantern that glows at night, a water basin fed by a bamboo spout, ferns and clipped box.",
     links: ["bedroom", "bath"] },
-  { id: "bath", ready: false, name: "The bath down", short: "Bath", k: "L1 · Master suite down", p: [-11.6, 23.4], az0: 87, img: "pano/bath.jpg",
+  { id: "bath", name: "The bath down", short: "Bath", k: "L1 · Master suite down", p: [-11.6, 23.4], az0: 87, img: "pano/bath.jpg",
     d: "A stone tub facing the garden, a double vanity on a wall of green marble with round mirrors lit from behind, a walk-in shower with a rain head and a teak floor, oak on the walls.",
     links: [{ id: "garden", at: [-6.4, 22.0, 0], label: "Out into the moss garden" }, "bedroom"] },
   { id: "kitchen", ready: false, name: "The kitchen", short: "Kitchen", k: "L1 · Jim's residence", p: [21.0, 22.4], az0: 200, img: "pano/kitchen.jpg",

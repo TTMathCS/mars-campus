@@ -49,7 +49,7 @@ window.TOUR_STOPS = [
   { id: "baths", rot: 216, name: "The thermal baths", short: "Baths", k: "L1 · The baths", p: [23.35, -49.76], az0: 180, img: "pano/baths.jpg",
     d: "Grey-green quartzite laid in thin courses, blades of daylight through slots in the ceiling, and three pools: a long warm pool, a round hot pool and a cold plunge. Loungers along the glass look out at the atrium's gardens.",
     links: [{ id: "bridge", at: [13.81, -43.09, 0], label: "Out across the atrium, to the bridge" }, { id: "library", label: "Next door: the great library" }, { id: "cinema", label: "Next door: the cinema" }] },
-  { id: "guests", ready: false, rot: 72, name: "The guest lounge", short: "Guest lounge", k: "L1 · The guest lounge", p: [-28.24, -14.92], az0: -20, img: "pano/guests.jpg",
+  { id: "guests", rot: 72, name: "The guest lounge", short: "Guest lounge", k: "L1 · The guest lounge", p: [-28.24, -14.92], az0: -20, img: "pano/guests.jpg",
     d: "Where visitors from Earth and Jim meet in the evening, two storeys on the atrium glass: sofas round a low table by the glass, a walnut table for twelve under glass globes, and a gallery along the back wall with the doors of the guest suites and lamps between them.",
     links: [{ id: "bridge", at: [-23.20, -16.55, 0], label: "Out across the atrium, to the bridge" }, { id: "library", label: "Next door: the great library" }] },
   { id: "cinema", rot: 288, name: "The cinema", short: "Cinema", k: "L1 · The club", p: [24.43, -16.15], z: 1.26, az0: 0, img: "pano/cinema.jpg",

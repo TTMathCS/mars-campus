@@ -65,5 +65,14 @@ The 3D scans come from the [Khronos glTF Sample Assets](https://github.com/Khron
 The floor boards, the lawn and the pool's ripples are photo textures from [three.js's examples](https://github.com/mrdoob/three.js)
 (MIT). Rendered with [Blender](https://www.blender.org/) Cycles (GPL).
 
+The paintings on the Crown's walls are public-domain works (each artist died before 1956 and each work was made
+before 1931): Van Gogh's The Starry Night, Starry Night over the Rhône, The Night Café, Wheat Field with Cypresses,
+Olive Trees, thatched cottages at Auvers and Self-Portrait with a Straw Hat; Monet's Water Lilies (1919); Hokusai's
+The Great Wave off Kanagawa; Turner's The Wreck of a Transport Ship; Caravaggio's Basket of Fruit; Claude Lorrain's
+etching The Harbour with the Large Tower; Matisse's Woman with a Hat; Robert Delaunay's Landscape with Disc and
+Portrait of Jean Metzinger; Kandinsky's Composition VII; Picabia's Udnie and Edtaonisl; Léger's Contrast of Forms;
+a Mondrian composition of 1913. The copies come from open-source projects on GitHub; `palace/tools/render/fetch_art.py`
+lists each one's source.
+
 Not yet: the rest of L1 (the master suite, the club and cinema, the baths and pool, the great library, the guest
 suites), the garden level close up, and the Crown.

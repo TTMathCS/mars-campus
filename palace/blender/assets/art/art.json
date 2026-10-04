@@ -1,0 +1,382 @@
+[
+ {
+  "file": "vangogh_starry_night.jpg",
+  "title": "The Starry Night",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1889",
+  "year": 1889,
+  "mood": "night",
+  "w_px": 1280,
+  "h_px": 1014,
+  "aspect": 1.2623,
+  "palette": [
+   "#2d384e",
+   "#526b8d",
+   "#859690"
+  ],
+  "source_url": "https://raw.githubusercontent.com/jcjohnson/neural-style/master/examples/inputs/starry_night_google.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1889, before 1931"
+ },
+ {
+  "file": "vangogh_starry_night_rhone.jpg",
+  "title": "Starry Night over the Rhône",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1888",
+  "year": 1888,
+  "mood": "night",
+  "w_px": 2000,
+  "h_px": 1333,
+  "aspect": 1.5004,
+  "palette": [
+   "#111c33",
+   "#334569",
+   "#687c99"
+  ],
+  "source_url": "https://raw.githubusercontent.com/leongatys/NeuralImageSynthesis/master/Images/ControlPaper/fig3_style1.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1888, before 1931"
+ },
+ {
+  "file": "vangogh_night_cafe.jpg",
+  "title": "The Night Café",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1888",
+  "year": 1888,
+  "mood": "interior",
+  "w_px": 800,
+  "h_px": 591,
+  "aspect": 1.3536,
+  "palette": [
+   "#693b1f",
+   "#8b812d",
+   "#c3b346"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/vg_la_cafe.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1888, before 1931"
+ },
+ {
+  "file": "vangogh_wheat_field.jpg",
+  "title": "Wheat Field with Cypresses",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1889",
+  "year": 1889,
+  "mood": "landscape",
+  "w_px": 1200,
+  "h_px": 950,
+  "aspect": 1.2632,
+  "palette": [
+   "#68714a",
+   "#cad0cb",
+   "#a6af9a"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/vg_wheat_field.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1889, before 1931"
+ },
+ {
+  "file": "vangogh_olive_trees.jpg",
+  "title": "Olive Trees",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1889",
+  "year": 1889,
+  "mood": "landscape",
+  "w_px": 800,
+  "h_px": 591,
+  "aspect": 1.3536,
+  "palette": [
+   "#745731",
+   "#c3c1a8",
+   "#9eb6a7"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/vg_olive.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1889, before 1931"
+ },
+ {
+  "file": "vangogh_cottages.jpg",
+  "title": "Thatched cottages in the sun, Auvers",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1890",
+  "year": 1890,
+  "mood": "landscape",
+  "w_px": 800,
+  "h_px": 985,
+  "aspect": 0.8122,
+  "palette": [
+   "#7c7948",
+   "#f3e0d0",
+   "#d4cba5"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/vg_houses.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1890, before 1931"
+ },
+ {
+  "file": "vangogh_self_portrait.jpg",
+  "title": "Self-Portrait with a Straw Hat",
+  "artist": "Vincent van Gogh",
+  "life": "1853–1890",
+  "made": "1887",
+  "year": 1887,
+  "mood": "portrait",
+  "w_px": 800,
+  "h_px": 978,
+  "aspect": 0.818,
+  "palette": [
+   "#c39d71",
+   "#9f7a5d",
+   "#dbb75e"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/vg_self.jpg",
+  "public_domain": "the artist died in 1890, more than 70 years ago, and the work was made in 1887, before 1931"
+ },
+ {
+  "file": "monet_water_lilies.jpg",
+  "title": "Water Lilies",
+  "artist": "Claude Monet",
+  "life": "1840–1926",
+  "made": "1919",
+  "year": 1919,
+  "mood": "landscape",
+  "w_px": 1600,
+  "h_px": 1052,
+  "aspect": 1.5209,
+  "palette": [
+   "#495960",
+   "#6e7875",
+   "#a6a1a2"
+  ],
+  "source_url": "https://raw.githubusercontent.com/titu1994/Neural-Style-Transfer/master/images/inputs/style/water-lilies-1919-2.jpg",
+  "public_domain": "the artist died in 1926, more than 70 years ago, and the work was made in 1919, before 1931"
+ },
+ {
+  "file": "hokusai_great_wave.jpg",
+  "title": "The Great Wave off Kanagawa",
+  "artist": "Katsushika Hokusai",
+  "life": "1760–1849",
+  "made": "c. 1831",
+  "year": 1831,
+  "mood": "print",
+  "w_px": 928,
+  "h_px": 514,
+  "aspect": 1.8054,
+  "palette": [
+   "#beba9e",
+   "#6a7c79",
+   "#cecaac"
+  ],
+  "source_url": "https://raw.githubusercontent.com/lengstrom/fast-style-transfer/master/examples/style/wave.jpg",
+  "public_domain": "the artist died in 1849, more than 70 years ago, and the work was made in c. 1831, before 1931"
+ },
+ {
+  "file": "turner_shipwreck.jpg",
+  "title": "The Wreck of a Transport Ship (The Shipwreck of the Minotaur)",
+  "artist": "J. M. W. Turner",
+  "life": "1775–1851",
+  "made": "c. 1810",
+  "year": 1810,
+  "mood": "sea",
+  "w_px": 1000,
+  "h_px": 690,
+  "aspect": 1.4493,
+  "palette": [
+   "#576647",
+   "#26312b",
+   "#999153"
+  ],
+  "source_url": "https://raw.githubusercontent.com/lengstrom/fast-style-transfer/master/examples/style/the_shipwreck_of_the_minotaur.jpg",
+  "public_domain": "the artist died in 1851, more than 70 years ago, and the work was made in c. 1810, before 1931"
+ },
+ {
+  "file": "caravaggio_basket_of_fruit.jpg",
+  "title": "Basket of Fruit",
+  "artist": "Caravaggio",
+  "life": "1571–1610",
+  "made": "c. 1599",
+  "year": 1599,
+  "mood": "still life",
+  "w_px": 758,
+  "h_px": 600,
+  "aspect": 1.2633,
+  "palette": [
+   "#e2d1a1",
+   "#7f6a42",
+   "#e9dcb7"
+  ],
+  "source_url": "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/758px-Canestra_di_frutta_(Caravaggio).jpg",
+  "public_domain": "the artist died in 1610, more than 70 years ago, and the work was made in c. 1599, before 1931"
+ },
+ {
+  "file": "claude_harbour.jpg",
+  "title": "The Harbour with the Large Tower (etching)",
+  "artist": "Claude Lorrain",
+  "life": "c. 1600–1682",
+  "made": "c. 1641",
+  "year": 1641,
+  "mood": "print",
+  "w_px": 679,
+  "h_px": 450,
+  "aspect": 1.5089,
+  "palette": [
+   "#887f71",
+   "#c6bdac",
+   "#d6cdbd"
+  ],
+  "source_url": "https://raw.githubusercontent.com/reiinakano/arbitrary-image-stylization-tfjs/master/images/seaport.jpg",
+  "public_domain": "the artist died in 1682, more than 70 years ago, and the work was made in c. 1641, before 1931"
+ },
+ {
+  "file": "matisse_woman_with_hat.jpg",
+  "title": "Woman with a Hat",
+  "artist": "Henri Matisse",
+  "life": "1869–1954",
+  "made": "1905",
+  "year": 1905,
+  "mood": "portrait",
+  "w_px": 591,
+  "h_px": 800,
+  "aspect": 0.7388,
+  "palette": [
+   "#584a57",
+   "#939ba3",
+   "#d5cac9"
+  ],
+  "source_url": "https://raw.githubusercontent.com/jcjohnson/neural-style/master/examples/inputs/woman-with-hat-matisse.jpg",
+  "public_domain": "the artist died in 1954, more than 70 years ago, and the work was made in 1905, before 1931"
+ },
+ {
+  "file": "delaunay_landscape_disc.jpg",
+  "title": "Landscape with Disc",
+  "artist": "Robert Delaunay",
+  "life": "1885–1941",
+  "made": "1906–07",
+  "year": 1906,
+  "mood": "landscape",
+  "w_px": 1863,
+  "h_px": 2048,
+  "aspect": 0.9097,
+  "palette": [
+   "#9a7f96",
+   "#5a4e61",
+   "#aca8ad"
+  ],
+  "source_url": "https://raw.githubusercontent.com/leongatys/NeuralImageSynthesis/master/Images/ControlPaper/fig5_style1.jpg",
+  "public_domain": "the artist died in 1941, more than 70 years ago, and the work was made in 1906–07, before 1931"
+ },
+ {
+  "file": "delaunay_metzinger.jpg",
+  "title": "Portrait of Jean Metzinger",
+  "artist": "Robert Delaunay",
+  "life": "1885–1941",
+  "made": "1906",
+  "year": 1906,
+  "mood": "portrait",
+  "w_px": 884,
+  "h_px": 1181,
+  "aspect": 0.7485,
+  "palette": [
+   "#636777",
+   "#bec9c7",
+   "#e6e2d9"
+  ],
+  "source_url": "https://raw.githubusercontent.com/zhanghang1989/PyTorch-Multi-Style-Transfer/master/experiments/images/21styles/Robert_Delaunay,_1906,_Portrait.jpg",
+  "public_domain": "the artist died in 1941, more than 70 years ago, and the work was made in 1906, before 1931"
+ },
+ {
+  "file": "kandinsky_composition_vii.jpg",
+  "title": "Composition VII",
+  "artist": "Wassily Kandinsky",
+  "life": "1866–1944",
+  "made": "1913",
+  "year": 1913,
+  "mood": "abstract",
+  "w_px": 1071,
+  "h_px": 712,
+  "aspect": 1.5042,
+  "palette": [
+   "#6c423a",
+   "#947a65",
+   "#bfb598"
+  ],
+  "source_url": "https://raw.githubusercontent.com/jcjohnson/fast-neural-style/master/images/styles/composition_vii.jpg",
+  "public_domain": "the artist died in 1944, more than 70 years ago, and the work was made in 1913, before 1931"
+ },
+ {
+  "file": "picabia_udnie.jpg",
+  "title": "Udnie (Young American Girl, The Dance)",
+  "artist": "Francis Picabia",
+  "life": "1879–1953",
+  "made": "1913",
+  "year": 1913,
+  "mood": "abstract",
+  "w_px": 1259,
+  "h_px": 1260,
+  "aspect": 0.9992,
+  "palette": [
+   "#363636",
+   "#7f837f",
+   "#c0bfb9"
+  ],
+  "source_url": "https://raw.githubusercontent.com/jcjohnson/fast-neural-style/master/images/styles/udnie.jpg",
+  "public_domain": "the artist died in 1953, more than 70 years ago, and the work was made in 1913, before 1931"
+ },
+ {
+  "file": "picabia_edtaonisl.jpg",
+  "title": "Edtaonisl (Ecclesiastic)",
+  "artist": "Francis Picabia",
+  "life": "1879–1953",
+  "made": "1913",
+  "year": 1913,
+  "mood": "abstract",
+  "w_px": 800,
+  "h_px": 776,
+  "aspect": 1.0309,
+  "palette": [
+   "#413034",
+   "#967660",
+   "#d7bca1"
+  ],
+  "source_url": "https://raw.githubusercontent.com/gordicaleksa/pytorch-neural-style-transfer/master/data/style-images/edtaonisl.jpg",
+  "public_domain": "the artist died in 1953, more than 70 years ago, and the work was made in 1913, before 1931"
+ },
+ {
+  "file": "leger_contrast_of_forms.jpg",
+  "title": "Contrast of Forms",
+  "artist": "Fernand Léger",
+  "life": "1881–1955",
+  "made": "1913",
+  "year": 1913,
+  "mood": "abstract",
+  "w_px": 984,
+  "h_px": 1242,
+  "aspect": 0.7923,
+  "palette": [
+   "#5a4436",
+   "#9c9078",
+   "#cfcaba"
+  ],
+  "source_url": "https://raw.githubusercontent.com/xunhuang1995/AdaIN-style/master/input/style/contrast_of_forms.jpg",
+  "public_domain": "the artist died in 1955, more than 70 years ago, and the work was made in 1913, before 1931"
+ },
+ {
+  "file": "mondrian_composition.jpg",
+  "title": "Composition in yellow and grey",
+  "artist": "Piet Mondrian",
+  "life": "1872–1944",
+  "made": "c. 1913",
+  "year": 1913,
+  "mood": "abstract",
+  "w_px": 902,
+  "h_px": 825,
+  "aspect": 1.0933,
+  "palette": [
+   "#8d8371",
+   "#bfb299",
+   "#d5cbb2"
+  ],
+  "source_url": "https://raw.githubusercontent.com/xunhuang1995/AdaIN-style/master/input/style/mondrian.jpg",
+  "public_domain": "the artist died in 1944, more than 70 years ago, and the work was made in c. 1913, before 1931"
+ }
+]

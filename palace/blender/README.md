@@ -64,4 +64,6 @@ Wayfair, CC BY 4.0; Sheen Chair: Wayfair, CC0; Diffuse Transmission Plant: Darms
 A Beautiful Game: ASWF, CC BY 4.0; Glass Vase Flowers, Diffuse Transmission Teacup: CC0). Textures from three.js's
 examples (MIT): hardwood2, grasslight-big, waternormals. NASA's Blue Marble (public domain). The Mars map: NASA/JPL/
 USGS Viking mosaic over a base map by Solar System Scope (CC BY 4.0). The skies the memory rooms' photographs are
-cut from: Poly Haven (CC0). Everything else is made by the scripts.
+cut from: Poly Haven (CC0). The paintings in `assets/art/` are public-domain works, fetched by
+[`fetch_art.py`](../tools/render/fetch_art.py), which names each one's source; `assets/art/art.json` says what each
+is. Everything else is made by the scripts.

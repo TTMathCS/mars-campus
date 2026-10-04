@@ -56,6 +56,19 @@ window.TOUR_STOPS = [
     d: "Forty velvet seats in four rows under a ceiling of stars, walnut walls, curtains drawn across the glass, and a screen 12 m wide. Tonight: the Earth.",
     links: [{ id: "bridge", at: [22.34, -16.83, 0], label: "Out across the atrium, to the bridge" }, { id: "baths", label: "Next door: the thermal baths" }] },
 
+  { id: "memory", ready: false, name: "The memory rooms", short: "Memory rooms", k: "L1 · Jim's residence", p: [0.4, 59.4], az0: 10, img: "pano/memory.jpg",
+    d: "Jim's keepsakes from Earth: photographs of the places of his life hung close on walls of deep green under brass picture lights, two glass cases of letters, a pocket watch and the things he brought from home, the albums on a reading table, and the desk where he records his memoirs.",
+    links: [{ id: "kitchen", label: "Back along the streets: the kitchen" }] },
+  { id: "cellar", ready: false, rot: 288, name: "The wine cellar", short: "Wine cellar", k: "L1 · The club", p: [79.67, -0.73], az0: 49, img: "pano/cellar.jpg",
+    d: "Arcadia's one cellar, under vaults of brick fired from Mars soil: a tasting room with an oak table for ten under an iron chandelier, and aisles of racks and casks running 44 m along the ring each way.",
+    links: [{ id: "cinema", label: "Back along the streets: the cinema" }] },
+  { id: "pool", ready: false, rot: 216, name: "The lap pool", short: "Lap pool", k: "L1 · Baths and sport", p: [30.68, -69.71], az0: -105, img: "pano/pool.jpg",
+    d: "Fifty metres and four lanes, 2 m deep, under a ceiling of oak slats with three slots of sky. In Mars' gravity a swimmer floats just as on Earth, but a splash rises nearly three times as high and falls slowly.",
+    links: [{ id: "baths", label: "Through the street: the thermal baths" }] },
+  { id: "lake", ready: false, rot: 216, name: "The lake", short: "Lake", k: "L2 · The garden, 41 m down", p: [25.83, -63.04], z: -16.7, az0: -40, img: "pano/lake.jpg",
+    d: "Out on the jetty, under the sky of lamps 16 m up: a lake of 8,000 t of water, Arcadia's reserve you can see, with a beach behind the glass onto the atrium, a rowing boat, lilies and reeds, the columns that carry L1 standing in the water, and the stream from the forest falling in over the rocks.",
+    links: [{ id: "bridge", at: [2.76, -28.26, -15.0], label: "Portal: up to L1" }] },
+
   /* The Crown, above ground: positions in metres from the ring's centre, x east, y north (the ring's rooms lie between
      125 and 135 m out, the Glide along the inner wall); z from the main floor, 41 m up. */
   { id: "crown_arrival", place: "crown", ready: false, name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.26, -27.00], az0: -12, img: "pano/crown_arrival.jpg",
@@ -97,7 +110,7 @@ window.TOUR_STOPS = [
   { id: "crown_stars", place: "crown", name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [28.21, 128.29], az0: 40, img: "pano/crown_stars.jpg",
     d: "The Observatory at night: reclining chairs in pairs under the outer slots full of stars, candles on the side tables, a floor of polished basalt. Across the ring the other rooms' slots glow. The telescope room is through the opening, with the portal up to the dome.",
     links: [{ id: "crown_studio", at: [15.45, 125.81, 0], label: "The Glide: to the Studio" }, { id: "crown_garden", at: [39.17, 120.55, 0], label: "The Glide: to the Garden room" }] },
-  { id: "crown_garden", place: "crown", name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",
+  { id: "crown_garden", place: "crown", ready: false, name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [112.91, 67.31], az0: 211, img: "pano/crown_garden.jpg",
     d: "A conservatory in the ring at sunrise: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun through the east slots. The breakfast room is through the opening.",
     links: [{ id: "crown_stars", at: [102.54, 74.5, 0], label: "The Glide: to the Observatory" }, { id: "crown_arrival", at: [114.4, 54.57, 0], label: "The Glide: to the Arrival hall" }] }
 ];

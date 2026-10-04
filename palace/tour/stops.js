@@ -142,5 +142,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/memory2.jpg", caption: "The memory rooms from the memoir desk: the cases, the reading table, the doorway to the next room." },
   { img: "photos/crown_arrival.jpg", caption: "The Arrival hall in the Crown: polished basalt, the olive tree, the sun through the slots and the portal at the far end." },
   { img: "photos/music.jpg", caption: "The music room: the grand piano by the glass onto the atrium, a velvet sofa to listen from." },
-  { img: "photos/dining.jpg", caption: "The dining room: the table for eight under five glass globes, by the glass onto the atrium." }
+  { img: "photos/dining.jpg", caption: "The dining room: the table for eight under five glass globes, by the glass onto the atrium." },
+  { img: "photos/kitchen.jpg", caption: "The kitchen: the island for breakfast, the open shelves lit from within, the robot that cooks on its rail, the table for four." }
 ];

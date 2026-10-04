@@ -1133,7 +1133,7 @@
   ENV.dummy = new THREE.WebGLCubeRenderTarget(1);
   matU.uEnvIn.value = matU.uEnvOut.value = matU.uEnvW.value = ENV.dummy.texture;
   function makeEnv(name, texU, posU, interior) {
-    var rt = new THREE.WebGLCubeRenderTarget(ENV.size, { format: THREE.RGBAFormat, type: THREE.UnsignedByteType, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
+    var rt = new THREE.WebGLCubeRenderTarget(ENV.size, { format: THREE.RGBAFormat, type: THREE.UnsignedByteType, stencilBuffer: true, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
     var e = { name: name, rt: rt, cam: new THREE.CubeCamera(0.15, 30000, rt), pos: new THREE.Vector3(), tex: texU, p: posU, interior: interior, done: false };
     ENV.list.push(e); return e;
   }
@@ -3688,7 +3688,10 @@
     { scene: { value: null }, bloom: { value: null }, rays: { value: null }, uBloom: { value: 1 }, uRays: { value: 0 }, uTone: { value: 1 }, uTime: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) } });
   var sceneRT = null, raysPreRT = null, raysRT = [], downRT = [], upRT = [], LEVELS = MOBILE ? 5 : 6, raysIdx = 0, raysWasOn = false, raysOut = null;
   function makeRT(w, h, msaa) {
-    var opts = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: THREE.UnsignedByteType, depthBuffer: !!msaa };
+    // the scene's target needs a stencil buffer only for its depth format: three.js r128 gives a target without one a
+    // 16-bit depth buffer, too coarse for a view 40 km deep (signs and plates a centimetre off a wall flickered as you
+    // walked); with one it is 24-bit
+    var opts = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: THREE.UnsignedByteType, depthBuffer: !!msaa, stencilBuffer: !!msaa };
     if (msaa && isGL2 && THREE.WebGLMultisampleRenderTarget) { var rt = new THREE.WebGLMultisampleRenderTarget(w, h, opts); rt.samples = 4; return rt; }
     return new THREE.WebGLRenderTarget(w, h, opts);
   }

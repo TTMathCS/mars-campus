@@ -63,7 +63,7 @@
   ENV.dummy = new THREE.WebGLCubeRenderTarget(1);
   matU.uEnvIn.value = matU.uEnvOut.value = matU.uEnvW.value = ENV.dummy.texture;
   function makeEnv(name, texU, posU, interior) {
-    var rt = new THREE.WebGLCubeRenderTarget(ENV.size, { format: THREE.RGBAFormat, type: THREE.UnsignedByteType, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
+    var rt = new THREE.WebGLCubeRenderTarget(ENV.size, { format: THREE.RGBAFormat, type: THREE.UnsignedByteType, stencilBuffer: true, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
     var e = { name: name, rt: rt, cam: new THREE.CubeCamera(0.15, 30000, rt), pos: new THREE.Vector3(), tex: texU, p: posU, interior: interior, done: false };
     ENV.list.push(e); return e;
   }

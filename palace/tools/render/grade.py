@@ -13,7 +13,7 @@ from PIL import Image
 TARGETS = {          # brightness percentiles 1, 5, 50, 95, 99.8 -> where they should land
     "day": (0.015, 0.06, 0.31, 0.70, 0.93),
     "night": (0.008, 0.025, 0.14, 0.42, 0.85),
-    "pale": (0.015, 0.07, 0.43, 0.78, 0.95),      # a room of pale walls and stone, mostly ceiling and floor in a 360
+    "pale": (0.015, 0.085, 0.43, 0.78, 0.95),     # a room of pale walls and stone (rendered at exposure -0.2, so its walls keep their colour)
 }
 
 

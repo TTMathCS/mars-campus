@@ -27,11 +27,14 @@ def tint_fabric(root, rgb, sat=0.0):
 
 
 def basalt(name="polished basalt"):
-    """polished basalt: near-black, fine grey grains, a mirror-like surface with a little haze"""
+    """polished basalt: near-black, fine grey grains, honed to a soft sheen: reflections blurred and broken a little,
+    as in real stone (a mirror finish read as a wet floor)"""
     m, nt = lib._mat(name)
     if nt is None: return m
-    L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.12; b.inputs["Coat Weight"].default_value = 0.6; b.inputs["Coat Roughness"].default_value = 0.04
+    L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Coat Weight"].default_value = 0.4; b.inputs["Coat Roughness"].default_value = 0.1
     tc = nt.nodes.new("ShaderNodeTexCoord")
+    rn = nt.nodes.new("ShaderNodeTexNoise"); rn.inputs["Scale"].default_value = 3.0; rn.inputs["Detail"].default_value = 8; L.new(tc.outputs["Object"], rn.inputs["Vector"])
+    L.new(lib._math(nt, "MULTIPLY_ADD", rn.outputs["Fac"], 0.14, 0.13), b.inputs["Roughness"])          # 0.13 to 0.27
     v = nt.nodes.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 260; L.new(tc.outputs["Object"], v.inputs["Vector"])
     n = nt.nodes.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = 0.7; n.inputs["Detail"].default_value = 6; L.new(tc.outputs["Object"], n.inputs["Vector"])
     cr = nt.nodes.new("ShaderNodeValToRGB"); cr.color_ramp.elements[0].position = 0.0; cr.color_ramp.elements[0].color = (0.018, 0.018, 0.019, 1); cr.color_ramp.elements[1].position = 1.0; cr.color_ramp.elements[1].color = (0.06, 0.058, 0.056, 1)
@@ -304,7 +307,7 @@ def dining(M, rnd):
         bb = bc + k * tang(L_ / 2 - 2.2, rt)
         crown.curved_box("table pedestal", rt - 0.35, rt + 0.35, bb - tang(0.5, rt), bb + tang(0.5, rt), 0.0, 0.70, M["basalt_table"])
     lib.box("dining rug", (17.0, 6.0, 0.014), at(rt, bc, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
-    velvet = seating.fabric("claret velvet", (0.26, 0.05, 0.045), "velvet")
+    velvet = seating.fabric("claret velvet", (0.17, 0.022, 0.028), "velvet")
     n = 10
     for i in range(n):
         bb = bc - tang(L_ / 2 - 0.75, rt) + i * tang((L_ - 1.5) / (n - 1), rt)
@@ -334,11 +337,24 @@ def dining(M, rnd):
         lights.alabaster_pendant("sideboard pendant", at(R_OUT - 0.9, bb), z=2.0, ceiling=ceil_at(bb), watts=50)
     for k, bb in enumerate((227.4, 230.9, 234.4, 237.9)):
         plants.make("lemon", at(R_OUT - 1.5, bb, 0.0), seed=260 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)
-    for k, bb in enumerate((b0 + tang(2.0), b1 - tang(2.0))):
+    for k, bb in enumerate((b1 - tang(2.0),)):         # an olive at the kitchen's end (the ginkgo stands at the wine room's)
         plants.make("olive", at(R_GL + 2.0, bb, 0.0), seed=270 + k, pot=(1.3, 0.8, "travertine", True), height=4.2, stems=2)
     # Van Gogh's olive trees and wheat field, painted at Saint-Rémy the same summer, a pair across the table
-    paint("dining west painting", "vangogh_olive_trees", 3.6, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.3)
-    paint("dining east painting", "vangogh_wheat_field", 3.6, at(RM - 1.0, b1 - tang(0.17, RM - 1.0), 0.0), face_ccw(b1), 2.3)
+    paint("dining west painting", "vangogh_olive_trees", 5.4, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 3.4)
+    paint("dining east painting", "vangogh_wheat_field", 5.4, at(RM - 1.0, b1 - tang(0.17, RM - 1.0), 0.0), face_ccw(b1), 3.4)
+    # the drinks lounge at the wine room's end, for before and after dinner: a sectional and two club chairs round a
+    # marble table on its own rug, a gold ginkgo by the glass
+    lb, lr = 225.9, RM - 0.6
+    lib.box("lounge rug", (7.2, 5.6, 0.014), at(lr + 0.6, lb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(lb), segs=2)
+    ink = seating.fabric("ink velvet", (0.06, 0.08, 0.13), "velvet")
+    seating.sectional("dining lounge", at(lr - 0.9, lb, 0.0), face_out(lb), lx=5.4, ly=3.4, fabric_mat=ink, seed=280)
+    tables.coffee_table("lounge table", at(lr + 1.0, lb, 0.0), face_in(lb), length=1.6, kind="round",
+                        mat=seating.stone("green marble", (0.16, 0.24, 0.20), (0.75, 0.78, 0.74), "marble", 0.12))
+    for s_ in (-1, 1):
+        bb = lb + s_ * tang(1.15, lr + 2.8)
+        seating.club_chair("lounge chair", at(lr + 2.8, bb, 0.0), face_in(bb) - s_ * 0.3, fabric_mat=seating.fabric("rust velvet", (0.42, 0.14, 0.06), "velvet"), seed=282 + s_)
+    plants.make("ginkgo", at(R_GL + 1.7, b0 + tang(1.6, R_GL + 1.7), 0.0), seed=285, pot=(1.4, 0.75, "basalt"), height=5.5)
+    lights.halo("lounge halo", at(lr + 0.6, lb), d=3.4, z=4.2, ceiling=ceil_at(lb), watts=600)
     washers(b0, b1, 220)
 
 
@@ -574,67 +590,6 @@ def library_up(M, rnd):
             sp.rotation_euler = (math.radians(32), 0, face_out(bb) + math.pi)
 
 
-def wellness(M, rnd):
-    """Wellness (bearings 180 to 216): the spa with a hot pool and a cedar sauna, the 25 m pool along the ring, the gym"""
-    import pent_rooms
-    b0, b1 = 180.0, 216.0; ps0, ps1 = 192.8, 192.8 + tang(25.0, 132.0); pr0, pr1 = 130.0, 134.0
-    o = crown.ring_room(b0, b1, M, M["basalt"])
-    bpy.data.objects.remove(o[0])                      # the floor: remade with a hole for the pool
-    for (r0, r1, a, b) in ((R_GL, R_OUT, b0 - crown.PAD, ps0), (R_GL, R_OUT, ps1, b1 + crown.PAD), (R_GL, pr0, ps0, ps1), (pr1, R_OUT, ps0, ps1)):
-        crown.sector("floor", r0, r1, a, b, 0.0, M["basalt"])
-    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = imports(M)
-    water = pent_rooms.pool_water("pool water up", (0.74, 0.92, 0.90)); glow = lib.emission("pool light up", (0.85, 0.95, 1.0), 25.0)
-    tile = lib.principled("pool tile up", (0.10, 0.22, 0.23), 0.3, **{"Coat Weight": 0.4})
-    dz = 1.5
-    crown.curved_box("pool bottom", pr0 - 0.2, pr1 + 0.2, ps0 - 0.1, ps1 + 0.1, -dz - 0.2, -dz, tile)
-    for (r0, r1) in ((pr0 - 0.2, pr0), (pr1, pr1 + 0.2)): crown.curved_box("pool wall", r0, r1, ps0, ps1, -dz, 0.0, tile)
-    for (a, b) in ((ps0 - tang(0.2, 132), ps0), (ps1, ps1 + tang(0.2, 132))): crown.curved_box("pool end", pr0 - 0.2, pr1 + 0.2, a, b, -dz, 0.0, tile)
-    crown.sector("pool water", pr0, pr1, ps0, ps1, -0.07, water)
-    for r in (pr0 + 0.02, pr1 - 0.02): crown.curved_box("pool light", r - 0.005, r + 0.005, ps0 + 0.3, ps1 - 0.3, -0.36, -0.33, glow)
-    crown.curved_box("pool edge", pr0 - 0.3, pr0, ps0, ps1, -0.005, 0.012, M["stone_linen"]); crown.curved_box("pool edge", pr1, pr1 + 0.3, ps0, ps1, -0.005, 0.012, M["stone_linen"])
-    for (a, b) in ((ps0 - tang(0.3, 132), ps0), (ps1, ps1 + tang(0.3, 132))):      # the ends too: without it the end walls' tops lay level with the floor and showed as a black band
-        crown.curved_box("pool edge", pr0 - 0.3, pr1 + 0.3, a, b, -0.005, 0.012, M["stone_linen"])
-    for k in range(5):     # steps down at the near end: each a block standing on the floor, the top one shortest
-        crown.curved_box("pool step", pr0, pr1, ps0, ps0 + tang(0.35 * (k + 1), 132), -dz, -dz / 6 * (k + 1), tile)      # every tread under the water (at -0.07)
-    # loungers along the Glide side, towels
-    for bb in crown.steps(ps0 + 0.8, ps1 - 0.8, 1.0 / tang(2.6, R_GL + 0.9)):
-        M.setdefault("towel", lib.fabric("towel", (0.86, 0.85, 0.82), 0.95, 0.6, 900, 0.5))
-        pent_rooms.lounger("lounger", at(R_GL + 0.62, bb, 0.0), face_cw(bb), M)
-    # the spa: a round hot pool in a basalt plinth, a cedar sauna with a glass front
-    hb = (b0 + ps0) / 2 - 1.2
-    hc = P(RM, hb)
-    lib.cyl("hot pool rim", 1.9, 0.5, (hc.x, hc.y, 0.0), M["basalt"], verts=96, bevel=0.02)
-    lib.cyl("hot pool water", 1.6, 0.002, (hc.x, hc.y, 0.42), water, verts=96)
-    lib.cyl("hot pool inside", 1.62, 0.08, (hc.x, hc.y, -0.2), tile, verts=96)
-    cut = lib.cyl("hot pool cut", 1.6, 1.0, (hc.x, hc.y, -0.1), None, verts=96); cut.hide_render = True; cut.hide_viewport = True
-    rim = bpy.data.objects["hot pool rim"]; bo = rim.modifiers.new("hollow", "BOOLEAN"); bo.operation = "DIFFERENCE"; bo.object = cut; bo.solver = "EXACT"
-    cedar = lib.wood("cedar", (0.55, 0.33, 0.18), (0.40, 0.22, 0.11), 0.6, along="Z", coat=0.0)
-    sb = b0 + 2.0; sw = tang(3.6, R_OUT - 1.6)
-    crown.curved_box("sauna back", R_OUT - 3.0, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 0.0, 0.08, cedar)
-    for (a, b) in ((sb - sw / 2, sb - sw / 2 + tang(0.08, R_OUT)), (sb + sw / 2 - tang(0.08, R_OUT), sb + sw / 2)):
-        crown.curved_box("sauna side", R_OUT - 3.0, R_OUT - 0.05, a, b, 0.0, 2.5, cedar)
-    crown.curved_box("sauna roof", R_OUT - 3.0, R_OUT - 0.05, sb - sw / 2, sb + sw / 2, 2.42, 2.5, cedar)
-    crown.curved_box("sauna glass", R_OUT - 3.02, R_OUT - 3.0, sb - sw / 2, sb + sw / 2, 0.0, 2.42, M["glass"])
-    for (r0, r1, z) in ((R_OUT - 1.0, R_OUT - 0.05, 0.9), (R_OUT - 1.7, R_OUT - 1.0, 0.45)):
-        crown.curved_box("sauna bench", r0, r1, sb - sw / 2 + 0.01, sb + sw / 2 - 0.01, z - 0.05, z, cedar)
-    lib.point_light("sauna light", at(R_OUT - 0.5, sb, 2.2), 30, (1.0, 0.6, 0.3), 0.1)
-    lib.instance_of(S["plant"], at(R_GL + 0.9, b0 + 1.2, 0.0), 0.3, 1.8); lib.instance_of(S["plant"], at(R_OUT - 0.8, ps1 + tang(1.0), 0.0), 1.3, 1.7)
-    # the gym: a mirror wall, mats, a rack of weights
-    gb = (ps1 + b1) / 2 + 1.0
-    crown.curved_box("gym mirror", R_OUT - 0.06, R_OUT - 0.02, gb - tang(3.0, R_OUT), gb + tang(3.0, R_OUT), 0.1, 2.6, lib.principled("mirror", (0.9, 0.9, 0.9), 0.02, 1.0))
-    for k in range(3):
-        bb = gb + tang(-1.6 + 1.6 * k, RM)
-        lib.box("mat", (0.62, 1.85, 0.008), at(RM + 0.3, bb, 0.004), lib.principled("mat", (0.16, 0.20, 0.18), 0.85), rot_z=face_in(bb))
-    rack = gb + tang(3.6, R_OUT - 0.5)
-    lib.box("rack", (1.4, 0.45, 0.9), at(R_OUT - 0.4, rack, 0.45), M["bronze_dark"], bevel=0.01, rot_z=face_in(rack))
-    for k in range(6):
-        bb = rack + tang(-0.55 + 0.22 * k, R_OUT - 0.5)
-        for z in (0.55, 0.85): lib.cyl("weight", 0.06 + 0.005 * k, 0.24, at(R_OUT - 0.42, bb, z), lib.principled("iron", (0.05, 0.05, 0.05), 0.4, 1.0), verts=16, rot=(0, math.pi / 2, face_cw(bb)))
-    for bb in crown.steps(b0 + 1.0, b1 - 1.0, 1.0 / tang(3.0)):
-        lib.spot_light("downlight", at(RM, bb, ceil_at(bb) - 0.1), 90, (1.0, 0.84, 0.66), 0.03, 50, 0.5)
-
-
 # ---------------------------------------------------------------- the north of the ring: the Studio, the Observatory, the Garden room
 def repo_file(*parts):
     """a file of the mars-campus checkout ($MARS_REPO, or the usual places): the design plan's own pictures"""
@@ -779,8 +734,11 @@ def washers(b0, b1, watts=90, color=(1.0, 0.83, 0.64)):
 
 def studio(M, rnd):
     """the Studio (324 to 360), north-north-west: the art studio in the north light (C-27), the photo and print room
-    (C-28), the craft room (C-29)"""
+    (C-28), the craft room (C-29); furnished to the furnishing program: a sofa and a daybed facing the easels, leather
+    chairs at the desks, a viewing sofa for the prints, a banquette by the potter's wheel, chosen plants"""
+    import seating, tables, plants
     extra_materials(M)
+    oat = seating.fabric("studio linen", (0.62, 0.56, 0.47), "linen"); cognac = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
     b0, b1, w1, w2 = 324.0, 360.0, 339.0, 349.0
     crown.ring_room(b0, b1, M, M["oak"])
     for b in (w1, w2): room_wall(b, M)
@@ -792,26 +750,24 @@ def studio(M, rnd):
     for k, bb in enumerate((326.6, 330.4, 334.2)):
         cm = furn.painting_material("studio canvas %d" % k, *pal[k])
         easel("easel", at(R_OUT - 1.9, bb, 0.0), face_cw(bb) - 0.35, (1.0, 1.25, 0.9)[k], (1.25, 0.95, 1.15)[k], cm, M)
-        stool("stool", at(R_OUT - 1.75, bb + tang(1.3, R_OUT - 1.75), 0.0), M, 0.62)
     lib.box("drop cloth", (8.6, 2.4, 0.004), at(R_OUT - 1.7, 330.4, 0.002), M["raw_canvas"], rot_z=face_in(330.4))
     work_table("work table", RM - 1.0, 331.0, M, rnd)
-    stool("stool", at(RM - 0.2, 332.6, 0.0), M)
+    seating.desk_chair("work chair", at(RM - 0.1, 332.4, 0.0), face_ccw(332.4) + 0.4, fabric_mat=cognac, seed=500)
     for bb in (325.2, 326.4):
         lib.box("flat file", (1.4, 0.9, 0.86), at(R_GL + 0.65, bb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(bb))
         for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.4, 0.004, 0.006), at(R_GL + 1.102, bb, z), M["shadow"], rot_z=face_out(bb))
     leaning_canvases(w1, R_OUT - 1.3, M, rnd, side=-1, n=5)
-    lib.instance_of(S["chair"], at(R_GL + 1.3, 336.4, 0.0), face_out(336.4) - 0.6)
-    lib.instance_of(S["plant"], at(R_GL + 0.8, 337.9, 0.0), 0.8, 1.9)
+    plants.make("bird of paradise", at(R_GL + 1.2, 337.6, 0.0), seed=501, pot=(1.0, 0.7, "bronze"), height=3.5, stems=5)
+    plants.make("fiddle-leaf fig", at(R_OUT - 1.1, b0 + tang(1.3, R_OUT - 1.1), 0.0), seed=502, pot=(0.75, 0.62, "white"), height=2.6)
     # where Jim sits back to look at the work: a sofa and a chair facing the easels on a rug, a low table of art books;
     # a still life set up on a small table by the easels
-    sb = 329.4
-    lib.box("studio rug", (3.4, 2.6, 0.014), at(R_GL + 2.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
-    lib.instance_of(S["sofa"], at(R_GL + 1.2, sb, 0.014), face_out(sb), name="studio sofa")
-    lib.instance_of(S["pouf"], at(R_GL + 2.3, sb - tang(1.15, R_GL + 2.3), 0.014), 0.4, name="studio pouf")
-    lib.box("low table", (1.1, 0.6, 0.06), at(R_GL + 2.3, sb, 0.38), M["walnut"], bevel=0.01, rot_z=face_in(sb))
-    lib.box("low table base", (0.9, 0.45, 0.35), at(R_GL + 2.3, sb, 0.175), M["walnut_v"], bevel=0.006, rot_z=face_in(sb))
+    sb = 330.0
+    lib.box("studio rug", (5.6, 4.0, 0.014), at(R_GL + 3.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    seating.sofa("studio sofa", at(R_GL + 1.75, sb, 0.0), face_out(sb), length=4.2, fabric_mat=oat, seed=503)
+    seating.daybed("studio daybed", at(R_GL + 3.6, sb + tang(2.9, R_GL + 3.6), 0.0), face_ccw(sb) + 0.35, length=2.3, width=1.1, fabric_mat=cognac, seed=504)
+    tables.coffee_table("studio table", at(R_GL + 3.2, sb, 0.0), face_in(sb), length=2.0, width=0.9, kind="stack")
     for k in range(4):
-        q = at(R_GL + 2.25, sb + tang(-0.25 + 0.03 * k, R_GL + 2.25), 0.41 + 0.035 * k)
+        q = at(R_GL + 3.15, sb + tang(-0.25 + 0.03 * k, R_GL + 3.15), 0.37 + 0.035 * k)
         lib.box("art book", (0.32, 0.24, 0.032), q, (M["ceramics"] + [M["walnut"]])[k % 4], bevel=0.004, rot_z=face_in(sb) + rnd.uniform(-0.2, 0.2))
     st = 332.4; q = at(R_OUT - 3.0, st, 0.0)
     lib.box("still life table", (0.8, 0.6, 0.78), (q[0], q[1], 0.39), M["raw_canvas"], bevel=0.01, rot_z=face_in(st))
@@ -837,7 +793,10 @@ def studio(M, rnd):
     crown.curved_box("counter top", R_OUT - 0.7, R_OUT - 0.05, 340.0, 348.2, 0.88, 0.915, M["marble"])
     for (bb, img) in ((342.6, "crown-sunset.jpg"), (345.6, "flight-crater.jpg")):
         screen("screen", repo_file("palace", "design", "img", img), 0.72, 0.42, at(R_OUT - 0.42, bb, 0.915), face_in(bb), M)
-        lib.instance_of(S["chair"], at(R_OUT - 1.25, bb, 0.0), face_out(bb))
+        seating.desk_chair("screen chair", at(R_OUT - 1.25, bb, 0.0), face_out(bb), fabric_mat=cognac, seed=505 + int(bb))
+    # the viewing sofa, facing Jim's prints on the cross wall
+    seating.sofa("print sofa", at(130.6, 346.9, 0.0), face_cw(346.9), length=4.0, fabric_mat=oat, seed=507)
+    framed_print("print", repo_file("palace", "design", "img", "crown-garden.jpg"), 1.6, 0.9, at(129.4, w2 - tang(0.03, 129.4), 1.7), face_cw(w2), M)
     for (r, img, w, h) in ((R_OUT - 0.75, "flight-cliffs.jpg", 1.1, 0.62), (R_OUT - 2.0, "port-aerial.jpg", 0.95, 0.53)):
         framed_print("print", repo_file("palace", "design", "img", img), w, h, at(r, w2 - tang(0.03, r), 1.62), face_cw(w2), M)
     framed_print("print", repo_file("palace", "design", "img", "flight-west.jpg"), 1.6, 0.9, at(R_OUT - 1.3, w1 + tang(0.03, R_OUT - 1.3), 1.65), face_ccw(w1), M)
@@ -847,7 +806,8 @@ def studio(M, rnd):
     pan = furn.lathe("splash pan", [(0.05, 0.42), (0.34, 0.42), (0.36, 0.5), (0.33, 0.5), (0.31, 0.44), (0.05, 0.44)], M["pale_grey"], 64, at(RM, wb, 0.0))
     lib.cyl("wheel head", 0.17, 0.03, at(RM, wb, 0.44), M["steel"], verts=48)
     furn.lathe("pot on the wheel", [(0.0, 0.0), (0.09, 0.0), (0.12, 0.06), (0.11, 0.16), (0.075, 0.24), (0.08, 0.27), (0.07, 0.27), (0.065, 0.24), (0.1, 0.16), (0.11, 0.06), (0.0, 0.01)], M["clay_wet"], 48, at(RM, wb, 0.47))
-    stool("stool", at(RM - 0.85, wb, 0.0), M, 0.5)
+    seating.ottoman("wheel seat", at(RM - 0.85, wb, 0.0), d=0.56, h=0.5, fabric_mat=cognac, seed=508)
+    seating.sofa("craft banquette", at(R_GL + 1.75, 358.0, 0.0), face_out(358.0), length=3.4, depth=1.0, fabric_mat=cognac, arms=False, seed=509)
     kb = 357.6
     lib.cyl("kiln", 0.42, 0.82, at(R_OUT - 0.8, kb, 0.0), M["steel"], verts=64)
     lib.cyl("kiln lid", 0.44, 0.07, at(R_OUT - 0.8, kb, 0.82), M["steel"], verts=64, bevel=0.01)
@@ -879,7 +839,7 @@ def studio(M, rnd):
     while bb < 356.4:
         q = at(RM + rnd.uniform(-0.3, 0.3), bb); furn.ornament("drying pot", q[0], q[1], 0.78, rnd.uniform(0.12, 0.26), rnd, [M["greenware"]])
         bb += tang(rnd.uniform(0.22, 0.34))
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, 358.9, 0.0), 2.0, 1.8)
+    plants.make("olive", at(R_OUT - 1.4, 358.5, 0.0), seed=510, pot=(1.1, 0.8, "terracotta"), height=3.0, stems=2)
     for bc in (326.0, 331.0, 336.0, 341.5, 346.5, 351.5, 356.5):
         for r in (RM - 1.5, RM + 1.3):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 150, (1.0, 0.9, 0.78), 0.03, 50, 0.5)
@@ -1209,10 +1169,6 @@ ROOMS = {
         "maproom": dict(loc=at(RM + 2.4, 317.4, 1.6), target=at(RM - 0.2, 320.4, 2.0), lens=20),
         "study": dict(loc=at(R_GL + 2.2, 295.6, 1.6), target=at(R_OUT - 2.0, 290.6, 1.6), lens=19),
     }, stops={"library": at(RM - 3.0, 306.8, 0.0), "maproom": at(RM + 2.6, 318.2, 0.0), "study": at(RM, 292.0, 0.0)}),
-    "wellness": dict(build=wellness, span=(180.0, 216.0), sun=(198.0, 30.0), cams={
-        "wellness": dict(loc=at(R_GL + 0.6, 191.4, 1.55), target=at(RM + 0.7, 201.0, 0.4), lens=18),
-        "wellness2": dict(loc=at(R_OUT - 1.0, 205.9, 1.3), target=at(R_GL + 0.6, 195.5, 0.8), lens=19),
-    }, stops={"wellness": at(R_GL + 1.6, 198.6, 0.0)}),
     "studio": dict(build=studio, span=(324.0, 360.0), sun=(192.0, 36.0), cams={
         "studio": dict(loc=at(R_GL + 0.9, 335.6, 1.4), target=at(R_OUT - 2.4, 328.6, 1.2), lens=21),
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
@@ -1232,6 +1188,8 @@ ROOMS = {
 if __name__ == "__main__": sys.modules.setdefault("crown_rooms", sys.modules["__main__"])    # crown_more imports this file by name
 from crown_more import MORE          # the rooms that make the ring whole (crown_more.py)
 ROOMS.update(MORE)
+from crown_wellness import WELLNESS  # the spa, the sky pool and the gym (crown_wellness.py)
+ROOMS.update(WELLNESS)
 
 
 def build(room, night_=None):

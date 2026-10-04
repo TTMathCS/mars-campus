@@ -1959,13 +1959,13 @@ null
 "kind": "wellness",
 "at": [
 180.0,
-192.8
+191.5
 ],
-"use": "A cedar sauna with a glass front and a round hot pool, with the view.",
-"also": "",
+"use": "A cedar sauna with a glass front, a round hot pool and a cold plunge, with the view.",
+"also": "Rest on the daybeds between the heat and the cold.",
 "pair": "L1-25",
 "place": "C",
-"m2": 467
+"m2": 420
 },
 {
 "code": "C-14",
@@ -1973,15 +1973,15 @@ null
 "name": "Sky pool, 25 m",
 "kind": "wellness",
 "at": [
-192.8,
-203.65
+191.5,
+204.5
 ],
 "seen": "crown_wellness",
 "use": "Swimming in daylight along the ring, where low gravity makes every wave rise high and fall slowly.",
 "also": "Lying by the water in the sun.",
 "pair": "L1-23",
 "place": "C",
-"m2": 396
+"m2": 475
 },
 {
 "code": "C-15",
@@ -1989,14 +1989,14 @@ null
 "name": "Gym",
 "kind": "wellness",
 "at": [
-203.65,
+204.5,
 216.0
 ],
-"use": "Machines and weights with the view, for the daily exercise.",
-"also": "",
+"use": "Machines and weights with the view, for the daily exercise: treadmills and rowers facing the windows.",
+"also": "Yoga and stretching on the mats.",
 "pair": "L1-24",
 "place": "C",
-"m2": 451
+"m2": 420
 },
 {
 "code": "C-16",

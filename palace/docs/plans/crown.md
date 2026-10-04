@@ -18,9 +18,9 @@
 | **C-10** | Great salon | Jim's living room by day: linen sofas, olive trees, the sun through the slots, the view. | L1-02 |
 | **C-11** | Recital room | The concert grand, played for guests: the salon's chairs turn to face it. | L1-01 |
 | **C-12** | Sky lounge | Upstairs in the Salon spire: the highest view over the plain by day. |  |
-| **C-13** | Spa | A cedar sauna with a glass front and a round hot pool, with the view. | L1-25 |
+| **C-13** | Spa | A cedar sauna with a glass front, a round hot pool and a cold plunge, with the view. | L1-25 |
 | **C-14** | Sky pool, 25 m | Swimming in daylight along the ring, where low gravity makes every wave rise high and fall slowly. | L1-23 |
-| **C-15** | Gym | Machines and weights with the view, for the daily exercise. | L1-24 |
+| **C-15** | Gym | Machines and weights with the view, for the daily exercise: treadmills and rowers facing the windows. | L1-24 |
 | **C-16** | Wine room | Wine brought up from the cellar (L1-20) for the dinners, and served from here. |  |
 | **C-17** | Dining hall | Dinners with guests: one basalt table for 22, the afternoon sun low through the slots. | L1-03 |
 | **C-18** | Chef's kitchen | Cooks for the dining hall. | L1-10 |

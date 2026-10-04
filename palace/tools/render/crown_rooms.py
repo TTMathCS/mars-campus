@@ -417,33 +417,43 @@ SUITE_DOOR = (R_GL + 1.0, R_GL + 3.6)        # the doorways between the dressing
 
 
 def sunset_lounge(M, rnd):
-    """the sunset lounge (261 to 279): low sofas face the west slots; at sunset the sun shines straight in"""
+    """the sunset lounge (261 to 279; furnishing.py): two long low sofas 6 m, curving with the ring, face the west
+    windows across long travertine tables, a daybed beside each; low lamps, for the sunset does the rest; beds of
+    agaves and golden barrels on the piers between the windows, so the glass stays clear; gold ginkgos to glow"""
+    import seating, tables, lights, plants
     b0, b1 = 261.0, 279.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = imports(M)
-    for k, bc in enumerate((265.0, 270.0, 275.0)):
-        lib.box("rug", (4.2, 5.4, 0.014), at(RM + 0.4, bc, 0.007), M["rug" if k != 1 else "rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
-        lib.instance_of(S["sofa"], at(R_GL + 1.6, bc, 0.014), face_out(bc), name="lounge sofa")
-        for side in (-1, 1):
-            bb = bc + side * tang(2.0)
-            lib.instance_of(S["chair"], at(RM + 1.0, bb, 0.014), face_in(bb) - side * 0.5, name="lounge chair")
-        lib.box("low table", (1.0, 1.9, 0.07), at(RM - 0.1, bc, 0.315), M["olive"], bevel=0.012, rot_z=face_in(bc))
-        lib.box("low table base", (0.7, 1.6, 0.28), at(RM - 0.1, bc, 0.14), M["olive_v"], bevel=0.006, rot_z=face_in(bc))
-        lib.instance_of(S["vase"], at(RM - 0.1, bc + tang(0.3), 0.35), rnd.uniform(0, 6), 1.6)
-        furn.floor_lamp("floor lamp", at(R_GL + 0.6, bc + tang(1.9), 0.0), M, watts=90)
-        for dt in (-0.5, 0.5):
-            furn.cushion("cushion", (0.44, 0.13, 0.44), at(R_GL + 1.35, bc + tang(dt), 0.62), (math.radians(-14), 0, face_out(bc) + math.pi / 2 * 0), M["rust"] if dt < 0 else M["linen"])
-    for bb in (263.0, 267.5, 272.5, 277.0):
-        p = at(R_OUT - 1.0, bb, 0.0)
-        lib.box("tree planter", (0.9, 0.9, 0.55), (p[0], p[1], 0.275), M["basalt"], bevel=0.01, rot_z=-bb * D)
-        furn.olive_tree("lounge olive", (p[0], p[1], 0.55), rnd.randint(0, 9999), M, height=rnd.uniform(3.0, 3.8), leaves=15000)
-    b = b0 + 0.6
-    while b < b1 - 0.5:
-        for (r, d) in ((R_IN + 0.9, -1), (R_OUT - 0.9, 1)):
-            q = Vector(at(r, b, ceil_at(b) - 0.08)); tgt = Vector(at(r + d * 0.9, b, 1.2))
-            sp = lib.spot_light("wall washer", tuple(q), 70, (1.0, 0.80, 0.60), 0.04, 70, 0.8); sp.rotation_euler = (tgt - q).to_track_quat("-Z", "Y").to_euler()
-        b += tang(3.0)
+    crown.glide_lights(b0, b1)
+    sand = seating.fabric("sand boucle", (0.66, 0.58, 0.47), "boucle"); rust = seating.fabric("rust velvet", (0.42, 0.14, 0.06), "velvet")
+    trav = seating.stone("sunset travertine", (0.80, 0.70, 0.56), (0.62, 0.52, 0.40), "travertine", 0.3)
+    rs = RM - 1.4
+    for k, bc in enumerate((265.4, 274.6)):
+        lib.box("rug", (8.0, 5.0, 0.014), at(RM + 0.2, bc, 0.007), M["rug" if k == 0 else "rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
+        seating.sofa("sunset sofa", at(rs, bc, 0.0), face_out(bc), length=6.0, depth=1.15, fabric_mat=sand, bend=rs, seed=320 + k)
+        tables.coffee_table("sunset table", at(rs + 1.75, bc, 0.0), face_in(bc), length=3.6, width=1.0, h=0.32, mat=trav)
+        db = bc + (1 if k == 0 else -1) * tang(4.0, rs + 1.2)
+        seating.daybed("sunset daybed", at(rs + 1.2, db, 0.0), face_cw(db) + (0.35 if k == 0 else -0.35) + math.pi, length=2.3, width=1.1, fabric_mat=rust, seed=324 + k)
+        for s_ in (-1, 1):
+            e = bc + s_ * tang(3.45, rs); tables.drum("sunset drum", at(rs, e, 0.0), d=0.5, h=0.5)
+            furn.table_lamp("sunset lamp", at(rs, e, 0.5), M, watts=40, shade_r=0.16)
+        for dt in (-1.6, -0.5, 0.6, 1.7):
+            furn.cushion("cushion", (0.5, 0.14, 0.5), at(rs - 0.32, bc + tang(dt, rs), 0.66), (math.radians(-14), 0, face_out(bc)), M["rust"] if dt < 0 else M["linen"])
+    # beds of agaves and golden barrels on the piers between the windows
+    gravel = lib.principled("bed gravel", (0.30, 0.24, 0.19), 0.9)
+    for k, pb in enumerate((264.2, 267.6, 271.0, 274.4, 277.8)):
+        a, b = pb - tang(1.4, R_OUT - 0.75), pb + tang(1.4, R_OUT - 0.75)
+        crown.curved_box("cactus bed", R_OUT - 1.35, R_OUT - 0.15, a, b, 0.0, 0.42, M["basalt"])
+        crown.curved_box("cactus gravel", R_OUT - 1.27, R_OUT - 0.23, a + tang(0.08, R_OUT), b - tang(0.08, R_OUT), 0.42, 0.425, gravel)
+        if k % 2 == 0:
+            plants.make("agave", at(R_OUT - 0.75, pb, 0.425), seed=330 + k, size=0.9)
+            for s_ in (-1, 1): plants.make("golden barrel", at(R_OUT - 0.65, pb + s_ * tang(0.9, R_OUT), 0.425), seed=340 + 2 * k + s_, r=0.24)
+        else:
+            for s_ in (-1, 1): plants.make("agave", at(R_OUT - 0.75, pb + s_ * tang(0.7, R_OUT), 0.425), seed=350 + 2 * k + s_, size=0.7, colour="blue" if s_ < 0 else "green")
+            plants.make("golden barrel", at(R_OUT - 0.6, pb, 0.425), seed=360 + k, r=0.28)
+    for k, bb in enumerate((b0 + tang(2.2, R_GL + 2.0), b1 - tang(2.2, R_GL + 2.0))):
+        plants.make("ginkgo", at(R_GL + 2.0, bb, 0.0), seed=370 + k, pot=(1.4, 0.75, "basalt"), height=5.6)
+    washers(b0, b1, 60, (1.0, 0.80, 0.60))
 
 
 def radial_frame(r, b, inward=False):
@@ -583,6 +593,10 @@ def library_up(M, rnd):
     tables.coffee_table("study table", at(RM - 1.0, db, 0.0), face_in(db), length=1.8, width=0.9)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.4, b0 + tang(1.5, R_OUT - 1.4), 0.0), seed=382, pot=(0.75, 0.62, "white"), height=2.9)
     paint("study painting", "vangogh_self_portrait", 2.0, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.0, tall=True)
+    # over the opening to the map room, hung high on the walnut as in a great library: Delaunay's portrait of the
+    # painter and writer Jean Metzinger
+    paint("library painting", "delaunay_metzinger", 3.4, at(RM, bs1 - tang(0.17, RM), 0.0), face_ccw(bs1), 6.3, tall=True)
+    paint("map room print", "claude_harbour", 1.8, at(RM + 2.2, b1 - tang(0.17, RM + 2.2), 0.0), face_ccw(b1), 1.9)      # a harbour for the room of maps
     # light: washers on the shelves at each storey, lamps on the tables
     for bb in crown.steps(bs0 + 0.5, bs1 - 0.5, 1.0 / tang(2.0, R_OUT - 2.2)):
         for (z, w) in ((G2 + 3.6, 160), (G1 - 0.3, 40), (G2 - 0.3, 60)):
@@ -1032,47 +1046,51 @@ def garden_room(M, rnd):
     crown.sector("breakfast floor", R_GL + 0.05, R_OUT, b0 - crown.PAD, w1, 0.004, M["oak"])        # oak in the breakfast room
     room_wall(w1, M)
     S = imports(M)
-    # C-33, breakfast: a round oak table for six under a pendant, the sideboard with the coffee
-    tb = 41.6; tc_ = Vector(at(RM + 0.5, tb, 0.0))
-    lib.cyl("table foot", 0.42, 0.03, (tc_.x, tc_.y, 0.0), M["bronze_dark"], verts=64, bevel=0.005)
-    lib.cyl("table stem", 0.07, 0.7, (tc_.x, tc_.y, 0.03), M["bronze_dark"], verts=32)
-    lib.cyl("table top", 0.82, 0.04, (tc_.x, tc_.y, 0.72), M["oak_top"], verts=96, bevel=0.006)
-    for k in range(6):
-        a = k * math.pi / 3 + 0.3; p = (tc_.x + 1.08 * math.cos(a), tc_.y + 1.08 * math.sin(a), 0.0)
-        furn.dining_chair("chair", p, a - math.pi / 2, M)          # facing the table
-        q = (tc_.x + 0.55 * math.cos(a), tc_.y + 0.55 * math.sin(a), 0.76)
+    # C-33, breakfast (furnishing.py): a round oak table 2.4 m across for eight in upholstered chairs under a cluster
+    # of opal globes; a long banquette along the sunrise windows with its own table; the sideboard with the coffee;
+    # lemons in terracotta, orchids, an olive; Van Gogh's thatched cottages in the sun on the cross wall
+    import seating, tables, lights, plants
+    tb = 41.2; tc_ = Vector(at(RM - 0.4, tb, 0.0)); TR = 1.2
+    lib.box("breakfast rug", (5.4, 5.4, 0.014), at(RM - 0.4, tb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(tb), segs=2)
+    lib.cyl("table foot", 0.62, 0.04, (tc_.x, tc_.y, 0.0), M["bronze_dark"], verts=96, bevel=0.006)
+    lib.cyl("table stem", 0.16, 0.68, (tc_.x, tc_.y, 0.04), M["oak_top"], verts=48)
+    lib.cyl("table top", TR, 0.05, (tc_.x, tc_.y, 0.71), M["oak_top"], verts=128, bevel=0.008)
+    linen = seating.fabric("breakfast linen", (0.66, 0.58, 0.45), "linen")
+    for k in range(8):
+        a = k * math.pi / 4 + 0.2; p = (tc_.x + (TR + 0.42) * math.cos(a), tc_.y + (TR + 0.42) * math.sin(a), 0.0)
+        seating.dining_chair("breakfast chair", p, a - math.pi / 2, fabric_mat=linen, seed=520 + k)          # facing the table
+        q = (tc_.x + (TR - 0.36) * math.cos(a), tc_.y + (TR - 0.36) * math.sin(a), 0.76)
         lib.cyl("plate", 0.13, 0.012, q, M["porcelain"], verts=48, bevel=0.003)
     cup = lib.import_glb(os.path.join(A, "DiffuseTransmissionTeacup.glb"), (0, 0, -100), 0, name="cup src")
-    for k in range(0, 6, 2):
-        a = k * math.pi / 3 + 0.3 + 0.35; lib.instance_of(cup, (tc_.x + 0.5 * math.cos(a), tc_.y + 0.5 * math.sin(a), 0.76), a, 0.9)
+    for k in range(0, 8, 2):
+        a = k * math.pi / 4 + 0.2 + 0.3; lib.instance_of(cup, (tc_.x + (TR - 0.42) * math.cos(a), tc_.y + (TR - 0.42) * math.sin(a), 0.76), a, 0.9)
     lemon_skin = lib.principled("lemon skin", (0.85, 0.62, 0.05), 0.35, **{"Coat Weight": 0.3})
-    furn.lathe("fruit bowl", [(0.0, 0.0), (0.08, 0.0), (0.16, 0.05), (0.19, 0.09), (0.18, 0.09), (0.15, 0.055), (0.0, 0.02)], M["ceramics"][3], 48, (tc_.x, tc_.y, 0.76))
+    furn.lathe("fruit bowl", [(0.0, 0.0), (0.08, 0.0), (0.16, 0.05), (0.19, 0.09), (0.18, 0.09), (0.15, 0.055), (0.0, 0.02)], M["ceramics"][3], 48, (tc_.x + 0.25, tc_.y, 0.76))
     for k in range(7):
-        a = k * 0.9; bpy.ops.mesh.primitive_uv_sphere_add(segments=16, ring_count=10, radius=0.036, location=(tc_.x + 0.08 * math.cos(a) * (k > 0), tc_.y + 0.08 * math.sin(a) * (k > 0), 0.83 + 0.04 * (k == 0)))
+        a = k * 0.9; bpy.ops.mesh.primitive_uv_sphere_add(segments=16, ring_count=10, radius=0.036, location=(tc_.x + 0.25 + 0.08 * math.cos(a) * (k > 0), tc_.y + 0.08 * math.sin(a) * (k > 0), 0.83 + 0.04 * (k == 0)))
         lm = bpy.context.active_object; lm.scale = (1, 1, 1.2); lm.data.materials.append(lemon_skin)
         for p_ in lm.data.polygons: p_.use_smooth = True
-    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15); gz = 2.0
-    furn.lathe("pendant globe", [(0.0, -0.24), (0.13, -0.2), (0.23, -0.07), (0.24, 0.0), (0.23, 0.1), (0.17, 0.18), (0.05, 0.235), (0.0, 0.24)], globe, 48, (tc_.x, tc_.y, gz))
-    lib.cyl("pendant bulb", 0.03, 0.06, (tc_.x, tc_.y, gz - 0.03), lib.emission("bulb", (1.0, 0.72, 0.45), 70), verts=16)
-    lib.cyl("pendant cable", 0.002, ceil_at(tb) - gz - 0.24, (tc_.x, tc_.y, gz + 0.24), M["shadow"], verts=8)
-    lib.point_light("pendant light", (tc_.x, tc_.y, gz), 40, (1.0, 0.75, 0.5), 0.07)
+    plants.make("orchid", (tc_.x - 0.25, tc_.y, 0.76), seed=530, pot=(0.24, 0.12, "white"), colour="white")
+    lights.globes("breakfast globes", (tc_.x, tc_.y), n=9, spread=0.85, low=2.0, high=2.9, ceiling=ceil_at(tb), watts=40, seed=5)
+    # the banquette along the windows, its table, three chairs across it; a lemon tree at each end
+    bq = 44.4; rq = R_OUT - 0.75
+    seating.sofa("window banquette", at(rq, bq, 0.0), face_in(bq), length=5.6, depth=1.0, fabric_mat=seating.fabric("sage velvet", (0.24, 0.30, 0.22), "velvet"), arms=False, bend=rq, seed=531)
+    tables.dining_table("banquette table", at(rq - 1.25, bq, 0.0), face_in(bq), length=4.2, width=0.9, mat=M["oak_top"], base=M["bronze_dark"])
+    for k in (-1, 0, 1):
+        bb = bq + k * tang(1.4, rq - 2.1); seating.dining_chair("banquette chair", at(rq - 2.1, bb, 0.0), face_out(bb), fabric_mat=linen, seed=533 + k)
+    plants.make("orchid", at(rq - 1.25, bq, 0.76), seed=536, pot=(0.22, 0.11, "white"), colour="pink")
+    for k, bb in enumerate((bq - tang(3.6, R_OUT - 1.0), bq + tang(3.6, R_OUT - 1.0))):
+        plants.make("lemon", at(R_OUT - 1.0, bb, 0.0), seed=537 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)
+    lights.globes("banquette globes", at(rq - 1.25, bq), n=5, spread=1.4, low=2.0, high=2.6, ceiling=ceil_at(bq), watts=30, seed=9)
+    # the sideboard with the coffee on the inner side, flowers; an olive in a basalt planter by the cross wall
     sb = 39.0
-    lib.box("sideboard", (2.6, 0.5, 0.86), at(R_GL + 0.55, sb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(sb))
-    lib.box("sideboard top", (2.64, 0.52, 0.03), at(R_GL + 0.55, sb, 0.875), M["marble"], bevel=0.004, rot_z=face_out(sb))
-    cm = at(R_GL + 0.5, sb - tang(0.7), 0.89)
+    tables.console("sideboard", at(R_GL + 0.75, sb, 0.0), face_out(sb), length=3.4, depth=0.55, h=0.88)
+    cm = at(R_GL + 0.7, sb - tang(0.9), 0.88)
     lib.box("coffee machine", (0.36, 0.4, 0.42), (cm[0], cm[1], cm[2] + 0.21), M["steel"], bevel=0.02, rot_z=face_out(sb))
-    lib.box("coffee machine front", (0.3, 0.02, 0.14), at(R_GL + 0.72, sb - tang(0.7), 1.08), M["graphite"], rot_z=face_out(sb))
-    lib.instance_of(S["vase"], at(R_GL + 0.55, sb + tang(0.6), 0.89), 0.4, 1.4)
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, 37.2, 0.0), 0.3, 2.0)
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, 46.4, 0.0), 1.6, 1.9)
-    lib.box("breakfast rug", (3.6, 3.8, 0.014), at(RM + 0.5, tb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(tb), segs=2)
-    cb = 37.6                                   # a sitting corner by the slots for the coffee after, and an olive tree
-    lib.box("corner rug", (3.0, 2.6, 0.014), at(R_OUT - 1.6, cb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(cb), segs=2)
-    for side in (-1, 1):
-        bb = cb + side * tang(0.85, R_OUT - 1.4); lib.instance_of(S["chair"], at(R_OUT - 1.3, bb, 0.0), face_in(bb) + side * 0.45)
-    furn.side_table("coffee table", at(R_OUT - 2.0, cb, 0.0), M, r=0.3, h=0.42)
-    p = at(R_OUT - 1.0, 39.6, 0.0); lib.box("tree planter", (0.9, 0.9, 0.55), (p[0], p[1], 0.275), M["basalt"], bevel=0.01, rot_z=-39.6 * D)
-    furn.olive_tree("breakfast olive", (p[0], p[1], 0.55), 4242, M, height=3.4, leaves=15000)
+    lib.box("coffee machine front", (0.3, 0.02, 0.14), at(R_GL + 0.9, sb - tang(0.9), 1.07), M["graphite"], rot_z=face_out(sb))
+    lib.instance_of(S["vase"], at(R_GL + 0.75, sb + tang(0.8), 0.88), 0.4, 1.4)
+    plants.make("olive", at(R_GL + 1.8, b0 + tang(1.6, R_GL + 1.8), 0.0), seed=539, pot=(1.3, 0.8, "basalt", True), height=3.6, stems=2)
+    paint("breakfast painting", "vangogh_cottages", 3.0, at(RM + 1.0, b0 + tang(0.17, RM + 1.0), 0.0), face_cw(b0), 2.3, tall=True)
     # C-34, the sky garden: raised beds of basalt along both walls, full of herbs and flowers, clipped box at their
     # ends, lemon and olive trees; a gravel path with stepping stones; a stone basin of water in the middle; ivy up
     # the outer wall between the slots; benches
@@ -1157,7 +1175,7 @@ ROOMS = {
     }, stops={"bedroom": at(128.6, 123.5, 0.0)}),
     "sunset": dict(build=sunset_lounge, span=(261.0, 279.0), sun=(268.0, 4.5), sun_strength=11.0, cams={
         "sunset": dict(loc=at(R_GL + 0.5, 266.3, 1.4), target=at(R_OUT - 0.2, 271.8, 1.6), lens=20),
-        "sunset2": dict(loc=at(R_OUT - 1.4, 277.6, 1.4), target=at(R_GL + 0.4, 268.0, 1.2), lens=20),
+        "sunset2": dict(loc=at(R_OUT - 2.6, 278.3, 1.4), target=at(R_GL + 0.4, 268.0, 1.2), lens=20),
     }, stops={"sunset": at(RM, 270.0, 0.0)}),
     "salon": dict(build=salon, span=(144.0, 180.0), sun=(158.0, 38.0), cams={
         "salon":  dict(loc=at(RM + 3.6, 153.0, 1.6), target=at(RM - 1.2, 163.6, 3.0), lens=18),

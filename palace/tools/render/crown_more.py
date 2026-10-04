@@ -92,14 +92,15 @@ def standing(src, loc, rot_z=0.0, name=None):
 # ---------------------------------------------------------------- C-16 the wine room
 def wine_room(M, rnd):
     """C-16, the wine room (216 to 223.2), beside the dining hall: wine brought up from the cellar (L1-20) for the
-    dinners and served from here. A wall of bottles behind Mars glass, lit from behind; a tasting counter of walnut and
-    marble; a glass front onto the Glide, its door open"""
-    import club
+    dinners and served from here (furnishing.py). The wine wall along the cross wall, away from the sun: bays of
+    bottles lying necks out behind glass, lit from behind, 3.6 m tall; a serving island of walnut and marble; by the
+    windows a leather banquette and two club chairs round a stone table, Caravaggio's Basket of Fruit over it; an
+    olive in terracotta; clear glass onto the Glide with a door"""
+    import club, seating, tables, lights, plants
     b0, b1 = 216.0, 223.2
     mats(M); club.materials(M)
     crown.ring_room(b0, b1, M, M["basalt"])
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = CR.imports(M)
     # a lighter bottle than the cellar's, for the walls of them
     prof = [(0.0, 0.0), (0.037, 0.0), (0.0375, 0.02), (0.0375, 0.205), (0.024, 0.24), (0.015, 0.258), (0.0145, 0.3)]
     bm = bmesh.new(); seg = 10; rings = []
@@ -111,53 +112,54 @@ def wine_room(M, rnd):
             f = bm.faces.new((r0[i], r0[i + 1], r1[i + 1], r1[i])); f.material_index = 1 if prof[i][1] >= 0.24 else 0
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
     src = lib.mesh_obj("wall bottle", bm, [M["bottle"], M["capsule"]], smooth=True); src.location = (0, 0, -500)
-    # the wine wall: bays 1.15 m wide along the outer wall, 2.75 m tall (under the slots), bottles lying necks out
-    W = 1.15; nb = int((b1 - b0 - tang(0.8, R_OUT)) / tang(W, R_OUT))
-    s0 = (b0 + b1) / 2 - nb * tang(W, R_OUT) / 2
+    # the wine wall on the cross wall at b0: bays 1.15 m wide from near the glass to near the windows, 3.6 m tall
+    W, H, D_ = 1.15, 3.6, 0.6; w0 = b0 + FACE; r_a, r_b = R_GL + 1.7, R_OUT - 1.5
+    nb = int((r_b - r_a) / W); ra0 = (r_a + r_b) / 2 - nb * W / 2
     back = lib.emission("rack light", (1.0, 0.78, 0.52), 1.6)
     for k in range(nb):
-        a = s0 + k * tang(W, R_OUT); c = a + tang(W, R_OUT); bb = (a + c) / 2
-        crown.curved_box("wine back", R_OUT - 0.07, R_OUT - 0.05, a, c, 0.12, 2.72, back)
-        for e in (a, c): crown.curved_box("wine fin", R_OUT - 0.62, R_OUT - 0.05, e - tang(0.015, R_OUT), e + tang(0.015, R_OUT), 0.0, 2.8, M["walnut_v"])
-        crown.curved_box("wine plinth", R_OUT - 0.62, R_OUT - 0.05, a, c, 0.0, 0.12, M["walnut"])
-        crown.curved_box("wine top", R_OUT - 0.62, R_OUT - 0.05, a, c, 2.72, 2.8, M["walnut"])
+        ra, rc = ra0 + k * W, ra0 + (k + 1) * W; rr = (ra + rc) / 2
+        dp = lambda d: w0 + tang(d, rr)
+        crown.curved_box("wine back", ra, rc, dp(0.01), dp(0.03), 0.12, H - 0.08, back)
+        for e in (ra, rc): crown.curved_box("wine fin", e - 0.015, e + 0.015, w0, dp(D_), 0.0, H, M["walnut_v"])
+        crown.curved_box("wine plinth", ra, rc, w0, dp(D_), 0.0, 0.12, M["walnut"])
+        crown.curved_box("wine top", ra, rc, w0, dp(D_), H - 0.08, H, M["walnut"])
         pts = []
-        for i in range(19):
+        for i in range(int((H - 0.3) / 0.13)):
             z = 0.2 + i * 0.13
-            for j in range(10):
-                t = (j + 0.5) / 10; pb = a + (c - a) * (0.06 + 0.88 * t)
-                pts.append(at(R_OUT - 0.1 - rnd.uniform(0.0, 0.02), pb, z))         # the base at the back, the neck out
-        club.instancer("wine rack %d" % k, pts, src, (0.0, 0.0, face_out(bb)))
-        crown.curved_box("wine glass door", R_OUT - 0.64, R_OUT - 0.63, a + tang(0.02, R_OUT), c - tang(0.02, R_OUT), 0.13, 2.71, M["glass"])
-        lib.box("wine pull", (0.015, 0.03, 0.5), at(R_OUT - 0.66, c - tang(0.08, R_OUT), 1.35), M["bronze"], rot_z=face_in(c))
-    # the tasting counter: walnut and marble along the ring, stools on the Glide side
-    bc = (b0 + b1) / 2; L_ = 4.4
-    crown.curved_box("counter", RM + 0.15, RM + 0.85, bc - tang(L_ / 2), bc + tang(L_ / 2), 0.0, 1.0, M["walnut_v"])
-    crown.curved_box("counter top", RM + 0.05, RM + 0.95, bc - tang(L_ / 2 + 0.05), bc + tang(L_ / 2 + 0.05), 1.0, 1.04, M["marble"])
-    crown.curved_box("counter kick", RM + 0.2, RM + 0.8, bc - tang(L_ / 2 - 0.05), bc + tang(L_ / 2 - 0.05), 0.0, 0.08, M["shadow"])
-    for i in range(5):
-        bb = bc - tang(1.6) + i * tang(0.8); CR.stool("stool", at(RM - 0.2, bb, 0.0), M, h=0.76)
+            for j in range(9):
+                t = (j + 0.5) / 9; pts.append(at(ra + (rc - ra) * (0.06 + 0.88 * t), dp(0.06 + rnd.uniform(0.0, 0.02)), z))   # the base at the back, the neck out
+        club.instancer("wine rack %d" % k, pts, src, (0.0, 0.0, face_ccw(b0)))
+        crown.curved_box("wine glass door", ra + 0.02, rc - 0.02, dp(D_ + 0.01), dp(D_ + 0.02), 0.13, H - 0.09, M["glass"])
+        lib.box("wine pull", (0.5, 0.03, 0.015), at(rc - 0.08, dp(D_ + 0.04), 1.35), M["bronze"], rot_z=face_cw(b0) + math.pi / 2)
+    crown.curved_box("wine cornice", ra0, ra0 + nb * W, w0, w0 + tang(D_ + 0.06, RM), H, H + 0.06, M["walnut"])
+    # the serving island: walnut and marble along the ring, the decanter, glasses, olives
+    bc = (b0 + b1) / 2 + 0.6; L_ = 4.0; ri = RM - 1.2
+    crown.curved_box("counter", ri - 0.35, ri + 0.35, bc - tang(L_ / 2, ri), bc + tang(L_ / 2, ri), 0.0, 0.96, M["walnut_v"])
+    crown.curved_box("counter top", ri - 0.45, ri + 0.45, bc - tang(L_ / 2 + 0.05, ri), bc + tang(L_ / 2 + 0.05, ri), 0.96, 1.0, M["marble"])
+    crown.curved_box("counter kick", ri - 0.3, ri + 0.3, bc - tang(L_ / 2 - 0.05, ri), bc + tang(L_ / 2 - 0.05, ri), 0.0, 0.08, M["shadow"])
     for i, w in enumerate((0.06, 0.0, 0.05, 0.03, 0.0, 0.04)):
-        bb = bc - tang(1.5) + i * tang(0.55); club.wine_glass("wine glass", at(RM + 0.32, bb, 1.04), M, wine=w)
-    for i in range(3):
-        standing(src, at(RM + 0.62, bc + tang(0.6 + i * 0.12), 1.04), rnd.uniform(0, 6), "standing bottle")
-    furn.lathe("decanter", [(0.0, 0.0), (0.06, 0.0), (0.105, 0.04), (0.11, 0.08), (0.07, 0.14), (0.025, 0.2), (0.022, 0.32), (0.03, 0.34), (0.0, 0.34)], M["crystal"], 40, at(RM + 0.55, bc - tang(0.4), 1.04))
-    furn.lathe("decanted wine", [(0.0, 0.003), (0.058, 0.003), (0.1, 0.04), (0.104, 0.065), (0.0, 0.065)], M["wine"], 40, at(RM + 0.55, bc - tang(0.4), 1.04))
-    lib.import_glb(os.path.join(CR.A, "IridescentDishWithOlives.glb"), at(RM + 0.5, bc + tang(1.4), 1.04), 0.0, 0.8, name="olives")
-    # globes over the counter, and the front onto the Glide
-    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15)
-    for i in range(3):
-        bb = bc + tang(-1.4 + 1.4 * i); z = 2.15
-        furn.lathe("globe", [(0.0, -0.16), (0.09, -0.14), (0.15, -0.05), (0.16, 0.0), (0.15, 0.06), (0.11, 0.12), (0.03, 0.155), (0.0, 0.16)], globe, 40, at(RM + 0.5, bb, z))
-        lib.cyl("globe bulb", 0.02, 0.04, at(RM + 0.5, bb, z - 0.02), lib.emission("bulb", (1.0, 0.72, 0.45), 60), verts=16)
-        lib.cyl("globe cable", 0.002, ceil_at(bb) - z - 0.16, at(RM + 0.5, bb, z + 0.16), M["shadow"], verts=8)
-        lib.point_light("globe light", at(RM + 0.5, bb, z), 30, (1.0, 0.75, 0.5), 0.06)
-    glass_front(b0 + FACE, b1 - FACE, M, door_at=bc - tang(2.6, R_GL))
-    lib.instance_of(S["plant"], at(R_GL + 0.7, b0 + tang(0.9), 0.0), 0.4, 1.7)
-    CR.washers(b0, b1, 50)
+        bb = bc - tang(1.4, ri) + i * tang(0.5, ri); club.wine_glass("wine glass", at(ri + 0.15, bb, 1.0), M, wine=w)
+    for i in range(3): standing(src, at(ri - 0.2, bc + tang(0.7 + i * 0.12, ri), 1.0), rnd.uniform(0, 6), "standing bottle")
+    furn.lathe("decanter", [(0.0, 0.0), (0.06, 0.0), (0.105, 0.04), (0.11, 0.08), (0.07, 0.14), (0.025, 0.2), (0.022, 0.32), (0.03, 0.34), (0.0, 0.34)], M["crystal"], 40, at(ri - 0.1, bc - tang(0.4, ri), 1.0))
+    furn.lathe("decanted wine", [(0.0, 0.003), (0.058, 0.003), (0.1, 0.04), (0.104, 0.065), (0.0, 0.065)], M["wine"], 40, at(ri - 0.1, bc - tang(0.4, ri), 1.0))
+    lib.import_glb(os.path.join(CR.A, "IridescentDishWithOlives.glb"), at(ri, bc + tang(1.4, ri), 1.0), 0.0, 0.8, name="olives")
+    lights.globes("counter globes", at(ri, bc), n=7, spread=1.5, low=2.1, high=2.8, ceiling=ceil_at(bc), watts=32, seed=4)
+    # by the windows: a leather banquette along the cross wall at b1, a stone table, two club chairs; Caravaggio over it
+    oxblood = seating.fabric("oxblood leather", (0.20, 0.045, 0.035), "leather")
+    rb = R_OUT - 3.6; bq = b1 - FACE - tang(0.62, rb)
+    seating.sofa("wine banquette", at(rb, bq, 0.0), face_ccw(b1), length=4.0, depth=1.05, fabric_mat=oxblood, seed=290)
+    tables.coffee_table("wine table", at(rb, bq - tang(1.45, rb), 0.0), face_ccw(b1), length=1.3, kind="round",
+                        mat=seating.stone("wine travertine", (0.74, 0.66, 0.55), (0.55, 0.47, 0.38), "travertine", 0.3))
+    for s_ in (-1, 1):
+        q = rb + s_ * 1.05; bb = bq - tang(2.55, q)
+        seating.club_chair("wine chair", at(q, bb, 0.0), face_cw(bb) + s_ * 0.35, fabric_mat=seating.fabric("moss velvet", (0.16, 0.20, 0.12), "velvet"), seed=291 + s_)
+    CR.paint("wine painting", "caravaggio_basket_of_fruit", 2.2, at(rb, b1 - FACE - tang(0.02, rb), 0.0), face_ccw(b1), 2.15)
+    plants.make("olive", at(R_OUT - 1.3, b0 + tang(1.0, R_OUT - 1.3), 0.0), seed=295, pot=(1.2, 0.8, "terracotta"), height=3.0, stems=2)
+    crown.glass_wall("wine glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[((b0 + b1) / 2, 2.2)])
+    crown.glide_lights(b0, b1)
+    CR.washers(b0, b1, 60)
 
 
-# ---------------------------------------------------------------- C-18 the chef's kitchen
 def pot(name, loc, M, r=0.12, h=0.14, mat=None, lid=False):
     mat = mat or M["copper"]
     g = furn.lathe(name, [(0.0, 0.0), (r * 0.92, 0.0), (r, 0.015), (r, h), (r * 0.94, h), (r * 0.94, 0.02), (0.0, 0.02)], mat, 32, loc)
@@ -166,80 +168,84 @@ def pot(name, loc, M, r=0.12, h=0.14, mat=None, lid=False):
 
 
 def chefs_kitchen(M, rnd):
-    """C-18, the chef's kitchen (241.2 to 252), next to the dining hall: it cooks for the dinners. The cooking line
-    along the outer wall under one long hood, white glazed tiles up to the slots, two prep islands under rails of
-    copper pans, open shelves, the door of the cold room"""
+    """C-18, the chef's kitchen (241.2 to 252), next to the dining hall: it cooks for the dinners (furnishing.py). The
+    cooking line along the cross wall at 252 under one long hood, white glazed tiles behind it, so the windows stay
+    clear; two prep islands under rails of copper pans; a leather banquette for breakfast along the windows with its
+    oak table; lavender in pots by the glass; frosted glass onto the Glide with a door"""
+    import seating, tables, lights, plants
     b0, b1 = 241.2, 252.0
     mats(M)
     crown.ring_room(b0, b1, M, M["stone_linen"])
-    st = M["steel"]; bc = (b0 + b1) / 2
-    # tiles on the outer wall and the two partitions, up to just under the slots
-    crown.curved_box("tiles", R_OUT - 0.07, R_OUT - 0.05, b0 + FACE, b1 - FACE, 0.0, 2.92, M["tiles"])
-    for (a_, c_) in ((b0 + FACE, b0 + FACE + tang(0.015, RM)), (b1 - FACE - tang(0.015, RM), b1 - FACE)):
-        crown.curved_box("tiles", R_GL + 2.0, R_OUT - 0.05, a_, c_, 0.0, 2.6, M["tiles"])
-    # the cooking line: steel cabinets and worktop along the outer wall, the range in the middle under the hood
-    a, c = b0 + tang(0.8, R_OUT), b1 - tang(0.8, R_OUT)
-    crown.curved_box("line", R_OUT - 0.8, R_OUT - 0.07, a, c, 0.1, 0.88, st)
-    crown.curved_box("line kick", R_OUT - 0.74, R_OUT - 0.07, a, c, 0.0, 0.1, M["shadow"])
-    crown.curved_box("line top", R_OUT - 0.82, R_OUT - 0.07, a, c, 0.88, 0.92, st)
-    for bb in crown.steps(a, c, 1.0 / tang(0.6, R_OUT)):             # the cabinet doors' joints
-        crown.curved_box("door joint", R_OUT - 0.805, R_OUT - 0.8, bb - tang(0.003, R_OUT), bb + tang(0.003, R_OUT), 0.12, 0.86, M["shadow"])
-    rc = bc; rw = tang(3.0, R_OUT)
-    crown.curved_box("range top", R_OUT - 0.8, R_OUT - 0.1, rc - rw / 2, rc + rw / 2, 0.92, 0.95, M["graphite"])
+    st = M["steel"]; bc = (b0 + b1) / 2; w1 = b1 - FACE
+    ra, rb = R_GL + 2.2, R_OUT - 1.4; rc = (ra + rb) / 2
+    dp = lambda d: w1 - tang(d, RM)                  # d metres out from the cross wall's face
+    crown.curved_box("tiles", ra - 0.3, rb + 0.3, dp(0.02), w1, 0.0, 2.9, M["tiles"])
+    # the cooking line: steel cabinets and worktop, the range in the middle under the hood
+    crown.curved_box("line", ra, rb, dp(0.8), dp(0.02), 0.1, 0.88, st)
+    crown.curved_box("line kick", ra + 0.05, rb - 0.05, dp(0.74), dp(0.02), 0.0, 0.1, M["shadow"])
+    crown.curved_box("line top", ra - 0.02, rb + 0.02, dp(0.82), dp(0.02), 0.88, 0.92, st)
+    r = ra + 0.6
+    while r < rb - 0.3:                               # the cabinet doors' joints
+        crown.curved_box("door joint", r - 0.003, r + 0.003, dp(0.805), dp(0.8), 0.12, 0.86, M["shadow"]); r += 0.6
+    crown.curved_box("range top", rc - 1.5, rc + 1.5, dp(0.8), dp(0.1), 0.92, 0.95, M["graphite"])
+    iron = lib.principled("cast iron", (0.02, 0.02, 0.02), 0.6, 0.7)
     for i in range(6):
-        for j in range(2):
-            q = at(R_OUT - 0.62 + j * 0.34, rc - rw / 2 + tang(0.35 + i * 0.46, R_OUT), 0.95)
-            lib.cyl("burner", 0.1, 0.02, q, lib.principled("cast iron", (0.02, 0.02, 0.02), 0.6, 0.7), verts=24)
-            lib.cyl("burner cap", 0.035, 0.03, q, lib.principled("cast iron", (0.02, 0.02, 0.02), 0.6, 0.7), verts=16)
-    for i in range(8):
-        bb = rc - rw / 2 + tang(0.25 + i * 0.36, R_OUT); lib.cyl("knob", 0.022, 0.04, at(R_OUT - 0.82, bb, 0.8), st, verts=16, rot=(math.pi / 2, 0, face_in(bb)))
-    crown.curved_box("hood", R_OUT - 1.15, R_OUT - 0.07, rc - rw / 2 - tang(0.3, R_OUT), rc + rw / 2 + tang(0.3, R_OUT), 2.05, 2.9, st)
-    crown.curved_box("hood light", R_OUT - 1.1, R_OUT - 1.05, rc - rw / 2, rc + rw / 2, 2.04, 2.05, lib.emission("hood light", (1.0, 0.9, 0.78), 30))
-    for k in (-1, 1):
-        q = at(R_OUT - 0.5, rc + k * tang(2.4, R_OUT), 0.92); pot("stock pot", q, M, 0.17, 0.3, st, lid=True)
-    pot("sauce pan", at(R_OUT - 0.45, rc - tang(0.6, R_OUT), 0.97), M, 0.11, 0.1)
-    pot("pan", at(R_OUT - 0.65, rc + tang(0.9, R_OUT), 0.97), M, 0.14, 0.06, M["graphite"])
-    # sinks at either end of the line, with tall bronze taps
-    for sb in (a + tang(1.6, R_OUT), c - tang(1.6, R_OUT)):
-        crown.curved_box("sink", R_OUT - 0.7, R_OUT - 0.25, sb - tang(0.45, R_OUT), sb + tang(0.45, R_OUT), 0.915, 0.921, M["graphite"])
-        lib.cyl("tap", 0.015, 0.42, at(R_OUT - 0.16, sb, 0.92), M["bronze"], verts=12)
-        lib.box("spout", (0.03, 0.3, 0.03), at(R_OUT - 0.3, sb, 1.32), M["bronze"], rot_z=face_in(sb))
-    # open shelves above the line where there is no hood: plates, bowls, jars
-    for (sa, sc) in ((a, rc - rw / 2 - tang(0.5, R_OUT)), (rc + rw / 2 + tang(0.5, R_OUT), c)):
+        for d in (0.28, 0.62):
+            q = at(rc - 1.5 + 0.35 + i * 0.46, dp(d), 0.95)
+            lib.cyl("burner", 0.1, 0.02, q, iron, verts=24); lib.cyl("burner cap", 0.035, 0.03, q, iron, verts=16)
+    for i in range(8): lib.cyl("knob", 0.022, 0.04, at(rc - 1.5 + 0.25 + i * 0.36, dp(0.82), 0.8), st, verts=16, rot=(math.pi / 2, 0, face_ccw(b1)))
+    crown.curved_box("hood", rc - 1.8, rc + 1.8, dp(1.15), dp(0.02), 2.05, 2.9, st)
+    crown.curved_box("hood light", rc - 1.5, rc + 1.5, dp(1.1), dp(1.05), 2.04, 2.05, lib.emission("hood light", (1.0, 0.9, 0.78), 30))
+    for k in (-1, 1): pot("stock pot", at(rc + k * 1.1, dp(0.45), 0.95), M, 0.17, 0.3, st, lid=True)
+    pot("sauce pan", at(rc - 0.4, dp(0.3), 0.97), M, 0.11, 0.1)
+    pot("pan", at(rc + 0.5, dp(0.62), 0.97), M, 0.14, 0.06, M["graphite"])
+    for sr in (ra + 1.4, rb - 1.4):                 # sinks at either end of the line, tall bronze taps
+        crown.curved_box("sink", sr - 0.45, sr + 0.45, dp(0.7), dp(0.25), 0.915, 0.921, M["graphite"])
+        lib.cyl("tap", 0.015, 0.42, at(sr, dp(0.16), 0.92), M["bronze"], verts=12)
+        lib.box("spout", (0.03, 0.3, 0.03), at(sr, dp(0.3), 1.32), M["bronze"], rot_z=face_ccw(b1))
+    for (sa, sz) in ((ra, rc - 2.3), (rc + 2.3, rb)):  # open shelves where there is no hood: plates, bowls, jars
         for z in (1.55, 2.05, 2.55):
-            crown.curved_box("shelf", R_OUT - 0.4, R_OUT - 0.07, sa, sc, z, z + 0.03, st)
-            bb = sa + tang(0.25, R_OUT)
-            while bb < sc - tang(0.3, R_OUT):
-                k = rnd.random()
+            crown.curved_box("shelf", sa, sz, dp(0.4), dp(0.02), z, z + 0.03, st)
+            r = sa + 0.25
+            while r < sz - 0.3:
+                k = rnd.random(); q = at(r, dp(0.22), z + 0.03)
                 if k < 0.4:
-                    for n in range(rnd.randint(4, 9)): lib.cyl("plate", 0.12, 0.012, at(R_OUT - 0.24, bb, z + 0.03 + n * 0.014), M["porcelain"], verts=32)
-                elif k < 0.7: furn.ornament("bowl", *at(R_OUT - 0.24, bb, z + 0.03)[:2], z + 0.03, 0.18, rnd, M["ceramics"])
-                else: lib.cyl("jar", 0.06, 0.2, at(R_OUT - 0.24, bb, z + 0.03), lib.glass("jar glass", (0.95, 0.97, 0.95)), verts=24)
-                bb += tang(rnd.uniform(0.3, 0.45), R_OUT)
-    # two prep islands under rails of copper pans
+                    for n in range(rnd.randint(4, 9)): lib.cyl("plate", 0.12, 0.012, (q[0], q[1], q[2] + n * 0.014), M["porcelain"], verts=32)
+                elif k < 0.7: furn.ornament("bowl", q[0], q[1], q[2], 0.18, rnd, M["ceramics"])
+                else: lib.cyl("jar", 0.06, 0.2, q, lib.glass("jar glass", (0.95, 0.97, 0.95)), verts=24)
+                r += rnd.uniform(0.3, 0.45)
+    # two prep islands under rails of copper pans, alabaster pendants over them
     for k in (-1, 1):
-        ib = bc + k * tang(3.2); L_ = 3.4
+        ib = bc - tang(0.8) + k * tang(3.0); L_ = 3.4
         crown.curved_box("island", RM - 1.05, RM - 0.05, ib - tang(L_ / 2), ib + tang(L_ / 2), 0.1, 0.88, st)
         crown.curved_box("island kick", RM - 1.0, RM - 0.1, ib - tang(L_ / 2 - 0.05), ib + tang(L_ / 2 - 0.05), 0.0, 0.1, M["shadow"])
-        crown.curved_box("island top", RM - 1.08, RM - 0.02, ib - tang(L_ / 2 + 0.03), ib + tang(L_ / 2 + 0.03), 0.88, 0.93, M["oak_top"] if k < 0 else st)
+        crown.curved_box("island top", RM - 1.08, RM - 0.02, ib - tang(L_ / 2 + 0.03), ib + tang(L_ / 2 + 0.03), 0.88, 0.93, M["marble"] if k < 0 else st)
         for j in range(3):
             q = at(RM - 0.55 + rnd.uniform(-0.2, 0.2), ib + tang(-1.0 + j, RM), 0.93)
             lib.box("board", (0.5, 0.32, 0.03), (q[0], q[1], q[2] + 0.015), M["oak_top"], bevel=0.006, rot_z=face_in(ib) + rnd.uniform(-0.3, 0.3))
             furn.ornament("bowl", q[0] + 0.3, q[1], q[2], 0.16, rnd, M["ceramics"])
         rz = 2.3; ri = RM - 0.55
         crown.curved_box("pan rail", ri - 0.45, ri + 0.45, ib - tang(1.4), ib + tang(1.4), rz, rz + 0.03, st)
-        for e in (ib - tang(1.3), ib + tang(1.3)):
-            lib.cyl("rail rod", 0.01, ceil_at(e) - rz, at(ri, e, rz), st, verts=8)
+        for e in (ib - tang(1.3), ib + tang(1.3)): lib.cyl("rail rod", 0.01, ceil_at(e) - rz, at(ri, e, rz), st, verts=8)
         for j in range(7):
             bb = ib + tang(-1.2 + 0.4 * j); rr = 0.08 + 0.025 * (j % 3)
             lib.cyl("hook", 0.004, 0.14, at(ri, bb, rz - 0.14), st, verts=6)
             pot("hanging pan", at(ri, bb, rz - 0.14 - 2 * rr), M, rr, 0.08 + 0.02 * (j % 2))
-    # the cold room's door in the far partition, and a tall rack of trays by it
-    db = b1 - FACE - tang(0.03, R_GL + 2.8)
-    lib.box("cold room door", (0.06, 1.1, 2.2), at(R_GL + 3.2, db, 1.1), st, bevel=0.01, rot_z=face_in(db))
-    lib.box("door handle", (0.05, 0.04, 0.5), at(R_GL + 2.85, db - tang(0.06, R_GL + 2.85), 1.1), M["bronze"], rot_z=face_in(db))
-    lib.instance_of(CR.imports(M)["plant"], at(R_GL + 0.8, b0 + tang(1.0), 0.0), 0.8, 1.6)
-    downlights(b0, b1, 110, (1.0, 0.92, 0.82), rs=(RM - 1.8, RM - 0.4, R_OUT - 1.5), every=2.6)
+        for j in (-1, 1): lights.alabaster_pendant("island pendant", at(ri + 0.9, ib + j * tang(1.0, ri + 0.9)), z=2.0, ceiling=ceil_at(ib), d=0.3, h=0.42, watts=60)
+    # the breakfast banquette along the windows, its table and two chairs; lavender by the glass
+    bq = b0 + tang(5.2, R_OUT - 0.75); rq = R_OUT - 0.75
+    seating.sofa("kitchen banquette", at(rq, bq, 0.0), face_in(bq), length=5.0, depth=1.0, fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"), arms=False, bend=rq, seed=300)
+    tables.dining_table("banquette table", at(rq - 1.25, bq, 0.0), face_in(bq), length=3.6, width=0.9, mat=M["oak_top"], base=M["bronze_dark"])
+    for k in (-1, 1):
+        bb = bq + k * tang(0.9, rq - 2.1)
+        seating.dining_chair("banquette chair", at(rq - 2.1, bb, 0.0), face_out(bb), fabric_mat=seating.fabric("kitchen linen", (0.66, 0.58, 0.45), "linen"), seed=301 + k)
+    lights.globes("banquette globes", at(rq - 1.25, bq), n=5, spread=1.2, low=2.0, high=2.6, ceiling=ceil_at(bq), watts=30, seed=12)
+    for k in range(4):
+        bb = bq + tang(3.4 + 1.2 * k, R_OUT - 0.7); plants.make("lavender", at(R_OUT - 0.7, bb, 0.0), seed=305 + k, pot=(0.55, 0.42, "terracotta"), size=0.6)
+    crown.glass_wall("kitchen glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(bc - tang(2.0, R_GL), 2.2)])
+    crown.glide_lights(b0, b1)
+    downlights(b0, b1, 90, (1.0, 0.92, 0.82), rs=(RM - 1.8, RM - 0.4, R_OUT - 1.5), every=2.6)
+    CR.washers(b0, b1, 80)
 
 
 # ---------------------------------------------------------------- C-20 the guests' day room
@@ -247,33 +253,33 @@ def guests_day_room(M, rnd):
     """C-20, the guests' day room (252 to 261), where visitors spend their days up here: desks along the outer wall,
     sofas round a low table, a kitchenette and its table, a corner for children (they sleep below ground, in the guest
     wing on L1)"""
+    import seating, tables, lights, plants
     b0, b1 = 252.0, 261.0
     mats(M)
     crown.ring_room(b0, b1, M, M["oak"])
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = CR.imports(M); bc = (b0 + b1) / 2
-    # desks under the slots
+    cognac = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
+    # desks at the windows: walnut desks, leather chairs, lamps, screens; an orchid
     for i in range(3):
-        db = b0 + tang(5.2) + i * tang(2.4)
-        lib.box("desk", (1.7, 0.75, 0.04), at(R_OUT - 0.6, db, 0.74), M["walnut"], bevel=0.005, rot_z=face_in(db))
-        for dx in (-0.78, 0.78):
-            lib.box("desk leg", (0.04, 0.68, 0.72), at(R_OUT - 0.6, db + tang(dx, R_OUT - 0.6), 0.36), M["bronze_dark"], rot_z=face_in(db))
-        furn.dining_chair("desk chair", at(R_OUT - 1.45, db, 0.0), face_out(db), M)
-        furn.table_lamp("desk lamp", at(R_OUT - 0.4, db + tang(0.6, R_OUT), 0.76), M, watts=30, shade_r=0.14)
-        CR.screen("screen", CR.repo_file("palace", "design", "img", ("flight-dunes.jpg", "flight-crater.jpg", "mars-earth.jpg")[i]), 0.62, 0.36, at(R_OUT - 0.42, db - tang(0.15), 0.76), face_in(db), M)
-        lib.box("notebook", (0.22, 0.3, 0.015), at(R_OUT - 0.85, db - tang(0.45), 0.768), M["leather"], bevel=0.003, rot_z=face_in(db) + 0.2)
-    # the sitting group: two sofas face each other across a low table, two armchairs
+        db = b0 + tang(5.0) + i * tang(2.5)
+        tables.desk("guest desk", at(R_OUT - 0.75, db, 0.0), face_in(db), length=2.0, depth=0.85)
+        seating.desk_chair("guest chair", at(R_OUT - 1.75, db, 0.0), face_out(db), fabric_mat=cognac, seed=310 + i)
+        furn.table_lamp("desk lamp", at(R_OUT - 0.5, db + tang(0.7, R_OUT), 0.775), M, watts=30, shade_r=0.14)
+        CR.screen("screen", CR.repo_file("palace", "design", "img", ("flight-dunes.jpg", "flight-crater.jpg", "mars-earth.jpg")[i]), 0.62, 0.36, at(R_OUT - 0.45, db - tang(0.25), 0.775), face_in(db), M)
+        lib.box("notebook", (0.22, 0.3, 0.015), at(R_OUT - 0.95, db - tang(0.5), 0.783), M["leather"], bevel=0.003, rot_z=face_in(db) + 0.2)
+    plants.make("orchid", at(R_OUT - 0.55, b0 + tang(5.0) + tang(2.5) - tang(0.75), 0.775), seed=315, pot=(0.22, 0.11, "white"), colour="white")
+    # the sitting group: a sectional 5 x 4 m and two club chairs round a travertine table, all facing it
     sb = b0 + tang(13.6)
-    lib.box("rug", (5.2, 4.0, 0.014), at(RM + 0.1, sb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    lib.box("rug", (6.6, 5.6, 0.014), at(RM - 0.2, sb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    seating.sectional("day sectional", at(RM - 1.6, sb, 0.0), face_out(sb), lx=5.0, ly=4.0, fabric_mat=seating.fabric("oat boucle", (0.64, 0.58, 0.50), "boucle"), seed=316)
+    tables.coffee_table("day table", at(RM + 0.25, sb, 0.0), face_in(sb), length=2.0, width=1.1, mat=seating.stone("day travertine", (0.80, 0.73, 0.62), (0.62, 0.55, 0.45), "travertine", 0.3))
     for k in (-1, 1):
-        bb = sb + k * tang(1.55); lib.instance_of(S["sofa"], at(RM + 0.1, bb, 0.014), face_ccw(bb) if k > 0 else face_cw(bb), name="day sofa")
-    for k in (-1, 1):
-        lib.instance_of(S["chair"], at(RM + 1.55, sb + k * tang(0.7), 0.014), face_in(sb) + k * 0.3, name="day chair")
-    lib.box("low table", (1.1, 0.75, 0.06), at(RM + 0.1, sb, 0.37), M["olive"], bevel=0.012, rot_z=face_in(sb))
-    lib.box("low table base", (0.8, 0.5, 0.34), at(RM + 0.1, sb, 0.17), M["olive_v"], bevel=0.006, rot_z=face_in(sb))
-    lib.instance_of(S["vase"], at(RM + 0.1, sb + tang(0.25), 0.4), rnd.uniform(0, 6), 1.5)
-    for k in range(4): lib.box("book", (0.24, 0.17, 0.035), at(RM - 0.05, sb - tang(0.2), 0.4 + 0.035 * k), M["leather"] if k % 2 else M["linen"], bevel=0.004, rot_z=face_in(sb) + 0.15 * k)
-    furn.floor_lamp("floor lamp", at(RM + 1.6, sb + tang(1.6), 0.0), M, watts=60)
+        bb = sb + k * tang(1.05, RM + 2.0)
+        seating.club_chair("day chair", at(RM + 2.0, bb, 0.0), face_in(bb) - k * 0.3, fabric_mat=seating.fabric("moss velvet", (0.16, 0.20, 0.12), "velvet"), seed=317 + k)
+    for k in range(4): lib.box("book", (0.24, 0.17, 0.035), at(RM + 0.1, sb - tang(0.4), 0.37 + 0.035 * k), M["leather"] if k % 2 else M["linen"], bevel=0.004, rot_z=face_in(sb) + 0.15 * k)
+    lights.arc_lamp("day arc lamp", at(RM - 2.6, sb + tang(3.0, RM - 2.6), 0.0), face_cw(sb) + 0.6, reach=2.2)
+    lights.halo("day halo", at(RM + 0.2, sb), d=3.2, z=4.4, ceiling=ceil_at(sb), watts=500)
     # the kitchenette against the partition by the chef's kitchen: oak and marble, a tall fridge, mugs on a shelf
     kb = b0 + FACE + tang(0.33, R_OUT - 2.0)
     crown.curved_box("kitchenette", R_GL + 2.4, R_OUT - 0.4, b0 + FACE, b0 + FACE + tang(0.62, R_GL + 4), 0.1, 0.9, M["oak_panel"])
@@ -284,20 +290,18 @@ def guests_day_room(M, rnd):
         q = at(R_GL + 2.7 + 0.45 * i, kb, 1.58); furn.lathe("mug", [(0.0, 0.0), (0.04, 0.0), (0.042, 0.1), (0.038, 0.1), (0.036, 0.012), (0.0, 0.012)], M["ceramics"][i % 5], 24, q)
     lib.cyl("kettle", 0.08, 0.2, at(R_GL + 3.3, kb + tang(0.05), 0.94), M["steel"], verts=32, bevel=0.02)
     furn.ornament("fruit bowl", *at(R_GL + 4.2, kb + tang(0.05), 0.94)[:2], 0.94, 0.16, rnd, M["ceramics"])
-    tb = b0 + tang(2.3)
-    lib.cyl("round table", 0.55, 0.04, at(RM - 0.2, tb, 0.72), M["olive"], verts=64, bevel=0.01)
-    lib.cyl("table stem", 0.06, 0.7, at(RM - 0.2, tb, 0.0), M["bronze_dark"], verts=24)
+    tb = b0 + tang(2.6)
+    lib.cyl("round table", 0.75, 0.045, at(RM - 0.2, tb, 0.715), M["olive"], verts=96, bevel=0.01)
+    lib.cyl("table stem", 0.12, 0.7, at(RM - 0.2, tb, 0.0), M["bronze_dark"], verts=32)
     for k in range(4):
-        a_ = k * math.pi / 2 + 0.4; q = Vector(at(RM - 0.2, tb, 0.0)) + Vector((math.cos(a_), math.sin(a_), 0)) * 0.85
-        furn.dining_chair("table chair", tuple(q), a_ + math.pi / 2, M)
+        a_ = k * math.pi / 2 + 0.4; q = Vector(at(RM - 0.2, tb, 0.0)) + Vector((math.cos(a_), math.sin(a_), 0)) * 1.15
+        seating.dining_chair("table chair", tuple(q), a_ - math.pi / 2, fabric_mat=seating.fabric("day linen", (0.66, 0.58, 0.45), "linen"), seed=320 + k)
+    lights.globes("table globes", at(RM - 0.2, tb), n=5, spread=0.5, low=2.0, high=2.6, ceiling=ceil_at(tb), watts=30, seed=14)
     # the children's corner by the Glide at the far end: a play rug, a low table and stools, cushions, toys on a shelf
     cb = b1 - tang(2.4)
     play = furn.rug_material("play rug", (0.36, 0.42, 0.50), (0.70, 0.55, 0.30))
     lib.box("play rug", (3.0, 2.6, 0.014), at(R_GL + 1.7, cb, 0.007), play, bevel=0.006, rot_z=face_in(cb), segs=2)
     lib.cyl("low table", 0.42, 0.03, at(R_GL + 1.7, cb, 0.48), M["oak_top"], verts=48, bevel=0.008)
-    for k in range(3):
-        a_ = k * 2 * math.pi / 3; q = Vector(at(R_GL + 1.7, cb, 0.0)) + Vector((math.cos(a_), math.sin(a_), 0)) * 0.62
-        lib.cyl("little stool", 0.14, 0.28, tuple(q), M["oak_easel"], verts=32, bevel=0.01)
     for k, col in enumerate(((0.55, 0.20, 0.10), (0.20, 0.30, 0.45), (0.62, 0.48, 0.18))):
         furn.cushion("floor cushion", (0.55, 0.55, 0.14), at(R_GL + 2.6, cb + tang(-0.7 + 0.7 * k), 0.08), (0, 0, face_in(cb)), lib.fabric("cushion %d" % k, col, 0.85, 0.4))
     crown.curved_box("toy shelf", R_GL + 0.3, R_GL + 0.65, b1 - FACE - tang(3.6, R_GL), b1 - FACE - tang(0.8, R_GL), 0.0, 0.62, M["walnut"])
@@ -305,8 +309,11 @@ def guests_day_room(M, rnd):
     for i in range(14):
         bb = b1 - FACE - tang(3.4 - 0.18 * i, R_GL); s_ = rnd.choice((0.06, 0.08, 0.1))
         lib.box("block", (s_, s_, s_), at(R_GL + 0.48, bb, 0.62 + s_ / 2), rnd.choice(blocks), bevel=0.006, rot_z=rnd.uniform(0, 1))
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, b1 - tang(1.2), 0.0), 2.0, 1.9)
-    lib.instance_of(S["plant"], at(R_GL + 0.8, b0 + tang(7.9), 0.0), 0.6, 1.7)
+    plants.make("fiddle-leaf fig", at(R_OUT - 1.0, b1 - tang(1.3, R_OUT - 1.0), 0.0), seed=325, pot=(0.75, 0.62, "white"), height=2.6)
+    plants.make("kentia palm", at(R_GL + 1.1, b0 + tang(7.9), 0.0), seed=326, pot=(0.95, 0.72, "black"), height=3.0)
+    # the paintings on the cross wall by the sunset lounge: Mondrian's composition and Leger's Contrast of Forms
+    CR.paint("day painting", "mondrian_composition", 2.6, at(130.6, b1 - FACE - tang(0.02, 130.6), 0.0), face_ccw(b1), 2.3)
+    CR.paint("day painting", "leger_contrast_of_forms", 2.6, at(125.4, b1 - FACE - tang(0.02, 125.4), 0.0), face_ccw(b1), 2.3, tall=True)
     CR.washers(b0, b1, 60)
 
 
@@ -343,8 +350,11 @@ def gallery(M, rnd):
         bb = bc + tang(-2.7 + 2.7 * i)
         CR.framed_print("mars photograph", CR.repo_file("palace", "design", "img", img), w, h, at(RM - 0.17, bb, 1.62), face_in(bb), M)
         works.append((at(RM - 0.17, bb, 1.62), -1))
-    for (bb, img) in ((b0 + FACE + tang(0.02, RM), "flight-dunes.jpg"), (b1 - FACE - tang(0.02, RM), "mars-earth.jpg")):
-        CR.framed_print("mars photograph", CR.repo_file("palace", "design", "img", img), 1.3, 0.73, at(RM, bb, 1.62), face_cw(bb) if bb < bc else face_ccw(bb), M)
+    # on the cross walls, the collection's pieces in turn: now Van Gogh's Night Cafe and Picabia's Edtaonisl
+    CR.paint("gallery night cafe", "vangogh_night_cafe", 3.4, at(RM, b0 + FACE + tang(0.02, RM), 0.0), face_cw(b0), 2.2)
+    CR.paint("gallery edtaonisl", "picabia_edtaonisl", 3.0, at(RM, b1 - FACE - tang(0.02, RM), 0.0), face_ccw(b1), 2.2)
+    import plants
+    plants.make("olive", at(R_GL + 1.6, bc, 0.0), seed=340, pot=(1.6, 0.55, "basalt"), height=4.2, stems=3)
     # benches of walnut and tan leather, one each side of the free wall
     for (r, k) in ((RM + 1.7, 1), (RM - 1.5, -1)):
         crown.curved_box("bench", r - 0.22, r + 0.22, bc - tang(0.9, r), bc + tang(0.9, r), 0.0, 0.38, M["walnut"])
@@ -690,10 +700,12 @@ MORE = {
     }, stops={"bath_up": at(RM - 0.6, 137.0, 0.0)}),
     "wine": dict(build=wine_room, span=(216.0, 223.2), sun=(222.0, 22.0), cams={
         "wine": dict(loc=at(R_GL + 0.55, 222.5, 1.5), target=at(R_OUT - 0.6, 217.2, 1.3), lens=20),
-    }, stops={"wine": at(RM - 0.5, 219.0, 0.0)}),
+        "wine2": dict(loc=at(RM - 1.6, 217.4, 1.5), target=at(R_OUT - 3.4, 223.2, 1.5), lens=22),
+    }, stops={"wine": at(RM + 1.4, 219.4, 0.0)}),
     "kitchen_up": dict(build=chefs_kitchen, span=(241.2, 252.0), sun=(246.0, 18.0), cams={
-        "kitchen_up": dict(loc=at(R_GL + 0.6, 251.2, 1.6), target=at(R_OUT - 0.8, 244.0, 1.1), lens=19),
-    }, stops={"kitchen_up": at(RM - 1.6, 246.6, 0.0)}),
+        "kitchen_up": dict(loc=at(R_GL + 0.9, 250.4, 1.6), target=at(R_OUT - 0.8, 243.6, 1.1), lens=19),
+        "kitchen_up2": dict(loc=at(RM + 1.2, 245.4, 1.6), target=at(RM - 0.6, 252.0, 1.4), lens=20),
+    }, stops={"kitchen_up": at(RM + 1.0, 247.6, 0.0)}),
     "day_room": dict(build=guests_day_room, span=(252.0, 261.0), sun=(258.0, 14.0), cams={
         "day_room": dict(loc=at(R_GL + 0.6, 260.4, 1.5), target=at(R_OUT - 0.6, 254.5, 1.1), lens=19),
     }, stops={"day_room": at(RM - 0.6, 256.4, 0.0)}),

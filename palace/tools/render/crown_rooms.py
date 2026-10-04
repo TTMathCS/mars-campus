@@ -1106,55 +1106,57 @@ def garden_room(M, rnd):
     lib.instance_of(S["vase"], at(R_GL + 0.75, sb + tang(0.8), 0.88), 0.4, 1.4)
     plants.make("olive", at(R_GL + 1.8, b0 + tang(1.6, R_GL + 1.8), 0.0), seed=539, pot=(1.3, 0.8, "basalt", True), height=3.6, stems=2)
     paint("breakfast painting", "vangogh_cottages", 3.0, at(RM + 1.0, b0 + tang(0.17, RM + 1.0), 0.0), face_cw(b0), 2.3, tall=True)
-    # C-34, the sky garden: raised beds of basalt along both walls, full of herbs and flowers, clipped box at their
-    # ends, lemon and olive trees; a gravel path with stepping stones; a stone basin of water in the middle; ivy up
-    # the outer wall between the slots; benches
-    gravel = gravel_material()
-    crown.curved_box("gravel", R_GL + 0.05, R_OUT, w1 + 0.1, b1 + crown.PAD, 0.0, 0.012, gravel)
+    # C-34, the sky garden (furnishing.py): a platform of honed black basalt (Jim, 4 Oct: "I like black platform"),
+    # raised 12 cm, through the garden; raised beds of basalt along both walls full of herbs and flowers; trees of
+    # every colour in the beds (red and orange maples, a gold ginkgo, olives, lemons); on the platform a red maple
+    # by the basin, birds of paradise, tree ferns in the shade, agaves; boxwood balls; daybeds under the trees and a
+    # long travertine bench; low lights along the beds
+    import seating, tables, lights, plants, atrium
+    crown.curved_box("garden platform", R_GL + 0.05, R_OUT - 0.05, w1 + 0.1, b1 + crown.PAD, 0.0, 0.12, M["basalt"])
+    crown.curved_box("platform shadow gap", R_GL + 0.04, R_OUT - 0.04, w1 + 0.08, b1 + crown.PAD, 0.0, 0.02, M["shadow"])
+    Z = 0.12
     beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]
     for (a, b) in beds_out:
-        crown.curved_box("bed wall", R_OUT - 1.9, R_OUT - 0.1, a, b, 0.0, 0.5, M["basalt"])
-        crown.curved_box("bed soil", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.08, R_OUT - 1), b - tang(0.08, R_OUT - 1), 0.5, 0.505, M["soil"])
-        herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), 0.505, M, rnd, density=11.0)
+        crown.curved_box("bed wall", R_OUT - 1.9, R_OUT - 0.1, a, b, Z, Z + 0.5, M["basalt"])
+        crown.curved_box("bed soil", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.08, R_OUT - 1), b - tang(0.08, R_OUT - 1), Z + 0.5, Z + 0.505, M["soil"])
+        herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), Z + 0.505, M, rnd, density=11.0)
+        lights.strip("bed light", at(R_OUT - 1.93, a + tang(0.1, R_OUT - 1.93), Z + 0.03), at(R_OUT - 1.93, b - tang(0.1, R_OUT - 1.93), Z + 0.03), strength=14.0, w=0.015)
     for (a, b) in beds_in:
-        crown.curved_box("bed wall", R_GL + 0.15, R_GL + 1.15, a, b, 0.0, 0.42, M["basalt"])
-        crown.curved_box("bed soil", R_GL + 0.23, R_GL + 1.07, a + tang(0.08, R_GL + 0.6), b - tang(0.08, R_GL + 0.6), 0.42, 0.425, M["soil"])
-        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), 0.425, M, rnd, density=11.0)
-    import atrium
-    box_leaf = bpy.data.objects.get("box leaf") or atrium.leaf_object("box leaf", 0.022, 0.012, lib.leaf("box leaf", (0.06, 0.13, 0.035), 0.3, 0.45))
-    balls = []
-    for (a, b) in beds_out:
-        for bb in (a + tang(0.45, R_OUT - 1.0), b - tang(0.45, R_OUT - 1.0)): balls.append((Vector(at(R_OUT - 1.0, bb, 0.5)), rnd.uniform(0.3, 0.38)))
+        crown.curved_box("bed wall", R_GL + 0.15, R_GL + 1.15, a, b, Z, Z + 0.42, M["basalt"])
+        crown.curved_box("bed soil", R_GL + 0.23, R_GL + 1.07, a + tang(0.08, R_GL + 0.6), b - tang(0.08, R_GL + 0.6), Z + 0.42, Z + 0.425, M["soil"])
+        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), Z + 0.425, M, rnd, density=11.0)
+        lights.strip("bed light", at(R_GL + 1.18, a + tang(0.1, R_GL + 1.18), Z + 0.03), at(R_GL + 1.18, b - tang(0.1, R_GL + 1.18), Z + 0.03), strength=14.0, w=0.015)
+    for (a, b) in beds_out:                                    # boxwood balls at the beds' ends
+        for k, bb in enumerate((a + tang(0.45, R_OUT - 1.0), b - tang(0.45, R_OUT - 1.0))): plants.make("boxwood", at(R_OUT - 1.0, bb, Z + 0.5), seed=int(bb * 10), d=0.7)
     for (a, b) in beds_in:
-        for bb in (a + tang(0.4, R_GL + 0.65), b - tang(0.4, R_GL + 0.65)): balls.append((Vector(at(R_GL + 0.65, bb, 0.42)), rnd.uniform(0.26, 0.32)))
-    pts = []
-    for (c, r) in balls:
-        for i in range(int(r * r * 26000)):
-            v = Vector((rnd.gauss(0, 1), rnd.gauss(0, 1), rnd.gauss(0, 1))).normalized() * r * rnd.uniform(0.86, 1.0)
-            pts.append(c + Vector((v.x, v.y, abs(v.z) * 0.9 + r * 0.85)))
-    me = bpy.data.meshes.new("box balls"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("box balls", me))
-    atrium.scatter_leaves(ob, box_leaf, "box leaves", 0.7, 1.3)
-    for k, (bb, kind, hgt) in enumerate(((51.0, "lemon", 2.6), (54.0, "olive", 3.2), (58.4, "lemon", 2.4), (61.2, "olive", 3.0), (65.6, "lemon", 2.7), (69.4, "olive", 3.1))):
-        p = at(R_OUT - 1.0, bb, 0.5); furn.olive_tree(kind + " tree", p, 300 + k, M, height=hgt, leaves=22000, kind=kind)
-    for k, bb in enumerate((53.0, 67.0)):                         # two more lemons on the inner side
-        p = at(R_GL + 0.65, bb, 0.42); furn.olive_tree("lemon tree", p, 320 + k, M, height=2.2, leaves=18000, kind="lemon")
-    # stepping stones along the path, and the basin in the middle of the garden
+        for k, bb in enumerate((a + tang(0.4, R_GL + 0.65), b - tang(0.4, R_GL + 0.65))): plants.make("boxwood", at(R_GL + 0.65, bb, Z + 0.42), seed=int(bb * 10) + 1, d=0.6)
+    trees = ((51.0, "japanese maple", dict(height=3.0, colour="red", stems=3)), (54.0, "olive", dict(height=3.2, stems=2)),
+             (58.4, "japanese maple", dict(height=2.8, colour="orange", stems=2)), (61.2, "lemon", dict(height=2.6)),
+             (65.6, "ginkgo", dict(height=4.2)), (69.4, "olive", dict(height=3.0, stems=2)))
+    for k, (bb, kind, kw) in enumerate(trees): plants.make(kind, at(R_OUT - 1.0, bb, Z + 0.5), seed=300 + k, **kw)
+    for k, bb in enumerate((53.0, 67.0)): plants.make("lemon", at(R_GL + 0.65, bb, Z + 0.42), seed=320 + k, height=2.2)
+    # on the platform: the basin, a red maple by it, birds of paradise, tree ferns, agaves
     pr = (R_GL + 1.15 + R_OUT - 1.9) / 2
-    bb = w1 + 1.6
-    while bb < b1 - 1.0:
-        if abs(bb - 60.0) > tang(1.4, pr):
-            lib.box("stepping stone", (0.62, 0.95, 0.04), at(pr + rnd.uniform(-0.08, 0.08), bb, 0.02), M["stone_linen"], bevel=0.012, rot_z=face_in(bb) + rnd.uniform(-0.06, 0.06))
-        bb += tang(0.82, pr)
-    c = at(pr, 60.0, 0.0)
-    lib.cyl("basin", 1.0, 0.45, c, M["basalt"], verts=96, bevel=0.02)
-    lib.cyl("basin water", 0.9, 0.01, (c[0], c[1], 0.40), lib.glass("basin water", (0.80, 0.90, 0.88), 0.0, 1.33), verts=96)
-    lib.cyl("basin inside", 0.9, 0.02, (c[0], c[1], 0.12), M["basalt"], verts=96)
-    lib.cyl("basin spout", 0.04, 0.25, (c[0], c[1], 0.4), M["bronze"], verts=24)
-    for bb in (56.0, 63.2):
-        q = at(R_OUT - 1.05, bb, 0.0)
-        for dx in (-0.55, 0.55): lib.box("bench block", (0.32, 0.4, 0.42), at(R_OUT - 1.05, bb + tang(dx, R_OUT - 1.05), 0.21), M["basalt"], bevel=0.01, rot_z=face_in(bb))
-        lib.box("bench seat", (1.6, 0.46, 0.06), at(R_OUT - 1.05, bb, 0.45), M["oak_top"], bevel=0.008, rot_z=face_in(bb))
-    lib.instance_of(S["chair"], at(RM - 0.6, 57.8, 0.0), face_out(57.8) + 0.8)
+    c = at(pr, 60.0, Z)
+    lib.cyl("basin", 1.3, 0.45, c, M["basalt"], verts=128, bevel=0.02)
+    lib.cyl("basin water", 1.2, 0.01, (c[0], c[1], Z + 0.40), lib.glass("basin water", (0.80, 0.90, 0.88), 0.0, 1.33), verts=128)
+    lib.cyl("basin inside", 1.2, 0.02, (c[0], c[1], Z + 0.12), M["basalt"], verts=128)
+    lib.cyl("basin spout", 0.04, 0.25, (c[0], c[1], Z + 0.4), M["bronze"], verts=24)
+    plants.make("japanese maple", at(pr - 2.2, 60.0 + tang(2.6, pr - 2.2), Z), seed=330, pot=(1.6, 0.6, "basalt"), height=3.6, colour="red", stems=3)
+    for k, (r, bb) in enumerate(((pr + 1.6, 52.4), (pr + 2.2, 53.3))):
+        plants.make("bird of paradise", at(r, bb, Z), seed=331 + k, pot=(1.0, 0.7, "bronze"), height=3.2 - 0.4 * k, stems=5)
+    for k, (r, bb, h) in enumerate(((pr - 1.6, 67.6, 2.9), (pr - 0.6, 68.6, 2.4), (pr - 1.9, 69.3, 2.6))):
+        plants.make("tree fern", at(r, bb, Z), seed=334 + k, pot=(0.95, 0.5, "basalt"), height=h)
+    for k, (r, bb) in enumerate(((pr + 1.2, 64.2), (pr + 2.0, 64.9), (pr + 1.5, 65.7))):
+        plants.make("agave", at(r, bb, Z), seed=337 + k, pot=(0.9, 0.38, "travertine"), size=0.75, colour="blue" if k != 1 else "green")
+    # daybeds under the trees by the outer beds, a long travertine bench facing the basin
+    linen = seating.fabric("garden linen", (0.72, 0.68, 0.60), "linen")
+    for k, bb in enumerate((56.0, 63.2)):
+        seating.daybed("garden daybed", at(R_OUT - 3.1, bb, Z), face_cw(bb) + math.pi * 0.5 + (0.25 if k else -0.25), length=2.3, width=1.1, fabric_mat=linen, seed=340 + k)
+    trav = seating.stone("garden travertine", (0.80, 0.73, 0.62), (0.62, 0.55, 0.45), "travertine", 0.3)
+    blk = lambda nm, size, ctr: seating.soft_box(nm, size, ctr, trav, r=0.012, crown=0, bulge=0, crease=0, sub=1)
+    seating._piece("garden bench", at(pr - 1.8, 60.0, Z), face_out(60.0),
+                   [blk("bench slab", (4.0, 0.52, 0.09), (0, 0, 0.415))] + [blk("bench block", (0.34, 0.46, 0.37), (x, 0, 0.185)) for x in (-1.4, 1.4)])
     # ivy up the outer wall between and under the slots
     ivy_leaf = bpy.data.objects.get("ivy leaf") or atrium.leaf_object("ivy leaf", 0.06, 0.05, lib.leaf("ivy", (0.045, 0.095, 0.028), 0.35, 0.35))
     pts = []

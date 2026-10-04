@@ -1141,6 +1141,11 @@ ROOMS = {
 }
 
 
+if __name__ == "__main__": sys.modules.setdefault("crown_rooms", sys.modules["__main__"])    # crown_more imports this file by name
+from crown_more import MORE          # the rooms that make the ring whole (crown_more.py)
+ROOMS.update(MORE)
+
+
 def build(room, night_=None):
     sc = lib.reset(); M = materials(); rnd = random.Random(23)
     R = ROOMS[room]; R["build"](M, rnd); crown.outside(M, R["sun"][0], R["sun"][1], sun_strength=R.get("sun_strength", 6.0), skip=R["span"])

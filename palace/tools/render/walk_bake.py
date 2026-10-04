@@ -26,9 +26,9 @@ EXPOSURE = 1.0                  # as the Crown's stills: the browser's tone-mapp
 EMAX = 4.0                      # the light maps hold light / EMAX (a white wall in full Mars sun: about 2)
 VMAX = 4.0                      # vertex colours hold light / VMAX, in 16 bits
 FAR = ("plain", "stone garden", "orb", "ring outside")
-VERTEX = ("leaf", "leaves", "flowers", "dirt", "petal", "oak slats", "shade", "bulb", "flame")   # many small or thin
-# pieces, or ones that glow through: their light baked into their vertices (the ceilings' slats: a vertex every
-# quarter of a degree, 0.57 m apart)
+VERTEX = ("leaf", "leaves", "flowers", "dirt", "petal", "oak slats", "shade", "bulb", "flame", "bark")   # many small or
+# thin pieces, or ones that glow through: their light baked into their vertices (the ceilings' slats: a vertex every
+# quarter of a degree, 0.57 m apart; the trees' trunks and branches, too thin for a texture)
 GLASS = ("glass", "water")
 METAL = ("bronze", "brass", "titanium", "steel", "stainless", "chrome", "metal", "iron", "gold", "silver", "copper")
 
@@ -60,12 +60,18 @@ def build(rooms):
         R = crown_rooms.ROOMS[r]; R["build"](M, rnd); spans.append(R["span"])
     for (a, b), (c, d) in zip(spans, spans[1:]): assert abs(b - c) < 1e-6, "rooms must follow each other round the ring"
     b0, b1 = spans[0][0], spans[-1][1]
-    crown.outside(M, SUN_AZ, SUN_EL, sun_strength=SUN_STRENGTH, skip=(b0, b1))
+    crown.outside(M, SUN_AZ, SUN_EL, sun_strength=SUN_STRENGTH, skip=(b0, b1), roof=True)   # the far side up to its spires
     th = 0.3 / 130.0 / D                     # the Glide runs on from room to room: close it only at the stretch's ends
     for o in list(bpy.data.objects):
         if o.name.startswith("glide end"):
             bb = bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0)
             if min(abs(bb - b0), abs(bb - b1)) > 0.05: bpy.data.objects.remove(o)
+    seen = {}                                # where two rooms meet, both built the partition between them: keep one
+    for o in list(bpy.data.objects):
+        if o.name.startswith("partition") and o.type == "MESH":
+            k = round(bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0), 2)
+            if k in seen: bpy.data.objects.remove(o)
+            else: seen[k] = o
     sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Base Contrast"; sc.view_settings.exposure = EXPOSURE
     return sc, M, b0, b1
 
@@ -444,7 +450,7 @@ def main():
     named = [dict(code=c["code"], name=c["name"], b0=c["at"][0], b1=c["at"][1]) for c in room_program.CROWN
              if not c.get("up") and c["at"][1] > b0 and c["at"][0] < b1]
     info = dict(sun=dict(az=SUN_AZ, el=SUN_EL), span=[b0, b1], parts=rooms, rooms=named, exposure=EXPOSURE, emax=EMAX, vmax=VMAX,
-                chunks=[], start=dict(b=b0 + 1.6, r=131.0))
+                chunks=[], step=step, start=dict(b=b0 + 1.6, r=131.0))
     if stage in ("all", "map"): info["floor"] = floor_map(b0, b1, os.path.join(out, "floor.png"), tex + vtx)
     if stage == "map": json.dump(info, open(os.path.join(out, "walk.json"), "w"), indent=1); return
     keep_coords(tex + vtx); rewrite({m for o in tex + vtx for m in o.data.materials if m})

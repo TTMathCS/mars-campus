@@ -31,3 +31,13 @@ for (const f of fs.readdirSync(src).sort()) {
   await io.write(path.join(dst, f), doc);
   console.log(f, (fs.statSync(path.join(src, f)).size / 1e6).toFixed(1), '->', (fs.statSync(path.join(dst, f)).size / 1e6).toFixed(1), 'MB');
 }
+// chunks baked in several runs (on two machines, b0:b1 each) end up in one walk: walk.json lists every chunk there
+const info = JSON.parse(fs.readFileSync(path.join(src, 'walk.json'), 'utf8')), step = info.step || 6, known = {};
+const before = path.join(dst, 'walk.json.chunks');                       // what earlier runs packed here
+if (fs.existsSync(before)) for (const c of JSON.parse(fs.readFileSync(before, 'utf8'))) known[c.file] = c;
+for (const c of info.chunks) known[c.file] = c;
+info.chunks = fs.readdirSync(dst).filter(f => /^c\d{4}\.glb$/.test(f)).sort().map(f => known[f] ||
+  { file: f, light: f.replace('.glb', '_l.jpg'), b0: +f.slice(1, 5) / 10, b1: +(+f.slice(1, 5) / 10 + step).toFixed(4) });
+fs.writeFileSync(before, JSON.stringify(info.chunks));
+fs.writeFileSync(path.join(dst, 'walk.json'), JSON.stringify(info, null, 1));
+console.log('walk.json:', info.chunks.length, 'chunks');

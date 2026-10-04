@@ -220,6 +220,61 @@ CROWN = dict(
              above=("img/above/crown-garden.jpg", "the breakfast room at the left end: the round table for six under its globe, the sideboard along the Glide, the sitting corner and an olive tree by the slots; then the sky garden, its raised beds of herbs and flowers along both walls under lemon and olive trees, two benches, and the grow lights in rows overhead.")),
     ])
 
+CLUB = dict(
+    id="rooms-club", no="03 · 3", title="L1 · the club",
+    lede="Sector 2 of L1, behind the cinema: the rooms for evenings with guests. Across the first street, the games room; across the next, the ballroom, where visitors are welcomed every 26 months; then Arcadia's one wine cellar, cool and steady below ground; and the club's stores at the back.",
+    plan=("img/plan/l1-club.jpg", "Where it is: sector 2 of L1, behind the cinema. Shaded, rings B to E: the games room, the ballroom, the wine cellar and the club's stores."),
+    plan_codes=["L1-18", "L1-19", "L1-20", "L1-21"],
+    rooms=[
+        dict(id="cellar", codes=["L1-20"], k="L1-20 · ring D · sector 2", name="The wine cellar",
+             purpose="Arcadia's one cellar, the whole of ring D behind the ballroom: a tasting room under a brick vault in the middle, and from it two aisles running 44 m along the ring each way, the bottles in racks between brick ribs and oak casks in some bays. It sends wine up to the Crown's wine room (C-16) for the dinners.",
+             facts=[("Size", "1,640 m²: ring D is 14 m deep and 107 to 128 m long. The tasting room 12 m square and 6.2 m high under its vault; the aisles 4.2 m wide and 4.6 m high."),
+                    ("Made of", "Brick fired from Mars soil in the kilns that make the Pentagon's panels; a floor of terracotta tiles from the same kilns; racks and casks of oak; black iron."),
+                    ("In it", "Racks for about 30,000 bottles; oak casks on cradles; an oak table for ten with a decanter, glasses and candles under an iron chandelier; a sommelier's counter by the door."),
+                    ("Keeps", "13 °C and 70% humidity, all year: below ground nothing changes from day to night or summer to winter."),
+                    ("Light", "Warm and low: a sconce on every pier, lamps on top of the racks washing the vaults, the chandelier and the candles at the table."),
+                    ("Next to", "The street in front, the ballroom (L1-19) across it; the club's stores (L1-21) behind.")],
+             photos=[("../tour/photos/cellar.jpg", "The tasting room: the oak table under the iron chandelier, an aisle of racks beyond the arch."), ("../tour/photos/cellar2.jpg", "Down an aisle: racks and casks between the brick ribs, the tasting room's light at the end.")],
+             views=[("cellar", "The tasting room")], plan=("img/plan/l1-cellar.jpg", "Ring D of sector 2."),
+             above=("img/above/l1-cellar.jpg", "the tasting room in the middle with its table for ten and the racks along its far wall, the two aisles running out to either side with racks along both walls and casks in some of the bays.")),
+    ])
+
+SPORT = dict(
+    id="rooms-sport", no="03 · 4", title="L1 · baths and sport",
+    lede="Sector 3 of L1, behind the thermal baths: the rooms that keep Jim strong in a third of Earth's gravity. Across the first street, a pool 50 m long; then the sports hall with its climbing wall and running track; the saunas and steam rooms; and the treatment rooms at the back.",
+    plan=("img/plan/l1-sport.jpg", "Where it is: sector 3 of L1, behind the thermal baths. Shaded, rings B to E: the lap pool, the sports hall, the saunas and the treatment rooms."),
+    plan_codes=["L1-23", "L1-24", "L1-25", "L1-26"],
+    rooms=[
+        dict(id="pool", codes=["L1-23"], k="L1-23 · ring B · sector 3", name="The lap pool",
+             purpose="Training every day: lengths and water exercise, safe below ground; water sports in low gravity, and swimming lessons for visiting children. In Mars' gravity a swimmer floats just as on Earth, but a splash rises nearly three times as high and falls slowly, and the waves roll more slowly.",
+             facts=[("Size", "All of ring B: 55 m along the inner wall and 75 m along the outer, 13.8 m deep, 7.6 m high. The pool 50 m by 8.4 m, four lanes, 2 m deep."),
+                    ("Made of", "A deck of pale travertine; a basin of small glass tiles with dark blue lines on its floor; walls of travertine; a ceiling of oak slats."),
+                    ("In it", "Lane ropes, four starting blocks, backstroke flags 5 m from each end, a pace clock, loungers and towels along the outer wall, kickboards on a rack."),
+                    ("Light", "Three slots of sky along the ceiling; lights under the water; a band of glass onto the street, lit from above."),
+                    ("Next to", "The street behind the thermal baths (L1-22), across the glass; the sports hall (L1-24) across the next street.")],
+             photos=[("../tour/photos/pool.jpg", "From behind the starting blocks: 50 m of water under the slots of sky."), ("../tour/photos/pool2.jpg", "Along the deck: the loungers, the lanes and the glass onto the street.")],
+             views=[("pool", "On the deck")], plan=("img/plan/l1-pool.jpg", "Ring B of sector 3."),
+             above=("img/above/l1-pool.jpg", "the pool in the middle with its four lanes and the lines on its floor, the starting blocks at the left end, the loungers along the outer wall at the top, the band of glass onto the street along the bottom.")),
+    ])
+
+GARDEN = dict(
+    id="rooms-garden", no="03 · 5", title="L2 · the garden level",
+    lede="L2 is 16 m tall, 41 m down, under a sky of lamps that brightens with the morning and dims to moonlight at night: orchards and a vineyard, a farm, a lake that is also Arcadia's water reserve, a forest with a stream and falls, and a meadow with bees and a tea house. Wind fans move the leaves; mist brings rain at night. From the atrium's terrace on L2 you walk straight out into it.",
+    plan=("../plans/svg/l2.svg", "L2, the garden level: the orchards in sector 1, the farm in sector 2, the lake in sector 3, the forest in sector 4, the meadow in sector 5."),
+    rooms=[
+        dict(id="lake", codes=["L2-11"], k="L2-11 · rings A to C · sector 3", name="The lake",
+             purpose="A lake that is also Arcadia's water reserve: the water you can see. Swimming and boating in the summer light of the sky of lamps; a beach behind the glass onto the atrium; the stream from the forest falling into it over the rocks.",
+             facts=[("Size", "Rings A to C of sector 3 with their streets: 3,259 m², 50 m out from the glass, 29 m wide at the glass and 101 m at the far bank; 16 m up to the sky of lamps."),
+                    ("Water", "About 8,000 t, 2.5 m deep on average and 3.6 m at the deepest; its pumps and filters are in L2-13."),
+                    ("Made of", "A beach of pale sand, a bed of sand and gravel, banks of grass; a jetty and a swimming raft of teak; columns of coursed stone; the sky of lamps in panels 2.25 m square."),
+                    ("In it", "The jetty with a rowing boat, loungers on the beach, lilies in the shallows and reeds round the shore, a weeping willow, and two rows of columns standing in the water under L1's streets, carrying the floor above."),
+                    ("Light", "The sky of lamps, which uses 2 MW over the whole level: bright as a summer day under high cloud, dimmed to moonlight at night."),
+                    ("Next to", "The atrium's terrace on L2, through the glass; the forest walk (L2-14) beyond the avenue on the right; the farm (L2-06 to L2-08) on the left; the fish farm (L2-12) across the street behind.")],
+             photos=[("../tour/photos/lake.jpg", "From the beach: the jetty and the rowing boat, the columns standing in the water, the sky of lamps 16 m up."), ("../tour/photos/lake2.jpg", "From the end of the jetty, back to the beach and the glass onto the atrium.")],
+             views=[("lake", "On the jetty")], plan=("img/plan/l2-lake.jpg", "Rings A to C of sector 3 on L2."),
+             above=("img/above/l2-lake.jpg", "the glass onto the atrium along the bottom with the beach behind it, the jetty running out into the lake with the boat beside it, the raft on the left, the two rows of columns, the trees of the forest on the right and of the far bank at the top.")),
+    ])
+
 AREAS = [CROWN, RESIDENCE, ATRIUM]
 
 CSS = """

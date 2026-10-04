@@ -1,7 +1,8 @@
 """Floor plans rendered from above, as in a 3D floor plan: the house built as for the pictures, everything above
 the cut (ceilings, roofs, upper floors) hidden, an orthographic camera looking straight down, light from above.
   bvenv/bin/python blend/plan_render.py <view[,view...]> <out with %s> [samples]
-Views: residence, suite (family.py); library, baths, cinema (pent_rooms.py); crown parts by room name (crown_rooms.py)."""
+Views: residence, suite (family.py); library, baths, cinema, guests (pent_rooms.py); the Orb's lounges (orb.py); the lake
+(garden_level.py); crown parts by room name (crown_rooms.py)."""
 import bpy, math, os, sys, time
 from mathutils import Vector, Euler
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -15,6 +16,7 @@ VIEWS = {   # scene, centre (x, y), size across (m), size up the page (m), turn 
     "cinema": ("pent:cinema", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
     "guests": ("pent:guests", (0.0, 6.6), 52.0, 17.0, 0.0, 3.4),
     "o_lounges": ("orb:earth", (0.0, 0.0), 50.0, 50.0, 0.0, 72.0 - 41.0 + 2.9),      # the Orb's +72 m floor
+    "lake": ("garden:lake", (0.0, 26.0), 112.0, 56.0, 0.0, -17.0 + 3.0),               # L2, 17 m below L1
 }
 CROWN_SPANS = {"c_arrival": (72.0, 108.0), "c_bedroom": (108.0, 144.0), "c_salon": (144.0, 180.0), "c_wellness": (180.0, 216.0), "c_dining": (216.0, 252.0), "c_sunset": (252.0, 288.0), "c_library": (288.0, 324.0),
                "c_studio": (324.0, 360.0), "c_observatory": (0.0, 36.0), "c_garden": (36.0, 72.0)}
@@ -27,6 +29,8 @@ def build(scene):
         import pent_rooms; pent_rooms.build(scene[5:]); return
     if scene.startswith("orb:"):
         import orb; orb.build(scene[4:], False); return
+    if scene.startswith("garden:"):
+        import garden_level; garden_level.build(scene[7:]); return
     import crown_rooms; crown_rooms.build(scene[6:], False)        # plans by day, the Observatory too
 
 

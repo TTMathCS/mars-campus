@@ -29,3 +29,13 @@ Publishing is a push to `main` (GitHub Pages).
   branches"), and **push each step as soon as it is checked**, not all at the end ("merge in the middle as well so I
   can view the changes and steer the direction").
 - It must **look real**, never cartoon. Push to `main` only.
+- **Keep every original design file**, so any picture can be made again or improved later: the scene scripts in
+  `palace/tools/render/`, a Blender file (`.blend`) of every scene with its cameras and render settings, and the
+  textures, models and skies they use, all in `palace/blender/` (the archive; its README says how to open and
+  re-render). Save the scene's Blender file whenever its pictures are published or replaced; never leave a design
+  file only in a session's scratchpad. Jim, 4 Oct 2026: "can you put original files somewhere so we can reproduce or
+  improve later? just archives all those original design files"; "please keep this rule in the memory so I need to
+  keep all design original docs".
+- **Pictures match the earlier ones' tone**: true blacks, real contrast, never washed out (measure them against
+  hero, library, salon and dining; `grade.py`). Jim, 4 Oct 2026: "new ones are bit too bright and looks more not
+  real".

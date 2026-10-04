@@ -40,6 +40,9 @@
   #bar button:hover { background: rgba(243,232,218,.14); }
   #bar button[aria-current="true"] { background: var(--ink); color: #1a0f0a; border-color: var(--ink); }
   #bar .lab { font: 500 11px var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; }
+  #bar .places { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin-right: 6px; }
+  #bar .places button { border: 0; border-radius: 0; background: transparent; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 9px 13px; }
+  #bar .places button[aria-pressed="true"] { background: var(--hot); color: #1a0f0a; }
   #bar .sp { flex: 1; }
   #bar a { font-size: 13px; }
   button:focus-visible, a:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
@@ -152,7 +155,7 @@
         view.az = level ? s.az0 : bearing(from, s) - rotOf(s); if (level) view.el = 0;
         nxt.material.map = t; nxt.material.opacity = 0; nxt.material.needsUpdate = true; nxt.visible = true; fade = { t0: performance.now(), dur: 650 };
       }
-      here = s; setHud(); spots(); preload(s); drawMap();
+      here = s; buildBar(placeOf(s)); setHud(); spots(); preload(s); drawMap();
       if (history.replaceState) history.replaceState(null, "", "#" + s.id);
     });
   }
@@ -251,14 +254,28 @@
   var hinted = false; function hint() { if (hinted) return; hinted = true; $("hint").style.opacity = 0; }
 
   /* ------------------------------------------------------------------ the bar and the photos */
-  var PLACES = { pentagon: "Pentagon", crown: "Crown" }, lastPlace = null;
-  STOPS.forEach(function (s) {
-    if (s.hidden) return;
-    if (placeOf(s) !== lastPlace && STOPS.some(function (t) { return placeOf(t) !== placeOf(s); })) {
-      lastPlace = placeOf(s); var l = document.createElement("span"); l.className = "lab"; l.textContent = PLACES[lastPlace] || lastPlace; $("stops").appendChild(l);
+  // the bar shows the place you are in: a switch between the places, then that place's rooms only
+  var PLACES = { pentagon: "Pentagon", crown: "Crown" }, FIRST = { pentagon: "fire", crown: "crown_arrival" }, barPlace = null;
+  function firstOf(p) {
+    if (byId[FIRST[p]] && placeOf(byId[FIRST[p]]) === p) return FIRST[p];
+    var f = STOPS.filter(function (t) { return !t.hidden && placeOf(t) === p; })[0]; return f && f.id;
+  }
+  function buildBar(pl) {
+    if (pl === barPlace) return; barPlace = pl; var box = $("stops"); box.innerHTML = "";
+    var places = Object.keys(PLACES).filter(function (p) { return STOPS.some(function (t) { return !t.hidden && placeOf(t) === p; }); });
+    if (places.length > 1) {
+      var sw = document.createElement("span"); sw.className = "places"; sw.setAttribute("role", "group");
+      places.forEach(function (p) {
+        var b = document.createElement("button"); b.type = "button"; b.textContent = PLACES[p]; b.setAttribute("aria-pressed", p === pl ? "true" : "false");
+        b.addEventListener("click", function () { if (p !== barPlace) go(firstOf(p)); }); sw.appendChild(b);
+      });
+      box.appendChild(sw);
     }
-    var b = document.createElement("button"); b.type = "button"; b.dataset.id = s.id; b.textContent = s.short || s.name; b.addEventListener("click", function () { go(s.id); }); $("stops").appendChild(b);
-  });
+    STOPS.forEach(function (s) {
+      if (s.hidden || placeOf(s) !== pl) return;
+      var b = document.createElement("button"); b.type = "button"; b.dataset.id = s.id; b.textContent = s.short || s.name; b.addEventListener("click", function () { go(s.id); }); box.appendChild(b);
+    });
+  }
   $("stops").style.display = "contents";
   if (!PHOTOS.length) $("bPhotos").hidden = true;
   $("bPhotos").addEventListener("click", function () {

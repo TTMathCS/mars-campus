@@ -39,6 +39,8 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 
 ### The music room
 
+![The music room: the grand piano by the glass onto the atrium, a velvet sofa to listen from](../tour/photos/music.jpg)
+
 ![The music room in 360°: the grand piano by the glass, a wall of records with a turntable and speakers](../design/img/pano/piano.jpg)
 
 - **The room:** at the left end of the glass, beside the family room, 13.9 m deep.
@@ -47,6 +49,8 @@ The residence is the front of ring A on L1, 24 m below ground, behind 28.8 m of 
 - **Walk round it:** [by the piano](https://ttmathcs.github.io/mars-campus/palace/tour/#piano)
 
 ### The dining room and the bar
+
+![The dining room: the table for eight under five glass globes, by the glass onto the atrium](../tour/photos/dining.jpg)
 
 ![The dining room in 360°: the walnut table for eight under five glass globes, the bar's lit shelves at the back](../design/img/pano/table.jpg)
 

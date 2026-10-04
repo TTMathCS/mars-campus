@@ -372,16 +372,21 @@ def hanging(r, bb, z_rail, M, rnd):
         k += 1
 
 
+SUITE_DOORS = 109.3                       # the master suite's doors onto the Glide, in the dressing room
+
+
 def dressing_room(M, rnd):
     """C-06, the dressing room (108 to 116.64), next to the bedroom up: clothes for the day. Walnut wardrobes along the
     outer wall under the slots, some open on hanging clothes and folded shelves; an island of drawers; a long mirror;
     a bench; pale oak walls and a screen onto the Glide, as in the bedroom"""
     b0, b1 = 108.0, 116.64
     mats(M)
-    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"])
+    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"], part_walls=False)
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = CR.imports(M); bc = (b0 + b1) / 2
-    crown.curved_box("dress screen", R_GL + 0.05, R_GL + 0.2, b0 + tang(1.8, R_GL), b1, 0, 2.6, M["oak_panel"])
+    # the suite's front: glass onto the Glide, frosted, and its doors, a pair of walnut pivot doors 4 m tall
+    crown.partition(b0, M, M["oak_panel"]); crown.partition(b1, M, M["oak_panel"], opening=CR.SUITE_DOOR, head=3.6)
+    crown.glass_wall("suite glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(SUITE_DOORS, 2.6)]); crown.glide_lights(b0, b1)
     # wardrobes: 1 m sections, closed doors and open bays in turn
     a = b0 + tang(0.7, R_OUT); W = tang(1.0, R_OUT - 0.3); n = int((b1 - tang(0.7, R_OUT) - a) / W)
     for k in range(n):
@@ -446,10 +451,11 @@ def bath_up(M, rnd):
     import pent_rooms
     b0, b1 = 130.32, 144.0
     mats(M)
-    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["bath_trav"])
+    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["bath_trav"], part_walls=False)
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = CR.imports(M); bc = (b0 + b1) / 2
-    crown.curved_box("bath screen", R_GL + 0.05, R_GL + 0.2, b0, b1 - tang(1.8, R_GL), 0, 2.6, M["oak_panel"])
+    crown.partition(b0, M, M["oak_panel"], opening=CR.SUITE_DOOR, head=3.6); crown.partition(b1, M, M["bath_trav"])
+    crown.glass_wall("suite glass", R_GL + 0.2, b0, b1, M, state="frosted")
     # the tub, hollowed, filled; a bronze filler; a stool with towels; candles
     tb = bc + tang(2.0); tq = at(R_OUT - 1.25, tb, 0.0); pz = 0.18
     crown.curved_box("tub platform", R_OUT - 2.6, R_OUT - 0.05, tb - tang(2.0, R_OUT - 1.2), tb + tang(2.0, R_OUT - 1.2), 0.0, pz, M["bath_trav"])
@@ -675,6 +681,7 @@ MORE = {
         "hangar": dict(loc=at(R_GL + 0.5, 90.6, 1.6), target=at(RM + 0.4, 81.4, 1.0), lens=18),
     }, stops={"hangar": at(RM - 1.0, 84.7, 0.0)}),
     "dressing": dict(build=dressing_room, span=(108.0, 116.64), sun=(112.0, 10.0), cams={
+        "suite_door": dict(loc=at(R_GL - 2.4, 112.4, 1.6), target=at(R_GL + 0.2, 109.3, 2.2), lens=22),
         "dressing": dict(loc=at(R_GL + 0.5, 115.9, 1.5), target=at(R_OUT - 0.5, 110.0, 1.2), lens=20),
     }, stops={"dressing": at(RM - 0.6, 112.3, 0.0)}),
     "bath_up": dict(build=bath_up, span=(130.32, 144.0), sun=(130.0, 14.0), cams={

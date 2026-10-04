@@ -38,6 +38,13 @@ Publishing is a push to `main` (GitHub Pages).
   file only in a session's scratchpad. Jim, 4 Oct 2026: "can you put original files somewhere so we can reproduce or
   improve later? just archives all those original design files"; "please keep this rule in the memory so I need to
   keep all design original docs".
+- **Furniture fits the rooms, and every plant is chosen.** Seating is sized to the room it is in: long designed sofas
+  along the walls, deep sectionals, daybeds, built-in banquettes; never small chairs (dining chairs at a table are
+  upholstered and generous). Each room has its own plants, chosen for it and planned in the furnishing program
+  (`palace/tools/furnishing.py`): all kinds, all colours (red and orange maples, ginkgo, ferns, palms, orchids,
+  bougainvillea, agave …), in planters sized to them; never one pot plant repeated everywhere. Jim, 4 Oct 2026: "I hate
+  those small chairs"; "make them proportional the furniture be proportional to the size of the room"; "all the plants
+  so far … are same, and looks strange … it should includes all kinds of plants, different colors like maple leaves".
 - **Pictures match the earlier ones' tone**: true blacks, real contrast, never washed out (measure them against
   hero, library, salon and dining; `grade.py`). Jim, 4 Oct 2026: "new ones are bit too bright and looks more not
   real".

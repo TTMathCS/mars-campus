@@ -10,6 +10,7 @@ rooms: Crown rooms in ring order from crown_rooms.ROOMS, e.g. salon,wellness. Wr
   c<NNNN>.glb    a chunk of the ring, <chunk> degrees from bearing NNN.N: geometry and its colour texture
   c<NNNN>_l.jpg  the light on it, sRGB-encoded light / EMAX (half the colour texture's size)
   far.glb        the Stone Garden 41 m down, the rest of the ring, the Orb
+  band.glb       (the whole ring) the ring all round as one white band, shown where the rooms are not loaded
   sky.jpg        the sky and the plain all round (equirectangular, the sun in it)
   floor.png      where one can walk: a map of the floor by bearing (across) and radius (down)
   walk.json      what is where, for walk.js
@@ -79,7 +80,8 @@ def build(rooms):
     seen = {}                                # where two rooms meet, both built the partition between them: keep one
     for o in list(bpy.data.objects):
         if o.name.startswith("partition") and o.type == "MESH":
-            k = round(bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0), 2) % 360
+            c = sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0
+            k = (round(bearing(c), 2) % 360, round(c.xy.length, 1), round(c.z, 1), round(o.dimensions.length, 2))
             if k in seen: bpy.data.objects.remove(o)
             else: seen[k] = o
     sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Base Contrast"; sc.view_settings.exposure = EXPOSURE
@@ -440,6 +442,20 @@ def sky(path, b, w=4096):
     log("sky", path)
 
 
+def band():
+    """the whole ring as the plain white band crown.outside draws for the rest of the ring: the walk loads only the
+    rooms near one, and shows this across the garden where they are not"""
+    bm = bmesh.new(); prev = None
+    for b in crown.steps(0.0, 360.0, 4):
+        top = crown.roof_top(b) - crown.FL
+        cur = [bm.verts.new(P(R_IN - 0.6, b, -9.0)), bm.verts.new(P(R_IN - 0.6, b, top)), bm.verts.new(P(R_OUT + 0.6, b, top)), bm.verts.new(P(R_OUT + 0.6, b, -9.0))]
+        if prev:
+            for k in range(4): bm.faces.new((prev[k], cur[k], cur[(k + 1) % 4], prev[(k + 1) % 4]))
+        prev = cur
+    o = lib.mesh_obj("ring band", bm, lib.principled("white ceramic", (0.82, 0.80, 0.77), 0.35))
+    o.data.materials[0] = simple_material("far white ceramic", "far", o.data.materials[0]); return o
+
+
 def main():
     a = sys.argv[1:]; rooms = a[0].split(","); out = os.path.abspath(a[1]); os.makedirs(out, exist_ok=True)
     spp = int(a[2]) if len(a) > 2 else 48; texel = float(a[3]) if len(a) > 3 else 0.0125
@@ -465,6 +481,9 @@ def main():
              if not c.get("up") and overlaps(*c["at"])]
     info = dict(sun=dict(az=SUN_AZ, el=SUN_EL), span=[b0, b1], parts=rooms, rooms=named, exposure=EXPOSURE, emax=EMAX, vmax=VMAX,
                 chunks=[], step=step, start=dict(b=b0 + 1.6, r=131.0))
+    if "arrival" in rooms:                   # one comes up into the Arrival hall, the olive tree and the portal ahead
+        x, y, _ = crown_rooms.ROOMS["arrival"]["stops"]["arrival"]
+        info["start"] = dict(b=round(math.degrees(math.atan2(x, y)) % 360.0, 3), r=round(math.hypot(x, y), 3))
     if stage in ("all", "map"): info["floor"] = floor_map(b0, b1, os.path.join(out, "floor.png"), tex + vtx)
     if stage == "map": json.dump(info, open(os.path.join(out, "walk.json"), "w"), indent=1); return
     keep_coords(tex + vtx); rewrite({m for o in tex + vtx for m in o.data.materials if m})
@@ -512,6 +531,7 @@ def main():
         for o in far:
             for i, m in enumerate(o.data.materials): o.data.materials[i] = simple_material("far " + (m.name if m else "x"), "far", m)
         export(far, os.path.join(out, "far.glb"))
+        if abs(b1 - b0 - 360.0) < 1e-6: export([band()], os.path.join(out, "band.glb"))
     json.dump(info, open(os.path.join(out, "walk.json"), "w"), indent=1)
     log("done in %.0f s" % (time.time() - t0))
 

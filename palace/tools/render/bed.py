@@ -51,3 +51,31 @@ def bed(name, loc, rot_z, M, w=2.0, l=2.15, mats=None):
     sd = du.modifiers.new("sub", "SUBSURF"); sd.levels = 1; sd.render_levels = 2; du.parent = P
     P.location = loc; P.rotation_euler = (0, 0, rot_z)
     return P
+
+
+def grand_bed(name, loc, rot_z, M, ceiling=12.5, w=2.4, l=2.25, fabric_mat=None, seed=1):
+    """the master bed, sized to a room 16 m deep and 12 m tall: a bed 2.4 m wide against a headboard wall 6.4 m wide
+    and 2.7 m tall, upholstered in vertical channels and lit from behind; walnut nightstands floating from it, alabaster
+    pendants hanging to either side, a velvet bench at its foot. Local frame as bed(): the foot at -y."""
+    import seating, tables, lights
+    F = fabric_mat or seating.fabric("headboard velvet", (0.42, 0.36, 0.30), "velvet")
+    P = bed(name + " bed", (0, 0, 0), 0.0, M, w=w, l=l)
+    for o in list(P.children):                            # its own small headboard gives way to the wall
+        if o.name.endswith(" headboard"): bpy.data.objects.remove(o)
+    y0 = l / 2 + 0.04; W, H = 6.4, 2.7; parts = [P]
+    walnut = lib.wood("headboard walnut", (0.20, 0.12, 0.07), (0.10, 0.06, 0.035), 0.35)
+    parts.append(seating.soft_box(name + " wall", (W, 0.16, H), (0, y0 + 0.2, H / 2), walnut, r=0.01, crown=0, bulge=0, crease=0, sub=1))
+    n = 11; cw = (w + 1.6) / n
+    for i in range(n):
+        x = -(w + 1.6) / 2 + cw * (i + 0.5)
+        parts.append(seating.soft_box(name + " channel", (cw - 0.008, 0.12, H - 0.5), (x, y0 + 0.06, 0.32 + (H - 0.5) / 2), F, r=0.05, crown=0.0, bulge=0.012, seed=seed * 7 + i))
+    glow = (1.0, 0.76, 0.52)
+    parts.append(lights.strip(name + " halo top", (-W / 2 + 0.02, y0 + 0.11, H + 0.01), (W / 2 - 0.02, y0 + 0.11, H + 0.01), glow, 18.0))
+    for s in (-1, 1):
+        x = s * (w / 2 + 0.95)
+        parts.append(tables.nightstand(name + " nightstand", (x, y0 - 0.22, 0.0), 0.0, w=0.9, d=0.46, h=0.52))
+        parts.append(lights.alabaster_pendant(name + " pendant", (x, y0 - 0.25), z=1.65, ceiling=ceiling))
+    parts.append(seating.bench(name + " bench", (0, -l / 2 - 0.55, 0.0), 0.0, length=2.0, depth=0.55))
+    e = bpy.data.objects.new(name, None); lib.link(e); e.location = loc; e.rotation_euler = (0, 0, rot_z)
+    for p in parts: p.parent = e
+    return e

@@ -314,51 +314,63 @@ def dining(M, rnd):
 
 
 def bedroom_up(M, rnd):
-    """the master suite up's bedroom (116.6 to 130.3): the bed faces the south-east slot, so the sun rises straight
-    across the room; pale oak walls, a floor of linen-coloured stone"""
-    import bed
+    """the master suite up's bedroom (116.6 to 130.3; revision H: 16.5 m deep, 12.5 m tall): the grand bed in the
+    middle of the room facing the south-east windows, so the sun rises across it, under a halo of light; a sitting
+    group at the bath end and a writing desk at the dressing end, each by its windows; two red Japanese maples, a
+    kentia palm, a fiddle-leaf fig, white orchids by the bed; paintings on the cross walls. Onto the Glide, a wall of
+    bronze and switchable glass, frosted for privacy; the suite's doors are in the dressing room"""
+    import bed, seating, tables, lights, plants, art
     b0, b1 = 116.64, 130.32
-    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"])
+    crown.ring_room(b0, b1, M, M["stone_linen"], wall_mat=M["oak_panel"], part_walls=False)
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = imports(M)
-    bc = (b0 + b1) / 2 + 0.6
-    # an oak screen between the Glide and the bedroom, 2.6 m tall, open at the end by the dressing room
-    crown.curved_box("bed screen", R_GL + 0.05, R_GL + 0.2, b0 + tang(1.6, R_GL), b1, 0, 2.6, M["oak_panel"])
-    bed.bed("bed", at(R_GL + 1.5, bc, 0.0), face_out(bc), M)
-    for k in (-1, 1):
-        bb = bc + k * tang(1.55, R_GL + 0.4)
-        lib.box("nightstand", (0.55, 0.5, 0.5), at(R_GL + 0.47, bb, 0.25), M["walnut"], bevel=0.008, rot_z=face_out(bb))
-        furn.table_lamp("bedside lamp", at(R_GL + 0.47, bb, 0.5), M, watts=40, shade_r=0.17)
-    lib.box("bed rug", (5.6, 4.2, 0.014), at(RM + 0.4, bc, 0.007), M["rug"], bevel=0.006, rot_z=face_in(bc), segs=2)
-    lib.box("bed bench", (1.6, 0.45, 0.45), at(R_GL + 3.1, bc, 0.225), M["bed_fabric"], bevel=0.03, rot_z=face_in(bc), segs=4)
-    # the room is 31 m long: oak screens 6 m either side of the bed make a bedroom of it, with a sitting corner by
-    # the slots at one end and a writing desk at the other
-    for k in (-1, 1):
-        bb = bc + k * tang(6.0)
-        th_ = tang(0.12)
-        crown.curved_box("room screen", R_GL + 0.2, R_OUT - 1.6, bb - th_ / 2, bb + th_ / 2, 0, 3.4, M["oak_panel"])
-    sb = bc + tang(4.2)
-    lib.box("sitting rug", (3.0, 3.4, 0.014), at(R_OUT - 2.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
-    lib.instance_of(S["chair"], at(R_OUT - 1.1, sb + tang(0.8), 0.0), face_in(sb) - 0.5)
-    lib.instance_of(S["chair"], at(R_OUT - 2.7, sb + tang(0.9), 0.0), face_out(sb) + 0.4)
-    furn.side_table("side table", at(R_OUT - 1.9, sb + tang(1.25), 0.014), M, r=0.3, h=0.5)
-    furn.floor_lamp("reading lamp", at(R_OUT - 0.6, sb + tang(1.7), 0.0), M, watts=60)
-    lib.instance_of(S["pouf"], at(R_OUT - 2.2, bc - tang(2.4), 0.0), 0.0)
-    db = bc - tang(4.3)
-    lib.box("desk", (1.8, 0.75, 0.04), at(R_OUT - 0.75, db, 0.74), M["walnut"], bevel=0.005, rot_z=face_in(db))
-    for dx in (-0.8, 0.8):
-        lib.box("desk leg", (0.04, 0.7, 0.72), at(R_OUT - 0.75, db + tang(dx), 0.36), M["bronze_dark"], rot_z=face_in(db))
-    furn.dining_chair("desk chair", at(R_OUT - 1.55, db, 0.0), face_out(db), M)
-    furn.table_lamp("desk lamp", at(R_OUT - 0.55, db - tang(0.6), 0.76), M, watts=35, shade_r=0.15)
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, bc - tang(2.0), 0.0), 0.4, 1.9)
-    lib.instance_of(S["plant"], at(R_GL + 0.8, bc + tang(2.9), 0.0), 2.2, 1.6)
-    p6 = furn.painting_material("painting dawn", (0.62, 0.55, 0.46), [(0.08, 0.92, 0.58, 0.92, (0.72, 0.52, 0.36)), (0.08, 0.92, 0.08, 0.52, (0.50, 0.40, 0.33))])
-    for bb in (b0 + 1.6, b1 - 1.6):
-        lib.box("dresser", (2.2, 0.5, 0.75), at(R_OUT - 0.3, bb, 0.375), M["walnut"], bevel=0.008, rot_z=face_in(bb))
-    furn.painting("painting", 2.4, 1.6, at(R_IN + 0.05, bc, 1.7), face_out(bc) + math.pi, p6, M["frame"])
-    for bb in (bc - tang(2.0), bc + tang(2.0)):
-        for r in (RM - 1.4, RM + 1.4):
-            lib.spot_light("downlight", at(r, bb, ceil_at(bb) - 0.06), 120, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
+    for b in (b0, b1): crown.partition(b, M, M["oak_panel"], opening=SUITE_DOOR, head=3.6)
+    crown.glass_wall("suite glass", R_GL + 0.2, b0, b1, M, state="frosted")
+    bc = (b0 + b1) / 2; ceil = ceil_at(bc)
+    # the bed, its headboard wall 4.6 m in from the glass, facing out
+    rb = R_GL + 4.6 + 1.165; rot = face_out(bc); base = Vector(at(rb, bc, 0.0)); Rz = Matrix.Rotation(rot, 3, "Z")
+    def local(x, y, z): return tuple(base + Rz @ Vector((x, y, z)))
+    bed.grand_bed("grand bed", tuple(base), rot, M, ceiling=ceil)
+    lib.box("bed rug", (7.4, 6.4, 0.014), at(rb + 1.0, bc, 0.007), M["rug"], bevel=0.006, rot_z=face_in(bc), segs=2)
+    lights.halo("bed halo", at(rb + 0.4, bc), d=3.8, z=6.2, ceiling=ceil, watts=700)
+    for s_ in (-1, 1): plants.make("orchid", local(s_ * 2.15, 0.94, 0.52), seed=11 + s_, pot=(0.18, 0.14, "white"), colour="white")
+    # the sunrise corner: two club chairs at the windows in front of the bed, a drum between them
+    for s_ in (-1, 1):
+        bb = bc + s_ * tang(1.3, R_OUT - 2.0)
+        seating.club_chair("window chair", at(R_OUT - 2.0, bb, 0.0), face_out(bb) - s_ * 0.45, fabric_mat=seating.fabric("rust velvet", (0.30, 0.09, 0.04), "velvet"), seed=4 + s_)
+    tables.drum("window drum", at(R_OUT - 1.6, bc, 0.0), d=0.5, h=0.5)
+    # the sitting group at the bath end: a long sofa facing the windows, a travertine table, two more club chairs
+    sb = b1 - tang(6.0, 127.5)
+    lib.box("sitting rug", (6.2, 5.2, 0.014), at(128.3, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    seating.sofa("sitting sofa", at(126.3, sb, 0.0), face_out(sb), length=4.6, fabric_mat=seating.fabric("oat boucle", (0.56, 0.50, 0.42), "boucle"), seed=3)
+    tables.coffee_table("sitting table", at(128.2, sb, 0.0), face_out(sb), length=2.2, width=1.0)
+    for s_ in (-1, 1):
+        bb = sb + s_ * tang(2.15, 128.6)
+        seating.club_chair("sitting chair", at(128.6, bb, 0.0), (face_ccw(bb) if s_ > 0 else face_cw(bb)), fabric_mat=seating.fabric("moss velvet", (0.10, 0.13, 0.08), "velvet"), seed=8 + s_)
+    lights.arc_lamp("sitting arc", at(125.7, sb + tang(2.7, 125.7), 0.0), face_out(sb) + 0.5, reach=1.9)
+    # the desk at the dressing end, facing its window
+    db = b0 + tang(4.6, 132.0)
+    tables.desk("desk", at(132.2, db, 0.0), face_in(db), length=2.6, depth=0.95)
+    seating.desk_chair("desk chair", at(131.2, db, 0.0), face_out(db) + 0.15)
+    lights.alabaster_pendant("desk pendant", at(132.0, db - tang(0.7, 132.0)), z=1.7, ceiling=ceil_at(db), watts=45)
+    plants.make("orchid", at(132.3, db + tang(0.9, 132.0), 0.77), seed=21, pot=(0.16, 0.13, "black"), colour="magenta")
+    # the plants
+    for s_, seed in ((-1, 31), (1, 32)):
+        bb = bc + s_ * tang(5.4, 130.0)
+        plants.make("japanese maple", at(130.0, bb, 0.0), seed=seed, pot=(1.3, 0.5, "basalt"), height=3.4, colour="red", stems=3)
+    plants.make("kentia palm", at(R_OUT - 1.5, b1 - tang(1.4, 133.5), 0.0), seed=33, pot=(0.95, 0.7, "black"), height=3.4)
+    plants.make("fiddle-leaf fig", at(R_OUT - 1.3, b0 + tang(1.5, 133.7), 0.0), seed=34, pot=(0.75, 0.62, "white"), height=2.8)
+    # paintings on the cross walls, each with its light
+    hung = [k for k in ("turner_fighting_temeraire", "monet_water_lilies", "hiroshige_plum_garden", "vangogh_almond_blossom") if k in art.available()] or art.available()
+    if len(hung) >= 2:
+        art.hang("bath end painting", hung[0], 3.0, at(128.6, b1 - tang(0.16, 128.6), 0.0), face_ccw(b1), z=2.2)
+        art.hang("desk end painting", hung[1], 2.4, at(129.0, b0 + tang(0.16, 129.0), 0.0), face_cw(b0), z=2.0)
+    washers(b0, b1, 160); crown.glide_lights(b0, b1)
+    for bb in (bc - tang(4.0), bc + tang(4.0)):
+        for r in (RM - 3.0, RM + 3.0):
+            lib.spot_light("downlight", at(r, bb, ceil_at(bb) - 0.06), 600, (1.0, 0.82, 0.62), 0.03, 30, 0.5)
+
+
+SUITE_DOOR = (R_GL + 1.0, R_GL + 3.6)        # the doorways between the dressing room, the bedroom and the bath
 
 
 def sunset_lounge(M, rnd):
@@ -1106,9 +1118,9 @@ ROOMS = {
         "dining2": dict(loc=at(RM + 0.35, 236.6, 1.4), target=at(RM - 0.1, 228.6, 0.8), lens=22),
     }, stops={"dining": at(RM + 1.6, 232.2, 0.0)}),
     "bedroom": dict(build=bedroom_up, span=(116.64, 130.32), sun=(118.0, 7.0), cams={
-        "bedroom": dict(loc=at(R_OUT - 0.9, 126.25, 1.45), target=at(R_GL + 1.2, 123.4, 0.9), lens=18),
-        "bedroom2": dict(loc=at(R_GL + 0.65, 121.9, 1.5), target=at(R_OUT - 1.0, 125.8, 1.3), lens=18),
-    }, stops={"bedroom": at(RM + 0.9, 124.9, 0.0)}),
+        "bedroom": dict(loc=at(133.6, 125.2, 1.6), target=at(123.8, 123.2, 2.6), lens=19),
+        "bedroom2": dict(loc=at(129.4, 117.3, 1.6), target=at(126.6, 124.6, 2.2), lens=19),
+    }, stops={"bedroom": at(128.6, 123.5, 0.0)}),
     "sunset": dict(build=sunset_lounge, span=(261.0, 279.0), sun=(268.0, 4.5), sun_strength=11.0, cams={
         "sunset": dict(loc=at(R_GL + 0.5, 266.3, 1.4), target=at(R_OUT - 0.2, 271.8, 1.6), lens=20),
         "sunset2": dict(loc=at(R_OUT - 1.4, 277.6, 1.4), target=at(R_GL + 0.4, 268.0, 1.2), lens=20),

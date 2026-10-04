@@ -50,7 +50,7 @@ def materials(M):
     M["basalt"] = P("wet basalt", (0.055, 0.055, 0.052), 0.38)
     M["rope"] = lib.fabric("rope", (0.62, 0.55, 0.42), 0.9, 0.2, 200)
     M["rib"] = P("ceiling rib", (0.06, 0.06, 0.065), 0.5)
-    M["sky_frame"] = P("sky frame", (0.62, 0.64, 0.66), 0.35, 0.8)
+    M["sky_frame"] = P("sky frame", (0.30, 0.31, 0.33), 0.4, 0.8)
     M["green_wall"] = lib.plaster("garden wall", (0.15, 0.17, 0.14), 0.9, 0.03)
     M["sun_disc"] = lib.emission("sky sun", (1.0, 0.93, 0.80), 40.0)
     M["slab"] = lib.plaster("slab soffit", (0.70, 0.70, 0.68))
@@ -64,16 +64,33 @@ def materials(M):
     return M
 
 
-def sky_material():
-    """the sky of lamps: square panels of light, a summer sky's pale blue, each panel a little different"""
+def sky_material(strength=0.6):
+    """the sky of lamps: panels that show the sky outside at that moment, as the Sun Well's lens does for the atrium:
+    Nishita's physical sky for the sun's place (family.lights: 58 degrees up, towards 112), as seen from the middle of
+    the lake, with a few high clouds drifting over it; each panel a touch different, as real panels are"""
     m, nt = lib._mat("sky of lamps panels")
     if nt is None: return m
-    N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"]); e = N.new("ShaderNodeEmission")
+    N = nt.nodes; L = nt.links; N.remove(N["Principled BSDF"]); e = N.new("ShaderNodeEmission"); mth = lambda op, a, b=None: lib._math(nt, op, a, b)
+    geo = N.new("ShaderNodeNewGeometry")
+    sub = N.new("ShaderNodeVectorMath"); sub.operation = "SUBTRACT"; L.new(geo.outputs["Position"], sub.inputs[0]); sub.inputs[1].default_value = (0.0, 25.0, Z0 + 1.5)
+    nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(sub.outputs[0], nrm.inputs[0])
+    sky = N.new("ShaderNodeTexSky"); sky.sky_type = "NISHITA"; sky.sun_disc = False; sky.sun_elevation = math.radians(family.SUN_ELEV)
+    sky.sun_rotation = math.radians(family.SUN_AZ) % (2 * math.pi); sky.altitude = 100; L.new(nrm.outputs[0], sky.inputs["Vector"])
+    # clouds on a deck high above: the direction carried up to it, a soft noise, thin wisps
+    sp = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sp.inputs[0])
+    zz = mth("MAXIMUM", sp.outputs["Z"], 0.08)
+    deck = N.new("ShaderNodeCombineXYZ"); L.new(mth("DIVIDE", sp.outputs["X"], zz), deck.inputs[0]); L.new(mth("DIVIDE", sp.outputs["Y"], zz), deck.inputs[1])
+    cl = N.new("ShaderNodeTexNoise"); cl.inputs["Scale"].default_value = 0.9; cl.inputs["Detail"].default_value = 7; cl.inputs["Roughness"].default_value = 0.58; L.new(deck.outputs[0], cl.inputs["Vector"])
+    cov = N.new("ShaderNodeMapRange"); cov.interpolation_type = "SMOOTHSTEP"; cov.inputs["From Min"].default_value = 0.56; cov.inputs["From Max"].default_value = 0.74; cov.inputs["To Max"].default_value = 0.75
+    L.new(cl.outputs["Fac"], cov.inputs["Value"])
+    lum = N.new("ShaderNodeRGBToBW"); L.new(sky.outputs["Color"], lum.inputs["Color"])
+    white = N.new("ShaderNodeCombineColor"); w_ = mth("MULTIPLY", lum.outputs["Val"], 2.4)
+    for i in range(3): L.new(w_, white.inputs[i])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(cov.outputs["Result"], mx.inputs["Factor"]); L.new(sky.outputs["Color"], mx.inputs[6]); L.new(white.outputs[0], mx.inputs[7])
     tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1 / 2.25, 1 / 2.25, 1.0); L.new(tc.outputs["Object"], mp.inputs["Vector"])
     fl = N.new("ShaderNodeVectorMath"); fl.operation = "FLOOR"; L.new(mp.outputs["Vector"], fl.inputs[0])
     wn = N.new("ShaderNodeTexWhiteNoise"); wn.noise_dimensions = "3D"; L.new(fl.outputs["Vector"], wn.inputs["Vector"])
-    st = lib._math(nt, "ADD", lib._math(nt, "MULTIPLY", wn.outputs["Value"], 0.12), 2.14)
-    e.inputs["Color"].default_value = (0.80, 0.88, 1.0, 1); L.new(st, e.inputs["Strength"])
+    L.new(mx.outputs[2], e.inputs["Color"]); L.new(mth("MULTIPLY", mth("ADD", mth("MULTIPLY", wn.outputs["Value"], 0.05), 0.975), strength), e.inputs["Strength"])
     L.new(e.outputs["Emission"], N["Material Output"].inputs["Surface"])
     return m
 
@@ -206,10 +223,10 @@ def structure(M):
     sky = lib.box("sky of lamps", (200.0, YW + 2.7, 0.02), (0.0, 0.3 + (YW + 2.7) / 2, TOP - 0.02), M["sky"])
     bm = bmesh.new(); x = -99.0
     while x < 99.0:
-        lib.bm_box(bm, (0.04, YW + 2.7, 0.07), (x, 0.3 + (YW + 2.7) / 2, TOP - 0.065)); x += 2.25
+        lib.bm_box(bm, (0.025, YW + 2.7, 0.05), (x, 0.3 + (YW + 2.7) / 2, TOP - 0.055)); x += 2.25
     y = 0.6
     while y < YW + 2.0:
-        lib.bm_box(bm, (198.0, 0.04, 0.07), (0.0, y, TOP - 0.065)); y += 2.25
+        lib.bm_box(bm, (198.0, 0.025, 0.05), (0.0, y, TOP - 0.055)); y += 2.25
     lib.mesh_obj("sky ribs", bm, M["sky_frame"])
     # the sun in the sky of lamps: projectors behind the panels throw parallel light as the sun does, from where the
     # sun stands outside (the Sun Well's sun, family.lights), so the garden has the day's real light and shadows.

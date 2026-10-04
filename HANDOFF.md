@@ -7,6 +7,40 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
+- **4 Oct, from 02:00 UTC (same session, after a restart of its worker):** Jim: "the newly created rendering are not
+  as good as before"; "new ones are bit too bright and looks more not real"; "did you use blender for rendering? if so
+  can you put original files somewhere so we can reproduce or improve later? just archives all those original design
+  files"; "please keep this rule in the memory". Done and pushed:
+  - **Measured** the new pictures against the earlier ones (hero, library, salon, dining): lifted blacks (the darkest
+    5% of pixels at 0.14 to 0.26 against 0.03 to 0.11) and a third less contrast, from too much soft fill light and
+    from the vignette fix of 3 Oct (the old pictures had, by accident, 15% less light outside a centre oval).
+    `palace/tools/render/grade.py` (day, night, pale) maps a picture's tones to the earlier ones'; the Studio,
+    Observatory, breakfast room, sky garden and guest lounge photos and the Studio and star lounge 360s are re-graded
+    and published. **Grade every picture before publishing** (`grade.py day|night|pale src dst`, then `pub.py`).
+  - The sky garden's 360 is **hidden again** (`ready: false`) until the reworked garden's renders replace it.
+  - **New global rules in CLAUDE.md and AGENTS.md**: keep every original design file (scripts, a `.blend` of every
+    scene, its textures) in `palace/blender/`; match the earlier pictures' tone.
+  - **`palace/blender/`**, the archive: `save_blend.py <scene> palace/blender` writes `scenes/<scene>.blend`
+    (compressed, every camera of its pictures and 360s, render settings), textures in `assets/`, the glTF models'
+    textures in `scenes/textures/` named by content. README there. The Pages workflow uploads the site without it
+    (`rsync --exclude palace/blender`). Saved so far: the great library (25.6 MB); the rest are in the render queue,
+    one scene per job; commit each as it lands.
+  - The new scenes' scripts are committed (they were only in the scratchpad): `garden_level.py` (the lake, L2-11),
+    `club.py` (the wine cellar, L1-20), `sport.py` (the lap pool, L1-23), `memory.py` (the memory rooms, L1-14),
+    `make_photos.py` (their photographs, cut from Poly Haven's CC0 skies, now fetched by `fetch_assets.py`).
+  - **Previews judged against the earlier pictures, none published yet:** the Orb's lounges look computer-made (a
+    plastic Earth, a flat white galaxy, the purple Gate) and are **on hold**, off the finals; the lap pool is cold and
+    stark (grey tiles, black ceiling, black windows) and needs a new look; the lake reads as a grid ceiling over a dim
+    hall (now: the day's sun through the sky of lamps, Nishita's sky on the panels; next: frame more water, beach and
+    trees, less ceiling, a bluer sky); the cellar's aisle is close, its tasting room murky (now: uplights grazing the
+    vaults, a light over every rack); the memory rooms are close (a smaller room, photographs hung close in three
+    rows; the skylight softened). The sky garden is reworked (pebbles, stepping stones, fuller beds, box, a basin, ivy
+    up the wall, a low camera among the plants) and its final still and 360 are in the queue.
+  - Tour stops for the four new rooms are in `stops.js`, hidden. `gen_plan.py` has the new area pages ready but not
+    in `AREAS` (CLUB `rooms-club` 03·3, SPORT `rooms-sport` 03·4, GARDEN `rooms-garden` 03·5): add an area to
+    `AREAS` and to `book.js` (CH and READY) only when its first pictures are published; a memory-rooms entry for
+    RESIDENCE is still to write (take L1-14 out of the "back" entry).
+
 - **3 Oct, from 01:50 UTC, session `session_01U4NrzcFVFwFYPq6dhgJtP1` (working; it can reach PyPI, so it runs the
   renders):**
   - **The site is now *Mars – your new home*** (Jim, 3 Oct: "the title should not be 'Mars – No Way Home', should

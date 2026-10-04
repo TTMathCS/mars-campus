@@ -42,7 +42,7 @@ def materials(M):
     M["leather_book2"] = P("album leather green", (0.05, 0.10, 0.07), 0.55)
     M["chair_leather"] = P("cognac leather", (0.30, 0.13, 0.05), 0.42, **{"Coat Weight": 0.25})
     M["picture_light"] = lib.emission("picture light", (1.0, 0.80, 0.56), 12.0)
-    M["sky"] = lib.emission("sky ceiling", (0.88, 0.93, 1.0), 1.4)
+    M["sky"] = lib.emission("sky ceiling", (0.88, 0.93, 1.0), 0.55)
     M["deep"] = P("dark beyond", (0.02, 0.02, 0.02), 0.9)
     return M
 

@@ -47,7 +47,7 @@ def brick_material(name="mars brick", base=(0.40, 0.21, 0.13), dark=(0.27, 0.13,
     L.new(mx.outputs[2], b.inputs["Base Color"])
     f = N.new("ShaderNodeTexNoise"); f.inputs["Scale"].default_value = 90.0; f.inputs["Detail"].default_value = 5; L.new(tc.outputs["Object"], f.inputs["Vector"])
     h = lib._math(nt, "ADD", lib._math(nt, "MULTIPLY", br.outputs["Fac"], -1.0), lib._math(nt, "MULTIPLY", f.outputs["Fac"], 0.25))
-    bm = N.new("ShaderNodeBump"); bm.inputs["Strength"].default_value = 0.6; bm.inputs["Distance"].default_value = 0.006; L.new(h, bm.inputs["Height"]); L.new(bm.outputs["Normal"], b.inputs["Normal"])
+    bm = N.new("ShaderNodeBump"); bm.inputs["Strength"].default_value = 0.85; bm.inputs["Distance"].default_value = 0.012; L.new(h, bm.inputs["Height"]); L.new(bm.outputs["Normal"], b.inputs["Normal"])
     return m
 
 
@@ -254,6 +254,7 @@ def aisle(M, sgn, rnd, bottles):
             lib.box("sconce plate", (0.1, 0.03, 0.22), (x, YC + s_ * (AW - 0.175), 2.05), M["iron"], bevel=0.005)
             lib.cyl("sconce bulb", 0.022, 0.05, (sc.x, sc.y - s_ * 0.06, sc.z + 0.03), M["bulb"], verts=12)
             lib.point_light("sconce", (sc.x, sc.y - s_ * 0.08, sc.z + 0.08), 22.0, (1.0, 0.64, 0.36), 0.02)
+            up = lib.spot_light("pier uplight", (x, YC + s_ * (AW - 0.12), AS - 0.02), 35, (1.0, 0.66, 0.38), 0.01, 50, 0.4); up.rotation_euler = (math.pi + s_ * 0.18, 0, 0)
         bm = bmesh.new(); seg = 24                                     # the rib over the pilasters
         for i in range(seg):
             a0_, a1_ = math.pi * i / seg, math.pi * (i + 1) / seg
@@ -266,9 +267,7 @@ def aisle(M, sgn, rnd, bottles):
         for s_ in (-1, 1):
             if (k * 2 + (s_ > 0)) % 7 == 3: casks_bay(M, xl, xr, s_, rnd)
             else: rack_bay(M, xl, xr, s_, rnd, bottles)
-    # light up the vault from the top of the racks, and a glow at the far end
-    for s_ in (-1, 1):
-        lib.area_light("vault wash", ((lo + hi) / 2, YC + s_ * (AW - 0.5), 2.42), hi - lo - 0.5, 110 * (hi - lo) / 10, (1.0, 0.66, 0.38), rot=(math.pi + s_ * 0.6, 0, 0), size_y=0.1)
+    # light: an uplight on top of every pier, grazing up the vault in a fan, as in old cellars
 
 
 def rack_bay(M, xl, xr, s_, rnd, bottles):
@@ -288,6 +287,7 @@ def rack_bay(M, xl, xr, s_, rnd, bottles):
                 bottles.append(((x + rnd.gauss(0, 0.002), yw - s_ * 0.06, z), s_))
             x += 0.09
     lib.mesh_obj("rack laths", bm, M["rack_x"])
+    lib.area_light("rack light", ((xl + xr) / 2, yw - s_ * 0.55, 2.28), xr - xl - 0.1, 22, (1.0, 0.72, 0.45), rot=(s_ * 0.45, 0, 0), size_y=0.04)
 
 
 def casks_bay(M, xl, xr, s_, rnd):
@@ -372,7 +372,8 @@ def tasting_room(M, rnd, bottles):
     lib.box("cellar floor", (2 * AX1 + 2.0, 14.0, 0.1), (0.0, YC, -0.05), M["terracotta"])
     lib.box("cellar slab", (2 * AX1 + 4.0, 16.0, 0.6), (0.0, YC, 8.3), M["plaster"])
     for sgn in (-1, 1):
-        lib.area_light("vault wash", (sgn * (TX - 0.6), YC, 3.2), 0.2, 260, (1.0, 0.66, 0.38), rot=(0, sgn * math.radians(150), 0), size_y=TY1 - TY0 - 1.0)
+        for y in (TY0 + 0.9, YC - 2.9, YC + 2.9, TY1 - 0.9):       # uplights under the ribs, grazing the vault
+            up = lib.spot_light("rib uplight", (sgn * (TX - 0.15), y, t_vault(TX) - 0.05), 60, (1.0, 0.66, 0.38), 0.01, 45, 0.4); up.rotation_euler = (0, math.pi - sgn * 0.35, 0)
     for (x, y) in ((-TX + 0.4, TY0 + 1.2), (TX - 0.4, TY0 + 1.2), (-TX + 0.4, TY1 - 1.2), (TX - 0.4, TY1 - 1.2)):
         lib.box("sconce plate", (0.03, 0.1, 0.22), (x, y, 2.2), M["iron"], bevel=0.005)
         lib.point_light("sconce", (x - math.copysign(0.1, x), y, 2.3), 25.0, (1.0, 0.64, 0.36), 0.03)

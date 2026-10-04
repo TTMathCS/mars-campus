@@ -4,10 +4,11 @@
   // traced in a worker), and reflections of the actual surroundings from cube maps captured in the scene.
   var MT = { SHELL: 0, CONCRETE: 1, DKGLASS: 2, ANOD: 3, STEEL: 4, BRASS: 5, MARBLE: 6, ROTFLOOR: 7, BALSTONE: 8, EXHIBIT: 9, ATLAS: 10, LIGHT: 11, LOGO: 12,
     RIB: 13, PLASTER: 14, WOOD: 15, FABRIC: 16, PLASTIC: 17, TERRAZZO: 18, VAULT: 19, STEP: 20, RUBBER: 21, PAVE: 22, SOLAR: 23, CERAMIC: 24, LEATHER: 25,
-    SCREEN: 26, COMPOSITE: 27, SIGN: 28, FRIEZE: 29 };
+    SCREEN: 26, COMPOSITE: 27, SIGN: 28, FRIEZE: 29, LEAF: 30 };
   var ZONE = { OUT: 0, ROT: 1, WING: 2 };
   var matU = {
     uFloorTex: { value: dummyTex }, uPanelTex: { value: dummyTex }, uFriezeTex: { value: dummyTex }, uAtlas: { value: dummyTex },
+    uLeafTex: { value: (function () { var t = new THREE.DataTexture(new Uint8Array([60, 90, 40, 0]), 1, 1, THREE.RGBAFormat); t.needsUpdate = true; return t; })() },
     uEnvIn: { value: null }, uEnvOut: { value: null }, uEnvW: { value: null }, uEnvOn: { value: 0 },
     uEnvInP: { value: new THREE.Vector4(0, 0, 0, 1) }, uEnvOutP: { value: new THREE.Vector4(0, 0, 0, 1) }, uEnvWP: { value: new THREE.Vector4(0, 0, 0, 1) },
     uPalA: { value: new THREE.Vector4() }, uPalB: { value: new THREE.Vector4() }, uDustC: { value: new THREE.Vector3(0.3, 0.2, 0.12) },
@@ -41,7 +42,7 @@
   var MAT_FS = [
     "#include <packing>",
     SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, MAT_COMMON,
-    "uniform sampler2D uFloorTex, uPanelTex, uFriezeTex, uAtlas, uLogo; uniform vec3 uDustC; uniform float uTime;",
+    "uniform sampler2D uFloorTex, uPanelTex, uFriezeTex, uAtlas, uLogo, uLeafTex; uniform vec3 uDustC; uniform float uTime;",
     "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat; varying vec3 vL; varying float vAO; varying float vSky;",
     // polished stone: domain-warped veins, anti-aliased so they fade instead of flickering far away
     "vec3 marble(vec3 p, float kind, out float rough){",
@@ -67,7 +68,7 @@
     "  vec3 n = dot(n0, vd) > 0.0 ? -n0 : n0;",
     "  float m = vMat; vec2 f = vFac, g = vFac2;",
     "  float zone = floor(vAO * 0.5 + 0.01), ao = clamp(vAO - zone * 2.0, 0.0, 1.0);",
-    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x;",
+    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x, isLeaf = 0.0;",
     "  vec2 q = vW.xz - uPalA.xy; float lat = q.x * uPalA.w - q.y * uPalA.z, rad = dot(q, uPalA.zw);",
     "  vec2 pc = planar(vW, n0);",
     "  if (m < 0.5) {",                                                   // SHELL: white fibre-composite cladding panels, f in metres
@@ -113,7 +114,7 @@
     "  else if (m < 12.5) {",                                             // LOGO: backlit acrylic logo on a dark plate
     "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
     "    alb = mix(vec3(0.05, 0.07, 0.1), vec3(0.95), lg); emi = vec3(1.0, 0.97, 0.92) * 0.85 * lg; rough = mix(0.25, 0.1, lg); metal = 0.5 * (1.0 - lg);",
-    "  } else if (m < 13.5) { alb = vec3(0.83, 0.83, 0.81) * (0.96 + 0.05 * vnoise(vW.xz * 4.0 + vW.y * 4.0)); rough = 0.38; }",   // RIB: painted steel
+    "  } else if (m < 13.5) { alb = vec3(0.16, 0.15, 0.14) * (0.94 + 0.08 * vnoise(vW.xz * 4.0 + vW.y * 4.0)); metal = 0.65; rough = 0.34; }",   // RIB: dark bronze-anodised steel, like real glass-dome lattices
     "  else if (m < 14.5) {",                                             // PLASTER: g.y 0 off-white, 1 warm grey, 2 terracotta, 3 slate blue
     "    vec3 c = g.y < 0.5 ? vec3(0.86, 0.85, 0.82) : (g.y < 1.5 ? vec3(0.60, 0.58, 0.55) : (g.y < 2.5 ? vec3(0.58, 0.33, 0.24) : vec3(0.22, 0.28, 0.36)));",
     "    alb = c * (0.96 + 0.05 * vnoise(pc * 3.0) + 0.03 * (vnoise(pc * 45.0) - 0.5)); rough = 0.88;",
@@ -176,9 +177,17 @@
     "  } else if (m < 28.5) {",                                           // SIGN: brushed steel plate with the backlit logo
     "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
     "    alb = mix(vec3(0.42, 0.43, 0.44), vec3(0.96), lg); metal = 1.0 - lg; rough = mix(0.3 + 0.1 * vnoise(vec2(pc.x * 200.0, pc.y * 2.0)), 0.2, lg); emi = vec3(1.0, 0.98, 0.95) * 0.55 * lg; dustable = 0.5 * (1.0 - lg);",
-    "  } else {",                                                         // FRIEZE: brass equations set into a band of black marble
+    "  } else if (m < 29.5) {",                                           // FRIEZE: brass equations set into a band of black marble
     "    vec3 t = texture2D(uFriezeTex, f).rgb; float gl = smoothstep(0.45, 0.7, t.r);",
     "    alb = marble(vW, 3.0, rough); if (gl > 0.5) { alb = vec3(0.96, 0.87, 0.64) * (0.95 + 0.06 * vnoise(vW.xz * 9.0 + vW.y * 7.0)); metal = 1.0; rough = 0.2; }",
+    "  } else {",                                                         // LEAF: a leaf cut out of the leaf texture; g.x tint 0..1, g.y gloss
+    "    if (g.y < -0.5) {",                                                // stems and trunks: bark (g.x 0) or a green stem (g.x 1)
+    "      float bn = vnoise(vec2(pc.x * 26.0, pc.y * 5.0)) * 0.7 + vnoise(pc * 90.0) * 0.3;",
+    "      alb = g.x < 0.5 ? vec3(0.36, 0.31, 0.25) * (0.7 + 0.5 * bn) : vec3(0.30, 0.42, 0.20) * (0.88 + 0.24 * bn); rough = g.x < 0.5 ? 0.9 : 0.55;",
+    "    } else {",
+    "      vec4 t = texture2D(uLeafTex, f); float a = (t.a - 0.5) / max(fwidth(t.a), 1e-3) + 0.5; if (a < 0.5) discard;",
+    "      alb = t.rgb * mix(vec3(0.82, 0.86, 0.78), vec3(1.0, 1.0, 0.9), g.x); rough = mix(0.62, 0.3, g.y); isLeaf = 1.0;",
+    "    }",
     "  }",
     "  vec3 albl = pow(alb, vec3(2.2));",
     // Mars dust on everything outside: settled on ledges, streaked down walls, splashed at the foot
@@ -200,6 +209,10 @@
     "  float so = clamp(pow(NdV + ao, exp2(-16.0 * rough - 1.0)) - 1.0 + ao, 0.0, 1.0);",
     "  col += Fr * envLook(zone, vW, R, rough) * so * (1.0 - 0.6 * rough * rough);",
     "  if (sh > 0.0) { vec3 H = normalize(uSun - vd); float a = max(rough * rough, 0.003), a2 = a * a, nh = max(dot(n, H), 0.0), dd = nh * nh * (a2 - 1.0) + 1.0; col += uSunIrr * sh * NdL * (a2 / (3.14159 * dd * dd)) * Fr * 0.2; }",
+    "  if (isLeaf > 0.5) {",                                              // light through the leaf: lamps and the sun from behind
+    "    float back = max(-dot(n, uSun), 0.0), shb = back > 0.0 ? shadowAt(vW, -n) : 0.0;",
+    "    col += albl * (vL * 0.1 + uSunIrr * back * shb * 0.25) * vec3(0.85, 1.0, 0.55);",
+    "  }",
     "  col += emi;",
     "  col = mix(col, hazeCol(vd), hazeAmt(dist) * (1.0 - uPalB.w));",
     "  gl_FragColor = vec4(enc(col * uExposure), 0.0);",

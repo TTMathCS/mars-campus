@@ -31,18 +31,77 @@
   function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); fn(b); FURN[name] = b; } return FURN[name]; }
   function leg(b, x0, y0, z0, x1, y1, z1, r, mat) { tubeAlong(b, [new THREE.Vector3(x0, y0, z0), new THREE.Vector3(x1, y1, z1)], r, 6, mat, 0.3); }
   function kindTag(b, n0, k) { b.tag(n0, null, k); }
-  function studentDesk() { return furn("desk", function (b) {
-    var n0 = b.count(); b.box(-0.3, 0.72, -0.7, 0.3, 0.745, 0.7, MT.WOOD); kindTag(b, n0, 1);
-    [[-0.26, -0.66], [0.26, -0.66], [-0.26, 0.66], [0.26, 0.66]].forEach(function (c) { b.box(c[0] - 0.015, 0, c[1] - 0.015, c[0] + 0.015, 0.72, c[1] + 0.015, MT.ANOD); });
-    b.box(-0.26, 0.68, -0.68, 0.26, 0.72, -0.64, MT.ANOD); b.box(-0.26, 0.68, 0.64, 0.26, 0.72, 0.68, MT.ANOD);
-    b.box(0.24, 0.36, -0.64, 0.26, 0.68, 0.64, MT.ANOD);
-    b.box(-0.27, 0.02, -0.68, 0.27, 0.05, -0.65, MT.ANOD); b.box(-0.27, 0.02, 0.65, 0.27, 0.05, 0.68, MT.ANOD);
+  // ---- school furniture modelled on real pieces: rounded oak tops on steel sled frames, moulded one-piece chairs ----
+  function roundSlab(b, w, d, t, r, y, mat) {          // a rounded rectangle slab, w along x, d along z, top at y + t
+    var sh = new THREE.Shape(), x0 = -w / 2, z0 = -d / 2;
+    sh.moveTo(x0 + r, z0); sh.lineTo(-x0 - r, z0); sh.quadraticCurveTo(-x0, z0, -x0, z0 + r); sh.lineTo(-x0, -z0 - r); sh.quadraticCurveTo(-x0, -z0, -x0 - r, -z0);
+    sh.lineTo(x0 + r, -z0); sh.quadraticCurveTo(x0, -z0, x0, -z0 - r); sh.lineTo(x0, z0 + r); sh.quadraticCurveTo(x0, z0, x0 + r, z0);
+    var g = new THREE.ExtrudeGeometry(sh, { depth: t - 0.004, bevelEnabled: true, bevelThickness: 0.002, bevelSize: 0.002, bevelSegments: 2, curveSegments: 5 });
+    b.geo(g, new THREE.Matrix4().makeTranslation(0, y + 0.002, 0).multiply(new THREE.Matrix4().makeRotationX(Math.PI / 2)), mat);
+  }
+  function tube(b, pts, r, mat, g2x) { tubeAlong(b, pts.map(function (p) { return new THREE.Vector3(p[0], p[1], p[2]); }), r, 8, mat, g2x === undefined ? 1 : g2x); }
+  function bendPath(pts, rad) {                        // a tube path with rounded bends, as a bent steel frame
+    var out = [new THREE.Vector3(pts[0][0], pts[0][1], pts[0][2])];
+    for (var i = 1; i < pts.length - 1; i++) {
+      var a = new THREE.Vector3(pts[i - 1][0], pts[i - 1][1], pts[i - 1][2]), c = new THREE.Vector3(pts[i][0], pts[i][1], pts[i][2]), d = new THREE.Vector3(pts[i + 1][0], pts[i + 1][1], pts[i + 1][2]);
+      var p0 = c.clone().add(a.clone().sub(c).normalize().multiplyScalar(rad)), p1 = c.clone().add(d.clone().sub(c).normalize().multiplyScalar(rad));
+      for (var k = 0; k <= 4; k++) { var t = k / 4, q = p0.clone().multiplyScalar((1 - t) * (1 - t)).add(c.clone().multiplyScalar(2 * t * (1 - t))).add(p1.clone().multiplyScalar(t * t)); out.push(q); }
+    }
+    var e = pts[pts.length - 1]; out.push(new THREE.Vector3(e[0], e[1], e[2])); return out;
+  }
+  function studentDesk(variant) { return furn("desk" + (variant || 0), function (b) {
+    var n0 = b.count(); roundSlab(b, 0.6, 1.4, 0.025, 0.04, 0.72, MT.WOOD); kindTag(b, n0, 1);
+    [-0.64, 0.64].forEach(function (z) {                // a sled frame each end: bent steel tube, black powder coat
+      var n1 = b.count(); tubeAlong(b, bendPath([[-0.27, 0.715, z], [-0.27, 0.012, z], [0.27, 0.012, z], [0.27, 0.715, z]], 0.05), 0.0125, 8, MT.PLASTIC, 1); b.tag(n1, 1, null);
+      [-0.27, 0.27].forEach(function (x) { var g = b.count(); latheOn(b, x, 0, z, [[0.016, 0], [0.016, 0.006], [0.0, 0.006]], 10, MT.RUBBER); });
+      var hk = b.count(); tube(b, [[-0.27, 0.62, z], [-0.31, 0.62, z * 1.02], [-0.315, 0.6, z * 1.02]], 0.004, MT.STEEL); });
+    var nr = b.count(); tubeAlong(b, [new THREE.Vector3(0.24, 0.69, -0.64), new THREE.Vector3(0.24, 0.69, 0.64)], 0.011, 8, MT.PLASTIC, 1); b.tag(nr, 1, null);
+    var np = b.count(); b.box(0.26, 0.36, -0.6, 0.272, 0.69, 0.6, MT.PLASTIC); b.tag(np, 5, null);                    // modesty panel
+    var nt = b.count(); b.box(-0.18, 0.6, -0.62, 0.24, 0.608, 0.62, MT.PLASTIC); b.tag(nt, 1, null);                   // book tray
+    var R = mulberry(17 + (variant || 0) * 31);
+    [-0.35, 0.35].forEach(function (z) {                // each seat's things on the desk
+      var k = R();
+      if (k < 0.45) { var nb = b.count(); b.geo(new THREE.BoxGeometry(0.21, 0.004, 0.297), T(-0.08, 0.747, z + (R() - 0.5) * 0.1, 0, (R() - 0.5) * 0.5, 0), MT.PLASTIC); b.tag(nb, 0, null);
+        var cv = b.count(); b.geo(new THREE.BoxGeometry(0.008, 0.002, 0.15), T(-0.02, 0.75, z + 0.06, 0, R(), 0), MT.PLASTIC); b.tag(cv, 2 + Math.floor(R() * 3), null); }
+      else if (k < 0.7) { for (var j = 0; j < 2; j++) { var bk = b.count(); b.geo(new THREE.BoxGeometry(0.17, 0.022, 0.24), T(0.06, 0.758 + j * 0.023, z + (R() - 0.5) * 0.08, 0, (R() - 0.5) * 0.4, 0), MT.PLASTIC); b.tag(bk, 2 + Math.floor(R() * 3), null); } }
+      else { var lb = b.count(); b.geo(new THREE.BoxGeometry(0.22, 0.012, 0.31), T(-0.05, 0.751, z, 0, (R() - 0.5) * 0.3, 0), MT.ANOD); b.geo(new THREE.BoxGeometry(0.21, 0.008, 0.3), T(0.08, 0.86, z, 0, 0, 1.25), MT.ANOD); }
+      if (R() < 0.5) latheOn(b, 0.18, 0.745, z + 0.18, [[0.0, 0], [0.034, 0], [0.036, 0.02], [0.036, 0.19], [0.03, 0.21], [0.016, 0.22], [0.016, 0.245], [0.0, 0.245]], 14, MT.STEEL);
+    });
   }); }
+  // a moulded polypropylene shell chair: the seat curls up into the back in one piece, on four steel legs
+  function shellPath(v) {                              // the shell's side profile: (z, y) from the seat's front lip (v 0) to the top of the back (v 1)
+    var P = [[-0.215, 0.418], [-0.2, 0.452], [-0.16, 0.462], [-0.02, 0.452], [0.11, 0.448], [0.165, 0.47], [0.192, 0.53], [0.212, 0.64], [0.235, 0.76], [0.25, 0.84]];
+    var f = v * (P.length - 1), i = Math.min(P.length - 2, Math.floor(f)), t = f - i;
+    var p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+    function cr(a, b2, c, d) { return 0.5 * (2 * b2 + (-a + c) * t + (2 * a - 5 * b2 + 4 * c - d) * t * t + (-a + 3 * b2 - 3 * c + d) * t * t * t); }
+    return [cr(p0[0], p1[0], p2[0], p3[0]), cr(p0[1], p1[1], p2[1], p3[1])];
+  }
   function schoolChair(col) { return furn("chair" + col, function (b) {
+    var NU = 12, NV = 26;
+    function shellPt(i, j, off) {
+      var v = j / NV, x = (i / NU) * 2 - 1, zy = shellPath(v), back = Math.max(0, (v - 0.5) / 0.5);
+      var hw = (0.22 - 0.02 * Math.min(1, v * 2)) * (v > 0.88 ? Math.sqrt(Math.max(0.0, 1 - Math.pow((v - 0.88) / 0.125, 2))) * 0.3 + 0.7 : 1);
+      var z = zy[0] - 0.035 * x * x * back, y = zy[1] - 0.012 * (1 - x * x) * (1 - back);
+      var a = shellPath(Math.max(0, v - 0.01)), c = shellPath(Math.min(1, v + 0.01)), tz = c[0] - a[0], ty = c[1] - a[1], tl = Math.hypot(tz, ty) || 1;
+      return [x * hw, y + off * (tz / tl), z - off * (ty / tl)];
+    }
     var n0 = b.count();
-    b.box(-0.21, 0.44, -0.21, 0.21, 0.462, 0.21, MT.PLASTIC); b.box(-0.245, 0.5, -0.2, -0.225, 0.84, 0.2, MT.PLASTIC); b.tag(n0, col, null);
-    [[-0.19, -0.19], [0.19, -0.19], [-0.19, 0.19], [0.19, 0.19]].forEach(function (c) { leg(b, c[0], 0.44, c[1], c[0] * 1.08, 0, c[1] * 1.08, 0.011, MT.STEEL); });
-    leg(b, -0.19, 0.44, -0.16, -0.235, 0.62, -0.16, 0.01, MT.STEEL); leg(b, -0.19, 0.44, 0.16, -0.235, 0.62, 0.16, 0.01, MT.STEEL);
+    b.surf(NU, NV, function (i, j, q) { var p = shellPt(i, j, 0); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.m = MT.PLASTIC; });
+    b.surf(NU, NV, function (i, j, q) { var p = shellPt(NU - i, j, -0.006); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.m = MT.PLASTIC; });
+    [0, NU].forEach(function (ie) { b.surf(1, NV, function (i, j, q) { var p = shellPt(ie, j, i ? -0.006 : 0); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.m = MT.PLASTIC; }); });
+    [0, NV].forEach(function (je) { b.surf(NU, 1, function (i, j, q) { var p = shellPt(i, je, j ? -0.006 : 0); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.m = MT.PLASTIC; }); });
+    b.tag(n0, col, null);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) {      // legs: 18 mm steel tube, splayed, with glides
+      var x0 = c[0] * 0.17, z0 = c[1] > 0 ? 0.1 : -0.13, x1 = c[0] * 0.215, z1 = c[1] > 0 ? 0.18 : -0.2;
+      var n1 = b.count(); tubeAlong(b, [new THREE.Vector3(x0, 0.445, z0), new THREE.Vector3(x1, 0.012, z1)], 0.009, 8, MT.STEEL, 0.3);
+      latheOn(b, x1, 0, z1, [[0.012, 0], [0.012, 0.012], [0.0, 0.012]], 10, MT.RUBBER);
+    });
+    [-1, 1].forEach(function (sx) { tubeAlong(b, [new THREE.Vector3(sx * 0.17, 0.44, -0.13), new THREE.Vector3(sx * 0.17, 0.44, 0.1)], 0.008, 6, MT.STEEL, 0.3); });
+  }); }
+  function backpack(col) { return furn("pack" + col, function (b) {
+    var n0 = b.count(); roundSlab(b, 0.3, 0.17, 0.4, 0.06, 0, MT.FABRIC); b.tag(n0, col, null);
+    var n1 = b.count(); roundSlab(b, 0.24, 0.05, 0.2, 0.03, 0.05, MT.FABRIC); b.tag(n1, col, null);
+    tube(b, [[-0.06, 0.4, 0], [-0.05, 0.45, 0], [0.05, 0.45, 0], [0.06, 0.4, 0]], 0.008, MT.RUBBER);
   }); }
   function officeChair() { return furn("office", function (b) {
     for (var k = 0; k < 5; k++) { var a = k / 5 * Math.PI * 2, cx = Math.cos(a), cz = Math.sin(a); leg(b, 0, 0.1, 0, cx * 0.3, 0.07, cz * 0.3, 0.018, MT.PLASTIC); b.geo(addF2(new THREE.SphereGeometry(0.03, 8, 6), 1, 0), T(cx * 0.3, 0.035, cz * 0.3), MT.PLASTIC, 1); }
@@ -54,11 +113,16 @@
     for (k = 0; k < n0; k++) if (b.m[k] === MT.PLASTIC) b.f2[k * 2] = 1;
   }); }
   function teacherDesk() { return furn("tdesk", function (b) {
-    var n0 = b.count(); b.box(-0.38, 0.72, -0.8, 0.38, 0.75, 0.8, MT.WOOD); b.box(-0.35, 0, -0.78, 0.35, 0.72, -0.4, MT.WOOD); b.box(-0.35, 0, 0.74, 0.35, 0.72, 0.78, MT.WOOD); b.box(0.3, 0.2, -0.4, 0.34, 0.72, 0.74, MT.WOOD); kindTag(b, n0, 2);
-    [0.14, 0.38, 0.6].forEach(function (y) { b.box(-0.355, y, -0.7, -0.35, y + 0.02, -0.48, MT.STEEL); });
-    // laptop and a mug
-    b.box(-0.05, 0.75, -0.3, 0.2, 0.765, 0.06, MT.ANOD); b.box(-0.07, 0.765, -0.3, -0.05, 0.99, 0.06, MT.ANOD);
+    var n0 = b.count(); roundSlab(b, 0.76, 1.6, 0.03, 0.05, 0.72, MT.WOOD); kindTag(b, n0, 1);
+    [-0.74].forEach(function (z) { var n1 = b.count(); tubeAlong(b, bendPath([[-0.34, 0.715, z], [-0.34, 0.012, z], [0.34, 0.012, z], [0.34, 0.715, z]], 0.05), 0.014, 8, MT.PLASTIC, 1); b.tag(n1, 1, null); });
+    var np = b.count(); b.box(-0.35, 0.02, 0.32, 0.35, 0.7, 0.76, MT.PLASTIC); b.tag(np, 0, null);                       // drawer pedestal
+    [0.14, 0.36, 0.58].forEach(function (y) { var nh = b.count(); b.box(-0.358, y - 0.002, 0.34, -0.35, y + 0.002, 0.74, MT.PLASTIC); b.tag(nh, 5, null); b.box(-0.37, y + 0.06, 0.48, -0.355, y + 0.075, 0.6, MT.STEEL); });
+    var nm = b.count(); b.box(0.3, 0.36, -0.7, 0.312, 0.7, 0.3, MT.PLASTIC); b.tag(nm, 5, null);
+    var lb = b.count(); b.geo(new THREE.BoxGeometry(0.24, 0.014, 0.33), T(-0.08, 0.757, -0.15, 0, 0.12, 0), MT.ANOD); b.geo(new THREE.BoxGeometry(0.22, 0.008, 0.32), T(0.045, 0.87, -0.135, 0, 0.12, 1.3), MT.ANOD);
     latheOn(b, 0.1, 0.75, 0.45, [[0.04, 0], [0.042, 0.02], [0.042, 0.1], [0.038, 0.1], [0.038, 0.012], [0.0, 0.012]], 14, MT.CERAMIC, 0);
+    for (var k = 0; k < 6; k++) { var pp = b.count(); b.geo(new THREE.BoxGeometry(0.21, 0.0035, 0.297), T(-0.1, 0.752 + k * 0.0036, 0.15, 0, 0.05 * Math.sin(k * 2.1), 0), MT.PLASTIC); b.tag(pp, 0, null); }
+    latheOn(b, 0.2, 0.75, 0.2, [[0.0, 0], [0.035, 0], [0.035, 0.1], [0.032, 0.1], [0.032, 0.006], [0.0, 0.006]], 14, MT.STEEL);
+    [[0.19, 0.21, 1], [0.21, 0.19, 2], [0.2, 0.2, 3]].forEach(function (pn) { var nk = b.count(); tubeAlong(b, [new THREE.Vector3(pn[0], 0.76, pn[1]), new THREE.Vector3(pn[0] + 0.01 * pn[2], 0.9, pn[1] - 0.008 * pn[2])], 0.004, 5, MT.PLASTIC, pn[2]); b.tag(nk, pn[2], null); });
   }); }
   function labDesk() { return furn("lab", function (b) {
     var n0 = b.count(); b.box(-0.38, 0.72, -1.8, 0.38, 0.75, 1.8, MT.WOOD); kindTag(b, n0, 1);
@@ -147,10 +211,10 @@
     var R = wingRooms(sg), uB = WG.uB;
     B.zone = ZONE.WING;
     R.forEach(function (rm, idx) {
-      var fa = idx === 0 ? WG.sA + WG.ei : rm.s0, fb = idx === R.length - 1 ? WG.sB - WG.ei : rm.s1, ns = Math.max(4, Math.ceil((fb - fa) / 0.3)), fm = FLOORM[rm.kind], wc = WALLC[rm.kind];
+      var fa = idx === 0 ? WG.sA + WG.ei : rm.s0, fb = idx === R.length - 1 ? WG.sB - WG.ei : rm.s1, ns = Math.max(4, Math.ceil((fb - fa) / 0.15)), fm = FLOORM[rm.kind], wc = WALLC[rm.kind];
       var e0 = idx === 0 ? fa : rm.s0 + 0.1, e1 = idx === R.length - 1 ? fb : rm.s1 - 0.1, ne = Math.max(4, Math.ceil((e1 - e0) / 0.3));
-      // floor
-      B.surf(ns, 20, function (i, j, q) { var s = lerp(fa, fb, i / ns), u = lerp(-0.02, 5.9, j / 20), p = wingXZ(sg, u, s); q.p[0] = p.x; q.p[1] = rm.y; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = s; q.f[1] = u; q.f2[1] = fm[1]; q.m = fm[0]; });
+      // floor, fine enough (15 cm) for the baked light to show shadows under the furniture
+      B.surf(ns, 40, function (i, j, q) { var s = lerp(fa, fb, i / ns), u = lerp(-0.02, 5.9, j / 40), p = wingXZ(sg, u, s); q.p[0] = p.x; q.p[1] = rm.y; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = s; q.f[1] = u; q.f2[1] = fm[1]; q.m = fm[0]; });
       // ceiling: the underside of the roof shell
       B.surf(ne, 16, function (i, j, q) { var s = lerp(e0, e1, i / ne), u = lerp(0, uB + 0.05, j / 16), p = roofPt(sg, s, roofT(u), true); q.p[0] = p.x; q.p[1] = p.y; q.p[2] = p.z; q.f[0] = s; q.f[1] = u; q.m = MT.PLASTER; });
       B.orient(B.count() - (ne + 1) * 17, function () { return [0, -1, 0]; });
@@ -175,6 +239,7 @@
       // light spilling out through the glass onto the courtyard at night
       for (var ss = e0 + 1.5; ss < e1 - 0.5; ss += 4.2) { var sp = wpt(sg, ss, -0.4, rm.y + 2.3), od = acrossDir(sg, ss); extLight(sp.x, sp.y, sp.z, LAMPC, 0.9, 7, [-od.x * 0.75, -0.66, -od.z * 0.75], 1); }
       FURNISH[rm.kind](B, sg, rm, e0, e1);
+      (WING_PLANTS[rm.kind] || []).forEach(function (pl, i) { wingPlant(B, sg, pl[0], pl[1], rm.y + (pl[2] === "fern" ? 0.5 : 0), pl[2], (sg > 0 ? 40 : 80) + i + Math.round(pl[0]), pl[3]); });
     });
     endWall(B, sg, WG.sA + WG.ei, 1, R[0]); endWall(B, sg, WG.sB - WG.ei, -1, R[R.length - 1]);
   }
@@ -222,6 +287,13 @@
     });
   }
 
+  // ---- house plants in each room: [s, u, kind, turn]; clear of the furniture and of the way along the back wall ----
+  var WING_PLANTS = {
+    foyer: [[36.6, 0.45, "snake"]], math: [[37.75, 0.7, "fig"], [37.6, 3.55, "snake", 1.2]], lobby: [[49.6, 0.5, "snake", 0.4], [56.45, 0.65, "fig", 2.0]],
+    lab: [[57.6, 0.65, "fig", 0.8], [66.5, 0.5, "snake", 2.2]], seminar: [[67.65, 0.7, "ficus"], [77.0, 0.65, "fig", 1.4]],
+    cafe: [[49.3, 0.8, "olive"], [49.5, 3.5, "snake", 0.7]], reception: [[50.75, 0.65, "fig", 0.5], [57.45, 0.6, "fig", 2.6], [51.2, 3.3, "snake", 0.2]],
+    library: [[58.55, 0.65, "fig", 1.9], [62.6, 0.75, "fern"], [67.0, 1.15, "kentia", 1.1]], study: [[68.65, 0.65, "fig", 0.3], [72.5, 0.75, "ficus", 2.4], [77.0, 0.8, "olive", 1.0]]
+  };
   // ---- what is in each room ----
   var FURNISH = {
     foyer: function (B, sg, rm, e0, e1) {
@@ -230,9 +302,14 @@
       wpic(B, wingFrame(sg, (e0 + e1) / 2, WG.uB - 0.001, rm.y + 1.65), [0, 0, -0.024], "x", [0, -1], 1.6, 0.8, ATL[sg > 0 ? "signR" : "signL"], MT.ATLAS, [0, 0]);
     },
     math: function (B, sg, rm) {
-      [39.8, 41.4, 43.0, 44.6].forEach(function (s) { [1.2, 3.0].forEach(function (u) {
-        place(B, studentDesk(), sg, s, u, rm.y, 0); obst(sg, s - 0.3, s + 0.3, u - 0.7, u + 0.7);
-        [-0.35, 0.35].forEach(function (d) { place(B, schoolChair(3), sg, s - 0.55, u + d, rm.y, 0); });
+      var CR = mulberry(sg > 0 ? 5 : 9);
+      [39.8, 41.4, 43.0, 44.6].forEach(function (s, r) { [1.2, 3.0].forEach(function (u, c) {
+        place(B, studentDesk((r * 2 + c) % 3), sg, s, u, rm.y, 0); obst(sg, s - 0.3, s + 0.3, u - 0.7, u + 0.7);
+        [-0.35, 0.35].forEach(function (d) {
+          var out = CR() * 0.12, turn = (CR() - 0.5) * 0.35;
+          place(B, schoolChair(CR() < 0.75 ? 5 : 0), sg, s - 0.58 - out, u + d + (CR() - 0.5) * 0.05, rm.y, turn);
+          if (CR() < 0.3) place(B, backpack(CR() < 0.5 ? 1 : 3), sg, s - 0.3, u + d + (d > 0 ? 0.42 : -0.42), rm.y, CR() * 3);
+        });
       }); });
       place(B, teacherDesk(), sg, 46.9, 1.6, rm.y, Math.PI); obst(sg, 46.5, 47.3, 0.8, 2.4);
       place(B, officeChair(), sg, 47.5, 1.8, rm.y, Math.PI);

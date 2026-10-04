@@ -383,6 +383,7 @@
     matU.uPanelTex.value = tex(panelAtlas(MOBILE));
     matU.uFriezeTex.value = tex(friezeTexture(MOBILE), true);
     matU.uAtlas.value = tex(campusAtlas());
+    matU.uLeafTex.value = leafTexture();
     ENV.ready = true; queueEnv(true);                                   // reflections once everything has its pictures
     setTimeout(startBakeWorker, 60);
   }

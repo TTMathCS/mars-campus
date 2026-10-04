@@ -34,7 +34,7 @@
     "  }",
     "  if (vK.y < 0.5) {",                                                // dome mullions: every lattice cell split into four panes
     "    float mull = max(aline(vS.x, 0.5, 0.03), aline(vS.y, 0.5, 0.03)) * (1.0 - smoothstep(0.86, 0.9, vK.x));",
-    "    vec3 mc = pow(vec3(0.84, 0.84, 0.82), vec3(2.2)) * 0.6 * (outside ? uSunIrr * max(dot(n, uSun), 0.0) + ambientAt(n) : WARM * 0.12);",
+    "    vec3 mc = pow(vec3(0.2, 0.19, 0.18), vec3(2.2)) * 0.6 * (outside ? uSunIrr * max(dot(n, uSun), 0.0) + ambientAt(n) : WARM * 0.12) + envLook(outside ? 0.0 : 1.0, vW, R, 0.3) * 0.08;",   // slim dark mullions
     "    col = mix(col, mc, mull * 0.85); a = mix(a, 1.0, mull * 0.85);",
     "  }",
     "  float hz = hazeAmt(dist) * (1.0 - uPalB.w);",

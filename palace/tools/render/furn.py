@@ -355,6 +355,7 @@ def olive_tree(name, loc, seed, M, height=3.2, leaves=16000, kind="olive"):
     """an olive tree: a gnarled trunk that forks into branches, and narrow grey-green leaves in clouds at their ends.
     kind="lemon": the same tree with broad glossy leaves (M["lemon_leaf"]) and lemons among them"""
     rnd = random.Random(seed); bm = bmesh.new(); pts = []
+    def g(mu, s): return mu + max(-2 * s, min(2 * s, rnd.gauss(0, s)))      # leaves stay near their branch: no strays in the air
     def seg(p, d, length, r0, r1):
         q = p + d * length
         n = 7; ring0 = []; ring1 = []
@@ -373,11 +374,11 @@ def olive_tree(name, loc, seed, M, height=3.2, leaves=16000, kind="olive"):
             nr = r * (1 - 0.12 * (i + 1) / k); cur = seg(cur, dd, length / k, r, nr); r = nr; d = dd
         if depth == 0 or r < 0.008:
             for i in range(rnd.randint(170, 260)):
-                pts.append(cur + Vector((rnd.gauss(0, 0.32), rnd.gauss(0, 0.32), rnd.gauss(0.08, 0.2))))
+                pts.append(cur + Vector((g(0, 0.32), g(0, 0.32), g(0.08, 0.2))))
             return
         if depth <= 2:
             for i in range(rnd.randint(50, 90)):
-                t = rnd.random(); pts.append(p.lerp(cur, t) + Vector((rnd.gauss(0, 0.18), rnd.gauss(0, 0.18), rnd.gauss(0.05, 0.12))))
+                t = rnd.random(); pts.append(p.lerp(cur, t) + Vector((g(0, 0.18), g(0, 0.18), g(0.05, 0.12))))
         for i in range(rnd.randint(2, 3)):
             nd = (d + Vector((rnd.uniform(-0.9, 0.9), rnd.uniform(-0.9, 0.9), rnd.uniform(0.1, 0.6)))).normalized()
             grow(cur, nd, length * rnd.uniform(0.62, 0.8), r * rnd.uniform(0.55, 0.7), depth - 1)

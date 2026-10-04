@@ -379,6 +379,7 @@ def tour_ready():
 
 
 READY = tour_ready()
+DESIGN = {}     # room code -> its page in the design plan (build() fills it)
 
 
 def seen_link(r):
@@ -388,6 +389,12 @@ def seen_link(r):
     if s in READY: return ' <a class="seen" href="../tour/#%s" title="See it in 360°">◉ 360°</a>' % s
     if os.path.exists(os.path.join(TOUR, "photos", s + ".jpg")): return ' <a class="seen" href="../tour/photos/%s.jpg" title="See the picture">◉ picture</a>' % s
     return ""
+
+
+def design_pages():
+    """each room code's entry in the design plan (palace/design/rooms-*.html#room), from gen_plan.py's areas"""
+    import gen_plan
+    return {c: "../design/%s.html#%s" % (a["id"], r["id"]) for a in gen_plan.AREAS for r in a["rooms"] for c in r.get("codes", [])}
 
 
 def page_of(code):
@@ -420,7 +427,7 @@ def table(rooms, show_where=True):
         a = size_of(r); sz = m2(a) if a else ""
         if r.get("upper") or r.get("up"): sz += " · upper floor"
         pair = link(r["pair"]) + " " + E(BY[r["pair"]]["name"]) if r.get("pair") and r["pair"] in BY else ""
-        seen = seen_link(r)
+        seen = seen_link(r) + (' <a class="seen" href="%s" title="Its page in the design plan">◉ page</a>' % DESIGN[r["code"]] if r["code"] in DESIGN else "")
         o.append('<tr id="%s"><td class="code"><span class="k" style="background:%s"></span>%s</td><td><b>%s</b>%s</td><td>%s</td><td>%s</td><td class="n">%s</td><td>%s</td></tr>' %
                  (r["code"], KIND[r["kind"]][0] if r.get("kind") else "#ddd", r["code"], E(r["name"]), seen, E(r.get("use", "")), E(r.get("also", "")), sz, pair))
     o.append("</tbody></table></div>")
@@ -439,13 +446,13 @@ def page(fname, title, body, here, sub=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>%s · Floor plans · Mars – your new home</title>
+<title>%s · Floor plans · Arcadia design plan</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="plans.css">
 </head>
 <body>
-<header class="top"><div class="in"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="../design/">Design plan</a> · <a href="index.html">Floor plans</a></div><nav>%s</nav></div>%s</header>
+<header class="top"><div class="in"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="../design/">Arcadia design plan</a> · <a href="index.html">Floor plans</a></div><nav>%s</nav></div>%s</header>
 <main>
 %s
 </main>
@@ -460,6 +467,7 @@ def fig(src, alt, cap):
 
 
 def build():
+    global DESIGN; DESIGN = design_pages()
     os.makedirs(SVG, exist_ok=True); os.makedirs(DOCS, exist_ok=True)
     n_rooms = len(ALL)
     # ---- the levels

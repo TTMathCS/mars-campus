@@ -89,7 +89,7 @@ RESIDENCE = dict(
                     ("Garden", "Moss in cushions round a pond with maple leaves floating on it; a Japanese maple; a stone lantern that glows at night; a water basin fed by a bamboo spout; ferns, clipped box, stepping stones; gravel along the glass."),
                     ("Next to", "The street in front, the family room across it; the laundry (L1-05) at one end and the kitchen (L1-10) at the other.")],
              photos=[("../tour/photos/suite_bedroom.jpg", "The bedroom, the headboard wall and the bed."), ("../tour/photos/suite_garden.jpg", "The moss garden from the bedroom."), ("../tour/photos/suite_bath.jpg", "The bath, the vanity on its green marble wall.")],
-             views=[("bedroom", "The bedroom"), ("garden", "The moss garden"), ("bath", "The bath")], plan=("img/plan/l1-suite.jpg", "Ring B of sector 1, across the street from the family room."),
+             views=[("bedroom", "The bedroom down"), ("garden", "The moss garden"), ("bath", "The bath down")], plan=("img/plan/l1-suite.jpg", "Ring B of sector 1, across the street from the family room."),
              above=("img/above/l1-suite.jpg", "the bath at the left end with its tub, double vanity and shower; the moss garden in the middle round its pond, with the maple, the lantern and the stepping stones; the bedroom at the right end, the bed facing the garden and two chairs by the window.")),
         dict(id="back", codes=["L1-05", "L1-10", "L1-11", "L1-12", "L1-13", "L1-14", "L1-15", "L1-16"], k="L1-05, L1-10 to L1-16 · rings B to E", name="The kitchen, the robot bay and the stores",
              purpose="Round and behind the suite: the kitchen across the street from the dining room, where robots cook and Jim can too; the laundry; the pantry, the robot bay and the household stores; Jim's memory rooms, with his keepsakes from Earth and his memoirs; the wardrobes and the residence's plant room.",
@@ -122,7 +122,7 @@ ATRIUM = dict(
                     ("Light", "The glass onto the atrium; eight skylights between the ribs; lights washing the shelves; reading lamps."),
                     ("Next to", "The guest lounge and the baths on the next sides; behind it the Archive of Earth and the reading rooms.")],
              photos=[("../tour/photos/library.jpg", "The great library: two storeys of books, the gallery and the reading tables.")],
-             views=[("library", "In the library")], plan=("img/plan/l1-library.jpg", "Ring A of sector 4, north-west of the atrium."),
+             views=[("library", "In the great library")], plan=("img/plan/l1-library.jpg", "Ring A of sector 4, north-west of the atrium."),
              above=("img/above/l1-library.jpg", "the glass onto the atrium along the bottom, four seating groups and a globe of the Earth by it, three long reading tables, the spiral stair up to the gallery, shelves on the three other walls.")),
         dict(id="baths", codes=["L1-22"], k="L1-22 · ring A · sector 3", name="The thermal baths",
              purpose="Warm water at three temperatures, for long soaks and for a body living in low gravity: the warm pool at 36 °C, the hot pool at 40 °C and the cold plunge at 14 °C. Behind it are the 50 m pool, the sauna and steam rooms, the gym and the treatment rooms.",
@@ -131,7 +131,7 @@ ATRIUM = dict(
                     ("In it", "A warm pool 15 m by 5.6 m with steps along one end; a round hot pool 4.6 m across; a cold plunge 3 m square and 1.6 m deep; lights under the water; eight loungers and stone tables along the glass; a stone bench with towels."),
                     ("Light", "Blades of sunlight from the slots in the ceiling; the glass onto the atrium; the pools lit from within.")],
              photos=[("../tour/photos/baths.jpg", "The thermal baths: quartzite, slots of daylight and the warm pool.")],
-             views=[("baths", "In the baths")], plan=("img/plan/l1-baths.jpg", "Ring A of sector 3, west of the atrium."),
+             views=[("baths", "In the thermal baths")], plan=("img/plan/l1-baths.jpg", "Ring A of sector 3, west of the atrium."),
              above=("img/above/l1-baths.jpg", "the round hot pool on the left, the warm pool in the middle with its steps at one end, the cold plunge on the right, the loungers along the glass onto the atrium at the bottom.")),
         dict(id="cinema", codes=["L1-17"], k="L1-17 · ring A · sector 2", name="The cinema",
              purpose="Films with guests, or alone: forty seats in front of a screen 12 m wide, in the club next to Jim's residence.",
@@ -183,7 +183,7 @@ CROWN = dict(
              facts=[("Rooms", "C-13 Spa · C-14 Sky pool, 25 m · C-15 Gym"),
                     ("Made of", "A deck of polished basalt, pale stone in the pool, cedar, an oak-slat ceiling."),
                     ("In it", "A pool 25 m by 4 m and 1.5 m deep, lit from below; loungers along the Glide side; a round hot pool; a sauna with a glass front; a mirror wall and mats in the gym.")],
-             photos=[("../tour/photos/crown_wellness.jpg", "The pool, 25 m along the ring.")], views=[("crown_wellness", "By the pool")], plan=("img/plan/crown-wellness.jpg", "Part 4, south-west."),
+             photos=[("../tour/photos/crown_wellness.jpg", "The pool, 25 m along the ring.")], views=[("crown_wellness", "By the sky pool")], plan=("img/plan/crown-wellness.jpg", "Part 4, south-west."),
              above=("img/above/crown-wellness.jpg", "the cedar sauna and the round hot pool at the spa end on the left, the 25 m pool in the middle with its loungers along the Glide, the gym at the right end.")),
         dict(id="dining_up", codes=["C-16", "C-17", "C-18"], k="C-16 to C-19 · part 5 · west-south-west · a spire", name="Dining",
              purpose="Dinners for many: a dining hall for 22 at one table of polished basalt, the chef's kitchen, a wine room of Mars glass, and the Sky bar upstairs in the spire.",
@@ -209,7 +209,7 @@ CROWN = dict(
              facts=[("Rooms", "C-27 Art studio · C-28 Photo and print room · C-29 Craft room"), ("Made of", "Oak boards, regolith plaster, walnut cases and counters, beech easels."),
                     ("In it", "Three easels in the north light, a standing work table of brushes and paints, a wide printer and a light table, Jim's prints of Mars on the walls, a potter's wheel, a kiln and shelves of pots, a bench for models.")],
              photos=[("../tour/photos/crown_studio.jpg", "The art studio: easels in the north light from the slots, the work table, canvases waiting."), ("../tour/photos/crown_craft.jpg", "The craft room: the potter's wheel, shelves of pots and the bench for models.")],
-             views=[("crown_studio", "The Studio")], plan=("img/plan/crown-studio.jpg", "Part 8, north-north-west."),
+             views=[("crown_studio", "The art studio")], plan=("img/plan/crown-studio.jpg", "Part 8, north-north-west."),
              above=("img/above/crown-studio.jpg", "the art studio at the left end, its easels by the outer wall and the work table; the print room in the middle with its counter of screens, the printer and the light table; the craft room at the right end with the shelves of pots, the wheel, the kiln and the benches. The Glide runs along the inner wall.")),
         dict(id="observatory", codes=["C-30", "C-31"], k="C-30 to C-32 · part 9 · north · a spire", name="The Observatory",
              purpose="A star lounge with reclining chairs under the northern sky, the telescope room with its controls and screens, and the telescope dome upstairs in the spire, which opens at night. From here Earth shows as the evening or the morning star, with the Moon beside it in the telescope.",
@@ -362,6 +362,16 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clos
 """
 
 
+def plan_page(r):
+    """the floor plans' page that draws this room (palace/plans/), by its first room code"""
+    import draw_plans
+    c = (r.get("codes") or [None])[0]
+    if not c: return None
+    if c in draw_plans.BY: return "../plans/%s#%s" % (draw_plans.page_of(c), c)
+    level = c.split("-")[0].lower()                     # a space the plans draw but do not list (the atrium, the sun court)
+    return "../plans/%s.html" % level if os.path.exists(os.path.join(PAL, "plans", level + ".html")) else None
+
+
 def room_html(r):
     photos = [p for p in r["photos"] if photo_ok(p[0])]
     views = [v for v in r["views"] if stop_ready(v[0])]
@@ -375,7 +385,8 @@ def room_html(r):
         left.append('<figure><img class="zoom" src="%s" alt="%s from above" loading="lazy"><figcaption><b>From above</b>, the ceiling taken off: %s Click to enlarge.</figcaption></figure>' % (r["above"][0], E(r["name"]), E(r["above"][1])))
     right = ['<table class="spec"><tbody>%s</tbody></table>' % "".join('<tr><th>%s</th><td>%s</td></tr>' % (E(k), E(v)) for k, v in r["facts"])]
     if r.get("plan"):
-        plan = '<figure><img class="zoom" src="%s" alt="Where %s is on the floor plan" loading="lazy"><figcaption><b>Where it is.</b> %s Click to enlarge.</figcaption></figure>' % (r["plan"][0], E(r["name"]), E(r["plan"][1]))
+        pp = plan_page(r); more = ' <a href="%s">The floor plan ↗</a>' % pp if pp else ""
+        plan = '<figure><img class="zoom" src="%s" alt="Where %s is on the floor plan" loading="lazy"><figcaption><b>Where it is.</b> %s Click to enlarge.%s</figcaption></figure>' % (r["plan"][0], E(r["name"]), E(r["plan"][1]), more)
         (right if left else left).append(plan)        # no pictures yet: the plan takes their place (no notes for visitors, GN-18)
     if not left: left, right = right, []
     return ('<section class="rm" id="%s"><small>%s</small><h2>%s</h2><p class="purpose">%s</p><div class="grid"><div>%s</div><div>%s</div></div></section>'

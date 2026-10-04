@@ -29,6 +29,8 @@
   button { font: inherit; color: inherit; }
   a { color: var(--ice); }
   .hud { position: fixed; z-index: 2; }
+  #wT a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(243, 232, 218, .35); pointer-events: auto; }
+  #wT a:hover { border-bottom-color: #ff9b6b; }
   #where { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 62vw); pointer-events: none; }
   #where .k { font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); text-shadow: 0 1px 8px rgba(0,0,0,.9); }
   #where .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 14px rgba(0,0,0,.75); }
@@ -163,7 +165,9 @@
     });
   }
   function setHud() {
-    $("wK").textContent = here.k; $("wT").textContent = here.name; $("wD").textContent = here.d || "";
+    $("wK").textContent = here.k; $("wD").textContent = here.d || "";
+    var pg = (ROOMS.pages || {})[here.id], wT = $("wT"); wT.textContent = "";
+    if (pg) { var a = document.createElement("a"); a.href = "../design/" + pg; a.textContent = here.name; wT.appendChild(a); } else wT.textContent = here.name;
     Array.prototype.forEach.call(document.querySelectorAll("#stops button"), function (b) {
       var on = b.dataset.id === here.id; b.setAttribute("aria-current", on ? "true" : "false");
       if (on && b.scrollIntoView) b.scrollIntoView({ block: "nearest", inline: "nearest" });

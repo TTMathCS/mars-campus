@@ -12,7 +12,9 @@ R_IN, R_GL, R_OUT = 115.0, 118.5, 135.0          # the Crown of revision H: inne
 
 def main():
     rooms = [dict(code=r["code"], name=r["name"], b0=r["at"][0], b1=r["at"][1], stop=r.get("seen")) for r in RP.CROWN if not r.get("up")]
-    data = dict(crown=dict(r_in=R_IN, r_gl=R_GL, r_out=R_OUT, rooms=rooms))
+    import gen_plan             # each 360's room on the design plan's pages
+    pages = {v[0]: "%s.html#%s" % (a["id"], r["id"]) for a in gen_plan.AREAS for r in a["rooms"] for v in r["views"]}
+    data = dict(crown=dict(r_in=R_IN, r_gl=R_GL, r_out=R_OUT, rooms=rooms), pages=pages)
     js = ("// made by palace/tools/tour_rooms.py from room_program.py: the Crown's rooms for the tour's map\n"
           "window.TOUR_ROOMS = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";\n")
     open(OUT, "w", encoding="utf-8").write(js); print("rooms.js", len(rooms), "rooms")

@@ -5,53 +5,65 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## Where the work stopped: 4 Oct 2026, 18:45 UTC (read this first)
+## Where the work stopped: 4 Oct 2026, 23:20 UTC (read this first)
 
-Jim ran out of time on this account and will ask another AI to continue. His brief for the Crown is
-`palace/docs/crown-rev-h.md` (every ask in his words, and what each became); the order he set: **the Crown first**
-(each room's design and pictures, and the walk), then the same for every other room. The new rule in CLAUDE.md
-(no small chairs; furniture sized to the room; every plant chosen) applies everywhere.
+Jim's brief for the Crown is `palace/docs/crown-rev-h.md` (every ask in his words, and what each became); his order:
+**the Crown first** (each room's design and pictures, and the walk), then the same for every other room. The rules in
+CLAUDE.md (no small chairs; furniture sized to the room; every plant chosen; pictures with true blacks) apply everywhere.
 
-**Done and live:** the Crown's revision H in the scene scripts, floor plans and texts (ring 20 m wide inside, 12.5 m
-ceilings, 20 m under the spires, eye-level windows lined in bronze); the master suite up refurnished (published photo);
-the tour's bar shows only the current place; the design hub has no popup (its parts link to pages).
+**Done and live:** the Crown's revision H in scripts, plans and texts; the master suite up refurnished (photo, door
+photo, 360); **paintings**: 20 public-domain works in `palace/tools/render/assets/art/` (made by `fetch_art.py`, which
+names each source; archive copy `palace/blender/assets/art/`), each chosen for one room (the list is in
+`palace/tools/furnishing.py`; `crown_rooms.paint()` hangs them); **the tour's ring map** redrawn for revision H with
+a dot in every one of the 29 rooms (`tour/rooms.js`, made by `palace/tools/tour_rooms.py`, which `gen_plan.py` runs);
+**the pages reorganized**: a short hub (the turning model, two place cards, the chapters), `design/idea.html` for the
+idea and the key numbers, the science listed after the chapters, one book name ("Arcadia design plan"), the top bar
+Chapters / Floor plans / 360° tour / Mars Atlas, links both ways between room pages and floor plans, the tour's room
+name opening its page, the same room names in the tour and on the pages.
 
-**Rooms rebuilt in `palace/tools/render/crown_rooms.py` / `crown_more.py`, and their state:**
-- bedroom (C-07): published. dressing (C-06): only its glass front and the suite's doors are new (its wardrobes are
-  still revision G); the bath up (C-08): only its glass front and doorway.
-- star lounge (observatory, C-30/31): previewed (scratchpad `final/rev_h2/c_stars*.jpg`); finals queued.
-- salon (C-09 to C-11) and Arrival hall (C-03/C-04): previewed and good; finals rendering on the first machine.
-- dining hall (C-17) and library (C-23 to C-25): rebuilt in code, NOT yet rendered or checked.
-- every other Crown room: still revision G furniture (small chairs, the one pot plant): rebuild each from
-  `palace/tools/furnishing.py` with the libraries (`seating.py`, `tables.py`, `lights.py`, `plants.py`, `bed.py`,
-  `art.py`), preview at 960x540 24 spp, check, then 1600x900 96 spp, grade (`grade.py day`), publish (`pub.py`),
-  rewrite its entry in `gen_plan.py`, and save its `.blend` (`save_blend.py`).
+**Rooms in `palace/tools/render/` and their state:**
+- bedroom (C-07): published. dressing (C-06), bath up (C-08): only their glass fronts and doorways are new.
+- **Wellness (C-13 spa, C-14 sky pool, C-15 gym): rebuilt** in `crown_wellness.py` (with `gym.py`): the room program
+  moved its cross walls to 191.5 and 204.5 so the pool is a true 25 m (6 m wide, at radius 124 to 130). Built and
+  queued for preview; not yet checked or rendered final.
+- salon (C-09 to C-11): first final view done but **too bright and washed out** (walls clip to white at exposure 1.0,
+  so the grade can only make them grey). Testing exposure 0.3 and -0.2 (queued); re-render the salon finals at the
+  better one, grade `pale` (mostly pale walls), and use the same exposure for the other pale rooms.
+- Arrival hall, star lounge: finals queued. Dining hall, library: previews queued (code untested until then).
+- every other Crown room: still revision G furniture; rebuild each from `furnishing.py` as Wellness was.
 
-**Renders in flight (both push their raw results to `palace/blender/renders/` on their own):**
-- First machine (this session's container, `blend/runner.py a`, pusher `blend/pusher_a.sh`): salon, Arrival hall and
-  star lounge finals, then turntable frames 0 to 35 and `spots.json` -> `palace/blender/renders/crown_h/`, `house_h/`.
-- Second machine (session_01FjAVBjC6iYGKfCFcyGwjNW): the suite door and the bedroom's 360 finals, then turntable
-  frames 36 to 71 with hero and whole -> the same folders. When all 72 frames are in `house_h/`, copy them to a
-  `final/house/` folder and run `pub_house.py` (the hub's section then turns smoothly, Jim's ask).
+**Renders in flight:** first machine (this container: `blend/runner.py a`, queue `blend/queue_a.txt`, pusher
+`blend/pusher_a.sh`): previews, then the Arrival finals, turntable frames 0 to 35 with `spots.json`, the star lounge.
+Second machine (session_01FjAVBjC6iYGKfCFcyGwjNW): turntable frames 40 to 71, pushed in batches to
+`palace/blender/renders/house_h/` (36 to 51 are in). When all 72 frames are there, run `pub_house.py`.
 
-**Open with Jim:** the sky garden's "black platform instead of black" (a continuous black stone path in place of the
-pale stepping stones, or a black floor in place of the gravel?): ask before rebuilding the Garden room.
+**Open with Jim:** the sky garden's "black platform instead of black": a continuous black stone path in place of the
+pale stepping stones, or a black floor in place of the gravel? Ask before rebuilding the Garden room.
 
-**Next, in order:** (1) publish the salon, Arrival hall and star lounge (night and day) once their finals are in,
-with their 360s (stops in `palace/tour/stops.js`: move every Crown stop's `p` to the revision H positions, the
-`stops` in each room's entry); (2) a 360 stop in EVERY Crown room, so the tour's ring map has a dot in each room
-(Jim: "those dots should exist in all rooms/areas to be clickable"), and redraw that map for the 20 m ring
-(`tour/index.html` drawMap: radius 125, width 20, a tick at every room); (3) the remaining Crown rooms; (4) the
-paintings: `art.py` is ready but `assets/art` is empty: public-domain works only (artist dead before 1956 and made
-before 1931), from GitHub-hosted copies (museum sites are blocked here), with `fetch_art.py` to rebuild them; (5) the
-pages: Jim finds them "pretty messy"; the agreed plan: a short hub with two place cards (the Crown, the Pentagon) and
-one row of other ways in; "The idea" to its own page; the science out of the chapter sequence; cross-links between
-chapters, rooms pages, plans and tour; one name for each room everywhere (survey in this log's 4 Oct entries);
-(6) the walk: bake the whole ring of revision H on both machines (`walk_bake.py` with all 18 rooms, halves
-`144:324` and `324:504`, `walk_pack.mjs`), then link it from the Crown pages; (7) then the other levels: the guest
-lounge, the moss garden and the music room first (Jim's notes in `crown-rev-h.md`).
+**Next, in order:** (1) settle the exposure, then the salon, Arrival, star lounge finals: grade, publish, new 360s
+(move each Crown stop's `p` to its room entry's `stops`); (2) check and render Wellness, dining, library; (3) the
+remaining Crown rooms (wine, kitchen up, day room, sunset, gallery, studio, photo, craft, telescope, breakfast,
+dressing, bath up, suit room, hangar), each with its paintings; (4) a 360 in every Crown room; (5) the walk: bake the
+whole ring (`walk_bake.py`, halves `144:324` and `324:504`, `walk_pack.mjs`), link it from the Crown pages; (6) the
+other levels: the guest lounge, the moss garden and the music room first (Jim's notes in `crown-rev-h.md`).
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
+
+### 4 Oct, from 22:40 UTC
+- Synced main (TTMath commits only under `ttmath/`; the second machine's bedroom 360 and turntable frames 36 to 51).
+- Paintings: 20 public-domain works fetched and catalogued (`fetch_art.py`, `art.json`), each placed by design:
+  The Starry Night in the arrival hall; Kandinsky's Composition VII and Delaunay's Landscape with Disc on the salon's
+  screen walls; Turner's Wreck of a Transport Ship over the hearth; Van Gogh's Olive Trees and Wheat Field with
+  Cypresses across the dining table; Monet's Water Lilies and the Rhône at night in the master suite; the straw-hat
+  self-portrait in the study; Hokusai in the bath; Caravaggio in the wine room; Matisse in the dressing room; Udnie
+  in the recital room; Mondrian and Léger in the guests' day room; Delaunay's Metzinger in the library; Claude
+  Lorrain's harbour in the map room; the thatched cottages in the breakfast room; the Night Café and Edtaonisl in the
+  gallery. Checked in the salon and hearth previews (gilt frame, picture light).
+- Tour: the Crown map of revision H, a clickable dot in every room (tested in Chromium: the Gym's dot opens the pool's
+  360 turned to the gym; the hearth room's dot turns the salon's view).
+- Pages: the hub shortened to the model, two place cards and the chapters; `idea.html`; book name, top bar, cross
+  links and room names made consistent; `explorer-rooms.json` dropped (nothing read it). Tested at 1280 and 390 px.
+- Wellness designed and built anew (`crown_wellness.py`, `gym.py`); room program and furnishing program updated first.
 
 - **4 Oct, from 14:30 UTC: the Crown's revision H, and a design pass over every room (same session; both machines
   stopped 14:50 to 17:40 at the usage limit).** Jim's asks, in order, and what each became, are in

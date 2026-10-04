@@ -34,7 +34,7 @@
   #where .t { font: 600 clamp(24px, 3.4vw, 36px)/1.05 var(--display); letter-spacing: .01em; text-shadow: 0 1px 14px rgba(0,0,0,.75); }
   #where .d { margin-top: 6px; font-size: 14px; line-height: 1.45; text-shadow: 0 1px 8px rgba(0,0,0,.95); max-width: 46ch; }
   #map { right: calc(env(safe-area-inset-right, 0px) + 14px); top: calc(env(safe-area-inset-top, 0px) + 12px); width: 190px; height: auto; background: rgba(16, 11, 9, 0.55); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  #map .stop { cursor: pointer; }
+  #map .hit { cursor: pointer; }
   #bar { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); width: min(1000px, calc(100vw - 28px)); background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 14px; padding: 9px 11px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
   #bar button { background: rgba(243,232,218,.06); border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; font: 500 13px/1 var(--body); cursor: pointer; }
   #bar button:hover { background: rgba(243,232,218,.14); }
@@ -104,6 +104,7 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="stops.js"></script>
+<script src="rooms.js"></script>
 <script>
 (function () {
   "use strict";
@@ -143,16 +144,18 @@
   /* ------------------------------------------------------------------ moving between stops */
   function bearing(a, b) { return Math.atan2(-(b.p[0] - a.p[0]), b.p[1] - a.p[1]) / D; }
   function rotOf(s) { return s.rot || 0; }
-  function go(id, instant) {
-    var s = byId[id]; if (!s || (here && here.id === id && !instant)) return;
+  function go(id, instant, face) {
+    var s = byId[id]; if (!s) return;
+    if (here && here.id === id && !instant) { if (face) turnTo(bearing(s, { p: face }) - rotOf(s)); return; }
     var from = here; $("load").hidden = !!cache[id] && !!cache[id].image; if (!$("load").hidden) $("load").textContent = "Walking…";
     tex(s, function (t) {
       $("load").hidden = true;
-      if (!from || instant) { cur.material.map = t; cur.material.needsUpdate = true; view.az = s.az0; view.el = 0; }
+      if (!from || instant) { cur.material.map = t; cur.material.needsUpdate = true; view.az = face ? bearing(s, { p: face }) - rotOf(s) : s.az0; view.el = 0; }
       else {
         // keep facing the way you walked (a portal, or the Glide to another room, sets you down facing the stop's view)
         var level = Math.abs((from.z || 0) - (s.z || 0)) > 3 || placeOf(from) !== placeOf(s) || Math.hypot(from.p[0] - s.p[0], from.p[1] - s.p[1]) > 40;
         view.az = level ? s.az0 : bearing(from, s) - rotOf(s); if (level) view.el = 0;
+        if (face) { view.az = bearing(s, { p: face }) - rotOf(s); view.el = 0; }
         nxt.material.map = t; nxt.material.opacity = 0; nxt.material.needsUpdate = true; nxt.visible = true; fade = { t0: performance.now(), dur: 650 };
       }
       here = s; buildBar(placeOf(s)); setHud(); spots(); preload(s); drawMap();
@@ -200,7 +203,7 @@
     var pl = placeOf(here), MAP = MAPS[pl], svg = $("map"), s = 200 / (MAP.y1 - MAP.y0), h = (MAP.y1 - MAP.y0) * s, w = (MAP.x1 - MAP.x0) * s;
     function P(x, y) { return ((x - MAP.x0) * s).toFixed(1) + "," + ((MAP.y1 - y) * s).toFixed(1); }
     svg.setAttribute("viewBox", "0 0 " + w.toFixed(0) + " " + h.toFixed(0));
-    var out = [];
+    var out = [], hits = [];
     if (pl === "pentagon") {
       // the atrium: the pentagon of the glass, the void, the column; Jim's rooms
       var C = [0, -24.09], RA = 29.77, RV = 20.49 / Math.cos(36 * D), pa = [], pv = [];
@@ -214,11 +217,19 @@
         out.push('<polygon points="' + rp.join(" ") + '" fill="rgba(255,155,107,' + (k ? '.05' : '.12') + ')" stroke="rgba(255,155,107,' + (k ? '.3' : '.6') + ')" stroke-width="1"/>');
       }
     } else {
-      // the Crown: the ring 10 m wide, its ten parts, the Orb over the middle
-      var o = P(0, 0).split(",");
-      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (130 * s).toFixed(1) + '" fill="none" stroke="rgba(255,155,107,.45)" stroke-width="' + (10 * s).toFixed(1) + '"/>');
-      for (var k = 0; k < 10; k++) { var b = (36 * k) * D; out.push('<path d="M' + P(124 * Math.sin(b), 124 * Math.cos(b)) + " L" + P(136 * Math.sin(b), 136 * Math.cos(b)) + '" stroke="rgba(16,11,9,.8)" stroke-width="1.2"/>'); }
+      // the Crown: the ring (rooms between the Glide and the outer wall), a line between rooms, the Orb over the middle
+      var o = P(0, 0).split(","), C = ROOMS.crown || { r_in: 115, r_gl: 118.5, r_out: 135, rooms: [] };
+      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + ((C.r_gl + C.r_out) / 2 * s).toFixed(1) + '" fill="none" stroke="rgba(255,155,107,.32)" stroke-width="' + ((C.r_out - C.r_gl) * s).toFixed(1) + '"/>');
+      out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + ((C.r_in + C.r_gl) / 2 * s).toFixed(1) + '" fill="none" stroke="rgba(159,211,238,.35)" stroke-width="' + ((C.r_gl - C.r_in) * s).toFixed(1) + '"/>');   // the Glide
+      C.rooms.forEach(function (rm) { var b = rm.b0 * D; out.push('<path d="M' + P(C.r_gl * Math.sin(b), C.r_gl * Math.cos(b)) + " L" + P(C.r_out * Math.sin(b), C.r_out * Math.cos(b)) + '" stroke="rgba(16,11,9,.85)" stroke-width="1"/>'); });
       out.push('<circle cx="' + o[0] + '" cy="' + o[1] + '" r="' + (24 * s).toFixed(1) + '" fill="rgba(200,215,230,.25)" stroke="rgba(243,232,218,.4)" stroke-width=".8"/>');      // the Orb, 48 m across
+      // a dot in every room: a room with its own 360 is its stop's dot (below); any other room is a ring, which takes you
+      // to the 360 it is seen from (or the nearest) turned towards it
+      roomDots(C).forEach(function (d) {
+        var q = P(d.p[0], d.p[1]).split(",");
+        out.push('<circle cx="' + q[0] + '" cy="' + q[1] + '" r="2.6" fill="rgba(16,11,9,.6)" stroke="#f3e8da" stroke-width="1.1"/>');
+        hits.push('<circle class="hit" data-id="' + d.stop + '" data-face="' + d.p[0].toFixed(2) + "," + d.p[1].toFixed(2) + '" cx="' + q[0] + '" cy="' + q[1] + '" r="6" fill="transparent"><title>' + d.name + "</title></circle>");
+      });
     }
     STOPS.forEach(function (st) {
       if (placeOf(st) !== pl) return;
@@ -228,15 +239,39 @@
         var p1 = P(st.p[0] - Math.sin(a1) * cr, st.p[1] + Math.cos(a1) * cr), p2 = P(st.p[0] - Math.sin(a2) * cr, st.p[1] + Math.cos(a2) * cr);
         out.push('<path id="cone" d="M' + q.join(",") + " L" + p1 + " A" + r.toFixed(1) + "," + r.toFixed(1) + " 0 0 0 " + p2 + ' Z" fill="rgba(159,211,238,.35)"/>');
       }
-      out.push('<circle class="stop" data-id="' + st.id + '" cx="' + q[0] + '" cy="' + q[1] + '" r="' + (on ? 4.5 : 3.2) + '" fill="' + (on ? "#ff9b6b" : "#f3e8da") + '" stroke="#1a0f0a" stroke-width="1"><title>' + st.name + "</title></circle>");
+      out.push('<circle class="stop" cx="' + q[0] + '" cy="' + q[1] + '" r="' + (on ? 4.5 : 3.2) + '" fill="' + (on ? "#ff9b6b" : "#f3e8da") + '" stroke="#1a0f0a" stroke-width="1"/>');
+      hits.push('<circle class="hit" data-id="' + st.id + '" cx="' + q[0] + '" cy="' + q[1] + '" r="7" fill="transparent"><title>' + (roomOf(st) || st.name) + "</title></circle>");
     });
-    svg.innerHTML = out.join("");
+    svg.innerHTML = out.concat(hits).join("");
   }
-  $("map").addEventListener("click", function (e) { var id = e.target && e.target.getAttribute && e.target.getAttribute("data-id"); if (id) go(id); });
+  $("map").addEventListener("click", function (e) {
+    var t = e.target, id = t && t.getAttribute && t.getAttribute("data-id"); if (!id) return;
+    var f = t.getAttribute("data-face"); go(id, false, f ? f.split(",").map(Number) : null);
+  });
+  // the rooms of a place with no 360 of their own: where each is (the middle of its floor), and the stop to see it from
+  var ROOMS = window.TOUR_ROOMS || {};
+  function ringBearing(p) { var b = Math.atan2(p[0], p[1]) / D; return b < 0 ? b + 360 : b; }
+  function inRoom(rm, p, C) { var b = ringBearing(p), r = Math.hypot(p[0], p[1]); return r > C.r_in - 1 && r < C.r_out + 1 && ((b - rm.b0 + 360) % 360) < ((rm.b1 - rm.b0 + 360) % 360 || 360); }
+  function roomOf(st) {
+    var C = ROOMS.crown; if (!C || placeOf(st) !== "crown" || (st.z || 0) > 3) return null;
+    var rm = C.rooms.filter(function (r) { return inRoom(r, st.p, C); })[0]; return rm ? rm.name : null;
+  }
+  function roomDots(C) {
+    var ring = STOPS.filter(function (t) { return placeOf(t) === "crown" && !(t.z > 3); }), out = [];
+    C.rooms.forEach(function (rm) {
+      if (ring.some(function (t) { return inRoom(rm, t.p, C); })) return;              // its own 360: the stop's dot
+      var bm = (rm.b0 + ((rm.b1 - rm.b0 + 360) % 360) / 2) * D, rr = (C.r_gl + C.r_out) / 2, p = [rr * Math.sin(bm), rr * Math.cos(bm)];
+      var st = rm.stop && byId[rm.stop];
+      if (!st) ring.forEach(function (t) { if (!st || Math.hypot(t.p[0] - p[0], t.p[1] - p[1]) < Math.hypot(st.p[0] - p[0], st.p[1] - p[1])) st = t; });
+      if (st) out.push({ name: rm.name, p: p, stop: st.id });
+    });
+    return out;
+  }
 
   /* ------------------------------------------------------------------ looking round */
-  var drag = null, lastMove = performance.now();
-  canvas.addEventListener("pointerdown", function (e) { drag = { x: e.clientX, y: e.clientY, az: view.az, el: view.el }; canvas.setPointerCapture(e.pointerId); canvas.classList.add("drag"); hint(); });
+  var drag = null, lastMove = performance.now(), turn = null;
+  function turnTo(az) { turn = { from: view.az, d: ((az - view.az) % 360 + 540) % 360 - 180, el: view.el, t0: performance.now() }; }
+  canvas.addEventListener("pointerdown", function (e) { turn = null; drag = { x: e.clientX, y: e.clientY, az: view.az, el: view.el }; canvas.setPointerCapture(e.pointerId); canvas.classList.add("drag"); hint(); });
   canvas.addEventListener("pointermove", function (e) {
     if (!drag) return; var k = view.fov / canvas.clientHeight;
     view.az = drag.az + (e.clientX - drag.x) * k; view.el = Math.max(-85, Math.min(85, drag.el + (e.clientY - drag.y) * k)); lastMove = performance.now();
@@ -291,6 +326,7 @@
   var last = performance.now(), mapAz = null;
   function frame(now) {
     var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (turn) { var tt = Math.min(1, (now - turn.t0) / 700), te = tt * tt * (3 - 2 * tt); view.az = turn.from + turn.d * te; view.el = turn.el * (1 - te); if (tt >= 1) turn = null; }
     if (keys.ArrowLeft) view.az += 60 * dt; if (keys.ArrowRight) view.az -= 60 * dt;
     if (keys.ArrowUp) view.el = Math.min(85, view.el + 40 * dt); if (keys.ArrowDown) view.el = Math.max(-85, view.el - 40 * dt);
     if (fade) {

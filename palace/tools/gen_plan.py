@@ -445,3 +445,4 @@ if __name__ == "__main__":
         n_ph = sum(1 for r in a["rooms"] for p in r["photos"] if photo_ok(p[0])); n_v = sum(1 for r in a["rooms"] for v in r["views"] if stop_ready(v[0]))
         print(a["id"], "rooms", len(a["rooms"]), "photos", n_ph, "360s", n_v)
     explorer_json()
+    import tour_rooms; tour_rooms.main()

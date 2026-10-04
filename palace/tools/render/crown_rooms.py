@@ -199,14 +199,20 @@ def salon(M, rnd):
         seating.crescent("recital crescent", at(r, bb, 0.0), face_cw(bb) - side * 0.25, radius=4.2, length=4.8, fabric_mat=velvet, seed=86 + side)
     for side in (-1, 1): plants.make("kentia palm", at(RM + 1.0 + side * 3.6, 178.9, 0.0), seed=89 + side, pot=(0.95, 0.7, "black"), height=3.4)
     lights.globes("piano globes", at(RM + 1.2, 177.2), n=7, spread=0.6, low=3.0, high=3.8, ceiling=ceil_at(177.2), watts=45, seed=8)
-    # paintings: on the screen walls, facing into the salon, each lit
-    keys = art.available()
-    if keys:
-        hang = [("salon west painting", 151.92 + tang(0.17, R_OUT - 2.1), face_cw(151.92), 0), ("salon east painting", 172.08 - tang(0.17, R_OUT - 2.1), face_ccw(172.08), 1),
-                ("hearth painting", hb + tang(0.02), face_cw(hb), 2)]
-        for (nm, bb, rz, k) in hang:
-            if k < len(keys): art.hang(nm, keys[k], 2.8 if k < 2 else 3.6, at(R_OUT - 2.1 if k < 2 else RM + 0.6, bb, 0.0), rz, z=2.1 if k < 2 else 3.0)
+    # paintings, each lit: Kandinsky's Composition VII and Delaunay's Landscape with Disc on the screen walls, facing into
+    # the salon; Turner's sea over the hearth
+    paint("salon west painting", "kandinsky_composition_vii", 3.4, at(R_OUT - 2.1, 151.92 + tang(0.17, R_OUT - 2.1), 0.0), face_cw(151.92), 2.2)
+    paint("salon east painting", "delaunay_landscape_disc", 3.0, at(R_OUT - 2.1, 172.08 - tang(0.17, R_OUT - 2.1), 0.0), face_ccw(172.08), 2.15, tall=True)
+    paint("hearth painting", "turner_shipwreck", 3.6, at(RM + 0.6, hb + tang(0.02), 0.0), face_cw(hb), 3.0)
     washers(b0, b1, 220)
+
+
+def paint(name, key, size, loc, rot_z, z, tall=False):
+    """hang the painting key (chosen for its room: furnishing.py; fetched by fetch_art.py), size metres wide, or tall if
+    tall, its middle z up; skipped if the paintings have not been fetched"""
+    import art
+    if key not in art.catalogue(): print("no painting", key, flush=True); return None
+    return art.hang(name, key, size, loc, rot_z, z=z, height=size if tall else None)
 
 
 def face_out(b): return math.pi - b * D          # a model whose front is -y faces the outer wall
@@ -278,8 +284,7 @@ def arrival(M, rnd):
     for s_ in (-1, 1):
         seating.bench("door bench", at(RM + s_ * 4.6, b0 + tang(3.2), 0.0), face_cw(b0 + tang(3.2)) + math.pi / 2, length=2.8, depth=0.6,
                       fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
-    keys = art.available()
-    if keys: art.hang("arrival painting", keys[min(3, len(keys) - 1)], 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), z=2.6)
+    paint("arrival painting", "vangogh_starry_night", 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), 2.6)
     washers(b0 - 4.0, b1, 220)
 
 
@@ -331,10 +336,9 @@ def dining(M, rnd):
         plants.make("lemon", at(R_OUT - 1.5, bb, 0.0), seed=260 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)
     for k, bb in enumerate((b0 + tang(2.0), b1 - tang(2.0))):
         plants.make("olive", at(R_GL + 2.0, bb, 0.0), seed=270 + k, pot=(1.3, 0.8, "travertine", True), height=4.2, stems=2)
-    keys = art.available()
-    if len(keys) > 5:
-        art.hang("dining west painting", keys[4], 3.6, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), z=2.3)
-        art.hang("dining east painting", keys[5], 3.6, at(RM - 1.0, b1 - tang(0.17, RM - 1.0), 0.0), face_ccw(b1), z=2.3)
+    # Van Gogh's olive trees and wheat field, painted at Saint-Rémy the same summer, a pair across the table
+    paint("dining west painting", "vangogh_olive_trees", 3.6, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.3)
+    paint("dining east painting", "vangogh_wheat_field", 3.6, at(RM - 1.0, b1 - tang(0.17, RM - 1.0), 0.0), face_ccw(b1), 2.3)
     washers(b0, b1, 220)
 
 
@@ -385,10 +389,8 @@ def bedroom_up(M, rnd):
     plants.make("kentia palm", at(R_OUT - 1.5, b1 - tang(1.4, 133.5), 0.0), seed=33, pot=(0.95, 0.7, "black"), height=3.4)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.3, b0 + tang(1.5, 133.7), 0.0), seed=34, pot=(0.75, 0.62, "white"), height=2.8)
     # paintings on the cross walls, each with its light
-    hung = [k for k in ("turner_fighting_temeraire", "monet_water_lilies", "hiroshige_plum_garden", "vangogh_almond_blossom") if k in art.available()] or art.available()
-    if len(hung) >= 2:
-        art.hang("bath end painting", hung[0], 3.0, at(128.6, b1 - tang(0.16, 128.6), 0.0), face_ccw(b1), z=2.2)
-        art.hang("desk end painting", hung[1], 2.4, at(129.0, b0 + tang(0.16, 129.0), 0.0), face_cw(b0), z=2.0)
+    paint("bath end painting", "monet_water_lilies", 3.0, at(128.6, b1 - tang(0.16, 128.6), 0.0), face_ccw(b1), 2.2)
+    paint("desk end painting", "vangogh_starry_night_rhone", 2.4, at(129.0, b0 + tang(0.16, 129.0), 0.0), face_cw(b0), 2.0)
     washers(b0, b1, 160); crown.glide_lights(b0, b1)
     for bb in (bc - tang(4.0), bc + tang(4.0)):
         for r in (RM - 3.0, RM + 3.0):
@@ -564,8 +566,7 @@ def library_up(M, rnd):
     seating.club_chair("study chair", at(RM, db + tang(2.6), 0.0), face_ccw(db + tang(2.6)) - 0.3, fabric_mat=leather, seed=381)
     tables.coffee_table("study table", at(RM - 1.0, db, 0.0), face_in(db), length=1.8, width=0.9)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.4, b0 + tang(1.5, R_OUT - 1.4), 0.0), seed=382, pot=(0.75, 0.62, "white"), height=2.9)
-    keys = art.available()
-    if len(keys) > 6: art.hang("study painting", keys[6], 2.4, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), z=2.0)
+    paint("study painting", "vangogh_self_portrait", 2.0, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), 2.0, tall=True)
     # light: washers on the shelves at each storey, lamps on the tables
     for bb in crown.steps(bs0 + 0.5, bs1 - 0.5, 1.0 / tang(2.0, R_OUT - 2.2)):
         for (z, w) in ((G2 + 3.6, 160), (G1 - 0.3, 40), (G2 - 0.3, 60)):

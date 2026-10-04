@@ -39,6 +39,14 @@ def log(*a): print(time.strftime("%H:%M:%S"), *a, flush=True)
 def bearing(v): return math.degrees(math.atan2(v.x, v.y)) % 360.0
 
 
+START = 0.0                                  # the stretch's first bearing; bearings past north count on from 360
+
+
+def ub(v):
+    """a point's bearing, counted on from the stretch's start (so a stretch can run past north, or right round)"""
+    b = bearing(v); return b if b >= START - 1e-6 else b + 360.0
+
+
 def corners(o):
     """the corners of the object's box, from its vertices (an object's bound_box is stale until the scene updates)"""
     me = o.data; n = len(me.vertices)
@@ -55,21 +63,23 @@ def centre(o):
 # ---------------------------------------------------------------- the scene
 def build(rooms):
     crown.PAD = 0.0                          # the stretches meet, without the half degree they overlap by in the stills
+    global START
     sc = lib.reset(); M = crown_rooms.materials(); rnd = random.Random(23); spans = []
     for r in rooms:
         R = crown_rooms.ROOMS[r]; R["build"](M, rnd); spans.append(R["span"])
-    for (a, b), (c, d) in zip(spans, spans[1:]): assert abs(b - c) < 1e-6, "rooms must follow each other round the ring"
-    b0, b1 = spans[0][0], spans[-1][1]
+    for (a, b), (c, d) in zip(spans, spans[1:]): assert abs((b - c + 180) % 360 - 180) < 1e-6, "rooms must follow each other round the ring"
+    b0 = spans[0][0]; b1 = b0 + sum((e - a) % 360 or 360 for (a, e) in spans); START = b0
+    whole = abs(b1 - b0 - 360) < 1e-6
     crown.outside(M, SUN_AZ, SUN_EL, sun_strength=SUN_STRENGTH, skip=(b0, b1), roof=True)   # the far side up to its spires
-    th = 0.3 / 130.0 / D                     # the Glide runs on from room to room: close it only at the stretch's ends
-    for o in list(bpy.data.objects):
+    if whole: bpy.data.objects.remove(bpy.data.objects["ring outside"])        # all of the ring is here
+    for o in list(bpy.data.objects):         # the Glide runs on from room to room: close it only at the stretch's ends
         if o.name.startswith("glide end"):
-            bb = bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0)
-            if min(abs(bb - b0), abs(bb - b1)) > 0.05: bpy.data.objects.remove(o)
+            bb = ub(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0)
+            if whole or min(abs(bb - b0), abs(bb - b1)) > 0.05: bpy.data.objects.remove(o)
     seen = {}                                # where two rooms meet, both built the partition between them: keep one
     for o in list(bpy.data.objects):
         if o.name.startswith("partition") and o.type == "MESH":
-            k = round(bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0), 2)
+            k = round(bearing(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0), 2) % 360
             if k in seen: bpy.data.objects.remove(o)
             else: seen[k] = o
     sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Base Contrast"; sc.view_settings.exposure = EXPOSURE
@@ -146,8 +156,9 @@ def split_shell(objs, cuts):
     out = []
     for o in objs:
         if o.matrix_world != Matrix.Identity(4) or len(o.data.polygons) < 2: out.append(o); continue
-        bs = [bearing(c) for c in corners(o)]
-        lo, hi = min(bs), max(bs)
+        cb = ub(centre(o))                   # its extent round the ring, measured from its middle (it may end where the loop closes)
+        rel = [((bearing(c) - cb + 180.0) % 360.0) - 180.0 for c in corners(o)]
+        lo, hi = cb + min(rel), cb + max(rel)
         inside = [c for c in cuts if lo + 1e-3 < c < hi - 1e-3]
         if not inside or hi - lo > 180: out.append(o); continue
         bm = bmesh.new(); bm.from_mesh(o.data)
@@ -157,7 +168,7 @@ def split_shell(objs, cuts):
         bm.to_mesh(o.data); bm.free()
         groups = {}
         for p in o.data.polygons:
-            k = sum(1 for c in cuts if bearing(p.center) > c); groups.setdefault(k, []).append(p.index)
+            k = sum(1 for c in cuts if ub(p.center) > c); groups.setdefault(k, []).append(p.index)
         if len(groups) == 1: out.append(o); continue
         for k, faces in groups.items():
             no = o.copy(); no.data = o.data.copy(); no.name = o.name + " %d" % k
@@ -176,7 +187,7 @@ def chunks_of(b0, b1, step):
 def assign(objs, edges):
     ch = [[] for _ in range(len(edges) - 1)]
     for o in objs:
-        b = bearing(centre(o)); k = min(max(sum(1 for e in edges[1:-1] if b > e), 0), len(ch) - 1); ch[k].append(o)
+        b = ub(centre(o)); k = min(max(sum(1 for e in edges[1:-1] if b > e), 0), len(ch) - 1); ch[k].append(o)
     return ch
 
 
@@ -439,7 +450,8 @@ def main():
     sc.cycles.max_bounces = 6; sc.cycles.diffuse_bounces = 3; sc.cycles.glossy_bounces = 1; sc.cycles.transmission_bounces = 4
     sc.cycles.sample_clamp_indirect = 6.0
     lighten(); realize()
-    objs = [o for o in bpy.data.objects if o.type == "MESH" and not o.hide_render and not any(o.name.startswith(f) for f in FAR)]
+    objs = [o for o in bpy.data.objects if o.type == "MESH" and not o.hide_render and not any(o.name.startswith(f) for f in FAR)
+            and centre(o).z > -20.0]                # not the models' sources, kept out of sight far below the floor
     vtx = [o for o in objs if any(k in o.name.lower() for k in VERTEX) or any(m and any(k in m.name.lower() for k in VERTEX) for m in o.data.materials)]
     tex = [o for o in objs if o not in vtx]
     edges = chunks_of(b0, b1, step)
@@ -447,8 +459,10 @@ def main():
     for d in (os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.join(os.environ.get("MARS_REPO", "/home/user/mars-campus"), "palace", "tools")):
         sys.path.insert(0, d)
     import room_program
+    def overlaps(a0, a1):
+        a0u = a0 if a0 >= b0 - 1e-6 else a0 + 360; return a0u < b1 - 1e-6 and a0u + (a1 - a0) > b0 + 1e-6
     named = [dict(code=c["code"], name=c["name"], b0=c["at"][0], b1=c["at"][1]) for c in room_program.CROWN
-             if not c.get("up") and c["at"][1] > b0 and c["at"][0] < b1]
+             if not c.get("up") and overlaps(*c["at"])]
     info = dict(sun=dict(az=SUN_AZ, el=SUN_EL), span=[b0, b1], parts=rooms, rooms=named, exposure=EXPOSURE, emax=EMAX, vmax=VMAX,
                 chunks=[], step=step, start=dict(b=b0 + 1.6, r=131.0))
     if stage in ("all", "map"): info["floor"] = floor_map(b0, b1, os.path.join(out, "floor.png"), tex + vtx)
@@ -457,13 +471,15 @@ def main():
     groups = assign(tex, edges); vgroups = assign(vtx, edges)
     chunks = []
     for k in range(len(groups)):
-        name = "c%04d" % int(round(edges[k] * 10))
+        name = "c%04d" % (int(round(edges[k] * 10)) % 3600)
         o = join(groups[k], name) if groups[k] else None
         v = join(vgroups[k], name + " leaves") if vgroups[k] else None
         chunks.append((name, o, v, edges[k], edges[k + 1]))
     log("joined into %d chunks" % len(chunks))
     for name, o, v, e0, e1 in chunks:
         if e0 < only[0] - 1e-6 or e1 > only[1] + 1e-6: continue
+        if stage == "all" and os.path.exists(os.path.join(out, name + ".glb")):          # done before a restart
+            info["chunks"].append(dict(file=name + ".glb", light=name + "_l.jpg", b0=e0, b1=e1)); log("have", name); continue
         log("culled %d hidden faces of %s" % (cull_hidden(o), name))
         size = unwrap(o, texel); lsize = max(256, size // 2)
         info["chunks"].append(dict(file=name + ".glb", light=name + "_l.jpg", b0=e0, b1=e1, size=size, light_size=lsize))

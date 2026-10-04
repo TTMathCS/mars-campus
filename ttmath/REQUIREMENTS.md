@@ -58,7 +58,7 @@ A sunset as it looks on Mars: a cool blue glow around the Sun fading into a dust
 | SS-8 | Sun rays through ridges and clouds; thin clouds that keep glowing after sunset | Could | Done |
 | SS-9 | Drifting dust that sparkles when looking toward the Sun | Could | Done |
 | SS-10 | Bright and impressive, not a dark scene: higher exposure, lighter vignette | Must | In progress (v0.4.1 brighter; more with v0.5) |
-| SS-11 | No flashing while walking: Sun glow and rays stay steady | Must | Done (v0.4.1) |
+| SS-11 | No flashing while walking: Sun glow and rays stay steady; signs and logos stay steady (Jim, 4 Oct 2026: "TTMath logo in front of the door flashes when I walk to the building") | Must | Done (v0.4.1; signs v0.7.1: 24-bit depth) |
 
 ## 5. TTMath campus
 
@@ -160,6 +160,7 @@ Measured limits from the start point (height a building can have and still be hi
 
 | Date | Version | Change |
 | --- | --- | --- |
+| 2026-10-04 | v0.7.1 | The logo wall, the logo crest and the gateway's name no longer flicker as you walk up (Jim: they "flash"): the scene is now drawn with a 24-bit depth buffer instead of 16-bit, so surfaces a centimetre apart stay apart |
 | 2026-09-29 | v0.7 | One integrated campus: two curved wings frame a courtyard, a gateway with the campus name, glass links to the dome; real rooms (math classroom, coding lab, seminar room, lobby, Café π, reception, library, reading room) with furniture; physically based materials with real marble, brass, wood and fabric; reflections of the real surroundings; soft shadows and ambient occlusion traced in a worker; weathered, dusty exterior; realistic pressurized rovers; flying craft, landing ring, sky pod, bridges, Dune Shells and neon light lines removed |
 | 2026-09-28 | v0.6 | Math Palace: a huge walk-in glass dome with a Fibonacci spiral lattice at the end of a new avenue; balcony, grand stairs and a rotunda of math exhibits, Penrose floor, sunflower medallion, ring of pi, Foucault pendulum, golden Moebius strip and Platonic solids; shells moved to line the avenue; landing ring and rovers moved beside the forecourt; craft circles the dome; Wing Hall option retired |
 | 2026-09-27 | v0.5 | New campus: Dune Shells with lit glass interiors, floating landing ring, sky pods and bridges, logo sign; 4 to 5 times closer; Wing Hall option (`?design=wing`) |

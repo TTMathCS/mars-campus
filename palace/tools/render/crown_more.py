@@ -451,21 +451,37 @@ def bath_up(M, rnd):
     S = CR.imports(M); bc = (b0 + b1) / 2
     crown.curved_box("bath screen", R_GL + 0.05, R_GL + 0.2, b0, b1 - tang(1.8, R_GL), 0, 2.6, M["oak_panel"])
     # the tub, hollowed, filled; a bronze filler; a stool with towels; candles
-    tb = bc + tang(2.0); tq = at(R_OUT - 1.25, tb, 0.0)
-    tub = lib.box("tub", (1.9, 0.95, 0.6), (tq[0], tq[1], 0.3), M["tub"], bevel=0.22, rot_z=face_in(tb), segs=6)
-    cut = lib.box("tub hollow", (1.7, 0.75, 0.6), (tq[0], tq[1], 0.66), None, bevel=0.2, rot_z=face_in(tb), segs=6); cut.hide_render = True; cut.hide_viewport = True
+    tb = bc + tang(2.0); tq = at(R_OUT - 1.25, tb, 0.0); pz = 0.18
+    crown.curved_box("tub platform", R_OUT - 2.6, R_OUT - 0.05, tb - tang(2.0, R_OUT - 1.2), tb + tang(2.0, R_OUT - 1.2), 0.0, pz, M["bath_trav"])
+    tub = lib.box("tub", (1.9, 0.95, 0.6), (tq[0], tq[1], pz + 0.3), M["tub"], bevel=0.22, rot_z=face_in(tb), segs=6)
+    cut = lib.box("tub hollow", (1.7, 0.75, 0.6), (tq[0], tq[1], pz + 0.66), None, bevel=0.2, rot_z=face_in(tb), segs=6); cut.hide_render = True; cut.hide_viewport = True
     bo = tub.modifiers.new("hollow", "BOOLEAN"); bo.operation = "DIFFERENCE"; bo.object = cut; bo.solver = "EXACT"
     water = pent_rooms.pool_water("bath water", (0.86, 0.95, 0.93))
-    lib.box("tub water", (1.62, 0.68, 0.004), (tq[0], tq[1], 0.48), water, bevel=0.0, rot_z=face_in(tb))
+    lib.box("tub water", (1.62, 0.68, 0.004), (tq[0], tq[1], pz + 0.48), water, bevel=0.0, rot_z=face_in(tb))
     fb = tb - tang(1.15, R_OUT - 1.25)
-    lib.cyl("filler", 0.02, 0.95, at(R_OUT - 1.25, fb, 0.0), M["bronze"], verts=16)
-    lib.box("filler spout", (0.03, 0.28, 0.03), at(R_OUT - 1.25, fb + tang(0.12, R_OUT - 1.25), 0.95), M["bronze"], rot_z=face_cw(fb))
-    sq = at(R_OUT - 2.45, tb, 0.0); lib.cyl("bath stool", 0.2, 0.45, sq, M["oak_top"], verts=32, bevel=0.01)
-    for t in range(3): lib.box("towel", (0.36, 0.26, 0.05), (sq[0], sq[1], 0.47 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(tb) + 0.1 * t)
+    lib.cyl("filler", 0.02, 0.95, at(R_OUT - 1.25, fb, pz), M["bronze"], verts=16)
+    lib.box("filler spout", (0.03, 0.28, 0.03), at(R_OUT - 1.25, fb + tang(0.12, R_OUT - 1.25), pz + 0.95), M["bronze"], rot_z=face_cw(fb))
+    sq = at(R_OUT - 2.3, tb + tang(0.6), pz); lib.cyl("bath stool", 0.2, 0.45, sq, M["oak_top"], verts=32, bevel=0.01)
+    for t in range(3): lib.box("towel", (0.36, 0.26, 0.05), (sq[0], sq[1], pz + 0.47 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(tb) + 0.1 * t)
     for i in range(3):
-        q = at(R_OUT - 0.25, tb + tang(-0.3 + 0.3 * i, R_OUT), 0.0)
+        q = at(R_OUT - 0.25, tb + tang(-0.3 + 0.3 * i, R_OUT), pz)
         lib.cyl("candle", 0.04, 0.12 + 0.05 * i, q, lib.principled("wax", (0.85, 0.82, 0.74), 0.5, **{"Subsurface Weight": 0.4}), verts=24)
-        lib.cyl("flame", 0.006, 0.02, (q[0], q[1], 0.135 + 0.05 * i), lib.emission("flame", (1.0, 0.6, 0.25), 20), verts=8)
+        lib.cyl("flame", 0.006, 0.02, (q[0], q[1], pz + 0.135 + 0.05 * i), lib.emission("flame", (1.0, 0.6, 0.25), 20), verts=8)
+    lib.box("bath rug", (3.2, 2.0, 0.014), at(RM - 0.9, tb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(tb), segs=2)
+    tq2 = at(R_OUT - 0.9, tb - tang(2.6, R_OUT), 0.0)
+    lib.box("tree planter", (0.9, 0.9, 0.5), (tq2[0], tq2[1], 0.25), M["bath_trav"], bevel=0.01, rot_z=face_in(tb))
+    furn.olive_tree("bath olive", (tq2[0], tq2[1], 0.5), 2718, M, height=3.0, leaves=12000)
+    # a bench of stone along the screen, towels stacked on it, and a sunny corner to rest in at the far end
+    crown.curved_box("towel bench", R_GL + 0.2, R_GL + 0.65, bc - tang(4.0, R_GL), bc + tang(1.0, R_GL), 0.0, 0.45, M["bath_trav"])
+    for k in range(4):
+        q = at(R_GL + 0.42, bc - tang(3.2 - 0.9 * k, R_GL), 0.45)
+        for t in range(2 + k % 2): lib.box("towel", (0.4, 0.3, 0.05), (q[0], q[1], 0.47 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(bc) + 0.05 * t)
+    lb = b1 - tang(3.4)
+    lib.box("rest rug", (3.6, 3.0, 0.014), at(RM + 0.6, lb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(lb), segs=2)
+    for k in (-1, 1):
+        bb = lb + k * tang(0.85); pent_rooms.lounger("lounger", at(RM + 0.9, bb, 0.014), face_out(bb), M)
+    furn.side_table("side table", at(RM + 0.9, lb, 0.014), M, r=0.22, h=0.42)
+    lib.instance_of(S["plant"], at(R_OUT - 0.6, lb + tang(1.6), 0.0), 0.9, 2.0)
     lib.instance_of(S["plant"], at(R_OUT - 0.7, tb + tang(1.8), 0.0), 2.2, 1.9)
     # the walk-in shower: a glass screen, a stone bench, a rain head from the ceiling, a line of drain
     sb = bc - tang(3.6); sw = tang(2.6, R_OUT - 1.2)
@@ -536,19 +552,24 @@ def eva_suit(name, loc, rot_z, M, helmet=True):
 
 def suit_room(M, rnd):
     """C-01, the suit room (72 to 78), at the start of the Arrival part: the suits and the airlock, with a dust room,
-    for going out onto the hull or the plain. Suits on lit racks along the outer wall; the airlock's round-cornered
-    door at the far end, its dust room behind glass; benches, helmets on a shelf"""
+    for going out onto the hull or the plain. A steel locker for each suit along the outer wall, a frosted window in
+    its door lit from inside; the airlock's round-cornered door at the near end, its dust room behind glass; benches,
+    boots under them, helmets on a shelf"""
     b0, b1 = 72.0, 78.0
     mats(M)
     crown.ring_room(b0, b1, M, M["rubber"], wall_mat=M["pale_grey"])
     bc = (b0 + b1) / 2
-    # four suit racks: a steel frame, a light over each
-    for i in range(4):
-        sb = b0 + tang(2.4, R_OUT) + i * tang(2.3, R_OUT)
-        crown.curved_box("rack back", R_OUT - 0.1, R_OUT - 0.06, sb - tang(0.6, R_OUT), sb + tang(0.6, R_OUT), 0.0, 2.6, M["graphite"])
-        crown.curved_box("rack light", R_OUT - 0.62, R_OUT - 0.08, sb - tang(0.55, R_OUT), sb + tang(0.55, R_OUT), 2.55, 2.58, lib.emission("rack light", (0.92, 0.95, 1.0), 6))
-        eva_suit("suit", at(R_OUT - 0.55, sb, 0.0), face_in(sb), M, helmet=(i % 2 == 0))
-        for s_ in (-1, 1): crown.curved_box("rack post", R_OUT - 0.62, R_OUT - 0.06, sb + s_ * tang(0.62, R_OUT) - tang(0.02, R_OUT), sb + s_ * tang(0.62, R_OUT) + tang(0.02, R_OUT), 0.0, 2.6, M["steel"])
+    # suit lockers along the outer wall: a steel case for each suit, a frosted window in its door lit from inside
+    W = 1.05; a0 = b0 + tang(1.8, R_OUT); frost = lib.emission("locker window", (0.86, 0.90, 0.94), 2.0)
+    for i in range(6):
+        s0 = a0 + i * tang(W, R_OUT); s1 = s0 + tang(W, R_OUT); sm = (s0 + s1) / 2
+        crown.curved_box("locker", R_OUT - 0.75, R_OUT - 0.05, s0 + tang(0.008, R_OUT), s1 - tang(0.008, R_OUT), 0.08, 2.5, M["steel"])
+        crown.curved_box("locker plinth", R_OUT - 0.7, R_OUT - 0.05, s0, s1, 0.0, 0.08, M["shadow"])
+        crown.curved_box("locker window", R_OUT - 0.756, R_OUT - 0.75, sm - tang(0.15, R_OUT), sm + tang(0.15, R_OUT), 0.95, 2.15, frost)
+        crown.curved_box("window frame", R_OUT - 0.758, R_OUT - 0.75, sm - tang(0.17, R_OUT), sm + tang(0.17, R_OUT), 0.93, 0.95, M["graphite"])
+        crown.curved_box("window frame", R_OUT - 0.758, R_OUT - 0.75, sm - tang(0.17, R_OUT), sm + tang(0.17, R_OUT), 2.15, 2.17, M["graphite"])
+        lib.box("locker handle", (0.022, 0.03, 0.36), at(R_OUT - 0.775, s0 + tang(0.11, R_OUT), 1.2), M["graphite"], rot_z=face_in(sm))
+        lib.box("name plate", (0.18, 0.008, 0.05), at(R_OUT - 0.756, sm, 2.32), M["graphite"], rot_z=face_in(sm))
     # the airlock: a door with round corners and a porthole in a steel wall across the ring at the near end
     ab = b0 + FACE
     crown.curved_box("airlock wall", R_GL + 0.05, R_OUT, ab, ab + tang(0.25, RM), 0.0, 3.0, M["steel"])

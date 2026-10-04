@@ -5,6 +5,52 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
+## Where the work stopped: 4 Oct 2026, 18:45 UTC (read this first)
+
+Jim ran out of time on this account and will ask another AI to continue. His brief for the Crown is
+`palace/docs/crown-rev-h.md` (every ask in his words, and what each became); the order he set: **the Crown first**
+(each room's design and pictures, and the walk), then the same for every other room. The new rule in CLAUDE.md
+(no small chairs; furniture sized to the room; every plant chosen) applies everywhere.
+
+**Done and live:** the Crown's revision H in the scene scripts, floor plans and texts (ring 20 m wide inside, 12.5 m
+ceilings, 20 m under the spires, eye-level windows lined in bronze); the master suite up refurnished (published photo);
+the tour's bar shows only the current place; the design hub has no popup (its parts link to pages).
+
+**Rooms rebuilt in `palace/tools/render/crown_rooms.py` / `crown_more.py`, and their state:**
+- bedroom (C-07): published. dressing (C-06): only its glass front and the suite's doors are new (its wardrobes are
+  still revision G); the bath up (C-08): only its glass front and doorway.
+- star lounge (observatory, C-30/31): previewed (scratchpad `final/rev_h2/c_stars*.jpg`); finals queued.
+- salon (C-09 to C-11) and Arrival hall (C-03/C-04): previewed and good; finals rendering on the first machine.
+- dining hall (C-17) and library (C-23 to C-25): rebuilt in code, NOT yet rendered or checked.
+- every other Crown room: still revision G furniture (small chairs, the one pot plant): rebuild each from
+  `palace/tools/furnishing.py` with the libraries (`seating.py`, `tables.py`, `lights.py`, `plants.py`, `bed.py`,
+  `art.py`), preview at 960x540 24 spp, check, then 1600x900 96 spp, grade (`grade.py day`), publish (`pub.py`),
+  rewrite its entry in `gen_plan.py`, and save its `.blend` (`save_blend.py`).
+
+**Renders in flight (both push their raw results to `palace/blender/renders/` on their own):**
+- First machine (this session's container, `blend/runner.py a`, pusher `blend/pusher_a.sh`): salon, Arrival hall and
+  star lounge finals, then turntable frames 0 to 35 and `spots.json` -> `palace/blender/renders/crown_h/`, `house_h/`.
+- Second machine (session_01FjAVBjC6iYGKfCFcyGwjNW): the suite door and the bedroom's 360 finals, then turntable
+  frames 36 to 71 with hero and whole -> the same folders. When all 72 frames are in `house_h/`, copy them to a
+  `final/house/` folder and run `pub_house.py` (the hub's section then turns smoothly, Jim's ask).
+
+**Open with Jim:** the sky garden's "black platform instead of black" (a continuous black stone path in place of the
+pale stepping stones, or a black floor in place of the gravel?): ask before rebuilding the Garden room.
+
+**Next, in order:** (1) publish the salon, Arrival hall and star lounge (night and day) once their finals are in,
+with their 360s (stops in `palace/tour/stops.js`: move every Crown stop's `p` to the revision H positions, the
+`stops` in each room's entry); (2) a 360 stop in EVERY Crown room, so the tour's ring map has a dot in each room
+(Jim: "those dots should exist in all rooms/areas to be clickable"), and redraw that map for the 20 m ring
+(`tour/index.html` drawMap: radius 125, width 20, a tick at every room); (3) the remaining Crown rooms; (4) the
+paintings: `art.py` is ready but `assets/art` is empty: public-domain works only (artist dead before 1956 and made
+before 1931), from GitHub-hosted copies (museum sites are blocked here), with `fetch_art.py` to rebuild them; (5) the
+pages: Jim finds them "pretty messy"; the agreed plan: a short hub with two place cards (the Crown, the Pentagon) and
+one row of other ways in; "The idea" to its own page; the science out of the chapter sequence; cross-links between
+chapters, rooms pages, plans and tour; one name for each room everywhere (survey in this log's 4 Oct entries);
+(6) the walk: bake the whole ring of revision H on both machines (`walk_bake.py` with all 18 rooms, halves
+`144:324` and `324:504`, `walk_pack.mjs`), then link it from the Crown pages; (7) then the other levels: the guest
+lounge, the moss garden and the music room first (Jim's notes in `crown-rev-h.md`).
+
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
 - **4 Oct, from 14:30 UTC: the Crown's revision H, and a design pass over every room (same session; both machines

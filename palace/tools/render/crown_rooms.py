@@ -284,54 +284,58 @@ def arrival(M, rnd):
 
 
 def dining(M, rnd):
-    """the dining hall (223.2 to 241.2) under the Dining spire: a table of polished basalt for twenty"""
+    """the dining hall (223.2 to 241.2; revision H: 16.5 m deep, 20 m tall under the Dining spire): one table of
+    polished basalt 14 m long for 22, curving with the ring, in high-backed velvet chairs; a line of four halos of
+    light over it; marble sideboards at both ends; lemon trees in terracotta along the windows, olives at the ends"""
+    import seating, tables, lights, plants, art
     b0, b1 = 223.2, 241.2
     crown.ring_room(b0, b1, M, M["basalt"])
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    S = imports(M)
-    bc = (b0 + b1) / 2; L_ = 10.5
-    # the table: three slabs of basalt on two olive-wood trestles, curving with the ring
-    crown.curved_box("table top", RM - 0.6, RM + 0.6, bc - tang(L_ / 2), bc + tang(L_ / 2), 0.70, 0.76, M["basalt_table"])
+    crown.glide_lights(b0, b1)
+    bc = (b0 + b1) / 2; L_ = 14.0; rt = RM + 0.6
+    # the table: a long slab of basalt on three pedestals, curving with the ring
+    crown.curved_box("table top", rt - 0.7, rt + 0.7, bc - tang(L_ / 2, rt), bc + tang(L_ / 2, rt), 0.70, 0.76, M["basalt_table"])
+    for k in (-1, 0, 1):
+        bb = bc + k * tang(L_ / 2 - 2.2, rt)
+        crown.curved_box("table pedestal", rt - 0.35, rt + 0.35, bb - tang(0.5, rt), bb + tang(0.5, rt), 0.0, 0.70, M["basalt_table"])
+    lib.box("dining rug", (17.0, 6.0, 0.014), at(rt, bc, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
+    velvet = seating.fabric("claret velvet", (0.26, 0.05, 0.045), "velvet")
+    n = 10
+    for i in range(n):
+        bb = bc - tang(L_ / 2 - 0.75, rt) + i * tang((L_ - 1.5) / (n - 1), rt)
+        seating.dining_chair("dining chair", at(rt - 1.02, bb, 0.0), face_out(bb), fabric_mat=velvet, seed=200 + i)
+        seating.dining_chair("dining chair", at(rt + 1.02, bb, 0.0), face_in(bb), fabric_mat=velvet, seed=220 + i)
     for k in (-1, 1):
-        bb = bc + k * tang(L_ / 2 - 1.2)
-        lib.box("trestle", (0.9, 0.14, 0.70), at(RM, bb, 0.35), M["olive"], bevel=0.01, rot_z=face_in(bb))
-    for i in range(10):
-        bb = bc - tang(L_ / 2 - 0.55) + i * tang((L_ - 1.1) / 9)
-        furn.dining_chair("chair", at(RM - 0.95, bb, 0.0), face_out(bb), M)
-        furn.dining_chair("chair", at(RM + 0.95, bb, 0.0), face_in(bb), M)
-    for k in (-1, 1):
-        bb = bc + k * tang(L_ / 2 + 0.75); furn.dining_chair("chair", at(RM, bb, 0.0), face_ccw(bb) if k > 0 else face_cw(bb), M)
-    # the table laid: glass globes over it, candles in glass, a runner of linen, the dish of olives, flowers
-    globe = lib.glass("globe glass", (0.97, 0.95, 0.9), 0.15)
-    for i in range(7):
-        bb = bc - tang(L_ / 2 - 0.9) + i * tang((L_ - 1.8) / 6); z = 2.05 + 0.08 * (i % 2)
-        furn.lathe("globe", [(0.0, -0.2), (0.11, -0.17), (0.19, -0.06), (0.2, 0.0), (0.19, 0.08), (0.14, 0.15), (0.04, 0.195), (0.0, 0.2)], globe, 48, at(RM, bb, z))
-        lib.cyl("globe bulb", 0.025, 0.05, at(RM, bb, z - 0.025), lib.emission("bulb", (1.0, 0.72, 0.45), 70), verts=16)
-        lib.cyl("globe cable", 0.002, ceil_at(bb) - z - 0.2, at(RM, bb, z + 0.2), M["shadow"], verts=8)
-        lib.point_light("globe light", at(RM, bb, z), 45, (1.0, 0.75, 0.5), 0.07)
-    crown.curved_box("runner", RM - 0.22, RM + 0.22, bc - tang(L_ / 2 - 0.3), bc + tang(L_ / 2 - 0.3), 0.76, 0.763, M["linen"])
-    lib.import_glb(os.path.join(A, "IridescentDishWithOlives.glb"), at(RM, bc - tang(1.2), 0.763), 0.0, 0.9, name="olives")
-    for k in range(3):
-        lib.instance_of(S["vase"], at(RM + 0.05, bc + tang(-3.0 + 3.0 * k), 0.763), rnd.uniform(0, 6), 1.7)
-    for i in range(10):
-        bb = bc - tang(L_ / 2 - 0.55) + i * tang((L_ - 1.1) / 9)
+        bb = bc + k * tang(L_ / 2 + 0.7, rt); seating.dining_chair("dining chair", at(rt, bb, 0.0), face_ccw(bb) if k > 0 else face_cw(bb), fabric_mat=velvet, seed=240 + k)
+    # the table laid: plates and glasses, candles in glass, a linen runner, orchids in low bowls
+    crown.curved_box("runner", rt - 0.24, rt + 0.24, bc - tang(L_ / 2 - 0.4, rt), bc + tang(L_ / 2 - 0.4, rt), 0.76, 0.763, M["linen"])
+    for i in range(n):
+        bb = bc - tang(L_ / 2 - 0.75, rt) + i * tang((L_ - 1.5) / (n - 1), rt)
         for side in (-1, 1):
-            plate = lib.cyl("plate", 0.14, 0.012, at(RM + side * 0.38, bb, 0.763), M["porcelain"], verts=48, bevel=0.003)
-            gl = furn.lathe("wine glass", [(0.0, 0.0), (0.035, 0.0), (0.004, 0.006), (0.004, 0.09), (0.03, 0.11), (0.042, 0.16), (0.035, 0.21), (0.0, 0.21)], M["crystal"], 32, at(RM + side * 0.3, bb + tang(0.16), 0.763))
-    # sideboards under the outer slots, paintings above them, plants
-    for bb in (b0 + 2.2, b1 - 2.2):
-        lib.box("sideboard", (3.0, 0.5, 0.8), at(R_OUT - 0.3, bb, 0.4), M["walnut"], bevel=0.008, rot_z=face_in(bb))
-        lib.box("sideboard top", (3.04, 0.52, 0.03), at(R_OUT - 0.3, bb, 0.815), M["marble"], bevel=0.004, rot_z=face_in(bb))
-        furn.ornament("vase", *at(R_OUT - 0.32, bb - tang(0.8), 0.83)[:2], 0.83, 0.5, random.Random(int(bb)), M["ceramics"])
-        lib.instance_of(S["plant"], at(R_OUT - 0.75, bb + tang(2.3), 0.0), rnd.uniform(0, 6), 2.0)
-    p1 = furn.painting_material("painting dusk", (0.20, 0.10, 0.06), [(0.07, 0.93, 0.56, 0.93, (0.58, 0.36, 0.16)), (0.07, 0.93, 0.07, 0.5, (0.22, 0.05, 0.03))])
-    furn.painting("painting", 2.6, 1.7, at(R_IN + 0.05, bc, 1.6), face_out(bc) + math.pi, p1, M["frame"])
-    b = b0 + 0.6
-    while b < b1 - 0.5:
-        for (r, d) in ((R_IN + 0.9, -1), (R_OUT - 0.9, 1)):
-            q = Vector(at(r, b, ceil_at(b) - 0.08)); tgt = Vector(at(r + d * 0.9, b, 1.2))
-            sp = lib.spot_light("wall washer", tuple(q), 120, (1.0, 0.83, 0.64), 0.04, 70, 0.8); sp.rotation_euler = (tgt - q).to_track_quat("-Z", "Y").to_euler()
-        b += tang(3.0)
+            lib.cyl("plate", 0.15, 0.012, at(rt + side * 0.42, bb, 0.763), M["porcelain"], verts=48, bevel=0.003)
+            furn.lathe("wine glass", [(0.0, 0.0), (0.035, 0.0), (0.004, 0.006), (0.004, 0.09), (0.03, 0.11), (0.042, 0.16), (0.035, 0.21), (0.0, 0.21)], M["crystal"], 32, at(rt + side * 0.32, bb + tang(0.18, rt), 0.763))
+    for k in range(5):
+        bb = bc + tang(-5.2 + 2.6 * k, rt)
+        if k % 2 == 0: plants.make("orchid", at(rt, bb, 0.763), seed=250 + k, pot=(0.26, 0.1, "white"), colour="white")
+        else:
+            lib.cyl("candle", 0.04, 0.16, at(rt, bb, 0.763), lib.emission("candle wax", (1.0, 0.72, 0.42), 1.5), verts=24)
+            lib.point_light("candle light", at(rt, bb, 0.95), 8.0, (1.0, 0.62, 0.32), 0.03)
+    for k in range(4):                         # the halos over the table
+        bb = bc + tang(-5.25 + 3.5 * k, rt)
+        lights.halo("dining halo", at(rt, bb), d=2.8, z=3.6, ceiling=ceil_at(bb), watts=520)
+    # sideboards at both ends, alabaster lamps on them; lemons along the windows, olives at the ends
+    for k, bb in enumerate((b0 + tang(2.6, R_OUT - 0.5), b1 - tang(2.6, R_OUT - 0.5))):
+        tables.console("sideboard", at(R_OUT - 0.55, bb, 0.0), face_in(bb), length=3.4, depth=0.55, h=0.86)
+        lights.alabaster_pendant("sideboard pendant", at(R_OUT - 0.9, bb), z=2.0, ceiling=ceil_at(bb), watts=50)
+    for k, bb in enumerate((227.4, 230.9, 234.4, 237.9)):
+        plants.make("lemon", at(R_OUT - 1.5, bb, 0.0), seed=260 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)
+    for k, bb in enumerate((b0 + tang(2.0), b1 - tang(2.0))):
+        plants.make("olive", at(R_GL + 2.0, bb, 0.0), seed=270 + k, pot=(1.3, 0.8, "travertine", True), height=4.2, stems=2)
+    keys = art.available()
+    if len(keys) > 5:
+        art.hang("dining west painting", keys[4], 3.6, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), z=2.3)
+        art.hang("dining east painting", keys[5], 3.6, at(RM - 1.0, b1 - tang(0.17, RM - 1.0), 0.0), face_ccw(b1), z=2.3)
+    washers(b0, b1, 220)
 
 
 def bedroom_up(M, rnd):
@@ -468,80 +472,105 @@ def mars_globe(name, loc, r, M):
 
 
 def library_up(M, rnd):
-    """the Library under its spire (bearings 288 to 324): the study, the library on two floors along the outer wall
-    with a gallery and a spiral stair, the map room with a 3 m globe of Mars"""
-    import pent_rooms
+    """the Library under its spire (288 to 324; revision H: 16.5 m deep, 20 m tall). The library (C-24): walnut
+    shelves on the piers between the outer windows and three storeys of books above them, to 12.7 m, with two
+    galleries reached by spiral stairs; long walnut reading tables with leather chairs, leather sofas and club chairs
+    at the windows, kentia palms, a halo under the spire. The study (C-23): Jim's day desk at its windows, a reading
+    sofa. The map room (C-25): the globe of Mars 3 m across, a long leather sofa facing it, map chests"""
+    import pent_rooms, seating, tables, lights, plants, art
     b0, b1, bs0, bs1 = 288.0, 324.0, 297.0, 316.8
     crown.ring_room(b0, b1, M, M["oak"])
-    S = imports(M)
+    crown.glide_lights(b0, b1)
     th = 0.3 / 130 / D
     for b in (bs0, bs1):     # walnut walls with a wide opening between the three rooms
-        for (r0, r1) in ((R_GL + 0.05, R_GL + 1.4), (R_OUT - 2.6, R_OUT)):
+        for (r0, r1) in ((R_GL + 0.05, R_GL + 4.0), (R_OUT - 4.0, R_OUT)):
             crown.curved_box("room wall", r0, r1, b - th / 2, b + th / 2, 0, 9.0, M["walnut_v"], zf1=lambda bb: ceil_at(bb) + 0.01)
-        crown.curved_box("room wall head", R_GL + 1.4, R_OUT - 2.6, b - th / 2, b + th / 2, 3.2, 9.0, M["walnut_v"], zf1=lambda bb: ceil_at(bb) + 0.01)
-    GZ = 4.6
-    # two storeys of books on the outer wall, the slots between them; low cases on the Glide side
-    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, 0.10, 2.90)
-    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, GZ + 0.10, ceil_at(306) - 0.9)
-    k = 0
+        crown.curved_box("room wall head", R_GL + 4.0, R_OUT - 4.0, b - th / 2, b + th / 2, 4.2, 9.0, M["walnut_v"], zf1=lambda bb: ceil_at(bb) + 0.01)
+    leather = seating.fabric("library leather", (0.22, 0.10, 0.05), "leather"); oxblood = seating.fabric("oxblood leather", (0.20, 0.04, 0.03), "leather")
+    # the windows of the outer wall (as crown.wall keeps them): books on the piers between them, and above them
+    lo, hi = b0 + 0.9 / R_OUT / D, b1 - 0.9 / R_OUT / D
+    wins = [(a, b) for (a, b) in crown.openings(R_OUT, b0, b1) if a >= lo and b <= hi]
+    def piers(c0, c1):
+        out, cur = [], c0
+        for (a, b) in wins:
+            if b <= c0 or a >= c1: continue
+            if a > cur + 0.05: out.append((cur, a))
+            cur = max(cur, b)
+        if c1 > cur + 0.05: out.append((cur, c1))
+        return out
+    for (a, b) in piers(bs0 + 0.15, bs1 - 0.15):
+        books_along(M, rnd, R_OUT, a + 0.02, b - 0.02, 0.10, 3.25)
+    G1, G2 = 4.6, 8.8
+    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, 3.35, G1 - 0.25)
+    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, G1 + 0.1, G2 - 0.25)
+    books_along(M, rnd, R_OUT, bs0 + 0.15, bs1 - 0.15, G2 + 0.1, 12.7)
     for (a, b) in ((bs0 + 0.6, 302.2), (303.6, 308.6), (310.0, bs1 - 0.6)):
         books_along(M, rnd, R_GL + 0.62, a, b, 0.08, 1.10, inward=True, depth=0.4)
         crown.curved_box("low case top", R_GL + 0.6, R_GL + 1.04, a, b, 1.10, 1.14, M["walnut"])
-    # the gallery: a walnut deck along the outer wall, a bronze rail, an opening where the stair comes up
-    crown.curved_box("gallery deck", R_OUT - 1.62, R_OUT - 0.42, bs0 + 0.1, bs1 - 0.1, GZ - 0.22, GZ, M["walnut"])
-    glow = lib.emission("gallery underlight", (1.0, 0.78, 0.55), 6.0)
-    crown.curved_box("gallery underlight", R_OUT - 1.52, R_OUT - 1.48, bs0 + 0.2, bs1 - 0.2, GZ - 0.226, GZ - 0.221, glow)
-    sb = 306.0; so = tang(0.6, R_OUT - 1.6)
-    for (a, b) in ((bs0 + 0.1, sb - so), (sb + so, bs1 - 0.1)):
-        crown.curved_box("gallery rail", R_OUT - 1.62, R_OUT - 1.56, a, b, GZ + 1.0, GZ + 1.05, M["brass"])
-        crown.curved_box("gallery kick", R_OUT - 1.62, R_OUT - 1.59, a, b, GZ, GZ + 0.12, M["brass"])
-        for bb in crown.steps(a, b, 1.0 / tang(0.24, R_OUT - 1.6)):
-            lib.box("gallery post", (0.025, 0.025, 1.0), at(R_OUT - 1.59, bb, GZ + 0.5), M["brass"], rot_z=face_in(bb))
-    for bb in crown.steps(bs0 + 1.0, bs1 - 1.0, 1.0 / tang(5.0, R_OUT - 1.0)):
-        lib.box("gallery bracket", (0.12, 1.2, 0.3), at(R_OUT - 1.02, bb, GZ - 0.37), M["bronze_dark"], rot_z=face_in(bb))
-    c = P(R_OUT - 2.9, sb); ang = math.atan2(math.cos(sb * D), math.sin(sb * D))      # the last tread points outwards
-    pent_rooms.spiral_stair("stair", c.x, c.y, 1.15, GZ, M, steps=20, start=ang - 0.9 * 2 * math.pi * 19 / 20)
-    # long reading tables down the middle, brass lamps, chairs; leather chairs by the slots
-    for (tb, n) in ((300.4, 2), (312.2, 2)):
-        lib.box("reading table", (3.4, 1.2, 0.06), at(RM - 0.6, tb, 0.74), M["walnut"], bevel=0.006, rot_z=face_cw(tb) + math.pi / 2)
-        for dx in (-1.45, 1.45): lib.box("table leg", (1.0, 0.08, 0.71), at(RM - 0.6, tb + tang(dx), 0.355), M["walnut"], bevel=0.004, rot_z=face_cw(tb) + math.pi / 2)
-        for dx in (-0.85, 0.85):
+    # the two galleries: walnut decks along the outer wall, brass rails, lit from under
+    glow = lib.emission("gallery underlight", (1.0, 0.78, 0.55), 6.0); sb = 306.0; so = tang(0.6, R_OUT - 1.6)
+    for GZ in (G1, G2):
+        crown.curved_box("gallery deck", R_OUT - 1.62, R_OUT - 0.42, bs0 + 0.1, bs1 - 0.1, GZ - 0.22, GZ, M["walnut"])
+        crown.curved_box("gallery underlight", R_OUT - 1.52, R_OUT - 1.48, bs0 + 0.2, bs1 - 0.2, GZ - 0.226, GZ - 0.221, glow)
+        gap = sb if GZ == G1 else sb - tang(6.0, R_OUT - 1.6)
+        for (a, b) in ((bs0 + 0.1, gap - so), (gap + so, bs1 - 0.1)):
+            crown.curved_box("gallery rail", R_OUT - 1.62, R_OUT - 1.56, a, b, GZ + 1.0, GZ + 1.05, M["brass"])
+            crown.curved_box("gallery kick", R_OUT - 1.62, R_OUT - 1.59, a, b, GZ, GZ + 0.12, M["brass"])
+            for bb in crown.steps(a, b, 1.0 / tang(0.24, R_OUT - 1.6)):
+                lib.box("gallery post", (0.025, 0.025, 1.0), at(R_OUT - 1.59, bb, GZ + 0.5), M["brass"], rot_z=face_in(bb))
+        for bb in crown.steps(bs0 + 1.0, bs1 - 1.0, 1.0 / tang(5.0, R_OUT - 1.0)):
+            lib.box("gallery bracket", (0.12, 1.2, 0.3), at(R_OUT - 1.02, bb, GZ - 0.37), M["bronze_dark"], rot_z=face_in(bb))
+    for (bb, z0, h) in ((sb, 0.0, G1), (sb - tang(6.0, R_OUT - 1.6), G1, G2 - G1)):
+        c = P(R_OUT - 2.9, bb); ang = math.atan2(math.cos(bb * D), math.sin(bb * D))
+        st = pent_rooms.spiral_stair("stair", c.x, c.y, 1.15, h, M, steps=20, start=ang - 0.9 * 2 * math.pi * 19 / 20); st.location.z = z0
+    # two long reading tables down the middle, with lamps and leather chairs
+    for tb in (300.8, 311.4):
+        tables.desk("reading table", at(RM - 1.0, tb, 0.0), face_cw(tb) + math.pi / 2, length=4.8, depth=1.3)
+        for dx in (-1.6, -0.55, 0.55, 1.6):
             bb = tb + tang(dx)
-            furn.table_lamp("reading lamp", at(RM - 0.6, bb, 0.77), M, watts=30, shade_r=0.15)
-            furn.dining_chair("reading chair", at(RM - 1.5, bb, 0.0), face_out(bb), M)
-            furn.dining_chair("reading chair", at(RM + 0.3, bb, 0.0), face_in(bb), M)
-    for bb in (303.0, 309.4):
-        lib.instance_of(S["chair"], at(R_OUT - 1.3, bb - tang(0.6), 0.0), face_in(bb) + 0.4)
-        lib.instance_of(S["chair"], at(R_OUT - 1.3, bb + tang(0.6), 0.0), face_in(bb) - 0.4)
-        furn.side_table("side table", at(R_OUT - 1.0, bb, 0.0), M, r=0.25, h=0.5)
-    lib.box("library rug", (16.0, 3.0, 0.014), at(RM - 0.6, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_cw(sb) + math.pi / 2)
-    # the map room: the globe of Mars under the spire's light, map chests along the outer wall
+            seating.dining_chair("reading chair", at(RM - 2.05, bb, 0.0), face_out(bb), fabric_mat=leather, seed=300 + int(dx * 10))
+            seating.dining_chair("reading chair", at(RM + 0.05, bb, 0.0), face_in(bb), fabric_mat=leather, seed=320 + int(dx * 10))
+        for dx in (-1.1, 1.1): furn.table_lamp("reading lamp", at(RM - 1.0, tb + tang(dx), 0.79), M, watts=30, shade_r=0.15)
+    lib.box("library rug", (20.0, 5.0, 0.014), at(RM - 1.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_cw(sb) + math.pi / 2)
+    # by the windows: two leather sofas, club chairs, drums; palms
+    for k, bb in enumerate((302.9, 309.3)):
+        seating.sofa("library sofa", at(R_OUT - 2.6, bb, 0.0), face_out(bb), length=4.2, fabric_mat=oxblood, seed=340 + k)
+        for s_ in (-1, 1):
+            seating.club_chair("library chair", at(R_OUT - 1.6, bb + s_ * tang(2.6, R_OUT - 1.6), 0.0), face_in(bb) + s_ * 0.9, fabric_mat=leather, seed=350 + k * 2 + s_)
+        tables.drum("library drum", at(R_OUT - 1.3, bb, 0.0), d=0.6, h=0.42)
+    for k, bb in enumerate((bs0 + tang(1.6), bs1 - tang(1.6), sb + tang(0.2))):
+        plants.make("kentia palm", at(R_GL + 2.4, bb, 0.0), seed=360 + k, pot=(0.95, 0.7, "black"), height=3.6)
+    lights.halo("library halo", at(RM - 0.5, sb), d=7.0, z=11.5, ceiling=ceil_at(sb), watts=2000)
+    # the map room: the globe of Mars under the spire's light, a long leather sofa facing it, map chests on the piers
     gb = (bs1 + b1) / 2
     mars_globe("mars globe", at(RM - 0.2, gb, 0.0), 1.5, M)
-    for bb in crown.steps(bs1 + 0.8, b1 - 0.8, 1.0 / tang(1.6, R_OUT - 0.5)):
-        lib.box("map chest", (1.5, 0.9, 0.9), at(R_OUT - 0.5, bb, 0.45), M["walnut"], bevel=0.008, rot_z=face_in(bb))
-        for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.5, 0.004, 0.006), at(R_OUT - 0.952, bb, z), M["shadow"], rot_z=face_in(bb))
+    seating.sofa("map sofa", at(RM - 0.2, gb - tang(4.4), 0.0), face_cw(gb - tang(4.4)), length=4.4, fabric_mat=leather, seed=370)
+    for (a, b) in piers(bs1 + 0.3, b1 - 0.3):
+        if (b - a) * D * R_OUT < 1.6: continue
+        for bb in crown.steps(a + tang(0.8, R_OUT), b - tang(0.8, R_OUT), 1.0 / tang(1.6, R_OUT - 0.5)):
+            lib.box("map chest", (1.5, 0.9, 0.9), at(R_OUT - 0.5, bb, 0.45), M["walnut"], bevel=0.008, rot_z=face_in(bb))
+    plants.make("agave", at(R_GL + 2.0, gb, 0.0), seed=371, pot=(1.2, 0.45, "basalt"), size=0.9)
     for bb in (gb - tang(2.2), gb + tang(2.2)):
-        lib.spot_light("globe light", at(RM - 0.2, bb, ceil_at(gb) - 0.1), 300, (1.0, 0.85, 0.68), 0.05, 25, 0.4)
-    # the study: a desk facing the slots, a chair, shelves on the outer wall
-    books_along(M, rnd, R_OUT, b0 + 0.3, bs0 - 0.3, 0.10, 2.90)
+        lib.spot_light("globe light", at(RM - 0.2, bb, ceil_at(gb) - 0.1), 1200, (1.0, 0.85, 0.68), 0.05, 18, 0.4)
+    # the study: Jim's day desk at the windows, a reading sofa and a club chair, books on the piers
+    for (a, b) in piers(b0 + 0.3, bs0 - 0.3):
+        books_along(M, rnd, R_OUT, a + 0.02, b - 0.02, 0.10, 3.25)
+    books_along(M, rnd, R_OUT, b0 + 0.3, bs0 - 0.3, 3.35, 6.5)
     db = (b0 + bs0) / 2
-    lib.box("desk", (2.0, 0.9, 0.05), at(R_OUT - 1.8, db, 0.74), M["walnut"], bevel=0.006, rot_z=face_in(db))
-    for dx in (-0.9, 0.9): lib.box("desk side", (0.05, 0.85, 0.72), at(R_OUT - 1.8, db + tang(dx), 0.36), M["walnut"], rot_z=face_in(db))
-    lib.instance_of(S["chair"], at(R_OUT - 2.7, db, 0.0), face_out(db))
-    furn.table_lamp("desk lamp", at(R_OUT - 1.6, db + tang(0.7), 0.765), M, watts=35, shade_r=0.15)
-    lib.instance_of(S["plant"], at(R_GL + 0.9, bs0 - tang(0.9), 0.0), 0.3, 1.8)
-    lib.instance_of(S["plant"], at(R_GL + 0.9, bs1 + tang(0.9), 0.0), 1.3, 1.8)
-    # light: washers on the shelves, pendants over the tables
+    tables.desk("study desk", at(R_OUT - 2.2, db, 0.0), face_in(db), length=2.8, depth=1.0)
+    seating.desk_chair("study chair", at(R_OUT - 3.3, db, 0.0), face_out(db) + 0.1)
+    lights.alabaster_pendant("study pendant", at(R_OUT - 2.2, db - tang(0.8)), z=1.75, ceiling=ceil_at(db), watts=45)
+    seating.sofa("study sofa", at(RM - 2.6, db, 0.0), face_out(db), length=4.0, fabric_mat=seating.fabric("oat boucle", (0.58, 0.52, 0.44), "boucle"), seed=380)
+    seating.club_chair("study chair", at(RM, db + tang(2.6), 0.0), face_ccw(db + tang(2.6)) - 0.3, fabric_mat=leather, seed=381)
+    tables.coffee_table("study table", at(RM - 1.0, db, 0.0), face_in(db), length=1.8, width=0.9)
+    plants.make("fiddle-leaf fig", at(R_OUT - 1.4, b0 + tang(1.5, R_OUT - 1.4), 0.0), seed=382, pot=(0.75, 0.62, "white"), height=2.9)
+    keys = art.available()
+    if len(keys) > 6: art.hang("study painting", keys[6], 2.4, at(RM - 1.0, b0 + tang(0.17, RM - 1.0), 0.0), face_cw(b0), z=2.0)
+    # light: washers on the shelves at each storey, lamps on the tables
     for bb in crown.steps(bs0 + 0.5, bs1 - 0.5, 1.0 / tang(2.0, R_OUT - 2.2)):
-        sp = lib.spot_light("shelf washer", at(R_OUT - 2.3, bb, ceil_at(bb) - 0.3), 80, (1.0, 0.82, 0.62), 0.03, 55, 0.7); sp.rotation_euler = (math.radians(30), 0, face_out(bb) + math.pi)
-        sp = lib.spot_light("shelf washer low", at(R_OUT - 1.4, bb, GZ - 0.3), 30, (1.0, 0.82, 0.62), 0.03, 60, 0.7); sp.rotation_euler = (math.radians(35), 0, face_out(bb) + math.pi)
-    for tb in (300.4, 312.2):
-        for dx in (-1.0, 0.0, 1.0):
-            bb = tb + tang(dx); z = 2.6
-            lib.cyl("pendant shade", 0.22, 0.2, at(RM - 0.6, bb, z), M["brass"], verts=48, r2=0.06)
-            lib.cyl("pendant cord", 0.004, ceil_at(bb) - z - 0.2, at(RM - 0.6, bb, z + 0.2), M["shadow"], verts=8)
-            lib.point_light("pendant light", at(RM - 0.6, bb, z - 0.02), 40, (1.0, 0.75, 0.5), 0.05)
+        for (z, w) in ((G2 + 3.6, 160), (G1 - 0.3, 40), (G2 - 0.3, 60)):
+            sp = lib.spot_light("shelf washer", at(R_OUT - (2.3 if z > G2 else 1.4), bb, z), w, (1.0, 0.82, 0.62), 0.03, 55, 0.7)
+            sp.rotation_euler = (math.radians(32), 0, face_out(bb) + math.pi)
 
 
 def wellness(M, rnd):
@@ -1158,9 +1187,9 @@ ROOMS = {
         "arrival2": dict(loc=at(R_GL + 1.2, 97.7, 1.6), target=at(R_OUT - 1.0, 103.6, 3.6), lens=17),
     }, stops={"arrival": at(RM + 4.4, 98.6, 0.0)}),        # in from the Door, the great tree and the portal ahead
     "dining": dict(build=dining, span=(223.2, 241.2), sun=(244.0, 13.0), cams={
-        "dining": dict(loc=at(R_OUT - 1.15, 228.2, 1.55), target=at(RM - 0.8, 235.6, 0.9), lens=19),
-        "dining2": dict(loc=at(RM + 0.35, 236.6, 1.4), target=at(RM - 0.1, 228.6, 0.8), lens=22),
-    }, stops={"dining": at(RM + 1.6, 232.2, 0.0)}),
+        "dining": dict(loc=at(R_OUT - 2.4, 225.4, 1.6), target=at(RM - 1.0, 234.6, 2.2), lens=18),
+        "dining2": dict(loc=at(RM + 0.6, 240.6, 1.65), target=at(RM + 0.6, 228.0, 1.4), lens=20),
+    }, stops={"dining": at(RM + 3.6, 232.2, 0.0)}),
     "bedroom": dict(build=bedroom_up, span=(116.64, 130.32), sun=(118.0, 7.0), cams={
         "bedroom": dict(loc=at(133.6, 125.2, 1.6), target=at(123.8, 123.2, 2.6), lens=19),
         "bedroom2": dict(loc=at(129.4, 117.3, 1.6), target=at(126.6, 124.6, 2.2), lens=19),
@@ -1175,9 +1204,10 @@ ROOMS = {
         "hearth": dict(loc=at(RM + 4.2, 151.3, 1.55), target=at(RM - 0.2, 146.2, 1.6), lens=19),
     }, stops={"salon": at(RM + 2.4, 159.6, 0.0), "hearth": at(RM + 3.6, 149.2, 0.0), "piano_up": at(RM + 1.2, 172.9, 0.0)}),
     "library": dict(build=library_up, span=(288.0, 324.0), sun=(300.0, 16.0), cams={
-        "library_up": dict(loc=at(RM - 0.3, 298.2, 1.6), target=at(RM + 0.6, 309.5, 3.4), lens=18),
-        "maproom": dict(loc=at(RM - 1.2, 317.3, 1.6), target=at(RM - 0.2, 320.4, 1.9), lens=22),
-    }, stops={"library": at(RM - 0.9, 304.4, 0.0), "maproom": at(RM - 1.0, 318.0, 0.0)}),
+        "library_up": dict(loc=at(RM - 3.6, 298.4, 1.6), target=at(R_OUT - 2.0, 309.0, 5.0), lens=17),
+        "maproom": dict(loc=at(RM + 2.4, 317.4, 1.6), target=at(RM - 0.2, 320.4, 2.0), lens=20),
+        "study": dict(loc=at(R_GL + 2.2, 295.6, 1.6), target=at(R_OUT - 2.0, 290.6, 1.6), lens=19),
+    }, stops={"library": at(RM - 3.0, 306.8, 0.0), "maproom": at(RM + 2.6, 318.2, 0.0), "study": at(RM, 292.0, 0.0)}),
     "wellness": dict(build=wellness, span=(180.0, 216.0), sun=(198.0, 30.0), cams={
         "wellness": dict(loc=at(R_GL + 0.6, 191.4, 1.55), target=at(RM + 0.7, 201.0, 0.4), lens=18),
         "wellness2": dict(loc=at(R_OUT - 1.0, 205.9, 1.3), target=at(R_GL + 0.6, 195.5, 0.8), lens=19),

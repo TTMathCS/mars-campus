@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walk the Crown · Arcadia</title>
+<meta name="description" content="Walk round the Crown of Arcadia, Jim's home on Mars, 41 m above the plain: on foot or on the Glide, with the keyboard and the mouse, in the light of a Mars afternoon.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Saira+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="walk.css">
+<script type="importmap">{"imports": {"three": "./lib/three.module.min.js", "three/addons/": "./lib/addons/"}}</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="start">
+  <div class="card">
+    <div class="kicker">Arcadia</div>
+    <h1>The Crown</h1>
+    <div class="bar"><i id="bar"></i></div>
+    <button id="go" disabled>Loading</button>
+    <div class="keys"><span><b>W A S D</b> walk</span><span><b>Mouse</b> look</span><span><b>Shift</b> run</span><span><b>Space</b> jump</span><span><b>M</b> sound</span><span><b>Esc</b> stop</span></div>
+  </div>
+</div>
+<div id="where"></div>
+<div id="map"></div>
+<a class="back" href="../design/crown.html" aria-label="Back to the Crown">&larr; Arcadia</a>
+<script type="module" src="walk.js"></script>
+</body>
+</html>

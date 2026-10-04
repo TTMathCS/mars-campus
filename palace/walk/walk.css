@@ -1,0 +1,42 @@
+:root {
+  --ink: #f4ede4;
+  --dim: rgba(244, 237, 228, 0.66);
+  --veil: rgba(18, 11, 8, 0.55);
+  --accent: #e0a46a;
+}
+html, body { margin: 0; height: 100%; background: #120b08; color: var(--ink); overflow: hidden; }
+body { font-family: Barlow, system-ui, sans-serif; }
+#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; outline: none; }
+#start {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(18, 11, 8, 0.25), rgba(18, 11, 8, 0.7));
+  transition: opacity 0.5s;
+}
+#start.hidden { opacity: 0; pointer-events: none; }
+.card { text-align: center; padding: 28px 32px; max-width: 520px; }
+.kicker { font-family: "Saira Condensed", sans-serif; letter-spacing: 0.32em; text-transform: uppercase; font-size: 13px; color: var(--accent); }
+h1 { font-family: "Saira Condensed", sans-serif; font-weight: 600; font-size: 64px; letter-spacing: 0.04em; margin: 4px 0 22px; text-transform: uppercase; }
+.bar { height: 2px; background: rgba(244, 237, 228, 0.18); margin: 0 auto 22px; width: 260px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
+#go {
+  font: 600 15px Barlow, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+  background: transparent; border: 1px solid rgba(244, 237, 228, 0.55); padding: 12px 34px; cursor: pointer;
+}
+#go:disabled { opacity: 0.5; cursor: default; }
+#go:not(:disabled):hover { background: rgba(244, 237, 228, 0.12); }
+.keys { margin-top: 22px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; font-size: 13px; color: var(--dim); }
+.keys b { color: var(--ink); font-weight: 600; }
+#where {
+  position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+  font-family: "Saira Condensed", sans-serif; letter-spacing: 0.24em; text-transform: uppercase; font-size: 14px;
+  color: var(--ink); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); opacity: 0; transition: opacity 1.2s; pointer-events: none;
+}
+#where.on { opacity: 0.9; }
+.back {
+  position: fixed; left: 16px; top: 14px; color: var(--dim); text-decoration: none; font-size: 14px; letter-spacing: 0.06em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+.back:hover { color: var(--ink); }
+@media (max-width: 600px) { h1 { font-size: 44px; } .card { padding: 20px 16px; } }
+#map { position: fixed; right: 18px; bottom: 18px; width: 96px; height: 96px; opacity: 0; transition: opacity 0.6s; pointer-events: none; }
+body.walking #map { opacity: 0.9; }

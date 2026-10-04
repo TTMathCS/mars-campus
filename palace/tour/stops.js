@@ -144,5 +144,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/music.jpg", caption: "The music room: the grand piano by the glass onto the atrium, a velvet sofa to listen from." },
   { img: "photos/dining.jpg", caption: "The dining room: the table for eight under five glass globes, by the glass onto the atrium." },
   { img: "photos/kitchen.jpg", caption: "The kitchen: the island for breakfast, the open shelves lit from within, the robot that cooks on its rail, the table for four." },
-  { img: "photos/guests2.jpg", caption: "The guest lounge from the gallery: the sitting room below and the atrium through the glass." }
+  { img: "photos/guests2.jpg", caption: "The guest lounge from the gallery: the sitting room below and the atrium through the glass." },
+  { img: "photos/crown_suite_door.jpg", caption: "The master suite's doors on the Glide: a pair of walnut pivot doors 4 m tall with long bronze pulls, set in the suite's wall of bronze and frosted glass, lit by alabaster pendants." }
 ];

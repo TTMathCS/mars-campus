@@ -64,7 +64,8 @@
       if (k < 0.45) { var nb = b.count(); b.geo(new THREE.BoxGeometry(0.21, 0.004, 0.297), T(-0.08, 0.747, z + (R() - 0.5) * 0.1, 0, (R() - 0.5) * 0.5, 0), MT.PLASTIC); b.tag(nb, 0, null);
         var cv = b.count(); b.geo(new THREE.BoxGeometry(0.008, 0.002, 0.15), T(-0.02, 0.75, z + 0.06, 0, R(), 0), MT.PLASTIC); b.tag(cv, 2 + Math.floor(R() * 3), null); }
       else if (k < 0.7) { for (var j = 0; j < 2; j++) { var bk = b.count(); b.geo(new THREE.BoxGeometry(0.17, 0.022, 0.24), T(0.06, 0.758 + j * 0.023, z + (R() - 0.5) * 0.08, 0, (R() - 0.5) * 0.4, 0), MT.PLASTIC); b.tag(bk, 2 + Math.floor(R() * 3), null); } }
-      else { var lb = b.count(); b.geo(new THREE.BoxGeometry(0.22, 0.012, 0.31), T(-0.05, 0.751, z, 0, (R() - 0.5) * 0.3, 0), MT.ANOD); b.geo(new THREE.BoxGeometry(0.21, 0.008, 0.3), T(0.08, 0.86, z, 0, 0, 1.25), MT.ANOD); }
+      else { var ly = (R() - 0.5) * 0.3; b.geo(new THREE.BoxGeometry(0.22, 0.012, 0.31), T(-0.05, 0.751, z, 0, ly, 0), MT.STEEL); b.geo(new THREE.BoxGeometry(0.21, 0.008, 0.3), T(0.08, 0.86, z, 0, ly, 1.25), MT.STEEL);
+        b.geo(new THREE.BoxGeometry(0.004, 0.19, 0.27), T(0.075, 0.862, z, 0, ly, 1.25 - Math.PI / 2), MT.DKGLASS); }
       if (R() < 0.5) latheOn(b, 0.18, 0.745, z + 0.18, [[0.0, 0], [0.034, 0], [0.036, 0.02], [0.036, 0.19], [0.03, 0.21], [0.016, 0.22], [0.016, 0.245], [0.0, 0.245]], 14, MT.STEEL);
     });
   }); }
@@ -118,7 +119,7 @@
     var np = b.count(); b.box(-0.35, 0.02, 0.32, 0.35, 0.7, 0.76, MT.PLASTIC); b.tag(np, 0, null);                       // drawer pedestal
     [0.14, 0.36, 0.58].forEach(function (y) { var nh = b.count(); b.box(-0.358, y - 0.002, 0.34, -0.35, y + 0.002, 0.74, MT.PLASTIC); b.tag(nh, 5, null); b.box(-0.37, y + 0.06, 0.48, -0.355, y + 0.075, 0.6, MT.STEEL); });
     var nm = b.count(); b.box(0.3, 0.36, -0.7, 0.312, 0.7, 0.3, MT.PLASTIC); b.tag(nm, 5, null);
-    var lb = b.count(); b.geo(new THREE.BoxGeometry(0.24, 0.014, 0.33), T(-0.08, 0.757, -0.15, 0, 0.12, 0), MT.ANOD); b.geo(new THREE.BoxGeometry(0.22, 0.008, 0.32), T(0.045, 0.87, -0.135, 0, 0.12, 1.3), MT.ANOD);
+    b.geo(new THREE.BoxGeometry(0.24, 0.014, 0.33), T(-0.08, 0.757, -0.15, 0, 0.12, 0), MT.STEEL); b.geo(new THREE.BoxGeometry(0.22, 0.008, 0.32), T(0.045, 0.87, -0.135, 0, 0.12, 1.3), MT.STEEL);
     latheOn(b, 0.1, 0.75, 0.45, [[0.04, 0], [0.042, 0.02], [0.042, 0.1], [0.038, 0.1], [0.038, 0.012], [0.0, 0.012]], 14, MT.CERAMIC, 0);
     for (var k = 0; k < 6; k++) { var pp = b.count(); b.geo(new THREE.BoxGeometry(0.21, 0.0035, 0.297), T(-0.1, 0.752 + k * 0.0036, 0.15, 0, 0.05 * Math.sin(k * 2.1), 0), MT.PLASTIC); b.tag(pp, 0, null); }
     latheOn(b, 0.2, 0.75, 0.2, [[0.0, 0], [0.035, 0], [0.035, 0.1], [0.032, 0.1], [0.032, 0.006], [0.0, 0.006]], 14, MT.STEEL);

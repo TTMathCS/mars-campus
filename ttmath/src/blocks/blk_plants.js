@@ -186,8 +186,8 @@
       stem(b, tr5, function (t) { return 0.045 * (1 - 0.45 * t); }, 0);
       var crown = tr5[7];
       for (k = 0; k < 5; k++) { a = k / 5 * Math.PI * 2 + R(); stem(b, [crown, crown.clone().add(v3(Math.cos(a) * 0.3, 0.25 + 0.2 * R(), Math.sin(a) * 0.3))], 0.016, 0); }
-      for (k = 0; k < 90; k++) {
-        a = R() * Math.PI * 2; var el = (R() - 0.35) * 1.4, rad5 = 0.25 + 0.35 * R();
+      for (k = 0; k < 150; k++) {
+        a = R() * Math.PI * 2; var el = (R() - 0.35) * 1.4, rad5 = 0.2 + 0.4 * Math.sqrt(R());
         var c5 = crown.clone().add(v3(Math.cos(a) * rad5 * Math.cos(el), 0.35 + 0.45 * Math.sin(el), Math.sin(a) * rad5 * Math.cos(el)));
         var d5 = v3(Math.cos(a), 0.3 + 0.6 * R(), Math.sin(a)).normalize(), u5 = v3(R() - 0.5, 1, R() - 0.5).normalize();
         leafCard(b, c5, d5, u5, 0.32 + 0.1 * R(), 0.2, 0.3, 0.05, LEAF_CELLS.olive, R(), 0.2);

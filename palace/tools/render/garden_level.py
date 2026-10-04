@@ -86,7 +86,8 @@ def sky_material(strength=0.6):
     lum = N.new("ShaderNodeRGBToBW"); L.new(sky.outputs["Color"], lum.inputs["Color"])
     white = N.new("ShaderNodeCombineColor"); w_ = mth("MULTIPLY", lum.outputs["Val"], 2.4)
     for i in range(3): L.new(w_, white.inputs[i])
-    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(cov.outputs["Result"], mx.inputs["Factor"]); L.new(sky.outputs["Color"], mx.inputs[6]); L.new(white.outputs[0], mx.inputs[7])
+    sat = N.new("ShaderNodeHueSaturation"); sat.inputs["Saturation"].default_value = 1.35; L.new(sky.outputs["Color"], sat.inputs["Color"])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(cov.outputs["Result"], mx.inputs["Factor"]); L.new(sat.outputs["Color"], mx.inputs[6]); L.new(white.outputs[0], mx.inputs[7])
     tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1 / 2.25, 1 / 2.25, 1.0); L.new(tc.outputs["Object"], mp.inputs["Vector"])
     fl = N.new("ShaderNodeVectorMath"); fl.operation = "FLOOR"; L.new(mp.outputs["Vector"], fl.inputs[0])
     wn = N.new("ShaderNodeTexWhiteNoise"); wn.noise_dimensions = "3D"; L.new(fl.outputs["Vector"], wn.inputs["Vector"])
@@ -569,7 +570,7 @@ def lake(M, rnd):
 
 ROOMS = {
     "lake": dict(build=lake, cams={
-        "lake": dict(loc=(-12.6, 3.4, 1.65), target=(20.0, 40.0, 1.65), lens=18, shift=0.1),
+        "lake": dict(loc=(-8.6, 2.0, 1.3), target=(3.0, 30.0, 1.3), lens=22, shift=0.09),
         "lake2": dict(loc=(3.4, 23.6, DECK + 1.6), target=(-3.0, 0.0, DECK + 1.6), lens=18, shift=0.12),
     }, stops={"lake": (2.0, 22.6, DECK)}),
 }

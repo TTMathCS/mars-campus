@@ -275,7 +275,11 @@ GARDEN = dict(
              above=("img/above/l2-lake.jpg", "the glass onto the atrium along the bottom with the beach behind it, the jetty running out into the lake with the boat beside it, the raft on the left, the two rows of columns, the trees of the forest on the right and of the far bank at the top.")),
     ])
 
-AREAS = [CROWN, RESIDENCE, ATRIUM]
+def has_pictures(a): return any(photo_ok(p[0]) for r in a["rooms"] for p in r["photos"])
+
+
+# the newer areas get their page once their first picture is published (no page of plans alone)
+AREAS = [CROWN, RESIDENCE, ATRIUM] + [a for a in (CLUB, SPORT, GARDEN) if has_pictures(a)]
 
 CSS = """
   .area-plan { margin: 22px 0 0; max-width: 860px; }
@@ -386,7 +390,7 @@ def explorer_json():
     rooms = {}
     for a in AREAS:
         for r in a["rooms"]:
-            key = ("crown:" if a is CROWN else "l1:") + r["id"]
+            key = ("crown:" if a is CROWN else "l2:" if a is GARDEN else "l1:") + r["id"]
             rooms[key] = dict(name=r["name"], k=r["k"], purpose=r["purpose"], facts=r["facts"], page="%s.html#%s" % (a["id"], r["id"]),
                               photos=[dict(src=ph[0], cap=ph[1]) for ph in r["photos"] if photo_ok(ph[0])] + ([dict(src=r["above"][0], cap="From above, the ceiling taken off: " + r["above"][1])] if r.get("above") and photo_ok(r["above"][0]) else []),
                               views=[dict(stop=v[0], label=v[1], poster=poster(v[0])) for v in r["views"] if stop_ready(v[0])])
@@ -398,7 +402,8 @@ def explorer_json():
                 if cs: out[r["id"]] = [poly for c in cs for poly in SH[sheet]["shapes"].get(c, [])]
         return out
     plans = {}
-    for key, sheet, area_list, prefix in (("l1", "l1", [RESIDENCE, ATRIUM], "l1:"), ("crown", "crown", [CROWN], "crown:")):
+    l1_areas = [a for a in AREAS if a not in (CROWN, GARDEN)]
+    for key, sheet, area_list, prefix in (("l1", "l1", l1_areas, "l1:"), ("crown", "crown", [CROWN], "crown:")):
         plans[key] = dict(sheet="../plans/svg/%s.svg" % sheet, w=SH[sheet]["w"], h=SH[sheet]["h"], shapes=shapes(sheet, area_list), prefix=prefix)
     l1, cr = plans["l1"]["shapes"], plans["crown"]["shapes"]
     data = dict(rooms=rooms, plans=plans)

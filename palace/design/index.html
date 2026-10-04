@@ -42,53 +42,16 @@
   .ex-ctrl button { width: 42px; height: 36px; border: 0; background: rgba(16, 18, 20, .82); color: #f6f1ea; font-size: 15px; cursor: pointer; }
   .ex-hint { position: absolute; left: 12px; bottom: 12px; padding: 7px 10px; background: rgba(16, 18, 20, .72); color: #f6f1ea; font: 500 13px var(--f-body); pointer-events: none; }
   .ex-parts { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
-  .ex-parts button { font: 600 14px var(--f-body); padding: 7px 11px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); cursor: pointer; }
-  .ex-parts button:hover { border-color: var(--route); color: var(--route); }
+  .ex-grp { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-right: 14px; }
+  .ex-grp small { font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-right: 2px; }
+  .ex-parts a { font: 600 14px var(--f-body); padding: 7px 11px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); text-decoration: none; }
+  .ex-parts a:hover { border-color: var(--route); color: var(--route); }
   .ex-whole { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
   .ex-ctrl .ex-wb { width: auto; padding: 0 12px; font: 600 13.5px var(--f-body); }
   .ex-stage.still .ex-ctrl button[data-step], .ex-stage.still .ex-hint { display: none; }
   .ex-stage.still { cursor: default; }
   .ex-cap { margin: 10px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 95ch; }
-  @media (max-width: 700px) { .ex-lab span { display: none; } .ex-lab i { width: 16px; height: 16px; } .ex-hint { font-size: 12px; padding: 5px 8px; } .xp-box { padding: 16px 16px 20px; } .xp-media { grid-template-columns: minmax(0, 1fr); } }
-  .xp { position: fixed; inset: 0; z-index: 60; background: rgba(10, 11, 12, .74); display: grid; place-items: center; padding: 16px; }
-  .xp[hidden] { display: none; }
-  .xp-box { position: relative; width: min(1120px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--bg); border: 1px solid var(--rule); padding: 22px 26px 24px; }
-  .xp-x { position: sticky; top: 0; float: right; z-index: 2; margin: -6px -10px 0 12px; font: 600 14px var(--f-body); padding: 8px 12px; border: 0; background: var(--ink); color: var(--bg); cursor: pointer; }
-  .xp-kick { font: 600 12.5px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--route); }
-  .xp h2 { margin: 6px 0 10px; font: 700 clamp(28px, 4vw, 40px)/1.05 var(--f-display); }
-  .xp-text { margin: 0 0 14px; font-size: 17.5px; line-height: 1.55; color: var(--ink-2); max-width: 78ch; }
-  .xp-plan, .xp-fig { margin: 0 0 12px; background: var(--sheet); border: 1px solid var(--rule); }
-  .xp-sheet { position: relative; }
-  .xp-sheet img, .xp-fig img { width: 100%; height: auto; display: block; }
-  .xp-sheet svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .xp-sheet polygon { fill: rgba(232, 98, 40, .30); stroke: #c4401a; stroke-width: 5; cursor: pointer; }
-  .xp-sheet polygon:hover { fill: rgba(232, 98, 40, .65); }
-  .xp figcaption { padding: 8px 12px 10px; font-size: 14px; color: var(--ink-2); border-top: 1px solid var(--rule); }
-  .xp-rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 0 0 14px; }
-  .xp-rooms button { text-align: left; background: var(--sheet); border: 1px solid var(--rule); padding: 0; cursor: pointer; font: inherit; color: var(--ink); }
-  .xp-rooms button:hover { border-color: var(--route); }
-  .xp-rooms img, .xp-rooms .noimg { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
-  .xp-rooms .noimg { display: grid; place-items: center; background: var(--panel); color: var(--ink-3); font: 500 11px var(--f-mono); }
-  .xp-rooms b { display: block; padding: 7px 9px 9px; font: 600 16px/1.15 var(--f-display); }
-  .xp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin: 0 0 14px; }
-  .xp-media figure { margin: 0; background: var(--sheet); border: 1px solid var(--rule); }
-  .xp-media img { width: 100%; height: auto; display: block; }
-  .xp-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin: 0 0 14px; }
-  .xp-levels button { text-align: left; padding: 10px 12px; background: var(--sheet); border: 1px solid var(--rule); cursor: pointer; font: inherit; color: var(--ink); }
-  .xp-levels button:hover { border-color: var(--route); }
-  .xp-levels b { display: block; font: 600 17px/1.15 var(--f-display); }
-  .xp-levels span { display: block; font-size: 13px; color: var(--ink-2); margin-top: 2px; }
-  .xp-pending { padding: 16px; margin: 0 0 14px; background: var(--panel); border: 1px dashed var(--rule); color: var(--ink-2); }
-  .xp-more a { display: inline-block; margin: 0 18px 6px 0; font-weight: 600; }
-  .xp-back { border: 0; background: none; color: var(--route); font: 600 15px var(--f-body); cursor: pointer; padding: 0; margin: 0 0 10px; }
-  .xp .pano { position: relative; aspect-ratio: 16 / 9; background: #0e1012; overflow: hidden; }
-  .xp .pano img { width: 100%; height: 100%; object-fit: cover; }
-  .xp .pano iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .xp .pano .play { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .xp .pano .play button, .xp .pano .play a { font: 600 14.5px var(--f-body); padding: 9px 14px; border: 0; background: rgba(16, 18, 20, .82); color: #f4efe8; cursor: pointer; text-decoration: none; }
-  .xp .pano .play button { background: #f4efe8; color: #16191b; }
-  .xp .pano .tag { position: absolute; left: 12px; top: 12px; font: 600 11.5px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; background: rgba(16, 18, 20, .78); color: #f4efe8; }
-  body.xp-open { overflow: hidden; }
+  @media (max-width: 700px) { .ex-lab span { display: none; } .ex-lab i { width: 16px; height: 16px; } .ex-hint { font-size: 12px; padding: 5px 8px; } }
   .atlasfig { position: relative; display: block; background: #0b0d10; border: 1px solid var(--rule); overflow: hidden; text-decoration: none; }
   .atlasfig img { width: 100%; height: auto; opacity: .95; }
   .atlasfig .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; background: linear-gradient(to top, rgba(8,10,12,.92), rgba(8,10,12,0)); color: #f1ede6; }
@@ -135,12 +98,12 @@
       <div class="ex-ctrl"><button type="button" data-step="-1" aria-label="Turn left">◀</button><button type="button" data-step="1" aria-label="Turn right">▶</button></div>
     </div>
     <div class="ex-parts" aria-label="Parts of Arcadia">
-      <button type="button" data-part="crown">The Crown</button><button type="button" data-part="orb">The Orb</button><button type="button" data-part="garden">Stone Garden</button><button type="button" data-part="sunwell">Sun Well</button><button type="button" data-part="soil">16 m of soil</button><button type="button" data-part="pentagon">The Pentagon</button><button type="button" data-part="l1">L1 Residence</button><button type="button" data-part="l2">L2 Garden</button><button type="button" data-part="l3">L3 Studio</button><button type="button" data-part="l4">L4 Life support</button><button type="button" data-part="l5">L5 Transit</button><button type="button" data-part="court">Atrium and sun court</button>
+      <span class="ex-grp"><small>Above ground</small><a href="rooms-crown.html">The Crown</a><a href="crown.html#orb">The Orb</a><a href="crown.html#dock">Stone Garden</a></span>
+      <span class="ex-grp"><small>Below ground</small><a href="pentagon.html">The Pentagon</a><a href="rooms-residence.html">L1 Residence</a><a href="pentagon.html#levels">L2 to L5</a><a href="rooms-atrium.html">The atrium</a></span>
     </div>
     <p class="ex-cap">All of Arcadia, path-traced from the design model and cut through the middle, as in an architect's section: the Crown and the Orb above, the Stone Garden on the plain, and under 16 m of soil the Pentagon's five levels round the atrium, from Jim's residence on L1 down to the halls of L5.</p>
     <div class="go"><a class="main" href="#rooms">Room by room</a><a href="../tour/">Walk through in 360°</a><a href="site.html">Start reading</a><a href="../plans/">Floor plans</a><a href="atlas/">Mars Atlas</a><a href="https://github.com/TTMathCS/mars-campus/blob/main/palace/README.md">Requirements and docs</a></div>
   </section>
-  <div class="xp" id="exPanel" hidden role="dialog" aria-modal="true" aria-label="A part of Arcadia"><div class="xp-box"><button type="button" class="xp-x">Close ✕</button><div class="xp-body"></div></div></div>
 
   <div class="nums">
     <div><b>39.8° N · 201.4° E</b><span>Arcadia, on the ice-rich plains of Arcadia Planitia, 3.9 km below Mars' average height</span></div>

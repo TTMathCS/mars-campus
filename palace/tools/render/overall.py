@@ -27,7 +27,7 @@ RINGS = [(24.09, 37.99), (42.21, 56.11), (60.33, 74.23), (78.45, 92.35), (96.57,
 STREETS = [(RINGS[i][1], RINGS[i + 1][0]) for i in range(4)]
 LEVELS = [("L1", -24.0, -16.0, "home"), ("L2", -41.0, -25.0, "garden"), ("L3", -50.0, -42.0, "work"), ("L4", -59.0, -51.0, "plant"), ("L5", -68.0, -60.0, "transit")]
 NORMALS = [54 + 72 * k for k in range(5)]          # each side's outward bearing; the corners (and the spires) at 18 + 72k
-R_IN, R_OUT, UNDER = 122.0, 138.0, 40.0             # the Crown's ring and its underside
+R_IN, R_OUT, UNDER = 112.0, 138.0, 40.0             # the Crown's ring (revision H: 20 m wide inside, 26 m outside) and its underside
 DEEP = -320.0                                       # the bottom of the block of ground shown in section
 TOP = 1.0                                           # the section takes away the ground under this height
 HERO_AZ = 198.0                                     # the camera's bearing from the middle: a low part of the ring in front
@@ -388,17 +388,18 @@ def ring(name, r0, r1, z0, z1, mat, n=128):
 
 # ---------------------------------------------------------------- the Crown and the Orb
 def roof(b):
-    c = (1 + math.cos(5 * (b - 18) * D)) / 2; return 50 + 40 * c ** 6
+    c = (1 + math.cos(5 * (b - 18) * D)) / 2; return 56 + 34 * c ** 6            # revision H: the roof 6 m higher, the spires as tall
 
 
 def crown_ring(M):
     """the ring: walls of white ceramic from the underside at +40 m up to the roof, which rises to a spire over each of
-    five parts; the spires narrow as they rise; window slots round both faces at +44 m. Built in 5-degree pieces: the
+    five parts; the spires narrow as they rise; windows round both faces at eye level, +41.5 to +44 m (revision H).
+    Built in 5-degree pieces: the
     pieces well on the near side cast no shadow (it would only fall across the section)"""
     n = 1440; secs = []
     for i in range(n + 1):
-        b = 360.0 * i / n; top = roof(b); c6 = ((1 + math.cos(5 * (b - 18) * D)) / 2) ** 6; k = 6.5 * c6
-        secs.append([BP(r, b, z) for (r, z) in [(R_IN, UNDER + 1.5), (R_IN + 1.2, UNDER), (R_OUT - 1.2, UNDER), (R_OUT, UNDER + 1.5), (R_OUT, 50.0), (R_OUT - k, top), (R_IN + k, top), (R_IN, 50.0)]])
+        b = 360.0 * i / n; top = roof(b); c6 = ((1 + math.cos(5 * (b - 18) * D)) / 2) ** 6; k = 10.0 * c6
+        secs.append([BP(r, b, z) for (r, z) in [(R_IN, UNDER + 1.5), (R_IN + 1.2, UNDER), (R_OUT - 1.2, UNDER), (R_OUT, UNDER + 1.5), (R_OUT, 55.0), (R_OUT - k, top), (R_IN + k, top), (R_IN, 55.0)]])
     per = 20
     for s0 in range(0, n, per):
         bm = bmesh.new(); rows = [[bm.verts.new(v) for v in secs[i]] for i in range(s0, s0 + per + 1)]
@@ -407,13 +408,13 @@ def crown_ring(M):
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
         o = lib.mesh_obj("crown", bm, M["ceramic"])
         for p in o.data.polygons: p.use_smooth = abs(p.normal.z) < 0.5
-        if ahead(BP(130.0, 360.0 * (s0 + per / 2) / n)) > 50.0: o.visible_shadow = False
+        if ahead(BP(125.0, 360.0 * (s0 + per / 2) / n)) > 50.0: o.visible_shadow = False
     sl = bmesh.new()
     for (r, sgn) in ((R_OUT + 0.02, 1), (R_IN - 0.02, -1)):
         s = 0.0; per_m = 2 * math.pi * r
         while s < per_m:
             b0 = s / r / D; b1 = (s + 5.0) / r / D
-            q = [BP(r, b0, 44.0), BP(r, b1, 44.0), BP(r, b1, 45.2), BP(r, b0, 45.2)]
+            q = [BP(r, b0, 41.5), BP(r, b1, 41.5), BP(r, b1, 44.0), BP(r, b0, 44.0)]
             vs = [sl.verts.new(v) for v in q]; sl.faces.new(vs if sgn > 0 else vs[::-1]); s += 8.0
     o = lib.mesh_obj("slots", sl, M["slot"]); o.visible_shadow = False
     bpy.ops.mesh.primitive_uv_sphere_add(segments=160, ring_count=80, radius=24.0, location=(0, 0, 72.0)); o = bpy.context.active_object; o.name = "orb"   # 48 m across (Rev F)
@@ -752,7 +753,7 @@ def anchors(az):
     """the points the labels sit on: the Crown on its near ring, the Orb, the Stone Garden beyond the section, the Sun
     Well, the soil, each level and the sun court in the section's face"""
     right = bdir(az - 90)
-    a = {"crown": BP(130.0, az + 38, 60.0), "orb": Vector((0, 0, 80.0)), "garden": BP(45.0, az + 180 - 60, 0.5), "sunwell": Vector((0, 0, 0.6)),
+    a = {"crown": BP(125.0, az + 38, 60.0), "orb": Vector((0, 0, 80.0)), "garden": BP(45.0, az + 180 - 60, 0.5), "sunwell": Vector((0, 0, 0.6)),
          "soil": right * (-70.0) + Vector((0, 0, -8.0)), "court": right * 13.0 + Vector((0, 0, -66.0)), "pentagon": right * (-64.0) + Vector((0, 0, -46.0))}
     for (name, f, t, kind) in LEVELS: a[name.lower()] = right * 64.0 + Vector((0, 0, (f + t) / 2))
     return a

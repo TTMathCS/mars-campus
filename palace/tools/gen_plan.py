@@ -278,6 +278,26 @@ GARDEN = dict(
 def has_pictures(a): return any(photo_ok(p[0]) for r in a["rooms"] for p in r["photos"])
 
 
+MEMORY = dict(id="memory", codes=["L1-14"], k="L1-14 · ring D · Jim's residence", name="The memory rooms",
+              purpose="Jim's keepsakes from Earth: family photographs, letters and the things he brought from home, in a suite of quiet rooms along ring D. Here he records his memoirs, and visiting family find the family's history.",
+              facts=[("Size", "All of ring D of Jim's residence, a suite of rooms; the gallery of photographs in the middle is 12 m by 9 m and 3.6 m high."),
+                     ("Made of", "Walls of deep green over a walnut dado, oak boards, brass picture lights, glass cases on walnut stands."),
+                     ("In it", "Photographs of the places of Jim's life hung close in three rows; two cases of keepsakes (letters tied with a ribbon, a pocket watch, spectacles, a compass, a key, a medal); a reading table with the albums; two armchairs; the desk where he records his memoirs, with a microphone and a screen."),
+                     ("Light", "A sky ceiling over the middle of the room; a brass light over the photographs; spots on the cases; lamps."),
+                     ("Next to", "The letters room and the family's history on either side, through open doorways; the street in front.")],
+              photos=[("../tour/photos/memory.jpg", "The gallery of photographs: the places of Jim's life hung close on the deep green wall, the cases of keepsakes."), ("../tour/photos/memory2.jpg", "From the memoir desk: the cases, the reading table and the doorway to the next room.")],
+              views=[("memory", "In the memory rooms")], plan=("img/plan/l1-memory.jpg", "Ring D of Jim's residence, behind the suite and the kitchen."),
+              above=("img/above/l1-memory.jpg", "the photographs along the top wall, the two cases in the middle, the reading table and the armchairs by the door at the bottom, the memoir desk at the right, the doorways to the next rooms at either end."))
+if photo_ok(MEMORY["photos"][0][0]):           # the memory rooms get their own entry once their first picture is published
+    for r in RESIDENCE["rooms"]:
+        if r["id"] == "back":
+            r["codes"] = [c for c in r["codes"] if c != "L1-14"]
+            r["purpose"] = r["purpose"].replace(" Jim's memory rooms, with his keepsakes from Earth and his memoirs;", "")
+            r["facts"] = [(k, v.replace(" · ring D: L1-14 Memory rooms", "")) for (k, v) in r["facts"]]
+    RESIDENCE["rooms"].append(MEMORY)
+    RESIDENCE["plan_codes"] = RESIDENCE["plan_codes"] + ["L1-14"]
+
+
 # the newer areas get their page once their first picture is published (no page of plans alone)
 AREAS = [CROWN, RESIDENCE, ATRIUM] + [a for a in (CLUB, SPORT, GARDEN) if has_pictures(a)]
 

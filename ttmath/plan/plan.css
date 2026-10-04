@@ -1,0 +1,13 @@
+:root{color-scheme:light;--bg:#ECEAE4;--sheet:#FAF9F6;--ink:#1D2124;--ink2:#4F575B;--rule:#CFCBC2;--red:#A8432A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Helvetica Neue",Helvetica,Arial,sans-serif}
+a{color:#2A6E8E}header{background:var(--sheet);border-bottom:1px solid var(--rule)}header .in,main,footer{max-width:1160px;margin:0 auto;padding:10px 16px}
+header nav{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}header nav a{color:var(--ink2);text-decoration:none;font-weight:600}header nav a.on{color:var(--red)}
+.crumb{font:500 12px/1.4 ui-monospace,Menlo,monospace;color:var(--ink2);margin-bottom:6px}h1{font-size:clamp(28px,4.5vw,40px);line-height:1.1;margin:18px 0 8px}
+h2{font-size:22px;margin:28px 0 8px}.lede{font-size:17.5px;max-width:76ch}figure{margin:16px 0;background:var(--sheet);border:1px solid var(--rule);padding:8px}
+figure img{display:block;width:100%;height:auto}figcaption{font-size:14px;color:var(--ink2);padding:8px 4px 2px}
+.tw{overflow-x:auto;background:var(--sheet);border:1px solid var(--rule)}table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--rule)}thead th{border-top:0;font:600 11.5px ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);background:#F1EFEA}
+td.n{white-space:nowrap}td.code{font-weight:700;white-space:nowrap}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.card{display:block;background:var(--sheet);border:1px solid var(--rule);padding:12px 14px;text-decoration:none;color:var(--ink)}.card b{display:block;font-size:18px}.card span{color:var(--ink2);font-size:14px}
+.ask{background:#FFF6E3;border:1px solid #E4C98C;padding:12px 14px;margin:18px 0}footer{font-size:13px;color:var(--ink2);border-top:1px solid var(--rule);margin-top:28px}
+@media (max-width:640px){table,tbody,tr,td{display:block}thead{display:none}tr{border-top:1px solid var(--rule);padding:8px 10px}td{border:0;padding:2px 0}}

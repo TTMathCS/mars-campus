@@ -1,7 +1,7 @@
 """How tall a building may be, anywhere round the campus, and still stay hidden from the start point (CP-1).
 usage: python3 ttmath/tools/envelope.py   (then envelope_map.py draws it; needs numpy and Pillow)
 Samples the page's own ground (the real NASA mesh near the start, the simulated land beyond) along rays from the
-start, every 2 degrees from bearing 250 to 40 and every metre out to 360 m, and writes ttmath/tools/out/envelope.json:
+start, every 2 degrees from bearing 250 to 40 and every metre out to 460 m, and writes ttmath/tools/out/envelope.json:
 for each ray the ground and the highest point still hidden behind the ground nearer the start (eye 1.7 m up)."""
 import asyncio, json, os, time
 from playwright.async_api import async_playwright
@@ -9,7 +9,7 @@ from _page import TOOLS, write_test_page, serve, prepare, GPU_ARGS
 OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
 SAMPLE = """(function(){
   var out = { az: [], d: [], g: [] }, D = [];
-  for (var d = 0.5; d <= 360; d += (d < 140 ? 0.5 : 1.0)) D.push(+d.toFixed(1));
+  for (var d = 0.5; d <= 460; d += (d < 140 ? 0.5 : 1.0)) D.push(+d.toFixed(1));
   out.d = D;
   for (var az = 250; az <= 400; az += 2) {
     var a = az * Math.PI / 180, sx = Math.sin(a), sz = -Math.cos(a), row = [];

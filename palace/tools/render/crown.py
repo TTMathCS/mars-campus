@@ -185,8 +185,9 @@ def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None, roof=Fa
     return sd, ringo
 
 
-def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, ceiling=None):
-    """the shell of a stretch of the ring from bearing b0 to b1"""
+def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, ceiling=None, walls=True):
+    """the shell of a stretch of the ring from bearing b0 to b1 (walls=False: no inner and outer walls, for a room
+    whose walls are glass)"""
     wall_mat = wall_mat or M["regolith"]; o = []
     o.append(sector("floor", R_GL, R_OUT, b0 - PAD, b1 + PAD, 0.0, floor_mat))
     if glide:
@@ -198,11 +199,12 @@ def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, 
     else:
         o.append(sector("floor in", R_IN, R_GL, b0 - PAD, b1 + PAD, 0.0, floor_mat))
     o.append(sector("ceiling", R_IN - 0.1, R_OUT + 0.1, b0 - PAD, b1 + PAD, 0.0, ceiling or M["ceiling"], flip=True, zf=lambda b: ceil_at(b)))
-    o += wall("inner wall", R_IN, -1, b0 - PAD, b1 + PAD, M, wall_mat)
-    o += wall("outer wall", R_OUT, 1, b0 - PAD, b1 + PAD, M, wall_mat)
+    if walls:
+        o += wall("inner wall", R_IN, -1, b0 - PAD, b1 + PAD, M, wall_mat)
+        o += wall("outer wall", R_OUT, 1, b0 - PAD, b1 + PAD, M, wall_mat)
     # the coves: a plaster ledge 0.6 m under the ceiling along both walls, with a strip of light on top washing the ceiling
     glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 26.0); bs = steps(b0 - PAD, b1 + PAD)
-    for (r0, r1, l0, l1) in ((R_IN, R_IN + 0.3, R_IN + 0.05, R_IN + 0.12), (R_OUT - 0.3, R_OUT, R_OUT - 0.12, R_OUT - 0.05)):
+    for (r0, r1, l0, l1) in ((R_IN, R_IN + 0.3, R_IN + 0.05, R_IN + 0.12), (R_OUT - 0.3, R_OUT, R_OUT - 0.12, R_OUT - 0.05)) if walls else ():
         bm = bmesh.new(); rings = []
         for b in bs:
             z = ceil_at(b) - 0.6
@@ -256,7 +258,7 @@ def smart_glass(state="clear"):
     if m: return m
     m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]
     b.inputs["IOR"].default_value = 1.5; b.inputs["Transmission Weight"].default_value = 1.0
-    col, rough = {"clear": ((0.95, 0.97, 0.96), 0.0), "frosted": ((0.93, 0.92, 0.90), 0.5), "dark": ((0.03, 0.035, 0.045), 0.04)}[state]
+    col, rough = {"clear": ((0.95, 0.97, 0.96), 0.0), "frosted": ((0.93, 0.92, 0.90), 0.5), "dark": ((0.075, 0.08, 0.09), 0.04)}[state]
     b.inputs["Base Color"].default_value = (*col, 1); b.inputs["Roughness"].default_value = rough
     if state == "frosted": b.inputs["Subsurface Weight"].default_value = 0.15
     return m
@@ -279,12 +281,12 @@ def pivot_doors(name, r, b, width, height, M, leaf_mat=None, open_deg=0.0):
     return out
 
 
-def glass_wall(name, r, b0, b1, M, state="frosted", doors=(), transom=4.0, panel=2.6):
+def glass_wall(name, r, b0, b1, M, state="frosted", doors=(), transom=4.0, panel=2.6, upper=None, base=-0.3):
     """a wall of glass along the ring at radius r, from b0 to b1 and floor to ceiling, in bronze: fins every panel
     metres, a transom at the doors' height; below it switchable glass (state), above it clear; doors: (bearing,
     width) pairs of pivot doors set in it"""
     out = []; fw = 0.035 / r / D; ceil = lambda bb: ceil_at(bb) - 0.001
-    out.append(curved_box(name + " track", r - 0.05, r + 0.05, b0, b1, 0.0, 0.05, M["bronze_dark"]))
+    out.append(curved_box(name + " track", r - 0.05, r + 0.05, b0, b1, base, 0.05, M["bronze_dark"]))
     out.append(curved_box(name + " transom", r - 0.05, r + 0.05, b0, b1, transom, transom + 0.07, M["bronze_dark"]))
     out.append(curved_box(name + " head", r - 0.05, r + 0.05, b0, b1, 9.0, 9.0, M["bronze_dark"], zf1=ceil))
     gaps = [(bd - wd / 2 / r / D - 0.07 / r / D, bd + wd / 2 / r / D + 0.07 / r / D) for (bd, wd) in doors]
@@ -297,7 +299,7 @@ def glass_wall(name, r, b0, b1, M, state="frosted", doors=(), transom=4.0, panel
     for (g0, g1) in sorted(gaps) + [(b1, b1)]:
         if g0 > cur: out.append(curved_box(name + " glass", r - 0.008, r + 0.008, cur, g0, 0.05, transom, smart_glass(state)))
         cur = max(cur, g1)
-    out.append(curved_box(name + " upper glass", r - 0.008, r + 0.008, b0, b1, transom + 0.07, 9.0, smart_glass("clear"), zf1=ceil))
+    out.append(curved_box(name + " upper glass", r - 0.008, r + 0.008, b0, b1, transom + 0.07, 9.0, smart_glass(upper or "clear"), zf1=ceil))
     for (bd, wd) in doors:
         out += pivot_doors(name + " door", r, bd, wd, transom - 0.0, M)
         import lights                         # a pair of alabaster pendants to either side, the doors lit from above

@@ -92,7 +92,7 @@ def _bend(co, R):
     return Vector((rho * math.sin(phi), rho * math.cos(phi) - R, z))
 
 
-def soft_box(name, size, centre, mat, r=0.05, crown=0.015, bulge=0.008, crease=0.003, seed=0, tilt=0.0, bend=None, sub=2, yaw=0.0):
+def soft_box(name, size, centre, mat, r=0.05, crown=0.015, bulge=0.008, crease=0.003, seed=0, tilt=0.0, bend=None, sub=2, yaw=0.0, shift=(0, 0, 0)):
     """a cushion or an upholstered block: a box size (x, y, z) rounded by r at its edges, its top crowned, its sides
     a little full, a few creases; tilted back by tilt (radians, about x) and turned by yaw (about z), both about its
     own middle; its vertices in the piece's frame (bent with the piece if bend)"""
@@ -110,7 +110,7 @@ def soft_box(name, size, centre, mat, r=0.05, crown=0.015, bulge=0.008, crease=0
         if abs(uy) > 0.6: p.y += math.copysign(bulge, uy) * max(0.0, 1 - ux * ux) * max(0.0, 1 - uz * uz)
         if crease > 0:
             n = noise.noise(p * 7.0 + off); p += p.normalized() * n * crease if p.length > 1e-6 else Vector()
-        v.co = _bend(c + rot @ p, bend)
+        v.co = _bend(c + rot @ p, bend) + Vector(shift)
     o = lib.mesh_obj(name, bm, mat, smooth=True)
     if sub: md = o.modifiers.new("sub", "SUBSURF"); md.levels = 1; md.render_levels = sub
     return o
@@ -188,7 +188,7 @@ def crescent(name, loc, rot_z, radius=2.8, length=6.4, **kw):
 def sectional(name, loc, rot_z, lx=4.6, ly=3.4, depth=1.18, **kw):
     """an L of two sofas meeting at a corner: one along x, one along y on the left, facing in"""
     a = sofa(name + " long", (0, 0, 0), 0.0, length=lx, depth=depth, **kw)
-    b = sofa(name + " return", (-lx / 2 + depth / 2, -ly / 2 + depth / 2 - 0.0, 0), math.pi / 2, length=ly - depth, depth=depth, **dict(kw, arms=True))
+    b = sofa(name + " return", (-lx / 2 + depth / 2, -ly / 2, 0), math.pi / 2, length=ly - depth, depth=depth, **dict(kw, arms=True))
     return _piece(name, loc, rot_z, [a, b])
 
 
@@ -272,3 +272,45 @@ def desk_chair(name, loc, rot_z, fabric_mat=None, seed=7):
         a = 2 * math.pi * k / 5
         parts.append(soft_box(name + " spoke", (0.34, 0.05, 0.035), (0.17 * math.cos(a), 0.17 * math.sin(a), 0.06), Bz, r=0.012, crown=0, bulge=0, crease=0, sub=1, yaw=a))
     return _piece(name, loc, rot_z, parts)
+
+
+def round_daybed(name, loc, rot_z, d=2.3, fabric_mat=None, seed=9):
+    """a round daybed for two, laid back to the sky: a drum 2.3 m across, a deep round mattress, a low curved back
+    round half of it, reclined, and pillows"""
+    F = fabric_mat or fabric("daybed velvet", (0.16, 0.13, 0.11), "velvet"); parts = []; R_ = d / 2
+    bpy.ops.mesh.primitive_cylinder_add(vertices=128, radius=R_ - 0.06, depth=0.24, location=(0, 0, 0.06 + 0.12)); o = bpy.context.active_object
+    o.name = name + " drum"; o.data.materials.append(F)
+    for p_ in o.data.polygons: p_.use_smooth = True
+    bv = o.modifiers.new("bevel", "BEVEL"); bv.width = 0.05; bv.segments = 4; bv.limit_method = "ANGLE"; parts.append(o)
+    bpy.ops.mesh.primitive_cylinder_add(vertices=128, radius=R_, depth=0.2, location=(0, 0, 0.30 + 0.1)); m_ = bpy.context.active_object
+    m_.name = name + " mattress"; m_.data.materials.append(F)
+    for p_ in m_.data.polygons: p_.use_smooth = True
+    bv = m_.modifiers.new("bevel", "BEVEL"); bv.width = 0.08; bv.segments = 5; bv.limit_method = "ANGLE"
+    sd = m_.modifiers.new("sub", "SUBSURF"); sd.levels = 1; sd.render_levels = 2; parts.append(m_)
+    pl = soft_box(name + " plinth", (d * 0.6, d * 0.6, 0.06), (0, 0, 0.03), lib.principled("sofa plinth", (0.02, 0.018, 0.016), 0.6), r=0.02, crown=0, bulge=0, crease=0, sub=0); parts.append(pl)
+    # the back: a soft roll round the far half, bent to the circle, leaning back
+    parts.append(soft_box(name + " back", (math.pi * (R_ - 0.15) * 0.9, 0.26, 0.42), (0, 0, 0.5 + 0.21), F, r=0.1, crown=0.01, tilt=math.radians(-28), bend=R_ - 0.15, shift=(0, R_ - 0.15, 0), seed=seed))
+    for k, x in enumerate((-0.45, 0.45)):
+        parts.append(soft_box(name + " pillow", (0.6, 0.16, 0.42), (x, R_ - 0.5, 0.5 + 0.2), fabric("pillow linen", (0.78, 0.74, 0.66), "linen"),
+                              r=0.08, crown=0.04, bulge=0.03, tilt=math.radians(-40), seed=seed + k, yaw=-x * 0.5))
+    return _piece(name, loc, rot_z, parts)
+
+
+def round_banquette(name, loc, r_in=1.7, r_out=2.45, back_h=0.86, fabric_mat=None, n=8, seed=11):
+    """a round banquette wrapped round a planter (r_in its radius): seat cushions in a ring, facing out, and back
+    cushions leaning on the planter, each bent to the circle"""
+    F = fabric_mat or fabric("banquette leather", (0.30, 0.14, 0.06), "leather"); parts = []
+    rs = (r_in + r_out) / 2 + 0.06; seg = 2 * math.pi / n
+    base = []
+    for k in range(n):
+        a = k * seg
+        o = soft_box(name + " base", (seg * rs * 1.0, r_out - r_in, 0.3), (0, 0, 0.15), lib.principled("sofa plinth", (0.02, 0.018, 0.016), 0.6),
+                     r=0.02, crown=0, bulge=0, crease=0, bend=rs, shift=(0, rs, 0), sub=0)
+        o.rotation_euler = (0, 0, a); parts.append(o)
+        o = soft_box(name + " seat", (seg * rs * 0.97, r_out - r_in - 0.04, 0.15), (0, 0, 0.3 + 0.075), F, r=0.06, crown=0.02, bend=rs, shift=(0, rs, 0), seed=seed + k)
+        o.rotation_euler = (0, 0, a); parts.append(o)
+        rb = r_in + 0.12
+        o = soft_box(name + " back", (seg * rb * 0.95, 0.2, back_h - 0.45), (0, 0, 0.45 + (back_h - 0.45) / 2), F, r=0.07, crown=0.015, tilt=math.radians(10),
+                     bend=rb, shift=(0, rb, 0), seed=seed + 20 + k)
+        o.rotation_euler = (0, 0, a); parts.append(o)
+    return _piece(name, loc, 0.0, parts)

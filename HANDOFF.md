@@ -7,6 +7,29 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
 
+- **4 Oct, from 14:30 UTC: the Crown's revision H, and a design pass over every room (same session; both machines
+  stopped 14:50 to 17:40 at the usage limit).** Jim's asks, in order, and what each became, are in
+  `palace/docs/crown-rev-h.md`; he asked to stay on the Crown first ("stay here focus on improve each image/design and
+  focus on walking on the crown. then generalize ... and move to other rooms").
+  - **The building:** inner wall r = 115 (ring 20 m wide inside), ceilings 12.5 m (20 m under the spires), windows at
+    eye level on both walls lined in one piece of bronze (`crown.py`; `draw_plans.py`, `overall.py` the same).
+  - **New libraries, each checked in a studio picture first** (`specimens.py`, outputs in the scratchpad's `spec*/`):
+    `plants.py` (13 species), `seating.py`, `tables.py`, `lights.py`, `bed.grand_bed`, `art.py` (paintings from
+    `assets/art`, gathered by `fetch_art.py`, public domain only). The furnishing program: `palace/tools/furnishing.py`.
+    New rule in CLAUDE.md/AGENTS.md: no small chairs; every plant chosen.
+  - **Rooms rebuilt so far:** the master suite up (published), the star lounge (switchable glass walls, `DAY` flag in
+    `crown_rooms.py`: cams with `day=True` render by day, glass dark), the salon, the Arrival hall (the great maple in a
+    round banquette). Suite doors and glass: `crown.glass_wall`, `crown.partition` (doorways), `crown.glide_lights`.
+  - **Pages:** the tour's bar shows only the current place (Pentagon | Crown switch); the hub's popup is gone (each
+    part links to its page). A full reorganization of the pages is in hand (one place per page, cross-links, one name
+    for each thing).
+  - **Second machine** (session_01FjAVBjC6iYGKfCFcyGwjNW): suite door and bedroom 360 finals, then turntable frames
+    36 to 71 and hero/whole of revision H (pushes to `palace/blender/renders/crown_h/` and `house_h/`); this machine
+    renders frames 0 to 35 and the label spots. Publish with `pub_house.py` when all 72 are in.
+  - **Still to do on the Crown:** every other room per the furnishing program; a 360 stop in every room on the tour's
+    ring map; the sky garden's "black platform" (meaning not yet confirmed by Jim); the walk baked again, whole ring
+    (streaming chunks, `walk/chunks.js`, far band `band.glb`). Noted for later (other levels): the guest lounge's sofas
+    facing a table, the moss garden made real, the music room's sofa along the wall.
 - **4 Oct, from 12:40 UTC (same session; both machines had stopped at 05:20 when the account hit its usage limit):**
   Jim: "render too slow, maybe 2 at a time. also after you finish rendering L1, I need to make walk on crown ... use
   keyboard and mouse to walk around the crown and give me real life experience. I literally mean real impressive

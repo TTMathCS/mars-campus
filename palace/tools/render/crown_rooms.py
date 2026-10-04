@@ -130,67 +130,83 @@ def mist_hearth(r, b, M, length=4.0):
 
 
 def salon(M, rnd):
-    """the Salon (bearings 144 to 180): the hearth room, the great salon 45 m long, the piano room"""
+    """the Salon (144 to 180; revision H: one hall 16.5 m deep and 20 m tall under the Salon spire). The hearth room
+    (C-09): a basalt wall across it, a long hearth of lit mist at its foot, a velvet crescent facing it. The great
+    salon (C-10), 45 m long: two long boucle sofas facing across a travertine table; a velvet crescent 8.8 m long round
+    a marble table under a halo of light 8 m across; an L of sofas with ottomans; red and orange Japanese maples
+    between the groups, kentia palms along the Glide, birds of paradise at the windows. The recital room (C-11): the
+    concert grand, two crescents facing it. Screen walls of olive wood 4.2 m tall between the three"""
+    import seating, tables, lights, plants, art
     b0, b1 = 144.0, 180.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    # low walls of olive wood with wide openings between the three rooms
+    crown.glide_lights(b0, b1)
+    th = 0.3 / 130 / D
     for b in (151.92, 172.08):
-        th = 0.3 / 130 / D
-        crown.curved_box("screen wall", R_GL + 0.05, R_GL + 1.6, b - th / 2, b + th / 2, 0, 3.0, M["olive_v"])
-        crown.curved_box("screen wall", R_OUT - 1.6, R_OUT, b - th / 2, b + th / 2, 0, 3.0, M["olive_v"])
-    sofa = lib.import_glb(os.path.join(A, "GlamVelvetSofa.glb"), (0, 0, -100), 0, name="sofa src"); tint_fabric(sofa, (0.70, 0.64, 0.55))
-    chair = lib.import_glb(os.path.join(A, "SheenChair.glb"), (0, 0, -100), 0, name="chair src"); tint_fabric(chair, (0.36, 0.28, 0.20))
-    plant = lib.import_glb(os.path.join(A, "DiffuseTransmissionPlant.glb"), (0, 0, -100), 0, name="plant src")
-    vase = lib.import_glb(os.path.join(A, "GlassVaseFlowers.glb"), (0, 0, -100), 0, name="vase src")
-    for k, bc in enumerate((155.6, 162.0, 168.4)):
-        # a rug, two long sofas facing across it (backs to the Glide and to the outer wall), a low olive table, chairs
-        th = -bc * D
-        rg = lib.box("rug", (4.0, 5.2, 0.014), at(RM, bc, 0.007), M["rug" if k != 1 else "rug2"], bevel=0.006, rot_z=th, segs=2)
-        for side in (-1, 1):
-            r = RM + side * 1.75
-            lib.instance_of(sofa, at(r, bc, 0.014), th + (0 if side > 0 else math.pi), name="salon sofa")
-        lib.box("low table", (1.05, 2.1, 0.07), at(RM, bc, 0.315), M["olive"], bevel=0.012, rot_z=th)
-        lib.box("low table base", (0.75, 1.8, 0.28), at(RM, bc, 0.14), M["olive_v"], bevel=0.006, rot_z=th)
-        for side in (-1, 1):
-            r = RM + side * 1.75; fab = M["linen"] if side > 0 else M["rust"]
-            for dt in (-0.55, 0.55):
-                furn.cushion("cushion", (0.44, 0.13, 0.44), at(r + side * 0.16, bc + dt / 130 / D, 0.62), (math.radians(-14), 0, th + (0 if side > 0 else math.pi) + (0.1 if dt > 0 else -0.08)), fab)
-        for side in (-1, 1):
-            db = side * 2.6 / 130 / D
-            lib.instance_of(chair, at(RM + 0.2, bc + db, 0.014), th - side * math.pi / 2, name="salon chair")
-        lib.instance_of(vase, at(RM - 0.15, bc + 0.2 / 130 / D, 0.35), rnd.uniform(0, 6), 1.6)
-        for i, (t_, w_, d_) in enumerate(((0.035, 0.30, 0.24), (0.03, 0.28, 0.22))):
-            lib.box("table book", (w_, d_, t_), at(RM + 0.2, bc - 0.45 / 130 / D, 0.35 + 0.035 * i + t_ / 2), M["book"], bevel=0.002, rot_z=th + 0.2 * i)
-        fl = furn.floor_lamp("floor lamp", at(RM + 1.9, bc + 2.4 / 130 / D, 0.0), M, watts=110)
-        # tall plants and olive trees along the outer wall between the groups
-        lib.instance_of(plant, at(R_OUT - 0.7, bc + 3.6 / 130 / D, 0.0), rnd.uniform(0, 6), 2.0)
-    for bc in (152.8, 159.0, 165.2, 171.2):
-        p = at(R_OUT - 1.1, bc, 0.0)
-        lib.box("tree planter", (1.0, 1.0, 0.6), (p[0], p[1], 0.3), M["basalt"], bevel=0.01, rot_z=-bc * D)
-        furn.olive_tree("salon olive", (p[0], p[1], 0.6), rnd.randint(0, 9999), M, height=rnd.uniform(3.2, 4.0), leaves=16000)
-    # paintings on the inner wall's lower part, between the slots' light and the Glide rail
-    p1 = furn.painting_material("painting ochre", (0.50, 0.33, 0.10), [(0.1, 0.9, 0.5, 0.9, (0.70, 0.55, 0.25)), (0.1, 0.9, 0.1, 0.42, (0.30, 0.12, 0.04))])
-    p2 = furn.painting_material("painting slate", (0.12, 0.14, 0.17), [(0.08, 0.92, 0.58, 0.92, (0.55, 0.50, 0.40)), (0.08, 0.92, 0.08, 0.52, (0.05, 0.06, 0.09))])
-    for bc, mat in ((158.8, p1), (165.2, p2)):
-        furn.painting("painting", 2.4, 1.6, at(R_OUT - 0.05, bc, 1.75), -bc * D + math.pi, mat, M["frame"])
-    # the hearth of cold mist at the near end, the concert grand at the far end
-    mist_hearth(RM + 0.4, 147.0, M, 4.2)
-    hsofa = lib.instance_of(sofa, at(RM - 0.2, 149.6, 0.014), -149.6 * D + math.pi / 2, name="hearth sofa")
-    lib.box("hearth rug", (3.6, 4.4, 0.014), at(RM, 148.5, 0.007), M["rug2"], bevel=0.006, rot_z=-148.5 * D + math.pi / 2, segs=2)
-    furn.piano(at(RM - 1.2, 176.4, 0.0), -176.4 * D - math.pi / 2 + 0.35, M)
-    furn.floor_lamp("piano lamp", at(RM + 1.6, 175.0, 0.0), M, watts=90)
-    # warm lamps hidden in the slots' reveals at night are not needed by day; a few downlights over each group
-    for bc in (155.6, 162.0, 168.4, 147.5, 176.0):
-        for r in (RM - 1.5, RM + 1.5):
-            lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 260, (1.0, 0.82, 0.62), 0.03, 50, 0.5)
-    # wall washers, as in a gallery: spots near the ceiling every 3 m along both walls, aimed down the walls
-    b = b0 + 0.6
-    while b < b1 - 0.6:
-        for (r, d) in ((R_IN + 0.9, -1), (R_OUT - 0.9, 1)):
-            q = Vector(at(r, b, ceil_at(b) - 0.08)); tgt = Vector(at(r + d * 0.9, b, 1.2))
-            sp = lib.spot_light("wall washer", tuple(q), 140, (1.0, 0.83, 0.64), 0.04, 70, 0.8); sp.rotation_euler = (tgt - q).to_track_quat("-Z", "Y").to_euler()
-        b += 3.0 / 130 / D
+        crown.curved_box("screen wall", R_GL + 0.05, R_GL + 4.0, b - th / 2, b + th / 2, 0, 4.2, M["olive_v"])
+        crown.curved_box("screen wall", R_OUT - 4.2, R_OUT, b - th / 2, b + th / 2, 0, 4.2, M["olive_v"])
+    boucle = seating.fabric("oat boucle", (0.58, 0.52, 0.44), "boucle"); velvet = seating.fabric("ink velvet", (0.06, 0.08, 0.14), "velvet")
+    rust = seating.fabric("rust velvet", (0.30, 0.09, 0.04), "velvet"); moss = seating.fabric("moss velvet", (0.10, 0.13, 0.08), "velvet")
+    leather = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
+    marble = seating.stone("salon marble", (0.86, 0.84, 0.80), (0.40, 0.38, 0.36), "marble", 0.12)
+    # group A: two long sofas facing across a travertine table, club chairs at its ends
+    ga = 156.3
+    lib.box("rug", (8.4, 7.2, 0.014), at(RM, ga, 0.007), M["rug"], bevel=0.006, rot_z=face_in(ga), segs=2)
+    for side in (-1, 1):
+        seating.sofa("salon sofa", at(RM + side * 2.4, ga, 0.0), face_in(ga) if side > 0 else face_out(ga), length=5.2, fabric_mat=boucle, seed=70 + side)
+        seating.club_chair("salon chair", at(RM, ga + side * tang(2.35), 0.0), face_ccw(ga) if side > 0 else face_cw(ga), fabric_mat=rust, seed=72 + side)
+    tables.coffee_table("salon table", at(RM, ga, 0.0), face_in(ga), length=2.6, width=1.2)
+    plants.make("orchid", at(RM, ga - tang(0.7), 0.36), seed=91, pot=(0.18, 0.14, "white"), colour="white")
+    lights.globes("salon globes", at(RM, ga), n=9, spread=0.8, low=3.2, high=4.4, ceiling=ceil_at(ga), watts=55)
+    # group B under the spire: a crescent round a marble table, facing the windows, two club chairs across it
+    gb = 162.0
+    lib.box("rug", (10.4, 8.4, 0.014), at(RM + 0.6, gb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(gb), segs=2)
+    seating.crescent("salon crescent", at(RM - 2.3, gb, 0.0), face_out(gb), radius=3.4, length=8.8, fabric_mat=velvet, seed=75)
+    tables.coffee_table("salon round", at(RM + 1.1, gb, 0.0), 0.0, length=1.8, kind="round", mat=marble)
+    plants.make("orchid", at(RM + 1.1, gb, 0.36), seed=92, pot=(0.2, 0.15, "black"), colour="magenta")
+    for side in (-1, 1):
+        seating.club_chair("salon chair", at(RM + 4.0, gb + side * tang(1.55, RM + 4.0), 0.0), face_in(gb) - side * 0.35, fabric_mat=moss, seed=76 + side)
+    lights.halo("salon halo", at(RM + 0.4, gb), d=8.0, z=11.5, ceiling=ceil_at(gb), watts=2600)
+    # group C: an L of two sofas and two leather ottomans round a stacked travertine table
+    gc = 168.1
+    lib.box("rug", (8.0, 7.0, 0.014), at(RM, gc, 0.007), M["rug"], bevel=0.006, rot_z=face_in(gc), segs=2)
+    seating.sofa("salon sofa", at(RM - 2.3, gc, 0.0), face_out(gc), length=5.0, fabric_mat=boucle, seed=78)
+    seating.sofa("salon sofa", at(RM + 0.2, gc + tang(2.9), 0.0), face_ccw(gc + tang(2.9)), length=3.6, fabric_mat=boucle, seed=79)
+    tables.coffee_table("salon stack", at(RM, gc, 0.0), face_in(gc), length=2.2, width=1.1, kind="stack")
+    for side in (-1, 1): seating.ottoman("salon ottoman", at(RM + 2.4, gc + side * tang(1.0), 0.0), d=1.0, fabric_mat=leather, seed=80 + side)
+    lights.globes("salon globes", at(RM, gc), n=9, spread=0.8, low=3.2, high=4.4, ceiling=ceil_at(gc), watts=55, seed=5)
+    lights.arc_lamp("salon arc", at(RM - 2.6, gc - tang(3.1), 0.0), face_out(gc) - 0.4, reach=2.0)
+    # the plants
+    plants.make("japanese maple", at(R_OUT - 3.2, 159.15, 0.0), seed=81, pot=(1.6, 0.6, "basalt"), height=4.6, colour="red", stems=3)
+    plants.make("japanese maple", at(R_OUT - 3.2, 165.15, 0.0), seed=82, pot=(1.4, 0.6, "basalt"), height=4.1, colour="orange", stems=2)
+    for k, b in enumerate((153.4, 159.15, 165.15, 170.6)):
+        plants.make("kentia palm", at(R_GL + 1.7, b, 0.0), seed=83 + k, pot=(0.95, 0.7, "black"), height=3.6)
+    for k, b in enumerate((153.0, 171.0)):
+        plants.make("bird of paradise", at(R_OUT - 1.5, b, 0.0), seed=88 + k, pot=(1.1, 0.7, "bronze"), height=3.8)
+    # the hearth room: a basalt wall across it, the hearth of lit mist at its foot, a crescent facing it, a ginkgo
+    hb = 145.4
+    crown.curved_box("hearth wall", R_GL + 4.0, R_OUT - 3.2, hb - tang(0.4), hb, 0, 4.8, M["basalt_wall"])
+    mist_hearth(RM + 0.6, hb + tang(0.65), M, 6.0)
+    hs = 150.5
+    lib.box("hearth rug", (9.0, 7.0, 0.014), at(RM + 0.6, 148.4, 0.007), M["rug2"], bevel=0.006, rot_z=face_cw(148.4), segs=2)
+    seating.crescent("hearth crescent", at(RM + 0.6, hs, 0.0), face_ccw(hs), radius=3.2, length=7.6, fabric_mat=rust, seed=84)
+    tables.coffee_table("hearth table", at(RM + 0.6, hs - tang(2.9), 0.0), 0.0, length=1.5, kind="round", mat=marble)
+    plants.make("ginkgo", at(R_OUT - 1.8, 147.2, 0.0), seed=85, pot=(1.4, 0.7, "bronze"), height=5.2, colour="gold")
+    # the recital room: the concert grand facing back into the salon, two crescents facing it, palms either side
+    furn.piano(at(RM + 1.2, 177.6, 0.0), face_ccw(177.6) + math.pi / 2 + 0.25, M)
+    for side, r in ((-1, RM - 2.4), (1, RM + 3.0)):
+        bb = 174.2
+        seating.crescent("recital crescent", at(r, bb, 0.0), face_cw(bb) - side * 0.25, radius=4.2, length=4.8, fabric_mat=velvet, seed=86 + side)
+    for side in (-1, 1): plants.make("kentia palm", at(RM + 1.0 + side * 3.6, 178.9, 0.0), seed=89 + side, pot=(0.95, 0.7, "black"), height=3.4)
+    lights.globes("piano globes", at(RM + 1.2, 177.2), n=7, spread=0.6, low=3.0, high=3.8, ceiling=ceil_at(177.2), watts=45, seed=8)
+    # paintings: on the screen walls, facing into the salon, each lit
+    keys = art.available()
+    if keys:
+        hang = [("salon west painting", 151.92 + tang(0.17, R_OUT - 2.1), face_cw(151.92), 0), ("salon east painting", 172.08 - tang(0.17, R_OUT - 2.1), face_ccw(172.08), 1),
+                ("hearth painting", hb + tang(0.02), face_cw(hb), 2)]
+        for (nm, bb, rz, k) in hang:
+            if k < len(keys): art.hang(nm, keys[k], 2.8 if k < 2 else 3.6, at(R_OUT - 2.1 if k < 2 else RM + 0.6, bb, 0.0), rz, z=2.1 if k < 2 else 3.0)
+    washers(b0, b1, 220)
 
 
 def face_out(b): return math.pi - b * D          # a model whose front is -y faces the outer wall
@@ -233,33 +249,38 @@ def iris_door(b, M):
 
 
 def arrival(M, rnd):
-    """the Arrival hall (95.8 to 108): 9 m tall, a basalt floor, a long olive bench, the slot back to the Orb, the portal"""
+    """the Arrival hall (95.8 to 108; revision H: 20 m tall under the Arrival spire, 16.5 m deep). Through the Door,
+    a ring of light 5 m across in a basalt wall: the hall's great tree, a Japanese maple 7 m tall, red turning orange, in
+    a round basalt planter with a banquette of cognac leather wrapped round it, under a halo of light 9 m across; kentia
+    palms by the portal to the Orb at the far end, agaves in travertine bowls along the windows; a great painting on
+    the end wall"""
+    import seating, tables, lights, plants, art
     b0, b1 = 95.76, 108.0
     crown.ring_room(b0 - 4.32, b1, M, M["basalt"], part_walls=False)
     th = 0.3 / 130 / D
     crown.curved_box("end wall", R_GL + 0.05, R_OUT, b1 - th / 2, b1 + th / 2, 0, 9, M["regolith"], zf1=lambda bb: ceil_at(bb) + 0.01)
     crown.curved_box("hangar end", R_IN - 0.6, R_OUT + 0.6, b0 - 4.32 - th, b0 - 4.32, 0, 9, M["regolith"], zf1=lambda bb: ceil_at(bb) + 0.01)
     iris_door(b0, M)
-    S = imports(M)
-    # the long olive-wood bench along the outer wall, and a big olive tree
-    for i in range(3):
-        bb = b0 + 1.6 + i * tang(2.3)
-        lib.box("bench", (2.2, 0.55, 0.08), at(R_OUT - 0.75, bb, 0.44), M["olive"], bevel=0.01, rot_z=face_in(bb))
-        lib.box("bench leg", (2.0, 0.42, 0.40), at(R_OUT - 0.75, bb, 0.20), M["basalt"], bevel=0.006, rot_z=face_in(bb))
-    p = at(RM - 0.6, b0 + 6.4, 0.0)
-    lib.cyl("tree planter", 0.9, 0.55, p, M["basalt"], verts=64, bevel=0.01)
-    furn.olive_tree("arrival olive", (p[0], p[1], 0.55), 4711, M, height=4.6, leaves=24000)
-    lib.instance_of(S["plant"], at(R_OUT - 0.7, b1 - 1.0, 0.0), 0.5, 2.1)
+    crown.glide_lights(b0 - 4.32, b1)
+    # the great tree, its planter wrapped in a round banquette, under a halo
+    tb = b0 + tang(13.0); tr = RM + 0.4; p = at(tr, tb, 0.0)
+    lib.cyl("tree planter", 1.7, 0.86, p, M["basalt"], verts=128, bevel=0.012)
+    lib.cyl("tree soil", 1.62, 0.02, (p[0], p[1], 0.82), plants.soil_material(), verts=96)
+    seating.round_banquette("arrival banquette", p, r_in=1.7, r_out=2.5, back_h=0.86, fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
+    plants.make("japanese maple", (p[0], p[1], 0.84), seed=101, height=7.0, colour="orange", stems=4)
+    lights.halo("arrival halo", p, d=9.0, z=10.5, ceiling=ceil_at(tb), watts=3000)
+    lib.box("arrival rug", (11.0, 11.0, 0.014), at(tr, tb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(tb), segs=2)
+    # the portal to the Orb at the far end, palms either side; agaves along the windows; long leather benches by the Door
     portal(RM, b1 - 0.6, M, face_ccw(b1 - 0.6))
-    for bc in (b0 + 2.5, b0 + 6.0, b0 + 9.5):
-        for r in (RM - 1.6, RM + 1.6):
-            lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 300, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
-    b = b0 - 4.0
-    while b < b1 - 0.5:
-        for (r, d) in ((R_IN + 0.9, -1), (R_OUT - 0.9, 1)):
-            q = Vector(at(r, b, ceil_at(b) - 0.08)); tgt = Vector(at(r + d * 0.9, b, 1.2))
-            sp = lib.spot_light("wall washer", tuple(q), 160, (1.0, 0.83, 0.64), 0.04, 70, 0.8); sp.rotation_euler = (tgt - q).to_track_quat("-Z", "Y").to_euler()
-        b += tang(3.0)
+    for s_ in (-1, 1): plants.make("kentia palm", at(RM + s_ * 3.4, b1 - tang(1.6), 0.0), seed=102 + s_, pot=(1.0, 0.75, "black"), height=3.8)
+    for k, bb in enumerate((b0 + tang(5.0, R_OUT), b0 + tang(21.0, R_OUT))):
+        plants.make("agave", at(R_OUT - 1.4, bb, 0.0), seed=105 + k, pot=(1.2, 0.45, "travertine"), size=0.9)
+    for s_ in (-1, 1):
+        seating.bench("door bench", at(RM + s_ * 4.6, b0 + tang(3.2), 0.0), face_cw(b0 + tang(3.2)) + math.pi / 2, length=2.8, depth=0.6,
+                      fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
+    keys = art.available()
+    if keys: art.hang("arrival painting", keys[min(3, len(keys) - 1)], 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), z=2.6)
+    washers(b0 - 4.0, b1, 220)
 
 
 def dining(M, rnd):
@@ -898,40 +919,63 @@ def night(R, M):
     if cove: cove.node_tree.nodes["Emission"].inputs["Strength"].default_value = 6.0
 
 
+DAY = {"on": True}         # set by build(): the room drawn by day or at night (the star lounge's glass dark or clear)
+
+
 def observatory(M, rnd):
-    """the Observatory under its spire (0 to 36), at night: the star lounge (C-30) with reclining chairs under the
-    outer slots, the telescope room (C-31) with its screens; the telescope dome (C-32) is upstairs, by the portal"""
+    """the Observatory under its spire (0 to 36; revision H: 20 m tall in the middle). The star lounge (C-30): its
+    outer and inner walls are switchable glass from the floor to the ceiling, dark by day at the touch of the switch
+    by its door, clear at night for the stars; round daybeds for two laid back to the sky along the outer glass, a
+    velvet crescent sofa in the middle, kentia palms as silhouettes. The telescope room (C-31) with its screens; the
+    telescope dome (C-32) is upstairs, by the portal"""
+    import seating, tables, lights, plants
     extra_materials(M)
     b0, b1, w1 = 0.0, 36.0, 24.0
-    crown.ring_room(b0, b1, M, M["basalt"])
+    state = "dark" if DAY["on"] else "clear"
+    crown.ring_room(b0, b1, M, M["basalt"], part_walls=False, walls=False)
+    crown.wall("inner wall", R_IN, -1, w1, b1 + crown.PAD, M, M["regolith"]); crown.wall("outer wall", R_OUT, 1, w1, b1 + crown.PAD, M, M["regolith"])
+    crown.partition(b0, M); crown.partition(b1, M)
+    for (r, nm) in ((R_IN - 0.1, "star glass in"), (R_OUT + 0.1, "star glass out")):
+        crown.glass_wall(nm, r, b0 - crown.PAD, w1, M, state=state, upper=state, panel=3.2)
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     room_wall(w1, M)
+    # the switch for the glass, by the door to the telescope room: a bronze plate, its button lit
+    q = at(R_GL + 1.1, w1 - tang(0.2, R_GL + 1.1), 1.25)
+    lib.box("glass switch", (0.09, 0.02, 0.14), q, M["bronze"], bevel=0.004, rot_z=face_cw(w1))
+    lib.cyl("glass switch button", 0.012, 0.006, (q[0], q[1], q[2] - 0.02), lib.emission("switch glow", (1.0, 0.75, 0.45), 6.0), verts=24)
+    # the daybeds along the outer glass, facing it; drums with candles between them
+    for k, bc in enumerate((3.6, 8.6, 13.6, 18.6)):
+        seating.round_daybed("star daybed", at(R_OUT - 2.3, bc, 0.0), face_out(bc), d=2.3, fabric_mat=seating.fabric("night velvet", (0.10, 0.085, 0.075), "velvet"), seed=40 + k)
+        q = at(R_OUT - 2.0, bc + tang(1.9, R_OUT - 2.0), 0.0); tables.drum("star drum", q, d=0.46, h=0.42)
+        lib.cyl("candle", 0.035, 0.1, (q[0], q[1], 0.42), lib.emission("candle wax", (1.0, 0.72, 0.42), 1.5), verts=24)
+        lib.point_light("candle light", (q[0], q[1], 0.55), 5.0, (1.0, 0.62, 0.32), 0.03)
+    # the crescent sofa in the middle, facing the outer glass, round a low table
+    sb = 11.1
+    seating.crescent("star crescent", at(RM - 1.2, sb, 0.0), face_out(sb), radius=3.6, length=8.4, fabric_mat=seating.fabric("night velvet", (0.10, 0.085, 0.075), "velvet"), seed=44)
+    tables.coffee_table("star table", at(RM + 1.6, sb, 0.0), 0.0, length=1.6, kind="round", mat=seating.stone("basalt table", (0.05, 0.05, 0.055), (0.12, 0.12, 0.13), "basalt", 0.2))
+    lib.box("star rug", (9.0, 7.0, 0.014), at(RM + 0.6, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    for bc, seed in ((1.6, 51), (22.2, 52)):
+        plants.make("kentia palm", at(R_GL + 2.2, bc, 0.0), seed=seed, pot=(0.95, 0.7, "black"), height=3.6)
+    if DAY["on"]:                              # by day the room has its lamps on behind the dark glass
+        lights.globes("star globes", at(RM + 1.6, sb), n=9, spread=0.7, low=2.2, high=3.4, ceiling=ceil_at(sb), watts=60)
+        for bc in (6.1, 16.1): furn.floor_lamp("floor lamp", at(R_OUT - 3.4, bc, 0.0), M, (1.0, 0.70, 0.45), watts=60)
+    else:
+        for bc in (6.1, 16.1): furn.floor_lamp("floor lamp", at(R_OUT - 3.4, bc, 0.0), M, (1.0, 0.62, 0.34), watts=12)
+        glow = lib.emission("glass foot glow", (1.0, 0.66, 0.38), 3.0)          # a line of light along the foot of the glass
+        for r in (R_OUT - 0.25, R_GL + 0.25):
+            crown.curved_box("glass foot light", r - 0.02, r + 0.02, b0, w1 - 0.3, 0.0, 0.015, glow)
+    # the telescope room: a long desk of screens on the outer wall, leather chairs, the portal up to the dome
     S = imports(M)
-    for k, bc in enumerate((3.2, 7.8, 12.4, 17.0, 21.4)):
-        lib.box("rug", (2.9, 3.0, 0.014), at(R_OUT - 1.75, bc, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(bc), segs=2)
-        for side in (-1, 1):
-            bb = bc + side * tang(0.5, R_OUT - 1.7); star_chair("star chair", at(R_OUT - 1.75, bb, 0.0), face_out(bb), M)
-        q = at(R_OUT - 2.75, bc, 0.0); furn.side_table("side table", q, M, r=0.24, h=0.48)
-        lib.spot_light("chair light", at(R_OUT - 2.2, bc, ceil_at(bc) - 0.2), 40, (1.0, 0.68, 0.4), 0.05, 45, 0.8)
-        lib.cyl("candle", 0.035, 0.1, (q[0], q[1], 0.48), lib.emission("candle wax", (1.0, 0.72, 0.42), 1.5), verts=24)
-        lib.point_light("candle light", (q[0], q[1], 0.6), 6.0, (1.0, 0.62, 0.32), 0.03)
-        if k % 2 == 0:
-            lib.instance_of(S["pouf"], at(RM - 1.0, bc + tang(0.4), 0.0), 0.0)
-            lib.instance_of(S["pouf"], at(RM - 1.4, bc - tang(0.7), 0.0), 1.0)
-        else:
-            furn.floor_lamp("floor lamp", at(R_GL + 0.6, bc, 0.0), M, (1.0, 0.62, 0.34), watts=20)
-    lib.instance_of(S["plant"], at(R_GL + 0.8, 1.2, 0.0), 0.3, 1.7)
-    # the telescope room: a long desk of screens on the outer wall, chairs, the portal up to the dome
     crown.curved_box("desk", R_OUT - 1.2, R_OUT - 0.4, 25.0, 34.6, 0.72, 0.76, M["walnut"])
     for bb in (25.3, 29.8, 34.3):
         crown.curved_box("desk pedestal", R_OUT - 1.1, R_OUT - 0.5, bb - tang(0.25, R_OUT), bb + tang(0.25, R_OUT), 0.0, 0.72, M["walnut"])
     for (bb, img, crop) in ((27.0, "mars-earth.jpg", (0.0, 0.0, 1.0, 1.0)), (29.8, "orb-universe.jpg", (0.22, 0.18, 0.78, 0.92)), (32.6, "atlas-teaser.jpg", (0.0, 0.0, 1.0, 1.0))):
         screen("telescope screen", repo_file("palace", "design", "img", img), 1.2, 0.68, at(R_OUT - 0.7, bb, 0.76), face_in(bb), M, crop, emit=1.4)
-        lib.instance_of(S["chair"], at(R_OUT - 1.75, bb, 0.0), face_out(bb))
+        seating.desk_chair("telescope chair", at(R_OUT - 1.8, bb, 0.0), face_out(bb), seed=60 + int(bb))
     portal(RM - 0.4, b1 - 0.7, M, face_ccw(b1 - 0.7))
     for bb in (26.5, 30.0, 33.5):
-        lib.spot_light("desk light", at(R_OUT - 1.0, bb, ceil_at(bb) - 0.1), 160, (1.0, 0.8, 0.6), 0.03, 28, 0.5)
-    washers(b0, b1, 8, (1.0, 0.72, 0.45))
+        lib.spot_light("desk light", at(R_OUT - 1.0, bb, ceil_at(bb) - 0.1), 900, (1.0, 0.8, 0.6), 0.03, 20, 0.5)
+    washers(w1, b1, 60, (1.0, 0.72, 0.45))
 
 
 def gravel_material():
@@ -1110,9 +1154,9 @@ def garden_room(M, rnd):
 
 ROOMS = {
     "arrival": dict(build=arrival, span=(91.44, 108.0), sun=(250.0, 14.0), cams={
-        "arrival": dict(loc=at(RM + 1.6, 106.2, 1.5), target=at(RM, 95.76, 2.6), lens=18),
-        "arrival2": dict(loc=at(R_GL + 0.4, 99.0, 1.5), target=at(R_OUT - 0.5, 104.0, 2.0), lens=18),
-    }, stops={"arrival": at(RM + 0.3, 99.0, 0.0)}),        # 6 m short of the olive tree: the tree, the bench and the portal ahead
+        "arrival": dict(loc=at(RM + 2.6, 106.9, 1.6), target=at(RM - 0.6, 96.4, 4.2), lens=17),
+        "arrival2": dict(loc=at(R_GL + 1.2, 97.7, 1.6), target=at(R_OUT - 1.0, 103.6, 3.6), lens=17),
+    }, stops={"arrival": at(RM + 4.4, 98.6, 0.0)}),        # in from the Door, the great tree and the portal ahead
     "dining": dict(build=dining, span=(223.2, 241.2), sun=(244.0, 13.0), cams={
         "dining": dict(loc=at(R_OUT - 1.15, 228.2, 1.55), target=at(RM - 0.8, 235.6, 0.9), lens=19),
         "dining2": dict(loc=at(RM + 0.35, 236.6, 1.4), target=at(RM - 0.1, 228.6, 0.8), lens=22),
@@ -1126,10 +1170,10 @@ ROOMS = {
         "sunset2": dict(loc=at(R_OUT - 1.4, 277.6, 1.4), target=at(R_GL + 0.4, 268.0, 1.2), lens=20),
     }, stops={"sunset": at(RM, 270.0, 0.0)}),
     "salon": dict(build=salon, span=(144.0, 180.0), sun=(158.0, 38.0), cams={
-        "salon":  dict(loc=at(RM - 2.7, 159.9, 1.45), target=at(R_OUT - 0.2, 165.2, 1.35), lens=20),
-        "salon2": dict(loc=at(R_OUT - 0.75, 166.3, 1.4), target=at(R_GL - 0.5, 160.3, 1.4), lens=20),
-        "hearth": dict(loc=at(RM + 1.4, 151.0, 1.35), target=at(RM - 0.4, 146.5, 0.9), lens=20),
-    }, stops={"salon": at(RM, 165.2, 0.0), "hearth": at(RM, 150.6, 0.0), "piano_up": at(RM + 0.6, 173.6, 0.0)}),
+        "salon":  dict(loc=at(RM + 3.6, 153.0, 1.6), target=at(RM - 1.2, 163.6, 3.0), lens=18),
+        "salon2": dict(loc=at(132.5, 168.6, 1.6), target=at(121.5, 160.6, 3.2), lens=18),
+        "hearth": dict(loc=at(RM + 4.2, 151.3, 1.55), target=at(RM - 0.2, 146.2, 1.6), lens=19),
+    }, stops={"salon": at(RM + 2.4, 159.6, 0.0), "hearth": at(RM + 3.6, 149.2, 0.0), "piano_up": at(RM + 1.2, 172.9, 0.0)}),
     "library": dict(build=library_up, span=(288.0, 324.0), sun=(300.0, 16.0), cams={
         "library_up": dict(loc=at(RM - 0.3, 298.2, 1.6), target=at(RM + 0.6, 309.5, 3.4), lens=18),
         "maproom": dict(loc=at(RM - 1.2, 317.3, 1.6), target=at(RM - 0.2, 320.4, 1.9), lens=22),
@@ -1143,9 +1187,10 @@ ROOMS = {
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
     }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
     "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={
-        "stars": dict(loc=at(R_OUT - 3.3, 18.9, 1.4), target=at(R_OUT - 1.2, 9.0, 1.9), lens=17, shift=0.12),
+        "stars": dict(loc=at(R_OUT - 5.4, 15.9, 1.25), target=at(R_OUT, 10.6, 4.6), lens=17),
+        "stars_day": dict(loc=at(R_OUT - 5.4, 15.9, 1.25), target=at(R_OUT, 10.6, 4.6), lens=17, day=True),
         "telescope": dict(loc=at(RM - 1.0, 24.9, 1.5), target=at(R_OUT - 0.8, 31.2, 1.2), lens=20),
-    }, stops={"stars": at(RM - 0.4, 12.4, 0.0)}),
+    }, stops={"stars": at(RM + 1.0, 12.4, 0.0)}),
     "garden": dict(build=garden_room, span=(36.0, 72.0), sun=(66.0, 6.0), sun_strength=10.0, cams={
         "breakfast": dict(loc=at(RM - 0.6, 44.3, 1.4), target=at(RM + 0.7, 40.9, 0.8), lens=22),
         "garden": dict(loc=at(R_GL + 1.5, 52.2, 1.3), target=at(R_OUT - 1.2, 61.5, 1.0), lens=20),
@@ -1160,8 +1205,9 @@ ROOMS.update(MORE)
 
 def build(room, night_=None):
     sc = lib.reset(); M = materials(); rnd = random.Random(23)
-    R = ROOMS[room]; R["build"](M, rnd); crown.outside(M, R["sun"][0], R["sun"][1], sun_strength=R.get("sun_strength", 6.0), skip=R["span"])
-    if (R.get("night", False) if night_ is None else night_): night(R, M)       # a plan from above is drawn by day
+    R = ROOMS[room]; nt = R.get("night", False) if night_ is None else night_; DAY["on"] = not nt
+    R["build"](M, rnd); crown.outside(M, R["sun"][0], R["sun"][1], sun_strength=R.get("sun_strength", 6.0), skip=R["span"])
+    if nt: night(R, M)                         # a plan from above is drawn by day
     return sc, R
 
 
@@ -1174,7 +1220,8 @@ if __name__ == "__main__":
     paths = {j: os.path.abspath(out.replace("%s", j.replace(":", "_"))) for j in jobs}
     todo = [j for j in jobs if not os.path.exists(paths[j])]
     if not todo: print("nothing to do", flush=True); sys.exit(0)
-    t = time.time(); sc, R = build(room, False if all(j.startswith("plan:") for j in todo) else None); print("built in %.1f s" % (time.time() - t), flush=True)
+    Rr = ROOMS[room]; daylit = all(j.startswith("plan:") or (not j.startswith("pano:") and Rr["cams"][j].get("day")) for j in todo)
+    t = time.time(); sc, R = build(room, False if daylit else None); print("built in %.1f s" % (time.time() - t), flush=True)
     for j in todo:
         tmp = paths[j].replace(".jpg", ".part.jpg")
         if j.startswith("plan:"):                  # a floor plan from above: it hides the ceilings, so it goes last

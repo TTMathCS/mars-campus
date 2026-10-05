@@ -276,7 +276,8 @@
   function crescentSupport(x, z, yf) {
     if (!CRS) return undefined;
     var C = CRS, K = C.court, o = crsLoc(x, z), r = o.r, a = o.a, yU = C.yU, yL = C.yL, aa = Math.abs(a);
-    var inCourt = (r > C.r1 + 0.25 && r < K.r1 - 0.3 && aa < K.aEnd - 0.012) || (Math.abs(o.lat) < K.latHalf - 0.3 && o.rad > K.radFar - 0.6 && r > C.r1 + 0.25);
+    if (o.rad > -25) return undefined;                                   // the Crescent and its court are all behind the dome
+    var inCourt = (r > C.r1 + 0.25 && r < K.r1 - 0.3 && aa < K.aEnd - 0.012) || (Math.abs(o.lat) < K.latHalf - 0.3 && o.rad > K.radFar - 0.6 && o.rad < 0 && r > C.r1 + 0.25);
     // the stairs at the band's ends
     var ss = [C.stairL, C.stairR];
     for (var i = 0; i < 2; i++) { var s = ss[i]; if (!s) continue;
@@ -284,7 +285,7 @@
     // the doors in the garden front: through to the court
     if (Math.abs(r - C.r1) < 0.45 && yf < yL + 0.6 && (C.doors || []).some(function (d) { return d.r === C.r1 && Math.abs(d.y - yL) < 0.1 && Math.abs(d.a - a) * r < 1.1; })) return yL;
     if (inCourt) return yf < yL + 0.6 ? yL : NaN;
-    var nearCourt = (r > C.r1 - 0.1 && r < K.r1 + 0.6 && aa < K.aEnd + 0.03) || (Math.abs(o.lat) < K.latHalf + 0.6 && o.rad > K.radFar + 0.4 && r > C.r1 - 0.1);
+    var nearCourt = (r > C.r1 - 0.1 && r < K.r1 + 0.6 && aa < K.aEnd + 0.03) || (Math.abs(o.lat) < K.latHalf + 0.6 && o.rad > K.radFar + 0.4 && o.rad < 0 && r > C.r1 - 0.1);
     if (nearCourt) return NaN;                                             // the retaining walls and their guards
     if (r < C.r0 - 0.35 || r > K.r1 + 0.6 || aa > K.aEnd + 0.03) return undefined;
     if (r > C.r1 + 0.1) return NaN;                                       // the court's retaining walls

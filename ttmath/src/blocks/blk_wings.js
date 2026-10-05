@@ -212,7 +212,7 @@
   // the back wall, a flat soffit at H2 runs along the wall behind a straight edge u = lerp(ua, ub, (s - e0) / (e1 - e0)).
   // H is the tallest that keeps 12 cm under the shell, the soffit's edge behind both rows of lights, and every door
   // under the ceiling (the soffit's edge beyond a door's far jamb, or the soffit above its head).
-  var CEIL_MAX = { foyer: 3.4, lobby: 3.2, cafe: 3.2, reception: 3.2, math: 3.0, lab: 3.0, seminar: 3.0, library: 3.0, study: 3.0 };
+  var CEIL_MAX = { foyer: 4.8, lobby: 4.6, cafe: 4.6, reception: 4.6, math: 4.6, lab: 4.6, seminar: 4.6, library: 4.6, study: 4.6 };   // as high as the roof allows (Jim, 5 Oct 2026: "roof are too low")
   var CEIL_TILES = { math: 1, lab: 1, seminar: 1, study: 1, lobby: 1, library: 1 };      // acoustic tiles; the rest smooth plaster
   function roomCeiling(sg, idx, e0, e1) {
     var R = wingRooms(sg), rm = R[idx];

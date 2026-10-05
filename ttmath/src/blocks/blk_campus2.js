@@ -14,17 +14,20 @@
   var LINK = { th: 20 * D2R, sIn: 27.4, w: 1.6, h: 3.0, pl: 0.35, wo: 2.0 };
   var LS = Math.sin(LINK.th), LC20 = Math.cos(LINK.th);
   function latf(s) { var k = (s - 55.5) / 22.5; return 10.5 - 1.5 * k * k; }
-  function wingH(s) { return 4.3 + 2.9 * (WG.sB - s) / (WG.sB - WG.sA); }
+  // the classroom wing (sg > 0) rises higher at the gateway end and keeps its height further back, so its rooms get high
+  // ceilings (Jim, 5 Oct 2026: "class rooms are all too small and roof are too low"); the café wing cannot rise there and
+  // stay hidden from the start
+  function wingH(s, sg) { return sg > 0 ? 4.8 + 2.4 * (WG.sB - s) / (WG.sB - WG.sA) : 4.3 + 2.9 * (WG.sB - s) / (WG.sB - WG.sA); }
   function wingXZ(sg, u, s) { return palXZ(sg * (latf(s) + u), s); }
   function wingRooms(sg) { return WG.rooms[sg > 0 ? "1" : "-1"]; }
   function wingRoomIdx(sg, s) { var R = wingRooms(sg); for (var i = 0; i < R.length - 1; i++) if (s < R[i].s1) return i; return R.length - 1; }
   function wingRoom(sg, s) { return wingRooms(sg)[wingRoomIdx(sg, s)]; }
   function wingFloor(sg, s) { return wingRoom(sg, clamp(s, WG.sA, WG.sB)).y; }
   function wingBase(sg, s) { var a = 0, n = 0; for (var d = -3; d <= 3; d += 1) { a += wingFloor(sg, clamp(s + d, WG.sA, WG.sB)); n++; } return a / n; }
-  function roofProf(t) { return Math.pow(Math.max(0, 1 - Math.pow(t, 1.7)), 0.75) + 0.09 * Math.sin(Math.PI * t); }
+  function roofProf(t, sg) { return Math.pow(Math.max(0, 1 - Math.pow(t, sg > 0 ? 2.6 : 1.7)), 0.75) + 0.09 * Math.sin(Math.PI * t); }
   // roof surface at along-position s and across-parameter t (0 = canopy edge, 1 = where it meets the ground); inner = the ceiling
   function roofPt(sg, s, t, inner) {
-    var sc = clamp(s, WG.sA, WG.sB), u = t * (WG.D + WG.ov) - WG.ov, p = wingXZ(sg, u, s), yb = wingBase(sg, sc), y = yb + wingH(sc) * roofProf(t) - (inner ? 0.35 : 0);
+    var sc = clamp(s, WG.sA, WG.sB), u = t * (WG.D + WG.ov) - WG.ov, p = wingXZ(sg, u, s), yb = wingBase(sg, sc), y = yb + wingH(sc, sg) * roofProf(t, sg) - (inner ? 0.35 : 0);
     var g = cgH(p.x, p.z), k = smoothstep(0, 2.2, y - yb);
     p.y = inner ? y : y * k + (g - 0.25) * (1 - k); p.u = u; p.g = g; return p;
   }
@@ -98,8 +101,8 @@
 
     // ---- gateway: a slender arch between the wings' ends, carrying the campus name
     (function () {
-      var sG = WG.sB - 0.6, yG = (wingBase(1, WG.sB) + wingBase(-1, WG.sB)) / 2, crown = 5.6, L0 = latf(WG.sB) - WG.ov + 0.3, NA = 48, hE = wingH(WG.sB);
-      function gy(lat) { var x = lat / L0, yb = lerp(wingBase(-1, WG.sB), wingBase(1, WG.sB), clamp(0.5 + 0.5 * x, 0, 1)); return lerp(yb, yG, 1 - x * x) + hE + (crown - hE) * Math.pow(Math.max(0, 1 - x * x), 0.8); }
+      var sG = WG.sB - 0.6, yG = (wingBase(1, WG.sB) + wingBase(-1, WG.sB)) / 2, crown = 5.9, L0 = latf(WG.sB) - WG.ov + 0.3, NA = 48, hEL = wingH(WG.sB, -1), hER = wingH(WG.sB, 1);
+      function gy(lat) { var x = lat / L0, k = clamp(0.5 + 0.5 * x, 0, 1), yb = lerp(wingBase(-1, WG.sB), wingBase(1, WG.sB), k), hE = lerp(hEL, hER, k); return lerp(yb, yG, 1 - x * x) + hE + (crown - hE) * Math.pow(Math.max(0, 1 - x * x), 0.8); }
       [[0.3, 1], [-0.3, -1]].forEach(function (e) {
         B.surf(NA, 1, function (i, j, q) { var lat = lerp(-L0, L0, i / NA), p = palXZ(lat, sG + e[0]), y = gy(lat) - (j ? 0 : 0.55); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [PAL.F.x * e[1], 0, PAL.F.z * e[1]]; q.f[0] = lat; q.f[1] = y; q.f2[0] = 5; q.m = MT.SHELL; });
       });

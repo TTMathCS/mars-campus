@@ -16,7 +16,7 @@ and "the roof of classes are even not straight". It must look real, never cartoo
   backpacks; floors fine enough that shadows show under the furniture.
 - **The dome:** a dark bronze steel lattice with slim mullions, so it reads as glass and steel.
 - **Flat ceilings** (v0.8.2, `roomCeiling` in `blk_wings.js`): each room's ceiling is flat and level at the tallest
-  height (3.0 to 3.4 m by room) that stays 12 cm under the roof shell, keeps both rows of lights and every door under
+  height (up to 4.6 m, 4.8 m in the foyers; v0.9.4) that stays 12 cm under the roof shell, keeps both rows of lights and every door under
   it; where the shell comes lower near the back wall, a flat soffit runs along the wall behind a straight edge. Acoustic
   tiles (PLASTER `g.y` 6) in teaching rooms, smooth plaster elsewhere; a dark spandrel band behind the glass above the
   ceiling line; the lights hang from the ceiling (`ceilAt`).

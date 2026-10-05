@@ -48,7 +48,8 @@ Done: the Sun court (T-16, open, to be covered), the back door and the back terr
 the Crescent's first build (T-06 v1: 46 to 60 m, 4.2 m floors). Next, after the sealed redesign of 5 Oct 2026
 ([phase2-plan.md](phase2-plan.md)):
 
-1. The wings' ceilings as high as their roofs allow (`CEIL_MAX` in `blk_wings.js`).
+1. ~~The wings' ceilings as high as their roofs allow~~ (v0.9.4: `CEIL_MAX` in `blk_wings.js`, the classroom wing's
+   roof higher at the gateway end and fuller, `wingH(s, sg)` and `roofProf(t, sg)` in `blk_campus2.js`).
 2. The Crescent rebuilt bigger and taller from the new `P2.crescent` (46 to 62 m, ±52°, floors 5.6 m apart, ceilings
    4.5 m), with its emergency stairs, the garden gallery (T06-15) and its furniture (`blk_crsfurnish.js`, plants from
    `CRESCENT_PLANTS`).

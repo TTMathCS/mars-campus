@@ -7,7 +7,7 @@ is drawn or built (Jim's rule "design before drawing", 2 Oct 2026). The source i
 ## Codes
 
 `T06-01` is building T-06 (the Crescent), room 01. Corridors end in letters (`T06-CU` upper, `T06-CL` lower), pads are
-`T14-P1` … `T14-P6`. Today's campus is T-01 to T-05; phase 2 is T-06 to T-16.
+`T14-P1` … `T14-P6`. Today's campus is T-01 to T-05; phase 2 is T-04 (the courtyard, sealed) and T-06 to T-17 (T-17: the links).
 
 ## How a building is described
 

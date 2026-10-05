@@ -99,46 +99,66 @@ class Plan:
 
 # ------------------------------------------------------------------------------------------------- T-06 the Crescent
 def crescent():
-    C = R.CRESCENT; r0, r1, rc, A0, A1 = C["r0"], C["r1"], C["rc"], C["a0"], C["a1"]
-    W = 1080; d = Plan(W, 990, "T-06 · The Crescent, the Academy: floor plans", "The palace's dome at the bottom, the garden at the top. Classrooms face the garden; the corridor runs along the dome side.")
-    ST, LIFT = 3.0, (50.6, -3.6)                                           # the stair's angle; the lift (radius, angle), the same on both floors
-    for fl, title, y0 in (("upper", "Upper floor · level with the palace's floor and the back terrace", 78), ("lower", "Lower floor · 4.2 m down, level with the garden's first terrace", 600)):
-        d.text(24, y0, title, 13, 700, anchor="start"); d.frame(W / 2, y0 + 18, 0.0, -62.0, 8.4)
-        if fl == "upper":                                                  # the dome's back, the back door, the back terrace
+    C = R.CRESCENT; r0, r1, rc, A0, A1 = C["r0"], C["r1"], C["rc"], C["a0"], C["a1"]; ST, LIFT, ES, GL = C["stair"], C["lift"], C["estair"], R.GALLERY
+    HA = 7.0                                                               # the hall's half-angle
+    W = 1080; d = Plan(W, 1000, "T-06 · The Crescent, the Academy: floor plans", "The palace's dome at the bottom, the garden at the top. Classrooms face the garden; the corridor runs along the dome side.")
+    def flight(ra, rb, a, n, label):                                       # a straight radial flight between radii ra and rb
+        d.stair(polar(ra, a), polar(rb, a), ST["w"], n, label)
+    for fl, title, y0 in (("upper", "Upper floor · level with the palace's floor and the winter garden", 78),
+                          ("lower", "Lower floor · 5.6 m down, level with the garden gallery and the upper garden dome", 566)):
+        d.text(24, y0, title, 13, 700, anchor="start"); d.frame(W / 2, y0 + 18, 0.0, -69.0, 8.0)
+        if fl == "upper":                                                  # the dome's back, the back door, the winter garden
             d.poly(sector(17.0, 28.0, -58, 58), "#ECE9E2", "#9C968C", 1.0); d.line([polar(28.0, a) for a in range(-58, 59, 2)], "#77706A", 2.4)
             d.note(0, -20.5, "T-01 Math Palace (the dome)", 10, 400)
-            d.poly(sector(28.0, r0, A0, A1), FILL["outside"], "#9C968C", 0.9)
+            d.poly(sector(28.6, r0, -R.WINTER["a"], R.WINTER["a"]), FILL["garden"], "#6F8F5A", 0.9)
             bd = R.GARDEN["back_door"]; d.room("T09-04", box(-bd["w"] / 2, -26.6, bd["w"] / 2, -26.6 - bd["d"]), "move", area=False)
-            for sg in (-1, 1): d.note(sg * 25, -35.5, "T09-01 back terrace", 10.5, 700, INK2, rot=sg * 35)
+            for sg in (-1, 1): d.note(sg * 25, -35.5, "T09-01 winter garden", 10.5, 700, "#4E6E3A", rot=sg * 35)
+            d.note(0, -42.6, "under a glass vault", 9, 400, "#4E6E3A")
             d.arrow((0, -31.0), (0, -45.4))
-        for rm in [r for r in R.CRESCENT_ROOMS if r["floor"] == fl]:
+        for rm in [r for r in R.CRESCENT_ROOMS if r["floor"] in (fl, "both")]:
             a0, a1 = rm["a"]; am = (a0 + a1) / 2
-            if rm.get("band") == "corridor":
-                for s0, s1 in ((A0, -6.0), (6.0, A1)): d.room(rm["code"], sector(r0, rc, s0, s1), "move", at=polar((r0 + rc) / 2, (s0 + s1) / 2), rot=(s0 + s1) / 2, size=9)
+            if rm.get("band") == "corridor" and rm["floor"] != "both":
+                for s0, s1 in ((A0 + ES["a"], -HA), (HA, A1 - ES["a"])): d.room(rm["code"], sector(r0, rc, s0, s1), "move", at=polar((r0 + rc) / 2, (s0 + s1) / 2), rot=(s0 + s1) / 2, size=9)
                 continue
-            hall = rm["code"] in ("T06-01", "T06-10"); ri = r0 if hall else rc
-            d.room(rm["code"], sector(ri, r1, a0, a1), rm["kind"], rm.get("short") if (a1 - a0) < 10 else rm["name"], at=polar(47.5 if hall else (ri + r1) / 2, am),
+            if rm["floor"] == "both":                                      # an emergency stair: two flights side by side
+                d.room(rm["code"], sector(r0, rc, a0, a1), "move", at=polar(rc + 1.2, am), rot=am, size=8.5, area=(fl == "upper"))
+                if fl == "upper": d.areas[rm["code"]] *= 2
+                e0, e1 = (a0 + 0.9, a1 - 1.9) if am < 0 else (a1 - 0.9, a0 + 1.9)
+                for rr, lab in ((r0 + 0.9, "up" if fl == "lower" else "down"), (rc - 0.9, "")):
+                    d.stair(polar(rr, e0 if rr < 48 else e1), polar(rr, e1 if rr < 48 else e0), 1.15, 14, lab)
+                continue
+            if rm.get("band") == "gallery":
+                d.room(rm["code"], sector(r1, GL["r1"], -GL["a"], GL["a"]), "garden", rm["name"], at=polar((r1 + GL["r1"]) / 2, -30), rot=-30, room_w=40)
+                d.line([polar(GL["r1"], a) for a in range(-int(GL["a"]), -15, 1)], "#8A847A", 3.4); d.line([polar(GL["r1"], a) for a in range(16, int(GL["a"]) + 1, 1)], "#8A847A", 3.4)
+                d.note(*polar(GL["r1"] + 1.4, 34), "low stone wall, glass roof over", 8.5, 400, INK2, rot=34)
+                dm = R.DOMES[0]; d.line([(dm["lat"] + dm["r"] * math.sin(t * D2R), dm["rad"] + dm["r"] * math.cos(t * D2R)) for t in range(-26, 27, 2)], "#6F8F5A", 1.4, "6 4")
+                d.arrow((0, -GL["r1"] + 3.0), (0, -GL["r1"] - 2.4), None, "#4E6E3A")
+                d.note(0, -GL["r1"] - 4.0, "into the upper garden dome (T09-02)", 9, 700, "#4E6E3A")
+                continue
+            hall = rm["code"] in ("T06-01", "T06-08"); ri = r0 if hall else rc
+            d.room(rm["code"], sector(ri, r1, a0, a1), rm["kind"], rm.get("short") if (a1 - a0) < 10 else rm["name"].split(":")[0], at=polar(47.9 if hall else (ri + r1) / 2, am),
                    rot=am, room_w=(10 if hall else (ri + r1) / 2 * (a1 - a0) * D2R))
             if not hall:                                                   # its door from the corridor, at the end nearer the hall
-                ad = a1 - 2.2 if am < 0 else a0 + 2.2; d.door(polar(rc, ad), (math.cos(ad * D2R), math.sin(ad * D2R)), (math.sin(ad * D2R), -math.cos(ad * D2R)), 1.0)
+                ad = a1 - 1.6 if am < 0 else a0 + 1.6; d.door(polar(rc, ad), (math.cos(ad * D2R), math.sin(ad * D2R)), (math.sin(ad * D2R), -math.cos(ad * D2R)), 1.0)
             if rm["kind"] != "service": d.line([polar(r1, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)
-        # the hall: the stair between the floors, the lift, open to below on the upper floor
+            if fl == "lower" and rm["kind"] != "service" and not hall:     # and a glass door onto the garden gallery
+                d.door(polar(r1, am), (math.cos(am * D2R), math.sin(am * D2R)), (-math.sin(am * D2R), math.cos(am * D2R)), 1.2)
+        # the hall: the stair between the floors (two flights and a landing), the lift; double height over its garden half
+        la, lb = ST["landing"]
         if fl == "upper":
-            d.stair(polar(51.4, ST), polar(58.2, ST), 2.4, 22, "down"); d.poly(sector(53.4, 59.6, -5.6, 0.9), "none", "#77706A", 0.8, "4 3")
-            d.note(*polar(57.4, -2.4), "open to below", 8.5, 400, INK2, rot=-2)
+            flight(ST["r0"], la, ST["a"], 16, "down"); d.poly(sector(la, lb, ST["a"] - 1.6, ST["a"] + 1.6), "#FFFFFF", WALL, 1.0); flight(lb, ST["r1"], ST["a"], 16, "")
+            d.poly(sector(51.0, r1 - 0.3, -HA + 0.3, HA - 0.3), "none", "#77706A", 0.8, "4 3"); d.line([polar(51.0, a / 2) for a in range(-13, 14)], GLASS, 1.6)
+            d.note(*polar(58.2, -3.0), "open to below", 8.5, 400, INK2, rot=-3)
         else:
-            d.stair(polar(58.2, ST), polar(51.4, ST), 2.4, 22, "up")
-        d.lift(polar(*LIFT)); d.note(*polar(LIFT[0] + 2.0, LIFT[1]), "lift", 8, 600, INK)
-        for sg in (-1, 1):                                                 # an exit at each end of the corridor
-            d.arrow(polar((r0 + rc) / 2, sg * (A1 - 1.0)), polar((r0 + rc) / 2, sg * (A1 + 4.0)), "exit", "#2E7D4F", 9, at_tip=True)
+            flight(ST["r1"], lb, ST["a"], 16, "up"); d.poly(sector(la, lb, ST["a"] - 1.6, ST["a"] + 1.6), "#FFFFFF", WALL, 1.0); flight(la, ST["r0"], ST["a"], 16, "")
+        d.lift(polar(*LIFT)); d.note(*polar(LIFT[0] - 1.9, LIFT[1]), "lift", 8, 600, INK)
         if fl == "upper":
-            d.line([polar(r0, a) for a in range(int(A0), int(A1) + 1, 2)], GLASS, 2.2)      # the corridor's glass onto the terrace
-            d.note(*polar(43.6, 9.0), "doors in from the terrace", 9, 700, RED, rot=9)
+            d.line([polar(r0, a) for a in range(int(A0), int(A1) + 1, 2)], GLASS, 2.2)      # the corridor's glass onto the winter garden
+            d.note(*polar(44.4, 12.0), "doors in from the winter garden", 9, 700, RED, rot=12)
         else:
             d.line([polar(r0 - 0.4, a) for a in range(int(A0), int(A1) + 1, 2)], "#8A847A", 3.4)
-            d.note(*polar(43.9, -20), "retaining wall", 9, 400, INK2, rot=-20)
-            d.arrow(polar(59.2, 0), polar(66.5, 0), "out to the garden", RED, 9.5, at_tip=True)
-    d.scalebar(24, 958, 10); d.toward_palace(W - 260, 955)
+            d.note(*polar(44.6, -20), "retaining wall", 9, 400, INK2, rot=-20)
+    d.scalebar(24, 968, 10); d.toward_palace(W - 260, 965)
     return d.save("svg-crescent.svg"), d.areas
 
 
@@ -209,38 +229,159 @@ def greenhouse():
     return d.save("svg-greenhouse.svg"), d.areas
 
 
-# ------------------------------------------------------------------------------------------------- T-09 Fibonacci Garden
+# ------------------------------------------------------------------------------------------------- T-09 the garden domes and the winter garden
+def dome_top(dm, lat, rad):
+    """the height (absolute) of a garden dome's glass over a point, or None outside it: a spherical cap"""
+    a, h = dm["r"], dm["h"]; rho = (a * a + h * h) / (2 * h); q = math.hypot(lat - dm["lat"], rad - dm["rad"])
+    return None if q > a else dm["floor"] + h - rho + math.sqrt(rho * rho - q * q)
+
+
 def garden():
-    G = R.GARDEN; C = R.CRESCENT
-    d = Plan(720, 720, "T-09 · Fibonacci Garden: plan", "From the palace's back door across the back terrace, through the Crescent and down three terraces to the observatory.")
-    d.frame(360, 84, 0.0, -168.0, 3.5)
+    G = R.GARDEN; C = R.CRESCENT; GL = R.GALLERY; WG = R.WINTER
+    d = Plan(760, 860, "T-09 · The garden domes and the winter garden: plan", "From the palace's back door through the winter garden and the Crescent, down three glass domes to the observatory: all under glass, all in air.")
+    d.frame(380, 84, 0.0, -186.0, 3.6)
     d.poly(sector(16, 28, -60, 60), "#ECE9E2", "#9C968C", 1.0); d.note(0, -19, "T-01 Math Palace", 10, 400)
-    bt = sector(28, C["r0"], C["a0"], C["a1"]); d.poly(bt, FILL["outside"], "#9C968C", 0.9); d.note(0, -37.5, "T09-01 back terrace", 10, 700, INK)
-    d.poly(sector(C["r0"], C["r1"], C["a0"], C["a1"]), "#EBDFC6", WALL, 1.0); d.note(*polar(53, -33), "T-06 the Crescent", 9.5, 700, INK, rot=-33)
+    wg = sector(WG["r0"], WG["r1"], -WG["a"], WG["a"]); d.poly(wg, FILL["garden"], "#6F8F5A", 1.0)
+    for a in range(-48, 49, 6): d.line([polar(WG["r0"], a), polar(WG["r1"], a)], "#9DB58A", 0.6)          # the vault's ribs
+    d.note(0, -37.6, "T09-01 winter garden", 10, 700, "#3F5E2E")
+    d.poly(sector(C["r0"], C["r1"], C["a0"], C["a1"]), "#EBDFC6", WALL, 1.0); d.note(*polar(54, -34), "T-06 the Crescent", 9.5, 700, INK, rot=-34)
+    d.poly(sector(C["r1"], GL["r1"], -GL["a"], GL["a"]), "#DCEACB", "#6F8F5A", 0.9); d.note(*polar(65.3, 34), "T06-15 garden gallery", 8.5, 700, "#3F5E2E", rot=34)
     bd = G["back_door"]; d.poly(box(-bd["w"] / 2, -26.6, bd["w"] / 2, -30.6), FILL["move"]); d.note(4.5, -28.6, "T09-04", 9, 700, INK, "start")
-    top = [polar(C["r1"], a) for a in range(37, -38, -2)]
-    prev = None
-    for k, (rad_b, hw, lv) in enumerate(G["terraces"]):
-        pts = top + [(-hw, rad_b), (hw, rad_b)] if k == 0 else [(-prev[1], prev[0]), (prev[1], prev[0]), (hw, rad_b), (-hw, rad_b)]
-        d.poly(pts, "#DCEACB", "#6F8F5A", 1.1)
-        d.note(hw - 2.0, (prev[0] if prev else -60.0) - 2.6, "terrace %d · %+.1f m" % (k + 1, lv), 9, 400, "#4E6E3A", "end")
-        prev = (rad_b, hw)
+    names = {"T09-02": "upper garden dome", "T09-03": "spiral garden dome", "T09-05": "lower garden dome"}
+    for k, dm in enumerate(G["domes"]):
+        pts = circle((dm["lat"], dm["rad"]), dm["r"], 90); d.poly(pts, "#E3EFD7", "#4E7A3C", 1.6)
+        for rr in (dm["r"] * 0.33, dm["r"] * 0.66): d.circ((dm["lat"], dm["rad"]), rr, "none", "#A9C495", 0.6)
+        for t in range(0, 360, 30): d.line([(dm["lat"] + dm["r"] * 0.33 * math.sin(t * D2R), dm["rad"] + dm["r"] * 0.33 * math.cos(t * D2R)), (dm["lat"] + dm["r"] * math.sin(t * D2R), dm["rad"] + dm["r"] * math.cos(t * D2R))], "#A9C495", 0.6)
+        d.areas[dm["code"]] = math.pi * dm["r"] ** 2
+        lx, ly, an = ((0.0, dm["rad"] + 16.5, "middle"), (-dm["r"] - 2.0, dm["rad"] - 2.0, "end"), (0.0, dm["rad"] - 11.0, "middle"))[k]
+        d.note(lx, ly, "%s %s" % (dm["code"], names[dm["code"]]), 9.5, 700, "#3F5E2E", an)
+        d.note(lx, ly + 3.2, "floor %+.1f m · %d m tall" % (dm["floor"], dm["h"]), 8.5, 400, "#4E6E3A", an)
+    for k in range(len(G["domes"]) - 1):                                   # the arch where two domes meet, and the steps down
+        A, B = G["domes"][k], G["domes"][k + 1]; mid = (A["rad"] + B["rad"]) / 2; hw = math.sqrt(A["r"] ** 2 - ((A["rad"] - B["rad"]) / 2) ** 2)
+        d.line([(-hw, mid), (hw, mid)], "#4E7A3C", 2.4); d.poly(box(-4.0, mid + 1.4, 4.0, mid - 1.4), "#FFFFFF", WALL, 0.8)
+        for j in range(1, 8): d.line([(-4.0, mid + 1.4 - j * 0.35), (4.0, mid + 1.4 - j * 0.35)], "#8A847C", 0.5)
+        d.note(-5.0, mid, "steps down %.1f m" % (A["floor"] - B["floor"]), 8.5, 400, INK2, "end")
     sp = G["spiral"]; phi = (1 + 5 ** 0.5) / 2; pts = []
     for k in range(160):
         th = k / 159 * sp["turns"] * 2 * math.pi; q = sp["a"] * phi ** (th / (math.pi / 2)); pts.append((sp["lat"] + q * math.cos(th) * 0.5, sp["rad"] + q * math.sin(th) * 0.5))
-    d.poly(box(-2.0, -60.0, 2.0, -128.0), "#EFE7D6", "#B9AE98", 0.8)
-    for rb, hw, lv in G["terraces"][:-1]: [d.line([(-2.0, rb + k * 0.6), (2.0, rb + k * 0.6)], "#9C9282", 0.7) for k in range(-3, 4)]
-    d.note(-3.0, -70.0, "the axis: steps at each terrace", 8.5, 400, INK2, "end")
-    d.line(pts, "#B0623F", 2.2); d.note(sp["lat"] + 3.0, sp["rad"] + 2.2, "T09-02 spiral path", 9.5, 700, "#8A4A2E", "start")
+    d.line(pts, "#B0623F", 2.2); d.note(sp["lat"] + 9.0, sp["rad"] - 9.0, "golden spiral path", 9, 700, "#8A4A2E", "start")
     for sc in G["sculptures"]:
-        d.circ((sc["lat"], sc["rad"]), 1.4, "#B58B4C", "#5C4626", 1.0); right = sc["lat"] > 0
-        d.note(sc["lat"] + (2.6 if right else -2.6), sc["rad"], sc["name"], 9, 400, "#5C4626", "start" if right else "end")
-    d.note(0, -132.0, "T09-03 sculpture walk: the four sculptures", 9, 700, "#5C4626")
-    pz = G["plaza"]; d.poly(box(-26, pz[0], 26, pz[1]), FILL["outside"], "#9C968C", 0.9, "4 3"); d.note(-24, pz[1] + 2.6, "plaza %+.1f m" % pz[2], 9, 400, INK2, "start")
+        d.circ((sc["lat"], sc["rad"]), 1.3, "#B58B4C", "#5C4626", 1.0); right = sc["lat"] > 0
+        d.note(sc["lat"] + (2.4 if right else -2.4), sc["rad"], sc["name"], 8.5, 400, "#5C4626", "start" if right else "end")
     O = R.OBSERVATORY; d.circ((O["lat"], O["rad"]), O["r"], FILL["tech"]); d.note(O["lat"], O["rad"], "T-10", 10, 700, INK)
-    d.note(-44, -108, "← T-07 Infinity Hall", 9.5, 700, INK2, "end"); d.note(44, -100, "T-08 Garden of Primes →", 9.5, 700, INK2, "start")
-    d.scalebar(24, 690, 20); d.toward_palace(470, 686)
-    return d.save("svg-garden.svg"), {"T09-01": area_of(bt), "T09-04": bd["w"] * bd["d"]}
+    for L in R.LINKS:
+        if L["code"] in ("T17-03", "T17-04", "T17-05"):
+            (la, ra), (lb, rb) = L["a"], L["b"]; ux, uy = lb - la, rb - ra; n = math.hypot(ux, uy) or 1; vx, vy = -uy / n * L["w"] / 2, ux / n * L["w"] / 2
+            d.poly([(la + vx, ra + vy), (lb + vx, rb + vy), (lb - vx, rb - vy), (la - vx, ra - vy)], FILL["move"], WALL, 1.0)
+    d.note(-40.0, -96.0, "T17-03 → T-07 Infinity Hall", 9, 700, INK2, "end"); d.note(24.0, -93.0, "T17-04 → T-08 Garden of Primes", 9, 700, INK2, "start")
+    d.note(9.5, -162.0, "T17-05", 8.5, 700, INK2, "start")
+    d.scalebar(24, 830, 20); d.toward_palace(470, 826)
+    return d.save("svg-garden.svg"), dict(d.areas, **{"T09-01": area_of(wg), "T09-04": bd["w"] * bd["d"]})
+
+
+# ------------------------------------------------------------------------------------------------- T-04 the courtyard hall and the entrance
+def wing_edge(sg, u):
+    latf = lambda s: 10.5 - 1.5 * ((s - 55.5) / 22.5) ** 2
+    return [(sg * (latf(s) + u), s) for s in [33.3 + k * (77.7 - 33.3) / 24 for k in range(25)]]
+
+
+def courtyard():
+    K = R.COURTYARD; A = K["airlock"]; PS = R.COURTYARD["podstop"]
+    d = Plan(980, 760, "T-04 · The courtyard hall and the entrance: plan and section", "The courtyard between the wings under a glass vault, the entrance airlock under the gateway, the pod stop beside it.")
+    d.text(24, 78, "Plan", 13, 700, anchor="start"); d.frame(250, 110, -36.0, 18.0, 5.4)
+    for sg in (-1, 1):
+        d.poly(wing_edge(sg, 0) + wing_edge(sg, 8.6)[::-1], "#E4E0D6", "#9C968C", 1.0)
+        d.note(sg * 15.5, 56, "T-0%d %s" % (2 if sg > 0 else 3, "classroom wing" if sg > 0 else "café and library wing"), 9, 700, INK2, rot=-90 * sg)
+    vault = wing_edge(-1, -1.2) + wing_edge(1, -1.2)[::-1]; d.poly(vault, "#E6EFF3", "#3E86B8", 1.4)
+    d.areas["T04-01"] = area_of(vault)
+    for k in range(int((77.7 - 33.3) / 3.0) + 1):
+        sv = 33.3 + k * 3.0; hw = 10.5 - 1.5 * ((sv - 55.5) / 22.5) ** 2 - 1.2; d.line([(-hw, sv), (hw, sv)], "#9CC0D8", 0.7)
+    d.line([(0, 33.3), (0, 77.7)], "#9CC0D8", 0.9, "6 4")
+    d.note(0, 52.0, "T04-01", 11, 700, INK); d.note(0, 49.6, "courtyard hall", 9.5, 400, INK2); d.note(0, 47.4, "glass vault overhead", 8.5, 400, "#3E86B8")
+    d.poly(sector(20.0, 28.6, 150, 210), "#ECE9E2", "#9C968C", 1.0); d.note(0, 24.4, "T-01 Math Palace", 9, 400)
+    hw = A["w"] / 2; air = box(-hw, A["s0"], hw, A["s1"]); d.room("T04-02", air, "move", "airlock", at=(0, (A["s0"] + A["s1"]) / 2), room_w=A["w"], size=9.5)
+    for sv in (A["s0"] + 0.2, A["s1"] - 0.2): d.line([(-1.4, sv), (1.4, sv)], RED, 2.6)
+    d.note(-hw - 0.6, A["s1"] - 0.4, "outer doors", 8, 600, RED, "end"); d.note(-hw - 0.6, A["s0"] + 0.9, "inner doors", 8, 600, RED, "end")
+    d.line([(-9.4, 77.1), (9.4, 77.1)], "#5C4626", 3.0); d.note(-18.6, 76.0, "gateway arch", 8.5, 400, "#5C4626", "end")
+    d.arrow((0, 95.0), (0, A["s1"] + 0.4), "in over the ridge, from the start", RED, 9)
+    ps = (PS["lat"], PS["rad"]); d.circ(ps, PS["r"], FILL["pad"], "#FFFFFF", 2.0); d.circ(ps, PS["r"] - 0.8, "none", "#F2C14E", 1.3)
+    d.poly([(ps[0] - 1.0, ps[1] - 2.9), (ps[0] + 1.0, ps[1] - 2.9), (ps[0] + 1.25, ps[1] + 2.6), (ps[0] - 1.25, ps[1] + 2.6)], "#F4F4F1", "#1D2124", 0.9)
+    d.note(ps[0], ps[1] + PS["r"] + 1.6, "T04-03 pod stop", 9, 700, INK); d.areas["T04-03"] = math.pi * PS["r"] ** 2
+    L = [k for k in R.LINKS if k["code"] == "T17-02"][0]; (la, ra), (lb, rb) = L["a"], L["b"]; ux, uy = lb - la, rb - ra; n = math.hypot(ux, uy); vx, vy = -uy / n * L["w"] / 2, ux / n * L["w"] / 2
+    d.poly([(la + vx, ra + vy), (lb + vx, rb + vy), (lb - vx, rb - vy), (la - vx, ra - vy)], FILL["move"], WALL, 1.0); d.note((la + lb) / 2 + 0.4, (ra + rb) / 2 - 2.2, "T17-02", 8, 700, INK2)
+    d.scalebar(24, 720, 10)
+    # cross-section at the middle of the courtyard: the vault from roof edge to roof edge, the wings' rooms
+    d.text(560, 78, "Section across the courtyard, at its middle", 13, 700, anchor="start"); d.frame(760, 420, 0.0, 0.0, 9.0)
+    def sec(pts, fill, stroke=WALL, sw=1.2): d.poly([(x, -y) for x, y in pts], fill, stroke, sw)
+    def sline(pts, stroke=WALL, sw=1.2, dash=None): d.line([(x, -y) for x, y in pts], stroke, sw, dash)
+    hwc, yE = 10.5 - 1.2, 0.6 + 4.3 + 2.9 * (77.7 - 56.0) / 44.4; yC = [c[1] for c in K["crown"] if c[0] == 56.0][0]   # the canopy edge (half-width, height) and the crown at the middle
+    for sg in (-1, 1):
+        sec([(sg * 10.5, 0.4), (sg * 19.1, 0.4), (sg * 19.1, 0.9), (sg * 16.1, 3.4), (sg * 12.0, 5.6), (sg * hwc, yE), (sg * hwc, yE - 0.4), (sg * 10.5, yE - 0.6)], "#E4E0D6", "#9C968C")
+        sline([(sg * 10.5, 0.4), (sg * 10.5, yE - 0.6)], GLASS, 2.2); sline([(sg * 10.5, 4.3), (sg * 16.1, 4.3)], "#8A847C", 1.0, "4 3")
+        d.note(sg * 14.6, -2.2, "T-0%d" % (2 if sg > 0 else 3), 9, 700, INK2); d.note(sg * 14.6, -4.9, "ceiling", 7.5, 400, INK2)
+    rho = (hwc ** 2 + (yC - yE) ** 2) / (2 * (yC - yE)); cy = yC - rho
+    arc = [(x, cy + math.sqrt(max(0, rho * rho - x * x))) for x in [-hwc + 2 * hwc * k / 40 for k in range(41)]]
+    sline(arc, "#3E86B8", 2.4)
+    for x in (-6, -3, 0, 3, 6): yv = cy + math.sqrt(rho * rho - x * x); sline([(x, yv), (x, yv - 0.35)], "#3E86B8", 1.2)
+    sline([(-12, 0), (12, 0)], "#8A847C", 1.6); d.note(0, 0.9, "courtyard paving", 8.5, 400, INK2)
+    d.note(0, -yC - 1.2, "glass vault, crown %.1f m" % yC, 9, 700, "#3E86B8"); d.note(hwc + 0.3, -yE - 0.9, "springs from the wing's roof edge", 8, 400, INK2, "start")
+    sline([(-15, -0.6), (-15, 1.8)], INK, 1.0); d.note(-15.4, -0.9, "0", 8, 400, INK2, "end")
+    d.text(560, 520, "The crown falls with the line of sight from the start:", 10, 400, INK2, anchor="start")
+    d.text(560, 538, "%.1f m by the palace, %.1f m at the middle, %.1f m at the gateway;" % tuple(c[1] for c in K["crown"]), 10, 400, INK2, anchor="start")
+    d.text(560, 556, "it stays at least 0.5 m under it everywhere (checked on the site plan).", 10, 400, INK2, anchor="start")
+    return d.save("svg-courtyard.svg"), d.areas
+
+
+# ------------------------------------------------------------------------------------------------- T-16 the Sun court
+def suncourt():
+    S = R.SUNCOURT; w, dd = S["w"], S["d"]; c = (S["lat"], S["rad"]); l0, l1, q0, q1 = c[0] - w / 2, c[0] + w / 2, c[1] - dd / 2, c[1] + dd / 2
+    d = Plan(900, 560, "T-16 · The Sun court: plan and section", "Sunk to the lobby's floor under a low glass vault on bronze ribs; the sun reaches the dial through the glass.")
+    d.text(24, 78, "Plan", 13, 700, anchor="start"); d.frame(40, 100, l0 - 9.5, q0 - 1.0, 17.0)
+    d.poly(wing_edge(1, 0)[6:15] + wing_edge(1, 8.6)[6:15][::-1], "#E4E0D6", "#9C968C", 1.0); d.note(14.5, 47.0, "T-02 lobby", 9, 700, INK2, rot=-90)
+    d.room("T16-02", box(l0, q0, l1, q1), "garden", "Sun classroom", at=(c[0], q1 - 2.2), room_w=w, size=10)
+    for k in range(1, 12): d.line([(l0, q0 + k * dd / 12), (l1, q0 + k * dd / 12)], "#A9C495", 0.6)
+    d.line([(c[0], q0), (c[0], q1)], "#7FA36A", 1.0, "6 4")
+    d.circ(c, S["sphere"] / 2, "#C9A86A", "#5C4626", 1.4); d.circ(c, S["sphere"] / 2 + 0.25, "none", "#8A847C", 0.8)
+    d.note(c[0] + 1.8, c[1], "T16-01 sundial", 9, 700, "#5C4626", "start"); d.areas["T16-01"] = math.pi * (S["sphere"] / 2 + 0.3) ** 2
+    for k in range(S["benches"]):
+        t = (-60 + 30 * k) * D2R; bx, bz = c[0] - 4.2 * math.cos(t), c[1] + 4.2 * math.sin(t)
+        d.poly([(bx + ex * math.cos(t) - ez * math.sin(t), bz - ex * math.sin(t) - ez * math.cos(t)) for ex, ez in ((-0.25, -1.0), (0.25, -1.0), (0.25, 1.0), (-0.25, 1.0))], "#BDB6A8", WALL, 0.8)
+    L = [k for k in R.LINKS if k["code"] == "T17-01"][0]; (la, ra), (lb, rb) = L["a"], L["b"]
+    d.poly(box(la, ra - L["w"] / 2, lb, ra + L["w"] / 2), FILL["move"], WALL, 1.0); d.note((la + lb) / 2, ra + L["w"] / 2 + 0.8, "T17-01", 8.5, 700, INK2)
+    d.scalebar(24, 520, 5)
+    d.text(500, 78, "Section across the court", 13, 700, anchor="start"); d.frame(700, 380, 0.0, 0.0, 22.0)
+    def sline(pts, stroke=WALL, sw=1.2, dash=None): d.line([(x, -y) for x, y in pts], stroke, sw, dash)
+    hw, f, cr, sp = w / 2, S["floor"], S["crown"], S["spring"]
+    sline([(-hw - 2.5, 1.4), (-hw, 1.4), (-hw, f), (hw, f), (hw, 1.4), (hw + 2.5, 1.4)], "#7A6A55", 2.0); d.note(hw + 1.2, -2.0, "ground", 8, 400, INK2)
+    rho = (hw ** 2 + (cr - sp) ** 2) / (2 * (cr - sp)); cy = cr - rho
+    sline([(x, cy + math.sqrt(rho * rho - x * x)) for x in [-hw + k * w / 30 for k in range(31)]], "#3E86B8", 2.4)
+    sline([(-hw, sp), (-hw, 1.4)], "#8A847C", 3.0); sline([(hw, sp), (hw, 1.4)], "#8A847C", 3.0)
+    sline([(0, f), (0, f + S["plinth"])], "#8A847C", 6.0); d.circ((0, -(f + S["plinth"] + S["sphere"] / 2)), S["sphere"] / 2, "none", "#B58B4C", 2.0)
+    d.note(0, -cr - 0.35, "glass vault, crown %.1f m" % cr, 9, 700, "#3E86B8"); d.note(-hw + 0.2, -f + 0.4, "floor %.1f m, the lobby's level" % f, 8, 400, INK2, "start")
+    d.text(500, 500, "Heights from the palace's datum. The crown stays under the line of sight from the start.", 10, 400, INK2, anchor="start")
+    return d.save("svg-suncourt.svg"), d.areas
+
+
+# ------------------------------------------------------------------------------------------------- T-17 the links
+def links():
+    d = Plan(860, 430, "T-17 · The links: a typical section", "A concrete trough half sunk in the ground, banked with regolith outside, a glass vault on steel ribs over it: in air, in light.")
+    d.frame(430, 300, 0.0, 0.0, 34.0)
+    def sline(pts, stroke=WALL, sw=1.2, dash=None): d.line([(x, -y) for x, y in pts], stroke, sw, dash)
+    def spoly(pts, fill, stroke=WALL, sw=1.0): d.poly([(x, -y) for x, y in pts], fill, stroke, sw)
+    w = 4.0; hw = w / 2
+    spoly([(-hw - 0.3, -1.2), (hw + 0.3, -1.2), (hw + 0.3, 1.2), (hw, 1.2), (hw, -0.9), (-hw, -0.9), (-hw, 1.2), (-hw - 0.3, 1.2)], "#CFCAC0")
+    for sg in (-1, 1): spoly([(sg * (hw + 0.3), -0.2), (sg * (hw + 0.3), 1.2), (sg * (hw + 4.2), -0.2)], "#C9A27C", "#8A6A4A", 0.8)
+    sline([(-hw - 5, -0.2), (hw + 5, -0.2)], "#7A6A55", 1.6, "6 4"); d.note(hw + 4.6, 0.3 + 0.2, "ground", 8, 400, INK2)
+    rho = 2.4; cy = 1.2
+    sline([(hw * math.cos(t * D2R) * 1.0, cy + 1.6 * math.sin(t * D2R)) for t in range(0, 181, 6)], "#3E86B8", 2.2)
+    for t in (30, 60, 90, 120, 150): x, y = hw * math.cos(t * D2R), cy + 1.6 * math.sin(t * D2R); sline([(x, y), (x * 0.92, y - 0.12)], "#3E86B8", 1.0)
+    sline([(-hw, -0.9 + 0.05), (hw, -0.9 + 0.05)], "#8A847C", 2.0)
+    d.note(0, 0.9 - 0.4, "floor: terrazzo, underfloor heating", 8.5, 400, INK2); d.note(0, -cy - 1.6 - 0.35, "glass vault on steel ribs, every 1.5 m", 9, 700, "#3E86B8")
+    d.note(-hw - 2.6, -0.9, "regolith bank", 8.5, 400, "#8A6A4A"); d.note(hw + 2.6, -0.9, "regolith bank", 8.5, 400, "#8A6A4A")
+    d.note(0, 0.9 + 0.9, "4 m clear · 3.4 m at the crown", 9, 700, INK)
+    d.scalebar(24, 400, 2)
+    for L in R.LINKS: d.areas[L["code"]] = math.hypot(L["b"][0] - L["a"][0], L["b"][1] - L["a"][1]) * L["w"]
+    return d.save("svg-links.svg"), d.areas
 
 
 # ------------------------------------------------------------------------------------------------- T-10 Observatory
@@ -333,7 +474,7 @@ def hangar():
 def pods():
     T = R.TERMINAL; PP = R.PODPORT; w, dd = T["w"], T["d"]; l0, l1 = T["lat"] - w / 2, T["lat"] + w / 2; rf, rn = T["rad"] - dd / 2, T["rad"] + dd / 2
     d = Plan(760, 580, "T-14 · Pod Port and T-15 · terminal: plan", "Six pads 14 m across, pods parked on four; they taxi to the terminal's boarding collars, so nobody needs a suit.")
-    d.frame(380, 76, 20.0, -228.0, 6.0)
+    d.frame(330, 76, 20.0, -228.0, 6.0)
     TW = "#6B7076"
     for q0, q1 in ((-210.5, -205.5), (-188.0, -183.0)): d.poly(box(-14, q0, 54, q1), TW, TW, 0.5); d.line([(-14, (q0 + q1) / 2), (54, (q0 + q1) / 2)], "#F2C14E", 1.3, "7 5")
     for x in (7.0, 33.0): d.poly(box(x - 2.5, -205.5, x + 2.5, -188.0), TW, TW, 0.5); d.line([(x, -205.5), (x, -188.0)], "#F2C14E", 1.3, "7 5")
@@ -353,7 +494,8 @@ def pods():
     for gx in (l0 + 4.0, l0 + 9.0): d.poly(box(gx - 1.2, rf - 3.2, gx + 1.2, rf), FILL["move"], WALL, 1.0)
     d.areas["T15-05"] = 2 * 2.4 * 3.2; d.note(l0 - 1.0, rf - 1.6, "T15-05 boarding collars", 9, 700, INK, "end")
     for x, inw in ((xs[1], 1), (xs[2], 1), (xs[3], 1)): d.door((x, T["rad"] + 2.5), (0, 1), (inw, 0), 1.0)
-    d.door((T["lat"] + 1.5, rn), (1, 0), (0, -1), 1.8); d.arrow((T["lat"] + 1.5, rn + 5.5), (T["lat"] + 1.5, rn + 0.3), "in from the campus")
+    d.door((l0, T["rad"] - 1.0), (0, 1), (1, 0), 1.8); d.poly(box(l0 - 8.0, T["rad"] - 3.0, l0, T["rad"] + 1.0), FILL["move"], WALL, 1.0)
+    d.arrow((l0 - 7.5, T["rad"] - 1.0), (l0 - 0.4, T["rad"] - 1.0), "T17-06 from the observatory", INK, 9)
     d.note(55, -208, "taxi lanes", 9, 400, "#B08A2E", "start")
     d.scalebar(24, 548, 10); d.toward_palace(520, 544)
     return d.save("svg-pods.svg"), d.areas
@@ -384,34 +526,41 @@ def table(rooms, areas):
 def fig(src, cap): return '<figure><a href="%s"><img src="%s" alt="%s"></a><figcaption>%s</figcaption></figure>' % (src, src, E(cap), cap)
 
 
-PODS_MORE = """<ul><li><b>The pads:</b> dark, with white markings, a ring of lights round each and a charging mast beside it; taxi lanes to the terminal.</li>
+PODS_MORE = """<ul><li><b>The pads:</b> dark, with white markings, a ring of lights round each and a charging mast beside it; taxi lanes to the terminal. The pads are outside, on the ground: only the pods go there. People board through the collars, in air.</li>
 <li><b>The pods:</b> two-seat craft about 6 m long, a teardrop cabin in white composite with a tinted canopy, four big ducted rotors (Mars's thin air needs large blades), landing skids and navigation lights: the proportions and detail of a real aircraft, nothing toy-like.</li>
+<li><b>Fly one:</b> walk up to a pod to board it, at the pod stop by the entrance (T04-03) or here; fly it over the campus and the crater, up to 400 m and at up to 40 m/s, for the eagle's view; set it down on any pad or on open, level ground.</li>
 <li><b>Ready for later:</b> the pads, chargers and collars are sized for bigger pods, and two more pads fit on the plain beyond.</li></ul>"""
+SEALED_MORE = """<p>Jim, 5 Oct 2026: <i>"since bad conditions, all the schools buildings should be connected and sealed, so there should not be open area to the air. all open space should be covered by dome or sealed"</i>. Every room, court and garden is under a roof, a glass vault or a dome; every building is joined to the next by a sealed link; people meet the outside only at airlocks.</p>"""
+CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
 SPECS = [
-    ("crescent.html", "T-06 · The Crescent: the Academy", "Eight classrooms named after mathematicians, a study hall, a competition room, a games room and lounge, the teachers' room and washrooms on both floors, in a crescent that wraps the back of the dome. The upper floor opens onto the palace's back terrace; the lower floor onto the garden.", crescent, R.CRESCENT_ROOMS, ""),
-    ("infinity.html", "T-07 · Infinity Hall", "A lecture theatre for 240 on the west side of the garden, built into the slope like a Greek theatre.", infinity, R.INFINITY_ROOMS, ""),
-    ("greenhouse.html", "T-08 · Garden of Primes", "Two glass vaults full of real plants on the east side of the garden.", greenhouse, R.GREENHOUSE_ROOMS, ""),
-    ("garden.html", "T-09 · Fibonacci Garden", "The garden from the palace's new back door down the slope to the observatory.", garden, R.GARDEN_AREAS, ""),
-    ("observatory.html", "T-10 · Observatory", "A tower at the foot of the garden on the palace's axis, with a telescope dome on top.", observatory, R.OBSERVATORY_ROOMS, ""),
-    ("sports.html", "T-11 · Low-gravity Sports Dome", "Games in Mars gravity, a climbing wall and a fitness gallery under one dome.", sports, R.SPORTS_ROOMS, ""),
-    ("hangar.html", "T-12 · Robotics and Rover Hangar", "Where the rovers live and students build robots, next to the test yard (T-13).", hangar, R.HANGAR_ROOMS, ""),
+    ("courtyard.html", "T-04 · The courtyard hall and the entrance", "The courtyard between the wings, now under a glass vault, with the entrance airlock under the gateway and a pod stop beside it: the way in from the start.", courtyard, R.COURTYARD_ROOMS, SEALED_MORE),
+    ("crescent.html", "T-06 · The Crescent: the Academy", "Six classrooms named after mathematicians, a study hall, a competition room, a games room and lounge, the teachers' room and washrooms on both floors, in a crescent that wraps the back of the dome. The upper floor opens onto the winter garden; the lower floor onto the garden gallery and the garden domes.", crescent, R.CRESCENT_ROOMS, CRESCENT_MORE),
+    ("infinity.html", "T-07 · Infinity Hall", "A lecture theatre for 240 on the west side of the garden domes, built into the slope like a Greek theatre; in from the upper garden dome by a link.", infinity, R.INFINITY_ROOMS, ""),
+    ("greenhouse.html", "T-08 · Garden of Primes", "Two glass vaults full of real plants on the east side of the garden domes, joined to them by a link.", greenhouse, R.GREENHOUSE_ROOMS, ""),
+    ("garden.html", "T-09 · The garden domes and the winter garden", "The garden from the palace's back door down the slope to the observatory, all under glass: the winter garden round the back of the dome, the garden gallery along the Crescent, three glass domes stepping down the hill.", garden, R.GARDEN_AREAS, SEALED_MORE),
+    ("observatory.html", "T-10 · Observatory", "A tower at the foot of the garden domes on the palace's axis, with a telescope dome on top; links to the lowest garden dome and to the pod terminal.", observatory, R.OBSERVATORY_ROOMS, ""),
+    ("sports.html", "T-11 · Low-gravity Sports Dome", "Games in Mars gravity, a climbing wall and a fitness gallery under one dome; a link from behind Infinity Hall's stage.", sports, R.SPORTS_ROOMS, ""),
+    ("hangar.html", "T-12 · Robotics and Rover Hangar", "Where the rovers live and students build robots, next to the test yard (T-13); a link from the Garden of Primes. The rovers dock to suitports, so nobody walks outside without a suit room.", hangar, R.HANGAR_ROOMS, ""),
     ("pods.html", "T-14 · Pod Port and T-15 · terminal", "A parking field for flying pods with its terminal, at the far end of the campus on the plain, where nothing on the ground can be seen from the start: built now so the campus is ready for travel by air.", pods, R.PODPORT_ROOMS + R.TERMINAL_ROOMS, PODS_MORE),
+    ("suncourt.html", "T-16 · The Sun court", "An armillary sundial in a sunken court under a low glass vault, behind the classroom wing where the solar field stood; in from the lobby by a short link.", suncourt, R.SUNCOURT_ROOMS, ""),
+    ("links.html", "T-17 · The links", "The sealed galleries that join every building to the next, so you can go everywhere in shirt sleeves.", links, R.LINK_ROOMS, SEALED_MORE),
 ]
 if __name__ == "__main__":
     AREAS = {}
     for fn, title, lede, draw, rooms, more in SPECS:
         src, areas = draw(); AREAS.update(areas)
         page(fn, title, '<h1>%s</h1><p class="lede">%s</p>%s%s%s' % (E(title), E(lede), more, fig(src, "<b>%s</b>, to scale." % E(title.split(" · ")[0])), table(rooms, areas)))
-    missing = [r["code"] for b in SPECS for r in b[4] if r["code"] not in AREAS and not r["code"].startswith("T09")]
-    indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T09", "T14")) and c not in ("T07-05", "T11-03"))
+    missing = [r["code"] for b in SPECS for r in b[4] if r["code"] not in AREAS]
+    indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T14", "T04-03")) and c not in ("T07-05", "T11-03"))
     print("building pages written:", len(SPECS), "; rooms", sum(len(s[4]) for s in SPECS), "; indoor floor area about", round(indoor), "m2; no size for", missing)
     os.makedirs(os.path.join(HERE, "data"), exist_ok=True)
     json.dump({k: round(v, 1) for k, v in sorted(AREAS.items())}, open(os.path.join(HERE, "data", "room_areas.json"), "w"), indent=0)
     # the data the demo builds from
-    keep = ("code", "name", "floor", "a", "kind", "double", "band")
-    data = {"crescent": dict(R.CRESCENT, rooms=[{k: v for k, v in r.items() if k in keep} for r in R.CRESCENT_ROOMS]),
+    keep = ("code", "name", "floor", "a", "kind", "double", "band", "short")
+    data = {"crescent": dict(R.CRESCENT, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.CRESCENT_PLANTS.get(r["code"], [])) for r in R.CRESCENT_ROOMS]),
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
-            "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT}
+            "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
+            "links": R.LINKS, "pod": R.POD}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)
     print("wrote blk_p2data.js", len(js), "bytes")

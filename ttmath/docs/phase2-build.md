@@ -4,7 +4,8 @@ How to turn the plan ([phase2-plan.md](phase2-plan.md), rooms in `tools/campus_r
 Built so far: the Sun court (T-16, v0.8.1, `blk_campus2.js`), the palace's back door and the back terrace (T09-04,
 T09-01, v0.9, `blk_backdoor.js`: the vestibule, the gap in the ring and the dome's glass, the terrace, its stairs, and
 `backSupport` for walking), the Crescent's building and its sunken court (T-06, v0.9.1, `blk_crescent.js`: shell,
-rooms' walls, floors and ceilings, the hall's stair, the court, `crescentSupport`). Next: the Crescent's furniture.
+rooms' walls, floors and ceilings, the hall's stair, the court, `crescentSupport`). Then the plan changed (5 Oct
+2026): everything sealed, bigger classrooms, flying pods; the order below.
 
 The terrain is now cut by exact shapes (`P2CUTS`: sectors round any centre and boxes in the palace frame, `p2Sector`,
 `p2Box`, up to 16) tested in the terrain shaders, the shadow pass and the bake; the bake takes extra voxel domains
@@ -43,7 +44,18 @@ terraces and building platforms.
 
 ## Order
 
-1. Sun court (T-16), where the solar field stood. 2. The palace's back door and the back terrace (T09-04, T09-01).
-3. The Crescent (T-06), with walk-in classrooms. 4. Pod port and terminal (T-14, T-15). 5. Infinity Hall (T-07).
-6. The Fibonacci Garden (T-09). 7. Observatory (T-10). 8. Sports dome (T-11). 9. Hangar and test yard (T-12, T-13),
-with the new rovers ([rover.md](rover.md)).
+Done: the Sun court (T-16, open, to be covered), the back door and the back terrace (T09-04, T09-01, to be covered),
+the Crescent's first build (T-06 v1: 46 to 60 m, 4.2 m floors). Next, after the sealed redesign of 5 Oct 2026
+([phase2-plan.md](phase2-plan.md)):
+
+1. The wings' ceilings as high as their roofs allow (`CEIL_MAX` in `blk_wings.js`).
+2. The Crescent rebuilt bigger and taller from the new `P2.crescent` (46 to 62 m, ±52°, floors 5.6 m apart, ceilings
+   4.5 m), with its emergency stairs, the garden gallery (T06-15) and its furniture (`blk_crsfurnish.js`, plants from
+   `CRESCENT_PLANTS`).
+3. The winter garden's glass vault over the back terrace (T09-01); the terrace's outside stairs go.
+4. The flying pods: the pod stop by the entrance (T04-03) and flight (keys, touch), landing, the near plane by height.
+5. The courtyard hall's glass vault and the entrance airlock under the gateway (T04-01, T04-02).
+6. The Sun court's sunken floor and low vault, and its link from the lobby (T-16, T17-01).
+7. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
+   observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
+   T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 760" width="980" height="760" font-family="Helvetica, Arial, sans-serif">
+<title>T-04 · The courtyard hall and the entrance: plan and section</title>
+<rect width="980" height="760" fill="#FAF8F3"/>
+<text x="24.0" y="28.0" font-size="16.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">T-04 · The courtyard hall and the entrance: plan and section</text>
+<text x="24.0" y="48.0" font-size="11.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">The courtyard between the wings under a glass vault, the entrance airlock under the gateway, the pod stop beside it.</text>
+<text x="24.0" y="78.0" font-size="13.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">Plan</text>
+<polygon points="395.6,192.6 394.3,202.6 393.2,212.6 392.1,222.6 391.2,232.6 390.4,242.6 389.7,252.6 389.1,262.6 388.6,272.5 388.2,282.5 387.9,292.5 387.8,302.5 387.7,312.5 387.8,322.5 387.9,332.5 388.2,342.5 388.6,352.5 389.1,362.5 389.7,372.4 390.4,382.4 391.2,392.4 392.1,402.4 393.2,412.4 394.3,422.4 395.6,432.4 349.1,432.4 347.9,422.4 346.7,412.4 345.7,402.4 344.8,392.4 343.9,382.4 343.2,372.4 342.6,362.5 342.1,352.5 341.8,342.5 341.5,332.5 341.3,322.5 341.3,312.5 341.3,302.5 341.5,292.5 341.8,282.5 342.1,272.5 342.6,262.6 343.2,252.6 343.9,242.6 344.8,232.6 345.7,222.6 346.7,212.6 347.9,202.6 349.1,192.6" fill="#E4E0D6" stroke="#9C968C" stroke-width="1.0"/>
+<text x="360.7" y="315.2" font-size="9.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(90.0 360.7 315.2)">T-03 café and library wing</text>
+<polygon points="493.2,192.6 494.5,202.6 495.6,212.6 496.7,222.6 497.6,232.6 498.4,242.6 499.1,252.6 499.7,262.6 500.2,272.5 500.6,282.5 500.9,292.5 501.0,302.5 501.1,312.5 501.0,322.5 500.9,332.5 500.6,342.5 500.2,352.5 499.7,362.5 499.1,372.4 498.4,382.4 497.6,392.4 496.7,402.4 495.6,412.4 494.5,422.4 493.2,432.4 539.7,432.4 540.9,422.4 542.1,412.4 543.1,402.4 544.0,392.4 544.9,382.4 545.6,372.4 546.2,362.5 546.7,352.5 547.0,342.5 547.3,332.5 547.5,322.5 547.5,312.5 547.5,302.5 547.3,292.5 547.0,282.5 546.7,272.5 546.2,262.6 545.6,252.6 544.9,242.6 544.0,232.6 543.1,222.6 542.1,212.6 540.9,202.6 539.7,192.6" fill="#E4E0D6" stroke="#9C968C" stroke-width="1.0"/>
+<text x="528.1" y="315.2" font-size="9.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 528.1 315.2)">T-02 classroom wing</text>
+<polygon points="402.1,192.6 400.8,202.6 399.7,212.6 398.6,222.6 397.7,232.6 396.9,242.6 396.2,252.6 395.5,262.6 395.1,272.5 394.7,282.5 394.4,292.5 394.2,302.5 394.2,312.5 394.2,322.5 394.4,332.5 394.7,342.5 395.1,352.5 395.5,362.5 396.2,372.4 396.9,382.4 397.7,392.4 398.6,402.4 399.7,412.4 400.8,422.4 402.1,432.4 486.7,432.4 488.0,422.4 489.1,412.4 490.2,402.4 491.1,392.4 491.9,382.4 492.6,372.4 493.3,362.5 493.7,352.5 494.1,342.5 494.4,332.5 494.6,322.5 494.6,312.5 494.6,302.5 494.4,292.5 494.1,282.5 493.7,272.5 493.3,262.6 492.6,252.6 491.9,242.6 491.1,232.6 490.2,222.6 489.1,212.6 488.0,202.6 486.7,192.6" fill="#E6EFF3" stroke="#3E86B8" stroke-width="1.4"/>
+<polyline points="402.1,192.6 486.7,192.6" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="400.1,208.8 488.7,208.8" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="398.4,225.0 490.4,225.0" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="397.0,241.2 491.8,241.2" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="395.8,257.4 493.0,257.4" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="395.0,273.6 493.8,273.6" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="394.5,289.8 494.3,289.8" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="394.2,306.0 494.6,306.0" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="394.2,322.2 494.6,322.2" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="394.5,338.4 494.3,338.4" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="395.2,354.6 493.6,354.6" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="396.0,370.8 492.8,370.8" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="397.2,387.0 491.6,387.0" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="398.7,403.2 490.1,403.2" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="400.5,419.4 488.3,419.4" fill="none" stroke="#9CC0D8" stroke-width="0.7" stroke-linecap="butt"/>
+<polyline points="444.4,192.6 444.4,432.4" fill="none" stroke="#9CC0D8" stroke-width="0.9" stroke-linecap="butt" stroke-dasharray="6 4"/>
+<text x="444.4" y="293.6" font-size="11.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-01</text>
+<text x="444.4" y="280.6" font-size="9.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">courtyard hall</text>
+<text x="444.4" y="268.8" font-size="8.5" font-weight="400" fill="#3E86B8" text-anchor="middle" dominant-baseline="middle">glass vault overhead</text>
+<polygon points="521.6,146.5 516.9,149.2 512.1,151.6 507.2,153.9 502.3,156.0 497.2,157.9 492.1,159.7 487.0,161.3 481.8,162.7 476.5,163.9 471.2,164.9 465.9,165.7 460.5,166.4 455.2,166.9 449.8,167.1 444.4,167.2 439.0,167.1 433.6,166.9 428.3,166.4 422.9,165.7 417.6,164.9 412.3,163.9 407.0,162.7 401.8,161.3 396.7,159.7 391.6,157.9 386.5,156.0 381.6,153.9 376.7,151.6 371.9,149.2 367.2,146.5 390.4,106.3 393.7,108.2 397.1,109.9 400.5,111.5 403.9,112.9 407.5,114.3 411.0,115.5 414.6,116.6 418.3,117.6 421.9,118.4 425.6,119.2 429.4,119.7 433.1,120.2 436.9,120.5 440.6,120.7 444.4,120.8 448.2,120.7 451.9,120.5 455.7,120.2 459.4,119.7 463.2,119.2 466.9,118.4 470.5,117.6 474.2,116.6 477.8,115.5 481.3,114.3 484.9,112.9 488.3,111.5 491.7,109.9 495.1,108.2 498.4,106.3" fill="#ECE9E2" stroke="#9C968C" stroke-width="1.0"/>
+<text x="444.4" y="144.6" font-size="9.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T-01 Math Palace</text>
+<polygon points="425.5,432.4 463.3,432.4 463.3,466.4 425.5,466.4" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.3"/>
+<text x="444.4" y="449.4" font-size="8.7" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-02</text>
+<polyline points="436.8,433.5 452.0,433.5" fill="none" stroke="#A8432A" stroke-width="2.6" stroke-linecap="butt"/>
+<polyline points="436.8,465.3 452.0,465.3" fill="none" stroke="#A8432A" stroke-width="2.6" stroke-linecap="butt"/>
+<text x="422.3" y="464.2" font-size="8.0" font-weight="600" fill="#A8432A" text-anchor="end" dominant-baseline="middle">outer doors</text>
+<text x="422.3" y="437.2" font-size="8.0" font-weight="600" fill="#A8432A" text-anchor="end" dominant-baseline="middle">inner doors</text>
+<polyline points="393.6,429.1 495.2,429.1" fill="none" stroke="#5C4626" stroke-width="3.0" stroke-linecap="butt"/>
+<text x="344.0" y="423.2" font-size="8.5" font-weight="400" fill="#5C4626" text-anchor="end" dominant-baseline="middle">gateway arch</text>
+<line x1="444.4" y1="525.8" x2="444.4" y2="474.6" stroke="#A8432A" stroke-width="1.8"/>
+<polygon points="444.4,468.6 448.9,477.6 439.9,477.6" fill="#A8432A"/>
+<text x="444.4" y="537.8" font-size="9.0" font-weight="700" fill="#A8432A" text-anchor="middle" dominant-baseline="middle">in over the ridge, from the start</text>
+<circle cx="495.7" cy="463.7" r="24.3" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.0"/>
+<circle cx="495.7" cy="463.7" r="20.0" fill="none" stroke="#F2C14E" stroke-width="1.3"/>
+<polygon points="490.3,448.0 501.1,448.0 502.5,477.7 489.0,477.7" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<text x="495.7" y="496.6" font-size="9.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-03 pod stop</text>
+<polygon points="463.3,464.2 474.6,464.2 474.6,452.4 463.3,452.4" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.0"/>
+<text x="471.1" y="446.4" font-size="8.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T17-02</text>
+<line x1="24.0" y1="720.0" x2="78.0" y2="720.0" stroke="#24272A" stroke-width="2"/>
+<line x1="24.0" y1="716.0" x2="24.0" y2="724.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="24.0" y="734.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">0</text>
+<line x1="51.0" y1="716.0" x2="51.0" y2="724.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="51.0" y="734.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">5</text>
+<line x1="78.0" y1="716.0" x2="78.0" y2="724.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="78.0" y="734.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">10 m</text>
+<text x="560.0" y="78.0" font-size="13.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">Section across the courtyard, at its middle</text>
+<polygon points="665.5,416.4 588.1,416.4 588.1,411.9 615.1,389.4 652.0,369.6 676.3,363.1 676.3,366.7 665.5,368.5" fill="#E4E0D6" stroke="#9C968C" stroke-width="1.2"/>
+<polyline points="665.5,416.4 665.5,368.5" fill="none" stroke="#3E86B8" stroke-width="2.2" stroke-linecap="butt"/>
+<polyline points="665.5,381.3 615.1,381.3" fill="none" stroke="#8A847C" stroke-width="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<text x="628.6" y="400.2" font-size="9.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T-03</text>
+<text x="628.6" y="375.9" font-size="7.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">ceiling</text>
+<polygon points="854.5,416.4 931.9,416.4 931.9,411.9 904.9,389.4 868.0,369.6 843.7,363.1 843.7,366.7 854.5,368.5" fill="#E4E0D6" stroke="#9C968C" stroke-width="1.2"/>
+<polyline points="854.5,416.4 854.5,368.5" fill="none" stroke="#3E86B8" stroke-width="2.2" stroke-linecap="butt"/>
+<polyline points="854.5,381.3 904.9,381.3" fill="none" stroke="#8A847C" stroke-width="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<text x="891.4" y="400.2" font-size="9.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T-02</text>
+<text x="891.4" y="375.9" font-size="7.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">ceiling</text>
+<polyline points="676.3,363.1 680.5,361.0 684.7,359.0 688.9,357.2 693.0,355.5 697.2,353.8 701.4,352.4 705.6,351.0 709.8,349.7 714.0,348.6 718.1,347.5 722.3,346.6 726.5,345.7 730.7,345.0 734.9,344.4 739.1,343.8 743.3,343.4 747.4,343.0 751.6,342.8 755.8,342.6 760.0,342.6 764.2,342.6 768.4,342.8 772.6,343.0 776.7,343.4 780.9,343.8 785.1,344.4 789.3,345.0 793.5,345.7 797.7,346.6 801.9,347.5 806.0,348.6 810.2,349.7 814.4,351.0 818.6,352.4 822.8,353.8 827.0,355.5 831.1,357.2 835.3,359.0 839.5,361.0 843.7,363.1" fill="none" stroke="#3E86B8" stroke-width="2.4" stroke-linecap="butt"/>
+<polyline points="706.0,350.9 706.0,354.0" fill="none" stroke="#3E86B8" stroke-width="1.2" stroke-linecap="butt"/>
+<polyline points="733.0,344.6 733.0,347.8" fill="none" stroke="#3E86B8" stroke-width="1.2" stroke-linecap="butt"/>
+<polyline points="760.0,342.6 760.0,345.8" fill="none" stroke="#3E86B8" stroke-width="1.2" stroke-linecap="butt"/>
+<polyline points="787.0,344.6 787.0,347.8" fill="none" stroke="#3E86B8" stroke-width="1.2" stroke-linecap="butt"/>
+<polyline points="814.0,350.9 814.0,354.0" fill="none" stroke="#3E86B8" stroke-width="1.2" stroke-linecap="butt"/>
+<polyline points="652.0,420.0 868.0,420.0" fill="none" stroke="#8A847C" stroke-width="1.6" stroke-linecap="butt"/>
+<text x="760.0" y="428.1" font-size="8.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">courtyard paving</text>
+<text x="760.0" y="331.8" font-size="9.0" font-weight="700" fill="#3E86B8" text-anchor="middle" dominant-baseline="middle">glass vault, crown 8.6 m</text>
+<text x="846.4" y="355.0" font-size="8.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">springs from the wing&#x27;s roof edge</text>
+<polyline points="625.0,425.4 625.0,403.8" fill="none" stroke="#24272A" stroke-width="1.0" stroke-linecap="butt"/>
+<text x="621.4" y="411.9" font-size="8.0" font-weight="400" fill="#4E575B" text-anchor="end" dominant-baseline="middle">0</text>
+<text x="560.0" y="520.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">The crown falls with the line of sight from the start:</text>
+<text x="560.0" y="538.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">10.6 m by the palace, 8.6 m at the middle, 6.2 m at the gateway;</text>
+<text x="560.0" y="556.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">it stays at least 0.5 m under it everywhere (checked on the site plan).</text>
+</svg>

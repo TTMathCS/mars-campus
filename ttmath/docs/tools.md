@@ -16,6 +16,7 @@ two minutes, so run them one after another, never several at once.
 | `shot.py` | Screenshots: `shot.py desk\|small\|mobile '[["name", "js to run", hideUI, waitMs], …]' [--sample]`; `--sample` also writes the campus points for `hidden.py` |
 | `hidden.py` | Line of sight from the start: every campus point must stay behind the ridge (CP-1); margins below 0 mean visible |
 | `walktest.py` | Walks legs toward points in the wings and prints where the walker ends up (doors, walls, steps) |
+| `walk_check.py` | **Run before every push.** Walks the visitor's routes (start over the ridge, courtyard, a wing, the palace, the back door, the Crescent, its stair and court, the Sun court) and fails if any stops short; `--built` tests the published page |
 | `evalpage.py` | Runs JavaScript in the page and prints the result, e.g. `evalpage.py "__mars._eval('PAL.R')"` |
 | `site_check.py` | Opens the built `ttmath/index.html` as GitHub Pages serves it and takes one shot |
 | `flicker.py`, `flicker_score.py` | Shimmer test for the signs: three shots per view (still, still again, a 2 cm step) and the share of pixels that jump |

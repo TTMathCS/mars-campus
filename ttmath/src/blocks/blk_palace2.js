@@ -34,7 +34,7 @@
     matU.uPortal.value.set(vaultW(26) + PAL.vt + 0.03, vaultH(26) + 0.58, 0, 0);
     matU.uLinkA.value.set(LINK.w + 0.05, LINK.h + 0.08, LINK.pl, 0);
     function light(x, y, z, c, k, range, dir, lobe) { lights.push({ x: x, y: y, z: z, c: [c[0] * k, c[1] * k, c[2] * k], r: range, d: dir || null, lobe: lobe || 0 }); }
-    var RUNS = [[8.95, 15.7], [24.3, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
+    var RUNS = [[8.95, 15.7], [24.3, 174.375], [185.625, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
     function nearOpening(th, pad) { var a = Math.abs(Math.atan2(Math.sin(th), Math.cos(th))) * R2D; return a < 8.95 + pad || Math.abs(a - 20) < 4.3 + pad; }
     function glyphUV(gi) { var A = ATL.glyph, u0 = A[0] + (A[2] - A[0]) * (gi + 0.06) / GLYPH_N, u1 = A[0] + (A[2] - A[0]) * (gi + 0.94) / GLYPH_N, v0 = lerp(A[1], A[3], 0.02), v1 = lerp(A[1], A[3], 0.98); return [[u0, v0], [u1, v0], [u1, v1], [u0, v1]]; }
     function V3(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y, p.z); }
@@ -369,7 +369,8 @@
       pos.push(p.x, y0 + Hh * Math.sin(ph), p.z); nor.push((d.x - PAL.c.x) * nr / l, ny / l, (d.z - PAL.c.z) * nr / l);
       fa.push((th - RIBF[0].tn * L) * RIBF[0].m / (2 * Math.PI), (th - RIBF[1].tn * L) * RIBF[1].m / (2 * Math.PI)); fb.push(ph / (Math.PI / 2), 0);
     }
-    for (j = 0; j < NV; j++) for (i = 0; i < NU; i++) { var k = j * (NU + 1) + i; idx.push(k, k + 1, k + NU + 2, k, k + NU + 2, k + NU + 1); }
+    for (j = 0; j < NV; j++) for (i = 0; i < NU; i++) { if (j < 5 && i >= NU / 2 - 3 && i < NU / 2 + 3) continue;   // the back door's opening
+      var k = j * (NU + 1) + i; idx.push(k, k + 1, k + NU + 2, k, k + NU + 2, k + NU + 1); }
     var g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
     g.setAttribute("aFac", new THREE.Float32BufferAttribute(fa, 2)); g.setAttribute("aFac2", new THREE.Float32BufferAttribute(fb, 2));

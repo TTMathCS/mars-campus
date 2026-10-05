@@ -20,17 +20,17 @@
     PLAZA.c = palXZ(0, 88);
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(), W = new Builder(), D = new Builder();
-    campusExterior(B); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
+    campusExterior(B); backDoor(B); backTerrace(B); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings);
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
     // glass: the dome first, then the wing facades and the links
     var gg = domeGlassGeometry(); var pd = glassPair(gg, 6); palGlassB = pd[0]; palGlassF = pd[1];
-    glassPair(WING_GLASS.build(), 8); glassPair(LINK_GLASS.build(), 10);
+    glassPair(WING_GLASS.build(), 8); glassPair(LINK_GLASS.build(), 10); glassPair(BACK_GLASS.build(), 8);
     // sliding doors: frames and glass built where they stand closed, moved along the facade when someone comes near
     DOORS.forEach(function (d) {
       d.leaves.forEach(function (lf) {
-        var M = wingFrame(d.sg, d.s, 0.12, d.y), fb = new Builder(), gb = new Builder(); fb.zone = ZONE.OUT; fb.add(lf.frame, M); gb.add(lf.glass, M);
+        var M = d.M || wingFrame(d.sg, d.s, 0.12, d.y), fb = new Builder(), gb = new Builder(); fb.zone = ZONE.OUT; fb.add(lf.frame, M); gb.add(lf.glass, M);
         lf.fm = bakedMesh(fb, matMat, campusLights, null, { noOcclude: true }); BAKE.meshes.pop(); scene.add(lf.fm); DOOR_MESHES.push(lf.fm);
         lf.gm = glassPair(gb.build(), 12);
       });
@@ -68,5 +68,5 @@
     }
     return false;
   }
-  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; return palSupport(x, z, yf); }
-  function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z)); }
+  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
+  function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z), backInside(x, z)); }

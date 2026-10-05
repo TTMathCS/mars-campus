@@ -1,7 +1,9 @@
 # Phase 2: building the new quarter into the 3D campus
 
 How to turn the plan ([phase2-plan.md](phase2-plan.md), rooms in `tools/campus_rooms.py`) into the walkable campus.
-Nothing of the new quarter is built yet; the Sun court (T-16) comes first because it replaces the solar field.
+Built so far: the Sun court (T-16, v0.8.1, `blk_campus2.js`), the palace's back door and the back terrace (T09-04,
+T09-01, v0.9, `blk_backdoor.js`: the vestibule, the gap in the ring and the dome's glass, the terrace, its stairs, and
+`backSupport` for walking). The Crescent is next.
 
 ## Where it is
 

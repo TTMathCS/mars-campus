@@ -59,7 +59,7 @@
     var yB = PALY.B;
     B.zone = ZONE.OUT;
     // ---- dome ring: board-marked concrete, a dark aluminium sill where the glass springs; openings for the vault and the links
-    var runs = [[8.95, 15.7], [24.3, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
+    var runs = [[8.95, 15.7], [24.3, 174.375], [185.625, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
     runs.forEach(function (r) {
       var na = Math.max(6, Math.round((r[1] - r[0]) / (2 * Math.PI) * 360));
       B.surf(na, 1, function (i, j, q) { var th = lerp(r[0], r[1], i / na), p = palPol(PAL.ringOut, th), gg = cgH(p.x, p.z), y = j ? yB + PAL.beam : Math.min(gg, yB) - 0.4;

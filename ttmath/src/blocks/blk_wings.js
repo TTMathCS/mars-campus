@@ -207,6 +207,52 @@
     latheOn(b, 0, 0.36, 0, [[0.05, 0], [0.09, 0.2], [0.095, 0.24], [0.0, 0.25]], 16, MT.DKGLASS, 0);
   }); }
 
+  // ---- ceilings: flat and level in every room (Jim, 4 Oct 2026: "the roof of classes are even not straight") ----
+  // A room's ceiling hangs at H above its floor under the curved roof shell. Where the shell comes lower than that near
+  // the back wall, a flat soffit at H2 runs along the wall behind a straight edge u = lerp(ua, ub, (s - e0) / (e1 - e0)).
+  // H is the tallest that keeps 12 cm under the shell, the soffit's edge behind both rows of lights, and every door
+  // under the ceiling (the soffit's edge beyond a door's far jamb, or the soffit above its head).
+  var CEIL_MAX = { foyer: 3.4, lobby: 3.2, cafe: 3.2, reception: 3.2, math: 3.0, lab: 3.0, seminar: 3.0, library: 3.0, study: 3.0 };
+  var CEIL_TILES = { math: 1, lab: 1, seminar: 1, study: 1, lobby: 1, library: 1 };      // acoustic tiles; the rest smooth plaster
+  function roomCeiling(sg, idx, e0, e1) {
+    var R = wingRooms(sg), rm = R[idx];
+    if (rm.ceil) return rm.ceil;
+    var gap = 0.12, uB = WG.uB, N = 32, doors = [];
+    if (idx > 0) doors.push({ s: e0, u: R[idx - 1].door[1], head: Math.max(R[idx - 1].y, rm.y) + 2.2 - rm.y });
+    if (idx < R.length - 1) doors.push({ s: e1, u: rm.door[1], head: Math.max(rm.y, R[idx + 1].y) + 2.2 - rm.y });
+    function room(ss, u) { return roofYAt(sg, ss, u, true) - rm.y; }
+    function cross(ss, h) { if (room(ss, uB) >= h + gap) return uB; var a = 0, b = uB; for (var k = 0; k < 24; k++) { var m = (a + b) / 2; if (room(ss, m) >= h + gap) a = m; else b = m; } return a; }
+    var best = null;
+    for (var H = CEIL_MAX[rm.kind] || 3.0; H >= 2.6 - 1e-6; H -= 0.05) {
+      var uc = [], k, ok = true;
+      for (k = 0; k <= N; k++) uc.push(cross(lerp(e0, e1, k / N), H));
+      var c = { H: H, soffit: false, ua: uB, ub: uB, H2: H };
+      if (Math.min.apply(null, uc) < uB - 1e-3) {
+        var ua = uc[0], ub = uc[N], over = 0;                           // a straight edge that stays in front of the crossing
+        for (k = 0; k <= N; k++) over = Math.max(over, lerp(ua, ub, k / N) - uc[k]);
+        c.soffit = true; c.ua = Math.min(uB, ua - over); c.ub = Math.min(uB, ub - over);
+        var low = 1e9; for (k = 0; k <= N; k++) low = Math.min(low, room(lerp(e0, e1, k / N), uB));
+        c.H2 = Math.min(H - 0.15, low - gap);
+        if (Math.min(c.ua, c.ub) < 4.0) ok = false;                     // the lights hang at u 1.45 and 3.75
+        if (uB - Math.min(c.ua, c.ub) < 0.35 && H > (CEIL_MAX[rm.kind] || 3.0) - 0.25) ok = false;   // rather a little lower than a sliver of soffit
+      }
+      doors.forEach(function (d) {
+        if (d.head + 0.05 > H) ok = false;
+        var edge = lerp(c.ua, c.ub, (d.s - e0) / (e1 - e0));
+        if (c.soffit && edge < d.u + 0.03 && c.H2 < d.head + 0.05) ok = false;
+      });
+      best = c;
+      if (ok) break;
+    }
+    best.e0 = e0; best.e1 = e1; rm.ceil = best; return best;
+  }
+  function ceilEdge(c, ss) { return lerp(c.ua, c.ub, clamp((ss - c.e0) / (c.e1 - c.e0), 0, 1)); }
+  // the ceiling's height at a point of a wing (absolute), once the room is built
+  function ceilAt(sg, ss, u) {
+    var rm = wingRoom(sg, ss), c = rm.ceil; if (!c) return roofYAt(sg, ss, u, true);
+    return rm.y + (c.soffit && u > ceilEdge(c, ss) ? c.H2 : c.H);
+  }
+
   // ---- the rooms: floor, ceiling, back wall, cross walls with doors and steps, end walls ----
   function wingInterior(B, sg) {
     var R = wingRooms(sg), uB = WG.uB;
@@ -216,9 +262,18 @@
       var e0 = idx === 0 ? fa : rm.s0 + 0.1, e1 = idx === R.length - 1 ? fb : rm.s1 - 0.1, ne = Math.max(4, Math.ceil((e1 - e0) / 0.3));
       // floor, fine enough (15 cm) for the baked light to show shadows under the furniture
       B.surf(ns, 40, function (i, j, q) { var s = lerp(fa, fb, i / ns), u = lerp(-0.02, 5.9, j / 40), p = wingXZ(sg, u, s); q.p[0] = p.x; q.p[1] = rm.y; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = s; q.f[1] = u; q.f2[1] = fm[1]; q.m = fm[0]; });
-      // ceiling: the underside of the roof shell
-      B.surf(ne, 16, function (i, j, q) { var s = lerp(e0, e1, i / ne), u = lerp(0, uB + 0.05, j / 16), p = roofPt(sg, s, roofT(u), true); q.p[0] = p.x; q.p[1] = p.y; q.p[2] = p.z; q.f[0] = s; q.f[1] = u; q.m = MT.PLASTER; });
-      B.orient(B.count() - (ne + 1) * 17, function () { return [0, -1, 0]; });
+      // ceiling: flat and level; a soffit along the back wall where the roof comes low; a dark spandrel above it at the glass
+      var cl = roomCeiling(sg, idx, e0, e1), cg = CEIL_TILES[rm.kind] ? 6 : 0;
+      B.surf(ne, 14, function (i, j, q) { var s = lerp(e0, e1, i / ne), u = lerp(-0.03, cl.soffit ? ceilEdge(cl, s) : uB + 0.05, j / 14), p = wingXZ(sg, u, s);
+        q.p[0] = p.x; q.p[1] = rm.y + cl.H; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = s; q.f[1] = u; q.f2[1] = cg; q.m = MT.PLASTER; });
+      if (cl.soffit) {
+        B.surf(ne, 2, function (i, j, q) { var s = lerp(e0, e1, i / ne), u = ceilEdge(cl, s), p = wingXZ(sg, u, s), ad = acrossDir(sg, s), y = rm.y + lerp(cl.H2, cl.H, j / 2);
+          q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [-ad.x, 0, -ad.z]; q.f[0] = s; q.f[1] = y; q.f2[1] = 0; q.m = MT.PLASTER; });
+        B.surf(ne, 4, function (i, j, q) { var s = lerp(e0, e1, i / ne), u = lerp(ceilEdge(cl, s), uB + 0.05, j / 4), p = wingXZ(sg, u, s);
+          q.p[0] = p.x; q.p[1] = rm.y + cl.H2; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = s; q.f[1] = u; q.f2[1] = 0; q.m = MT.PLASTER; });
+      }
+      B.surf(ne, 2, function (i, j, q) { var s = lerp(e0, e1, i / ne), p = wingXZ(sg, 0.05, s), ad = acrossDir(sg, s), y = lerp(rm.y + cl.H - 0.01, roofYAt(sg, s, 0.05, true) + 0.05, j / 2);
+        q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [-ad.x, 0, -ad.z]; q.m = MT.DKGLASS; });
       // back wall and its skirting
       var bn = acrossDir(sg, (e0 + e1) / 2);
       B.surf(ne, 10, function (i, j, q) { var s = lerp(e0, e1, i / ne), p = wingXZ(sg, uB, s), yt = roofYAt(sg, s, uB, true), y = lerp(rm.y, yt, j / 10); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [-bn.x, 0, -bn.z]; q.f[0] = s; q.f[1] = y; q.f2[1] = wc; q.m = MT.PLASTER; });
@@ -231,7 +286,7 @@
         var sl = lerp(e0 + 1.3, e1 - 1.3, nl === 1 ? 0.5 : k / (nl - 1));
         [1.45, 3.75].forEach(function (u) {
           if (rm.kind === "cafe" && sl < 40) return;
-          var yc = roofYAt(sg, sl, u, true), yl = Math.min(rm.y + 2.95, yc - 0.3);
+          var yc = ceilAt(sg, sl, u), yl = Math.min(rm.y + 2.95, yc - 0.3);
           place(B, linearPendant(), sg, sl, u, yl, 0);
           [-0.5, 0.5].forEach(function (d) { var a = wpt(sg, sl + d, u, yl + 0.06), c = wpt(sg, sl + d, u, yc + 0.05); tubeAlong(B, [a, c], 0.003, 3, MT.STEEL); });
           var lp = wpt(sg, sl, u, yl - 0.15); wLight(lp.x, lp.y, lp.z, LAMPC, rm.kind === "library" || rm.kind === "study" ? 1.5 : 2.1, 7.5, [0, -1, 0], 1);
@@ -387,14 +442,14 @@
         latheOn(b, 0.05, 1.06, -0.6, [[0.0, 0], [0.06, 0], [0.02, 0.1], [0.02, 0.2], [0.17, 0.21], [0.17, 0.23], [0.0, 0.23]], 20, MT.CERAMIC, 0);
       });
       place(B, ctr, sg, 38.95, 2.0, y, 0); obst(sg, 38.6, 39.3, 0.45, 3.55);
-      [1.05, 2.0, 2.95].forEach(function (u) { var yc = roofYAt(sg, 38.8, u, true), yl = y + 2.25; place(B, pendantCone(), sg, 38.8, u, yl, 0); tubeAlong(B, [wpt(sg, 38.8, u, yl + 0.28), wpt(sg, 38.8, u, yc + 0.05)], 0.004, 3, MT.ANOD); var lp = wpt(sg, 38.8, u, yl - 0.05); wLight(lp.x, lp.y, lp.z, [1.0, 0.8, 0.58], 1.3, 5, [0, -1, 0], 2); });
+      [1.05, 2.0, 2.95].forEach(function (u) { var yc = ceilAt(sg, 38.8, u), yl = y + 2.25; place(B, pendantCone(), sg, 38.8, u, yl, 0); tubeAlong(B, [wpt(sg, 38.8, u, yl + 0.28), wpt(sg, 38.8, u, yc + 0.05)], 0.004, 3, MT.ANOD); var lp = wpt(sg, 38.8, u, yl - 0.05); wLight(lp.x, lp.y, lp.z, [1.0, 0.8, 0.58], 1.3, 5, [0, -1, 0], 2); });
       // tables with chairs and cups
       [[41.3, 1.2], [41.3, 3.1], [43.7, 1.2], [43.7, 3.1], [46.1, 1.2], [46.1, 3.1], [48.4, 2.1]].forEach(function (c, i) {
         place(B, roundTable(), sg, c[0], c[1], y, 0); obst(sg, c[0] - 0.4, c[0] + 0.4, c[1] - 0.4, c[1] + 0.4);
         place(B, cafeChair(), sg, c[0] - 0.62, c[1], y, 0); place(B, cafeChair(), sg, c[0] + 0.62, c[1], y, Math.PI);
         if (i % 2 === 0) place(B, cup(), sg, c[0] - 0.12, c[1] + 0.08, y + 0.745, 0);
         if (i % 3 !== 1) place(B, cup(), sg, c[0] + 0.14, c[1] - 0.1, y + 0.745, 0);
-        var yc = roofYAt(sg, c[0], c[1], true), yl = y + 2.1; place(B, pendantCone(), sg, c[0], c[1], yl, 0); tubeAlong(B, [wpt(sg, c[0], c[1], yl + 0.28), wpt(sg, c[0], c[1], yc + 0.05)], 0.004, 3, MT.ANOD);
+        var yc = ceilAt(sg, c[0], c[1]), yl = y + 2.1; place(B, pendantCone(), sg, c[0], c[1], yl, 0); tubeAlong(B, [wpt(sg, c[0], c[1], yl + 0.28), wpt(sg, c[0], c[1], yc + 0.05)], 0.004, 3, MT.ANOD);
         var lp = wpt(sg, c[0], c[1], yl - 0.05); wLight(lp.x, lp.y, lp.z, [1.0, 0.8, 0.58], 1.1, 4.5, [0, -1, 0], 2);
       });
     },

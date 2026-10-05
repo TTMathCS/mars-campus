@@ -118,9 +118,13 @@
     "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
     "    alb = mix(vec3(0.05, 0.07, 0.1), vec3(0.95), lg); emi = vec3(1.0, 0.97, 0.92) * 0.85 * lg; rough = mix(0.25, 0.1, lg); metal = 0.5 * (1.0 - lg);",
     "  } else if (m < 13.5) { alb = vec3(0.16, 0.15, 0.14) * (0.94 + 0.08 * vnoise(vW.xz * 4.0 + vW.y * 4.0)); metal = 0.65; rough = 0.34; }",   // RIB: dark bronze-anodised steel, like real glass-dome lattices
-    "  else if (m < 14.5) {",                                             // PLASTER: g.y 0 off-white, 1 warm grey, 2 terracotta, 3 slate blue
+    "  else if (m < 14.5) {",                                             // PLASTER: g.y 0 off-white, 1 warm grey, 2 terracotta, 3 slate blue, 6 ceiling tiles
     "    vec3 c = g.y < 0.5 ? vec3(0.86, 0.85, 0.82) : (g.y < 1.5 ? vec3(0.60, 0.58, 0.55) : (g.y < 2.5 ? vec3(0.58, 0.33, 0.24) : vec3(0.22, 0.28, 0.36)));",
     "    alb = c * (0.96 + 0.05 * vnoise(pc * 3.0) + 0.03 * (vnoise(pc * 45.0) - 0.5)); rough = 0.88;",
+    "    if (g.y > 5.5 && g.y < 6.5) {",                                     // g.y 6: acoustic ceiling tiles, 60 cm, in a white steel grid
+    "      float gl = max(aline(f.x, 0.6, 0.007), aline(f.y, 0.6, 0.007)), fis = vnoise(f * 55.0) * 0.6 + vnoise(f * 160.0) * 0.4;",
+    "      alb = mix(vec3(0.83, 0.825, 0.80) * (0.93 + 0.09 * fis) * (0.97 + 0.04 * hsh(floor(f / 0.6))), vec3(0.88, 0.88, 0.87), gl); rough = mix(0.95, 0.4, gl);",
+    "    }",
     "  } else if (m < 15.5) {",                                           // WOOD: f = (along the grain, across) m; g.y 0 floor planks, 1 oak, 2 walnut
     "    float pw = 0.19, pl = 2.2, row = floor(f.y / pw), sh = hsh(vec2(row, 3.0)) * pl, col = floor((f.x + sh) / pl), pr = hsh(vec2(row, col) + 7.0);",
     "    float seam = (g.y < 0.5 || g.y > 2.5) ? max(aline(f.y, pw, 0.004), aline(f.x + sh, pl, 0.004)) : 0.0;",

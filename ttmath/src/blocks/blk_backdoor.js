@@ -82,10 +82,7 @@
       B.surf(n, 1, function (i, j, q) { var th = lerp(th0, th1, i / n), p = palPol(r, th), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4, d = palPol(1, th);
         q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * sgn, 0, (d.z - PAL.c.z) * sgn]; q.f[0] = th * r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
     }
-    wallArc(r1 + 0.3, t0, t1, yB + BACK.kerb, 1); wallArc(r1, t0, t1, yB + BACK.kerb, -1);
-    var nc = Math.round((t1 - t0) * r1 / 0.5);
-    B.surf(nc, 1, function (i, j, q) { var th = lerp(t0, t1, i / nc), p = palPol(j ? r1 - 0.03 : r1 + 0.33, th); q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = th * r1; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
-    guardAlong(function (t) { return palPol(r1 + 0.15, lerp(t0, t1, t)); }, (t1 - t0) * r1);
+    // the outer edge is the Crescent's glass front (blk_crescent.js)
     // the two side edges: a retaining wall with a parapet, broken by the stair in the middle
     [[t0, -1], [t1, 1]].forEach(function (e) {
       var th = e[0], sg = e[1], tg = palPol(1, th + sg * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z];  // outward, across the edge
@@ -94,7 +91,7 @@
         B.surf(n, 1, function (i, j, q) { var r = lerp(ra, rb, i / n), lat = r * Math.sin(th), rad = r * Math.cos(th), p = palXZ(lat + tn[0] * 0 + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, rad + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4;
           q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [tn[0] * sgn, 0, tn[2] * sgn]; q.f[0] = r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
       }
-      [[r0, BACK.stairR - BACK.stairW / 2], [BACK.stairR + BACK.stairW / 2, r1 + 0.3]].forEach(function (rr) {
+      [[r0, BACK.stairR - BACK.stairW / 2], [BACK.stairR + BACK.stairW / 2, r1]].forEach(function (rr) {
         radial(rr[0], rr[1], 0.3, yB + BACK.kerb, 1); radial(rr[0], rr[1], 0, yB + BACK.kerb, -1);
         var lo = (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * 0.15, ro = (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * 0.15;
         guardAlong(function (t) { var r = lerp(rr[0], rr[1], t); return palXZ(r * Math.sin(th) + lo, r * Math.cos(th) + ro); }, rr[1] - rr[0]);
@@ -115,15 +112,15 @@
       Ms.setPosition(p0.x, yB, p0.z); B.add(st, Ms);
       BACK["stair" + (sg > 0 ? "R" : "L")] = { p: p0, ax: ax, along: along, n: nst, hs: hs, run: 0.32 };
     });
-    // bollard lights along the outer edge
-    for (var k = 0; k < 7; k++) {
-      var th = lerp(t0 + 0.08, t1 - 0.08, k / 6), p = palPol(r1 - 0.6, th);
+    // bollard lights along the Crescent's front
+    [-40, -24, -8, 8, 24, 40].forEach(function (deg) {                    // between the Crescent's doors
+      var th = Math.PI + deg * D2R, p = palPol(r1 - 1.6, th);
       latheOn(B, p.x, yB - 0.05, p.z, [[0.1, 0], [0.1, 0.9]], 16, MT.ANOD, 0.3);
       latheOn(B, p.x, yB + 0.85, p.z, [[0.112, 0], [0.112, 0.08], [0.09, 0.1], [0.0, 0.105]], 16, MT.ANOD, 0.9);
       B.geo(addF2(new THREE.CylinderGeometry(0.094, 0.094, 0.1, 16, 1, true), 1.4, 0), T(p.x, yB + 0.8, p.z), MT.LIGHT, 1);
       extLight(p.x, yB + 0.8, p.z, WARMC, 1.1, 6);
       COLL.posts.push({ x: p.x, z: p.z, r: 0.35 });
-    }
+    });
   }
   // a glass guard along a line on the terrace's edge: path(t) gives the point at t in 0..1, len its length (m)
   function guardAlong(path, len) {

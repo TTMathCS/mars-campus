@@ -54,16 +54,25 @@
     w.postMessage({
       meshes: meshes, lights: [packL(campusLights), packL(palLights), packL(wingLights)], mobile: MOBILE,
       cg: { h: CG.h, x0: CG.x0, z0: CG.z0, res: CG.res, nx: CG.nx, nz: CG.nz },
-      pal: { cx: PAL.c.x, cz: PAL.c.z, fx: PAL.F.x, fz: PAL.F.z, R: PAL.R, vW: 4.45, vF: PAL.vFront, yF: PALY.F, yB: PALY.B }
+      pal: { cx: PAL.c.x, cz: PAL.c.z, fx: PAL.F.x, fz: PAL.F.z, R: PAL.R, vW: 4.45, vF: PAL.vFront, yF: PALY.F, yB: PALY.B },
+      cuts: P2CUTS.map(function (c) { return c.p.concat(c.q); }), domains: P2DOMAINS
     }, transfer);
   }
   // runs inside the worker: must not use anything from the page
   function bakeWorkerMain() {
     self.onmessage = function (ev) {
-      var D = ev.data, P = D.pal, RES = 0.2, LAT0 = -27, LAT1 = 27, RAD0 = -40, RAD1 = 96, Y0 = P.yF - 1.0, Y1 = P.yB + 17.5;
-      var NL = Math.ceil((LAT1 - LAT0) / RES), NR = Math.ceil((RAD1 - RAD0) / RES), NY = Math.ceil((Y1 - Y0) / RES), vox = new Uint32Array(Math.ceil(NL * NR * NY / 32));
+      var D = ev.data, P = D.pal, RES = 0.2, Y1 = P.yB + 17.5;
+      // voxel domains in the palace frame: today's campus, then the new quarter's buildings (the first that holds a point owns it)
+      var DOM = [{ l0: -27, l1: 27, r0: -40, r1: 96, y0: P.yF - 1.0, y1: P.yB + 17.5 }].concat(D.domains || []), NV = 0;
+      DOM.forEach(function (d) { d.NL = Math.ceil((d.l1 - d.l0) / RES); d.NR = Math.ceil((d.r1 - d.r0) / RES); d.NY = Math.ceil((d.y1 - d.y0) / RES); d.off = NV; NV += d.NL * d.NR * d.NY; });
+      var vox = new Uint32Array(Math.ceil(NV / 32));
       var fx = P.fx, fz = P.fz, rx = fz, rz = -fx;                         // palace frame: lat along (rx, rz), rad along (fx, fz)
-      function vIndex(x, y, z) { var dx = x - P.cx, dz = z - P.cz, la = dx * rx + dz * rz, ra = dx * fx + dz * fz; var i = Math.floor((la - LAT0) / RES), j = Math.floor((ra - RAD0) / RES), k = Math.floor((y - Y0) / RES); if (i < 0 || j < 0 || k < 0 || i >= NL || j >= NR || k >= NY) return -1; return (k * NR + j) * NL + i; }
+      function vIndex(x, y, z) {
+        var dx = x - P.cx, dz = z - P.cz, la = dx * rx + dz * rz, ra = dx * fx + dz * fz;
+        for (var n = 0; n < DOM.length; n++) { var d = DOM[n]; if (la < d.l0 || la >= d.l1 || ra < d.r0 || ra >= d.r1 || y < d.y0 || y >= d.y1) continue;
+          var i = Math.floor((la - d.l0) / RES), j = Math.floor((ra - d.r0) / RES), k = Math.floor((y - d.y0) / RES); return d.off + (k * d.NR + j) * d.NL + i; }
+        return -1;
+      }
       function mark(x, y, z) { var id = vIndex(x, y, z); if (id >= 0) vox[id >>> 5] |= 1 << (id & 31); }
       function solidV(x, y, z) { var id = vIndex(x, y, z); return id >= 0 && (vox[id >>> 5] & (1 << (id & 31))) !== 0; }
       // voxelize every occluding triangle by sampling it densely
@@ -79,12 +88,16 @@
         }
       });
       // the ground, except where the campus is cut into it
-      var G = D.cg;
+      var G = D.cg, CUTS = D.cuts || [];
       function gH(x, z) { var u = Math.min(Math.max((x - G.x0) / G.res - 0.5, 0), G.nx - 1.001), v = Math.min(Math.max((z - G.z0) / G.res - 0.5, 0), G.nz - 1.001), i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j, H = G.h, W = G.nx; return (H[j * W + i] * (1 - fu) + H[j * W + i + 1] * fu) * (1 - fv) + (H[(j + 1) * W + i] * (1 - fu) + H[(j + 1) * W + i + 1] * fu) * fv; }
       function latfW(s) { var k = (s - 55.5) / 22.5; return 10.5 - 1.5 * k * k; }
       function inCut(x, z) { var dx = x - P.cx, dz = z - P.cz; if (dx * dx + dz * dz < (P.R + 0.1) * (P.R + 0.1)) return true; var s = dx * fx + dz * fz, al = Math.abs(dx * rx + dz * rz);
         if (al < P.vW && s > 0 && s < P.vF + 0.1) return true; var u = al - latfW(s); if (s > 33.2 && s < 77.8 && u > -0.1 && u < 5.85) return true;
-        var sl = al * 0.34202 + s * 0.93969, ll = al * 0.93969 - s * 0.34202; return sl > 26.0 && sl < 35.9 && Math.abs(ll) < 1.95; }
+        var sl = al * 0.34202 + s * 0.93969, ll = al * 0.93969 - s * 0.34202; if (sl > 26.0 && sl < 35.9 && Math.abs(ll) < 1.95) return true;
+        var lat = dx * rx + dz * rz;
+        for (var n = 0; n < CUTS.length; n++) { var c = CUTS[n]; if (c[6] < 0.5) { var ql = lat - c[0], qr = s - c[1], r = Math.sqrt(ql * ql + qr * qr), a = Math.atan2(ql, -qr); if (r > c[2] && r < c[3] && a > c[4] && a < c[5]) return true; }
+          else if (lat > c[0] && lat < c[2] && s > c[1] && s < c[3]) return true; }
+        return false; }
       var gMax = -1e9; for (var q = 0; q < G.h.length; q++) if (G.h[q] > gMax) gMax = G.h[q];
       var skipId = -1;                                                    // the voxel a ray starts in, when that one is solid
       function solid(x, y, z) {

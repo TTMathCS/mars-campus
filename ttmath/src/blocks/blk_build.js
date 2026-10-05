@@ -20,13 +20,13 @@
     PLAZA.c = palXZ(0, 88);
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(), W = new Builder(), D = new Builder();
-    campusExterior(B); backDoor(B); backTerrace(B); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
+    campusExterior(B); backDoor(B); backTerrace(B); crescentBuild(B, W); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings);
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
     // glass: the dome first, then the wing facades and the links
     var gg = domeGlassGeometry(); var pd = glassPair(gg, 6); palGlassB = pd[0]; palGlassF = pd[1];
-    glassPair(WING_GLASS.build(), 8); glassPair(LINK_GLASS.build(), 10); glassPair(BACK_GLASS.build(), 8);
+    glassPair(WING_GLASS.build(), 8); glassPair(LINK_GLASS.build(), 10); glassPair(BACK_GLASS.build(), 8); glassPair(CRS_GLASS.build(), 8);
     // sliding doors: frames and glass built where they stand closed, moved along the facade when someone comes near
     DOORS.forEach(function (d) {
       d.leaves.forEach(function (lf) {
@@ -68,5 +68,5 @@
     }
     return false;
   }
-  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
-  function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z), backInside(x, z)); }
+  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; var c = crescentSupport(x, z, yf); if (c !== undefined) return c; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
+  function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z), backInside(x, z), crescentInside(x, z)); }

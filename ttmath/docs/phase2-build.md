@@ -3,7 +3,12 @@
 How to turn the plan ([phase2-plan.md](phase2-plan.md), rooms in `tools/campus_rooms.py`) into the walkable campus.
 Built so far: the Sun court (T-16, v0.8.1, `blk_campus2.js`), the palace's back door and the back terrace (T09-04,
 T09-01, v0.9, `blk_backdoor.js`: the vestibule, the gap in the ring and the dome's glass, the terrace, its stairs, and
-`backSupport` for walking). The Crescent is next.
+`backSupport` for walking), the Crescent's building and its sunken court (T-06, v0.9.1, `blk_crescent.js`: shell,
+rooms' walls, floors and ceilings, the hall's stair, the court, `crescentSupport`). Next: the Crescent's furniture.
+
+The terrain is now cut by exact shapes (`P2CUTS`: sectors round any centre and boxes in the palace frame, `p2Sector`,
+`p2Box`, up to 16) tested in the terrain shaders, the shadow pass and the bake; the bake takes extra voxel domains
+(`P2DOMAINS`). A new building adds its shapes and its domain the same way.
 
 ## Where it is
 
@@ -17,7 +22,7 @@ terraces and building platforms.
 
 1. **Data.** Read the plan from `P2` (written into `src/blocks/blk_p2data.js` by `campus_buildings.py`); never copy
    numbers by hand. Add `blk_p2data.js` to `BLOCKS` in `src/assemble.py` before the blocks that use it.
-2. **Ground.** A second ground grid for the quarter, like `CG` (today's 0.5 m grid filled from the real mesh,
+2. **Ground** (superseded for building footprints by the exact cuts above; still needed for terraces on the far terrain). A second ground grid for the quarter, like `CG` (today's 0.5 m grid filled from the real mesh,
    `cgH(x, z)`): 1 m cells over x −270 … 25, z −370 … −75, filled from `hCombined`/the real tiles, then graded with
    `gradeAt(x, z)`: level platforms for each building and terrace (levels from `P2.garden.terraces`, fitted to the real
    ground), blended back to the land over 3 to 6 m. Draw it as its own mesh with the Mars ground material and lower the

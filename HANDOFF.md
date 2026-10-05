@@ -446,7 +446,7 @@ The Orb's Rev F question to Jim is still open.
 | --- | --- | --- |
 | Hub page | `index.html`, `site.css` | Live, titled **Mars – your new home** (Jim, 3 Oct 2026): *A city rising on Mars*, one card per place, never the word "demo", no notes for visitors; the Arcadia card opens the design plan. The Mars Atlas is a picture at the top right. Below the demos, *The science*: one card for Mars facts and one for Building on Mars, each listing its pages. |
 | The science | `science/` | Live since 2 Oct 2026. Real, with sources, one subject a page: Mars facts (8 pages) and Building on Mars (12 pages). See [science/README.md](science/README.md). |
-| Demo 1, TTMath on Mars | `ttmath/` | v0.7 live and finished: one integrated campus, real rooms, real materials. See `ttmath/REQUIREMENTS.md`. |
+| Demo 1, TTMath on Mars | `ttmath/` | v0.8 live: one integrated campus, real rooms, real materials, real plants and classroom furniture. Phase 2 (the campus 3.2 times bigger, behind the palace) is designed room by room at `ttmath/plan/`, not yet built; next: flat classroom ceilings, the Sun court in place of the solar field (the campus is on the city's grid), then the new quarter building by building. Design notes and how to continue: `ttmath/docs/`. See `ttmath/REQUIREMENTS.md`. |
 | Demo 2 home | `palace/README.md` | **Start here for demo 2, Arcadia.** Links the requirements, the decision log, the design chapter by chapter, the floor plans and every picture, all viewable on GitHub. |
 | Demo 2, requirements | `palace/REQUIREMENTS.md` | By area (GN, ST, CR, OR, PG, LV, TR, SY, DM), with status and links; updated 3 Oct 2026 (GN-1 the name Arcadia, GN-17 the homepage, GN-18 no notes for visitors). **No open questions.** |
 | Demo 2, design plan | `palace/design/` | Live at https://ttmathcs.github.io/mars-campus/palace/design/, titled *Arcadia · Design Plan*: the house explorer (24 frames), the area pages room by room (`gen_plan.py`), all ten chapters with the Orb at 48 m and every room as Rev G. |
@@ -702,7 +702,10 @@ HANDOFF.md                    this file
 data/                         NASA terrain for demo 1 (Dingo Gap tiles as base64 text)
 ttmath/                       demo 1: index.html (built), logo.png, REQUIREMENTS.md
 ttmath/src/                   page.html (source page), blocks/*.js, assemble.py, build.py
-ttmath/tools/                 Playwright tests; hraster.npy + lay/ for the hidden check
+ttmath/tools/                 Playwright tests; hraster.npy + lay/ for the hidden check; campus_rooms.py (phase 2 room program),
+                              campus_plan.py + campus_buildings.py (plan pages), data/ (line-of-sight map, room sizes)
+ttmath/plan/                  phase 2 plan: site plan, a page and floor plan per new building
+ttmath/docs/                  TTMath design notes: phase 2 plan, rooms, build steps, rover (+ work in progress), realism, tools
 palace/                       demo 2
 ├── README.md                 demo 2 home: start here
 ├── REQUIREMENTS.md           what Jim wants: the source of truth

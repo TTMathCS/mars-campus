@@ -24,7 +24,7 @@ SEALED = dict(
 # with the line of sight from 10.6 m by the palace to 6.2 m at the gateway (s: the distance along the palace's axis, as
 # rad). The gateway arch stands in front of a glass end wall with the entrance airlock; a pod stop by the airlock.
 COURTYARD = dict(s0=33.3, s1=77.7, crown=[(33.3, 10.6), (56.0, 8.6), (77.7, 6.2)], ribs=1.5,
-                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=4.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
+                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=3.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
 COURTYARD_ROOMS = [
     dict(code="T04-01", name="Courtyard hall", kind="move", use="The courtyard under a glass vault on slender steel ribs: the paving, the bollards and young trees, the wings' doors on both sides and the palace's door at the end, warm and in air.", also="Assemblies, the graduation reception, stargazing evenings in shirt sleeves."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="Under the gateway: outer and inner sliding glass doors with a chamber 6 m long between them; the inner doors open once the outer ones have closed and the air is in. Suit lockers and a bench along the side.", also=""),
@@ -88,6 +88,104 @@ CRESCENT_PLANTS = {
     "T06-13": [("monstera", "window0"), ("maple", "window1"), ("fern", "corner1"), ("orchid", "desk")],
     "T06-14": [("snake", "window1"), ("pothos", "shelf")],
 }
+
+# ------------------------------------------------------------------------------------------------- T-06 the Ring
+# Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter
+# building"; "the entrance is not sealed by dome. it needs to. overall I like this structure similar like apple
+# headerqueate but much more future proof and impressive than it". The Crescent grows into the Ring: one building all the
+# way round the Math Palace between radii 46 and 62 m (340 m round its middle), the garden ring between it and the dome,
+# all of it sealed. The two wings stand where the Ring passes, so their rooms move into it (RING_MOVES) and the wings come
+# down; the courtyard becomes the entrance plaza under a glass dome (ENTRANCE) and the Gate Hall through the Ring.
+# The Ring is set into the crater's slope and stays out of sight from the start, like the whole campus (you discover it
+# from the ridge): two storeys behind and beside the dome, where the ground falls to the plain; a lower roof over the
+# upper floor on the right-front, where the hill rises; the Gate Hall two storeys tall at the front; and on the left-front
+# quarter, where the start looks down through a dip in the ridge, only the lower floor, its roof at ground level with
+# skylights, beside the sunken grove. Its roof rises and falls with the hill all the way round.
+# Future-proof: 36 bays of 10 degrees on one steel frame with the same facade panels, so a bay can change its use; the
+# roof holds a metre of water in sealed cells (a shield against cosmic rays, and the campus's water store); the lower
+# floor's ring corridor carries the air, water and power all the way round; the frame over the back half is sized for a
+# third storey. Angles here run past 180 so that a section can cross the front: 191 is -169.
+# Sections: where each kind stands and the roof's top above the upper floor (m); where the hill rises, the roof slopes down
+# toward it, from roof on the garden side to roof_out on the outside. The line of sight sets them (campus_plan).
+RING = dict(r0=46.0, r1=62.0, rc=49.6, floor_h=5.6, upper=0.0, lower=-5.6, ceil=4.5, ceil_corridor=3.8, bay=10.0,
+            sections=[dict(a=(-57.0, 120.0), kind="two", roof=5.95, note="two storeys: the ground falls to the plain"),
+                      dict(a=(120.0, 164.0), kind="low", roof=5.5, roof_out=4.3, ceil_upper=4.9, ceil_out=3.7, note="the hill rises: the upper floor's roof slopes down toward it; the lower floor underground"),
+                      dict(a=(164.0, 191.0), kind="gate", roof=6.8, note="the Gate Hall, two storeys tall"),
+                      dict(a=(191.0, 197.0), kind="low", roof=5.5, roof_out=4.3, ceil_upper=4.9, ceil_out=3.7, note="lockers, washrooms and a stair by the gate"),
+                      dict(a=(197.0, 303.0), kind="sunk", roof=-0.45, note="only the lower floor, its roof at ground level with skylights")],
+            gallery=dict(r0=62.0, r1=68.5, a=(-52.0, 120.0), wall=1.2),
+            upper_corridor=(-57.0, 197.0), lower_corridor=(-180.0, 180.0))
+RING_ROOMS = [
+    # upper floor, level with the palace's balcony and the garden ring (the Crescent's rooms stay where they are)
+    dict(code="T06-01", name="Hall and stair", floor="upper", a=(-7, 7), kind="move", double=True, use="The way in from the garden ring and down to the garden gallery: a hall two storeys tall with a wide stair and a lift, the timetable on a screen, long benches.", also="Exhibitions of students' work."),
+    dict(code="T06-02", name="Euclid", floor="upper", a=(7, 25), kind="class", use="Classroom for geometry: 30 seats at double desks, a whiteboard wall, compasses and models of the solids.", also="Evening classes for adults."),
+    dict(code="T06-03", name="Hypatia", floor="upper", a=(25, 43), kind="class", use="Classroom for algebra and measurement: 30 seats, two whiteboards, a demonstration bench.", also=""),
+    dict(code="T06-04", name="Teachers' room", floor="upper", a=(43, 52), kind="staff", short="Teachers", use="Desks for the teachers, a meeting table, a kitchenette, lockers and a long sofa.", also="Marking and lesson planning."),
+    dict(code="T06-18", name="East stair and lift", floor="both", a=(52, 58), kind="move", short="Stair", use="A stair and a lift between the floors in the room band, behind fire doors; the corridors pass by.", also=""),
+    dict(code="T06-19", name="Archimedes", floor="upper", a=(58, 76), kind="class", use="Classroom for mechanics: 30 seats, a demonstration bench with levers, pulleys and a balance.", also="Science fair."),
+    dict(code="T06-20", name="Pythagoras", floor="upper", a=(76, 93), kind="class", use="The wing's M1 Mathematics moves here: 30 seats, a long whiteboard, the proof of Pythagoras in tiles on the wall.", also="Exams."),
+    dict(code="T06-21", name="Pod lounge", floor="upper", a=(93, 100), kind="lounge", short="Pods", use="The glass bridge to the pod dock starts here: benches, a screen with the pods' places and charge, a coat rack.", also=""),
+    dict(code="T06-22", name="Washrooms", floor="upper", a=(100, 106), kind="service", short="WC", use="Washrooms for the right side of the upper floor.", also=""),
+    dict(code="T06-23", name="Lovelace", floor="upper", a=(106, 120), kind="lab", use="The wing's coding lab moves here: 20 workstations with two screens each, a big screen for the teacher.", also="Robotics club."),
+    dict(code="T06-24", name="Socrates", floor="upper", a=(120, 134), kind="seminar", use="The wing's seminar room: one long table for 20, a screen and a whiteboard, under the roof that slopes down toward the hill (ceiling 4.9 to 3.7 m).", also="Parents' evenings."),
+    dict(code="T06-25", name="Library", floor="upper", a=(134, 152), kind="library", use="The wing's library: shelves along the outer wall, reading tables by the glass onto the garden ring, the librarian's desk, under a sloping ceiling (4.9 to 3.7 m).", also=""),
+    dict(code="T06-26", name="Reading room", floor="upper", a=(152, 164), kind="reading", use="The wing's reading room: deep armchairs and long sofas by the garden glass, lamps, a quiet room, under a sloping ceiling.", also=""),
+    dict(code="T06-27", name="Gate Hall", floor="gate", a=(164, 191), kind="gate", use="The way in, two storeys tall: from the entrance dome through the Ring into the garden ring and on to the palace's door; the reception desk and the lobby's timetable screens from the wings, a big model of the campus, benches and tall plants.", also="Welcome days, the graduation reception."),
+    dict(code="T06-28", name="Lockers and stair", floor="upper", a=(191, 197), kind="service", short="Lockers", use="Lockers, washrooms and a stair down to the dining hall and the café on the lower floor.", also=""),
+    dict(code="T06-16", name="West stair and lift", floor="both", a=(-57, -52), kind="move", short="Stair", use="A stair and a lift where the upper floor ends on the west: down to the lower floor that goes on all the way round.", also=""),
+    dict(code="T06-07", name="Washrooms", floor="upper", a=(-52, -43), kind="service", short="WC", use="Washrooms for the upper floor, above the lower ones; a cleaner's cupboard.", also=""),
+    dict(code="T06-06", name="Noether", floor="upper", a=(-43, -25), kind="class", use="Classroom for symmetry and abstract algebra: 30 seats, a wall of tilings.", also=""),
+    dict(code="T06-05", name="Fibonacci", floor="upper", a=(-25, -7), kind="class", use="Classroom for number patterns: 30 seats, a wall of sequences and spirals.", also=""),
+    dict(code="T06-CU", name="Upper corridor", floor="upper", a=(-57, 197), band="corridor", kind="move", use="Along the garden side behind glass, from the west stair round the back and the right, through the Gate Hall to the stair down by the gate.", also=""),
+    # lower floor, all the way round: the garden gallery behind and on the right, underground on the right-front, the
+    # sunken grove's side on the left
+    dict(code="T06-08", name="Lower hall", floor="lower", a=(-7, 7), kind="move", use="Under the hall's gallery: glass doors out to the garden gallery and the garden domes.", also=""),
+    dict(code="T06-09", name="Study hall", floor="lower", a=(7, 27), kind="study", use="A quiet room for homework: 40 carrels with lamps, a librarian's desk, shelves along the corridor wall.", also="Exam room."),
+    dict(code="T06-10", name="Gauss", floor="lower", a=(27, 41), kind="class", use="Classroom for statistics and data: 24 seats at tables with screens.", also=""),
+    dict(code="T06-11", name="Turing", floor="lower", a=(41, 52), kind="lab", short="Turing", use="Computer classroom: 16 workstations for coding and modelling.", also=""),
+    dict(code="T06-29", name="Newton", floor="lower", a=(58, 76), kind="physics", use="The physics lab: six benches with gas, power and water, a vacuum chamber, a pendulum hanging from the ceiling, glass onto the garden gallery.", also=""),
+    dict(code="T06-30", name="Maker space", floor="lower", a=(76, 94), kind="maker", use="Workbenches, 3D printers, a laser cutter and the robot rovers the students build; a roller door to the gallery.", also="Robotics contests."),
+    dict(code="T06-31", name="Washrooms", floor="lower", a=(94, 106), kind="service", short="WC", use="Washrooms for the right side of the lower floor, under the upper ones.", also=""),
+    dict(code="T06-32", name="Kepler", floor="lower", a=(106, 120), kind="astro", use="The astronomy room: 24 seats under a small dome screen that shows the sky from anywhere, star maps, a model of the solar system.", also="Planetarium shows for families."),
+    dict(code="T06-33", name="Life support", floor="lower", a=(120, 150), kind="plant", short="Air and water", use="The campus's air, water and heat: CO2 scrubbers, oxygen from water, water recycling and the heat pumps, behind a glass wall so classes can watch them work.", also="Lessons on how Mars air and water are made."),
+    dict(code="T06-34", name="Store and archive", floor="lower", a=(150, 164), kind="store", short="Store", use="Spare furniture, teaching kit, the archive of exam papers.", also=""),
+    dict(code="T06-35", name="Under the gate", floor="lower", a=(164, 191), kind="move", use="The lower corridor passes under the Gate Hall; a stair up into it, washrooms.", also=""),
+    dict(code="T06-36", name="Kitchen", floor="lower", a=(191, 203), kind="kitchen", use="The kitchen and the servery for the dining hall, with its stores and the goods lift.", also=""),
+    dict(code="T06-37", name="Dining hall", floor="lower", a=(203, 224), kind="dining", use="Lunch for 120 at long tables under skylights; its far end opens onto the sunken grove.", also="Parties, exams."),
+    dict(code="T06-38", name="Café", floor="lower", a=(224, 242), kind="cafe", use="The wing's café moves here: the espresso bar, the chalk menu, tables and long sofas, glass onto the sunken grove.", also="Chess and coffee after school."),
+    dict(code="T06-39", name="Assembly hall", floor="lower", a=(242, 266), kind="assembly", use="A flat hall for 150 with a low stage, glass onto the sunken grove: assemblies, plays, dance.", also="Exams, the science fair."),
+    dict(code="T06-40", name="Art studio", floor="lower", a=(266, 280), kind="art", use="Easels, a long sink, a kiln, glass onto the sunken grove.", also=""),
+    dict(code="T06-41", name="Music room", floor="lower", a=(280, 292), kind="music", use="A grand piano, practice booths, instruments on the walls, under skylights.", also="The choir."),
+    dict(code="T06-42", name="Clinic and counsellor", floor="lower", a=(292, 303), kind="clinic", short="Clinic", use="The nurse's room with a bed, the counsellor's quiet room, under skylights.", also=""),
+    dict(code="T06-14", name="Washrooms and store", floor="lower", a=(-52, -41), kind="service", short="WC, store", use="Washrooms for the lower floor and a store for chairs and teaching kit.", also=""),
+    dict(code="T06-13", name="Games room and lounge", floor="lower", a=(-41, -27), kind="games", use="Chess, Go, puzzles and math games at tables, shelves of games, a Rubik's cube wall; long sofas and a coffee machine by the glass onto the garden gallery.", also="Clubs after school."),
+    dict(code="T06-12", name="Ramanujan: competition room", floor="lower", a=(-27, -7), kind="compete", short="Ramanujan", use="Math olympiad training and contests: team tables, a scoreboard on the wall, a stage for the problem reader.", also="Chess tournaments."),
+    dict(code="T06-CL", name="Lower corridor", floor="lower", a=(-180, 180), band="corridor", kind="move", use="All the way round on the garden side: the Ring's main street, with the air, water and power above its ceiling.", also=""),
+    dict(code="T06-15", name="Garden gallery", floor="lower", a=(-52, 120), band="gallery", kind="garden", use="The court along the garden front and the right side, under a sloping glass roof from the Ring's eave to a low stone wall: planters, benches, the doors of the lower rooms; behind the dome it opens into the garden domes.", also=""),
+]
+# where the wings' rooms go when the wings come down
+RING_MOVES = [("M1 Mathematics", "T06-20 Pythagoras"), ("Lobby", "T06-27 Gate Hall"), ("Coding Lab", "T06-23 Lovelace"), ("Seminar Room", "T06-24 Socrates"),
+              ("Café", "T06-38 Café"), ("Reception", "T06-27 Gate Hall"), ("Library", "T06-25 Library"), ("Reading Room", "T06-26 Reading room")]
+
+# the garden ring between the dome and the Ring, sealed all round: at the palace's level under a glass vault whose crown
+# follows the line of sight (m above the palace's floor, by angle), except where the start looks down through the dip in
+# the ridge: there it steps down into the sunken grove at the lower floor's level, under flat glass at ground level
+GARDEN_RING = dict(r0=28.6, r1=46.0, crown=[(-80, 7.0), (-70, 7.5), (-60, 9.5), (-50, 12.5), (-40, 13.0), (55, 13.0), (65, 11.0), (75, 10.3), (85, 9.0),
+                                           (95, 7.8), (105, 6.8), (115, 6.3), (125, 6.2), (135, 6.6), (145, 7.4), (155, 8.2), (165, 9.8), (195, 9.4),
+                                           (200, 8.2), (207, 6.2), (214, 5.2), (224, 5.2)],
+                   grove=dict(a=(224.0, 280.0), floor=-5.6, roof=1.0), sundial=dict(a=150.0, r=38.0))
+GARDEN_RING_AREAS = [
+    dict(code="T09-01", name="Garden ring", kind="garden", use="The garden all the way round the dome at the palace's level, under a glass vault on bronze ribs from the dome's foot to the Ring's eave: olive trees, red maples, palms, ferns and flowering beds along a path round the dome, benches; the armillary sundial at the front right.", also="Walks between classes, open-air lessons."),
+    dict(code="T09-06", name="Sunken grove", kind="garden", use="On the left, the garden steps down 5.6 m into a grove at the lower floor's level under flat glass at ground level: tall trees with room to grow, a pond, stairs down at both ends; the café, the dining hall, the assembly hall and the art studio open onto it.", also="Lunch outside, concerts."),
+]
+
+# the entrance: the old courtyard becomes a plaza under a shallow glass dome in front of the Gate Hall, the airlock at its
+# front; its height stays under the line of sight from the start
+ENTRANCE = dict(c=(0.0, 73.4), r=11.6, h=6.6, airlock=dict(s0=84.8, s1=89.8, w=6.0, h=2.6))
+ENTRANCE_ROOMS = [
+    dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across and 6.6 m high on a steel lattice, its back on the Ring's front: paving, the campus's name on a stone wall, planters with young trees, benches.", also="Arrivals and farewells, the graduation photo."),
+    dict(code="T04-02", name="Entrance airlock", kind="move", use="At the dome's front: outer and inner sliding glass doors with a chamber 5 m long between them, never open together; suit lockers and a bench.", also=""),
+]
 
 # ------------------------------------------------------------------------------------------------- T-07 Infinity Hall
 # A lecture theatre built into the slope like a Greek theatre: the stage at the low end, at the point of a fan, the rows
@@ -164,13 +262,23 @@ TERMINAL_ROOMS = [
     dict(code="T15-05", name="Boarding gates", kind="move", use="Two collars on the pad side that seal onto a pod's door: you board without a suit.", also=""),
 ]
 
-# The pods (Jim, 5 Oct 2026: "add some flying pod I can take and can drive the flying pod to see the eagle view"): two-seat
-# craft about 6 m long, a teardrop cabin in white composite with a tinted canopy, four big ducted rotors (Mars's thin air
-# needs large blades), skids, navigation lights. One waits at the pod stop by the entrance (T04-03), four on the pads.
-# Walk up to one to board it; fly it anywhere over the campus and the crater, up to 400 m, at up to 40 m/s; set it down on
-# any pad or on open, level ground, and step out beside it.
-POD = dict(length=6.0, width=2.4, height=2.4, rotor_r=1.1, rotors=[(-2.45, 2.0), (2.45, 2.0), (-2.45, -2.0), (2.45, -2.0)],   # room to get in between the right-hand ducts
-           top_speed=40.0, climb=8.0, ceiling=400.0, min_clear=2.5, land_slope=0.12)
+# The pods (Jim, 5 Oct 2026: "add some flying pod I can take and can drive the flying pod to see the eagle view"; then "it
+# is like drone, but on mars air is so little and can hardly support flying pod. borrow the same idea from Jim's
+# retirement home use anti gravity technology (not 5 anti gravity drives but with some cool shape)"; "the flying pod looks
+# not real. please improve"). Version 2: no rotors and no thrust. The drive is a halo, a flat elliptical ring round the
+# cabin's waist on two swept pylons, whose field pushes against the ground like the Crown's drives at Arcadia and steers by
+# leaning; it glows faintly underneath and stirs the dust when the pod is low. The cabin is a teardrop of pearl-white
+# composite under a one-piece tinted canopy, two seats side by side with the pilot on the right as in a helicopter, chin
+# windows at the feet, the door on the right. A pod never needs flat ground and never touches a roof: set down, it floats
+# level 0.45 m over the ground or its dock (hover), and you step out on its right. Up to 400 m and 40 m/s.
+POD = dict(length=5.6, width=2.3, height=1.95, halo=dict(rx=3.3, rz=2.05, w=0.42, t=0.13, y=1.02), hover=0.45,
+           top_speed=40.0, climb=8.0, ceiling=400.0, min_clear=1.2)
+# The pod dock (Jim: "the parking is too close to the building. need special parking so that when parked, there is
+# connection so people can go directly into the building"): a round deck at the upper floor's level off the Ring's right
+# side, clear of everything for the approach; LAND near it and the pod settles onto the docking spot with its door to
+# the bridge, the collar runs out and seals, and you walk through the glass bridge (T17-02) into the pod lounge (T06-21).
+POD_DOCK = dict(a=96.5, r=75.0, deck_r=6.5, spot_r=71.6, bridge=(62.0, 68.5), w=2.6, h=2.7)
+POD_DOCK_ROOMS = [dict(code="T04-03", name="Pod dock", kind="pad", use="A round deck 13 m across at the upper floor's level off the Ring's right side, on slender columns: a pod settles onto its docking spot, the collar runs out from the glass bridge to its door, and you walk straight into the Ring's pod lounge.", also="")]
 
 # ------------------------------------------------------------------------------------------------- T-16 Sun court
 # Where the solar field stood, behind the classroom wing. The campus has no power plant of its own: it is on the grid of
@@ -178,12 +286,13 @@ POD = dict(length=6.0, width=2.4, height=2.4, rotor_r=1.1, rotors=[(-2.45, 2.0),
 # close by. free the space up for other purposes"). Kept low: here the ground hides no more than about 4 m. An
 # armillary sundial, because Gale crater is almost on the equator, where a dial drawn flat on the ground fails.
 # Sealed (Jim, 5 Oct 2026): the court is sunk to the lobby's floor and covered by a low glass vault, whose crown stays
-# under the line of sight; the sun still reaches the dial through the glass. A short link (T17-01) from the classroom
-# wing's lobby. Heights here are absolute (the palace frame's y).
+# under the line of sight; the sun still reaches the dial through the glass. Heights here are absolute (the palace
+# frame's y). With the Ring (T-06), whose library stands on this spot, the sundial and its benches move into the garden
+# ring at the front right (GARDEN_RING's sundial), under the glass vault, where the sun still reaches it.
 SUNCOURT = dict(lat=27.0, rad=47.5, w=12.0, d=19.0, sphere=2.2, plinth=0.6, benches=5, floor=0.0, crown=4.4, spring=1.6)
 SUNCOURT_ROOMS = [
     dict(code="T16-01", name="Armillary sundial", kind="garden", use="A bronze armillary sphere 2.2 m across on a stone plinth, its rod parallel to Mars's axis; the hour ring shows the sol's 24 Mars hours (each 1 h 2 min long).", also="Lessons on angles, time and orbits."),
-    dict(code="T16-02", name="Sun classroom", kind="garden", use="Five long stone benches with cushions in a half-circle facing the sundial, on basalt paving, under a low glass vault on bronze ribs; in from the lobby by a short link.", also="A quiet seat in the morning sun."),
+    dict(code="T16-02", name="Sun classroom", kind="garden", use="Five long stone benches with cushions in a half-circle facing the sundial, on basalt paving, in the garden ring under its glass vault.", also="A quiet seat in the morning sun."),
 ]
 
 # ------------------------------------------------------------------------------------------------- T-09 the garden domes and the winter garden
@@ -202,10 +311,10 @@ GARDEN = dict(back_terrace=(28.0, 46.0), domes=DOMES, winter=WINTER,
                           dict(name="Möbius bench", lat=-12.0, rad=-120.0), dict(name="stellated dodecahedron", lat=12.0, rad=-141.0)])
 GARDEN_AREAS = [
     dict(code="T09-01", name="Winter garden", kind="garden", use="The old back terrace, now under a glass vault on bronze ribs that wraps the back of the dome from the palace's back door to the Crescent: stone paving, olive trees, palms and red maples in big planters, long benches, the view up into the dome.", also="Receptions, a quiet place to read."),
-    dict(code="T09-02", name="Upper garden dome", kind="garden", use="Under the first glass dome, level with the Crescent's lower floor: lawns and flower beds on the golden spiral, the Klein bottle and the trefoil knot, a café kiosk.", also="Lessons outdoors, as it feels."),
+    dict(code="T09-02", name="Upper garden dome", kind="garden", use="Under the first glass dome, level with the Ring's lower floor: lawns and flower beds on the golden spiral, the Klein bottle and the trefoil knot, a café kiosk.", also="Lessons outdoors, as it feels."),
     dict(code="T09-03", name="Spiral garden dome", kind="garden", use="Under the middle dome, a step lower: the golden spiral path through ferns, grasses and flowering shrubs, the Möbius bench, a pool.", also=""),
     dict(code="T09-05", name="Lower garden dome", kind="garden", use="Under the lowest and tallest dome: fruit trees and tall palms, the stellated dodecahedron, the plaza at the observatory's door.", also="Concerts and the graduation party."),
-    dict(code="T09-04", name="Palace back door", kind="move", use="A glass vestibule at the back of the dome, from the balcony into the winter garden.", also=""),
+    dict(code="T09-04", name="Palace back door", kind="move", use="A glass vestibule at the back of the dome, from the balcony into the garden ring.", also=""),
 ]
 
 # ------------------------------------------------------------------------------------------------- T-17 the links
@@ -213,8 +322,7 @@ GARDEN_AREAS = [
 # in the ground and banked with regolith on the outside (shade and shielding), a glass vault on steel ribs above it.
 # From and to are points in the palace frame; w is the clear width, h the height inside at the crown.
 LINKS = [
-    dict(code="T17-01", name="Sun court link", a=(16.0, 53.0), b=(21.0, 53.0), w=3.0, h=3.0, use="From the classroom wing's lobby down three steps into the Sun court."),
-    dict(code="T17-02", name="Pod stop collar", a=(-3.5, 81.0), b=(-4.6, 81.0), w=2.2, h=2.6, use="A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."),
+    dict(code="T17-02", name="Pod dock bridge", a=(61.6, 7.02), b=(68.06, 7.75), w=2.6, h=2.7, use="A glass bridge from the Ring's pod lounge over the garden gallery to the pod dock, and the docking collar that runs out to a pod's door."),
     dict(code="T17-03", name="Infinity link", a=(-22.0, -91.0), b=(-38.5, -92.0), w=4.0, h=3.4, use="From the upper garden dome to Infinity Hall's foyer."),
     dict(code="T17-04", name="Greenhouse link", a=(22.0, -88.0), b=(48.0, -88.0), w=4.0, h=3.4, use="From the upper garden dome to the Garden of Primes."),
     dict(code="T17-05", name="Observatory collar", a=(0.0, -161.0), b=(0.0, -163.0), w=5.0, h=3.6, use="From the lowest garden dome into the observatory."),
@@ -225,22 +333,21 @@ LINKS = [
 LINK_ROOMS = [dict(code=k["code"], name=k["name"], kind="move", use=k["use"], also="") for k in LINKS]
 
 BUILDINGS = [
-    dict(code="T-04", name="Courtyard hall and entrance", rooms=COURTYARD_ROOMS, geo=COURTYARD, page="courtyard.html"),
-    dict(code="T-06", name="The Crescent: the Academy", rooms=CRESCENT_ROOMS, geo=CRESCENT, page="crescent.html"),
+    dict(code="T-04", name="Entrance dome, airlock and pod dock", rooms=ENTRANCE_ROOMS + POD_DOCK_ROOMS, geo=ENTRANCE, page="ring.html"),
+    dict(code="T-06", name="The Ring", rooms=RING_ROOMS, geo=RING, page="ring.html"),
     dict(code="T-07", name="Infinity Hall", rooms=INFINITY_ROOMS, geo=INFINITY, page="infinity.html"),
     dict(code="T-08", name="Garden of Primes", rooms=GREENHOUSE_ROOMS, geo=GREENHOUSE, page="greenhouse.html"),
-    dict(code="T-09", name="Garden domes and winter garden", rooms=GARDEN_AREAS, geo=None, page="garden.html"),
+    dict(code="T-09", name="Garden ring and garden domes", rooms=GARDEN_RING_AREAS + [a for a in GARDEN_AREAS if a["code"] != "T09-01"] + SUNCOURT_ROOMS, geo=None, page="garden.html"),
     dict(code="T-10", name="Observatory", rooms=OBSERVATORY_ROOMS, geo=OBSERVATORY, page="observatory.html"),
     dict(code="T-11", name="Low-gravity Sports Dome", rooms=SPORTS_ROOMS, geo=SPORTS, page="sports.html"),
     dict(code="T-12", name="Robotics and Rover Hangar", rooms=HANGAR_ROOMS, geo=HANGAR, page="hangar.html"),
     dict(code="T-14", name="Pod Port", rooms=PODPORT_ROOMS, geo=PODPORT, page="pods.html"),
     dict(code="T-15", name="Pod terminal", rooms=TERMINAL_ROOMS, geo=TERMINAL, page="pods.html"),
-    dict(code="T-16", name="Sun court", rooms=SUNCOURT_ROOMS, geo=SUNCOURT, page="suncourt.html"),
     dict(code="T-17", name="The links", rooms=LINK_ROOMS, geo=None, page="links.html"),
 ]
 
 # the pages of ttmath/plan/, for the navigation bar of campus_plan.py and campus_buildings.py
 PLAN_NAV = [("index.html", "The plan"), ("buildings.html", "The buildings")] + [(b, c) for b, c in (
-    ("courtyard.html", "T-04"), ("crescent.html", "T-06"), ("infinity.html", "T-07"), ("greenhouse.html", "T-08"), ("garden.html", "T-09"),
-    ("observatory.html", "T-10"), ("sports.html", "T-11"), ("hangar.html", "T-12"), ("pods.html", "T-14, T-15"), ("suncourt.html", "T-16"),
+    ("ring.html", "T-04, T-06"), ("infinity.html", "T-07"), ("greenhouse.html", "T-08"), ("garden.html", "T-09"),
+    ("observatory.html", "T-10"), ("sports.html", "T-11"), ("hangar.html", "T-12"), ("pods.html", "T-14, T-15"),
     ("links.html", "T-17"))] + [("rover.html", "The rover")]

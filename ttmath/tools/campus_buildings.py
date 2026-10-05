@@ -13,6 +13,12 @@ FILL = {"class": "#EBDFC6", "study": "#DDE7D0", "lab": "#D5E1E8", "compete": "#E
 INK, INK2, GLASS, WALL, PAPER, RED = "#24272A", "#4E575B", "#3E86B8", "#2B2926", "#FAF8F3", "#A8432A"
 
 
+def frange(a, b, st):
+    out, v = [], a
+    while v <= b + 1e-9: out.append(v); v += st
+    return out
+
+
 def area_of(pts): return abs(sum(pts[i][0] * pts[(i + 1) % len(pts)][1] - pts[(i + 1) % len(pts)][0] * pts[i][1] for i in range(len(pts)))) / 2
 
 
@@ -162,6 +168,125 @@ def crescent():
     return d.save("svg-crescent.svg"), d.areas
 
 
+# ------------------------------------------------------------------------------------------------- T-06 the Ring
+RING_FILL = {"seminar": "class", "library": "study", "reading": "study", "gate": "hall", "physics": "lab", "maker": "lab", "astro": "lab", "plant": "tech",
+             "store": "tech", "kitchen": "service", "dining": "lounge", "cafe": "lounge", "assembly": "hall", "art": "games", "music": "games", "clinic": "staff"}
+
+
+def ring_kind(k): return RING_FILL.get(k, k)
+
+
+def ring_sec(a):
+    a = ((a + 57.0) % 360.0) - 57.0
+    for sc in R.RING["sections"]:
+        if sc["a"][0] <= a < sc["a"][1]: return sc
+    return R.RING["sections"][0]
+
+
+def upright(a):
+    """a label's rotation along the ring that never reads upside down"""
+    a = ((a + 180.0) % 360.0) - 180.0
+    return a if -90 <= a <= 90 else a - 180.0 if a > 0 else a + 180.0
+
+
+def ring():
+    C = R.RING; r0, r1, rc = C["r0"], C["r1"], C["rc"]; GL, GR, EN, PD = C["gallery"], R.GARDEN_RING, R.ENTRANCE, R.POD_DOCK
+    out, areas = [], {}
+    CW = r1 - 3.6                                                         # where the corridor runs on the outside, in the sunk quarter
+    for fl, title, sub, fname in (("upper", "T-06 · The Ring: the upper floor", "Level with the palace's floor and the garden ring. The front, the start's side, at the bottom; behind the dome at the top.", "svg-ring-upper.svg"),
+                                  ("lower", "T-06 · The Ring: the lower floor", "5.6 m down, all the way round: the garden gallery behind and on the right, underground on the right front, beside the sunken grove on the left.", "svg-ring-lower.svg")):
+        W, H, S = 1120, 1250, 6.3
+        d = Plan(W, H, title, sub); d.frame(W / 2, 640, 0.0, 0.0, S)
+        G0, G1 = -80.0, 224.0; V0, V1 = GR["grove"]["a"]
+        if fl == "upper":
+            d.poly(ring_band_pts(GR["r0"], r0, G0, G1), FILL["garden"], "#6F8F5A", 0.9)                       # the garden ring at this level
+            d.poly(ring_band_pts(GR["r0"], r0, V0, V1), "#C9DDB4", "#6F8F5A", 0.9, "4 3")                     # the grove, 5.6 m down
+            d.note(*polar(37.3, 252), "T09-06 sunken grove, 5.6 m down", 9.5, 700, "#4E6E3A", rot=upright(252))
+            for a, t in ((60, "T09-01 garden ring"), (-30, "T09-01 garden ring"), (122, "T09-01 garden ring")): d.note(*polar(37.3, a), t, 10, 700, "#4E6E3A", rot=upright(a))
+            sd = GR["sundial"]; d.circ(polar(sd["r"], sd["a"]), 1.4, "#E8D9A8", "#8A6D2E", 1.0); d.note(*polar(sd["r"] - 3.2, sd["a"]), "sundial (T16-01)", 8.5, 400, INK2, rot=upright(sd["a"]))
+            d.circ((0, 0), 28.75, "#ECE9E2", "#77706A", 2.0); d.note(0, 0, "T-01 Math Palace", 11, 700)
+            d.poly(box(-4.6, 28.0, 4.6, 33.4), "#ECE9E2", "#77706A", 1.0); d.note(0, 31.0, "palace door", 8, 400, INK2)
+        else:
+            d.poly(ring_band_pts(GR["r0"], r0, V0, V1), FILL["garden"], "#6F8F5A", 0.9)                       # the grove at this level
+            d.note(*polar(37.3, 252), "T09-06 sunken grove", 10, 700, "#4E6E3A", rot=upright(252))
+            d.circ((0, 0), 28.75, "none", "#9C968C", 1.0, "5 4"); d.note(0, 0, "under the palace", 9, 400, INK2)
+            d.note(*polar(37.3, 60), "the garden ring above", 9.5, 400, INK2, rot=upright(60))
+        # the Ring's rooms on this floor
+        for rm in R.RING_ROOMS:
+            on = rm["floor"] == fl or rm["floor"] == "both" or (rm["floor"] == "gate" and fl == "upper")
+            if not on or rm.get("band") == "gallery": continue
+            a0, a1 = rm["a"]; am = (a0 + a1) / 2; sc = ring_sec(am)
+            if rm.get("band") == "corridor":
+                if fl == "upper":
+                    segs = [(-57, -7), (7, 120), (191, 197)]; band = (r0, rc)
+                else:
+                    segs = [(-57, -7), (7, 164), (191, 197)]; band = (r0, rc)
+                for s0, s1 in segs:
+                    d.room(rm["code"], ring_band_pts(band[0], band[1], s0, s1), "move", at=polar((band[0] + band[1]) / 2, (s0 + s1) / 2), rot=upright((s0 + s1) / 2), size=8.5)
+                if fl == "lower":                                          # outside in the sunk quarter, past the rooms on the grove side
+                    d.room(rm["code"], ring_band_pts(CW, r1, 197, 303), "move", at=polar((CW + r1) / 2, 250), rot=upright(250), size=8.5)
+                    for ax in (197, 303): d.poly(ring_band_pts(r0, r1, ax - 2.2, ax), FILL["move"], WALL, 0.8)
+                else:
+                    for s0, s1 in ((120, 164),):                               # through the rooms under the sloping roof, along the garden glass
+                        d.poly(ring_band_pts(r0, rc, s0, s1), "none", "#77706A", 0.8, "4 3")
+                continue
+            full = rm["kind"] in ("gate",) or rm["code"] in ("T06-01", "T06-08", "T06-35") or (fl == "upper" and sc["kind"] == "low")
+            if fl == "lower" and sc["kind"] == "sunk": ri, ro = r0, CW
+            elif full: ri, ro = r0, r1
+            else: ri, ro = rc, r1
+            nm = rm.get("short") if (a1 - a0) < 10 else rm["name"].split(":")[0]
+            d.room(rm["code"], ring_band_pts(ri, ro, a0, a1), ring_kind(rm["kind"]), nm, at=polar((ri + ro) / 2, am), rot=upright(am), room_w=(ri + ro) / 2 * (a1 - a0) * D2R, size=10)
+            if rm["floor"] == "both" and fl == "lower": areas[rm["code"]] = areas.get(rm["code"], 0) + area_of(ring_band_pts(ri, ro, a0, a1))
+            # the glass: onto the plain (the upper floor where it stands clear), onto the gallery, onto the grove
+            glass_out = (fl == "upper" and sc["kind"] == "two") or (fl == "lower" and GL["a"][0] <= am <= GL["a"][1])
+            glass_in = fl == "lower" and V0 <= am % 360 <= V1
+            if rm["kind"] not in ("service", "move", "plant", "store", "kitchen") and glass_out: d.line([polar(r1, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)
+            if glass_in: d.line([polar(r0, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)
+        d.areas.update(areas)
+        if fl == "upper":
+            # the corridor's glass onto the garden ring, the sunk quarter's roof with its skylights
+            for s0, s1 in ((-57, 197),): d.line([polar(r0, a) for a in frange(s0, s1 + 0.1, 1.0)], GLASS, 2.0)
+            d.poly(ring_band_pts(r0, r1, 197, 303), "#E4E0D6", "#9C968C", 0.9, "5 4")
+            for a in frange(203, 300, 8.0):
+                for rr in (50.0, 57.0): d.poly(ring_band_pts(rr - 1.4, rr + 1.4, a - 1.6, a + 1.6), "#D6E6EF", "#7C9AAA", 0.6)
+            d.note(*polar(54, 230), "the lower floor's roof at ground level, skylights", 9, 400, INK2, rot=upright(230))
+            d.poly(ring_band_pts(GL["r0"], GL["r1"], GL["a"][0], GL["a"][1]), "none", "#8A847A", 0.8, "5 4"); d.note(*polar(65.3, 20), "garden gallery's glass roof, below", 8.5, 400, INK2, rot=upright(20))
+            # the entrance: the dome over the plaza, the airlock at its front, the Gate Hall behind
+            d.circ(EN["c"], EN["r"], "#E6F0F4", "#3E86B8", 1.6); A = EN["airlock"]
+            d.room("T04-02", box(-A["w"] / 2, A["s0"], A["w"] / 2, A["s1"]), "move", "airlock", room_w=A["w"], size=9)
+            d.note(EN["c"][0], EN["c"][1] + 3.5, "T04-01 entrance dome", 10.5, 700, "#2A6E8E"); d.note(EN["c"][0], EN["c"][1] + 6.0, "glass dome 23 m across, 6.6 m high", 8.5, 400, INK2)
+            d.arrow((0, A["s1"] + 6.0), (0, A["s1"] + 0.4), "in from the start", RED, 9.5)
+            for yy in (A["s0"], A["s1"]): d.line([(-1.3, yy), (1.3, yy)], PAPER, 3.6)
+            d.line([(-1.3, 62.0), (1.3, 62.0)], PAPER, 3.6); d.line([(-1.3, 46.0), (1.3, 46.0)], PAPER, 3.6)
+            d.arrow((0, 58.0), (0, 35.0), None, RED)
+            # the pod dock: the bridge from the pod lounge over the gallery, the deck, a pod at its docking spot
+            pa = PD["a"]; dc = polar(PD["r"], pa); d.circ(dc, PD["deck_r"], "#5B6066", "#2B2926", 1.2); d.circ(dc, PD["deck_r"] - 0.6, "none", "#F2C14E", 1.0)
+            d.poly(ring_band_pts(PD["bridge"][0], PD["bridge"][1] + 0.6, pa - 1.2, pa + 1.2), "#E6F0F4", GLASS, 1.2)
+            sp = polar(PD["spot_r"], pa); t = (math.cos(pa * D2R), math.sin(pa * D2R))
+            d.poly([(sp[0] + t[0] * 2.8 + math.sin(pa * D2R) * 1.15, sp[1] + t[1] * 2.8 - math.cos(pa * D2R) * 1.15), (sp[0] + t[0] * 2.8 - math.sin(pa * D2R) * 1.15, sp[1] + t[1] * 2.8 + math.cos(pa * D2R) * 1.15),
+                    (sp[0] - t[0] * 2.8 - math.sin(pa * D2R) * 1.15, sp[1] - t[1] * 2.8 + math.cos(pa * D2R) * 1.15), (sp[0] - t[0] * 2.8 + math.sin(pa * D2R) * 1.15, sp[1] - t[1] * 2.8 - math.cos(pa * D2R) * 1.15)], "#FFFFFF", "#2B2926", 1.0)
+            d.note(*polar(PD["r"], pa + 8.2), "T04-03 pod dock", 10, 700, INK, rot=0); d.note(*polar(PD["r"] - 1.0, pa + 10.2), "T17-02 glass bridge, docking collar", 8.5, 400, INK2, rot=0)
+            d.note(*polar(66, 142), "the hill rises here", 9, 400, "#8A6D2E", rot=upright(142))
+        else:
+            d.room("T06-15", ring_band_pts(GL["r0"], GL["r1"], GL["a"][0], GL["a"][1]), "garden", "Garden gallery", at=polar(65.3, -30), rot=upright(-30), room_w=40, size=10)
+            d.line([polar(GL["r1"], a) for a in frange(GL["a"][0], GL["a"][1] + 0.1, 1.0) if not (-15 < a < 15)], "#8A847A", 3.4)
+            for dm in R.DOMES[:1]: d.line([(dm["lat"] + dm["r"] * math.sin(t * D2R), dm["rad"] + dm["r"] * math.cos(t * D2R)) for t in range(-26, 27, 2)], "#6F8F5A", 1.4, "6 4")
+            d.arrow((0, -GL["r1"] + 3.0), (0, -GL["r1"] - 2.4), None, "#4E6E3A"); d.note(0, -GL["r1"] - 4.2, "into the upper garden dome (T09-02)", 9, 700, "#4E6E3A")
+            d.line([polar(r0 - 0.4, a) for a in frange(-80, 224, 1.0)], "#8A847A", 3.0)
+            d.note(*polar(44.0, 140), "retaining wall: the garden ring above", 8.5, 400, INK2, rot=upright(140))
+            for a in frange(203, 300, 8.0):
+                for rr in (50.0,): d.poly(ring_band_pts(rr - 1.0, rr + 1.0, a - 1.4, a + 1.4), "none", "#7C9AAA", 0.6, "2 2")
+            d.note(*polar(63.6, 236), "the corridor runs against the earth", 8.5, 400, INK2, rot=upright(236))
+        d.scalebar(24, H - 30, 10)
+        out.append(d.save(fname)); areas.update(d.areas)
+    return out, areas
+
+
+def ring_band_pts(ra, rb, a0, a1, n=None):
+    n = n or max(3, int(abs(a1 - a0) / 1.5))
+    return [polar(rb, a0 + (a1 - a0) * k / n) for k in range(n + 1)] + [polar(ra, a1 - (a1 - a0) * k / n) for k in range(n + 1)]
+
+
 # ------------------------------------------------------------------------------------------------- T-07 Infinity Hall
 def infinity():
     G = R.INFINITY; ha = G["half_angle"]; t = G["turn"] * D2R; ct, st = math.cos(t), math.sin(t)
@@ -237,15 +362,15 @@ def dome_top(dm, lat, rad):
 
 
 def garden():
-    G = R.GARDEN; C = R.CRESCENT; GL = R.GALLERY; WG = R.WINTER
-    d = Plan(760, 860, "T-09 · The garden domes and the winter garden: plan", "From the palace's back door through the winter garden and the Crescent, down three glass domes to the observatory: all under glass, all in air.")
+    G = R.GARDEN; C = R.RING; GL = R.RING["gallery"]; WG = R.GARDEN_RING
+    d = Plan(760, 860, "T-09 · The garden ring and the garden domes: plan", "From the palace's back door through the winter garden and the Crescent, down three glass domes to the observatory: all under glass, all in air.")
     d.frame(380, 84, 0.0, -186.0, 3.6)
     d.poly(sector(16, 28, -60, 60), "#ECE9E2", "#9C968C", 1.0); d.note(0, -19, "T-01 Math Palace", 10, 400)
-    wg = sector(WG["r0"], WG["r1"], -WG["a"], WG["a"]); d.poly(wg, FILL["garden"], "#6F8F5A", 1.0)
-    for a in range(-48, 49, 6): d.line([polar(WG["r0"], a), polar(WG["r1"], a)], "#9DB58A", 0.6)          # the vault's ribs
-    d.note(0, -37.6, "T09-01 winter garden", 10, 700, "#3F5E2E")
-    d.poly(sector(C["r0"], C["r1"], C["a0"], C["a1"]), "#EBDFC6", WALL, 1.0); d.note(*polar(54, -34), "T-06 the Crescent", 9.5, 700, INK, rot=-34)
-    d.poly(sector(C["r1"], GL["r1"], -GL["a"], GL["a"]), "#DCEACB", "#6F8F5A", 0.9); d.note(*polar(65.3, 34), "T06-15 garden gallery", 8.5, 700, "#3F5E2E", rot=34)
+    wg = sector(WG["r0"], WG["r1"], -80, 80); d.poly(wg, FILL["garden"], "#6F8F5A", 1.0)
+    for a in range(-78, 79, 6): d.line([polar(WG["r0"], a), polar(WG["r1"], a)], "#9DB58A", 0.6)          # the vault's ribs
+    d.note(0, -37.6, "T09-01 garden ring", 10, 700, "#3F5E2E"); d.note(0, -40.6, "all the way round the dome", 8.5, 400, "#4E6E3A")
+    d.poly(sector(C["r0"], C["r1"], -90, 90), "#EBDFC6", WALL, 1.0); d.note(*polar(54, -34), "T-06 the Ring", 9.5, 700, INK, rot=-34)
+    d.poly(sector(C["r1"], GL["r1"], GL["a"][0], 90), "#DCEACB", "#6F8F5A", 0.9); d.note(*polar(65.3, 34), "T06-15 garden gallery", 8.5, 700, "#3F5E2E", rot=34)
     bd = G["back_door"]; d.poly(box(-bd["w"] / 2, -26.6, bd["w"] / 2, -30.6), FILL["move"]); d.note(4.5, -28.6, "T09-04", 9, 700, INK, "start")
     names = {"T09-02": "upper garden dome", "T09-03": "spiral garden dome", "T09-05": "lower garden dome"}
     for k, dm in enumerate(G["domes"]):
@@ -276,7 +401,8 @@ def garden():
     d.note(-40.0, -96.0, "T17-03 → T-07 Infinity Hall", 9, 700, INK2, "end"); d.note(24.0, -93.0, "T17-04 → T-08 Garden of Primes", 9, 700, INK2, "start")
     d.note(9.5, -162.0, "T17-05", 8.5, 700, INK2, "start")
     d.scalebar(24, 830, 20); d.toward_palace(470, 826)
-    return d.save("svg-garden.svg"), dict(d.areas, **{"T09-01": area_of(wg), "T09-04": bd["w"] * bd["d"]})
+    full = ring_band_pts(WG["r0"], WG["r1"], -80, WG["grove"]["a"][0]); grove = ring_band_pts(WG["r0"], WG["r1"], *WG["grove"]["a"])
+    return d.save("svg-garden.svg"), dict(d.areas, **{"T09-01": area_of(full), "T09-06": area_of(grove), "T09-04": bd["w"] * bd["d"]})
 
 
 # ------------------------------------------------------------------------------------------------- T-04 the courtyard hall and the entrance
@@ -526,30 +652,40 @@ def table(rooms, areas):
 def fig(src, cap): return '<figure><a href="%s"><img src="%s" alt="%s"></a><figcaption>%s</figcaption></figure>' % (src, src, E(cap), cap)
 
 
-PODS_MORE = """<ul><li><b>The pads:</b> dark, with white markings, a ring of lights round each and a charging mast beside it; taxi lanes to the terminal. The pads are outside, on the ground: only the pods go there. People board through the collars, in air.</li>
-<li><b>The pods:</b> two-seat craft about 6 m long, a teardrop cabin in white composite with a tinted canopy, four big ducted rotors (Mars's thin air needs large blades), landing skids and navigation lights: the proportions and detail of a real aircraft, nothing toy-like.</li>
-<li><b>Fly one:</b> walk up to a pod to board it, at the pod stop by the entrance (T04-03) or here; fly it over the campus and the crater, up to 400 m and at up to 40 m/s, for the eagle's view; set it down on any pad or on open, level ground.</li>
+PODS_MORE = """<ul><li><b>The pads:</b> dark, with white markings, a ring of lights round each and a charging mast beside it; taxi lanes to the terminal. The pads are outside, on the ground: only the pods go there. People board through the terminal's collars, so nobody needs a suit.</li>
+<li><b>The pods</b> (Jim: <i>"on mars air is so little and can hardly support flying pod. borrow the same idea from Jim's retirement home use anti gravity technology"</i>): no rotors and no thrust. A two-seat cabin 5.6 m long, a teardrop of pearl-white composite under a one-piece tinted canopy, sits inside a halo: a flat elliptical ring round its waist on two swept pylons, the anti-gravity drive, whose field pushes against the ground like the Crown's drives at Arcadia and steers by leaning. It glows faintly underneath and stirs the dust when the pod is low. The pilot sits on the right, with chin windows at the feet for looking straight down.</li>
+<li><b>Fly one:</b> board it at the pod dock off the Ring's right side (T04-03) or here; fly it over the campus and the crater, up to 400 m and at up to 40 m/s, for the eagle's view. Set down anywhere open: a pod floats level 0.45 m over the ground, whatever the slope, and never touches a roof. At the pod dock it settles onto its docking spot and the collar runs out to its door.</li>
 <li><b>Ready for later:</b> the pads, chargers and collars are sized for bigger pods, and two more pads fit on the plain beyond.</li></ul>"""
 SEALED_MORE = """<p>Jim, 5 Oct 2026: <i>"since bad conditions, all the schools buildings should be connected and sealed, so there should not be open area to the air. all open space should be covered by dome or sealed"</i>. Every room, court and garden is under a roof, a glass vault or a dome; every building is joined to the next by a sealed link; people meet the outside only at airlocks.</p>"""
+RING_LEDE = ("The whole school in one ring round the Math Palace, like Apple Park's ring but sealed for Mars and set into the crater's slope: "
+             "the Crescent grows all the way round, the two wings' rooms move into it, the courtyard becomes the entrance under a glass dome, "
+             "and the garden ring under glass fills the space between the Ring and the dome.")
+RING_MORE = """<p>Jim, 5 Oct 2026: <i>"why classroom building are half? please build the circle around the dome, like apple headquarter building"</i>; <i>"the entrance is not sealed by dome. it needs to. overall I like this structure similar like apple headerqueate but much more future proof and impressive than it"</i>.</p>
+<ul><li><b>One ring, 340 m round its middle</b>, between radii 46 and 62 m round the dome, 16 m deep: rooms on the outside, a corridor along the garden glass. The lower floor's corridor goes all the way round; the upper floor's from the west stair round the back and the right to the Gate Hall.</li>
+<li><b>Set into the slope.</b> Two storeys behind and beside the dome, where the ground falls to the plain. On the right front, where the hill rises, the upper floor's roof slopes down toward it. The Gate Hall at the front, two storeys tall. On the left front, where the start looks down through a dip in the ridge, only the lower floor, its roof at ground level with skylights, beside the sunken grove; so the campus still stays hidden until you reach the ridge. The roof line rises and falls with the hill all the way round (the profile below).</li>
+<li><b>The way in:</b> from the start through the airlock (T04-02) into the entrance dome (T04-01), a plaza under glass 23 m across; through the Gate Hall into the garden ring; on to the palace's door.</li>
+<li><b>The pods dock</b> at the pod dock off the right side (T04-03): the pod settles onto its spot, the docking collar runs out from the glass bridge (T17-02) and you walk straight into the pod lounge (T06-21).</li>
+<li><b>The wings come down:</b> M1 Mathematics becomes Pythagoras (T06-20), the coding lab Lovelace (T06-23), the seminar room Socrates (T06-24); the library (T06-25), the reading room (T06-26) and the café (T06-38) move in; reception and the lobby become the Gate Hall (T06-27).</li>
+<li><b>Future-proof:</b> 36 bays of 10° on one steel frame with the same facade panels, so any bay can change its use; a metre of water in sealed cells in the roof, a shield against cosmic rays and the campus's water store; the air, water and power run round the lower floor's corridor; the frame over the back half is sized for a third storey.</li></ul>
+<figure><a href="svg-ring-profile.svg"><img src="svg-ring-profile.svg" alt="The Ring unrolled: floors, roof, ground and line of sight"></a><figcaption><b>The Ring unrolled</b> all the way round: its floors and roof, the ground and the line of sight from the start (red; the start sees what is above it). The garden ring's glass vault in green.</figcaption></figure>"""
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
 SPECS = [
-    ("courtyard.html", "T-04 · The courtyard hall and the entrance", "The courtyard between the wings, now under a glass vault, with the entrance airlock under the gateway and a pod stop beside it: the way in from the start.", courtyard, R.COURTYARD_ROOMS, SEALED_MORE),
-    ("crescent.html", "T-06 · The Crescent: the Academy", "Six classrooms named after mathematicians, a study hall, a competition room, a games room and lounge, the teachers' room and washrooms on both floors, in a crescent that wraps the back of the dome. The upper floor opens onto the winter garden; the lower floor onto the garden gallery and the garden domes.", crescent, R.CRESCENT_ROOMS, CRESCENT_MORE),
+    ("ring.html", "T-06 · The Ring", RING_LEDE, ring, R.RING_ROOMS + R.ENTRANCE_ROOMS + R.POD_DOCK_ROOMS, RING_MORE),
     ("infinity.html", "T-07 · Infinity Hall", "A lecture theatre for 240 on the west side of the garden domes, built into the slope like a Greek theatre; in from the upper garden dome by a link.", infinity, R.INFINITY_ROOMS, ""),
     ("greenhouse.html", "T-08 · Garden of Primes", "Two glass vaults full of real plants on the east side of the garden domes, joined to them by a link.", greenhouse, R.GREENHOUSE_ROOMS, ""),
-    ("garden.html", "T-09 · The garden domes and the winter garden", "The garden from the palace's back door down the slope to the observatory, all under glass: the winter garden round the back of the dome, the garden gallery along the Crescent, three glass domes stepping down the hill.", garden, R.GARDEN_AREAS, SEALED_MORE),
+    ("garden.html", "T-09 · The garden ring and the garden domes", "The garden all under glass: the garden ring all the way round the dome (with the sunken grove on the left and the armillary sundial at the front right), the garden gallery along the Ring, three glass domes stepping down the hill to the observatory.", garden, R.GARDEN_RING_AREAS + [x for x in R.GARDEN_AREAS if x["code"] != "T09-01"] + R.SUNCOURT_ROOMS, SEALED_MORE),
     ("observatory.html", "T-10 · Observatory", "A tower at the foot of the garden domes on the palace's axis, with a telescope dome on top; links to the lowest garden dome and to the pod terminal.", observatory, R.OBSERVATORY_ROOMS, ""),
     ("sports.html", "T-11 · Low-gravity Sports Dome", "Games in Mars gravity, a climbing wall and a fitness gallery under one dome; a link from behind Infinity Hall's stage.", sports, R.SPORTS_ROOMS, ""),
     ("hangar.html", "T-12 · Robotics and Rover Hangar", "Where the rovers live and students build robots, next to the test yard (T-13); a link from the Garden of Primes. The rovers dock to suitports, so nobody walks outside without a suit room.", hangar, R.HANGAR_ROOMS, ""),
     ("pods.html", "T-14 · Pod Port and T-15 · terminal", "A parking field for flying pods with its terminal, at the far end of the campus on the plain, where nothing on the ground can be seen from the start: built now so the campus is ready for travel by air.", pods, R.PODPORT_ROOMS + R.TERMINAL_ROOMS, PODS_MORE),
-    ("suncourt.html", "T-16 · The Sun court", "An armillary sundial in a sunken court under a low glass vault, behind the classroom wing where the solar field stood; in from the lobby by a short link.", suncourt, R.SUNCOURT_ROOMS, ""),
     ("links.html", "T-17 · The links", "The sealed galleries that join every building to the next, so you can go everywhere in shirt sleeves.", links, R.LINK_ROOMS, SEALED_MORE),
 ]
 if __name__ == "__main__":
     AREAS = {}
     for fn, title, lede, draw, rooms, more in SPECS:
         src, areas = draw(); AREAS.update(areas)
-        page(fn, title, '<h1>%s</h1><p class="lede">%s</p>%s%s%s' % (E(title), E(lede), more, fig(src, "<b>%s</b>, to scale." % E(title.split(" · ")[0])), table(rooms, areas)))
+        figs = "".join(fig(sv, "<b>%s</b>, to scale." % E(title.split(" · ")[0] + (" · " + ("upper floor" if "upper" in sv else "lower floor") if "ring-" in sv else ""))) for sv in (src if isinstance(src, list) else [src]))
+        page(fn, title, '<h1>%s</h1><p class="lede">%s</p>%s%s%s' % (E(title), E(lede), more, figs, table(rooms, areas)))
     missing = [r["code"] for b in SPECS for r in b[4] if r["code"] not in AREAS]
     indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T14", "T04-03")) and c not in ("T07-05", "T11-03"))
     print("building pages written:", len(SPECS), "; rooms", sum(len(s[4]) for s in SPECS), "; indoor floor area about", round(indoor), "m2; no size for", missing)

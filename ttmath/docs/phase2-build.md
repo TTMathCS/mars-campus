@@ -61,8 +61,23 @@ the Crescent's first build (T-06 v1: 46 to 60 m, 4.2 m floors). Next, after the 
    `podUpdate` flies where you look with inertia, keeps clear of the ground and roofs by `podFloor`, lands only on open,
    level ground (`podCanLand`); the cockpit view (the near plane up to 0.32 m with height) or the chase view; a soft
    shadow under the pod; `__mars.pod(...)` for tests). The pod port's pads and pods come with T-14.
-5. The courtyard hall's glass vault and the entrance airlock under the gateway (T04-01, T04-02).
-6. The Sun court's sunken floor and low vault, and its link from the lobby (T-16, T17-01).
-7. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
+The Ring (Jim, 5 Oct 2026: "please build the circle around the dome, like apple headquarter building"; "the entrance
+is not sealed by dome"; the pods on anti-gravity with a dock): the design is in `tools/campus_rooms.py` (`RING`,
+`RING_ROOMS`, `GARDEN_RING`, `ENTRANCE`, `POD`, `POD_DOCK`) and on `plan/ring.html`, checked against the line of sight
+by `campus_plan.py`. It replaces the courtyard hall and the Sun court's vault (the old steps 5 and 6). Build it in steps,
+each pushed when it is checked:
+
+5. The pods v2: the halo drive instead of rotors, a real cabin, landing anywhere at a float (`POD.hover`) and Shift down
+   to the ground; then the pod dock and its bridge and collar (T04-03, T17-02) with the pod lounge (T06-21).
+6. The Ring's right side, two storeys (52 to 120 degrees: Archimedes, Pythagoras, the pod lounge, Lovelace; below them
+   Newton, the maker space, Kepler), the garden gallery along it; generalise `blk_crescent.js` from the Crescent's +-52
+   degrees to the Ring's sections (`RING.sections`).
+7. The front: the Gate Hall, the entrance dome and its airlock (the door interlock from the courtyard step, kept in the
+   session notes), the right front under the sloping roof (Socrates, the library, the reading room; life support and
+   the store below); the wings come down and their rooms' furniture moves into the Ring.
+8. The left front, sunk: the kitchen, the dining hall, the café, the assembly hall, the art and music rooms and the clinic
+   on the lower floor, the corridor against the earth, the skylights; the sunken grove.
+9. The garden ring's vault all the way round (its crown by `GARDEN_RING.crown`), the sundial moved into it.
+10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

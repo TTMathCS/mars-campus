@@ -73,8 +73,8 @@ def wing(sg):
 lw = palace(math.sin(math.radians(313.5)) * 27.5, -math.cos(math.radians(313.5)) * 27.5)
 EXISTING = [
     dict(code="T-01", name="Math Palace", shape=circle(0, 0, 28), h=15, area=2460, use="The glass dome over the rotunda of math exhibits: the heart of the campus. Phase 2 gives it a back door, onto the new garden."),
-    dict(code="T-02", name="Classroom wing", shape=wing(1), h=7.2, area=480, use="M1 Mathematics, the coding lab, the seminar room, the lobby."),
-    dict(code="T-03", name="Café and library wing", shape=wing(-1), h=7.2, area=480, use="Café π, reception, the library and the reading room."),
+    dict(code="T-02", name="Classroom wing", shape=wing(1), h=7.2, area=480, gone=True, use="M1 Mathematics, the coding lab, the seminar room, the lobby: they move into the Ring, and the wing comes down."),
+    dict(code="T-03", name="Café and library wing", shape=wing(-1), h=7.2, area=480, gone=True, use="Café π, reception, the library and the reading room: they move into the Ring, and the wing comes down."),
     dict(code="T-05", name="Logo wall", shape=rect(lw[0], lw[1], 4.8, 1.2, 0), h=1.45, area=0, use="The curved wall with the TTMath logo by the path, just past the ridge."),
 ]
 def ground_at(lat, rad): h, g = at(lat, rad); return g if g is not None else 0.0
@@ -99,7 +99,7 @@ def winter_top(lat, rad): return 0.134 + R.WINTER["crown"]
 
 
 def gallery_top(lat, rad):
-    r = math.hypot(lat, rad); G = R.GALLERY; t = min(1.0, max(0.0, (r - G["r0"]) / (G["r1"] - G["r0"])))
+    r = math.hypot(lat, rad); G = R.RING["gallery"]; t = min(1.0, max(0.0, (r - G["r0"]) / (G["r1"] - G["r0"])))
     return (0.134 + 5.6) * (1 - t) + (ground_at(lat, rad) + G["wall"]) * t
 
 
@@ -110,6 +110,55 @@ def dome_top(dm):
     return f
 
 
+def ang(lat, rad): return math.degrees(math.atan2(lat, -rad))           # round the dome's centre: 0 straight behind it, + toward +lat
+
+
+def ring_section(a):
+    a = ((a + 57.0) % 360.0) - 57.0                                          # the Ring's angles run from -57 to 303
+    for sc in R.RING["sections"]:
+        if sc["a"][0] <= a < sc["a"][1]: return sc
+    return R.RING["sections"][0]
+
+
+def ring_top(lat, rad):
+    sc = ring_section(ang(lat, rad)); t = min(1.0, max(0.0, (math.hypot(lat, rad) - R.RING["r0"]) / (R.RING["r1"] - R.RING["r0"])))
+    return 0.134 + sc["roof"] + (sc.get("roof_out", sc["roof"]) - sc["roof"]) * t
+
+
+def ring_band(a0, a1, r0=None, r1=None, n=None):
+    r0 = R.RING["r0"] if r0 is None else r0; r1 = R.RING["r1"] if r1 is None else r1; n = n or max(4, int(abs(a1 - a0) / 2))
+    return [(r1 * math.sin(math.radians(a)), -r1 * math.cos(math.radians(a))) for a in np.linspace(a0, a1, n)] + \
+           [(r0 * math.sin(math.radians(a)), -r0 * math.cos(math.radians(a))) for a in np.linspace(a1, a0, n)]
+
+
+def garden_crown(a):
+    a = ((a + 80.0) % 360.0) - 80.0; K = R.GARDEN_RING["crown"]
+    return float(np.interp(a, [k[0] for k in K], [k[1] for k in K]))
+
+
+def garden_vault(a):
+    """the garden ring's vault at angle a: a parabola from the dome's foot (r0, 0.6 m) to its outer edge (r1, on the
+    Ring's eave, or on a low wall where the Ring is sunk), its top at the crown; (crown, rm, k) above the palace's floor"""
+    G = R.GARDEN_RING; sc = ring_section(a); yIn = 0.6; yOut = 0.6 if sc["kind"] == "sunk" else sc["roof"] - 0.35; c = max(garden_crown(a), yOut + 0.3)
+    q = math.sqrt((c - yIn) / (c - yOut)); rm = (G["r0"] + q * G["r1"]) / (1 + q); return c, rm, (c - yIn) / (rm - G["r0"]) ** 2
+
+
+def garden_top(lat, rad):
+    a = ((ang(lat, rad) + 80.0) % 360.0) - 80.0; G = R.GARDEN_RING["grove"]
+    if G["a"][0] <= a < G["a"][1]: return 0.134 + G["roof"]
+    c, rm, k = garden_vault(a); return 0.134 + c - k * (math.hypot(lat, rad) - rm) ** 2
+
+
+def entrance_top(lat, rad):
+    E2 = R.ENTRANCE; a, h = E2["r"], E2["h"]; rho = (a * a + h * h) / (2 * h); q = math.hypot(lat - E2["c"][0], rad - E2["c"][1])
+    return 0.134 + h - rho + math.sqrt(max(0.0, rho * rho - q * q))
+
+
+def pod_dock_top(lat, rad):
+    D = R.POD_DOCK; sp = (D["spot_r"] * math.sin(math.radians(D["a"])), -D["spot_r"] * math.cos(math.radians(D["a"])))
+    return 0.134 + (R.POD["hover"] + R.POD["height"] if math.hypot(lat - sp[0], rad - sp[1]) < 3.4 else 0.2)
+
+
 def link_shape(L):
     (la, ra), (lb, rb) = L["a"], L["b"]; ux, uy = lb - la, rb - ra; n = math.hypot(ux, uy) or 1
     vx, vy = -uy / n * (L["w"] / 2 + 0.4), ux / n * (L["w"] / 2 + 0.4)                       # the clear width and the walls
@@ -117,30 +166,31 @@ def link_shape(L):
 
 
 NEW = [
-    dict(code="T-04", name="Courtyard hall and entrance", short="Courtyard hall", shape=[(-latf(sv) + 1.2, sv) for sv in np.linspace(33.3, 77.7, 12)] + [(-3.5, 77.7), (-3.5, 84.0), (3.5, 84.0), (3.5, 77.7)] + [(latf(sv) - 1.2, sv) for sv in np.linspace(77.7, 33.3, 12)],
-         h=6.0, hprof=rel(courtyard_top), h_note="glass vault, 10.6 m by the palace to 6.2 m at the gateway", area=900, label_dy=-30,
-         use="The courtyard between the wings, sealed under a glass vault on slender steel ribs; the entrance airlock under the gateway (the way in from the start); a pod stop beside it.",
-         look="Clear glass on steel ribs every 1.5 m, springing from the wings' roof edges; the gateway arch in front of the airlock's glass."),
-    dict(code="T04-03", name="Pod stop", short="Pod stop", shape=[(R.COURTYARD["podstop"]["lat"] + R.COURTYARD["podstop"]["r"] * math.sin(2 * math.pi * k / 24), R.COURTYARD["podstop"]["rad"] + R.COURTYARD["podstop"]["r"] * math.cos(2 * math.pi * k / 24)) for k in range(24)],
-         h=2.45, hprof=lambda lat, rad: (lambda q: 2.45 if q < 1.6 else (1.95 if q < 3.9 else 0.15))(math.hypot(lat - R.COURTYARD["podstop"]["lat"], rad - R.COURTYARD["podstop"]["rad"])), h_note="the pod 2.45 m tall, its rotor ducts 1.95 m", area=0, ground=True, nolabel=True,
-         use="A pad right beside the airlock with one pod: take it and fly over the campus.", look="A dark pad with a ring of lights, the pod in white composite."),
-    dict(code="T-06", name="The Crescent: the Academy", shape=arc(R.CRESCENT["r0"], R.CRESCENT["r1"], R.CRESCENT["a0"], R.CRESCENT["a1"]), h=9.0, hprof=rel(lambda lat, rad: 0.134 + 7.0), h_note="7 m above the palace's floor", area=3140, floors=2,
-         use="Six big classrooms named after mathematicians (Euclid, Hypatia, Fibonacci, Noether, Gauss, Turing), each about 17 by 12 m under a 4.5 m ceiling, a study hall, a competition room, a games room and lounge, the teachers' room, on two floors in a crescent that wraps the back of the dome. The upper floor opens onto the winter garden, the lower onto the garden gallery.",
-         look="White fibre-composite shell like the wings, a glass front onto the garden, oak and terrazzo inside."),
+    dict(code="T-04", name="Entrance dome and airlock", short="Entrance dome", shape=circle(R.ENTRANCE["c"][0], R.ENTRANCE["c"][1], R.ENTRANCE["r"]), h=R.ENTRANCE["h"], hprof=rel(entrance_top), h_note="glass dome 6.6 m tall", area=530, label_dy=8,
+         use="The old courtyard's front becomes the entrance plaza under a shallow glass dome 26 m across in front of the Ring's Gate Hall, with the airlock at its front: the way in from the start.",
+         look="A low dome of glass on a steel lattice, the campus's name on a stone wall inside, young trees in planters."),
+    dict(code="T04-02", name="Entrance airlock", short="Airlock", shape=rect(0, (R.ENTRANCE["airlock"]["s0"] + R.ENTRANCE["airlock"]["s1"]) / 2, R.ENTRANCE["airlock"]["w"], R.ENTRANCE["airlock"]["s1"] - R.ENTRANCE["airlock"]["s0"], 0), h=R.ENTRANCE["airlock"]["h"] + 0.25, area=30, nolabel=True,
+         use="Outer and inner sliding glass doors with a chamber between them, never open together.", look="A glass box under a glass roof."),
+    dict(code="T04-03", name="Pod dock", short="Pod dock", shape=circle(R.POD_DOCK["r"] * math.sin(math.radians(R.POD_DOCK["a"])), -R.POD_DOCK["r"] * math.cos(math.radians(R.POD_DOCK["a"])), R.POD_DOCK["deck_r"]), h=2.6, hprof=rel(pod_dock_top), h_note="a pod floating at its docking spot, 2.4 m", area=0, ground=True, label_dy=4,
+         use="A round deck at the upper floor's level off the Ring's right side: a pod settles onto its docking spot, the collar runs out from the glass bridge to its door, and you walk straight into the Ring.", look="A dark deck with a ring of lights on slender columns; the glass bridge."),
+    dict(code="T-06", name="The Ring", shapes=[ring_band(sc["a"][0], sc["a"][1]) for sc in R.RING["sections"]], shape=ring_band(-57, 120), h=6.0, hprof=rel(ring_top), h_note="two storeys behind and beside the dome, one at the front right, sunk into the slope on the left front", area=8300, floors=2, label_at=(54.0 * math.sin(math.radians(75)), -54.0 * math.cos(math.radians(75))),
+         use="The whole school in one ring round the Math Palace, like Apple Park but sealed and set into the slope: 13 classrooms and labs named after mathematicians, the library, the café, the dining hall, the assembly hall, the Gate Hall, the art and music rooms, life support; the corridor on the lower floor goes all the way round.",
+         look="White fibre-composite and glass, a thin white roof edge round the whole ring, glass onto the garden ring inside and the plain outside."),
+    dict(code="T09-01", name="Garden ring", shapes=[ring_band(-80, 224, 28.6, 46.0, 120)], shape=ring_band(-80, 224, 28.6, 46.0, 120), h=13.0, hprof=rel(garden_top), h_note="glass vault, 13 m behind the dome, 6 to 10 m elsewhere", area=3000, nolabel=True,
+         use="The garden all the way round the dome under a glass vault, from the dome's foot to the Ring's eave: trees, beds, a path round the dome, the armillary sundial.", look="A glass vault on bronze ribs whose crown rises and falls with the line of sight."),
+    dict(code="T09-06", name="Sunken grove", shapes=[ring_band(224, 280, 28.6, 46.0, 30)], shape=ring_band(224, 280, 28.6, 46.0, 30), h=1.2, hprof=rel(garden_top), h_note="5.6 m down, flat glass at ground level", area=870, nolabel=True,
+         use="Where the start looks down through the dip in the ridge, the garden steps down to the lower floor's level under flat glass: tall trees, a pond; the café, the dining hall and the assembly hall open onto it.", look="Flat glass on steel beams at ground level over a sunken garden."),
+    dict(code="T06-15", name="Garden gallery", shape=ring_band(R.RING["gallery"]["a"][0], R.RING["gallery"]["a"][1], R.RING["gallery"]["r0"], R.RING["gallery"]["r1"]), h=7.0, hprof=rel(gallery_top), h_note="glass roof sloping from the Ring's eave to a low wall", area=1900, nolabel=True,
+         use="The court along the Ring's garden front and its right side under a sloping glass roof; it opens into the upper garden dome.", look="Glass on bronze rafters, a low stone wall, planters."),
     dict(code="T-07", name="Infinity Hall", shape=fan(R.INFINITY), h=11.0, hprof=infinity_height, h_note="11 m at the stage, 6.5 m at the foyer", area=900,
          use="A lecture theatre with 240 seats on 12 rows climbing the slope like a Greek theatre, a stage and a screen 14 m wide: talks, competitions, films, the graduation.",
          look="A low shell shaped like a lemniscate (∞) in plan above the foyer, copper-coloured cladding, timber inside."),
     dict(code="T-08", name="Garden of Primes", shape=rect(R.GREENHOUSE["lat"], R.GREENHOUSE["rad"], 2 * R.GREENHOUSE["vault_w"] + R.GREENHOUSE["link_w"], R.GREENHOUSE["vault_l"], 0), h=8.0, area=1010,
          use="Two glass barrel vaults full of real plants under grow lights: vegetables and herbs for the café, citrus and fig trees, a fern grotto, benches among the beds. A biology class and a quiet place to read.",
          look="Clear vaults on white steel ribs, plants in raised beds, a path that turns at prime numbers of steps."),
-    dict(code="T09-01", name="Winter garden", shape=arc(R.WINTER["r0"], R.WINTER["r1"], -R.WINTER["a"], R.WINTER["a"]), h=13.0, hprof=rel(winter_top), h_note="glass vault 13 m tall", area=1170, label_dy=6,
-         use="The back terrace between the dome and the Crescent, sealed under a glass vault on bronze ribs: stone paving, olive trees, palms and red maples in big planters, long benches.",
-         look="A curved glass vault wrapping the back of the dome, from a low stone plinth by the dome to the Crescent's eave."),
-    dict(code="T06-15", name="Garden gallery", shape=arc(R.GALLERY["r0"], R.GALLERY["r1"], -R.GALLERY["a"], R.GALLERY["a"]), h=7.0, hprof=rel(gallery_top), h_note="glass roof sloping from the Crescent's eave to a low wall", area=800, nolabel=True,
-         use="The court along the Crescent's garden front under a sloping glass roof; it opens into the upper garden dome.", look="Glass on bronze rafters, a low stone wall, planters."),
     dict(code="T09-02", name="Upper garden dome", shape=[(R.DOMES[0]["lat"] + R.DOMES[0]["r"] * math.sin(2 * math.pi * k / 48), R.DOMES[0]["rad"] + R.DOMES[0]["r"] * math.cos(2 * math.pi * k / 48)) for k in range(48)],
          h=16, hprof=rel(dome_top(R.DOMES[0])), h_note="glass dome 16 m tall", area=1521,
-         use="The Fibonacci Garden's top dome, level with the Crescent's lower floor: lawns and flower beds on the golden spiral, the Klein bottle and the trefoil knot.", look="A geodesic dome of triangular glass panes on white steel, 44 m across."),
+         use="The Fibonacci Garden's top dome, level with the Ring's lower floor: lawns and flower beds on the golden spiral, the Klein bottle and the trefoil knot.", look="A geodesic dome of triangular glass panes on white steel, 44 m across."),
     dict(code="T09-03", name="Spiral garden dome", shape=[(R.DOMES[1]["lat"] + R.DOMES[1]["r"] * math.sin(2 * math.pi * k / 48), R.DOMES[1]["rad"] + R.DOMES[1]["r"] * math.cos(2 * math.pi * k / 48)) for k in range(48)],
          h=18, hprof=rel(dome_top(R.DOMES[1])), h_note="glass dome 18 m tall", area=1521,
          use="A step lower: the golden spiral path through ferns, grasses and flowering shrubs, the Möbius bench, a pool.", look="A geodesic dome of triangular glass panes on white steel, 44 m across."),
@@ -166,9 +216,6 @@ NEW = [
     dict(code="T-15", name="Pod terminal", shape=rect(R.TERMINAL["lat"], R.TERMINAL["rad"], R.TERMINAL["w"], R.TERMINAL["d"], 0), h=6.0, area=310,
          use="A glass lounge by the pads: check-in, a waiting room with the view, a charging room, the pod crew's office and two boarding collars, so nobody needs a suit.",
          look="A low glass pavilion under a thin white roof that overhangs the pad side."),
-    dict(code="T-16", name="Sun court", shape=rect(R.SUNCOURT["lat"], R.SUNCOURT["rad"], R.SUNCOURT["w"], R.SUNCOURT["d"], 0), h=3.0, hprof=rel(lambda lat, rad: R.SUNCOURT["crown"]), h_note="sunk; glass vault crown 4.4 m above the palace's floor", area=230,
-         use="Where the solar field stood behind the classroom wing (the campus is on the city's grid): a classroom round a bronze armillary sundial that keeps Mars time, in a sunken court under a low glass vault, in from the lobby by a link.",
-         look="Basalt paving, long stone benches, the bronze sphere on a stone plinth, a low glass vault on bronze ribs."),
 ]
 PADS = R.PODPORT["pads"]
 
@@ -251,17 +298,20 @@ def poly(b, fill, stroke, dash=None, sw=1.4, op=1.0):
 
 
 def label(b, dy=0, size=12):
-    cx = sum(p[0] for p in b["shape"]) / len(b["shape"]); cy = sum(p[1] for p in b["shape"]) / len(b["shape"]); x, y = px(cx, cy)
+    cx = sum(p[0] for p in b["shape"]) / len(b["shape"]); cy = sum(p[1] for p in b["shape"]) / len(b["shape"])
+    if b.get("label_at"): cx, cy = b["label_at"]
+    x, y = px(cx, cy)
     o.append('<text x="%.1f" y="%.1f" font-size="%d" font-weight="700" text-anchor="middle" fill="#1d2124">%s</text>' % (x, y - 2 + dy, size, b["code"]))
     nm = b.get("short") or b["name"].split(":")[0]
     o.append('<text x="%.1f" y="%.1f" font-size="%.1f" text-anchor="middle" fill="#2c3336">%s</text>' % (x, y + 11 + dy + b.get("name_dy", 0), size - 2.5, E(nm)))
 
 
 for b in EXISTING:
-    poly(b, "#d6d2c8" if b.get("ground") else "#8e8a82", "#3a3733", sw=1.0, op=0.85)
+    if b.get("gone"): poly(b, "#b8b3a8", "#5a5650", dash="4 3", sw=1.0, op=0.35)            # coming down: their rooms move into the Ring
+    else: poly(b, "#d6d2c8" if b.get("ground") else "#8e8a82", "#3a3733", sw=1.0, op=0.85)
 for b in NEW:
     for sh in b.get("shapes") or [b["shape"]]:
-        poly(dict(b, shape=sh), "#efe9da" if b.get("ground") else ("#e6f0f4" if b["code"] in ("T-04", "T06-15", "T09-01", "T-16") else ("#e3efd7" if b["code"].startswith("T09") else "#f7f3ea")),
+        poly(dict(b, shape=sh), "#efe9da" if b.get("ground") else ("#e6f0f4" if b["code"] in ("T-04", "T04-02", "T06-15", "T09-01", "T09-06") else ("#e3efd7" if b["code"].startswith("T09") else "#f7f3ea")),
              "#a8432a", dash="5 3" if b.get("ground") else None, sw=2.0 if not b.get("shapes") else 1.4, op=0.92)
 for (lat, rad) in PADS:
     o.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#4a4f55" stroke="#ffffff" stroke-width="1.6"/>' % (*px(lat, rad), 7 * S))
@@ -272,7 +322,7 @@ for b in NEW:
     if not b.get("nolabel"): label(b, dy=b.get("label_dy", 0), size=12 if b["code"] not in ("T-13", "T09-01") else 10)
 # the links' code once, and the airlocks: where people meet the outside
 x, y = px(-31.0, -86.0); o.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="700" text-anchor="middle" fill="#1d2124">T-17</text>' % (x, y))
-for (lat, rad, t, side) in ((0.0, 82.5, "airlock", -1), (72.0, -150.0, "suit room", 1), (6.0, -183.0, "collars", 1)):
+for (lat, rad, t, side) in ((0.0, 90.0, "airlock", -1), (72.0, -150.0, "suit room", 1), (6.0, -183.0, "collars", 1)):
     x, y = px(lat, rad); o.append('<rect x="%.1f" y="%.1f" width="9" height="9" fill="#c0392b" stroke="#ffffff" stroke-width="1"/><text x="%.1f" y="%.1f" font-size="9.5" fill="#c0392b" font-weight="700" text-anchor="%s">%s</text>' % (x - 4.5, y - 4.5, x + 8 * side, y + 3.5, "start" if side > 0 else "end", t))
 # the start, the ridge view, north
 sl, sr = palace(0, 0)
@@ -327,17 +377,18 @@ rows = "".join('<tr><td class="code">%s</td><td><b>%s</b><br>%s</td><td class="n
     b.get("h_note") or (("%g m" % b["h"]) if b["h"] else "0 m"), (" · %.1f m below the line of sight" % b["spare"]) if b["spare"] is not None else "") for b in NEW)
 page("index.html", "The plan", """<h1>TTMath campus, phase 2</h1>
 <p class="lede">The campus grows to about three times its size on the slope behind the Math Palace, where the ground falls 15 to 20 m to the plain, and all of it is sealed: every room, court and garden is under a roof, a glass vault or a dome, and every building is joined to the next by a sealed link, so you go everywhere in shirt sleeves. People meet the outside only at airlocks; only the pods and the rovers go out. From the start nothing new can be seen: every building stays under the ridge's line of sight.</p>
-<figure><a href="site-plan.svg"><img src="site-plan.svg" alt="Site plan of the TTMath campus with phase 2: the Math Palace and its courtyard, and behind it the Crescent, Infinity Hall, the Garden of Primes, the Fibonacci Garden, the observatory, the sports dome, the robotics and rover hangar and the pod port, over a map of how tall a building may be and stay hidden from the start"></a>
-<figcaption><b>Site plan</b>, the start at the bottom, the campus rising up the page. Grey: today's campus. White with a red outline: new. The colours behind show how tall a building may be at each spot and still be hidden from the start.</figcaption></figure>
+<figure><a href="site-plan.svg"><img src="site-plan.svg" alt="Site plan of the TTMath campus with phase 2: the Math Palace in the Ring with the garden ring round it, the entrance dome in front, and behind it Infinity Hall, the Garden of Primes, the Fibonacci Garden, the observatory, the sports dome, the robotics and rover hangar and the pod port, over a map of how tall a building may be and stay hidden from the start"></a>
+<figcaption><b>Site plan</b>, the start at the bottom, the campus rising up the page. Grey: today's campus (dashed: the wings, which come down). White with a red outline: new. The colours behind show how tall a building may be at each spot and still be hidden from the start.</figcaption></figure>
 <p>Floor area today: about %s m². New: %s m². Together: %s m², <b>%.1f times</b> today's.</p>
 <div class="cards"><a class="card" href="buildings.html"><b>The buildings</b><span>Each new building: what it is for, its size, how tall it may be</span></a>
 <a class="card" href="rover.html"><b>The rover</b><span>A new rover that looks the part</span></a><a class="card" href="pods.html"><b>The pod port</b><span>Parking for flying pods, ready for travel</span></a></div>
-<h2>Also in phase 2</h2><ul><li><b>Sealed</b> (Jim, 5 Oct 2026: "all the schools buildings should be connected and sealed … all open space should be covered by dome or sealed"): the courtyard under a glass vault with the entrance airlock under the gateway (T-04), the back terrace as a winter garden under glass (T09-01), the garden under three glass domes (T-09), the Sun court under a low vault (T-16), the links between every building (T-17).</li>
-<li><b>Bigger classrooms, higher ceilings</b> (Jim: "class rooms are all too small and roof are too low"): the Crescent's classrooms about 17 by 12 m under 4.5 m ceilings; the wings' ceilings raised as high as their roofs allow.</li>
-<li><b>Flying pods</b> (Jim: "add some flying pod I can take and can drive … to see the eagle view"): board one at the pod stop by the entrance or at the pod port and fly it.</li>
+<h2>Also in phase 2</h2><ul><li><b>The Ring</b> (Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter building"; "much more future proof and impressive than it"): the Crescent grows into one building all the way round the dome (T-06), with the garden ring between them under glass (T09-01). The wings stand where it passes, so their rooms move into it and they come down. It is set into the slope: two storeys behind and beside the dome, one on the right front where the hill rises, the Gate Hall two storeys tall at the front, and on the left front, where the start looks down through a dip in the ridge, only the lower floor, beside a sunken grove (T09-06), so the campus still stays hidden until you reach the ridge.</li>
+<li><b>Sealed</b> (Jim: "all open space should be covered by dome or sealed"; "the entrance is not sealed by dome. it needs to"): the entrance under a glass dome with its airlock (T-04), the garden ring under a glass vault, the garden gallery and the garden domes under glass (T-09), sealed links between the buildings (T-17); people meet the outside only at airlocks, and only vehicles go out.</li>
+<li><b>Bigger classrooms, higher ceilings</b> (Jim: "class rooms are all too small and roof are too low"): every classroom about 17 by 12 m under a 4.5 m ceiling.</li>
+<li><b>Flying pods on anti-gravity</b> (Jim: "on mars air is so little and can hardly support flying pod … use anti gravity technology"): no rotors; a halo drive round the cabin, like the Crown's drives at Arcadia. They dock at the pod dock off the Ring's right side (T04-03), where a glass bridge and a docking collar take you straight in.</li>
 <li><b>More real look</b> everywhere: furniture, wood, the dome's glass and frame, and real plants.</li>
-<li><b>No power plant on the campus:</b> it is on the grid of the city nearby. Where the solar field stood behind the classroom wing is now the Sun court (T-16).</li></ul>""" % (format(area_now, ","), format(area_new, ","), format(area_now + area_new, ","), (area_now + area_new) / area_now))
-page("buildings.html", "The buildings", """<h1>The buildings</h1><p class="lede">The new buildings, covers and links, coded T-04 (the courtyard, now sealed) and T-06 to T-17 after today's T-01 to T-05; click a code for its floor plans and rooms. Heights are checked against the line of sight from the start over the whole footprint: the number after the height is how far the building stays below it at its tightest point.</p>
+<li><b>No power plant on the campus:</b> it is on the grid of the city nearby; the armillary sundial that stood where the solar field was moves into the garden ring.</li></ul>""" % (format(area_now, ","), format(area_new, ","), format(area_now + area_new, ","), (area_now + area_new) / area_now))
+page("buildings.html", "The buildings", """<h1>The buildings</h1><p class="lede">The new buildings, covers and links, coded T-04 (the entrance, now under a dome) and T-06 to T-17 after today's T-01 to T-05; click a code for its floor plans and rooms. Heights are checked against the line of sight from the start over the whole footprint: the number after the height is how far the building stays below it at its tightest point.</p>
 <div class="tw"><table><thead><tr><th>Code</th><th>What it is for</th><th>Floor area</th><th>Height</th></tr></thead><tbody>%s</tbody></table></div>
 <h2>Today's campus</h2><ul>%s</ul>""" % (rows, "".join("<li><b>%s %s</b>: %s</li>" % (b["code"], E(b["name"]), E(b["use"])) for b in EXISTING)))
 page("rover.html", "The rover", """<h1>The rover</h1><p class="lede">Today's rovers are boxy and plain. The new one is an expedition machine you would want to drive: long, low and muscular, built for Mars.</p>
@@ -347,6 +398,74 @@ page("rover.html", "The rover", """<h1>The rover</h1><p class="lede">Today's rov
 <li><b>Body:</b> white and graphite composite with orange accents, panel lines, grab handles, a roof rack with a high-gain antenna, a light bar across the front and amber side markers.</li>
 <li><b>Details that make it real:</b> dust on the lower body, scuffed treads, a winch on the nose, sample drawers on the sides, a docking collar at the back that seals onto the hangar.</li></ul>
 <p>Three of them: one at the hangar (T-12), one by the gateway, one out on the test yard (T-13).</p>""")
+
+# ------------------------------------------------------------------------------------------------- the Ring, unrolled
+# its floors and roof all the way round against the ground and the line of sight from the start (both the lowest over the
+# Ring's depth, r 46 to 62), and the garden ring's crown against its own line of sight
+def band_min(a, r0, r1, what):
+    v = []
+    for r in np.arange(r0, r1 + 0.01, 1.0):
+        h, g = at(r * math.sin(math.radians(a)), -r * math.cos(math.radians(a)))
+        if h is not None: v.append(h + g if what == "limit" else g)
+    return (min(v), max(v)) if v else (None, None)
+PW, PH = 1120, 520; X0, X1, YB, K = 70, 1080, 448, 11.0
+def PX(a): return X0 + (a + 180) / 360 * (X1 - X0)
+def PY(h): return YB - (h + 8.0) * K
+po = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d" font-family="Helvetica, Arial, sans-serif">' % (PW, PH, PW, PH),
+      '<title>The Ring, unrolled</title><rect width="%d" height="%d" fill="#FAF8F3"/>' % (PW, PH),
+      '<text x="24" y="28" font-size="16" font-weight="700" fill="#24272A">T-06 · The Ring, unrolled all the way round: its floors and roof, the ground and the line of sight from the start</text>',
+      '<text x="24" y="48" font-size="11" fill="#4E575B">Angle round the dome: the front (the Gate Hall) at both ends, behind the dome in the middle. Heights in metres. Red: the line of sight over the Ring\'s outer face; dashed black: the outer edge of a sloping roof.</text>']
+AA = np.arange(-180, 180.01, 2.0)
+lim = [band_min(a, 46, 62, "limit")[0] for a in AA]; lim_out = [band_min(a, 60.0, 62.0, "limit")[0] for a in AA]; gmin = [band_min(a, 46, 62, "ground")[0] for a in AA]; gmax = [band_min(a, 46, 62, "ground")[1] for a in AA]
+glim = [band_min(a, 30, 45.5, "limit")[0] for a in AA]
+for h in range(-6, 25, 2):                                                   # the grid
+    po.append('<line x1="%d" y1="%.1f" x2="%d" y2="%.1f" stroke="#E2DED5" stroke-width="%s"/>' % (X0, PY(h), X1, PY(h), "1.2" if h == 0 else "0.6"))
+    po.append('<text x="%d" y="%.1f" font-size="10" fill="#6d6a62" text-anchor="end">%d m</text>' % (X0 - 6, PY(h) + 3.5, h))
+for a, t in ((-180, "front"), (-90, "left"), (0, "behind the dome"), (90, "right"), (180, "front")):
+    po.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#CFCBC2" stroke-width="0.8" stroke-dasharray="3 3"/>' % (PX(a), PY(24), PX(a), PY(-8)))
+    po.append('<text x="%.1f" y="%.1f" font-size="11" fill="#4E575B" text-anchor="middle">%s</text>' % (PX(a), PY(-8) + 16, t))
+# the sky the start can see: above the line of sight
+pts = " ".join("%.1f,%.1f" % (PX(a), PY(min(24, l))) for a, l in zip(AA, lim_out) if l is not None)
+po.append('<polygon points="%.1f,%.1f %s %.1f,%.1f" fill="#E9967A" fill-opacity="0.22"/>' % (PX(-180), PY(24), pts, PX(180), PY(24)))
+po.append('<polyline points="%s" fill="none" stroke="#C0392B" stroke-width="2"/>' % pts)
+po.append('<polyline points="%s" fill="none" stroke="#C0392B" stroke-width="1" stroke-dasharray="5 3"/>' % " ".join("%.1f,%.1f" % (PX(a), PY(min(24, l))) for a, l in zip(AA, glim) if l is not None))
+# the ground over the Ring's depth
+po.append('<polygon points="%s %s" fill="#C9B69A" fill-opacity="0.75"/>' % (" ".join("%.1f,%.1f" % (PX(a), PY(g)) for a, g in zip(AA, gmax)), " ".join("%.1f,%.1f" % (PX(a), PY(g)) for a, g in list(zip(AA, gmin))[::-1])))
+# the Ring's floors, section by section (angles folded into -180..180)
+y0, yU, yL, ce = 0.134, 0.134 + R.RING["upper"], 0.134 + R.RING["lower"], R.RING["ceil"]
+def spans(a0, a1):
+    out = []
+    for lo, hi in ((a0, a1), (a0 - 360, a1 - 360)):
+        lo2, hi2 = max(lo, -180), min(hi, 180)
+        if hi2 > lo2: out.append((lo2, hi2))
+    return out
+for sc in R.RING["sections"]:
+    for (lo, hi) in spans(*sc["a"]):
+        def rect(h0, h1, fill, op=1.0, stroke="#2B2926"):
+            po.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" fill-opacity="%.2f" stroke="%s" stroke-width="0.8"/>' % (PX(lo), PY(h1), PX(hi) - PX(lo), PY(h0) - PY(h1), fill, op, stroke))
+        rect(yL, yL + ce, "#EBDFC6")                                               # the lower floor, all the way round
+        if sc["kind"] in ("two", "low"): rect(yU, yU + sc.get("ceil_upper", ce), "#EBDFC6")
+        if sc["kind"] == "gate": rect(yU, yU + sc["roof"] - 0.6, "#EAD3BF")
+        top = yU + sc["roof"]
+        po.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#24272A" stroke-width="3"/>' % (PX(lo), PY(top), PX(hi), PY(top)))
+        if "roof_out" in sc: po.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#24272A" stroke-width="1.6" stroke-dasharray="4 3"/>' % (PX(lo), PY(yU + sc["roof_out"]), PX(hi), PY(yU + sc["roof_out"])))
+        if hi - lo > 14:
+            nm = {"two": "two storeys", "low": "lower roof", "gate": "Gate Hall", "sunk": "lower floor only, roof at ground level"}[sc["kind"]]
+            po.append('<text x="%.1f" y="%.1f" font-size="10.5" font-weight="700" fill="#24272A" text-anchor="middle">%s</text>' % ((PX(lo) + PX(hi)) / 2, PY(top) - 6, nm))
+# the garden ring's crown
+gc = []
+for a in AA:
+    q = ((a + 80.0) % 360.0) - 80.0; G = R.GARDEN_RING["grove"]
+    gc.append(0.134 + (G["roof"] if G["a"][0] <= q < G["a"][1] else garden_vault(q)[0]))
+po.append('<polyline points="%s" fill="none" stroke="#4E8A3A" stroke-width="2" stroke-dasharray="6 3"/>' % " ".join("%.1f,%.1f" % (PX(a), PY(h)) for a, h in zip(AA, gc)))
+kx = 80
+for col, dash, t in (("#C0392B", None, "line of sight, the Ring's outer face"), ("#C0392B", "5 3", "over the garden ring"), ("#4E8A3A", "6 3", "the garden ring's glass vault"), ("#24272A", None, "the Ring's roof")):
+    po.append('<line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s" stroke-width="2"%s/><text x="%d" y="%d" font-size="11" fill="#3a3733">%s</text>' % (kx, PH - 22, kx + 26, PH - 22, col, ' stroke-dasharray="%s"' % dash if dash else "", kx + 32, PH - 18, t)); kx += 215
+po.append('<rect x="%d" y="%d" width="18" height="10" fill="#C9B69A"/><text x="%d" y="%d" font-size="11" fill="#3a3733">the ground</text>' % (kx, PH - 27, kx + 24, PH - 18))
+po.append("</svg>")
+open(os.path.join(OUT, "svg-ring-profile.svg"), "w").write("\n".join(po))
+ring_bad = [int(a) for a, l in zip(AA, lim) if l is not None and 0.134 + min(ring_section(a)["roof"], ring_section(a).get("roof_out", 99)) > l - 0.5]
+print("Ring profile: roof within 0.5 m of the line of sight at angles", ring_bad if ring_bad else "none")
 print("new floor area", area_new, "total", area_now + area_new, "x%.2f" % ((area_now + area_new) / area_now))
 for b in NEW: print(b["code"], b["name"][:28].ljust(28), "h", b["h"], "to spare", None if b["spare"] is None else round(b["spare"], 1), "ground", None if b["gnd"] is None else round(b["gnd"], 1))
 bad = [b["code"] for b in NEW if b["spare"] is not None and b["spare"] < 0.5 and b.get("h")]

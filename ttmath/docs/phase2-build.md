@@ -50,9 +50,10 @@ the Crescent's first build (T-06 v1: 46 to 60 m, 4.2 m floors). Next, after the 
 
 1. ~~The wings' ceilings as high as their roofs allow~~ (v0.9.4: `CEIL_MAX` in `blk_wings.js`, the classroom wing's
    roof higher at the gateway end and fuller, `wingH(s, sg)` and `roofProf(t, sg)` in `blk_campus2.js`).
-2. The Crescent rebuilt bigger and taller from the new `P2.crescent` (46 to 62 m, ±52°, floors 5.6 m apart, ceilings
-   4.5 m), with its emergency stairs, the garden gallery (T06-15) and its furniture (`blk_crsfurnish.js`, plants from
-   `CRESCENT_PLANTS`).
+2. ~~The Crescent rebuilt bigger and taller~~ (v0.10: `blk_crescent.js` from `P2.crescent` and `P2.gallery`: the shell,
+   `crescentStair` (two flights, `stairY`), `crescentEStairs` (`esY`), `crescentLift`, `crescentChandelier`,
+   `crescentGallery`; furniture in `blk_crsfurnish.js` with plants from `CRESCENT_PLANTS`; `crescentSupport` for walking,
+   with a step tolerance of 0.6 m that keeps you off the stairs from below and out of the stairwells from above).
 3. The winter garden's glass vault over the back terrace (T09-01); the terrace's outside stairs go.
 4. The flying pods: the pod stop by the entrance (T04-03) and flight (keys, touch), landing, the near plane by height.
 5. The courtyard hall's glass vault and the entrance airlock under the gateway (T04-01, T04-02).

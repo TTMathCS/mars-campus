@@ -41,12 +41,12 @@
 <line x1="444.4" y1="525.8" x2="444.4" y2="474.6" stroke="#A8432A" stroke-width="1.8"/>
 <polygon points="444.4,468.6 448.9,477.6 439.9,477.6" fill="#A8432A"/>
 <text x="444.4" y="537.8" font-size="9.0" font-weight="700" fill="#A8432A" text-anchor="middle" dominant-baseline="middle">in over the ridge, from the start</text>
-<circle cx="495.7" cy="463.7" r="24.3" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.0"/>
-<circle cx="495.7" cy="463.7" r="20.0" fill="none" stroke="#F2C14E" stroke-width="1.3"/>
-<polygon points="490.3,448.0 501.1,448.0 502.5,477.7 489.0,477.7" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
-<text x="495.7" y="496.6" font-size="9.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-03 pod stop</text>
-<polygon points="463.3,464.2 474.6,464.2 474.6,452.4 463.3,452.4" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.0"/>
-<text x="471.1" y="446.4" font-size="8.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T17-02</text>
+<circle cx="401.2" cy="450.2" r="21.6" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.0"/>
+<circle cx="401.2" cy="450.2" r="17.3" fill="none" stroke="#F2C14E" stroke-width="1.3"/>
+<polygon points="395.8,434.5 406.6,434.5 408.0,464.2 394.5,464.2" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<text x="401.2" y="480.4" font-size="9.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-03 pod stop</text>
+<polygon points="425.5,444.3 419.6,444.3 419.6,456.1 425.5,456.1" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.0"/>
+<text x="424.7" y="438.3" font-size="8.0" font-weight="700" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">T17-02</text>
 <line x1="24.0" y1="720.0" x2="78.0" y2="720.0" stroke="#24272A" stroke-width="2"/>
 <line x1="24.0" y1="716.0" x2="24.0" y2="724.0" stroke="#24272A" stroke-width="1.5"/>
 <text x="24.0" y="734.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">0</text>

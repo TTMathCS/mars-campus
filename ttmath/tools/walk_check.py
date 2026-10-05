@@ -1,6 +1,7 @@
 """Walking regression test: run before every push. Walks the routes a visitor takes, with the page's own walker, and
 fails if any of them stops short: from the start over the ridge, through the courtyard, into a wing, into the palace,
-out of the back door onto the terrace, into the Crescent, down its stair, out into its court, and to the Sun court.
+out of the back door onto the terrace, into the Crescent and a classroom, down its stair, out into its garden gallery, and
+to the Sun court.
 usage: python3 ttmath/tools/walk_check.py [--built]   (--built: the published ttmath/index.html, else the source page)
 Exit code 1 if a walk fails."""
 import asyncio, json, os, sys, time
@@ -16,8 +17,9 @@ WALKS = [
     ("into the right wing (lobby)", "__mars._eval('(function(){var p=wingXZ(1,-2.5,53);__mars.go(p.x,p.z);})()')", None, 4, "(o.lat - latf(o.rad)) > 0.8", "wing1"),
     ("out of the back door", "__mars.palGo(0, -24.6, 'B')", (0, -40), 9, "o.rad < -38"),
     ("into the Crescent", "__mars.palGo(0, -40)", (0, -52), 7, "o.rad < -50"),
-    ("down the Crescent's stair", "__mars._eval('(function(){var p=crsPt(50.9, CRS.stairA);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "stair", 7, "y < CRS.yL + 0.05"),
-    ("out to the Crescent's court", "__mars._eval('(function(){var p=crsPt(57.0, 0);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", (0, -70), 6, "o.r > 66"),
+    ("down the Crescent's stair", "__mars._eval('(function(){var p=crsPt(CRS.stairR0-0.3, CRS.stairA);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "stair", 10, "y < CRS.yL + 0.05"),
+    ("out into the garden gallery", "__mars._eval('(function(){var p=crsPt(57.0, 0);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", (0, -70), 7, "o.r > 66 && y < CRS.yL + 0.05"),
+    ("into a classroom (Euclid)", "__mars._eval('(function(){var d=P2.crescent.rooms.filter(function(r){return r.code===\\\"T06-02\\\";})[0].doors[0],p=crsPt(47.8, d);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "room", 6, "o.r > CRS.rc + 1.0"),
     ("to the Sun court", "__mars.palGo(22.8, 68)", (25.5, 52), 12, "o.rad < 56"),
 ]
 
@@ -39,7 +41,8 @@ async def main():
             for w in WALKS:
                 name, setup, to, secs, test = w[:5]
                 await pg.evaluate(setup)
-                if to == "stair": brg = "__mars._eval('(function(){var p=crsPt(50.9, CRS.stairA),q=crsPt(60, CRS.stairA);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                if to == "stair": brg = "__mars._eval('(function(){var p=crsPt(CRS.stairR0-0.3, CRS.stairA),q=crsPt(62, CRS.stairA);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                elif to == "room": brg = "__mars._eval('(function(){var d=P2.crescent.rooms.filter(function(r){return r.code===\"T06-02\";})[0].doors[0],p=crsPt(47.8, d),q=crsPt(56, d);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif len(w) > 5 and w[5] == "wing1": brg = "__mars._eval('(function(){var p=wingXZ(1,-2.5,53),q=wingXZ(1,3,53);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 else: brg = "__mars.palBrg(%f, %f)" % to
                 path = await pg.evaluate("JSON.stringify(__mars.sim(%s, %f))" % (brg, secs))

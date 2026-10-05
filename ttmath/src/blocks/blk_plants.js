@@ -2,8 +2,10 @@
   // Each plant is built from leaf cards cut out of one drawn leaf texture (alpha test in the LEAF material), on stems
   // and trunks, in a pot of glazed ceramic, terracotta or dark fibreglass. Light is baked per vertex like the rest of
   // the furniture; the leaves also let light through from behind. Kinds: fig (fiddle-leaf fig), monstera, snake plant,
-  // kentia palm, olive tree, ficus, fern, pothos.
-  var LEAF_CELLS = { fig: [0, 0], monstera: [1, 0], snake: [2, 0], kentia: [3, 0], olive: [0, 1], ficus: [1, 1], fern: [2, 1], pothos: [3, 1] };
+  // kentia palm, olive tree, ficus, fern, pothos; and in colour: Japanese maple (red), croton, anthurium (red spathes),
+  // moth orchid (white and pink), bird of paradise, agave (blue-grey), bromeliad (a red star).
+  var LEAF_CELLS = { fig: [0, 0], monstera: [1, 0], snake: [2, 0], kentia: [3, 0], olive: [0, 1], ficus: [1, 1], fern: [2, 1], pothos: [3, 1],
+                     maple: [0, 2], croton: [1, 2], anthurium: [2, 2], spathe: [3, 2], orchid: [0, 3], bloom: [1, 3], strelitzia: [2, 3], agave: [3, 3] };
   function leafTexture() {
     var N = 1024, C = 256, cv = document.createElement("canvas"); cv.width = cv.height = N;
     var g = cv.getContext("2d"), rnd = mulberry(77);
@@ -100,6 +102,64 @@
     g.save(); g.beginPath(); g.rect(3 * C, C, C, C); g.clip(); g.globalCompositeOperation = "source-atop";
     for (k = 0; k < 18; k++) { g.strokeStyle = "rgba(214,204,110," + (0.25 + 0.3 * rnd()) + ")"; g.lineWidth = 2 + 4 * rnd(); var sx = 3 * C + C * (0.3 + 0.4 * rnd()); g.beginPath(); g.moveTo(sx, C * 1.95); g.lineTo(sx + (rnd() - 0.5) * 60, C * 1.1); g.stroke(); }
     g.restore();
+    // Japanese maple: a twig with small palmate leaves of seven pointed lobes, deep red
+    (function () {
+      var x0 = 0, y0 = 2 * C; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round";
+      g.strokeStyle = "rgb(70,30,26)"; g.lineWidth = 2.6; g.beginPath(); g.moveTo(x0 + C / 2, y0 + C); g.quadraticCurveTo(x0 + C * 0.46, y0 + C * 0.55, x0 + C * 0.52, y0 + C * 0.08); g.stroke();
+      function palm(cx, cy, R, rot, col) {
+        g.save(); g.translate(cx, cy); g.rotate(rot); g.beginPath();
+        var lobes = 7;
+        for (var k = 0; k <= lobes * 2; k++) { var a = -Math.PI * 0.95 + Math.PI * 1.9 * k / (lobes * 2), rr = k % 2 ? R * 0.3 : R * (0.75 + 0.25 * Math.cos((k / (lobes * 2) - 0.5) * 2.2)); var px = Math.sin(a) * rr, py = -Math.cos(a) * rr; if (k) g.lineTo(px, py); else g.moveTo(px, py); }
+        g.closePath(); g.fillStyle = col; g.fill();
+        g.strokeStyle = "rgba(60,8,10,0.55)"; g.lineWidth = 0.9; for (k = 0; k < lobes; k++) { var a2 = -Math.PI * 0.95 + Math.PI * 1.9 * (k * 2) / (lobes * 2); g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(a2) * R * 0.8, -Math.cos(a2) * R * 0.8); g.stroke(); }
+        g.restore();
+      }
+      for (var k = 0; k < 14; k++) { var t = 0.08 + 0.86 * k / 14, sd = k % 2 ? 1 : -1, cx = x0 + C / 2 + sd * C * (0.2 + 0.1 * rnd()), cy = y0 + C - C * 0.92 * t, rr = C * (0.19 - 0.05 * t) * (0.9 + 0.2 * rnd()), sh = 0.8 + 0.35 * rnd();
+        palm(cx, cy, rr, sd * (0.5 + 0.3 * rnd()), "rgb(" + Math.round(138 * sh) + "," + Math.round(24 * sh) + "," + Math.round(26 * sh) + ")"); }
+      g.restore();
+    })();
+    // croton: a leathery leaf, dark green with yellow veins and red and orange patches
+    leaf(1, 2, smoothW([0, 0.06, 0.3, 0.6, 0.85, 1], [0.08, 0.34, 0.5, 0.46, 0.26, 0.0]), { c0: [44, 66, 26], c1: [96, 104, 34], c2: [150, 120, 36], vein: [244, 206, 52], nv: 7, rise: 1.2, mid: 5.0, lat: 3.0, veinA: 0.95 });
+    (function () { g.save(); g.beginPath(); g.rect(C, 2 * C, C, C); g.clip(); g.globalCompositeOperation = "source-atop";
+      for (var k = 0; k < 48; k++) { var px = C + C * (0.28 + 0.44 * rnd()), py = 2 * C + C * (0.08 + 0.85 * rnd()), cols = ["rgba(200,40,26,0.75)", "rgba(226,110,26,0.7)", "rgba(236,200,56,0.6)"]; g.fillStyle = cols[Math.floor(rnd() * 3)]; g.beginPath(); g.ellipse(px, py, 4 + 9 * rnd(), 3 + 6 * rnd(), rnd() * 3, 0, 6.3); g.fill(); }
+      g.restore(); })();
+    // anthurium: a glossy heart-shaped leaf, very dark green; its spathe: glossy red with a pale yellow spadix
+    leaf(2, 2, smoothW([0, 0.04, 0.16, 0.4, 0.7, 0.9, 1], [0.5, 0.78, 0.86, 0.72, 0.42, 0.16, 0.0]), { c0: [22, 44, 20], c1: [28, 54, 24], c2: [26, 50, 22], vein: [70, 100, 56], nv: 6, rise: 0.8, mid: 2.6, lat: 1.2, veinA: 0.5, len: 0.9 });
+    leaf(3, 2, smoothW([0, 0.04, 0.16, 0.4, 0.7, 0.9, 1], [0.5, 0.8, 0.88, 0.74, 0.44, 0.16, 0.0]), { c0: [150, 14, 20], c1: [196, 22, 28], c2: [176, 18, 24], vein: [120, 10, 16], nv: 6, rise: 0.8, mid: 1.6, lat: 1.0, veinA: 0.35, len: 0.86 });
+    (function () { g.save(); g.lineCap = "round"; g.strokeStyle = "rgb(236,214,120)"; g.lineWidth = 7; g.beginPath(); g.moveTo(3 * C + C / 2, 2 * C + C * 0.8); g.lineTo(3 * C + C * 0.55, 2 * C + C * 0.32); g.stroke(); g.restore(); })();
+    // moth orchid leaf: broad, thick, mid green and glossy
+    leaf(0, 3, smoothW([0, 0.08, 0.3, 0.6, 0.85, 1], [0.3, 0.62, 0.8, 0.82, 0.6, 0.0]), { c0: [52, 86, 38], c1: [62, 98, 42], c2: [58, 92, 40], vein: [96, 130, 70], nv: 4, rise: 1.0, mid: 2.2, lat: 0.8, veinA: 0.3 });
+    // its flower spray: an arching stem with white petals and magenta throats
+    (function () {
+      var x0 = C, y0 = 3 * C; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round";
+      g.strokeStyle = "rgb(70,92,48)"; g.lineWidth = 2.4; g.beginPath(); g.moveTo(x0 + C * 0.5, y0 + C); g.quadraticCurveTo(x0 + C * 0.42, y0 + C * 0.35, x0 + C * 0.78, y0 + C * 0.1); g.stroke();
+      for (var k = 0; k < 6; k++) {
+        var t = 0.3 + 0.62 * k / 6, px = x0 + C * (0.5 - 0.08 * Math.sin(Math.PI * t) + 0.26 * t * t), py = y0 + C - C * 0.9 * t, R = C * (0.15 - 0.03 * t);
+        g.save(); g.translate(px, py);
+        for (var q = 0; q < 5; q++) { var a = q / 5 * Math.PI * 2 + 0.3; g.fillStyle = q < 2 ? "rgb(246,240,244)" : "rgb(240,232,238)"; g.beginPath(); g.ellipse(Math.cos(a) * R * 0.55, Math.sin(a) * R * 0.55, R * (q < 3 ? 0.62 : 0.45), R * 0.42, a, 0, 6.3); g.fill(); }
+        g.fillStyle = "rgb(186,40,110)"; g.beginPath(); g.ellipse(0, R * 0.12, R * 0.26, R * 0.2, 0, 0, 6.3); g.fill();
+        g.fillStyle = "rgb(236,200,60)"; g.beginPath(); g.arc(0, -R * 0.04, R * 0.08, 0, 6.3); g.fill();
+        g.restore();
+      }
+      g.restore();
+    })();
+    // bird of paradise: a long paddle, blue-green with a pale midrib, torn into strips at the edge here and there
+    leaf(2, 3, smoothW([0, 0.04, 0.2, 0.5, 0.8, 0.95, 1], [0.08, 0.3, 0.42, 0.46, 0.4, 0.2, 0.0]), { c0: [46, 82, 64], c1: [56, 96, 72], c2: [52, 90, 68], vein: [196, 204, 150], nv: 22, rise: 0.25, mid: 3.4, lat: 0.7, veinA: 0.35 });
+    (function () { g.save(); g.globalCompositeOperation = "destination-out"; g.lineCap = "round";
+      for (var k = 0; k < 6; k++) { var y = 3 * C + C * (0.2 + 0.65 * rnd()), sd = rnd() < 0.5 ? -1 : 1; g.lineWidth = 2.5; g.beginPath(); g.moveTo(2 * C + C / 2 + sd * C * 0.26, y); g.lineTo(2 * C + C / 2 + sd * C * 0.08, y - 3); g.stroke(); }
+      g.restore(); })();
+    // agave: a thick sword, blue-grey with a paler middle, small dark teeth along the margins and a sharp brown tip
+    (function () {
+      var x0 = 3 * C, y0 = 3 * C, base = y0 + C * 0.99; g.save(); g.beginPath();
+      function wA(t) { return 0.62 * Math.pow(Math.max(0, 1 - t), 0.7) * (0.8 + 0.2 * Math.sin(Math.PI * Math.min(1, t * 2))); }
+      for (var k = 0; k <= 60; k++) { var t = k / 60; g.lineTo(x0 + C / 2 + wA(t) * C / 2, base - t * C * 0.97); }
+      for (k = 60; k >= 0; k--) { t = k / 60; g.lineTo(x0 + C / 2 - wA(t) * C / 2, base - t * C * 0.97); }
+      g.closePath(); var gr = g.createLinearGradient(x0, 0, x0 + C, 0); gr.addColorStop(0, "rgb(88,114,112)"); gr.addColorStop(0.5, "rgb(134,160,154)"); gr.addColorStop(1, "rgb(88,114,112)"); g.fillStyle = gr; g.fill();
+      g.fillStyle = "rgb(70,52,40)";
+      for (k = 1; k < 14; k++) { t = k / 15; [-1, 1].forEach(function (sd) { var px = x0 + C / 2 + sd * wA(t) * C / 2, py = base - t * C * 0.97; g.beginPath(); g.moveTo(px, py - 3); g.lineTo(px + sd * 4, py); g.lineTo(px, py + 3); g.fill(); }); }
+      g.strokeStyle = "rgb(84,60,44)"; g.lineWidth = 3; g.beginPath(); g.moveTo(x0 + C / 2, base - C * 0.9); g.lineTo(x0 + C / 2, base - C * 0.97); g.stroke();
+      g.restore();
+    })();
     // spread each leaf's colours into the transparent texels round it, so mipmaps don't darken the edges
     var img = g.getImageData(0, 0, N, N), d = img.data, own = new Uint8Array(N * N);
     for (k = 0; k < N * N; k++) own[k] = d[k * 4 + 3] > 8 ? 1 : 0;
@@ -206,6 +266,42 @@
       b.tag(stand, null, 2);
       for (k = 0; k < 26; k++) { a = R() * Math.PI * 2; var d7 = v3(Math.cos(a), 0.5 + 0.6 * R(), Math.sin(a)).normalize();
         leafCard(b, v3(Math.cos(a) * 0.04, top7, Math.sin(a) * 0.04), d7, v3(-Math.cos(a) * 0.3, 1, -Math.sin(a) * 0.3).normalize(), 0.45 + 0.25 * R(), 0.22, 0.9 + 0.4 * R(), 0.05, LEAF_CELLS.fern, R(), 0.3); }
+    } else if (kind === "maple") {                          // Japanese maple: a slender tree with tiers of red sprays, about 1.7 m
+      pot(b, 2, 0.3, 0.42);
+      var tm = [v3(0, 0.38, 0), v3(0.03, 0.8, 0.01), v3(0.0, 1.15, -0.02)]; stem(b, tm, function (t) { return 0.03 * (1 - 0.5 * t); }, 0);
+      for (var br = 0; br < 5; br++) { var ab = br / 5 * Math.PI * 2 + R(), yb = 0.85 + 0.12 * br, ex = v3(Math.cos(ab) * 0.45, yb + 0.25, Math.sin(ab) * 0.45);
+        stem(b, [v3(0, yb, 0), v3(Math.cos(ab) * 0.22, yb + 0.15, Math.sin(ab) * 0.22), ex], function (t) { return 0.014 * (1 - 0.6 * t); }, 0);
+        for (var lm = 0; lm < 20; lm++) { var al = ab + (R() - 0.5) * 1.9, rl = 0.1 + 0.5 * R(), pl = v3(Math.cos(al) * rl, yb + 0.05 + 0.42 * R(), Math.sin(al) * rl), dl = v3(Math.cos(al), 0.05 + 0.25 * R(), Math.sin(al)).normalize();
+          leafCard(b, pl, dl, v3(-dl.x * 0.25, 1, -dl.z * 0.25).normalize(), 0.42 + 0.12 * R(), 0.36, 0.3, 0.0, LEAF_CELLS.maple, R(), 0.3); } }
+    } else if (kind === "croton") {                          // croton: a bush of leathery coloured leaves, about 0.9 m
+      pot(b, 0, 0.24, 0.34);
+      for (var cs = 0; cs < 5; cs++) { var ac = cs / 5 * Math.PI * 2 + R(), top = 0.7 + 0.3 * R(), cst = [v3(0, 0.3, 0), v3(Math.cos(ac) * 0.05, top * 0.7, Math.sin(ac) * 0.05), v3(Math.cos(ac) * 0.1, top, Math.sin(ac) * 0.1)];
+        stem(b, cst, function (t) { return 0.012 * (1 - 0.4 * t); }, 1);
+        for (var lc = 0; lc < 11; lc++) { var t2 = 0.35 + 0.65 * lc / 11, pc = v3(Math.cos(ac) * 0.1 * t2, 0.3 + (top - 0.3) * t2, Math.sin(ac) * 0.1 * t2), a2 = R() * 6.3, dc = v3(Math.cos(a2), 0.35 + 0.4 * R() - 0.3 * (1 - t2), Math.sin(a2)).normalize();
+          leafCard(b, pc, dc, v3(-dc.x * 0.4, 1, -dc.z * 0.4).normalize(), 0.27 + 0.1 * R(), 0.13, 0.3, 0.12, LEAF_CELLS.croton, R(), 0.75); } }
+    } else if (kind === "anthurium") {                       // anthurium: dark hearts and red spathes on long stalks, about 0.55 m
+      pot(b, 0, 0.13, 0.2);
+      for (var la = 0; la < 10; la++) { var aa = la / 10 * Math.PI * 2 + R() * 0.4, ha = 0.32 + 0.14 * R(), pa = [v3(0, 0.18, 0), v3(Math.cos(aa) * 0.06, ha * 0.8, Math.sin(aa) * 0.06), v3(Math.cos(aa) * 0.12, ha, Math.sin(aa) * 0.12)];
+        stem(b, pa, 0.005, 1); var da = v3(Math.cos(aa), -0.25, Math.sin(aa)).normalize(); leafCard(b, pa[2], da, v3(-da.x * 0.5, 1, -da.z * 0.5).normalize(), 0.2 + 0.05 * R(), 0.15, 0.3, 0.1, LEAF_CELLS.anthurium, R(), 0.95); }
+      for (var fa = 0; fa < 4; fa++) { var af = fa / 4 * Math.PI * 2 + 0.6, hf = 0.45 + 0.1 * R(), pf = [v3(0, 0.18, 0), v3(Math.cos(af) * 0.04, hf * 0.8, Math.sin(af) * 0.04), v3(Math.cos(af) * 0.08, hf, Math.sin(af) * 0.08)];
+        stem(b, pf, 0.004, 1); var df = v3(Math.cos(af), 0.5, Math.sin(af)).normalize(); leafCard(b, pf[2], df, v3(-df.x * 0.6, 1, -df.z * 0.6).normalize(), 0.12, 0.09, 0.1, 0.1, LEAF_CELLS.spathe, R(), 0.95); }
+    } else if (kind === "orchid") {                          // moth orchid: broad leaves at the base, two arching sprays on stakes, about 0.6 m
+      pot(b, 0, 0.1, 0.16);
+      for (var lo = 0; lo < 5; lo++) { var ao = lo / 5 * Math.PI * 2 + 0.2, d0 = v3(Math.cos(ao), 0.15, Math.sin(ao)).normalize(); leafCard(b, v3(0, 0.17, 0), d0, v3(0, 1, 0), 0.2 + 0.05 * R(), 0.09, 0.25, 0.15, LEAF_CELLS.orchid, R(), 0.8); }
+      [0.4, 3.0].forEach(function (as) { var ps = [v3(0, 0.17, 0), v3(Math.cos(as) * 0.03, 0.45, Math.sin(as) * 0.03), v3(Math.cos(as) * 0.12, 0.6, Math.sin(as) * 0.12)];
+        stem(b, ps, 0.004, 1); var ds = v3(Math.cos(as), 0.3, Math.sin(as)).normalize(); leafCard(b, ps[1], ds, v3(-Math.sin(as), 0.2, Math.cos(as)).normalize(), 0.38, 0.34, 0.12, 0.0, LEAF_CELLS.bloom, R(), 0.3); });
+    } else if (kind === "strelitzia") {                      // bird of paradise: a fan of long paddle leaves on upright stalks, about 1.8 m
+      pot(b, 1, 0.3, 0.45);
+      for (var ls = 0; ls < 9; ls++) { var as2 = (ls / 9 - 0.5) * 2.2 + (R() - 0.5) * 0.3, side = (ls % 2 ? 1 : -1) * 0.12, hs = 0.9 + 0.5 * R(), ps2 = [v3(side * 0.2, 0.42, 0), v3(Math.sin(as2) * 0.12 + side * 0.1, hs * 0.75, Math.cos(as2) * 0.05), v3(Math.sin(as2) * 0.28, hs, Math.cos(as2) * 0.1)];
+        stem(b, ps2, 0.012, 1); var d8 = v3(Math.sin(as2) * 0.6, 0.85, Math.cos(as2) * 0.25).normalize(); leafCard(b, ps2[2], d8, v3(-Math.cos(as2) * 0.2, 0.1, 1).normalize(), 0.75 + 0.2 * R(), 0.3, 0.35, 0.05, LEAF_CELLS.strelitzia, R(), 0.6); }
+    } else if (kind === "agave") {                           // agave: a wide rosette of thick blue-grey swords in a low bowl, about 0.8 m across
+      pot(b, 1, 0.34, 0.24);
+      for (var lg = 0; lg < 22; lg++) { var ag = lg * 2.4, tier = lg / 22, dg = v3(Math.cos(ag) * (0.9 - 0.5 * tier), 0.45 + 0.9 * tier, Math.sin(ag) * (0.9 - 0.5 * tier)).normalize();
+        leafCard(b, v3(Math.cos(ag) * 0.03, 0.23, Math.sin(ag) * 0.03), dg, v3(-dg.x * 0.4, 1, -dg.z * 0.4).normalize(), 0.42 - 0.12 * tier, 0.11, 0.08, 0.3, LEAF_CELLS.agave, R(), 0.3); }
+    } else if (kind === "bromeliad") {                       // bromeliad: a rosette of glossy straps round a red star of bracts, about 0.45 m
+      pot(b, 0, 0.12, 0.17);
+      for (var lb = 0; lb < 14; lb++) { var ab2 = lb * 2.4, db = v3(Math.cos(ab2), 0.6 + 0.3 * R(), Math.sin(ab2)).normalize(); leafCard(b, v3(0, 0.17, 0), db, v3(-db.x * 0.5, 1, -db.z * 0.5).normalize(), 0.3 + 0.06 * R(), 0.06, 0.5, 0.2, LEAF_CELLS.orchid, R(), 0.85); }
+      for (var rb = 0; rb < 7; rb++) { var ar = rb / 7 * Math.PI * 2, dr = v3(Math.cos(ar), 1.6, Math.sin(ar)).normalize(); leafCard(b, v3(0, 0.22, 0), dr, v3(-dr.x, 0.6, -dr.z).normalize(), 0.16, 0.06, 0.15, 0.2, LEAF_CELLS.spathe, R(), 0.9); }
     } else {                                                 // pothos trailing from a small pot
       var top8 = pot(b, 0, 0.12, 0.16);
       for (k = 0; k < 5; k++) { a = R() * Math.PI * 2; var pp = v3(Math.cos(a) * 0.08, top8, Math.sin(a) * 0.08), dd = v3(Math.cos(a), -0.2, Math.sin(a)).normalize(), chain = [pp.clone()];

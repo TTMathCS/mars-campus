@@ -887,7 +887,7 @@
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
   /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */
-  var P2 = {"crescent":{"r0":46.0,"r1":60.0,"rc":49.2,"a0":-50.0,"a1":50.0,"floor_h":4.2,"upper":0.0,"lower":-4.2,"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-6,6],"kind":"move","double":true},{"code":"T06-02","name":"Euclid","floor":"upper","a":[6,18],"kind":"class"},{"code":"T06-03","name":"Archimedes","floor":"upper","a":[18,30],"kind":"class"},{"code":"T06-04","name":"Hypatia","floor":"upper","a":[30,42],"kind":"class"},{"code":"T06-05","name":"Teachers' room","floor":"upper","a":[42,50],"kind":"staff"},{"code":"T06-06","name":"Fibonacci","floor":"upper","a":[-18,-6],"kind":"class"},{"code":"T06-07","name":"Gauss","floor":"upper","a":[-30,-18],"kind":"class"},{"code":"T06-08","name":"Noether","floor":"upper","a":[-42,-30],"kind":"class"},{"code":"T06-09","name":"Washrooms","floor":"upper","a":[-50,-42],"kind":"service"},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-50,50],"band":"corridor","kind":"move"},{"code":"T06-10","name":"Lower hall","floor":"lower","a":[-6,6],"kind":"move"},{"code":"T06-11","name":"Study hall","floor":"lower","a":[6,30],"kind":"study"},{"code":"T06-12","name":"Ramanujan","floor":"lower","a":[30,42],"kind":"class"},{"code":"T06-13","name":"Turing","floor":"lower","a":[42,50],"kind":"lab"},{"code":"T06-14","name":"Competition room","floor":"lower","a":[-30,-6],"kind":"compete"},{"code":"T06-15","name":"Games room and lounge","floor":"lower","a":[-42,-30],"kind":"games"},{"code":"T06-16","name":"Washrooms and store","floor":"lower","a":[-50,-42],"kind":"service"},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-50,50],"band":"corridor","kind":"move"}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"terraces":[[-84.0,36.0,-4.2],[-106.0,33.0,-7.6],[-128.0,30.0,-11.0]],"plaza":[-128.0,-160.0,-13.5],"spiral":{"lat":0.0,"rad":-100.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-20.0,"rad":-76.0},{"name":"trefoil knot","lat":22.0,"rad":-80.0},{"name":"Möbius bench","lat":-22.0,"rad":-118.0},{"name":"stellated dodecahedron","lat":21.0,"rad":-121.0}]},"observatory":{"lat":0.0,"rad":-146.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":20.0,"rad":-173.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5}};
+  var P2 = {"crescent":{"r0":46.0,"r1":62.0,"rc":49.6,"a0":-52.0,"a1":52.0,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"estair":{"a":6.5,"w":2.6},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-16","name":"West stair","floor":"both","a":[-52,-45.5],"band":"corridor","kind":"move","plants":[]},{"code":"T06-17","name":"East stair","floor":"both","a":[45.5,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,52],"band":"gallery","kind":"garden","plants":[]}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"domes":[{"code":"T09-02","lat":0.0,"rad":-91.0,"r":22.0,"floor":-5.6,"h":16.0},{"code":"T09-03","lat":0.0,"rad":-115.0,"r":22.0,"floor":-8.4,"h":18.0},{"code":"T09-05","lat":0.0,"rad":-139.0,"r":22.0,"floor":-11.2,"h":20.0}],"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"spiral":{"lat":0.0,"rad":-115.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-12.0,"rad":-86.0},{"name":"trefoil knot","lat":12.0,"rad":-88.0},{"name":"Möbius bench","lat":-12.0,"rad":-120.0},{"name":"stellated dodecahedron","lat":12.0,"rad":-141.0}]},"observatory":{"lat":0.0,"rad":-172.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":30.0,"rad":-176.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5,"floor":0.0,"crown":4.4,"spring":1.6},"courtyard":{"s0":33.3,"s1":77.7,"crown":[[33.3,10.6],[56.0,8.6],[77.7,6.2]],"ribs":1.5,"airlock":{"s0":77.7,"s1":84.0,"w":7.0,"h":4.2},"podstop":{"lat":-8.0,"rad":81.0,"r":4.0,"heading":0.0}},"gallery":{"r0":62.0,"r1":68.5,"a":52.0,"wall":1.2},"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"links":[{"code":"T17-01","name":"Sun court link","a":[16.0,53.0],"b":[21.0,53.0],"w":3.0,"h":3.0,"use":"From the classroom wing's lobby down three steps into the Sun court."},{"code":"T17-02","name":"Pod stop collar","a":[-3.5,81.0],"b":[-4.6,81.0],"w":2.2,"h":2.6,"use":"A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."},{"code":"T17-03","name":"Infinity link","a":[-22.0,-91.0],"b":[-38.5,-92.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to Infinity Hall's foyer."},{"code":"T17-04","name":"Greenhouse link","a":[22.0,-88.0],"b":[48.0,-88.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to the Garden of Primes."},{"code":"T17-05","name":"Observatory collar","a":[0.0,-161.0],"b":[0.0,-163.0],"w":5.0,"h":3.6,"use":"From the lowest garden dome into the observatory."},{"code":"T17-06","name":"Terminal link","a":[9.0,-174.0],"b":[17.0,-176.0],"w":4.0,"h":3.4,"use":"From the observatory to the pod terminal."},{"code":"T17-07","name":"Sports link","a":[-60.0,-126.0],"b":[-58.5,-141.0],"w":4.0,"h":3.4,"use":"From behind Infinity Hall's stage to the sports dome."},{"code":"T17-08","name":"Hangar link","a":[62.0,-120.0],"b":[62.0,-145.0],"w":4.0,"h":3.4,"use":"From the far end of the Garden of Primes to the robotics and rover hangar."}],"pod":{"length":6.0,"width":2.4,"height":2.4,"rotor_r":1.25,"rotors":[[-2.1,1.5],[2.1,1.5],[-2.1,-1.6],[2.1,-1.6]],"top_speed":40.0,"climb":8.0,"ceiling":400.0,"min_clear":2.5,"land_slope":0.12}};
 
   /* ===================== Materials: one shader for every built surface ===================== */
   // Real-world surfaces: weathered cladding and concrete outside; marble, brass, oak, fabric and plaster inside.
@@ -2602,8 +2602,10 @@
   // Each plant is built from leaf cards cut out of one drawn leaf texture (alpha test in the LEAF material), on stems
   // and trunks, in a pot of glazed ceramic, terracotta or dark fibreglass. Light is baked per vertex like the rest of
   // the furniture; the leaves also let light through from behind. Kinds: fig (fiddle-leaf fig), monstera, snake plant,
-  // kentia palm, olive tree, ficus, fern, pothos.
-  var LEAF_CELLS = { fig: [0, 0], monstera: [1, 0], snake: [2, 0], kentia: [3, 0], olive: [0, 1], ficus: [1, 1], fern: [2, 1], pothos: [3, 1] };
+  // kentia palm, olive tree, ficus, fern, pothos; and in colour: Japanese maple (red), croton, anthurium (red spathes),
+  // moth orchid (white and pink), bird of paradise, agave (blue-grey), bromeliad (a red star).
+  var LEAF_CELLS = { fig: [0, 0], monstera: [1, 0], snake: [2, 0], kentia: [3, 0], olive: [0, 1], ficus: [1, 1], fern: [2, 1], pothos: [3, 1],
+                     maple: [0, 2], croton: [1, 2], anthurium: [2, 2], spathe: [3, 2], orchid: [0, 3], bloom: [1, 3], strelitzia: [2, 3], agave: [3, 3] };
   function leafTexture() {
     var N = 1024, C = 256, cv = document.createElement("canvas"); cv.width = cv.height = N;
     var g = cv.getContext("2d"), rnd = mulberry(77);
@@ -2700,6 +2702,64 @@
     g.save(); g.beginPath(); g.rect(3 * C, C, C, C); g.clip(); g.globalCompositeOperation = "source-atop";
     for (k = 0; k < 18; k++) { g.strokeStyle = "rgba(214,204,110," + (0.25 + 0.3 * rnd()) + ")"; g.lineWidth = 2 + 4 * rnd(); var sx = 3 * C + C * (0.3 + 0.4 * rnd()); g.beginPath(); g.moveTo(sx, C * 1.95); g.lineTo(sx + (rnd() - 0.5) * 60, C * 1.1); g.stroke(); }
     g.restore();
+    // Japanese maple: a twig with small palmate leaves of seven pointed lobes, deep red
+    (function () {
+      var x0 = 0, y0 = 2 * C; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round";
+      g.strokeStyle = "rgb(70,30,26)"; g.lineWidth = 2.6; g.beginPath(); g.moveTo(x0 + C / 2, y0 + C); g.quadraticCurveTo(x0 + C * 0.46, y0 + C * 0.55, x0 + C * 0.52, y0 + C * 0.08); g.stroke();
+      function palm(cx, cy, R, rot, col) {
+        g.save(); g.translate(cx, cy); g.rotate(rot); g.beginPath();
+        var lobes = 7;
+        for (var k = 0; k <= lobes * 2; k++) { var a = -Math.PI * 0.95 + Math.PI * 1.9 * k / (lobes * 2), rr = k % 2 ? R * 0.3 : R * (0.75 + 0.25 * Math.cos((k / (lobes * 2) - 0.5) * 2.2)); var px = Math.sin(a) * rr, py = -Math.cos(a) * rr; if (k) g.lineTo(px, py); else g.moveTo(px, py); }
+        g.closePath(); g.fillStyle = col; g.fill();
+        g.strokeStyle = "rgba(60,8,10,0.55)"; g.lineWidth = 0.9; for (k = 0; k < lobes; k++) { var a2 = -Math.PI * 0.95 + Math.PI * 1.9 * (k * 2) / (lobes * 2); g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(a2) * R * 0.8, -Math.cos(a2) * R * 0.8); g.stroke(); }
+        g.restore();
+      }
+      for (var k = 0; k < 14; k++) { var t = 0.08 + 0.86 * k / 14, sd = k % 2 ? 1 : -1, cx = x0 + C / 2 + sd * C * (0.2 + 0.1 * rnd()), cy = y0 + C - C * 0.92 * t, rr = C * (0.19 - 0.05 * t) * (0.9 + 0.2 * rnd()), sh = 0.8 + 0.35 * rnd();
+        palm(cx, cy, rr, sd * (0.5 + 0.3 * rnd()), "rgb(" + Math.round(138 * sh) + "," + Math.round(24 * sh) + "," + Math.round(26 * sh) + ")"); }
+      g.restore();
+    })();
+    // croton: a leathery leaf, dark green with yellow veins and red and orange patches
+    leaf(1, 2, smoothW([0, 0.06, 0.3, 0.6, 0.85, 1], [0.08, 0.34, 0.5, 0.46, 0.26, 0.0]), { c0: [44, 66, 26], c1: [96, 104, 34], c2: [150, 120, 36], vein: [244, 206, 52], nv: 7, rise: 1.2, mid: 5.0, lat: 3.0, veinA: 0.95 });
+    (function () { g.save(); g.beginPath(); g.rect(C, 2 * C, C, C); g.clip(); g.globalCompositeOperation = "source-atop";
+      for (var k = 0; k < 48; k++) { var px = C + C * (0.28 + 0.44 * rnd()), py = 2 * C + C * (0.08 + 0.85 * rnd()), cols = ["rgba(200,40,26,0.75)", "rgba(226,110,26,0.7)", "rgba(236,200,56,0.6)"]; g.fillStyle = cols[Math.floor(rnd() * 3)]; g.beginPath(); g.ellipse(px, py, 4 + 9 * rnd(), 3 + 6 * rnd(), rnd() * 3, 0, 6.3); g.fill(); }
+      g.restore(); })();
+    // anthurium: a glossy heart-shaped leaf, very dark green; its spathe: glossy red with a pale yellow spadix
+    leaf(2, 2, smoothW([0, 0.04, 0.16, 0.4, 0.7, 0.9, 1], [0.5, 0.78, 0.86, 0.72, 0.42, 0.16, 0.0]), { c0: [22, 44, 20], c1: [28, 54, 24], c2: [26, 50, 22], vein: [70, 100, 56], nv: 6, rise: 0.8, mid: 2.6, lat: 1.2, veinA: 0.5, len: 0.9 });
+    leaf(3, 2, smoothW([0, 0.04, 0.16, 0.4, 0.7, 0.9, 1], [0.5, 0.8, 0.88, 0.74, 0.44, 0.16, 0.0]), { c0: [150, 14, 20], c1: [196, 22, 28], c2: [176, 18, 24], vein: [120, 10, 16], nv: 6, rise: 0.8, mid: 1.6, lat: 1.0, veinA: 0.35, len: 0.86 });
+    (function () { g.save(); g.lineCap = "round"; g.strokeStyle = "rgb(236,214,120)"; g.lineWidth = 7; g.beginPath(); g.moveTo(3 * C + C / 2, 2 * C + C * 0.8); g.lineTo(3 * C + C * 0.55, 2 * C + C * 0.32); g.stroke(); g.restore(); })();
+    // moth orchid leaf: broad, thick, mid green and glossy
+    leaf(0, 3, smoothW([0, 0.08, 0.3, 0.6, 0.85, 1], [0.3, 0.62, 0.8, 0.82, 0.6, 0.0]), { c0: [52, 86, 38], c1: [62, 98, 42], c2: [58, 92, 40], vein: [96, 130, 70], nv: 4, rise: 1.0, mid: 2.2, lat: 0.8, veinA: 0.3 });
+    // its flower spray: an arching stem with white petals and magenta throats
+    (function () {
+      var x0 = C, y0 = 3 * C; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round";
+      g.strokeStyle = "rgb(70,92,48)"; g.lineWidth = 2.4; g.beginPath(); g.moveTo(x0 + C * 0.5, y0 + C); g.quadraticCurveTo(x0 + C * 0.42, y0 + C * 0.35, x0 + C * 0.78, y0 + C * 0.1); g.stroke();
+      for (var k = 0; k < 6; k++) {
+        var t = 0.3 + 0.62 * k / 6, px = x0 + C * (0.5 - 0.08 * Math.sin(Math.PI * t) + 0.26 * t * t), py = y0 + C - C * 0.9 * t, R = C * (0.15 - 0.03 * t);
+        g.save(); g.translate(px, py);
+        for (var q = 0; q < 5; q++) { var a = q / 5 * Math.PI * 2 + 0.3; g.fillStyle = q < 2 ? "rgb(246,240,244)" : "rgb(240,232,238)"; g.beginPath(); g.ellipse(Math.cos(a) * R * 0.55, Math.sin(a) * R * 0.55, R * (q < 3 ? 0.62 : 0.45), R * 0.42, a, 0, 6.3); g.fill(); }
+        g.fillStyle = "rgb(186,40,110)"; g.beginPath(); g.ellipse(0, R * 0.12, R * 0.26, R * 0.2, 0, 0, 6.3); g.fill();
+        g.fillStyle = "rgb(236,200,60)"; g.beginPath(); g.arc(0, -R * 0.04, R * 0.08, 0, 6.3); g.fill();
+        g.restore();
+      }
+      g.restore();
+    })();
+    // bird of paradise: a long paddle, blue-green with a pale midrib, torn into strips at the edge here and there
+    leaf(2, 3, smoothW([0, 0.04, 0.2, 0.5, 0.8, 0.95, 1], [0.08, 0.3, 0.42, 0.46, 0.4, 0.2, 0.0]), { c0: [46, 82, 64], c1: [56, 96, 72], c2: [52, 90, 68], vein: [196, 204, 150], nv: 22, rise: 0.25, mid: 3.4, lat: 0.7, veinA: 0.35 });
+    (function () { g.save(); g.globalCompositeOperation = "destination-out"; g.lineCap = "round";
+      for (var k = 0; k < 6; k++) { var y = 3 * C + C * (0.2 + 0.65 * rnd()), sd = rnd() < 0.5 ? -1 : 1; g.lineWidth = 2.5; g.beginPath(); g.moveTo(2 * C + C / 2 + sd * C * 0.26, y); g.lineTo(2 * C + C / 2 + sd * C * 0.08, y - 3); g.stroke(); }
+      g.restore(); })();
+    // agave: a thick sword, blue-grey with a paler middle, small dark teeth along the margins and a sharp brown tip
+    (function () {
+      var x0 = 3 * C, y0 = 3 * C, base = y0 + C * 0.99; g.save(); g.beginPath();
+      function wA(t) { return 0.62 * Math.pow(Math.max(0, 1 - t), 0.7) * (0.8 + 0.2 * Math.sin(Math.PI * Math.min(1, t * 2))); }
+      for (var k = 0; k <= 60; k++) { var t = k / 60; g.lineTo(x0 + C / 2 + wA(t) * C / 2, base - t * C * 0.97); }
+      for (k = 60; k >= 0; k--) { t = k / 60; g.lineTo(x0 + C / 2 - wA(t) * C / 2, base - t * C * 0.97); }
+      g.closePath(); var gr = g.createLinearGradient(x0, 0, x0 + C, 0); gr.addColorStop(0, "rgb(88,114,112)"); gr.addColorStop(0.5, "rgb(134,160,154)"); gr.addColorStop(1, "rgb(88,114,112)"); g.fillStyle = gr; g.fill();
+      g.fillStyle = "rgb(70,52,40)";
+      for (k = 1; k < 14; k++) { t = k / 15; [-1, 1].forEach(function (sd) { var px = x0 + C / 2 + sd * wA(t) * C / 2, py = base - t * C * 0.97; g.beginPath(); g.moveTo(px, py - 3); g.lineTo(px + sd * 4, py); g.lineTo(px, py + 3); g.fill(); }); }
+      g.strokeStyle = "rgb(84,60,44)"; g.lineWidth = 3; g.beginPath(); g.moveTo(x0 + C / 2, base - C * 0.9); g.lineTo(x0 + C / 2, base - C * 0.97); g.stroke();
+      g.restore();
+    })();
     // spread each leaf's colours into the transparent texels round it, so mipmaps don't darken the edges
     var img = g.getImageData(0, 0, N, N), d = img.data, own = new Uint8Array(N * N);
     for (k = 0; k < N * N; k++) own[k] = d[k * 4 + 3] > 8 ? 1 : 0;
@@ -2806,6 +2866,42 @@
       b.tag(stand, null, 2);
       for (k = 0; k < 26; k++) { a = R() * Math.PI * 2; var d7 = v3(Math.cos(a), 0.5 + 0.6 * R(), Math.sin(a)).normalize();
         leafCard(b, v3(Math.cos(a) * 0.04, top7, Math.sin(a) * 0.04), d7, v3(-Math.cos(a) * 0.3, 1, -Math.sin(a) * 0.3).normalize(), 0.45 + 0.25 * R(), 0.22, 0.9 + 0.4 * R(), 0.05, LEAF_CELLS.fern, R(), 0.3); }
+    } else if (kind === "maple") {                          // Japanese maple: a slender tree with tiers of red sprays, about 1.7 m
+      pot(b, 2, 0.3, 0.42);
+      var tm = [v3(0, 0.38, 0), v3(0.03, 0.8, 0.01), v3(0.0, 1.15, -0.02)]; stem(b, tm, function (t) { return 0.03 * (1 - 0.5 * t); }, 0);
+      for (var br = 0; br < 5; br++) { var ab = br / 5 * Math.PI * 2 + R(), yb = 0.85 + 0.12 * br, ex = v3(Math.cos(ab) * 0.45, yb + 0.25, Math.sin(ab) * 0.45);
+        stem(b, [v3(0, yb, 0), v3(Math.cos(ab) * 0.22, yb + 0.15, Math.sin(ab) * 0.22), ex], function (t) { return 0.014 * (1 - 0.6 * t); }, 0);
+        for (var lm = 0; lm < 20; lm++) { var al = ab + (R() - 0.5) * 1.9, rl = 0.1 + 0.5 * R(), pl = v3(Math.cos(al) * rl, yb + 0.05 + 0.42 * R(), Math.sin(al) * rl), dl = v3(Math.cos(al), 0.05 + 0.25 * R(), Math.sin(al)).normalize();
+          leafCard(b, pl, dl, v3(-dl.x * 0.25, 1, -dl.z * 0.25).normalize(), 0.42 + 0.12 * R(), 0.36, 0.3, 0.0, LEAF_CELLS.maple, R(), 0.3); } }
+    } else if (kind === "croton") {                          // croton: a bush of leathery coloured leaves, about 0.9 m
+      pot(b, 0, 0.24, 0.34);
+      for (var cs = 0; cs < 5; cs++) { var ac = cs / 5 * Math.PI * 2 + R(), top = 0.7 + 0.3 * R(), cst = [v3(0, 0.3, 0), v3(Math.cos(ac) * 0.05, top * 0.7, Math.sin(ac) * 0.05), v3(Math.cos(ac) * 0.1, top, Math.sin(ac) * 0.1)];
+        stem(b, cst, function (t) { return 0.012 * (1 - 0.4 * t); }, 1);
+        for (var lc = 0; lc < 11; lc++) { var t2 = 0.35 + 0.65 * lc / 11, pc = v3(Math.cos(ac) * 0.1 * t2, 0.3 + (top - 0.3) * t2, Math.sin(ac) * 0.1 * t2), a2 = R() * 6.3, dc = v3(Math.cos(a2), 0.35 + 0.4 * R() - 0.3 * (1 - t2), Math.sin(a2)).normalize();
+          leafCard(b, pc, dc, v3(-dc.x * 0.4, 1, -dc.z * 0.4).normalize(), 0.27 + 0.1 * R(), 0.13, 0.3, 0.12, LEAF_CELLS.croton, R(), 0.75); } }
+    } else if (kind === "anthurium") {                       // anthurium: dark hearts and red spathes on long stalks, about 0.55 m
+      pot(b, 0, 0.13, 0.2);
+      for (var la = 0; la < 10; la++) { var aa = la / 10 * Math.PI * 2 + R() * 0.4, ha = 0.32 + 0.14 * R(), pa = [v3(0, 0.18, 0), v3(Math.cos(aa) * 0.06, ha * 0.8, Math.sin(aa) * 0.06), v3(Math.cos(aa) * 0.12, ha, Math.sin(aa) * 0.12)];
+        stem(b, pa, 0.005, 1); var da = v3(Math.cos(aa), -0.25, Math.sin(aa)).normalize(); leafCard(b, pa[2], da, v3(-da.x * 0.5, 1, -da.z * 0.5).normalize(), 0.2 + 0.05 * R(), 0.15, 0.3, 0.1, LEAF_CELLS.anthurium, R(), 0.95); }
+      for (var fa = 0; fa < 4; fa++) { var af = fa / 4 * Math.PI * 2 + 0.6, hf = 0.45 + 0.1 * R(), pf = [v3(0, 0.18, 0), v3(Math.cos(af) * 0.04, hf * 0.8, Math.sin(af) * 0.04), v3(Math.cos(af) * 0.08, hf, Math.sin(af) * 0.08)];
+        stem(b, pf, 0.004, 1); var df = v3(Math.cos(af), 0.5, Math.sin(af)).normalize(); leafCard(b, pf[2], df, v3(-df.x * 0.6, 1, -df.z * 0.6).normalize(), 0.12, 0.09, 0.1, 0.1, LEAF_CELLS.spathe, R(), 0.95); }
+    } else if (kind === "orchid") {                          // moth orchid: broad leaves at the base, two arching sprays on stakes, about 0.6 m
+      pot(b, 0, 0.1, 0.16);
+      for (var lo = 0; lo < 5; lo++) { var ao = lo / 5 * Math.PI * 2 + 0.2, d0 = v3(Math.cos(ao), 0.15, Math.sin(ao)).normalize(); leafCard(b, v3(0, 0.17, 0), d0, v3(0, 1, 0), 0.2 + 0.05 * R(), 0.09, 0.25, 0.15, LEAF_CELLS.orchid, R(), 0.8); }
+      [0.4, 3.0].forEach(function (as) { var ps = [v3(0, 0.17, 0), v3(Math.cos(as) * 0.03, 0.45, Math.sin(as) * 0.03), v3(Math.cos(as) * 0.12, 0.6, Math.sin(as) * 0.12)];
+        stem(b, ps, 0.004, 1); var ds = v3(Math.cos(as), 0.3, Math.sin(as)).normalize(); leafCard(b, ps[1], ds, v3(-Math.sin(as), 0.2, Math.cos(as)).normalize(), 0.38, 0.34, 0.12, 0.0, LEAF_CELLS.bloom, R(), 0.3); });
+    } else if (kind === "strelitzia") {                      // bird of paradise: a fan of long paddle leaves on upright stalks, about 1.8 m
+      pot(b, 1, 0.3, 0.45);
+      for (var ls = 0; ls < 9; ls++) { var as2 = (ls / 9 - 0.5) * 2.2 + (R() - 0.5) * 0.3, side = (ls % 2 ? 1 : -1) * 0.12, hs = 0.9 + 0.5 * R(), ps2 = [v3(side * 0.2, 0.42, 0), v3(Math.sin(as2) * 0.12 + side * 0.1, hs * 0.75, Math.cos(as2) * 0.05), v3(Math.sin(as2) * 0.28, hs, Math.cos(as2) * 0.1)];
+        stem(b, ps2, 0.012, 1); var d8 = v3(Math.sin(as2) * 0.6, 0.85, Math.cos(as2) * 0.25).normalize(); leafCard(b, ps2[2], d8, v3(-Math.cos(as2) * 0.2, 0.1, 1).normalize(), 0.75 + 0.2 * R(), 0.3, 0.35, 0.05, LEAF_CELLS.strelitzia, R(), 0.6); }
+    } else if (kind === "agave") {                           // agave: a wide rosette of thick blue-grey swords in a low bowl, about 0.8 m across
+      pot(b, 1, 0.34, 0.24);
+      for (var lg = 0; lg < 22; lg++) { var ag = lg * 2.4, tier = lg / 22, dg = v3(Math.cos(ag) * (0.9 - 0.5 * tier), 0.45 + 0.9 * tier, Math.sin(ag) * (0.9 - 0.5 * tier)).normalize();
+        leafCard(b, v3(Math.cos(ag) * 0.03, 0.23, Math.sin(ag) * 0.03), dg, v3(-dg.x * 0.4, 1, -dg.z * 0.4).normalize(), 0.42 - 0.12 * tier, 0.11, 0.08, 0.3, LEAF_CELLS.agave, R(), 0.3); }
+    } else if (kind === "bromeliad") {                       // bromeliad: a rosette of glossy straps round a red star of bracts, about 0.45 m
+      pot(b, 0, 0.12, 0.17);
+      for (var lb = 0; lb < 14; lb++) { var ab2 = lb * 2.4, db = v3(Math.cos(ab2), 0.6 + 0.3 * R(), Math.sin(ab2)).normalize(); leafCard(b, v3(0, 0.17, 0), db, v3(-db.x * 0.5, 1, -db.z * 0.5).normalize(), 0.3 + 0.06 * R(), 0.06, 0.5, 0.2, LEAF_CELLS.orchid, R(), 0.85); }
+      for (var rb = 0; rb < 7; rb++) { var ar = rb / 7 * Math.PI * 2, dr = v3(Math.cos(ar), 1.6, Math.sin(ar)).normalize(); leafCard(b, v3(0, 0.22, 0), dr, v3(-dr.x, 0.6, -dr.z).normalize(), 0.16, 0.06, 0.15, 0.2, LEAF_CELLS.spathe, R(), 0.9); }
     } else {                                                 // pothos trailing from a small pot
       var top8 = pot(b, 0, 0.12, 0.16);
       for (k = 0; k < 5; k++) { a = R() * Math.PI * 2; var pp = v3(Math.cos(a) * 0.08, top8, Math.sin(a) * 0.08), dd = v3(Math.cos(a), -0.2, Math.sin(a)).normalize(), chain = [pp.clone()];
@@ -3557,8 +3653,10 @@
 
   /* ===================== Phase 2: the Crescent (T-06), the Academy ===================== */
   // Two floors in a crescent round the back of the dome (P2.crescent): the upper floor level with the balcony and the
-  // back terrace, the lower floor 4.2 m down, opening onto a sunken court dug along the whole garden face. A corridor on
-  // the dome side, the rooms on the garden side, a hall two storeys tall with the stair in the middle; flat ceilings.
+  // winter garden, the lower floor 5.6 m down, opening onto the garden gallery (T06-15), a court along the whole garden
+  // front under a sloping glass roof. A corridor on the dome side, big rooms on the garden side under 4.5 m ceilings
+  // (Jim, 5 Oct 2026: "class rooms are all too small and roof are too low"), a hall two storeys tall with the stair and
+  // the lift in the middle, an enclosed emergency stair at each end of the corridors. Sealed: no door opens to the air.
   // Polar frame round the dome's centre: r out from the centre, a in radians from straight behind, positive toward +lat.
   var CRS = null, CRS_GLASS = new Builder();
   // the new quarter's holes in the terrain (exact shapes, tested in the terrain shaders and the bake) and its bake domains
@@ -3570,20 +3668,44 @@
   function crsLoc(x, z) { var o = palLoc(x, z, {}); return { r: o.r, a: Math.atan2(o.lat, -o.rad), lat: o.lat, rad: o.rad }; }
   function crsInit() {
     if (CRS) return CRS;
-    var C = P2.crescent, yU = PALY.B, yL = PALY.B + C.lower;
-    CRS = { r0: C.r0, r1: C.r1, rc: C.rc, a0: C.a0 * D2R, a1: C.a1 * D2R, yU: yU, yL: yL, hR: 3.0, hC: 2.8, wall: 0.15,
-            hallA: 6 * D2R, landR: 51.4, stairA: 3.0 * D2R, stairR1: 58.2, stairW: 2.4, endA: 1.6 * D2R,        // endA: the lower passages to the exits
-            roofIn: C.r0 - 1.2, roofOut: C.r1 + 1.6, roofY: 3.75, roofRise: 0.85, roofT: 0.3,
-            court: { r1: 66.5, aEnd: 54 * D2R, latHalf: 36.0, radFar: -84.0, stairA0: 51.5 * D2R }, rooms: C.rooms };
-    CRS.nSteps = Math.round((yU - yL) / 0.175); CRS.stepH = (yU - yL) / CRS.nSteps;
+    var C = P2.crescent, G = P2.gallery, S = C.stair, yU = PALY.B, yL = PALY.B + C.lower, hall = C.rooms.filter(function (r) { return r.code === "T06-01"; })[0];
+    CRS = { r0: C.r0, r1: C.r1, rc: C.rc, a0: C.a0 * D2R, a1: C.a1 * D2R, yU: yU, yL: yL, hR: C.ceil, hC: C.ceil_corridor, wall: 0.15,
+            hallA: hall.a[1] * D2R,
+            st: { a: S.a * D2R, r0: S.r0, r1: S.r1, w: S.w, n: S.n, l0: S.landing[0], l1: S.landing[1] },
+            lift: { r: C.lift[0], a: C.lift[1] * D2R, w: 2.2 },
+            es: { a: C.estair.a * D2R, w: C.estair.w, n: 28, land: 1.0 },
+            roofIn: C.r0 - 1.2, roofOut: C.r1 + 0.9, roofY: C.ceil + 0.6, roofRise: 0.85, roofT: 0.3,
+            gal: { r1: G.r1, a: G.a * D2R, wall: G.wall }, rooms: C.rooms };
+    var st = CRS.st; st.h = (yU - yL) / st.n; st.half = st.n / 2; st.run1 = (st.l0 - st.r0) / st.half; st.run2 = (st.r1 - st.l1) / st.half; st.yM = yU - st.half * st.h;
+    var es = CRS.es; es.rm = (C.r0 + C.rc) / 2; es.L = es.a * es.rm; es.h = (yU - yL) / es.n; es.half = es.n / 2; es.tread = (es.L - 2 * es.land) / es.half; es.yM = yU - es.half * es.h;
+    CRS.stairA = st.a; CRS.stairR0 = st.r0; CRS.stairR1 = st.r1;                 // for the walking test
     return CRS;
   }
   function crsRoofY(r) { var C = CRS, t = clamp((r - C.roofIn) / (C.roofOut - C.roofIn), 0, 1); return C.yU + C.roofY + C.roofRise * Math.pow(Math.sin(Math.PI * t), 0.8); }
-  // a room's angles; on the lower floor the end rooms stop short of the passages to the exits
-  function rmA0(rm) { var a = rm.a[0] * D2R; return (rm.floor === "lower" && rm.a[0] <= P2.crescent.a0 + 1e-6) ? a + CRS.endA : a; }
-  function rmA1(rm) { var a = rm.a[1] * D2R; return (rm.floor === "lower" && rm.a[1] >= P2.crescent.a1 - 1e-6) ? a - CRS.endA : a; }
+  function rmA0(rm) { return rm.a[0] * D2R; }
+  function rmA1(rm) { return rm.a[1] * D2R; }
   // the room (from P2) at angle a on a floor; the hall spans both floors
   function crsRoomAt(a, floor) { var deg = a * R2D, R = CRS.rooms; for (var i = 0; i < R.length; i++) { var rm = R[i]; if (rm.floor !== floor || rm.band) continue; if (deg >= rm.a[0] && deg < rm.a[1]) return rm; } return null; }
+  // the hall's stair: the height of its tread at radius r (two flights of 16 and a landing between them)
+  function stairY(r) {
+    var s = CRS.st, yU = CRS.yU;
+    if (r < s.r0) return yU;
+    if (r < s.l0) return yU - (clamp(Math.floor((r - s.r0) / s.run1), 0, s.half - 1) + 1) * s.h;
+    if (r <= s.l1) return s.yM;
+    if (r < s.r1) return s.yM - (clamp(Math.floor((r - s.l1) / s.run2), 0, s.half - 1) + 1) * s.h;
+    return CRS.yL;
+  }
+  // an emergency stair, at e metres along the corridor from its door and z metres out from the corridor's middle: the
+  // landings at the doors (one per floor, one above the other), a flight down along the rooms' side, a half landing at
+  // the end wall, a flight back along the front. NaN at the wall between the flights.
+  function esY(e, z, yf) {
+    var s = CRS.es, yU = CRS.yU, yL = CRS.yL;
+    if (e < s.land) return yf > (yU + yL) / 2 ? yU : yL;
+    if (e > s.L - s.land) return s.yM;
+    if (z > 0.1) return yU - (clamp(Math.floor((e - s.land) / s.tread), 0, s.half - 1) + 1) * s.h;
+    if (z < -0.1) return s.yM - (clamp(Math.floor((s.L - s.land - e) / s.tread), 0, s.half - 1) + 1) * s.h;
+    return NaN;
+  }
   var CRS_FLOOR = { "class": [MT.WOOD, 0], study: [MT.WOOD, 0], lab: [MT.TERRAZZO, 0], compete: [MT.WOOD, 0], games: [MT.WOOD, 0], lounge: [MT.WOOD, 0], staff: [MT.WOOD, 0], service: [MT.TERRAZZO, 0], move: [MT.TERRAZZO, 0] };
   var CRS_WALL = { "class": 0, study: 0, lab: 0, compete: 1, games: 2, lounge: 3, staff: 1, service: 0, move: 0 };
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1 };
@@ -3614,7 +3736,7 @@
 
   // ---- glass fronts: panes between aluminium mullions every 1.5 m, a sill and a head rail; doors where asked ----
   function glassFront(B, r, a0, a1, y0, y1, out, doors) {
-    var C = CRS, gaps = (doors || []).map(function (d) { return [d - 1.33 / r, d + 1.33 / r]; });
+    var gaps = (doors || []).map(function (d) { return [d - 1.33 / r, d + 1.33 / r]; });
     function inGap(a) { for (var k = 0; k < gaps.length; k++) if (a > gaps[k][0] && a < gaps[k][1]) return true; return false; }
     var segs = [], cur = a0; gaps.slice().sort(function (p, q) { return p[0] - q[0]; }).forEach(function (g) { segs.push([cur, g[0]]); cur = g[1]; }); segs.push([cur, a1]);
     segs.forEach(function (sg) {
@@ -3650,9 +3772,10 @@
     });
     DOORS.push(door); CRS.doors = (CRS.doors || []).concat([{ r: r, a: a, y: y0 }]);
   }
-  // an inside doorway in a curved partition at (r, a): the opening's casing and a door leaf standing open into the room
-  function crsDoorway(B, r, a, y0, intoOut) {
-    var M = crsFrame(r, a, y0), cs = new Builder(), w = 1.0, h = 2.15;
+  // an inside doorway at (r, a): the opening's oak casing and the door leaf standing open; in a curved partition (along
+  // the arc) or, with radial set, in a wall along a radius
+  function crsDoorway(B, r, a, y0, intoOut, radial) {
+    var M = crsFrame(r, a, y0, radial ? Math.PI / 2 : 0), cs = new Builder(), w = 1.0, h = 2.15;
     cs.box(-w / 2 - 0.07, 0, -0.1, -w / 2, h + 0.07, 0.1, MT.WOOD); cs.box(w / 2, 0, -0.1, w / 2 + 0.07, h + 0.07, 0.1, MT.WOOD); cs.box(-w / 2 - 0.07, h, -0.1, w / 2 + 0.07, h + 0.07, 0.1, MT.WOOD);
     cs.tag(0, null, 2);
     var lf = new Builder(); lf.box(0, 0.01, 0, 0.04, h - 0.01, w - 0.02, MT.WOOD); lf.tag(0, null, 1);
@@ -3663,100 +3786,93 @@
 
   // ---- the building ----
   function crescentBuild(B, W) {
-    var C0 = crsInit(), K0 = C0.court, ea = C0.a1 + 0.03 / C0.r0;
-    p2Sector(0, 0, C0.r0 - 0.03, C0.r1 + 0.08, -ea, ea);                 // the building
-    p2Sector(0, 0, C0.r1, K0.r1, -K0.aEnd, K0.aEnd);                      // the court along the garden front
-    p2Box(-K0.latHalf, K0.radFar, K0.latHalf, -48.0);                      // the open court down the slope
+    var C = crsInit(), G = C.gal, r0 = C.r0, r1 = C.r1, rc = C.rc, a0 = C.a0, a1 = C.a1, yU = C.yU, yL = C.yL, hw = C.wall / 2, hA = C.hallA, st = C.st, es = C.es;
+    var ea = a1 + 0.03 / r0, eA = a1 - es.a;                               // eA: where the emergency stairs begin
+    p2Sector(0, 0, r0 - 0.03, G.r1 + 0.12, -ea, ea);                       // the building and its garden gallery
     p2CutApply();
-    P2DOMAINS.push({ l0: -48, l1: 48, r0: -86, r1: -28, y0: PALY.B - 5.6, y1: PALY.B + 5.6 });
-    var C = crsInit(), r0 = C.r0, r1 = C.r1, rc = C.rc, a0 = C.a0, a1 = C.a1, yU = C.yU, yL = C.yL, hw = C.wall / 2, hA = C.hallA;
-    // floors: the upper floor except over the hall's void; the lower floor; the corridors' terrazzo, the rooms' own floors
+    P2DOMAINS.push({ l0: -55, l1: 55, r0: -70.5, r1: -27, y0: yL - 0.6, y1: yU + 6.6 });
     W.zone = ZONE.WING;
+    // floors: the corridor's terrazzo (to the emergency stairs), the rooms' own floors, the hall's landing upstairs
     [["upper", yU], ["lower", yL]].forEach(function (fl) {
-      var y = fl[1], up = fl[0] === "upper";
-      flat(W, r0, rc, a0, a1, y, MT.TERRAZZO, 0, true);                                      // corridor
+      var y = fl[1];
+      flat(W, r0, rc, -eA, eA, y, MT.TERRAZZO, 0, true);
       C.rooms.forEach(function (rm) {
         if (rm.floor !== fl[0] || rm.band) return;
         var ra0 = rmA0(rm), ra1 = rmA1(rm), fm = CRS_FLOOR[rm.kind] || [MT.TERRAZZO, 0];
-        if (rm.code === "T06-01") { flat(W, rc, C.landR, ra0, ra1, y, MT.TERRAZZO, 0, true); return; }   // the landing; the rest is open to below
+        if (rm.code === "T06-01") { flat(W, rc, st.r0, ra0, ra1, y, MT.TERRAZZO, 0, true); return; }   // the landing; beyond it the hall is open to below
         flat(W, rc, r1, ra0, ra1, y, fm[0], fm[1], true);
-        // ceiling: flat, tiles in the teaching rooms
-        flat(W, rc, r1 + 0.05, ra0, ra1, y + (rm.code === "T06-10" ? (yU - yL) + C.hR : C.hR), MT.PLASTER, CRS_TILES[rm.kind] ? 6 : 0, false);
+        if (rm.code !== "T06-08") flat(W, rc, r1 + 0.05, ra0, ra1, y + C.hR, MT.PLASTER, CRS_TILES[rm.kind] ? 6 : 0, false);   // ceilings: flat, tiles in the teaching rooms
       });
-      flat(W, r0 - 0.05, rc, a0, a1, y + C.hC, MT.PLASTER, 0, false);                        // corridor ceiling
+      [[-eA, -hA], [hA, eA]].forEach(function (s) { flat(W, r0 - 0.05, rc, s[0], s[1], y + C.hC, MT.PLASTER, 0, false); });   // the corridors' ceilings
     });
-    // the corridor partition at rc on both floors, with a doorway into each room near its end toward the hall
+    flat(W, r0 - 0.05, r1 + 0.05, -hA, hA, yU + C.hR, MT.PLASTER, 0, false);                       // the hall's ceiling, two storeys up
+    flat(W, r0 - 0.05, st.r0, -hA, hA, yU - 0.35, MT.PLASTER, 0, false);                           // under the landing
+    arcWall(W, st.r0, -hA, hA, yU - 0.35, yU, MT.PLASTER, 0, 1);
+    // the corridor partition at rc on both floors, with doorways into each room; the walls between the rooms
     [["upper", yU], ["lower", yL]].forEach(function (fl) {
       var y = fl[1];
       C.rooms.forEach(function (rm) {
-        if (rm.floor !== fl[0] || rm.band || rm.code === "T06-01" || rm.code === "T06-10") return;
-        var ra0 = rmA0(rm), ra1 = rmA1(rm), mid = (ra0 + ra1) / 2, ad = mid < 0 ? ra1 - 2.2 * D2R : ra0 + 2.2 * D2R, half = 0.5 / rc;
-        var wc = CRS_WALL[rm.kind] || 0;
-        [[ra0, ad - half], [ad + half, ra1]].forEach(function (s) {
-          arcWall(W, rc - hw, s[0], s[1], y, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, s[0], s[1], y, y + C.hR + 0.1, MT.PLASTER, wc, 1);
+        if (rm.floor !== fl[0] || rm.band || rm.code === "T06-01" || rm.code === "T06-08") return;
+        var ra0 = rmA0(rm), ra1 = rmA1(rm), mid = (ra0 + ra1) / 2, wc = CRS_WALL[rm.kind] || 0, half = 0.5 / rc;
+        // a doorway near the end toward the hall, a second at the far end of the big rooms; none inside the stairs' enclosures
+        var ds = [mid < 0 ? ra1 - 2.2 * D2R : ra0 + 2.2 * D2R];
+        if (ra1 - ra0 >= 13.5 * D2R) ds.push(mid < 0 ? ra0 + 2.2 * D2R : ra1 - 2.2 * D2R);
+        ds = ds.filter(function (d) { return Math.abs(d) < eA - 0.8 / rc; }); rm.doors = ds; rm.door = ds[0];
+        var cur = ra0;
+        ds.slice().sort(function (p, q) { return p - q; }).forEach(function (d) { seg(cur, d - half); cur = d + half; }); seg(cur, ra1);
+        function seg(s0, s1) { if (s1 - s0 < 1e-4) return; arcWall(W, rc - hw, s0, s1, y, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, s0, s1, y, y + C.hR + 0.1, MT.PLASTER, wc, 1); }
+        ds.forEach(function (d) {
+          arcWall(W, rc - hw, d - half, d + half, y + 2.22, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, d - half, d + half, y + 2.22, y + C.hR + 0.1, MT.PLASTER, wc, 1);
+          crsDoorway(W, rc, d, y, 1);
         });
-        arcWall(W, rc - hw, ad - half, ad + half, y + 2.22, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, ad - half, ad + half, y + 2.22, y + C.hR + 0.1, MT.PLASTER, wc, 1);
-        crsDoorway(W, rc, ad, y, 1);
-        rm.door = ad;
-        // walls between rooms (radial), from the partition to the garden glass
         [[ra0, 1], [ra1, -1]].forEach(function (e) { radWall(W, e[0] + e[1] * hw / ((rc + r1) / 2), rc, r1 - 0.06, y, y + C.hR + 0.1, MT.PLASTER, wc, e[1]); });
       });
-      // the hall's side walls
-      [[-hA, -1], [hA, 1]].forEach(function (e) { radWall(W, e[0] - e[1] * hw / 53, rc, r1 - 0.06, y, (fl[0] === "lower" ? yU : y) + C.hR + 0.1, MT.PLASTER, 0, -e[1]); });
     });
-    // the lower corridor's back wall: the retaining wall against the slope; the lower passages along the end walls
-    arcWall(W, r0 + 0.02, a0, a1, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);
-    [[a0, a0 + C.endA, 1], [a1 - C.endA, a1, -1]].forEach(function (e) {
-      flat(W, rc, r1, e[0], e[1], yL, MT.TERRAZZO, 0, true); flat(W, rc, r1 + 0.05, e[0], e[1], yL + C.hC, MT.PLASTER, 0, false);
-      radWall(W, e[2] > 0 ? e[1] - hw / 55 : e[0] + hw / 55, rc, r1 - 0.06, yL, yL + C.hR + 0.1, MT.PLASTER, 0, -e[2]);   // the passage's side of the room's wall
-    });
+    [[-hA, -1], [hA, 1]].forEach(function (e) { radWall(W, e[0] - e[1] * hw / 53, rc, r1 - 0.06, yL, yU + C.hR + 0.1, MT.PLASTER, 0, -e[1]); });   // the hall's side walls, two storeys
+    arcWall(W, r0 + 0.02, -eA, eA, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);                       // the lower corridor's back: the retaining wall
+    arcWall(W, r0 + 0.02, -hA, hA, yL + C.hC + 0.1, yU - 0.35, MT.PLASTER, 0, 1);                 // ... up to the landing in the hall
+    arcWall(W, r0 + 0.07, -hA, hA, yU + C.hC, yU + C.hR + 0.05, MT.PLASTER, 0, 1);                // and above the glass to the hall's ceiling
     // frosted glass at the washrooms: white panels just inside the glass
     C.rooms.forEach(function (rm) { if (rm.kind !== "service" || rm.band) return; var y = rm.floor === "upper" ? yU : yL; arcWall(W, r1 - 0.12, rmA0(rm), rmA1(rm), y + 0.08, y + C.hR - 0.1, MT.PLASTER, 0, -1); });
     // end walls on both floors, inside
     [[a0, 1], [a1, -1]].forEach(function (e) { radWall(W, e[0] + e[1] * 0.06 / 53, r0, r1, yL, yU + C.hR + 0.1, MT.PLASTER, 0, e[1]); });
-    // the hall: the stair down to the lower floor, its balustrade, the lift
-    var st = new Builder(), n = C.nSteps, run = (C.stairR1 - C.landR) / n;
-    for (var k = 0; k < n; k++) st.box(-C.stairW / 2, -(k + 1) * C.stepH - 0.18, k * run, C.stairW / 2, -k * C.stepH, (k + 1) * run, MT.TERRAZZO);
-    [-1, 1].forEach(function (sd) { var rail = []; for (var k2 = 0; k2 <= 8; k2++) { var t = k2 / 8; rail.push(new THREE.Vector3(sd * (C.stairW / 2 + 0.05), 0.95 - t * (yU - yL), t * n * run)); }
-      [sd * (C.stairW / 2 + 0.01), sd * (C.stairW / 2 + 0.03)].forEach(function (x) { st.surf(1, 1, function (i, j, q) { var z = i * n * run, yTop = 0.06 - i * (n - 1) * C.stepH; q.p[0] = x; q.p[1] = j ? yTop : yTop - 0.4; q.p[2] = z; q.nn = [sd, 0, 0]; q.f2[0] = 3; q.m = MT.STEEL; }); });
-      var tb = new Builder(); tubeAlong(tb, rail, 0.025, 8, MT.STEEL); st.add(tb, new THREE.Matrix4()); });
-    W.add(st, crsFrame(C.landR, C.stairA, yU));
-    // the landing's edge over the void: a glass balustrade with a steel rail
-    var gapA = (C.stairW / 2 + 0.1) / C.landR;
-    [[-hA + 0.004, C.stairA - gapA], [C.stairA + gapA, hA - 0.004]].forEach(function (sp) {
-      var lr = []; for (var k4 = 0; k4 <= 10; k4++) { var pp = crsPt(C.landR, lerp(sp[0], sp[1], k4 / 10)); lr.push(new THREE.Vector3(pp.x, yU + 1.0, pp.z)); }
-      tubeAlong(W, lr, 0.025, 8, MT.STEEL);
-      [sp[0], (sp[0] + sp[1]) / 2, sp[1]].forEach(function (pa) { var pq = crsPt(C.landR, pa); tubeAlong(W, [new THREE.Vector3(pq.x, yU, pq.z), new THREE.Vector3(pq.x, yU + 1.0, pq.z)], 0.02, 6, MT.STEEL); });
-      var ng = 6; CRS_GLASS.surf(ng, 1, function (i, j, q) { var a = lerp(sp[0], sp[1], i / ng), p = crsPt(C.landR + 0.02, a), d = crsPt(1, a); q.p[0] = p.x; q.p[1] = yU + (j ? 0.95 : 0.05); q.p[2] = p.z; q.nn = [d.x - PAL.c.x, 0, d.z - PAL.c.z]; q.f2[0] = j ? 1 : 0.05; q.f2[1] = 1; q.m = 0; });
-    });
-    flat(W, C.rc, C.landR, -hA, hA, yU - 0.35, MT.PLASTER, 0, false);                    // under the landing
-    arcWall(W, C.landR, -hA, hA, yU - 0.35, yU, MT.PLASTER, 0, 1);
-    // ceiling lights: two rows in the rooms, one in the corridors
+    crescentEStairs(W);
+    crescentStair(W);
+    crescentLift(W);
+    // lights: pendants in rows in the rooms (three rows in the big ones), downlights in the corridors and the hall
     C.rooms.forEach(function (rm) {
-      if (rm.band) return;
-      var y = rm.floor === "upper" ? yU : yL, ra0 = rmA0(rm), ra1 = rmA1(rm), hall = rm.code === "T06-01" || rm.code === "T06-10";
-      if (hall && rm.floor === "lower") return;
-      var yc = y + C.hR, span = (ra1 - ra0) * 55, nl = Math.max(1, Math.round((span - 1.5) / 3.0));
-      [52.0, 57.0].forEach(function (rr) { for (var k3 = 0; k3 < nl; k3++) {
-        var aa = lerp(ra0, ra1, (k3 + 0.5) / nl), M = crsFrame(rr, aa, yc - 0.45); W.add(linearPendant(), M);
-        [-0.5, 0.5].forEach(function (d) { var p0 = new THREE.Vector3(d, 0.06, 0).applyMatrix4(M), p1 = new THREE.Vector3(d, 0.5, 0).applyMatrix4(M); tubeAlong(W, [p0, p1], 0.003, 3, MT.STEEL); });
-        var lp = crsPt(rr, aa); wLight(lp.x, yc - 0.6, lp.z, LAMPC, 2.0, 7.5, [0, -1, 0], 1);
+      if (rm.band || rm.code === "T06-01" || rm.code === "T06-08") return;
+      var y = rm.floor === "upper" ? yU : yL, ra0 = rmA0(rm), ra1 = rmA1(rm), yc = y + C.hR, yl = y + 3.25, span = (ra1 - ra0) * 55.8, nl = Math.max(1, Math.round((span - 1.6) / 3.4));
+      var rows = ra1 - ra0 >= 13.5 * D2R ? [52.6, 55.9, 59.2] : [53.2, 58.4];
+      rows.forEach(function (rr) { for (var k3 = 0; k3 < nl; k3++) {
+        var aa = lerp(ra0, ra1, (k3 + 0.5) / nl), M = crsFrame(rr, aa, yl); W.add(linearPendant(), M);
+        [-0.5, 0.5].forEach(function (d) { var p0 = new THREE.Vector3(d, 0.06, 0).applyMatrix4(M), p1 = new THREE.Vector3(d, yc - yl, 0).applyMatrix4(M); tubeAlong(W, [p0, p1], 0.003, 3, MT.STEEL); });
+        var lp = crsPt(rr, aa); wLight(lp.x, yl - 0.15, lp.z, LAMPC, rows.length > 2 ? 1.9 : 2.1, 8, [0, -1, 0], 1);
       } });
     });
-    for (var ka = a0 + 0.05; ka < a1; ka += 4.0 / r0) { var lp2 = crsPt((r0 + rc) / 2, ka); [yU, yL].forEach(function (y) { W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, 1.3, 6, [0, -1, 0], 1.2); }); }
+    for (var ka = -eA + 2.0 / r0; ka < eA - 1.0 / r0; ka += 4.0 / r0) {
+      if (Math.abs(ka) < hA) continue;
+      var lp2 = crsPt((r0 + rc) / 2, ka);
+      [yU, yL].forEach(function (y) { W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, 1.3, 6, [0, -1, 0], 1.2); });
+    }
+    [[47.6, -4.5], [47.6, 4.5], [49.8, 0]].forEach(function (d) { var p = crsPt(d[0], d[1] * D2R); W.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 14), 1.8, 0), T(p.x, yU + C.hR - 0.012, p.z), MT.LIGHT, 1); wLight(p.x, yU + C.hR - 0.2, p.z, LAMPC, 1.8, 8, [0, -1, 0], 1.2); });
+    crescentChandelier(W);
     W.zone = ZONE.OUT;
 
     // ---- outside: the glass fronts, the floor band, end walls, the roof ----
     B.zone = ZONE.OUT;
-    // garden front: the lower floor and the upper floor, a band of composite at the slab between them; doors at the halls and the exits
-    var exA = a1 - C.endA / 2;
-    glassFront(B, r1, a0, a1, yL, yL + C.hR, 1, [0, -exA, exA]);
+    // garden front: the lower floor's glass with doors into the gallery from the hall and from each room; the upper floor's
+    var gd = [0];
+    C.rooms.forEach(function (rm) { if (rm.floor === "lower" && !rm.band && rm.kind !== "service" && rm.code !== "T06-08") gd.push((rm.a[0] + rm.a[1]) / 2 * D2R); });
+    glassFront(B, r1, a0, a1, yL, yL + C.hR, 1, gd);
     glassFront(B, r1, a0, a1, yU, yU + C.hR, 1, []);
     arcWall(B, r1 + 0.06, a0, a1, yL + C.hR, yU, MT.COMPOSITE, 0, 1, 3);
     W.zone = ZONE.WING; arcWall(W, r1 - 0.1, -hA, hA, yL + C.hR - 0.1, yU - 0.02, MT.PLASTER, 0, -1); W.zone = ZONE.OUT;
     arcWall(B, r1 + 0.06, a0, a1, yU + C.hR, crsRoofY(r1) - C.roofT, MT.DKGLASS, 0, 1, 3);                // spandrel band to the roof
-    // the terrace front of the upper corridor: glass with the main doors at the hall and an exit near each end
-    glassFront(B, r0, a0, a1, yU, yU + C.hC, -1, [0, -(a1 - 1.6 / r0), a1 - 1.6 / r0]);
+    // the winter garden's side: the upper corridor's glass, doors at the hall and halfway to each end; solid at the stairs
+    var td = 25 * D2R;
+    glassFront(B, r0, -eA, eA, yU, yU + C.hC, -1, [0, -td, td]);
+    [-1, 1].forEach(function (sg) { arcWall(B, r0 - 0.06, sg > 0 ? eA : -a1, sg > 0 ? a1 : -eA, yU, yU + C.hC, MT.COMPOSITE, 0, -1, 3); });
     arcWall(B, r0 - 0.06, a0, a1, yU + C.hC, crsRoofY(r0) - C.roofT, MT.DKGLASS, 0, -1, 3);
     // end walls outside: white composite from the lower floor (or the ground) to the roof
     [[a0, -1], [a1, 1]].forEach(function (e) {
@@ -3778,99 +3894,489 @@
       var n = Math.ceil((C.roofOut - C.roofIn) / 0.5);
       B.surf(n, 1, function (i, j, q) { var r = lerp(C.roofIn, C.roofOut, i / n), p = crsPt(r, e[0]), t = crsPt(1, e[0] + e[1] * Math.PI / 2), y = crsRoofY(r) - (j ? 0 : C.roofT); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [t.x - PAL.c.x, 0, t.z - PAL.c.z]; q.f2[0] = 4; q.m = MT.ANOD; });
     });
-    crescentCourt(B);
+    crescentGallery(B);
+    crescentFurnish(W);
   }
 
-  // ---- the sunken court along the garden front: basalt paving at the lower floor, retaining walls with a glass guard, stairs ----
-  function crescentCourt(B) {
-    var C = CRS, K = C.court, yL = C.yL, r1 = C.r1;
-    function gAt(p) { return groundAt(p.x, p.z, yL); }
-    // the paving: the band in front of the glass, and the open court down to the far edge
-    flat(B, r1 + 0.06, K.r1, -K.aEnd, K.aEnd, yL, MT.PAVE, 0, true);
-    var nl = 36, nf = 30, rFar = -K.radFar;
-    B.surf(nl, nf, function (i, j, q) { var lat = lerp(-K.latHalf, K.latHalf, i / nl), radTop = -Math.sqrt(Math.max(0, K.r1 * K.r1 - lat * lat)), rad = lerp(radTop, K.radFar, j / nf), p = palXZ(lat, rad);
-      q.p[0] = p.x; q.p[1] = yL; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; });
-    // retaining walls: the band's outer arc beyond the open court, the court's two sides, the band's ends
-    var aSide = Math.asin(K.latHalf / K.r1);
-    function retain(pts, out) {                                          // a wall along a line of (lat, rad) points, from the court up to the ground, with a guard
-      var n = pts.length - 1;
-      B.surf(n, 1, function (i, j, q) { var p = palXZ(pts[i][0], pts[i][1]), g = gAt(p), y = j ? Math.max(g + 0.12, yL + 0.3) : yL - 0.3, a = pts[Math.max(0, i - 1)], b = pts[Math.min(n, i + 1)], dl = b[0] - a[0], dr = b[1] - a[1], nx = -dr * out, nz = dl * out;
-        q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [PAL.Rt.x * nx + PAL.F.x * nz, 0, PAL.Rt.z * nx + PAL.F.z * nz]; q.f[0] = i * 0.5; q.f[1] = y; q.f2[0] = y - yL; q.m = MT.CONCRETE; });
-      // a glass guard on top where the drop is more than half a metre
-      var run = [], cur = null;
-      pts.forEach(function (pt) { var p = palXZ(pt[0], pt[1]), g = gAt(p); if (g - yL > 0.5) { if (!cur) { cur = []; run.push(cur); } cur.push([p, g]); } else cur = null; });
-      run.forEach(function (rn) {
-        if (rn.length < 2) return;
-        var rail = rn.map(function (e) { return new THREE.Vector3(e[0].x, e[1] + 1.0, e[0].z); });
-        tubeAlong(B, rail, 0.025, 8, MT.STEEL);
-        CRS_GLASS.surf(rn.length - 1, 1, function (i, j, q) { var e = rn[i], e2 = rn[Math.min(rn.length - 1, i + 1)], e1 = rn[Math.max(0, i - 1)]; q.p[0] = e[0].x; q.p[1] = e[1] + (j ? 0.95 : 0.14); q.p[2] = e[0].z; q.nn = [e2[0].z - e1[0].z, 0, -(e2[0].x - e1[0].x)]; q.f2[0] = j ? 1.0 : 0.05; q.f2[1] = 1; q.m = 0; });
-        for (var k = 0; k < rn.length; k += 3) tubeAlong(B, [new THREE.Vector3(rn[k][0].x, rn[k][1] + 0.12, rn[k][0].z), new THREE.Vector3(rn[k][0].x, rn[k][1] + 1.0, rn[k][0].z)], 0.02, 6, MT.STEEL);
-      });
-    }
-    function arcPts(r, aa0, aa1) { var n = Math.max(2, Math.ceil(Math.abs(aa1 - aa0) * r / 0.5)), o = []; for (var k = 0; k <= n; k++) { var a = lerp(aa0, aa1, k / n); o.push([r * Math.sin(a), -r * Math.cos(a)]); } return o; }
-    function linePts(p, q2) { var n = Math.max(2, Math.ceil(Math.hypot(q2[0] - p[0], q2[1] - p[1]) / 0.5)), o = []; for (var k = 0; k <= n; k++) o.push([lerp(p[0], q2[0], k / n), lerp(p[1], q2[1], k / n)]); return o; }
-    [-1, 1].forEach(function (sd) {
-      retain(arcPts(K.r1, sd * aSide, sd * K.stairA0), sd);
-      retain(arcPts(r1, sd * C.a1, sd * K.aEnd), -sd);
-      var top = [sd * K.latHalf, -Math.sqrt(K.r1 * K.r1 - K.latHalf * K.latHalf)];
-      retain(linePts(top, [sd * K.latHalf, K.radFar]), -sd);
-      retain(linePts([sd * (r1 + 0.06) * Math.sin(K.aEnd), -(r1 + 0.06) * Math.cos(K.aEnd)], [sd * K.r1 * Math.sin(K.aEnd), -K.r1 * Math.cos(K.aEnd)]), sd > 0 ? -1 : 1);
-      // the stair up to the ground at the band's end, between the end wall and the court
-      var am = sd * (K.stairA0 + K.aEnd) / 2, pTop = crsPt(K.r1 - 0.2, am), gT = gAt(pTop), rise = gT - yL, ns = Math.max(1, Math.round(rise / 0.17)), hs = rise / ns, runS = Math.min(0.3, (K.r1 - r1 - 0.8) / ns);
-      var sb = new Builder(), wS = (K.aEnd - K.stairA0) * (r1 + K.r1) / 2 - 0.1;
-      for (var k = 0; k < ns; k++) sb.box(-wS / 2, -0.3, k * runS, wS / 2, (k + 1) * hs, (k + 1) * runS, MT.CONCRETE);
-      for (var n2 = 0; n2 < sb.f.length; n2++) sb.f[n2] = 0.45 + 0.07 * sb.f[n2] * 0.3;
-      B.add(sb, crsFrame(K.r1 - 0.2 - ns * runS, am, yL));
-      C["stair" + (sd > 0 ? "R" : "L")] = { a: am, r0: K.r1 - 0.2 - ns * runS, run: runS, n: ns, hs: hs, w: wS };
+  // ---- the hall's stair: two flights of Carrara treads with brass nosings and a landing, on steel stringers, glass sides ----
+  function crescentStair(W) {
+    var C = CRS, S = C.st, yU = C.yU, sw = S.w / 2, b = new Builder(), h = S.h, zl0 = (S.half - 1) * S.run1, zl1 = S.l1 - S.r0, zEnd = S.r1 - S.r0;
+    function tread(z0, z1, y) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(-sw, sw, i); q.p[1] = y; q.p[2] = lerp(z0, z1, j); q.nn = [0, 1, 0]; q.f[0] = q.p[0]; q.f[1] = z1 - q.p[2]; q.m = MT.STEP; }); }
+    function riser(z, y0, y1) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(-sw, sw, i); q.p[1] = j ? y1 : y0; q.p[2] = z; q.nn = [0, 0, 1]; q.f[0] = q.p[0]; q.f[1] = 1; q.m = MT.STEP; }); }
+    function soffit(z0, y0, z1, y1) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(-sw, sw, i); q.p[1] = j ? y1 : y0; q.p[2] = j ? z1 : z0; q.nn = [0, -1, 0]; q.m = MT.PLASTER; }); }
+    var flights = [{ z0: 0, run: S.run1, y0: 0, n: S.half - 1 }, { z0: zl1, run: S.run2, y0: S.yM - yU, n: S.half - 1 }], noses = [];
+    flights.forEach(function (F) {
+      riser(F.z0, F.y0 - h, F.y0);
+      for (var k = 0; k < F.n; k++) {
+        var z0 = F.z0 + k * F.run, z1 = z0 + F.run, y = F.y0 - (k + 1) * h;
+        tread(z0, z1, y); riser(z1, y - h, y); noses.push([z1, y]);
+      }
+      var zE = F.z0 + F.n * F.run, yE = F.y0 - (F.n + 1) * h;
+      soffit(F.z0 + 0.2, F.y0 - 0.45, zE, yE - 0.2);
+      // stringers: steel plates along both sides, following the nosings
+      [-1, 1].forEach(function (sd) { b.surf(1, 1, function (i, j, q) { var z = i ? zE : F.z0, yt = (i ? yE + h : F.y0) + 0.06; q.p[0] = sd * (sw + 0.012); q.p[1] = j ? yt : yt - 0.5; q.p[2] = z; q.nn = [sd, 0, 0]; q.f2[0] = 3; q.m = MT.STEEL; }); });
     });
-    // bollards along the court
-    for (var k = 0; k < 8; k++) { var lat = lerp(-K.latHalf + 1.2, K.latHalf - 1.2, k / 7), p = palXZ(lat, K.radFar + 1.0);
-      latheOn(B, p.x, yL - 0.05, p.z, [[0.1, 0], [0.1, 0.9]], 16, MT.ANOD, 0.3); latheOn(B, p.x, yL + 0.85, p.z, [[0.112, 0], [0.112, 0.08], [0.09, 0.1], [0.0, 0.105]], 16, MT.ANOD, 0.9);
-      B.geo(addF2(new THREE.CylinderGeometry(0.094, 0.094, 0.1, 16, 1, true), 1.4, 0), T(p.x, yL + 0.8, p.z), MT.LIGHT, 1); extLight(p.x, yL + 0.8, p.z, WARMC, 1.1, 6); COLL.posts.push({ x: p.x, z: p.z, r: 0.35 }); }
+    // the landing between the flights, on two steel posts
+    tread(zl0, zl1, S.yM - yU); b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(-sw, sw, i); q.p[1] = S.yM - yU - 0.3; q.p[2] = lerp(zl0, zl1, j); q.nn = [0, -1, 0]; q.m = MT.PLASTER; });
+    [[zl0, -1], [zl1, 1]].forEach(function (e) { if (e[1] > 0) return; b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(-sw, sw, i); q.p[1] = S.yM - yU - (j ? 0 : 0.3); q.p[2] = e[0]; q.nn = [0, 0, -1]; q.m = MT.PLASTER; }); });
+    [-1, 1].forEach(function (sd) {
+      b.surf(1, 1, function (i, j, q) { q.p[0] = sd * (sw + 0.012); q.p[1] = S.yM - yU - (j ? -0.06 : 0.3); q.p[2] = lerp(zl0, zl1, i); q.nn = [sd, 0, 0]; q.f2[0] = 3; q.m = MT.STEEL; });
+      var pz = (zl0 + zl1) / 2; b.box(sd * (sw - 0.3) - 0.06, -(yU - C.yL), pz - 0.06, sd * (sw - 0.3) + 0.06, S.yM - yU - 0.3, pz + 0.06, MT.STEEL);
+    });
+    // glass balustrades with a steel handrail on both sides, from the landing upstairs to the floor
+    var path = [[0, 0], [zl0, S.yM - yU], [zl1, S.yM - yU], [zEnd - S.run2, C.yL - yU + h]];
+    [-1, 1].forEach(function (sd) {
+      var rail = path.map(function (p) { return new THREE.Vector3(sd * (sw + 0.04), p[1] + 0.95, p[0]); });
+      var tb = new Builder(); tubeAlong(tb, rail, 0.025, 8, MT.STEEL); b.add(tb, new THREE.Matrix4());
+      for (var k = 0; k < path.length - 1; k++) {
+        var pa = path[k], pb = path[k + 1], gx = sd * (sw + 0.03);
+        var gb = new Builder(); gb.surf(1, 1, function (i, j, q) { var p = i ? pb : pa; q.p[0] = gx; q.p[1] = p[1] + (j ? 0.9 : 0.1); q.p[2] = p[0]; q.nn = [sd, 0, 0]; q.f2[0] = j ? 0.9 : 0.1; q.f2[1] = 1; q.m = 0; });
+        var Mg = crsFrame(S.r0, S.a, yU); CRS_GLASS.add(gb, Mg);
+      }
+    });
+    b.tag(0, null, null);
+    W.add(b, crsFrame(S.r0, S.a, yU));
+    // the landing's edge over the void: a glass balustrade with a steel rail, open where the stair starts
+    var gapA = (S.w / 2 + 0.1) / S.r0;
+    [[-C.hallA + 0.004, S.a - gapA], [S.a + gapA, C.hallA - 0.004]].forEach(function (sp) {
+      var lr = []; for (var k4 = 0; k4 <= 10; k4++) { var pp = crsPt(S.r0, lerp(sp[0], sp[1], k4 / 10)); lr.push(new THREE.Vector3(pp.x, yU + 1.0, pp.z)); }
+      tubeAlong(W, lr, 0.025, 8, MT.STEEL);
+      [sp[0], (sp[0] + sp[1]) / 2, sp[1]].forEach(function (pa) { var pq = crsPt(S.r0, pa); tubeAlong(W, [new THREE.Vector3(pq.x, yU, pq.z), new THREE.Vector3(pq.x, yU + 1.0, pq.z)], 0.02, 6, MT.STEEL); });
+      var ng = 6; CRS_GLASS.surf(ng, 1, function (i, j, q) { var a = lerp(sp[0], sp[1], i / ng), p = crsPt(S.r0 + 0.02, a), d = crsPt(1, a); q.p[0] = p.x; q.p[1] = yU + (j ? 0.95 : 0.05); q.p[2] = p.z; q.nn = [d.x - PAL.c.x, 0, d.z - PAL.c.z]; q.f2[0] = j ? 1 : 0.05; q.f2[1] = 1; q.m = 0; });
+    });
   }
 
-  // ---- where you can stand in and round the Crescent: the two floors, the stair, the court; NaN at walls ----
+  // ---- the emergency stairs at the corridors' ends: a fire door on each floor, two flights and a half landing ----
+  function crescentEStairs(W) {
+    var C = CRS, E = C.es, yU = C.yU, yL = C.yL, rm = E.rm, eA = C.a1 - E.a, hw = C.wall / 2, r0 = C.r0, rc = C.rc;
+    [-1, 1].forEach(function (sg) {
+      function ang(e) { return sg * (eA + e / rm); }
+      function span(e0, e1) { var p = ang(e0), q = ang(e1); return [Math.min(p, q), Math.max(p, q)]; }
+      // the wall across the corridor, both faces, with a door on each floor
+      [[ang(0) - sg * hw / rm, -sg], [ang(0) + sg * hw / rm, sg]].forEach(function (f) {
+        [yL, yU].forEach(function (y) { radWall(W, f[0], r0 + 0.05, rm - 0.55, y, y + C.hC + 0.1, MT.PLASTER, 0, f[1]); radWall(W, f[0], rm + 0.55, rc - 0.05, y, y + C.hC + 0.1, MT.PLASTER, 0, f[1]); radWall(W, f[0], rm - 0.55, rm + 0.55, y + 2.22, y + C.hC + 0.1, MT.PLASTER, 0, f[1]); });
+        radWall(W, f[0], r0 + 0.05, rc - 0.05, yL + C.hC + 0.1, yU, MT.PLASTER, 0, f[1]);
+      });
+      [yL, yU].forEach(function (y) { crsDoorway(W, rm, ang(0), y, sg, true); });
+      // the floor at the bottom, the landing at the top door (with its edge and rail over the lower flight), the half landing
+      var s = span(0, E.L); flat(W, r0, rc, s[0], s[1], yL, MT.TERRAZZO, 0, true);
+      s = span(0, E.land); flat(W, r0 + 0.05, rc - 0.05, s[0], s[1], yU, MT.TERRAZZO, 0, true); flat(W, r0 + 0.05, rc - 0.05, s[0], s[1], yU - 0.25, MT.PLASTER, 0, false);
+      radWall(W, ang(E.land), r0 + 0.05, rm - 0.1, yU - 0.25, yU, MT.PLASTER, 0, sg);
+      var rl = [new THREE.Vector3(), new THREE.Vector3()]; [r0 + 0.15, rm - 0.15].forEach(function (rr, k) { var p = crsPt(rr, ang(E.land) - sg * 0.04 / rm); rl[k].set(p.x, yU + 1.0, p.z); });
+      tubeAlong(W, rl, 0.025, 8, MT.STEEL);
+      s = span(E.L - E.land, E.L); flat(W, r0 + 0.05, rc - 0.05, s[0], s[1], E.yM, MT.TERRAZZO, 0, true); flat(W, r0 + 0.05, rc - 0.05, s[0], s[1], E.yM - 0.25, MT.PLASTER, 0, false);
+      radWall(W, ang(E.L - E.land), r0 + 0.05, rc - 0.05, E.yM - 0.25, E.yM, MT.PLASTER, 0, -sg);
+      // the flights: down along the rooms' side to the half landing, then back along the front
+      [[rm + 0.1, rc - 0.05, E.land, E.L - E.land, yU], [r0 + 0.05, rm - 0.1, E.L - E.land, E.land, E.yM]].forEach(function (F) {
+        var dir = Math.sign(F[3] - F[2]), last = F[4] === CRS.yU ? E.half : E.half - 1;   // the lower flight's last tread is the floor itself
+        for (var k = 0; k < E.half; k++) {
+          var e0 = F[2] + dir * k * E.tread, e1 = e0 + dir * E.tread, y = F[4] - (k + 1) * E.h, sp = span(e0, e1);
+          if (k < last) flat(W, F[0], F[1], sp[0], sp[1], y, MT.TERRAZZO, 0, true);
+          radWall(W, ang(e0), F[0], F[1], y, y + E.h, MT.TERRAZZO, 0, -sg * dir);
+        }
+        var eN = F[2] + dir * (E.half - 1) * E.tread;
+        var n = 8; W.surf(n, 1, function (i, j, q) { var e = lerp(F[2], eN, i / n), y = F[4] - (i / n) * (E.half - 1) * E.h - 0.45, p = crsPt(j ? F[1] : F[0], ang(e)); q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [0, -1, 0]; q.m = MT.PLASTER; });
+      });
+      // the wall between the flights, the ceiling, a light on each landing
+      s = span(E.land, E.L - E.land);
+      arcWall(W, rm - 0.08, s[0], s[1], yL, yU + C.hC, MT.PLASTER, 0, -1); arcWall(W, rm + 0.08, s[0], s[1], yL, yU + C.hC, MT.PLASTER, 0, 1);
+      s = span(0, E.L); flat(W, r0 - 0.05, rc, s[0], s[1], yU + C.hC, MT.PLASTER, 0, false);
+      [[0.5, yU + 2.6], [0.5, yL + 2.6], [E.L - 0.5, E.yM + 2.6]].forEach(function (lgt) { var p = crsPt(r0 + 0.12, ang(lgt[0])); W.geo(addF2(new THREE.BoxGeometry(0.3, 0.1, 0.06), 1.6, 0), T(p.x, lgt[1], p.z, 0, -ang(lgt[0]), 0), MT.LIGHT, 1); wLight(p.x, lgt[1] - 0.1, p.z, LAMPC, 0.9, 5); });
+    });
+  }
+
+  // ---- the lift: a glass shaft on steel posts through both floors, the car waiting below ----
+  function crescentLift(W) {
+    var C = CRS, L = C.lift, w = L.w / 2, H = C.yU - C.yL + 3.3, b = new Builder();
+    [[-w, -w], [w, -w], [-w, w], [w, w]].forEach(function (c) { b.box(c[0] - 0.05, 0, c[1] - 0.05, c[0] + 0.05, H, c[1] + 0.05, MT.ANOD); });
+    [0, C.yU - C.yL - 0.25, H - 0.12].forEach(function (y) { b.box(-w, y, -w - 0.04, w, y + 0.12, -w + 0.04, MT.ANOD); b.box(-w, y, w - 0.04, w, y + 0.12, w + 0.04, MT.ANOD); b.box(-w - 0.04, y, -w, -w + 0.04, y + 0.12, w, MT.ANOD); b.box(w - 0.04, y, -w, w + 0.04, y + 0.12, w, MT.ANOD); });
+    b.box(-w + 0.08, 0.0, -w + 0.08, w - 0.08, 0.12, w - 0.08, MT.STEEL);                         // the car: floor, back, roof, a rail
+    b.box(-w + 0.08, 0.12, w - 0.14, w - 0.08, 2.4, w - 0.08, MT.WOOD); b.box(-w + 0.08, 2.4, -w + 0.08, w - 0.08, 2.5, w - 0.08, MT.STEEL);
+    b.box(-w + 0.3, 0.9, w - 0.2, w - 0.3, 0.94, w - 0.15, MT.STEEL);
+    b.tag(0, 3, null); W.add(b, crsFrame(L.r, L.a, C.yL));
+    var M = crsFrame(L.r, L.a, C.yL);
+    [[-w, -w, w, -w, [0, 0, -1]], [w, -w, w, w, [1, 0, 0]], [w, w, -w, w, [0, 0, 1]], [-w, w, -w, -w, [-1, 0, 0]]].forEach(function (f) {
+      var gb = new Builder(); gb.surf(1, 1, function (i, j, q) { q.p[0] = lerp(f[0], f[2], i); q.p[1] = j ? H - 0.12 : 0.12; q.p[2] = lerp(f[1], f[3], i); q.nn = f[4]; q.f2[0] = j ? H : 0.1; q.f2[1] = 1; q.m = 0; });
+      CRS_GLASS.add(gb, M);
+    });
+    var lp = crsPt(L.r, L.a); wLight(lp.x, C.yL + 2.3, lp.z, LAMPC, 0.8, 3, [0, -1, 0], 1);
+  }
+
+  // ---- the hall's light: a cluster of glass globes on long cables in the double-height space ----
+  function crescentChandelier(W) {
+    var C = CRS, R = mulberry(606), top = C.yU + C.hR;
+    for (var k = 0; k < 9; k++) {
+      var rr = 57.4 + (R() - 0.5) * 3.6, aa = (-3.4 + (R() - 0.5) * 4.4) * D2R, y = C.yU + 0.9 + R() * 2.2, p = crsPt(rr, aa), s = 0.17 + R() * 0.1;
+      W.geo(addF2(new THREE.SphereGeometry(s, 18, 12), 2.0, 0), T(p.x, y, p.z), MT.LIGHT, 1);
+      W.geo(new THREE.CylinderGeometry(s * 0.35, s * 0.35, 0.08, 12), T(p.x, y + s + 0.03, p.z), MT.BRASS, 1);
+      tubeAlong(W, [new THREE.Vector3(p.x, y + s + 0.07, p.z), new THREE.Vector3(p.x, top, p.z)], 0.004, 3, MT.STEEL);
+      wLight(p.x, y, p.z, LAMPC, 1.3, 9);
+    }
+  }
+
+  // ---- the garden gallery: a court along the garden front under a sloping glass roof, a stone wall to the slope (T06-15) ----
+  function crescentGallery(B) {
+    var C = CRS, G = C.gal, yL = C.yL, r1 = C.r1, gr1 = G.r1, gA = G.a, yE = crsRoofY(C.roofOut) - C.roofT - 0.05, rT = r1 + 0.4;
+    function gTop(a) { var p = crsPt(gr1 + 0.4, a); return Math.max(groundAt(p.x, p.z, yL) + G.wall, yL + 2.8); }     // the stone wall's top, a parapet above the ground outside
+    var n = Math.ceil(2 * gA * gr1 / 0.5), tops = []; for (var i0 = 0; i0 <= n; i0++) tops.push(gTop(lerp(-gA, gA, i0 / n)));
+    function topAt(a) { var t = clamp((a + gA) / (2 * gA), 0, 1) * n, i = Math.min(n - 1, Math.floor(t)); return lerp(tops[i], tops[i + 1], t - i); }
+    B.zone = ZONE.OUT;
+    flat(B, r1 + 0.06, gr1 - 0.3, -gA + 0.004, gA - 0.004, yL, MT.PAVE, 0, true);
+    // the stone wall: its face to the gallery, the coping, its face to the slope outside down into the ground
+    B.surf(n, 1, function (i, j, q) { var a = lerp(-gA, gA, i / n), p = crsPt(gr1 - 0.3, a), d = crsPt(1, a), y = j ? tops[i] : yL - 0.05; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [PAL.c.x - d.x, 0, PAL.c.z - d.z]; q.f[0] = a * gr1; q.f[1] = y; q.f2[0] = y - yL; q.m = MT.CONCRETE; });
+    B.surf(n, 1, function (i, j, q) { var a = lerp(-gA, gA, i / n), p = crsPt(j ? gr1 + 0.12 : gr1 - 0.34, a); q.p[0] = p.x; q.p[1] = tops[i] + 0.05; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = a * gr1; q.f[1] = j * 0.45; q.m = MT.CONCRETE; });
+    B.surf(n, 1, function (i, j, q) { var a = lerp(-gA, gA, i / n), p = crsPt(gr1 + 0.12, a), d = crsPt(1, a), g = groundAt(p.x, p.z, yL), y = j ? tops[i] + 0.05 : Math.min(g, tops[i]) - 0.6; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [d.x - PAL.c.x, 0, d.z - PAL.c.z]; q.f[0] = a * gr1; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
+    // the glass roof from under the Crescent's eave down to the wall, on bronze rafters every 1.5 m, a gutter on the wall
+    CRS_GLASS.surf(n, 1, function (i, j, q) { var a = lerp(-gA, gA, i / n), r = j ? gr1 - 0.15 : rT, p = crsPt(r, a), d = crsPt(1, a), y = j ? tops[i] + 0.16 : yE, dr = gr1 - 0.15 - rT, dy = tops[i] + 0.16 - yE, L = Math.hypot(dr, dy);
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -dy / L, dr / L, (d.z - PAL.c.z) * -dy / L]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    var nrf = Math.round(2 * gA * (rT + gr1) / 2 / 1.5);
+    for (var k = 0; k <= nrf; k++) { var a = lerp(-gA + 0.002, gA - 0.002, k / nrf), pa = crsPt(rT, a), pb = crsPt(gr1 - 0.15, a), yb = topAt(a) + 0.1; tubeAlong(B, [new THREE.Vector3(pa.x, yE - 0.07, pa.z), new THREE.Vector3(pb.x, yb, pb.z)], 0.045, 6, MT.RIB); }
+    arcWall(B, rT - 0.05, -gA, gA, yE - 0.2, yE + 0.02, MT.RIB, 0, -1, 3);                                                // the beam under the eave
+    B.surf(n, 1, function (i, j, q) { var a = lerp(-gA, gA, i / n), p = crsPt(gr1 - 0.3 + j * 0.2, a); q.p[0] = p.x; q.p[1] = tops[i] + 0.06 + (j ? 0.12 : 0); q.p[2] = p.z; q.nn = [0, 1, 0]; q.m = MT.ANOD; });
+    // the end walls: stone, up to the roof's line, both faces
+    [[-gA, 1], [gA, -1]].forEach(function (e) {
+      [[e[0] + e[1] * 0.004, e[1]], [e[0] - e[1] * 0.004, -e[1]]].forEach(function (f) {
+        var m = 10, t = crsPt(1, f[0] + Math.PI / 2);
+        B.surf(m, 1, function (i, j, q) { var r = lerp(r1 + 0.06, gr1 + 0.12, i / m), p = crsPt(r, f[0]), g = groundAt(p.x, p.z, yL), top = lerp(yE, topAt(e[0]) + 0.16, clamp((r - rT) / (gr1 - 0.15 - rT), 0, 1)), y = j ? top : (f[1] === e[1] ? yL - 0.05 : Math.min(g, yL) - 0.4);
+          q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(t.x - PAL.c.x) * f[1], 0, (t.z - PAL.c.z) * f[1]]; q.f[0] = r; q.f[1] = y; q.f2[0] = y - yL; q.m = MT.CONCRETE; });
+      });
+    });
+    // light: uplights washing the stone wall, a warm downlight at each bench
+    for (var k2 = 0; k2 < 22; k2++) { var a2 = lerp(-gA + 1.5 / gr1, gA - 1.5 / gr1, k2 / 21), p2 = crsPt(gr1 - 0.55, a2), d2 = crsPt(1, a2);
+      B.geo(addF2(new THREE.CylinderGeometry(0.06, 0.07, 0.05, 12), 1.5, 0), T(p2.x, yL + 0.03, p2.z), MT.LIGHT, 1);
+      extLight(p2.x, yL + 0.15, p2.z, WARMC, 1.5, 7, [(d2.x - PAL.c.x) * 0.3, 0.95, (d2.z - PAL.c.z) * 0.3], 2); }
+    crescentGalleryFurnish(B);
+  }
+
+  // ---- where you can stand in the Crescent and its gallery: the two floors, the stairs; NaN at walls ----
   function crescentSupport(x, z, yf) {
     if (!CRS) return undefined;
-    var C = CRS, K = C.court, o = crsLoc(x, z), r = o.r, a = o.a, yU = C.yU, yL = C.yL, aa = Math.abs(a);
-    if (o.rad > -25) return undefined;                                   // the Crescent and its court are all behind the dome
-    var inCourt = (r > C.r1 + 0.25 && r < K.r1 - 0.3 && aa < K.aEnd - 0.012) || (Math.abs(o.lat) < K.latHalf - 0.3 && o.rad > K.radFar - 0.6 && o.rad < 0 && r > C.r1 + 0.25);
-    // the stairs at the band's ends
-    var ss = [C.stairL, C.stairR];
-    for (var i = 0; i < 2; i++) { var s = ss[i]; if (!s) continue;
-      if (Math.abs(a - s.a) * r < s.w / 2 - 0.1 && r > s.r0 - 0.2 && r < K.r1 + 0.6) { var k = clamp(Math.floor((r - s.r0) / s.run), -1, s.n - 1); return r >= K.r1 - 0.2 ? undefined : yL + (k + 1) * s.hs; } }
-    // the doors in the garden front: through to the court
-    if (Math.abs(r - C.r1) < 0.45 && yf < yL + 0.6 && (C.doors || []).some(function (d) { return d.r === C.r1 && Math.abs(d.y - yL) < 0.1 && Math.abs(d.a - a) * r < 1.1; })) return yL;
-    if (inCourt) return yf < yL + 0.6 ? yL : NaN;
-    var nearCourt = (r > C.r1 - 0.1 && r < K.r1 + 0.6 && aa < K.aEnd + 0.03) || (Math.abs(o.lat) < K.latHalf + 0.6 && o.rad > K.radFar + 0.4 && o.rad < 0 && r > C.r1 - 0.1);
-    if (nearCourt) return NaN;                                             // the retaining walls and their guards
-    if (r < C.r0 - 0.35 || r > K.r1 + 0.6 || aa > K.aEnd + 0.03) return undefined;
-    if (r > C.r1 + 0.1) return NaN;                                       // the court's retaining walls
-    if (aa > C.a1 - 0.006) return aa > C.a1 + 0.006 ? undefined : NaN;    // the end walls
-    // inside: which floor
-    var lower = yf < (yU + yL) / 2, y = lower ? yL : yU, onFront = r > C.r1 - 0.25 || r < C.r0 + 0.25;
+    var C = CRS, G = C.gal, o = crsLoc(x, z), r = o.r, a = o.a, aa = Math.abs(a), yU = C.yU, yL = C.yL;
+    if (o.rad > -25) return undefined;                                   // all of it is behind the dome
+    if (r < C.r0 - 0.35 || r > G.r1 + 0.45 || aa > C.a1 + 0.012) return undefined;
+    if (aa > C.a1 - 0.006 || r > G.r1 - 0.55) return NaN;                 // the end walls, the gallery's stone wall
+    var lower = yf < (yU + yL) / 2, y = lower ? yL : yU, fl = lower ? "lower" : "upper";
     function nearDoor(rr, ang) { return (C.doors || []).some(function (d) { return Math.abs(d.r - rr) < 0.5 && Math.abs(d.a - ang) * rr < 1.1 && Math.abs(d.y - y) < 0.5; }); }
-    if (r > C.r1 - 0.25) return nearDoor(C.r1, a) ? y : NaN;
-    if (r < C.r0 + 0.25) { if (lower) return NaN; return nearDoor(C.r0, a) ? y : NaN; }
+    function obst(f) { if (C.obst) for (var m = 0; m < C.obst.length; m++) { var ob = C.obst[m]; if (ob[4] === f && r > ob[0] && r < ob[1] && a > ob[2] && a < ob[3]) return true; } return false; }
+    if (r > C.r1 + 0.25) return lower && !obst("gallery") ? yL : NaN;      // the gallery
+    if (r > C.r1 - 0.25) return lower && nearDoor(C.r1, a) ? yL : NaN;     // the garden front and its doors
+    if (r < C.r0 + 0.25) return !lower && nearDoor(C.r0, a) ? yU : NaN;    // the winter garden's side and its doors; the retaining wall below
+    // the emergency stairs at the corridors' ends
+    var E = C.es, eA = C.a1 - E.a;
+    if (r < C.rc + 0.1 && aa > eA - 0.12 / E.rm) {
+      var e = (aa - eA) * E.rm, zz = r - E.rm;
+      if (e < 0.12) return Math.abs(zz) < 0.45 ? y : NaN;                  // the wall across the corridor, a fire door on each floor
+      if (r > C.rc - 0.15) return NaN;
+      var hy = esY(e, zz, yf); return (hy !== hy || Math.abs(hy - yf) > 0.6) ? NaN : hy;
+    }
+    // the lift's shaft
+    if (Math.abs(r - C.lift.r) < C.lift.w / 2 + 0.25 && Math.abs(a - C.lift.a) * r < C.lift.w / 2 + 0.25) return NaN;
     // the hall: the landing upstairs, the stair, the void
     if (aa < C.hallA - 0.004) {
-      var sa = (a - C.stairA) * r;
-      if (Math.abs(sa) < C.stairW / 2 - 0.05 && r > C.landR - 0.05 && r < C.stairR1 + 0.1 && yf > yL + 0.3) { var kk = clamp(Math.floor((r - C.landR) / ((C.stairR1 - C.landR) / C.nSteps)), 0, C.nSteps); return yU - kk * C.stepH; }
-      if (!lower && r > C.landR + 0.05) return NaN;                       // the void
-      if (!lower && Math.abs(r - C.landR) < 0.2 && Math.abs(sa) > C.stairW / 2) return NaN;   // the balustrade
-      return y;
+      var S = C.st, sa = (a - S.a) * r;
+      if (Math.abs(sa) < S.w / 2 - 0.05 && r > S.r0 - 0.05 && r < S.r1 + 0.1) { var hy2 = stairY(r); if (Math.abs(hy2 - yf) < 0.6) return hy2; }
+      if (Math.abs(sa) < S.w / 2 + 0.15 && r > S.r0 && r < S.r1) return NaN;   // the stair's sides, and the space under it
+      if (!lower && r > S.r0 + 0.05) return NaN;                           // the void
+      if (!lower && Math.abs(r - S.r0) < 0.2 && Math.abs(sa) > S.w / 2) return NaN;   // the balustrade
+      return obst(fl) ? NaN : y;
     }
     if (Math.abs(aa - C.hallA) * r < 0.2 && r > C.rc) return NaN;         // the hall's side walls
     if (Math.abs(r - C.rc) < 0.2) {                                         // the corridor partition, open at the doorways
-      if (lower && Math.abs(a) > C.a1 - C.endA) return y;                 // the passages to the exits
-      var rm = crsRoomAt(a, lower ? "lower" : "upper"); return rm && rm.door !== undefined && Math.abs(a - rm.door) * C.rc < 0.4 ? y : NaN;
+      var rm = crsRoomAt(a, fl); return rm && rm.doors && rm.doors.some(function (d) { return Math.abs(a - d) * C.rc < 0.4; }) ? y : NaN;
     }
+    if (obst(fl)) return NaN;                                               // furniture
     if (r > C.rc) {                                                          // the walls between rooms
-      var R = C.rooms; for (var j = 0; j < R.length; j++) { var q = R[j]; if (q.band || q.floor !== (lower ? "lower" : "upper")) continue; if (Math.abs(a - rmA0(q)) * r < 0.18 || Math.abs(a - rmA1(q)) * r < 0.18) return NaN; }
+      var R = C.rooms; for (var j = 0; j < R.length; j++) { var q = R[j]; if (q.band || q.floor !== fl) continue; if (Math.abs(a - rmA0(q)) * r < 0.18 || Math.abs(a - rmA1(q)) * r < 0.18) return NaN; }
     }
     return y;
   }
-  function crescentInside(x, z) { if (!CRS) return 0; var o = crsLoc(x, z); return (o.r > CRS.r0 && o.r < CRS.r1 && Math.abs(o.a) < CRS.a1) ? 1 : 0; }
+  function crescentInside(x, z) { if (!CRS) return 0; var o = crsLoc(x, z); return (o.r > CRS.r0 && o.r < CRS.gal.r1 && Math.abs(o.a) < CRS.a1) ? 1 : 0; }
+
+  /* ===================== Phase 2: the Crescent's rooms, furnished ===================== */
+  // Every room of the Crescent furnished for what it is for (campus_rooms.py), with its own plants chosen in the program
+  // (P2 rooms' plants). Rooms are laid out in their polar frame: the board on the radial wall away from the door, the
+  // students facing it, daylight from the garden glass at their side. Furniture comes from the wings' builders where
+  // they fit, new pieces below; obstacles for walking go to CRS.obst.
+  function crsPlace(B, fb, r, a, y, rot) { B.add(fb, crsFrame(r, a, y, rot)); }
+  function crsObst(rA, rB, aA, aB, floor) { (CRS.obst = CRS.obst || []).push([Math.min(rA, rB), Math.max(rA, rB), Math.min(aA, aB), Math.max(aA, aB), floor]); }
+  function crsPic(B, r, a, y, off, n, w, h, uv, mat, g2) { wpic(B, crsFrame(r, a, y), off, "z", n, w, h, uv, mat, g2); }
+  // ---- new pieces ----
+  function carrel() { return furn("carrel", function (b) {                // a study carrel: desk, side and back panels, a lamp
+    b.box(-0.45, 0.72, -0.4, 0.45, 0.75, 0.4, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    [-0.45, 0.42].forEach(function (x) { b.box(x, 0, -0.4, x + 0.03, 1.2, 0.4, MT.FABRIC); b.tag(b.count() - 24, 3, null); });
+    b.box(-0.45, 0.75, 0.37, 0.45, 1.2, 0.4, MT.FABRIC); b.tag(b.count() - 24, 3, null);
+    b.box(-0.42, 0, -0.38, -0.4, 0.72, 0.38, MT.STEEL); b.box(0.4, 0, -0.38, 0.42, 0.72, 0.38, MT.STEEL);
+    latheOn(b, 0.28, 0.75, 0.25, [[0.06, 0], [0.06, 0.01], [0.01, 0.02], [0.01, 0.38]], 10, MT.ANOD, 0);
+    b.box(0.18, 1.12, 0.12, 0.32, 1.16, 0.28, MT.ANOD); b.box(0.19, 1.115, 0.13, 0.31, 1.12, 0.27, MT.LIGHT); b.tag(b.count() - 24, 1.4, 0.2);
+  }); }
+  function gameTable() { return furn("gtable", function (b) {             // a square table with an inlaid chessboard
+    b.box(-0.4, 0.71, -0.4, 0.4, 0.74, 0.4, MT.WOOD); b.tag(b.count() - 24, null, 2);
+    for (var i = 0; i < 8; i++) for (var j = 0; j < 8; j++) { b.box(-0.28 + i * 0.07, 0.74, -0.28 + j * 0.07, -0.21 + i * 0.07, 0.743, -0.21 + j * 0.07, MT.WOOD); b.tag(b.count() - 24, null, (i + j) % 2 ? 2 : 1); }
+    b.box(-0.05, 0, -0.05, 0.05, 0.71, 0.05, MT.ANOD); b.box(-0.3, 0, -0.3, 0.3, 0.03, 0.3, MT.ANOD);
+  }); }
+  function teamTable() { return furn("ttable", function (b) {             // a team table 1.6 x 0.9
+    b.box(-0.8, 0.72, -0.45, 0.8, 0.75, 0.45, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    [[-0.72, -0.37], [0.72, -0.37], [-0.72, 0.37], [0.72, 0.37]].forEach(function (c) { b.box(c[0] - 0.025, 0, c[1] - 0.025, c[0] + 0.025, 0.72, c[1] + 0.025, MT.STEEL); });
+  }); }
+  function lockerBank(n) { return furn("lockers" + n, function (b) {      // n lockers 0.4 wide, 1.8 tall, 0.45 deep (back at +z)
+    for (var k = 0; k < n; k++) { var x0 = -n * 0.2 + k * 0.4; b.box(x0 + 0.005, 0.08, -0.22, x0 + 0.395, 1.8, 0.23, MT.PLASTIC); b.tag(b.count() - 24, [3, 5, 0][k % 3], null);
+      b.box(x0 + 0.3, 1.0, -0.235, x0 + 0.33, 1.12, -0.22, MT.STEEL); b.box(x0 + 0.08, 1.6, -0.226, x0 + 0.32, 1.62, -0.22, MT.ANOD); }
+    b.box(-n * 0.2, 0, -0.2, n * 0.2, 0.08, 0.23, MT.ANOD);
+  }); }
+  function wcRow(n) { return furn("wc" + n, function (b) {                 // n cubicles 1.0 wide, 1.5 deep (doors at -z), partitions and pans
+    for (var k = 0; k <= n; k++) { var x = -n * 0.5 + k; b.box(x - 0.012, 0.15, -1.5, x + 0.012, 2.1, 0, MT.PLASTIC); b.tag(b.count() - 24, 5, null); }
+    for (k = 0; k < n; k++) { var x0 = -n * 0.5 + k; b.box(x0 + 0.06, 0.15, -1.52, x0 + 0.94, 2.05, -1.5, MT.PLASTIC); b.tag(b.count() - 24, 5, null);
+      b.box(x0 + 0.82, 1.0, -1.545, x0 + 0.88, 1.04, -1.52, MT.STEEL);
+      latheOn(b, x0 + 0.5, 0, -0.35, [[0.15, 0], [0.19, 0.25], [0.2, 0.4], [0.17, 0.42], [0.0, 0.42]], 16, MT.CERAMIC, 0); b.box(x0 + 0.3, 0.42, -0.08, x0 + 0.7, 0.85, 0, MT.CERAMIC); }
+  }); }
+  function basinCounter(len) { return furn("basins" + len, function (b) { // a stone counter with basins and a mirror above (back at +z)
+    b.box(-len / 2, 0.82, -0.28, len / 2, 0.86, 0.28, MT.TERRAZZO); b.box(-len / 2, 0.6, 0.22, len / 2, 0.82, 0.28, MT.TERRAZZO);
+    for (var k = 0; k < Math.round(len / 0.9); k++) { var x = -len / 2 + 0.45 + k * 0.9; latheOn(b, x, 0.74, 0, [[0.0, 0], [0.14, 0.02], [0.2, 0.12], [0.21, 0.13]], 18, MT.CERAMIC, 0);
+      latheOn(b, x, 0.86, 0.2, [[0.02, 0], [0.02, 0.22]], 8, MT.STEEL, 0); b.box(x - 0.012, 1.06, 0.06, x + 0.012, 1.08, 0.22, MT.STEEL); }
+    b.box(-len / 2, 1.05, 0.27, len / 2, 2.0, 0.28, MT.DKGLASS);
+  }); }
+  function kitchenette() { return furn("kitchen", function (b) {         // 2.4 m of counter with cupboards and a sink (back at +z)
+    b.box(-1.2, 0.1, -0.3, 1.2, 0.88, 0.3, MT.PLASTIC); b.tag(b.count() - 24, 0, null); b.box(-1.21, 0.88, -0.31, 1.21, 0.92, 0.31, MT.TERRAZZO);
+    b.box(-1.2, 1.45, -0.05, 1.2, 2.15, 0.3, MT.PLASTIC); b.tag(b.count() - 24, 0, null); b.box(-1.2, 0, -0.27, 1.2, 0.1, 0.3, MT.ANOD);
+    b.box(0.3, 0.86, -0.22, 0.75, 0.921, 0.12, MT.STEEL); latheOn(b, 0.52, 0.92, 0.2, [[0.015, 0], [0.015, 0.3]], 8, MT.STEEL, 0);
+    for (var k = 0; k < 4; k++) b.box(-1.18 + k * 0.6, 0.45, -0.312, -0.62 + k * 0.6, 0.47, -0.3, MT.STEEL);
+  }); }
+  function platonicSet() { return furn("platonic", function (b) {         // the five solids on a low shelf (Euclid)
+    b.box(-0.9, 0, -0.18, 0.9, 0.9, 0.18, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    [new THREE.TetrahedronGeometry(0.11), new THREE.BoxGeometry(0.15, 0.15, 0.15), new THREE.OctahedronGeometry(0.11), new THREE.DodecahedronGeometry(0.1), new THREE.IcosahedronGeometry(0.11)].forEach(function (g, k) {
+      b.geo(addF2(g, 0, 7), T(-0.68 + k * 0.34, 1.02, 0, 0.3 * k, 0.7 * k, 0.2), MT.BRASS); });
+  }); }
+  function spiralWall(w, h) { return furn("spiral" + w, function (b) {    // a golden spiral in brass on squares of Fibonacci sizes (Fibonacci)
+    var F = [1, 1, 2, 3, 5, 8, 13], s = h / 21, x = 0, y = 0, dir = 0, rects = [], pts = [];
+    var bx = [[0, 0]], cx = 0, cy = 0; for (var k = 0; k < F.length; k++) {
+      var f = F[k] * s; rects.push([cx, cy, f]);
+      for (var t = 0; t <= 8; t++) { var a = dir * Math.PI / 2 + Math.PI / 2 * t / 8, ox = [[f, 0], [0, f], [0, 0], [f, 0]][dir % 4], oy = [[0, 0], [f, 0], [f, f], [0, f]][dir % 4];
+        pts.push(new THREE.Vector3(0.012, 0, 0)); }
+      dir++;
+    }
+    // squares as thin frames, the spiral as a tube of quarter arcs
+    var sq = [[0, 0, 1], [1, 0, 1], [0, 1, 2], [-2, 0, 3], [-2, -3, 5], [1, -3, 8], [-2, 2, 13]];
+    sq.forEach(function (q, i) { var x0 = q[0] * s, y0 = q[1] * s, f = q[2] * s; [[x0, y0, x0 + f, y0 + 0.01], [x0, y0 + f - 0.01, x0 + f, y0 + f], [x0, y0, x0 + 0.01, y0 + f], [x0 + f - 0.01, y0, x0 + f, y0 + f]].forEach(function (e) { b.box(0, e[1], e[0], 0.008, e[3], e[2], MT.ANOD); }); });
+    var arcs = [[1, 1, 1, 180, 270], [1, 1, 1, 270, 360], [1, 0, 2, 0, 90], [0, 0, 3, 90, 180], [0, 0, 5, 180, 270], [1, 0, 8, 270, 360], [1, 2, 13, 0, 90]], sp = [];
+    var c = [[1, 1], [1, 1], [0, 1], [0, 0], [0, 0], [1, 0], [1, 0]];
+    var cs = [[1, 1], [1, 1], [0, 1], [0, 1], [0, -2], [1, -2], [1, 2]];
+    // a log spiral close to the golden one, drawn directly
+    for (var k2 = 0; k2 <= 120; k2++) { var th = k2 / 120 * 3.6 * Math.PI, rr = s * 0.25 * Math.pow(1.618, th / (Math.PI / 2)); sp.push(new THREE.Vector3(0.015, s * 0.5 + rr * Math.sin(th) * 0.95, s * 0.6 + rr * Math.cos(th) * 0.95)); }
+    tubeAlong(b, sp, 0.012, 6, MT.BRASS);
+  }); }
+  function tilingWall(w, h) { return furn("tiling" + w, function (b) {    // a wall of hexagons and triangles in three colours (Noether: symmetry)
+    var R = 0.18, cols = [3, 4, 0];
+    for (var i = 0; i < Math.floor(w / (R * 1.75)); i++) for (var j = 0; j < Math.floor(h / (R * 1.5)); j++) {
+      var cz = -w / 2 + R + i * R * 1.75 + (j % 2) * R * 0.87, cy = R + j * R * 1.5, n0 = b.count();
+      b.geo(new THREE.CylinderGeometry(R * 0.96, R * 0.96, 0.02, 6), T(0.01, cy, cz, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(n0, cols[(i + j * 2) % 3], null);
+    }
+  }); }
+  function scoreboard() { return furn("score", function (b) {             // a framed screen 2.4 x 1.35 (the picture is added on it)
+    b.box(-0.06, -0.72, -1.25, 0, 0.72, 1.25, MT.ANOD);
+  }); }
+  function stagePlatform(w, d) { return furn("stage" + w, function (b) {  // a low timber platform with a lectern
+    b.box(-d / 2, 0, -w / 2, d / 2, 0.3, w / 2, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    b.box(-0.25, 0.3, -0.3, 0.15, 1.42, 0.3, MT.WOOD); b.tag(b.count() - 24, null, 2); b.box(-0.3, 1.38, -0.34, 0.2, 1.42, 0.34, MT.WOOD);
+  }); }
+  function coffeeTable(len) { return furn("ctable" + len, function (b) {
+    b.box(-len / 2, 0.36, -0.3, len / 2, 0.4, 0.3, MT.WOOD); b.tag(b.count() - 24, null, 2);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { b.box(c[0] * (len / 2 - 0.06) - 0.02, 0, c[1] * 0.24 - 0.02, c[0] * (len / 2 - 0.06) + 0.02, 0.36, c[1] * 0.24 + 0.02, MT.STEEL); });
+  }); }
+
+  function cubeWall(w, h) { return furn("cubes" + w, function (b) {      // a wall of Rubik's cube faces: 3 x 3 stickers on black tiles (games room)
+    var cols = [[0.86, 0.1, 0.08], [0.95, 0.5, 0.05], [0.95, 0.85, 0.1], [0.05, 0.55, 0.25], [0.06, 0.25, 0.75], [0.95, 0.95, 0.92]], R = mulberry(77);
+    for (var i = 0; i < Math.floor(w / 0.36); i++) for (var j = 0; j < Math.floor(h / 0.36); j++) {
+      var cz = -w / 2 + 0.18 + i * 0.36, cy = 0.18 + j * 0.36; b.box(0, cy - 0.17, cz - 0.17, 0.015, cy + 0.17, cz + 0.17, MT.PLASTIC); b.tag(b.count() - 24, 1, null);
+      for (var u = -1; u <= 1; u++) for (var v = -1; v <= 1; v++) { var n0 = b.count(), c = Math.floor(R() * 6); b.box(0.015, cy + v * 0.105 - 0.048, cz + u * 0.105 - 0.048, 0.022, cy + v * 0.105 + 0.048, cz + u * 0.105 + 0.048, MT.PLASTIC); b.tag(n0, [0, 4, 2, 7, 3, 6][c], null); }
+    }
+  }); }
+  function planter(len) { return furn("planter" + len, function (b) {    // a long concrete trough 0.9 deep, 0.55 tall, with soil (along x)
+    b.box(-len / 2, 0, -0.45, len / 2, 0.55, 0.45, MT.CONCRETE); b.box(-len / 2 + 0.08, 0.55, -0.37, len / 2 - 0.08, 0.5, 0.37, MT.RUBBER);
+  }); }
+  function gardenBench(len) { return furn("gbench" + len, function (b) {  // oak slats on two stone blocks (along x)
+    for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
+    [-len / 2 + 0.35, len / 2 - 0.35].forEach(function (x) { b.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
+  }); }
+  function rugAt(B, r, a, y, lw, ld, g2) {                                  // a flat rug lw along the arc, ld across, at (r, a)
+    var M = crsFrame(r, a, y + 0.008), rb = new Builder(); rb.box(-lw / 2, 0, -ld / 2, lw / 2, 0.012, ld / 2, MT.FABRIC); rb.tag(0, g2, null); B.add(rb, M);
+  }
+
+  // ---- a room's frame: its angles, the front (board) side, the floor's height ----
+  // Local frames (crsFrame): x along increasing a, z outward. Pieces with a back at +z (sofas, shelves, counters) face
+  // inward at rot 0, outward at PI, +a at -PI/2, -a at PI/2; desks and chairs face +a at rot 0.
+  var ROT = { "in": 0, out: Math.PI, plusA: -Math.PI / 2, minusA: Math.PI / 2 };
+  function roomFrame(rm) {
+    var C = CRS, a0 = rmA0(rm), a1 = rmA1(rm), y = rm.floor === "upper" ? C.yU : C.yL, mid = (a0 + a1) / 2, eastSide = mid >= 0;
+    // the hall is at the room's inner end: the board goes on the wall at the far end, the students face it
+    var front = eastSide ? a1 : a0, back = eastSide ? a0 : a1, sgn = eastSide ? 1 : -1, rM = (C.rc + C.r1) / 2;
+    return { a0: a0, a1: a1, y: y, mid: mid, front: front, back: back, sgn: sgn, rM: rM, span: (a1 - a0) * rM, floor: rm.floor,
+             at: function (dist, fromFront) { return fromFront ? front - sgn * dist / rM : back + sgn * dist / rM; } };
+  }
+  function boardOn(B, F, w, uv, mat, g2, onBack) {                          // a board on the front (or the back) wall, centred
+    var rM = F.rM, wall = onBack ? F.back : F.front, s = onBack ? -F.sgn : F.sgn, wa = wall - s * 0.09 / rM;
+    var fr = new Builder(); fr.box(-0.03, -0.62, -w / 2 - 0.05, 0.0, 0.62, w / 2 + 0.05, MT.ANOD); fr.box(-0.1, -0.66, -w / 2 + 0.1, 0.0, -0.63, w / 2 - 0.1, MT.ANOD);
+    crsPlace(B, fr, rM, wa, F.y + 1.5, s > 0 ? 0 : Math.PI);
+    crsPic(B, rM, wa, F.y + 1.5, [-0.034 * s, 0, 0], [-s, 0], w, 1.2, uv, mat, g2);
+    var wl = crsPt(rM, wall - s * 1.2 / rM); wLight(wl.x, F.y + 2.8, wl.z, LAMPC, 1.2, 4, [0, -0.4, 0], 1);
+  }
+  function screenOn(B, F, w, h, uv) {
+    var rM = F.rM, wa = F.front - F.sgn * 0.08 / rM;
+    crsPlace(B, scoreboard(), rM, wa, F.y + 1.75, F.sgn > 0 ? 0 : Math.PI);
+    crsPic(B, rM, wa, F.y + 1.75, [-0.064 * F.sgn, 0, 0], [-F.sgn, 0], w, h, uv, MT.SCREEN, [1.0, 0]);
+    var sl = crsPt(rM, F.front - F.sgn * 1.0 / rM); wLight(sl.x, F.y + 1.7, sl.z, [0.75, 0.85, 1.0], 0.7, 5);
+  }
+  function shelvesOnCorridor(B, F, n, fromDist) {                           // bookshelves along the corridor wall, from a distance from the back wall
+    var C = CRS, r = C.rc + 0.27, half = 0.45 / r;
+    for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
+  }
+  // the plants chosen for the room, at their spots
+  function roomPlants(B, rm, F, deskAt) {
+    var C = CRS, i = 0;
+    (rm.plants || []).forEach(function (pl) {
+      var kind = pl[0], spot = pl[1], r, a, y = F.y, seed = 60 + Math.round(F.mid * 100) + i++;
+      if (spot === "window0") { r = C.r1 - 0.75; a = F.a0 + 0.85 / r; } else if (spot === "window1") { r = C.r1 - 0.75; a = F.a1 - 0.85 / r; }
+      else if (spot === "windowmid") { r = C.r1 - 0.75; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + 0.7; a = F.a0 + 0.75 / r; } else if (spot === "corner1") { r = C.rc + 0.7; a = F.a1 - 0.75 / r; }
+      else if (spot === "door") { var d = (rm.doors && rm.doors[0]) || F.mid; r = C.rc + 0.6; a = d + (d > F.mid ? -1 : 1) * 1.05 / r; }
+      else if (spot === "desk" && deskAt) { r = deskAt[0]; a = deskAt[1]; y = F.y + deskAt[2]; }
+      else if (spot === "shelf") { r = C.rc + 0.3; a = F.back + F.sgn * 0.5 / (C.rc + 0.3); y = F.y + 1.8; }
+      else { r = C.r1 - 0.75; a = F.mid; }
+      crsPlace(B, plantBuilder(kind, seed), r, a, y, seed * 0.7);
+      if (y === F.y) crsObst(r - 0.4, r + 0.4, a - 0.4 / r, a + 0.4 / r, F.floor);
+    });
+  }
+
+  // ---- the rooms ----
+  function classroom(B, rm, F, theme) {
+    var C = CRS, CR = mulberry(Math.round(F.mid * 1000) + 7), big = F.span > 15, cols = [52.4, 55.9, 59.4];
+    var rows = big ? [3.4, 5.2, 7.0, 8.8, 10.6] : [3.0, 4.8, 6.6, 8.4], faceRot = F.sgn > 0 ? 0 : Math.PI;
+    rows.forEach(function (d, ri) { cols.forEach(function (r, ci) {
+      var a = F.at(d, true), k = (ri * 3 + ci) % 3;
+      if (theme === "gauss") crsPlace(B, labDesk(), r, a, F.y, faceRot); else crsPlace(B, studentDesk(k), r, a, F.y, faceRot);
+      crsObst(r - 0.72, r + 0.72, a - 0.33 / r, a + 0.33 / r, F.floor);
+      [-0.35, 0.35].forEach(function (dz) { var out = CR() * 0.12, turn = (CR() - 0.5) * 0.35, ac = a - F.sgn * (0.6 + out) / r;
+        crsPlace(B, theme === "gauss" ? officeChair() : schoolChair(CR() < 0.7 ? 5 : [0, 3, 2][Math.floor(CR() * 3)]), r + dz, ac, F.y, faceRot + turn);
+        if (CR() < 0.25) crsPlace(B, backpack(CR() < 0.5 ? 1 : 3), r + dz + (dz > 0 ? 0.42 : -0.42), a - F.sgn * 0.3 / r, F.y, CR() * 3); });
+    }); });
+    var td = F.at(1.7, true), rt = 59.2;                                     // the teacher's desk by the window, facing the class
+    crsPlace(B, teacherDesk(), rt, td, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(rt - 0.85, rt + 0.85, td - 0.42 / rt, td + 0.42 / rt, F.floor);
+    crsPlace(B, officeChair(), rt + 0.2, F.at(1.05, true), F.y, F.sgn > 0 ? Math.PI : 0);
+    if (theme === "gauss") screenOn(B, F, 2.66, 1.5, ATL.scrLab);
+    else boardOn(B, F, big ? 4.2 : 3.4, ATL.wb, MT.ATLAS, [0, 2]);
+    if (theme === "hypatia") boardOn(B, F, 3.4, ATL.wb, MT.ATLAS, [0, 2], true);
+    shelvesOnCorridor(B, F, 4, 2.6);
+    // the back of the big rooms: a reading corner by the window (a long sofa facing in, a rug, a low table)
+    if (big && theme !== "hypatia") {
+      var ra = F.at(F.span - 14.2 > 0 ? 2.6 : 2.2, false), rs = C.r1 - 1.0;
+      rugAt(B, rs - 1.25, ra, F.y, 3.6, 2.6, 3); crsPlace(B, sofa(3, 3.0), rs, ra, F.y, ROT["in"]); crsPlace(B, coffeeTable(1.4), rs - 1.35, ra, F.y, 0);
+      crsObst(rs - 1.9, rs + 0.55, ra - 1.6 / rs, ra + 1.6 / rs, F.floor);
+    }
+    // the room's own thing, on the back wall or by it
+    var bk = F.back + F.sgn * 0.07 / F.rM;
+    if (theme === "euclid") { var pa = F.at(1.0, false); crsPlace(B, platonicSet(), C.rc + 2.4, pa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(C.rc + 1.4, C.rc + 3.4, pa - 0.3 / 52, pa + 0.3 / 52, F.floor); }
+    if (theme === "fibonacci") crsPlace(B, spiralWall(3.0, 2.1), 54.4, bk, F.y + 0.6, F.sgn > 0 ? 0 : Math.PI);
+    if (theme === "noether") crsPlace(B, tilingWall(4.6, 2.3), 54.4, bk, F.y + 0.5, F.sgn > 0 ? 0 : Math.PI);
+    roomPlants(B, rm, F, [rt, td + F.sgn * 0.15 / rt, 0.77]);
+  }
+  function studyHall(B, rm, F) {
+    var C = CRS, n = 0, cols = [52.2, 54.7, 57.2, 59.7];
+    for (var d = 2.2; d < F.span - 1.8 && n < 40; d += 1.45) cols.forEach(function (r) {
+      if (n >= 40) return; var a = F.at(d, false);
+      crsPlace(B, carrel(), r, a, F.y, F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2);                 // the reader faces away from the back wall
+      crsPlace(B, schoolChair(5), r, a - F.sgn * 0.62 / r, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(r - 0.48, r + 0.48, a - 0.45 / r, a + 0.45 / r, F.floor); n++; });
+    var la = F.at(1.2, true); crsPlace(B, teacherDesk(), C.rc + 1.5, la, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(C.rc + 0.65, C.rc + 2.35, la - 0.42 / 51, la + 0.42 / 51, F.floor);
+    shelvesOnCorridor(B, F, 12, 1.4);
+    roomPlants(B, rm, F, [C.rc + 1.5, la, 0.77]);
+  }
+  function competitionRoom(B, rm, F) {
+    var C = CRS;
+    [3.8, 6.8, 9.8, 12.8, 15.8].forEach(function (d) { [53.4, 58.4].forEach(function (r) {
+      var a = F.at(d, true); crsPlace(B, teamTable(), r, a, F.y, Math.PI / 2); crsObst(r - 0.9, r + 0.9, a - 0.5 / r, a + 0.5 / r, F.floor);
+      [[-0.45, -0.62], [0.45, -0.62], [-0.45, 0.62], [0.45, 0.62]].forEach(function (c) { crsPlace(B, officeChair(), r + c[0], a + c[1] / r, F.y, c[1] > 0 ? Math.PI : 0); });
+    }); });
+    var st = F.at(1.3, true); crsPlace(B, stagePlatform(4.4, 1.8), 55.9, st, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(53.6, 58.2, st - 0.9 / 55.9, st + 0.9 / 55.9, F.floor);
+    screenOn(B, F, 2.4, 1.35, ATL.scrSem);
+    roomPlants(B, rm, F, null);
+  }
+  function gamesLounge(B, rm, F) {
+    var C = CRS;
+    [[52.4, 2.4], [55.0, 2.4], [52.4, 5.0], [55.0, 5.0], [52.4, 7.6]].forEach(function (g) { var a = F.at(g[1], false); crsPlace(B, gameTable(), g[0], a, F.y, 0); crsObst(g[0] - 0.75, g[0] + 0.75, a - 0.75 / g[0], a + 0.75 / g[0], F.floor);
+      [-0.62, 0.62].forEach(function (dz) { crsPlace(B, cafeChair(), g[0] + dz, a, F.y, dz > 0 ? -Math.PI / 2 : Math.PI / 2); }); });
+    shelvesOnCorridor(B, F, 5, 0.6);
+    crsPlace(B, cubeWall(3.6, 2.2), 54.6, F.back + F.sgn * 0.07 / F.rM, F.y + 0.5, F.sgn > 0 ? 0 : Math.PI);
+    // the lounge by the glass: two long sofas facing each other over a low table and a rug
+    var la = F.at(F.span * 0.66, false), rA = C.r1 - 1.0, rB = C.r1 - 4.0;
+    rugAt(B, (rA + rB) / 2, la, F.y, 3.8, 2.6, 2);
+    crsPlace(B, sofa(1, 3.0), rA, la, F.y, ROT["in"]); crsPlace(B, sofa(0, 3.0), rB, la, F.y, ROT.out);
+    crsPlace(B, coffeeTable(1.6), (rA + rB) / 2, la, F.y, 0); crsObst(rB - 0.55, rA + 0.55, la - 1.6 / 58, la + 1.6 / 58, F.floor);
+    var ea = F.at(F.span * 0.9, false); crsPlace(B, kitchenette(), C.rc + 0.42, ea, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ea - 1.25 / 50, ea + 1.25 / 50, F.floor);
+    crsPlace(B, espressoMachine(), C.rc + 0.36, ea, F.y + 0.92, ROT.out);
+    roomPlants(B, rm, F, [(rA + rB) / 2, la, 0.4]);
+  }
+  function teachersRoom(B, rm, F) {
+    var C = CRS;
+    [1.6, 3.6, 5.6].forEach(function (d) { var a = F.at(d, false); crsPlace(B, teacherDesk(), C.r1 - 1.0, a, F.y, -Math.PI / 2); crsPlace(B, officeChair(), C.r1 - 1.75, a, F.y, -Math.PI / 2); crsObst(C.r1 - 1.65, C.r1 - 0.4, a - 0.85 / 60, a + 0.85 / 60, F.floor); });
+    var ma = F.at(3.6, false); crsPlace(B, teamTable(), 55.4, ma, F.y, Math.PI / 2); crsObst(54.6, 56.2, ma - 0.5 / 55, ma + 0.5 / 55, F.floor);
+    [[-0.45, -0.62], [0.45, -0.62], [-0.45, 0.62], [0.45, 0.62]].forEach(function (c) { crsPlace(B, officeChair(), 55.4 + c[0], ma + c[1] / 55, F.y, c[1] > 0 ? Math.PI : 0); });
+    var ka = F.at(4.8, false); crsPlace(B, kitchenette(), C.rc + 0.42, ka, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ka - 1.25 / 50, ka + 1.25 / 50, F.floor);
+    crsPlace(B, espressoMachine(), C.rc + 0.36, F.at(4.0, false), F.y + 0.92, ROT.out);
+    crsPlace(B, lockerBank(4), C.rc + 0.36, F.at(1.5, false), F.y, ROT.out);
+    var sa = F.at(F.span - 1.6, false); crsPlace(B, sofa(2, 2.8), 53.0, sa, F.y, F.sgn > 0 ? ROT.minusA : ROT.plusA); crsObst(51.5, 54.5, sa - 0.5 / 53, sa + 0.5 / 53, F.floor);
+    roomPlants(B, rm, F, [55.4, ma, 0.77]);
+  }
+  function computerRoom(B, rm, F) {
+    var C = CRS, k = 0;
+    [1.8, 3.6, 5.4, 7.2].forEach(function (d) { var a = F.at(d, true); [53.2, 57.8].forEach(function (r) {
+      crsPlace(B, labDesk(), r, a, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(r - 1.95, r + 1.95, a - 0.38 / r, a + 0.38 / r, F.floor);
+      [-1.2, 0, 1.2].forEach(function (dz) { crsPlace(B, officeChair(), r + dz, a - F.sgn * 0.75 / r, F.y, F.sgn > 0 ? 0 : Math.PI);
+        wpic(B, crsFrame(r, a, F.y, F.sgn > 0 ? 0 : Math.PI), [0.097, 1.17, dz], "z", [-1, 0], 0.6, 0.345, ATL["code" + (k++ % 3)], MT.SCREEN, [1.0, 0]); });
+    }); });
+    screenOn(B, F, 2.4, 1.35, ATL.scrLab);
+    roomPlants(B, rm, F, [57.8, F.at(1.8, true), 0.77]);
+  }
+  function washrooms(B, rm, F, store) {
+    var C = CRS;
+    crsPlace(B, wcRow(store ? 4 : 5), C.r1 - 0.25, F.mid, F.y, ROT["in"]); crsObst(C.r1 - 1.85, C.r1, F.a0, F.a1, F.floor);
+    crsPlace(B, basinCounter(3.6), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor);
+    if (store) { var sa = F.at(0.6, false); for (var k = 0; k < 3; k++) crsPlace(B, bookshelf(), 54.0 + k * 0.95, sa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(53.4, 56.8, sa - 0.3 / 55, sa + 0.3 / 55, F.floor); }
+    roomPlants(B, rm, F, null);
+  }
+  function hallRoom(B, rm, F) {
+    var C = CRS;
+    if (rm.floor === "upper") {                                             // the timetable on the hall's west wall by the landing
+      var sa = -C.hallA + 0.1 / 50.4; crsPlace(B, scoreboard(), 50.4, sa, F.y + 1.75, Math.PI); crsPic(B, 50.4, sa, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.scrLobby, MT.SCREEN, [1.1, 0]);
+      roomPlants(B, rm, F, null); return;
+    }
+    // below: a long sofa by the glass on the side away from the stair, facing into the hall, and the plants
+    var ba = -3.6 * D2R; crsPlace(B, sofa(1, 3.2), C.r1 - 1.0, ba, F.y, ROT["in"]); crsObst(C.r1 - 1.55, C.r1 - 0.45, ba - 1.7 / 61, ba + 1.7 / 61, F.floor);
+    roomPlants(B, rm, F, null);
+  }
+  function crescentFurnish(W) {
+    var C = CRS; W.zone = ZONE.WING;
+    C.rooms.forEach(function (rm) {
+      if (rm.band) return;
+      var F = roomFrame(rm);
+      var th = { "T06-02": "euclid", "T06-03": "hypatia", "T06-05": "fibonacci", "T06-06": "noether", "T06-10": "gauss" }[rm.code];
+      if (rm.code === "T06-01" || rm.code === "T06-08") hallRoom(W, rm, F);
+      else if (rm.kind === "class") classroom(W, rm, F, th);
+      else if (rm.kind === "study") studyHall(W, rm, F);
+      else if (rm.kind === "compete") competitionRoom(W, rm, F);
+      else if (rm.kind === "games") gamesLounge(W, rm, F);
+      else if (rm.kind === "staff") teachersRoom(W, rm, F);
+      else if (rm.kind === "lab") computerRoom(W, rm, F);
+      else if (rm.kind === "service") washrooms(W, rm, F, rm.code === "T06-14");
+    });
+    W.zone = ZONE.OUT;
+  }
+  // the garden gallery: long planters along the stone wall with plants of every kind, oak benches between them facing the glass
+  function crescentGalleryFurnish(B) {
+    var C = CRS, G = C.gal, rP = G.r1 - 0.85, rB = G.r1 - 1.9, kinds = ["kentia", "strelitzia", "fern", "monstera", "maple", "olive", "agave", "bromeliad", "croton", "fig", "anthurium", "ficus"], n = 0;
+    var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
+    for (var a = -G.a + 3.0 / rP; a < G.a - 3.0 / rP; a += 8.0 / rP) {
+      crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
+      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; B.add(plantBuilder(kind, 300 + n), crsFrame(rP, pa, C.yL + 0.5, n * 1.3).multiply(new THREE.Matrix4().makeScale(1.7, 1.7, 1.7))); }   // big plants for big troughs
+      var ba = a + 4.0 / rP; if (ba < G.a - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
+    }
+  }
 
   /* ===================== Baked light: quick pass now, shadows and occlusion traced in a worker ===================== */
   // Every built vertex gets the light of the fittings around it (light list by zone: outside, rotunda, wings). A worker then

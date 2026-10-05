@@ -24,7 +24,7 @@ SEALED = dict(
 # with the line of sight from 10.6 m by the palace to 6.2 m at the gateway (s: the distance along the palace's axis, as
 # rad). The gateway arch stands in front of a glass end wall with the entrance airlock; a pod stop by the airlock.
 COURTYARD = dict(s0=33.3, s1=77.7, crown=[(33.3, 10.6), (56.0, 8.6), (77.7, 6.2)], ribs=1.5,
-                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=4.2), podstop=dict(lat=9.5, rad=83.5, r=4.5, heading=0.0))
+                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=4.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=0.0))          # left of the avenue: the rover stands on the right
 COURTYARD_ROOMS = [
     dict(code="T04-01", name="Courtyard hall", kind="move", use="The courtyard under a glass vault on slender steel ribs: the paving, the bollards and young trees, the wings' doors on both sides and the palace's door at the end, warm and in air.", also="Assemblies, the graduation reception, stargazing evenings in shirt sleeves."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="Under the gateway: outer and inner sliding glass doors with a chamber 6 m long between them; the inner doors open once the outer ones have closed and the air is in. Suit lockers and a bench along the side.", also=""),
@@ -41,7 +41,7 @@ COURTYARD_ROOMS = [
 # Big rooms with high ceilings (Jim, 5 Oct 2026: "class rooms are all too small and roof are too low. feels depressed"):
 # each classroom about 17 m by 12 m under a ceiling 4.5 m high, floors 5.6 m apart.
 CRESCENT = dict(r0=46.0, r1=62.0, rc=49.6, a0=-52.0, a1=52.0, floor_h=5.6, upper=0.0, lower=-5.6, ceil=4.5, ceil_corridor=3.8,
-                stair=dict(a=3.6, r0=50.2, r1=60.0, w=3.0, n=32, landing=(54.4, 55.8)), lift=(49.8, -4.6), estair=dict(a=6.5, w=2.6))
+                stair=dict(a=3.6, r0=51.0, r1=60.6, w=3.0, n=32, landing=(55.2, 56.4)), lift=(49.8, -4.6), estair=dict(a=6.5, w=2.6))
 CRESCENT_ROOMS = [
     # upper floor (level with the palace's balcony and the winter garden)
     dict(code="T06-01", name="Hall and stair", floor="upper", a=(-7, 7), kind="move", double=True,
@@ -65,9 +65,9 @@ CRESCENT_ROOMS = [
     dict(code="T06-CL", name="Lower corridor", floor="lower", a=(-52, 52), band="corridor", kind="move", use="Along the dome side, against the slope; the emergency stairs at both ends.", also=""),
     dict(code="T06-16", name="West stair", floor="both", a=(-52, -45.5), band="corridor", kind="move", use="An enclosed emergency stair at the corridors' west end, between the floors, behind fire doors.", also=""),
     dict(code="T06-17", name="East stair", floor="both", a=(45.5, 52), band="corridor", kind="move", use="The same at the east end.", also=""),
-    dict(code="T06-15", name="Garden gallery", floor="lower", a=(-54, 54), band="gallery", kind="garden", use="The court along the whole garden front, under a sloping glass roof from the Crescent's eave to a low stone wall: planters, benches, the doors of every lower room; in the middle it opens into the top garden dome.", also=""),
+    dict(code="T06-15", name="Garden gallery", floor="lower", a=(-52, 52), band="gallery", kind="garden", use="The court along the whole garden front, under a sloping glass roof from the Crescent's eave to a low stone wall: planters, benches, the doors of every lower room; in the middle it opens into the top garden dome.", also=""),
 ]
-GALLERY = dict(r0=62.0, r1=68.5, a=54.0, wall=1.2)
+GALLERY = dict(r0=62.0, r1=68.5, a=52.0, wall=1.2)
 
 # The plants of the Crescent, chosen room by room (Jim's rule: all kinds and colours, never one pot plant repeated):
 # kind and spot. Spots: window0/window1 (the garden glass, at the room's lower/higher-angle end), windowmid, corner0/
@@ -214,7 +214,7 @@ GARDEN_AREAS = [
 # From and to are points in the palace frame; w is the clear width, h the height inside at the crown.
 LINKS = [
     dict(code="T17-01", name="Sun court link", a=(16.0, 53.0), b=(21.0, 53.0), w=3.0, h=3.0, use="From the classroom wing's lobby down three steps into the Sun court."),
-    dict(code="T17-02", name="Pod stop collar", a=(3.5, 82.5), b=(5.6, 82.5), w=2.2, h=2.6, use="A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."),
+    dict(code="T17-02", name="Pod stop collar", a=(-3.5, 81.0), b=(-4.6, 81.0), w=2.2, h=2.6, use="A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."),
     dict(code="T17-03", name="Infinity link", a=(-22.0, -91.0), b=(-38.5, -92.0), w=4.0, h=3.4, use="From the upper garden dome to Infinity Hall's foyer."),
     dict(code="T17-04", name="Greenhouse link", a=(22.0, -88.0), b=(48.0, -88.0), w=4.0, h=3.4, use="From the upper garden dome to the Garden of Primes."),
     dict(code="T17-05", name="Observatory collar", a=(0.0, -161.0), b=(0.0, -163.0), w=5.0, h=3.6, use="From the lowest garden dome into the observatory."),

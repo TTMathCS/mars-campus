@@ -96,8 +96,10 @@
       for (var u = -1; u <= 1; u++) for (var v = -1; v <= 1; v++) { var n0 = b.count(), c = Math.floor(R() * 6); b.box(0.015, cy + v * 0.105 - 0.048, cz + u * 0.105 - 0.048, 0.022, cy + v * 0.105 + 0.048, cz + u * 0.105 + 0.048, MT.PLASTIC); b.tag(n0, [0, 4, 2, 7, 3, 6][c], null); }
     }
   }); }
-  function planter(len) { return furn("planter" + len, function (b) {    // a long concrete trough 0.9 deep, 0.55 tall, with soil (along x)
-    b.box(-len / 2, 0, -0.45, len / 2, 0.55, 0.45, MT.CONCRETE); b.box(-len / 2 + 0.08, 0.55, -0.37, len / 2 - 0.08, 0.5, 0.37, MT.RUBBER);
+  function planter(len) { return furn("planter" + len, function (b) {    // a long concrete trough 0.9 deep, 0.55 tall, the soil 5 cm below its rim (along x)
+    var x0 = -len / 2, x1 = len / 2, t = 0.08;
+    b.box(x0, 0, -0.45, x1, 0.55, -0.45 + t, MT.CONCRETE); b.box(x0, 0, 0.45 - t, x1, 0.55, 0.45, MT.CONCRETE); b.box(x0, 0, -0.45 + t, x0 + t, 0.55, 0.45 - t, MT.CONCRETE); b.box(x1 - t, 0, -0.45 + t, x1, 0.55, 0.45 - t, MT.CONCRETE);
+    b.box(x0 + t, 0, -0.45 + t, x1 - t, 0.5, 0.45 - t, MT.RUBBER);
   }); }
   function gardenBench(len) { return furn("gbench" + len, function (b) {  // oak slats on two stone blocks (along x)
     for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
@@ -279,7 +281,7 @@
     var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
     for (var a = -G.a + 3.0 / rP; a < G.a - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
-      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; B.add(plantBuilder(kind, 300 + n), crsFrame(rP, pa, C.yL + 0.5, n * 1.3).multiply(new THREE.Matrix4().makeScale(1.7, 1.7, 1.7))); }   // big plants for big troughs
+      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; bedPlant(B, kind, 300 + n, crsFrame(rP, pa, C.yL, n * 1.3), 0.5, 1.7); }   // big plants set into the troughs
       var ba = a + 4.0 / rP; if (ba < G.a - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }

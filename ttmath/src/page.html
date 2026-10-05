@@ -103,6 +103,15 @@
   .bigbtn { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .1em; color: var(--ink); cursor: pointer; padding: 0; }
   .bigbtn.small { width: 52px; height: 52px; font-size: 10px; }
   .bigbtn:active { background: rgba(156,201,234,.3); }
+  .podbar { position: fixed; z-index: 5; pointer-events: none; inset: auto 0 calc(env(safe-area-inset-bottom, 0px) + 150px) 0; display: flex; justify-content: center; }
+  .podbar > * { pointer-events: auto; }
+  .podhint { padding: 8px 14px; border-radius: 999px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--ink); }
+  .podhint kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; margin: 0 2px; border-radius: 4px; border: 1px solid rgba(244,230,212,.45); }
+  .podfly { display: flex; gap: 10px; align-items: center; }
+  .podfly[hidden], .podbar [hidden] { display: none !important; }
+  .podbar .bigbtn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  body.in-pod .actbtns, body.in-pod .pad .jump, body.in-pod .pad .walk { visibility: hidden; }
+  @media (pointer: coarse) { .podbar { inset: auto calc(env(safe-area-inset-right, 0px) + 16px) calc(env(safe-area-inset-bottom, 0px) + 24px) auto; justify-content: flex-end; } }
   .timepill { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 28px); display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); white-space: nowrap; z-index: 3; }
   .timepill strong { color: var(--ink); font-weight: 600; }
   .timepill .play { width: 36px; height: 36px; }
@@ -258,6 +267,16 @@
   <span><strong class="js-clock">17:39</strong> <span class="rel">Mars time</span></span>
 </div>
 
+<div class="podbar" id="podbar" hidden>
+  <div class="podhint glass desk-only" id="podHint"></div>
+  <button type="button" class="bigbtn glass touch-only" id="podBoard" aria-label="Board the pod">BOARD</button>
+  <div class="podfly touch-only" id="podFly" hidden>
+    <button type="button" class="bigbtn small glass" id="podUp" aria-label="Climb"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button type="button" class="bigbtn small glass" id="podDown" aria-label="Descend"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button type="button" class="bigbtn small glass" id="podView" aria-label="Change the view">VIEW</button>
+    <button type="button" class="bigbtn glass" id="podLand" aria-label="Land">LAND</button>
+  </div>
+</div>
 <div class="toast glass hide" id="toast" role="status" aria-live="polite">
   <div class="t1">Discovered</div>
   <div class="t2">TTMath Mars Campus</div>
@@ -453,7 +472,7 @@
     uLP: { value: LP }, uLC: { value: LC },
     uShadowMap: { value: null }, uShadowMatrix: { value: new THREE.Matrix4() }, uShadowTexel: { value: 1 / 2048 }, uShadowBias: { value: 0.0005 }, uShadowOn: { value: 0 },
     uHF: { value: dummyTex }, uHFExt: { value: 17000 }, uHFOn: { value: 0 },
-    uSynthF: { value: dummyTex }, uSynthMeanF: { value: 0.5 }, uSynthC: { value: dummyTex }, uSynthMeanC: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+    uSynthF: { value: dummyTex }, uSynthMeanF: { value: 0.5 }, uSynthC: { value: dummyTex }, uSynthMeanC: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uRealBox: { value: new THREE.Vector4(-1e5, 1e5, -1e5, 1e5) }, uRealTint: { value: new THREE.Vector3(1, 1, 1) },
     uWindDir: { value: WIND_DIR.clone() }, uLogo: { value: dummyTex }, uPodLogo: { value: new THREE.Vector4(-1e4, 4.6, 2.7, 1.44) },
     uCut: { value: new THREE.Vector4(0, 0, 0, 0) }, uCutV: { value: new THREE.Vector4(0, 1, 0, 0) },
     uCutP: { value: Array.apply(null, Array(16)).map(function () { return new THREE.Vector4(); }) }, uCutQ: { value: Array.apply(null, Array(16)).map(function () { return new THREE.Vector4(); }) }, uCutN: { value: 0 },
@@ -746,7 +765,7 @@
   var FAR_FS = [
     "#include <packing>",
     SKY_GLSL, NOISE_GLSL, HAZE_GLSL, LIGHT_GLSL, HF_GLSL, SHADOW_GLSL, DETAIL_GLSL, CUT_GLSL,
-    "uniform sampler2D uSynthC; uniform vec3 uSynthMeanC;",
+    "uniform sampler2D uSynthC; uniform vec3 uSynthMeanC; uniform vec4 uRealBox; uniform vec3 uRealTint;",
     "varying vec3 vW; varying vec3 vN; varying vec3 vCol;",
     "void main(){",
     "  if (inCut(vW.xz)) discard;",
@@ -756,6 +775,8 @@
     "  float mf = 1.0 - smoothstep(900.0, 6000.0, dist);",
     "  vec3 m = mix(vec3(1.0), pow(clamp(tc * tc2, 0.0, 3.0), vec3(2.2)), 0.8 * mf);",
     "  vec3 alb = pow(vCol, vec3(2.2)) * m;",
+    "  vec2 dq = max(max(uRealBox.xz - vW.xz, vW.xz - uRealBox.yw), 0.0);",
+    "  alb *= mix(uRealTint, vec3(1.0), smoothstep(0.0, 260.0, length(dq)));",   // meet the real map's colour at its edge
     "  vec3 n0 = normalize(vN);",
     "  vec3 det = detailAt(vW.xz, dist);",
     "  alb *= det.x;",
@@ -867,7 +888,7 @@
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
   /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */
-  var P2 = {"crescent":{"r0":46.0,"r1":62.0,"rc":49.6,"a0":-52.0,"a1":52.0,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"estair":{"a":6.5,"w":2.6},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-16","name":"West stair","floor":"both","a":[-52,-45.5],"band":"corridor","kind":"move","plants":[]},{"code":"T06-17","name":"East stair","floor":"both","a":[45.5,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,52],"band":"gallery","kind":"garden","plants":[]}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"domes":[{"code":"T09-02","lat":0.0,"rad":-91.0,"r":22.0,"floor":-5.6,"h":16.0},{"code":"T09-03","lat":0.0,"rad":-115.0,"r":22.0,"floor":-8.4,"h":18.0},{"code":"T09-05","lat":0.0,"rad":-139.0,"r":22.0,"floor":-11.2,"h":20.0}],"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"spiral":{"lat":0.0,"rad":-115.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-12.0,"rad":-86.0},{"name":"trefoil knot","lat":12.0,"rad":-88.0},{"name":"Möbius bench","lat":-12.0,"rad":-120.0},{"name":"stellated dodecahedron","lat":12.0,"rad":-141.0}]},"observatory":{"lat":0.0,"rad":-172.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":30.0,"rad":-176.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5,"floor":0.0,"crown":4.4,"spring":1.6},"courtyard":{"s0":33.3,"s1":77.7,"crown":[[33.3,10.6],[56.0,8.6],[77.7,6.2]],"ribs":1.5,"airlock":{"s0":77.7,"s1":84.0,"w":7.0,"h":4.2},"podstop":{"lat":-8.0,"rad":81.0,"r":4.0,"heading":0.0}},"gallery":{"r0":62.0,"r1":68.5,"a":52.0,"wall":1.2},"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"links":[{"code":"T17-01","name":"Sun court link","a":[16.0,53.0],"b":[21.0,53.0],"w":3.0,"h":3.0,"use":"From the classroom wing's lobby down three steps into the Sun court."},{"code":"T17-02","name":"Pod stop collar","a":[-3.5,81.0],"b":[-4.6,81.0],"w":2.2,"h":2.6,"use":"A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."},{"code":"T17-03","name":"Infinity link","a":[-22.0,-91.0],"b":[-38.5,-92.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to Infinity Hall's foyer."},{"code":"T17-04","name":"Greenhouse link","a":[22.0,-88.0],"b":[48.0,-88.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to the Garden of Primes."},{"code":"T17-05","name":"Observatory collar","a":[0.0,-161.0],"b":[0.0,-163.0],"w":5.0,"h":3.6,"use":"From the lowest garden dome into the observatory."},{"code":"T17-06","name":"Terminal link","a":[9.0,-174.0],"b":[17.0,-176.0],"w":4.0,"h":3.4,"use":"From the observatory to the pod terminal."},{"code":"T17-07","name":"Sports link","a":[-60.0,-126.0],"b":[-58.5,-141.0],"w":4.0,"h":3.4,"use":"From behind Infinity Hall's stage to the sports dome."},{"code":"T17-08","name":"Hangar link","a":[62.0,-120.0],"b":[62.0,-145.0],"w":4.0,"h":3.4,"use":"From the far end of the Garden of Primes to the robotics and rover hangar."}],"pod":{"length":6.0,"width":2.4,"height":2.4,"rotor_r":1.25,"rotors":[[-2.1,1.5],[2.1,1.5],[-2.1,-1.6],[2.1,-1.6]],"top_speed":40.0,"climb":8.0,"ceiling":400.0,"min_clear":2.5,"land_slope":0.12}};
+  var P2 = {"crescent":{"r0":46.0,"r1":62.0,"rc":49.6,"a0":-52.0,"a1":52.0,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"estair":{"a":6.5,"w":2.6},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-52,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-16","name":"West stair","floor":"both","a":[-52,-45.5],"band":"corridor","kind":"move","plants":[]},{"code":"T06-17","name":"East stair","floor":"both","a":[45.5,52],"band":"corridor","kind":"move","plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,52],"band":"gallery","kind":"garden","plants":[]}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"domes":[{"code":"T09-02","lat":0.0,"rad":-91.0,"r":22.0,"floor":-5.6,"h":16.0},{"code":"T09-03","lat":0.0,"rad":-115.0,"r":22.0,"floor":-8.4,"h":18.0},{"code":"T09-05","lat":0.0,"rad":-139.0,"r":22.0,"floor":-11.2,"h":20.0}],"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"spiral":{"lat":0.0,"rad":-115.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-12.0,"rad":-86.0},{"name":"trefoil knot","lat":12.0,"rad":-88.0},{"name":"Möbius bench","lat":-12.0,"rad":-120.0},{"name":"stellated dodecahedron","lat":12.0,"rad":-141.0}]},"observatory":{"lat":0.0,"rad":-172.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":30.0,"rad":-176.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5,"floor":0.0,"crown":4.4,"spring":1.6},"courtyard":{"s0":33.3,"s1":77.7,"crown":[[33.3,10.6],[56.0,8.6],[77.7,6.2]],"ribs":1.5,"airlock":{"s0":77.7,"s1":84.0,"w":7.0,"h":4.2},"podstop":{"lat":-8.0,"rad":81.0,"r":4.0,"heading":180.0}},"gallery":{"r0":62.0,"r1":68.5,"a":52.0,"wall":1.2},"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"links":[{"code":"T17-01","name":"Sun court link","a":[16.0,53.0],"b":[21.0,53.0],"w":3.0,"h":3.0,"use":"From the classroom wing's lobby down three steps into the Sun court."},{"code":"T17-02","name":"Pod stop collar","a":[-3.5,81.0],"b":[-4.6,81.0],"w":2.2,"h":2.6,"use":"A short glass collar from the entrance airlock's side to the door of the pod at the pod stop."},{"code":"T17-03","name":"Infinity link","a":[-22.0,-91.0],"b":[-38.5,-92.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to Infinity Hall's foyer."},{"code":"T17-04","name":"Greenhouse link","a":[22.0,-88.0],"b":[48.0,-88.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to the Garden of Primes."},{"code":"T17-05","name":"Observatory collar","a":[0.0,-161.0],"b":[0.0,-163.0],"w":5.0,"h":3.6,"use":"From the lowest garden dome into the observatory."},{"code":"T17-06","name":"Terminal link","a":[9.0,-174.0],"b":[17.0,-176.0],"w":4.0,"h":3.4,"use":"From the observatory to the pod terminal."},{"code":"T17-07","name":"Sports link","a":[-60.0,-126.0],"b":[-58.5,-141.0],"w":4.0,"h":3.4,"use":"From behind Infinity Hall's stage to the sports dome."},{"code":"T17-08","name":"Hangar link","a":[62.0,-120.0],"b":[62.0,-145.0],"w":4.0,"h":3.4,"use":"From the far end of the Garden of Primes to the robotics and rover hangar."}],"pod":{"length":6.0,"width":2.4,"height":2.4,"rotor_r":1.1,"rotors":[[-2.45,2.0],[2.45,2.0],[-2.45,-2.0],[2.45,-2.0]],"top_speed":40.0,"climb":8.0,"ceiling":400.0,"min_clear":2.5,"land_slope":0.12}};
 
   /* ===================== Materials: one shader for every built surface ===================== */
   // Real-world surfaces: weathered cladding and concrete outside; marble, brass, oak, fabric and plaster inside.
@@ -1982,7 +2003,8 @@
     vest: [0, 0, 1536, 512], signR: [1536, 0, 512, 256], signL: [1536, 256, 512, 256],
     glyph: [0, 520, 1536, 128], plaque: [0, 656, 1280, 128], gate: [0, 792, 1536, 112],
     wb: [0, 912, 1024, 362], scrLab: [1032, 912, 768, 432], code0: [0, 1282, 336, 189], code1: [344, 1282, 336, 189], code2: [688, 1282, 336, 189],
-    scrLobby: [1032, 1352, 768, 432], menu: [0, 1480, 1016, 300], scrSem: [0, 1788, 344, 194], books: [352, 1788, 1696, 190], plates: [0, 1984, 2048, 64]
+    scrLobby: [1032, 1352, 768, 432], menu: [0, 1480, 1016, 300], scrSem: [0, 1788, 344, 194], books: [352, 1788, 1696, 190], plates: [0, 1984, 2048, 64],
+    podPfd: [1536, 520, 256, 154], podMap: [1792, 520, 256, 154], podSys: [1536, 682, 256, 154]
   };
   var ATL = {};
   Object.keys(ATL_PX).forEach(function (k) { var r = ATL_PX[k]; ATL[k] = [r[0] / ATL_N, 1 - (r[1] + r[3]) / ATL_N, (r[0] + r[2]) / ATL_N, 1 - r[1] / ATL_N]; });
@@ -2109,6 +2131,53 @@
     lines.forEach(function (l, i) { g.fillStyle = i ? "#d6dbe1" : "#ffffff"; g.font = (i ? "" : "600 ") + Math.round(H * (i ? 0.1 : 0.13)) + "px " + SANS; g.fillText(l, W * 0.08, H * (0.24 + i * 0.16)); });
     g.restore();
   }
+  // the pod's three displays: flight (attitude, speed, height, heading), the map of the campus, the craft's systems
+  function drawPodScreens(g, R) {
+    function screen(r, draw) { g.save(); g.translate(r[0], r[1]); g.beginPath(); g.rect(0, 0, r[2], r[3]); g.clip(); g.fillStyle = "#0a0c0f"; g.fillRect(0, 0, r[2], r[3]); draw(r[2], r[3]); g.restore(); }
+    screen(R.podPfd, function (W, H) {
+      var cx = W / 2, cy = H / 2;
+      g.save(); g.beginPath(); g.rect(W * 0.2, 8, W * 0.6, H - 16); g.clip(); g.translate(cx, cy + 7); g.rotate(-0.07);
+      g.fillStyle = "#b98457"; g.fillRect(-W, -H * 2, W * 2, H * 2); g.fillStyle = "#5e3420"; g.fillRect(-W, 0, W * 2, H * 2);
+      g.strokeStyle = "#ffffff"; g.lineWidth = 1.6; g.beginPath(); g.moveTo(-W, 0); g.lineTo(W, 0); g.stroke(); g.lineWidth = 1.2;
+      for (var k = -3; k <= 3; k++) if (k) { var w = k % 2 ? 9 : 18; g.beginPath(); g.moveTo(-w, -k * 12); g.lineTo(w, -k * 12); g.stroke(); }
+      g.restore();
+      g.strokeStyle = "#f2c230"; g.lineWidth = 3; g.beginPath(); g.moveTo(cx - 34, cy); g.lineTo(cx - 12, cy); g.lineTo(cx - 6, cy + 6); g.moveTo(cx + 34, cy); g.lineTo(cx + 12, cy); g.lineTo(cx + 6, cy + 6); g.stroke();
+      g.fillStyle = "rgba(24,28,34,0.92)"; g.fillRect(3, 8, W * 0.17, H - 16); g.fillRect(W * 0.83 - 3, 8, W * 0.17, H - 16);
+      g.font = "600 11px " + MONO; g.textAlign = "center"; g.textBaseline = "middle";
+      for (var j = -2; j <= 2; j++) { g.fillStyle = "#b9c0c9"; g.fillText(String(24 + j * 10 > 0 ? 24 + j * 10 : 0), 3 + W * 0.085, cy - j * 26); g.fillText(String(120 + j * 20), W * 0.915 - 3, cy - j * 26); }
+      g.fillStyle = "#000"; g.strokeStyle = "#ffffff"; g.lineWidth = 1.2; g.fillRect(2, cy - 9, W * 0.19, 18); g.strokeRect(2, cy - 9, W * 0.19, 18); g.fillRect(W * 0.81 - 2, cy - 9, W * 0.19, 18); g.strokeRect(W * 0.81 - 2, cy - 9, W * 0.19, 18);
+      g.font = "700 13px " + MONO; g.fillStyle = "#55e07a"; g.fillText("24", 2 + W * 0.095, cy + 1); g.fillText("120", W * 0.905 - 2, cy + 1);
+      g.font = "600 10px " + MONO; g.fillStyle = "#8fd3ff"; g.fillText("m/s", 3 + W * 0.085, 18); g.fillText("m", W * 0.915 - 3, 18);
+      g.fillStyle = "rgba(24,28,34,0.92)"; g.fillRect(cx - 26, H - 20, 52, 16); g.fillStyle = "#ffffff"; g.font = "700 12px " + MONO; g.fillText("012°", cx, H - 12);
+    });
+    screen(R.podMap, function (W, H) {
+      g.fillStyle = "#101a22"; g.fillRect(0, 0, W, H);
+      g.strokeStyle = "rgba(120,160,190,0.25)"; g.lineWidth = 1;
+      for (var k = 0; k < 5; k++) { g.beginPath(); g.ellipse(W * 0.3, H * 0.75, 40 + k * 26, 22 + k * 15, 0.3, 0, 2 * Math.PI); g.stroke(); }
+      var cx = W * 0.55, cy = H * 0.52, s = 0.55;
+      g.strokeStyle = "#d9dde2"; g.lineWidth = 2; g.beginPath(); g.arc(cx, cy, 28 * s, 0, 2 * Math.PI); g.stroke();
+      g.lineWidth = 6; g.strokeStyle = "#8a96a3"; g.beginPath(); g.arc(cx, cy, 54 * s, Math.PI * 0.21, Math.PI * 0.79); g.stroke();
+      g.lineWidth = 1.5; g.strokeStyle = "#7ec8e3"; g.beginPath(); g.arc(cx, cy, 38 * s, Math.PI * 0.22, Math.PI * 0.78); g.stroke();
+      g.strokeStyle = "#8a96a3"; g.lineWidth = 5; g.beginPath(); g.moveTo(cx - 14, cy - 20 * s); g.lineTo(cx - 24, cy - 78 * s); g.moveTo(cx + 14, cy - 20 * s); g.lineTo(cx + 24, cy - 78 * s); g.stroke();
+      g.fillStyle = "#f2c230"; g.beginPath(); g.moveTo(cx - 40, cy - 64); g.lineTo(cx - 46, cy - 50); g.lineTo(cx - 34, cy - 50); g.closePath(); g.fill();
+      g.strokeStyle = "rgba(242,194,48,0.6)"; g.setLineDash([3, 3]); g.beginPath(); g.moveTo(cx - 40, cy - 57); g.lineTo(cx - 6, cy - 10); g.stroke(); g.setLineDash([]);
+      g.fillStyle = "#e6e9ee"; g.font = "600 10px " + SANS; g.textAlign = "left"; g.textBaseline = "alphabetic"; g.fillText("TTMath campus", 8, 16); g.fillStyle = "#8fa3b8"; g.fillText("N ↑", W - 28, 16);
+      g.strokeStyle = "#e6e9ee"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(8, H - 10); g.lineTo(48, H - 10); g.moveTo(8, H - 14); g.lineTo(8, H - 6); g.moveTo(48, H - 14); g.lineTo(48, H - 6); g.stroke(); g.fillText("100 m", 54, H - 6);
+    });
+    screen(R.podSys, function (W, H) {
+      g.textBaseline = "middle";
+      [[36, 34], [92, 34], [36, 86], [92, 86]].forEach(function (p, i) {
+        g.strokeStyle = "#2a3440"; g.lineWidth = 5; g.beginPath(); g.arc(p[0], p[1], 19, 0.75 * Math.PI, 2.25 * Math.PI); g.stroke();
+        g.strokeStyle = "#55e07a"; g.beginPath(); g.arc(p[0], p[1], 19, 0.75 * Math.PI, (0.75 + 1.5 * [0.86, 0.88, 0.85, 0.87][i]) * Math.PI); g.stroke();
+        g.fillStyle = "#e6e9ee"; g.font = "700 10px " + MONO; g.textAlign = "center"; g.fillText(["86", "88", "85", "87"][i], p[0], p[1]);
+      });
+      g.font = "600 9px " + MONO; g.fillStyle = "#8fa3b8"; g.textAlign = "center"; g.fillText("ROTOR %", 64, 118);
+      g.textAlign = "left"; g.font = "600 11px " + MONO;
+      [["BATTERY", "86 %", "#55e07a"], ["RANGE", "48 km", "#e6e9ee"], ["CABIN", "1.00 bar", "#e6e9ee"], ["", "21 °C", "#e6e9ee"], ["OUTSIDE", "−63 °C", "#8fd3ff"], ["", "6.1 mbar", "#8fd3ff"]].forEach(function (r, i) {
+        g.fillStyle = "#8fa3b8"; g.fillText(r[0], 130, 18 + i * 21); g.fillStyle = r[2]; g.textAlign = "right"; g.fillText(r[1], W - 8, 18 + i * 21); g.textAlign = "left"; });
+      g.fillStyle = "#1d2630"; g.fillRect(130, H - 14, W - 138, 6); g.fillStyle = "#55e07a"; g.fillRect(130, H - 14, (W - 138) * 0.86, 6);
+    });
+  }
   function campusAtlas() {
     var cv = mkCanvas(ATL_N, ATL_N), g = cv.getContext("2d"), R = ATL_PX;
     // welcome panels and glyphs and plaques from the palace art
@@ -2120,7 +2189,7 @@
     g.save(); g.translate(R.wb[0], R.wb[1]); drawWhiteboard(g, R.wb[2], R.wb[3]); g.restore();
     slide(g, R.scrLab[0], R.scrLab[1], R.scrLab[2], R.scrLab[3], "Today: simulate an orbit", ["1. Newton's law of gravity: F = GMm / r²", "2. Step the position every second", "3. Plot it: an ellipse appears", "4. Check Kepler: T² ∝ a³"], orbitPic);
     [0, 1, 2].forEach(function (k) { var r = R["code" + k]; drawCode(g, r[0], r[1], r[2], r[3], CODE[k]); });
-    drawLobby(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]);
+    drawLobby(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]); drawPodScreens(g, R);
     slide(g, R.scrSem[0], R.scrSem[1], R.scrSem[2], R.scrSem[3], "Kepler's laws", ["Orbits are ellipses", "Equal areas in equal times", "T² ∝ a³"], orbitPic);
     g.save(); g.translate(R.menu[0], R.menu[1]); drawMenu(g, R.menu[2], R.menu[3]); g.restore();
     drawBooks(g, R.books[0], R.books[1], R.books[2], R.books[3]);
@@ -2772,7 +2841,14 @@
   }
   // a stem, a cane or a trunk: g.y = -1 makes the LEAF material draw bark (tint 0) or a green stem (tint 1)
   function stem(b, pts, r, tint) { var n0 = b.count(); tubeAlong(b, pts, r, 7, MT.LEAF, tint); b.tag(n0, tint, -1); }
+  // plants set into a bed (a planter's soil) are built without their pots: POT_H is each kind's pot height, its soil line
+  // at 0.94 of it, which bedPlant puts on the bed's soil
+  var POT_H = { fig: 0.46, monstera: 0.42, snake: 0.34, kentia: 0.5, olive: 0.55, ficus: 0.42, fern: 0.3, maple: 0.42, croton: 0.34, anthurium: 0.2, orchid: 0.16, strelitzia: 0.45, agave: 0.24, bromeliad: 0.17, pothos: 0.16 }, POT_SKIP = false;
+  function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
+    B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+  }
   function pot(b, kind, r, h) {
+    if (POT_SKIP) return h * 0.94;
     // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass
     var prof = kind === 1 ? [[r * 0.72, 0], [r * 0.8, h * 0.08], [r, h * 0.88], [r * 1.06, h * 0.9], [r * 1.06, h], [r * 0.95, h]]
       : kind === 2 ? [[r * 0.94, 0], [r, h * 0.04], [r, h], [r * 0.93, h]] : [[r * 0.7, 0], [r * 0.82, h * 0.06], [r, h * 0.55], [r * 0.98, h * 0.95], [r * 0.94, h], [r * 0.88, h]];
@@ -2783,7 +2859,7 @@
   }
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
-  function plantBuilder(kind, seed) { return furn("plant_" + kind + "_" + seed, function (b) {
+  function plantBuilder(kind, seed, bed) { POT_SKIP = !!bed; var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
       var top = pot(b, 0, 0.24, 0.46), H = 1.55 + 0.35 * R(), tr = [v3(0, top - 0.05, 0)];
@@ -2841,9 +2917,9 @@
         leafCard(b, c6, d6, u6, 0.26 + 0.08 * R(), 0.18, 0.4, 0.05, LEAF_CELLS.ficus, R(), 0.8);
       }
     } else if (kind === "fern") {                            // Boston fern on a stand: arching fronds, about 0.9 m
-      var top7 = pot(b, 1, 0.2, 0.3), stand = b.count(); latheOn(b, 0, -0.03, 0, [[0.0, 0], [0.24, 0], [0.24, 0.03], [0.0, 0.03]], 24, MT.WOOD);
-      for (var lg = 0; lg < 3; lg++) { var la = lg / 3 * Math.PI * 2; tubeAlong(b, [v3(Math.cos(la) * 0.16, -0.03, Math.sin(la) * 0.16), v3(Math.cos(la) * 0.22, -0.5, Math.sin(la) * 0.22)], 0.014, 6, MT.WOOD, 0); }
-      b.tag(stand, null, 2);
+      var top7 = pot(b, 1, 0.2, 0.3), stand = b.count(); if (!POT_SKIP) latheOn(b, 0, -0.03, 0, [[0.0, 0], [0.24, 0], [0.24, 0.03], [0.0, 0.03]], 24, MT.WOOD);
+      for (var lg = 0; lg < (POT_SKIP ? 0 : 3); lg++) { var la = lg / 3 * Math.PI * 2; tubeAlong(b, [v3(Math.cos(la) * 0.16, -0.03, Math.sin(la) * 0.16), v3(Math.cos(la) * 0.22, -0.5, Math.sin(la) * 0.22)], 0.014, 6, MT.WOOD, 0); }
+      if (b.count() > stand) b.tag(stand, null, 2);
       for (k = 0; k < 26; k++) { a = R() * Math.PI * 2; var d7 = v3(Math.cos(a), 0.5 + 0.6 * R(), Math.sin(a)).normalize();
         leafCard(b, v3(Math.cos(a) * 0.04, top7, Math.sin(a) * 0.04), d7, v3(-Math.cos(a) * 0.3, 1, -Math.sin(a) * 0.3).normalize(), 0.45 + 0.25 * R(), 0.22, 0.9 + 0.4 * R(), 0.05, LEAF_CELLS.fern, R(), 0.3); }
     } else if (kind === "maple") {                          // Japanese maple: a slender tree with tiers of red sprays, about 1.7 m
@@ -2889,7 +2965,7 @@
           leafCard(b, pp, v3(Math.cos(a + (j % 2 ? 1 : -1)), 0.2, Math.sin(a + (j % 2 ? 1 : -1))).normalize(), UP, 0.1 + 0.03 * R(), 0.09, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
         stem(b, chain, 0.003, 1); }
     }
-  }); }
+  }); POT_SKIP = false; return out; }
   // a plant on the floor of a wing room: s along the wing, u in from the glass
   function wingPlant(B, sg, s, u, y, kind, seed, rot) { place(B, plantBuilder(kind, seed), sg, s, u, y, rot || 0); obst(sg, s - 0.3, s + 0.3, u - 0.3, u + 0.3); }
 
@@ -3538,10 +3614,9 @@
     });
     DOORS.push(door);
   }
-  // the back terrace: basalt paving level with the balcony on a concrete retaining wall, a parapet, a stair at each end
+  // the back terrace: basalt paving level with the balcony on a concrete retaining wall; sealed under the winter garden's vault
   function backTerrace(B) {
     var yB = PALY.B, t0 = BACK.t0, t1 = BACK.t1, r0 = BACK.tr0, r1 = BACK.tr1, NT = 64; BACK._B = B;
-    var sa = BACK.stairW / 2 / BACK.stairR;                                  // half the stair's width as an angle on the side edges
     // paving
     B.surf(NT, 12, function (i, j, q) { var th = lerp(t0, t1, i / NT), r = lerp(r0, r1, j / 12), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yB; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r * Math.sin(th); q.f[1] = r * Math.cos(th); q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; });
     function gAt(p) { return cgH(p.x, p.z); }
@@ -3552,7 +3627,7 @@
         q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * sgn, 0, (d.z - PAL.c.z) * sgn]; q.f[0] = th * r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
     }
     // the outer edge is the Crescent's glass front (blk_crescent.js)
-    // the two side edges: a retaining wall with a parapet, broken by the stair in the middle
+    // the two side edges: a retaining wall down into the ground and a kerb
     [[t0, -1], [t1, 1]].forEach(function (e) {
       var th = e[0], sg = e[1], tg = palPol(1, th + sg * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z];  // outward, across the edge
       function radial(ra, rb, off, top, sgn) {
@@ -3560,26 +3635,11 @@
         B.surf(n, 1, function (i, j, q) { var r = lerp(ra, rb, i / n), lat = r * Math.sin(th), rad = r * Math.cos(th), p = palXZ(lat + tn[0] * 0 + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, rad + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4;
           q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [tn[0] * sgn, 0, tn[2] * sgn]; q.f[0] = r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
       }
-      [[r0, BACK.stairR - BACK.stairW / 2], [BACK.stairR + BACK.stairW / 2, r1]].forEach(function (rr) {
-        radial(rr[0], rr[1], 0.3, yB + BACK.kerb, 1); radial(rr[0], rr[1], 0, yB + BACK.kerb, -1);
-        var lo = (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * 0.15, ro = (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * 0.15;
-        guardAlong(function (t) { var r = lerp(rr[0], rr[1], t); return palXZ(r * Math.sin(th) + lo, r * Math.cos(th) + ro); }, rr[1] - rr[0]);
-        var n = Math.max(2, Math.round((rr[1] - rr[0]) / 0.5));
-        B.surf(n, 1, function (i, j, q) { var r = lerp(rr[0], rr[1], i / n), off = j ? -0.03 : 0.33, p = palXZ(r * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, r * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off);
-          q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
-      });
-      // the stair: concrete treads from the terrace down to the ground, cheek walls either side
-      function gOut(d) { return gAt(palXZ(BACK.stairR * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * d, BACK.stairR * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * d)); }
-      var rise = yB - gOut(1.0), nst = 1;                                       // size the flight to the ground at its foot
-      for (var it = 0; it < 3; it++) { nst = Math.max(1, Math.round(rise / 0.165)); rise = yB - gOut(0.3 + nst * 0.32 + 0.2); }
-      nst = Math.max(1, Math.round(rise / 0.165)); var hs = rise / nst, st = new Builder();
-      for (var k = 0; k < nst; k++) st.box(-BACK.stairW / 2, -rise - 0.4, k * 0.32, BACK.stairW / 2, -k * hs, (k + 1) * 0.32, MT.CONCRETE);
-      [-1, 1].forEach(function (cs) { st.box(cs * BACK.stairW / 2 - (cs > 0 ? 0 : 0.25), -rise - 0.4, 0, cs * BACK.stairW / 2 + (cs > 0 ? 0.25 : 0), 0.45, nst * 0.32 + 0.1, MT.CONCRETE); });
-      for (var n2 = 0; n2 < st.f.length; n2++) st.f[n2] = 0.45 + 0.07 * st.f[n2] * 0.4;
-      var ax = new THREE.Vector3(tn[0], 0, tn[2]).normalize(), along = new THREE.Vector3(-ax.z, 0, ax.x), Ms = new THREE.Matrix4().makeBasis(along, new THREE.Vector3(0, 1, 0), ax);
-      var p0 = palXZ(BACK.stairR * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * 0.3, BACK.stairR * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * 0.3);
-      Ms.setPosition(p0.x, yB, p0.z); B.add(st, Ms);
-      BACK["stair" + (sg > 0 ? "R" : "L")] = { p: p0, ax: ax, along: along, n: nst, hs: hs, run: 0.32 };
+      // the kerb along the edge; the winter garden's glass end wall stands on it (winterGarden), where the outside stairs were
+      radial(r0, r1, 0.3, yB + BACK.kerb, 1); radial(r0, r1, 0, yB + BACK.kerb, -1);
+      var n = Math.max(2, Math.round((r1 - r0) / 0.5));
+      B.surf(n, 1, function (i, j, q) { var r = lerp(r0, r1, i / n), off = j ? -0.03 : 0.33, p = palXZ(r * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, r * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off);
+        q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
     });
     // bollard lights along the Crescent's front
     [-40, -24, -8, 8, 24, 40].forEach(function (deg) {                    // between the Crescent's doors
@@ -3612,24 +3672,86 @@
       if (alat < BACK.w + BACK.wall + 0.3 && -o.rad > PAL.ringIn - 0.1) return NaN;
     }
     if (r < PAL.ringOut + 0.3) return undefined;                            // the ring itself: the palace decides
-    // the stairs
-    var st = [BACK.stairL, BACK.stairR];
-    for (var i = 0; i < 2; i++) {
-      var s = st[i]; if (!s) continue;
-      var dx = x - s.p.x, dz = z - s.p.z, a = dx * s.ax.x + dz * s.ax.z, b = dx * s.along.x + dz * s.along.z;
-      if (Math.abs(b) < BACK.stairW / 2 - 0.15 && a > -0.35 && a < s.n * s.run + 0.6) { var k = clamp(Math.floor(a / s.run), 0, s.n); return a >= s.n * s.run ? undefined : yB - k * s.hs; }
-      if (Math.abs(b) < BACK.stairW / 2 + 0.4 && a > 0 && a < s.n * s.run + 0.1) return NaN;   // the cheek walls
-    }
+    // the winter garden's planters
+    if (WGD && WGD.posts.some(function (c) { return Math.hypot(x - c.x, z - c.z) < c.r; })) return NaN;
     if (th < BACK.t0 - 0.01 || th > BACK.t1 + 0.01) {                       // just outside a side edge: the wall and parapet
       var dth = th < BACK.t0 ? BACK.t0 - th : th - BACK.t1;
-      if (r < BACK.tr1 + 0.4 && dth * r < 0.45) return NaN;
+      if (r < BACK.tr1 + 0.4 && dth * r < 0.45) return NaN;                 // the glass end walls
       return undefined;
     }
     if (r < BACK.tr1 - 0.25) { if (yf > yB - 0.6) return yB; return NaN; }   // on the terrace (from below: the wall)
     if (r < BACK.tr1 + 0.5) return NaN;                                       // the parapet on the outer edge
     return undefined;
   }
-  function backInside(x, z) { if (!PAL.built) return 0; var o = palLoc(x, z, {}); return (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) ? 1 : 0; }
+  function backInside(x, z) {                                               // the vestibule and the winter garden are inside
+    if (!PAL.built) return 0; var o = palLoc(x, z, {}), th = Math.atan2(o.lat, o.rad); if (th < 0) th += 2 * Math.PI;
+    if (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) return 1;
+    return (WGD && o.r > PAL.ringOut && o.r < BACK.tr1 && th > BACK.t0 && th < BACK.t1) ? 1 : 0;
+  }
+
+  // ---- the winter garden (T09-01): the back terrace sealed under a glass vault on bronze ribs (Jim, 5 Oct 2026: "all open
+  // space should be covered by dome or sealed"). The vault springs from the ring beam at the foot of the dome and lands under
+  // the Crescent's eave; its section is a parabola with the crown 13 m up (P2.winter); glass end walls close it where the
+  // outside stairs were. Olive trees, red maples and palms in big planters, oak benches, uplights on the ribs.
+  var WGD = null;
+  function wgY(r) { return WGD.crown - WGD.k * Math.pow(r - WGD.rm, 2); }
+  function winterGarden(B) {
+    var C = crsInit(), yB = PALY.B, rIn = PAL.ringOut + 0.1, yIn = yB + PAL.beam, rOut = C.roofIn + 0.4, yOut = crsRoofY(C.roofIn) - C.roofT - 0.05, crown = yB + P2.winter.crown;
+    var q = Math.sqrt((crown - yIn) / (crown - yOut)), rm = (rIn + q * rOut) / (1 + q);
+    WGD = { rIn: rIn, rOut: rOut, rm: rm, k: (crown - yIn) / Math.pow(rm - rIn, 2), crown: crown, posts: [] };
+    P2DOMAINS.push({ l0: -36.5, l1: 36.5, r0: -46.5, r1: -18, y0: yB - 0.6, y1: crown + 0.6 });
+    var t0 = BACK.t0, t1 = BACK.t1, G = BACK_GLASS, NR = 28, yV = yB + BACK.roofY + BACK.roofT + 0.06, rCut = rm - Math.sqrt((crown - yV) / WGD.k);
+    var tv = Math.asin((BACK.w + BACK.wall + 0.35) / rCut);                 // the vestibule's half-width as an angle where the vault meets its roof
+    function P(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y === undefined ? wgY(r) : y, p.z); }
+    function glassPatch(ra, rb, ta, tb) {
+      var nt = Math.max(2, Math.ceil(Math.abs(tb - ta) * 38 / 0.8)), nr = Math.max(2, Math.ceil((rb - ra) / 0.6));
+      G.surf(nt, nr, function (i, j, q) { var th = lerp(ta, tb, i / nt), r = lerp(ra, rb, j / nr), p = palPol(r, th), d = palPol(1, th), s = -2 * WGD.k * (r - rm), L = Math.hypot(1, s);
+        q.p[0] = p.x; q.p[1] = wgY(r); q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -s / L, 1 / L, (d.z - PAL.c.z) * -s / L]; q.f[0] = th * r; q.f[1] = r; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    }
+    // the glass: over the whole terrace, and over the vestibule only above its roof
+    glassPatch(rIn, rOut, t0, Math.PI - tv); glassPatch(rIn, rOut, Math.PI + tv, t1); glassPatch(rCut, rOut, Math.PI - tv, Math.PI + tv);
+    // ribs every 2.5 degrees (on the vestibule's roof where it stands in the way), purlins along the vault, a bronze sill at the foot
+    for (var th = t0; th <= t1 + 1e-6; th += 2.5 * D2R) {
+      var ra = Math.abs(th - Math.PI) < tv ? rCut : rIn, pts = []; for (var k = 0; k <= 24; k++) { var r = lerp(ra, rOut, k / 24); pts.push(P(r, th, wgY(r) - 0.06)); }
+      tubeAlong(B, pts, (th - t0 < 1e-3 || t1 - th < 1e-3) ? 0.1 : 0.07, 6, MT.RIB);
+    }
+    [31.0, 34.6, 38.2, 41.8, 44.4].forEach(function (r) { var pts = []; for (var k = 0; k <= 60; k++) pts.push(P(r, lerp(t0, t1, k / 60), wgY(r) - 0.08)); tubeAlong(B, pts, 0.04, 5, MT.RIB); });
+    [[t0, Math.PI - tv], [Math.PI + tv, t1]].forEach(function (sp) { var pts = []; for (var k = 0; k <= 40; k++) pts.push(P(rIn - 0.05, lerp(sp[0], sp[1], k / 40), yIn + 0.06)); tubeAlong(B, pts, 0.08, 6, MT.RIB); });
+    var eb = []; for (var k2 = 0; k2 <= 60; k2++) eb.push(P(rOut - 0.1, lerp(t0, t1, k2 / 60), yOut - 0.12)); tubeAlong(B, eb, 0.12, 6, MT.RIB);
+    // the end walls: glass in the radial plane under the vault, on mullions every 1.5 m, standing on the edge's kerb
+    [[t0, -1], [t1, 1]].forEach(function (e) {
+      var th = e[0], tg = palPol(1, th + e[1] * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z], n = 20;
+      G.surf(n, 1, function (i, j, q) { var r = lerp(rIn, rOut, i / n), p = palPol(r, th); q.p[0] = p.x; q.p[1] = j ? wgY(r) - 0.05 : yB + BACK.kerb; q.p[2] = p.z; q.nn = tn; q.f[0] = r; q.f[1] = q.p[1]; q.f2[0] = j ? 4 : 0.1; q.f2[1] = 1; q.m = 0; });
+      for (var r = rIn + 1.5; r < rOut - 0.5; r += 1.5) tubeAlong(B, [P(r, th, yB + BACK.kerb), P(r, th, wgY(r) - 0.1)], 0.045, 5, MT.RIB);
+      var sill = []; for (var k = 0; k <= 12; k++) sill.push(P(lerp(rIn, rOut, k / 12), th, yB + BACK.kerb + 0.04)); tubeAlong(B, sill, 0.06, 5, MT.RIB);
+    });
+    // the garden: big round planters with olive trees, red maples and palms between the paths to the Crescent's doors
+    var R2 = mulberry(4040);
+    [[16, "olive"], [-16, "olive"], [34, "maple"], [-34, "maple"], [44.5, "kentia"], [-44.5, "kentia"]].forEach(function (pl, i) {
+      var th = Math.PI + pl[0] * D2R, c = palPol(37.6, th), rr = 1.2;
+      latheOn(B, c.x, yB, c.z, [[rr, 0], [rr, 0.62], [rr + 0.06, 0.66], [rr - 0.08, 0.68], [rr - 0.08, 0.6], [0.0, 0.6]], 32, MT.CONCRETE, 0.4);
+      B.geo(new THREE.CylinderGeometry(rr - 0.1, rr - 0.1, 0.02, 32), T(c.x, yB + 0.6, c.z), MT.RUBBER, 1);                                      // the soil
+      bedPlant(B, pl[1], 500 + i, T(c.x, yB, c.z, 0, R2() * 6.28, 0), 0.61, 2.3);                                                              // the tree set into it
+      WGD.posts.push({ x: c.x, z: c.z, r: rr + 0.3 });
+      extLight(c.x, yB + 0.8, c.z, WARMC, 1.0, 6, [0, 1, 0], 1.6);
+    });
+    // long oak benches facing the Crescent, and ferns and flowering shrubs along the foot of the dome
+    [[8, 41.0], [-8, 41.0], [25, 41.0], [-25, 41.0]].forEach(function (bn) {
+      var th = Math.PI + bn[0] * D2R, c = palPol(bn[1], th), yaw = Math.atan2(PAL.c.x - c.x, PAL.c.z - c.z);
+      var gb = new Builder(); for (var k = 0; k < 5; k++) { gb.box(-1.4, 0.43, -0.25 + k * 0.1, 1.4, 0.47, -0.17 + k * 0.1, MT.WOOD); gb.tag(gb.count() - 24, null, 2); }
+      [-1.05, 1.05].forEach(function (x) { gb.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
+      B.add(gb, T(c.x, yB, c.z, 0, yaw, 0)); WGD.posts.push({ x: c.x, z: c.z, r: 0.6 });
+    });
+    var kinds = ["fern", "bromeliad", "anthurium", "croton", "agave", "orchid"];
+    for (var k3 = 0; k3 < 14; k3++) {
+      var a3 = lerp(-46, 46, k3 / 13); if (Math.abs(a3) < 9) continue;
+      var th3 = Math.PI + a3 * D2R, c3 = palPol(30.2, th3); B.add(plantBuilder(kinds[k3 % kinds.length], 520 + k3), T(c3.x, yB, c3.z, 0, k3 * 1.7, 0)); WGD.posts.push({ x: c3.x, z: c3.z, r: 0.45 });
+    }
+    // uplights along the foot washing the ribs
+    for (var a4 = -45; a4 <= 45; a4 += 7.5) { if (Math.abs(a4) < 6) continue; var p4 = palPol(rIn + 0.4, Math.PI + a4 * D2R), d4 = palPol(1, Math.PI + a4 * D2R);
+      B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p4.x, yB + 0.03, p4.z), MT.LIGHT, 1);
+      extLight(p4.x, yB + 0.2, p4.z, WARMC, 1.4, 9, [(d4.x - PAL.c.x) * 0.55, 0.83, (d4.z - PAL.c.z) * 0.55], 2); }
+  }
 
   /* ===================== Phase 2: the Crescent (T-06), the Academy ===================== */
   // Two floors in a crescent round the back of the dome (P2.crescent): the upper floor level with the balcony and the
@@ -4170,8 +4292,10 @@
       for (var u = -1; u <= 1; u++) for (var v = -1; v <= 1; v++) { var n0 = b.count(), c = Math.floor(R() * 6); b.box(0.015, cy + v * 0.105 - 0.048, cz + u * 0.105 - 0.048, 0.022, cy + v * 0.105 + 0.048, cz + u * 0.105 + 0.048, MT.PLASTIC); b.tag(n0, [0, 4, 2, 7, 3, 6][c], null); }
     }
   }); }
-  function planter(len) { return furn("planter" + len, function (b) {    // a long concrete trough 0.9 deep, 0.55 tall, with soil (along x)
-    b.box(-len / 2, 0, -0.45, len / 2, 0.55, 0.45, MT.CONCRETE); b.box(-len / 2 + 0.08, 0.55, -0.37, len / 2 - 0.08, 0.5, 0.37, MT.RUBBER);
+  function planter(len) { return furn("planter" + len, function (b) {    // a long concrete trough 0.9 deep, 0.55 tall, the soil 5 cm below its rim (along x)
+    var x0 = -len / 2, x1 = len / 2, t = 0.08;
+    b.box(x0, 0, -0.45, x1, 0.55, -0.45 + t, MT.CONCRETE); b.box(x0, 0, 0.45 - t, x1, 0.55, 0.45, MT.CONCRETE); b.box(x0, 0, -0.45 + t, x0 + t, 0.55, 0.45 - t, MT.CONCRETE); b.box(x1 - t, 0, -0.45 + t, x1, 0.55, 0.45 - t, MT.CONCRETE);
+    b.box(x0 + t, 0, -0.45 + t, x1 - t, 0.5, 0.45 - t, MT.RUBBER);
   }); }
   function gardenBench(len) { return furn("gbench" + len, function (b) {  // oak slats on two stone blocks (along x)
     for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
@@ -4353,9 +4477,245 @@
     var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
     for (var a = -G.a + 3.0 / rP; a < G.a - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
-      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; B.add(plantBuilder(kind, 300 + n), crsFrame(rP, pa, C.yL + 0.5, n * 1.3).multiply(new THREE.Matrix4().makeScale(1.7, 1.7, 1.7))); }   // big plants for big troughs
+      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; bedPlant(B, kind, 300 + n, crsFrame(rP, pa, C.yL, n * 1.3), 0.5, 1.7); }   // big plants set into the troughs
       var ba = a + 4.0 / rP; if (ba < G.a - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
+  }
+
+  /* ===================== The flying pods (T04-03): board one and fly over the campus ===================== */
+  // Jim, 5 Oct 2026: "add some flying pod I can take and can drive the flying pod to see the eagle view". A two-seat craft
+  // about 6 m long (P2.pod): a teardrop cabin in white composite under a tinted glass canopy, four ducted rotors on short
+  // arms (Mars's thin air needs big blades), skids, navigation lights. One waits at the pod stop by the entrance (P2
+  // courtyard.podstop). Walk up to it and board (F, or BOARD); fly where you look with the walking keys or the joystick,
+  // Space and Shift (or the arrows on screen) to climb and descend, V for the view from behind; F (LAND) sets it down on
+  // open, level ground and you step out beside it. The pod stays where you leave it.
+  var POD = { list: [], cur: null, flying: false, view: 0, landing: false, near: null, up: false, down: false, eye: new THREE.Vector3() };
+  var POD_GEO = null;
+  // ---- the craft, in its own frame: x to the left as you sit (the pod is turned half round onto the walker's yaw), y up, z forward
+  // (the nose at +z), the skids on y = 0; the pilot sits on the right (-x), as in a helicopter, and gets in and out on that side ----
+  function podGeometries() {
+    if (POD_GEO) return POD_GEO;
+    var P = P2.pod, L = P.length / 2, b = new Builder(), gl = new Builder(), ck = new Builder();
+    function sec(t) { return Math.pow(Math.max(0, Math.sin(Math.PI * Math.pow(t, 0.72))), 0.62); }   // the section's size along the cabin: 0 at both ends
+    function cabin(u, t) { var s = sec(t), cu = Math.cos(u), su = Math.sin(u); return [1.08 * s * cu, 1.34 + 0.1 * t + (su > 0 ? 0.9 : 0.6) * s * su, lerp(-L, L, t)]; }
+    // a bubble canopy over the front, down past the waist on both sides, so you can look down from the seat
+    var U0 = -0.38, U1 = Math.PI + 0.38, T0 = 0.42, T1 = 0.975, NU = 48, NV = 40;
+    function shell(B, u0, u1, t0, t1, nu, nv, inset, mat, g2) {
+      var n0 = B.count(), sgn = inset ? -1 : 1;
+      B.surf(nu, nv, function (i, j, q) { var u = lerp(u0, u1, i / nu), t = lerp(t0, t1, j / nv), p = cabin(u, t), k = 1 - inset; q.p[0] = p[0] * k; q.p[1] = 1.38 + (p[1] - 1.38) * k; q.p[2] = p[2] * (1 - inset * 0.3); q.f[0] = p[2] * 1.2; q.f[1] = u * 0.9; q.f2[0] = g2 || 0; q.m = mat; });
+      B.orient(n0, function (x, y, z) { return [sgn * x, sgn * (y - 1.4), sgn * z * 0.15]; });
+    }
+    // the white composite: the tail half, the nose's tip, the belly under the canopy round chin windows at your feet (as
+    // in a sightseeing helicopter, to look straight down); a dark lining inside them
+    var C0u = 1.5 * Math.PI - 0.72, C1u = 1.5 * Math.PI + 0.72, CT0 = lerp(T0, T1, 10 / NV), CT1 = lerp(T0, T1, 35 / NV);
+    shell(b, 0, 2 * Math.PI, 0, T0, NU, 16, 0, MT.COMPOSITE); shell(b, 0, 2 * Math.PI, T1, 1, NU, 3, 0, MT.COMPOSITE); shell(b, 0, 2 * Math.PI, 0.08, T0, NU, 12, 0.03, MT.FABRIC, 0);
+    [[U1, C0u, T0, T1, 3, NV], [C1u, 2 * Math.PI + U0, T0, T1, 3, NV], [C0u, C1u, T0, CT0, 9, 10], [C0u, C1u, CT1, T1, 9, 5]].forEach(function (e) {
+      shell(b, e[0], e[1], e[2], e[3], e[4], e[5], 0, MT.COMPOSITE); shell(b, e[0], e[1], e[2], e[3], e[4], e[5], 0.03, MT.FABRIC, 0);
+    });
+    // the canopy's glass and the chin windows, and their dark frames
+    gl.surf(30, 26, function (i, j, q) { var u = lerp(U0, U1, i / 30), t = lerp(T0, T1, j / 26), p = cabin(u, t); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    gl.surf(9, 25, function (i, j, q) { var u = lerp(C0u, C1u, i / 9), t = lerp(CT0, CT1, j / 25), p = cabin(u, t); q.p[0] = p[0]; q.p[1] = p[1]; q.p[2] = p[2]; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    gl.orient(0, function (x, y, z) { return [x, y - 1.4, z * 0.15]; });
+    function rim(u0, u1, t0, t1, n) { var pts = []; for (var k = 0; k <= n; k++) { var p = cabin(lerp(u0, u1, k / n), lerp(t0, t1, k / n)); pts.push(new THREE.Vector3(p[0] * 1.006, 1.38 + (p[1] - 1.38) * 1.006, p[2])); } tubeAlong(b, pts, 0.03, 6, MT.ANOD); }
+    rim(U0, U0, T0, T1, 14); rim(U1, U1, T0, T1, 14); rim(U0, U1, T0, T0, 24); rim(U0, U1, T1, T1, 16);
+    rim(C0u, C0u, CT0, CT1, 12); rim(C1u, C1u, CT0, CT1, 12); rim(C0u, C1u, CT0, CT0, 8); rim(C0u, C1u, CT1, CT1, 8);
+    b.box(-0.98, 0.42, -0.4, -0.62, 0.46, 0.4, MT.STEEL);                                                                                        // a step under the canopy's hinge side
+    // four ducts on arms: an airfoil ring, a motor pod on three spokes
+    P.rotors.forEach(function (rc) {
+      var x = rc[0], z = rc[1], y = 1.55, R = P.rotor_r;
+      latheOn(b, x, y - 0.24, z, [[R + 0.14, 0.0], [R + 0.19, 0.12], [R + 0.17, 0.32], [R + 0.08, 0.46], [R + 0.01, 0.42], [R - 0.01, 0.2], [R + 0.02, 0.02], [R + 0.14, 0.0]], 40, MT.COMPOSITE, 0.3);
+      latheOn(b, x, y - 0.2, z, [[0.0, 0.0], [0.16, 0.02], [0.18, 0.2], [0.13, 0.36], [0.0, 0.4]], 16, MT.ANOD, 0.5);
+      for (var k = 0; k < 3; k++) { var a = k / 3 * 2 * Math.PI + 0.5; tubeAlong(b, [new THREE.Vector3(x + 0.16 * Math.cos(a), y - 0.05, z + 0.16 * Math.sin(a)), new THREE.Vector3(x + (R + 0.05) * Math.cos(a), y - 0.05, z + (R + 0.05) * Math.sin(a))], 0.025, 5, MT.ANOD); }
+      var sx = Math.sign(x), x0 = sx * 0.85, y0 = 1.3 + 0.05 * Math.sign(z);
+      [[y0 + 0.1, 0.065], [y0 - 0.15, 0.05]].forEach(function (e) { tubeAlong(b, [new THREE.Vector3(x0, e[0], z * 0.7), new THREE.Vector3(x - sx * (R + 0.1), y - 0.02, z)], e[1], 12, MT.COMPOSITE); });
+    });
+    // skids on struts
+    [-1, 1].forEach(function (sx) {
+      var pts = [new THREE.Vector3(sx * 0.95, 0.32, -2.15), new THREE.Vector3(sx * 0.95, 0.06, -1.8)]; for (var k = 0; k <= 8; k++) pts.push(new THREE.Vector3(sx * 0.95, 0.05, lerp(-1.6, 1.7, k / 8)));
+      pts.push(new THREE.Vector3(sx * 0.95, 0.12, 2.05), new THREE.Vector3(sx * 0.95, 0.38, 2.3)); tubeAlong(b, pts, 0.045, 8, MT.ANOD);
+      [-1.1, 1.2].forEach(function (z) { tubeAlong(b, [new THREE.Vector3(sx * 0.95, 0.06, z), new THREE.Vector3(sx * 0.62, 0.78, z * 0.92)], 0.04, 6, MT.ANOD); });
+    });
+    // lights: brighter on the left duct, dimmer on the right, white at the tail; landing lights under the nose's tip, ahead of the chin windows
+    [[-P.rotors[0][0] - P.rotor_r - 0.2, 1.5, P.rotors[0][1], 3.4], [P.rotors[0][0] + P.rotor_r + 0.2, 1.5, P.rotors[0][1], 1.2], [0, 1.55, -L + 0.08, 1.8]].forEach(function (l) { b.geo(addF2(new THREE.SphereGeometry(0.05, 10, 8), l[3], 0), T(l[0], l[1], l[2]), MT.LIGHT, 1); });
+    [-0.13, 0.13].forEach(function (x) { b.geo(addF2(new THREE.CylinderGeometry(0.05, 0.05, 0.02, 12), 1.8, 0), T(x, 1.225, 2.52, 0.5, 0, 0), MT.LIGHT, 1); });
+    // what you see in the cockpit: the dashboard with its screens, the canopy's frame, the seat's edge
+    ck.box(-0.62, 1.12, 1.02, 0.62, 1.34, 1.38, MT.ANOD); ck.box(-0.6, 1.34, 1.06, 0.6, 1.37, 1.3, MT.FABRIC); ck.tag(ck.count() - 24, 0, null);
+    [["podPfd", -0.34], ["podMap", 0.0], ["podSys", 0.34]].forEach(function (e) {                                                              // three displays facing the seats
+      var x = e[1], uv = ATL[e[0]]; ck.box(x - 0.165, 1.125, 1.006, x + 0.165, 1.335, 1.02, MT.ANOD);
+      quadB(ck, new THREE.Vector3(x + 0.15, 1.14, 1.003), new THREE.Vector3(x - 0.15, 1.14, 1.003), new THREE.Vector3(x - 0.15, 1.32, 1.003), new THREE.Vector3(x + 0.15, 1.32, 1.003), [0, 0, -1], MT.SCREEN,
+        [[uv[0], uv[1]], [uv[2], uv[1]], [uv[2], uv[3]], [uv[0], uv[3]]], [1.0, 0]);
+    });
+    ck.box(-0.78, 0.9, -0.9, 0.78, 0.94, 0.42, MT.RUBBER);                                                                                      // the floor, up to the chin windows
+    // a hoop behind your head
+    var arc = []; for (var k2 = 0; k2 <= 16; k2++) { var p2 = cabin(Math.PI * (0.1 + 0.8 * k2 / 16), 0.47); arc.push(new THREE.Vector3(p2[0] * 0.97, 1.34 + (p2[1] - 1.34) * 0.97, p2[2])); } tubeAlong(ck, arc, 0.03, 6, MT.ANOD);
+    var rb = new Builder();                                                  // one rotor: three blades and a spinner
+    for (var k3 = 0; k3 < 3; k3++) { var a3 = k3 / 3 * 2 * Math.PI, cb = Math.cos(a3), sb = Math.sin(a3), nb = rb.count(); rb.box(0.12, -0.012, -0.09, P.rotor_r - 0.04, 0.012, 0.09, MT.ANOD);
+      for (var v = nb; v < rb.count(); v++) { var X = rb.p[v * 3], Z = rb.p[v * 3 + 2], Y = rb.p[v * 3 + 1] + Z * 0.12 * (1 - X / P.rotor_r); rb.p[v * 3] = X * cb - Z * sb; rb.p[v * 3 + 2] = X * sb + Z * cb; rb.p[v * 3 + 1] = Y; var NX = rb.n[v * 3], NZ = rb.n[v * 3 + 2]; rb.n[v * 3] = NX * cb - NZ * sb; rb.n[v * 3 + 2] = NX * sb + NZ * cb; } }
+    latheOn(rb, 0, -0.04, 0, [[0.0, 0.0], [0.13, 0.0], [0.12, 0.08], [0.0, 0.14]], 14, MT.COMPOSITE, 0.3);
+    function out(B) { var g = B.build(), n = g.attributes.position.count; g.attributes.aAO.array.fill(1); g.attributes.aSky.array.fill(1); return g; }
+    POD_GEO = { body: out(b), glass: out(gl), cockpit: out(ck), rotor: out(rb) };
+    return POD_GEO;
+  }
+  // a pod standing at (x, z) on the ground, its nose along the walker's yaw convention h (forward = (-sin h, -cos h))
+  function podMake(x, z, h) {
+    var G = podGeometries(), grp = new THREE.Group(), P = P2.pod;
+    var body = new THREE.Mesh(G.body, matMat); body.frustumCulled = false; grp.add(body);
+    var glass = [THREE.BackSide, THREE.FrontSide].map(function (side, i) { var m = new THREE.Mesh(G.glass, glassMat(side)); m.renderOrder = 14 + i; m.frustumCulled = false; grp.add(m); return m; });
+    var ck = new THREE.Mesh(G.cockpit, matMat); ck.visible = false; ck.frustumCulled = false; grp.add(ck);
+    var rotors = P.rotors.map(function (rc) { var m = new THREE.Mesh(G.rotor, matMat); m.position.set(rc[0], 1.6, rc[1]); m.frustumCulled = false; grp.add(m); return m; });
+    scene.add(grp);
+    var blob = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), podBlobMat()); blob.rotation.x = -Math.PI / 2; blob.renderOrder = 2; blob.frustumCulled = false; scene.add(blob);
+    var g0 = podGround(x, z), pod = { grp: grp, ck: ck, rotors: rotors, blob: blob, x: x, z: z, y: g0, h: h, vx: 0, vz: 0, vy: 0, bank: 0, tilt: 0, spin: 0, rpm: 0 };
+    podPose(pod); POD.list.push(pod); return pod;
+  }
+  function podPose(p, gnd) {
+    p.grp.position.set(p.x, p.y, p.z); p.grp.rotation.order = "YXZ"; p.grp.rotation.set(p.tilt, p.h + Math.PI, p.bank);
+    p.rotors.forEach(function (m, i) { m.rotation.y = p.spin * (i % 2 ? 1 : -1) + i; });
+    // a soft shadow on the ground under it, fading and spreading as it climbs
+    var g = gnd === undefined ? p.y : Math.max(gnd, Math.min(p.y, gnd + 0.15)), alt = Math.max(0, p.y - g), s = 7.4 + alt * 0.12;
+    p.blob.position.set(p.x, g + 0.04, p.z); p.blob.scale.set(s, s * 0.95, 1); p.blob.rotation.z = p.h; p.blob.material.opacity = 0.55 * Math.max(0, 1 - alt / 45);
+  }
+  var POD_BLOB = null;
+  function podBlobMat() {                                                    // a radial gradient, dark in the middle
+    if (!POD_BLOB) { var c = document.createElement("canvas"); c.width = c.height = 128; var g = c.getContext("2d"), gr = g.createRadialGradient(64, 64, 6, 64, 64, 62);
+      gr.addColorStop(0, "rgba(0,0,0,0.85)"); gr.addColorStop(0.45, "rgba(0,0,0,0.5)"); gr.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); POD_BLOB = new THREE.CanvasTexture(c); }
+    return new THREE.MeshBasicMaterial({ map: POD_BLOB, transparent: true, depthWrite: false, opacity: 0.55 });
+  }
+  // the pod stop by the airlock: a level concrete pad cut into the slope (the ground falls about 13 % across it), with a kerb
+  // that holds the ground back on the uphill side and runs flush round the rest, a dark landing surface, a painted ring and
+  // lights; built into the campus and baked with it. The ground is cut away under the pad; you stand on the pad and its kerb
+  // (podStopSupport), and the pod lands on it.
+  function podStop(B) {
+    var S = P2.courtyard.podstop, c = palXZ(S.lat, S.rad), R = S.r, L = groundAt(c.x, c.z, 0) + 0.06, RK = R + 0.12, RW = R + 0.35, NA = 96, KT = [];
+    p2Sector(S.lat, S.rad, 0, RK, -4, 4); p2CutApply();
+    for (var i = 0; i <= NA; i++) { var a0 = i / NA * 2 * Math.PI; KT.push(Math.max(L + 0.02, groundAt(c.x + (RW + 0.15) * Math.cos(a0), c.z + (RW + 0.15) * Math.sin(a0), L) + 0.06)); }
+    POD.stop = { x: c.x, z: c.z, y: L, rk: RK, rw: RW, kt: KT };
+    latheOn(B, c.x, L - 1.2, c.z, [[RK, 0.0], [RK, 1.17], [R + 0.08, 1.2], [0.0, 1.2]], 48, MT.CONCRETE, 0.5);
+    function kerb(r0, r1, y0, y1, up) {                              // one face of the kerb all the way round: y0, y1 are functions of the step
+      B.surf(NA, 1, function (i, j, q) { var a = i / NA * 2 * Math.PI, cs = Math.cos(a), sn = Math.sin(a), r = j ? r1 : r0; q.p[0] = c.x + r * cs; q.p[1] = j ? y1(i) : y0(i); q.p[2] = c.z + r * sn;
+        q.nn = up ? [0, 1, 0] : [(r0 < RW ? -1 : 1) * cs, 0, (r0 < RW ? -1 : 1) * sn]; q.f[0] = a * r; q.f[1] = q.p[1]; q.f2[0] = 0.5; q.m = MT.CONCRETE; });
+    }
+    function top(i) { return KT[i]; }
+    kerb(RK, RK, function () { return L - 0.03; }, top, false);       // its face to the pad
+    kerb(RK, RW, top, top, true);                                      // its top
+    kerb(RW, RW, function () { return L - 1.0; }, top, false);        // its back, down into the ground
+    B.geo(addF2(new THREE.CylinderGeometry(R - 0.2, R - 0.2, 0.006, 48), 0, 4), T(c.x, L + 0.003, c.z), MT.ANOD, 1);                    // the landing surface
+    latheOn(B, c.x, L + 0.0065, c.z, [[R - 0.55, 0.0], [R - 0.35, 0.0], [R - 0.35, 0.002], [R - 0.55, 0.002]], 48, MT.PLASTIC, 4);      // the painted ring
+    for (var k = 0; k < 16; k++) { var a = k / 16 * 2 * Math.PI, p = { x: c.x + (R - 0.08) * Math.cos(a), z: c.z + (R - 0.08) * Math.sin(a) };
+      B.geo(addF2(new THREE.CylinderGeometry(0.06, 0.06, 0.03, 10), 2.2, 0), T(p.x, L + 0.015, p.z), MT.LIGHT, 1); }
+    extLight(c.x, L + 2.4, c.z, WARMC, 1.2, 9, [0, -1, 0], 1);
+  }
+  function podStopSupport(x, z) {                                       // the height you stand at on the pad and its kerb
+    var S = POD.stop; if (!S) return undefined;
+    var dx = x - S.x, dz = z - S.z, d = Math.hypot(dx, dz); if (d >= S.rw) return undefined;
+    if (d < S.rk) return S.y + 0.006;
+    var a = Math.atan2(dz, dx); if (a < 0) a += 2 * Math.PI; var f = a / (2 * Math.PI) * (S.kt.length - 1), i = Math.floor(f);
+    return lerp(S.kt[i], S.kt[Math.min(i + 1, S.kt.length - 1)], f - i);
+  }
+  function podGround(x, z, y) { var s = podStopSupport(x, z); return s !== undefined ? s : groundAt(x, z, y === undefined ? 0 : y); }   // the ground under the pod
+  function podInit() {
+    var S = P2.courtyard.podstop, c = palXZ(S.lat, S.rad), h = Math.atan2(PAL.F.x, PAL.F.z) + S.heading * D2R;   // the nose toward the gateway
+    var p = podMake(c.x, c.z, h); p.y = POD.stop ? POD.stop.y : p.y; podPose(p);
+  }
+
+  // ---- how high the pod must stay: the ground, or the roof of whatever stands there ----
+  function podFloor(x, z) {
+    var g = podGround(x, z), top = g;
+    var o = palLoc(x, z, {}), r = o.r, yB = PALY.B;
+    if (r < PAL.ringOut + 0.5) top = Math.max(top, yB + PAL.beam + (PAL.H - PAL.beam) * Math.sqrt(Math.max(0, 1 - Math.pow(Math.min(r, PAL.R) / PAL.R, 2))) + 0.6);
+    if (o.rad > 22 && o.rad < PAL.vFront + 1.5 && Math.abs(o.lat) < 7) top = Math.max(top, yB + 8);   // the front vault and its door
+    if (o.rad > 31 && o.rad < 80 && Math.abs(o.lat) < 20.5) top = Math.max(top, yB + 7.8);             // the wings, the courtyard, the gateway
+    if (o.rad < 0 && WGD && r > PAL.ringOut && r < BACK.tr1 + 0.5) top = Math.max(top, (r < WGD.rOut ? wgY(Math.max(r, WGD.rIn)) : yB + 6.5) + 0.5);
+    if (CRS && o.rad < -20 && r > CRS.r0 - 1.5 && r < CRS.gal.r1 + 0.5 && Math.abs(Math.atan2(o.lat, -o.rad)) < CRS.a1 + 0.05) top = Math.max(top, CRS.yU + CRS.roofY + CRS.roofRise + 0.6);
+    var SC = P2.suncourt; if (Math.abs(o.lat - SC.lat) < SC.w / 2 + 1 && Math.abs(o.rad - SC.rad) < SC.d / 2 + 1) top = Math.max(top, SC.crown + 0.5);
+    COLL.rovers.forEach(function (rv) { if (Math.hypot(x - rv.x, z - rv.z) < 4.5) top = Math.max(top, g + 3.4); });
+    return top;
+  }
+  function podCanLand(x, z) {
+    var g = podGround(x, z); if (podFloor(x, z) > g + 0.3) return false;
+    for (var k = 0; k < 8; k++) { var a = k / 8 * 2 * Math.PI; if (Math.abs(podGround(x + 3.2 * Math.cos(a), z + 3.2 * Math.sin(a), g) - g) > P2.pod.land_slope * 3.2) return false; }
+    return true;
+  }
+
+  // ---- boarding, flying, landing ----
+  function podAction() {
+    if (POD.flying) { podLand(); return; }
+    if (POD.near) podBoard(POD.near);
+  }
+  function podBoard(p) {
+    POD.cur = p; POD.flying = true; POD.landing = false; POD.view = 0; p.vx = p.vz = 0; p.vy = 2.5; p.ck.visible = true;
+    yaw = p.h; pitch = -4 * D2R; setAuto(false); tween = null;
+    podHud();
+  }
+  function podLand() {
+    var p = POD.cur; if (!p || POD.landing) return;
+    if (p.y - podGround(p.x, p.z) > 80 || !podCanLand(p.x, p.z)) { showToast("Pod", "No room to land here", "Find open, level ground or a pad, below 80 m.", 3200); return; }
+    POD.landing = true;
+  }
+  function podExit() {
+    var p = POD.cur; POD.flying = false; POD.landing = false; POD.cur = null; p.ck.visible = false; p.vx = p.vz = p.vy = 0;
+    var ex = p.x + Math.cos(p.h) * 4.6, ez = p.z - Math.sin(p.h) * 4.6;     // step out on the right, by the canopy's step, clear of the rotors
+    var ps = campusSupport(ex, ez, p.y); px = ex; pz = ez; ground = ps === undefined || ps !== ps ? groundAt(ex, ez, p.y) : ps; py = ground + EYE; vx = vz = vy = 0; onGround = true;
+    yaw = Math.atan2(-(p.x - ex), -(p.z - ez)) + 0.6; pitch = -6 * D2R;
+    camera.near = 0.1; camera.updateProjectionMatrix();
+    podHud();
+  }
+  function podUpdate(dt, now) {
+    var p = POD.cur, P = P2.pod;
+    if (tween) { var tw = Math.min(1, (now - tween.t0) / tween.dur), kk = tw * tw * (3 - 2 * tw); yaw = tween.y0 + (tween.y1 - tween.y0) * kk; pitch = tween.p0 + (tween.p1 - tween.p0) * kk; if (tw >= 1) tween = null; }
+    var turn = (keys["arrowleft"] || keys["q"] || held === "left" ? 1 : 0) - (keys["arrowright"] || keys["e"] || held === "right" ? 1 : 0);
+    var tilt = (keys["arrowup"] || held === "up" ? 1 : 0) - (keys["arrowdown"] || held === "down" ? 1 : 0);
+    yaw += turn * dt * 1.0; pitch += tilt * dt * 0.7; clampPitch();
+    var fwd = (keys["w"] || walkHeld ? 1 : 0) - (keys["s"] ? 1 : 0), side = (keys["d"] ? 1 : 0) - (keys["a"] ? 1 : 0), jm = 1;
+    if (joyActive) { jm = Math.min(1, Math.hypot(joyX, joyY)); if (jm > 0.12) { fwd = -joyY / jm; side = joyX / jm; } else { fwd = side = 0; } }
+    var climb = (keys[" "] || POD.up ? 1 : 0) - (keys["shift"] || POD.down ? 1 : 0);
+    var gnd = podGround(p.x, p.z, p.y), alt = p.y - gnd, vmax = clamp(9 + alt * 0.2, 9, P.top_speed);
+    var tx = 0, tz = 0;
+    if (!POD.landing && (fwd || side)) { var fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw), len = Math.hypot(fwd, side); tx = (fx * fwd + rx * side) / len * vmax * Math.min(1, jm); tz = (fz * fwd + rz * side) / len * vmax * Math.min(1, jm); }
+    var vyT = POD.landing ? -clamp(alt * 0.6, 0.6, 4.0) : climb * P.climb;
+    p.vx += (tx - p.vx) * Math.min(1, dt * 0.9); p.vz += (tz - p.vz) * Math.min(1, dt * 0.9); p.vy += (vyT - p.vy) * Math.min(1, dt * 2.2);
+    var nx = p.x + p.vx * dt, nz = p.z + p.vz * dt, ny = p.y + p.vy * dt, rr = Math.hypot(nx, nz);
+    if (rr > MAXR) { nx *= MAXR / rr; nz *= MAXR / rr; }
+    var flHere = podFloor(p.x, p.z), fl = podFloor(nx, nz);
+    if (!POD.landing) {
+      if (fl > flHere + 0.8 && fl + 0.5 > p.y) { nx = p.x; nz = p.z; p.vx *= 0.2; p.vz *= 0.2; fl = flHere; }   // a wall or a roof's edge ahead: stop short
+      if (ny < fl + P.min_clear) { p.vy = Math.max(p.vy, 3.0 * Math.min(1, fl + P.min_clear - ny)); ny = Math.max(ny, fl + 0.05); }   // too low: rise gently
+      if (ny > gnd + P.ceiling) { ny = gnd + P.ceiling; p.vy = Math.min(0, p.vy); }
+    } else if (ny <= podGround(nx, nz, ny)) { p.x = nx; p.z = nz; p.y = podGround(nx, nz, ny); p.bank = p.tilt = 0; podPose(p); podExit(); return; }
+    p.x = nx; p.z = nz; p.y = ny;
+    // the pod turns toward where you look, banks into the turn and dips its nose as it speeds up
+    var dh = Math.atan2(Math.sin(yaw - p.h), Math.cos(yaw - p.h)); p.h += dh * Math.min(1, dt * 1.6);
+    var fwdV = -(p.vx * Math.sin(p.h) + p.vz * Math.cos(p.h)), sideV = p.vx * Math.cos(p.h) - p.vz * Math.sin(p.h);
+    p.bank += (clamp(-dh * 0.6 - sideV * 0.012, -0.35, 0.35) - p.bank) * Math.min(1, dt * 2.0);
+    p.tilt += (clamp(-fwdV * 0.006, -0.2, 0.2) - p.tilt) * Math.min(1, dt * 1.5);
+    p.rpm += ((POD.landing && alt < 0.6 ? 0.3 : 1.0) - p.rpm) * Math.min(1, dt * 1.5); p.spin += dt * 38 * p.rpm;
+    podPose(p, podGround(p.x, p.z, p.y));
+    // the camera: in the right seat, or behind and above
+    p.grp.updateMatrixWorld(true);
+    if (POD.view === 0) {
+      POD.eye.set(-0.3, 2.02, 0.5).applyMatrix4(p.grp.matrixWorld); camera.position.copy(POD.eye);
+      var nr = Math.min(0.32, Math.max(0.1, alt / 100)); if (Math.abs(camera.near - nr) > 0.02) { camera.near = nr; camera.updateProjectionMatrix(); }
+    } else {
+      var dist = 13 + Math.min(20, alt * 0.05), cp = Math.cos(pitch);
+      camera.position.set(p.x + Math.sin(yaw) * cp * dist, p.y + 2.2 - Math.sin(pitch) * dist, p.z + Math.cos(yaw) * cp * dist);
+      var cg = podGround(camera.position.x, camera.position.z) + 1.0; if (camera.position.y < cg) camera.position.y = cg;
+      var nr2 = clamp(alt / 30, 0.2, 3); if (Math.abs(camera.near - nr2) > 0.05) { camera.near = nr2; camera.updateProjectionMatrix(); }
+    }
+    px = p.x; pz = p.z; ground = gnd; py = camera.position.y;
+    camera.rotation.set(pitch, yaw, 0);
+  }
+  // each frame while walking: the pods' rotors idle, and is one near enough to board?
+  function podIdle(dt) {
+    var near = null;
+    POD.list.forEach(function (p) { if (p === POD.cur) return; if (p.rpm > 0.001) { p.rpm *= Math.exp(-dt * 0.8); p.spin += dt * 38 * p.rpm; podPose(p); } if (Math.hypot(px - p.x, pz - p.z) < 5.0 && Math.abs(py - EYE - p.y) < 2.5) near = p; });
+    if (near !== POD.near) { POD.near = near; podHud(); }
+  }
+  function podHud() {
+    var bar = $("podbar"); if (!bar) return;
+    bar.hidden = !(POD.flying || POD.near);
+    $("podBoard").hidden = !!POD.flying; $("podFly").hidden = !POD.flying;
+    $("podHint").innerHTML = POD.flying ? "<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> fly · <kbd>Space</kbd> up · <kbd>Shift</kbd> down · <kbd>V</kbd> view · <kbd>F</kbd> land" : "<kbd>F</kbd> board the pod";
+    document.body.classList.toggle("in-pod", !!POD.flying);
   }
 
   /* ===================== Baked light: quick pass now, shadows and occlusion traced in a worker ===================== */
@@ -4557,7 +4917,7 @@
     PLAZA.c = palXZ(0, 88);
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(), W = new Builder(), D = new Builder();
-    campusExterior(B); backDoor(B); backTerrace(B); crescentBuild(B, W); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
+    campusExterior(B); backDoor(B); backTerrace(B); crescentBuild(B, W); winterGarden(B); podStop(B); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings);
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
@@ -4585,11 +4945,12 @@
     envIn.pos.set(PAL.c.x, PALY.B + 2.0, PAL.c.z);
     var wp = wingXZ(1, 3.0, 43); envW.pos.set(wp.x, wingFloor(1, 43) + 1.6, wp.z);
     var cp = palXZ(0, 56); envOut.pos.set(cp.x, cgH(cp.x, cp.z) + 2.0, cp.z);
+    podInit();                                                          // the pod waiting at the pod stop
   }
   // doors open as you come near; reflections refresh as the sky changes
   function campusUpdate(time, dt) {
     for (var i = 0; i < DOORS.length; i++) {
-      var d = DOORS[i], dist = Math.hypot(px - d.c.x, pz - d.c.z), tgt = dist < 3.4 ? 1 : 0;
+      var d = DOORS[i], dist = Math.hypot(px - d.c.x, pz - d.c.z), tgt = dist < 3.4 && !POD.flying ? 1 : 0;
       if (Math.abs(tgt - d.open) < 1e-3 && d.set) continue;
       d.open += (tgt - d.open) * Math.min(1, dt * 3.5); d.set = true;
       d.leaves.forEach(function (lf) { var o = lf.side * d.open * 1.16, x = d.dir.x * o, z = d.dir.z * o; [lf.fm].concat(lf.gm).forEach(function (m) { m.matrix.makeTranslation(x, 0, z); m.matrixWorldNeedsUpdate = true; }); });
@@ -4605,7 +4966,7 @@
     }
     return false;
   }
-  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; var c = crescentSupport(x, z, yf); if (c !== undefined) return c; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
+  function campusSupport(x, z, yf) { var ps = podStopSupport(x, z); if (ps !== undefined) return ps; var w = wingSupport(x, z, yf); if (w !== undefined) return w; var c = crescentSupport(x, z, yf); if (c !== undefined) return c; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
   function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z), backInside(x, z), crescentInside(x, z)); }
   /*@@CAMPUS_END@@*/
   /* ===================== Footprints trail toward the campus ===================== */
@@ -4858,7 +5219,7 @@
     g.boundingSphere = new THREE.Sphere(); g.boundingBox.getBoundingSphere(g.boundingSphere);
     realBox.union(g.boundingBox); realPositions.push(P);
     return decodeImage(new Uint8Array(buf, t.o[4][0], t.o[4][1])).then(function (img) {
-      tileImgs.push({ img: img, lvl: t.lvl });
+      tileImgs.push({ img: img, lvl: t.lvl, box: g.boundingBox });
       var mat = new THREE.ShaderMaterial({ uniforms: withMap(makeTex(img, maxAniso)), side: THREE.DoubleSide, vertexShader: TERRAIN_VS, fragmentShader: TERRAIN_FS });
       var mesh = new THREE.Mesh(g, mat);
       mesh.matrixAutoUpdate = false; mesh.userData.box = g.boundingBox;
@@ -4891,7 +5252,7 @@
   /* ===================== Simulated surroundings ===================== */
   var X0, X1, Z0, Z1, GN = 140, GEXT = 140, gAvg, gMin3;
   function buildGrids() {
-    X0 = realBox.min.x + 0.5; X1 = realBox.max.x - 0.5; Z0 = realBox.min.z + 0.5; Z1 = realBox.max.z - 0.5;
+    X0 = realBox.min.x + 0.5; X1 = realBox.max.x - 0.5; Z0 = realBox.min.z + 0.5; Z1 = realBox.max.z - 0.5; U.uRealBox.value.set(X0, X1, Z0, Z1);
     var n = GN, N2 = n * n, sum = new Float32Array(N2), cnt = new Uint16Array(N2), mn = new Float32Array(N2).fill(1e9);
     realPositions.forEach(function (P) {
       for (var i = 0; i < P.length; i += 3) {
@@ -4979,7 +5340,7 @@
     var hf = hFarRaw(x, z) - H0;
     return he + (hf - he) * smoothstep(0, 150, dOut);
   }
-  var RINGS, RA = MOBILE ? 720 : 900, FARH, farMesh = null, C0 = [0.62, 0.5, 0.38];
+  var RINGS, RA = MOBILE ? 720 : 900, FARH, farMesh = null, C0 = [0.62, 0.5, 0.38], TERR_INFO = null;
   function farColor(x, z, h, ny) {
     var slope = 1 - ny;
     var n1 = fbm(x * 0.0026, z * 0.0026, 3, 71), n2 = fbm(x * 0.03, z * 0.03, 2, 73);
@@ -5039,6 +5400,17 @@
     if (!coarse.length) coarse = tileImgs; if (!fine.length) fine = tileImgs;
     var m = [0, 0, 0]; coarse.slice(0, 40).forEach(function (t) { var c = meanRGB(t.img); m[0] += c[0]; m[1] += c[1]; m[2] += c[2]; });
     var nc = Math.min(40, coarse.length); C0 = [m[0] / nc, m[1] / nc, m[2] / nc];
+    // the real map is darker and greyer than the land made up round it: the made-up land takes the colour of the map's
+    // edge where they meet and its own colour 260 m out (FAR_FS), so no square shows from the air. KF: how much brighter
+    // the made-up land renders than its base colour C0 (measured from the pod, 100 to 400 m up, against the map's edge)
+    var em = [0, 0, 0], ew = 0, KF = [1.26, 1.23, 1.17];
+    tileImgs.forEach(function (t) {
+      var b = t.box; if (!b || Math.min(b.min.x - realBox.min.x, realBox.max.x - b.max.x, b.min.z - realBox.min.z, realBox.max.z - b.max.z) > 6) return;
+      var c = meanRGB(t.img), w = (b.max.x - b.min.x) * (b.max.z - b.min.z); em[0] += c[0] * w; em[1] += c[1] * w; em[2] += c[2] * w; ew += w;
+    });
+    if (ew > 0) U.uRealTint.value.set(clamp(Math.pow(em[0] / ew / (C0[0] * KF[0]), 2.2), 0.4, 1.3), clamp(Math.pow(em[1] / ew / (C0[1] * KF[1]), 2.2), 0.4, 1.3), clamp(Math.pow(em[2] / ew / (C0[2] * KF[2]), 2.2), 0.4, 1.3));
+    TERR_INFO = { C0: C0, edge: ew > 0 ? [em[0] / ew, em[1] / ew, em[2] / ew] : null, tint: U.uRealTint.value.toArray(), box: [realBox.min.x, realBox.max.x, realBox.min.z, realBox.max.z],
+      lv: tileImgs.reduce(function (o, t) { var k = "l" + t.lvl; o[k] = (o[k] || 0) + 1; return o; }, {}) };
     var synthC = buildSynth(coarse, 1024, 340, 0.85, 120, 7), synthF = buildSynth(fine, 1024, 300, 0.7, 150, 11);
     var mc = meanRGB(synthC), mf = meanRGB(synthF);
     U.uSynthC.value = canvasTex(synthC); U.uSynthMeanC.value.fromArray(mc);
@@ -5366,6 +5738,13 @@
     w.addEventListener("pointerdown", start); w.addEventListener("pointerup", stop); w.addEventListener("pointerleave", stop); w.addEventListener("pointercancel", stop);
     w.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") start(e); }); w.addEventListener("keyup", stop); w.addEventListener("blur", stop);
   })();
+  (function () {
+    function hold(id, key) { var el = $(id); if (!el) return; el.addEventListener("pointerdown", function (e) { e.preventDefault(); POD[key] = true; el.setPointerCapture(e.pointerId); });
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (ev) { el.addEventListener(ev, function () { POD[key] = false; }); }); }
+    hold("podUp", "up"); hold("podDown", "down");
+    $("podBoard").addEventListener("click", function () { podAction(); }); $("podLand").addEventListener("click", function () { podLand(); });
+    $("podView").addEventListener("click", function () { POD.view = 1 - POD.view; if (POD.cur) POD.cur.ck.visible = POD.view === 0; });
+  })();
   $$(".js-jump").forEach(function (b) { b.addEventListener("pointerdown", function (e) { e.preventDefault(); jumpQueued = true; }); b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") jumpQueued = true; }); });
   $$(".js-sunbtn").forEach(function (b) { b.addEventListener("click", function () { setAuto(false); faceSun(false); }); });
   $$(".js-auto").forEach(function (b) { b.addEventListener("click", function () { setAuto(!autoRotate); tween = null; }); });
@@ -5384,7 +5763,9 @@
     if (e.target && e.target.tagName === "INPUT" && e.target.type !== "range") return;
     var k = e.key.toLowerCase();
     if (["1", "2", "3", "4", "5"].indexOf(k) >= 0) { setScene(ORDER[+k - 1]); return; }
-    if (k === " ") { e.preventDefault(); jumpQueued = true; return; }
+    if (k === " ") { e.preventDefault(); if (POD.flying) { keys[" "] = true; return; } jumpQueued = true; return; }
+    if (k === "f") { podAction(); return; }
+    if (k === "v" && POD.flying) { POD.view = 1 - POD.view; if (POD.cur) POD.cur.ck.visible = POD.view === 0; return; }
     if (k === "p") { togglePlay(); return; }
     if (k === "m") { setSound(!soundOn); return; }
     if (k === "+" || k === "=") { setFov(fov / 1.25); return; }
@@ -5560,7 +5941,7 @@
     stepTransition(now);
     if (playing) { tMin += dt * 4; if (tMin >= 95) { tMin = 95; playing = false; syncPlay(); } applyState(state); updateTimeUI(); }
     if (!to) { var a = 1 - Math.exp(-dt * 2.5); exposure = Math.exp(Math.log(exposure) + (Math.log(exposureTarget) - Math.log(exposure)) * a); }
-    var palK = palInside(px, pz), inK = campusInside(px, pz); palKs += (palK - palKs) * (1 - Math.exp(-dt * 2.2)); inKs += (inK - inKs) * (1 - Math.exp(-dt * 2.2));
+    var palK = POD.flying ? 0 : palInside(px, pz), inK = POD.flying ? 0 : campusInside(px, pz); palKs += (palK - palKs) * (1 - Math.exp(-dt * 2.2)); inKs += (inK - inKs) * (1 - Math.exp(-dt * 2.2));
     // near the palace its lights set the exposure too, so a lit palace at night glows instead of washing out
     var nearK = 1 - smoothstep(45, 130, Math.hypot(px - PAL.c.x, pz - PAL.c.z)), expOut = Math.exp(lerp(Math.log(exposure), Math.log(Math.min(exposure, 6.5)), nearK));
     U.uExposure.value = inKs > 0.001 ? Math.exp(lerp(Math.log(expOut), Math.log(interiorExposure()), inKs)) : expOut;
@@ -5573,7 +5954,7 @@
     U.uCloudOff.value.set(WIND_DIR.x * cloudT, WIND_DIR.y * cloudT);
     var ws = 0.8 + 7 * state.wind * state.wind;
     U.uWindV.value.set(-WIND_DIR.x * ws, 0.05 * ws, -WIND_DIR.y * ws);
-    updateViewer(dt, now);
+    if (POD.flying) podUpdate(dt, now); else { updateViewer(dt, now); if (loaded) podIdle(dt); }
     campusUpdate(time, dt);
     palUpdate(time);
     var wSide = wingAt(px, pz);
@@ -5658,6 +6039,14 @@
       keys = was; var o2 = palLoc(px, pz, {}); out.push([+o2.lat.toFixed(2), +o2.rad.toFixed(2), +o2.r.toFixed(2), +(o2.th * R2D).toFixed(1), +ground.toFixed(2)]); return out;
     },
     palBrg: function (lat, rad) { var p = palXZ(lat, rad); return Math.atan2(p.x - px, -(p.z - pz)) * R2D; },
+    pod: function (cmd, a) {                                                 // tests: board, fly with keys for a while, land, read the state
+      if (cmd === "board") { var p = POD.list[0]; px = p.x + 3; pz = p.z; podBoard(p); }
+      if (cmd === "keys") { keys = {}; (a || []).forEach(function (k) { keys[k] = true; }); }
+      if (cmd === "run") { for (var i = 0, n = Math.round(a * 30); i < n; i++) { if (POD.flying) podUpdate(1 / 30, 0); else { updateViewer(1 / 30, 0); podIdle(1 / 30); } } }
+      if (cmd === "land") podLand();
+      if (cmd === "view") { POD.view = a; if (POD.cur) POD.cur.ck.visible = a === 0; }
+      var c = POD.cur || POD.list[0]; return c ? { flying: POD.flying, landing: POD.landing, x: +c.x.toFixed(2), z: +c.z.toFixed(2), y: +c.y.toFixed(2), h: +(c.h * R2D).toFixed(1), alt: +(c.y - groundAt(c.x, c.z, 0)).toFixed(2), px: +px.toFixed(2), pz: +pz.toFixed(2) } : null;
+    },
     palGo: function (lat, rad, level) { var p = palXZ(lat, rad); this.go(p.x, p.z, level === "F" ? PALY.F : level === "B" ? PALY.B : undefined); },
     setKey: function (k) { INT_KEY = k; },
     _eval: function (code) { return eval(code); }

@@ -241,7 +241,8 @@
     vest: [0, 0, 1536, 512], signR: [1536, 0, 512, 256], signL: [1536, 256, 512, 256],
     glyph: [0, 520, 1536, 128], plaque: [0, 656, 1280, 128], gate: [0, 792, 1536, 112],
     wb: [0, 912, 1024, 362], scrLab: [1032, 912, 768, 432], code0: [0, 1282, 336, 189], code1: [344, 1282, 336, 189], code2: [688, 1282, 336, 189],
-    scrLobby: [1032, 1352, 768, 432], menu: [0, 1480, 1016, 300], scrSem: [0, 1788, 344, 194], books: [352, 1788, 1696, 190], plates: [0, 1984, 2048, 64]
+    scrLobby: [1032, 1352, 768, 432], menu: [0, 1480, 1016, 300], scrSem: [0, 1788, 344, 194], books: [352, 1788, 1696, 190], plates: [0, 1984, 2048, 64],
+    podPfd: [1536, 520, 256, 154], podMap: [1792, 520, 256, 154], podSys: [1536, 682, 256, 154]
   };
   var ATL = {};
   Object.keys(ATL_PX).forEach(function (k) { var r = ATL_PX[k]; ATL[k] = [r[0] / ATL_N, 1 - (r[1] + r[3]) / ATL_N, (r[0] + r[2]) / ATL_N, 1 - r[1] / ATL_N]; });
@@ -368,6 +369,53 @@
     lines.forEach(function (l, i) { g.fillStyle = i ? "#d6dbe1" : "#ffffff"; g.font = (i ? "" : "600 ") + Math.round(H * (i ? 0.1 : 0.13)) + "px " + SANS; g.fillText(l, W * 0.08, H * (0.24 + i * 0.16)); });
     g.restore();
   }
+  // the pod's three displays: flight (attitude, speed, height, heading), the map of the campus, the craft's systems
+  function drawPodScreens(g, R) {
+    function screen(r, draw) { g.save(); g.translate(r[0], r[1]); g.beginPath(); g.rect(0, 0, r[2], r[3]); g.clip(); g.fillStyle = "#0a0c0f"; g.fillRect(0, 0, r[2], r[3]); draw(r[2], r[3]); g.restore(); }
+    screen(R.podPfd, function (W, H) {
+      var cx = W / 2, cy = H / 2;
+      g.save(); g.beginPath(); g.rect(W * 0.2, 8, W * 0.6, H - 16); g.clip(); g.translate(cx, cy + 7); g.rotate(-0.07);
+      g.fillStyle = "#b98457"; g.fillRect(-W, -H * 2, W * 2, H * 2); g.fillStyle = "#5e3420"; g.fillRect(-W, 0, W * 2, H * 2);
+      g.strokeStyle = "#ffffff"; g.lineWidth = 1.6; g.beginPath(); g.moveTo(-W, 0); g.lineTo(W, 0); g.stroke(); g.lineWidth = 1.2;
+      for (var k = -3; k <= 3; k++) if (k) { var w = k % 2 ? 9 : 18; g.beginPath(); g.moveTo(-w, -k * 12); g.lineTo(w, -k * 12); g.stroke(); }
+      g.restore();
+      g.strokeStyle = "#f2c230"; g.lineWidth = 3; g.beginPath(); g.moveTo(cx - 34, cy); g.lineTo(cx - 12, cy); g.lineTo(cx - 6, cy + 6); g.moveTo(cx + 34, cy); g.lineTo(cx + 12, cy); g.lineTo(cx + 6, cy + 6); g.stroke();
+      g.fillStyle = "rgba(24,28,34,0.92)"; g.fillRect(3, 8, W * 0.17, H - 16); g.fillRect(W * 0.83 - 3, 8, W * 0.17, H - 16);
+      g.font = "600 11px " + MONO; g.textAlign = "center"; g.textBaseline = "middle";
+      for (var j = -2; j <= 2; j++) { g.fillStyle = "#b9c0c9"; g.fillText(String(24 + j * 10 > 0 ? 24 + j * 10 : 0), 3 + W * 0.085, cy - j * 26); g.fillText(String(120 + j * 20), W * 0.915 - 3, cy - j * 26); }
+      g.fillStyle = "#000"; g.strokeStyle = "#ffffff"; g.lineWidth = 1.2; g.fillRect(2, cy - 9, W * 0.19, 18); g.strokeRect(2, cy - 9, W * 0.19, 18); g.fillRect(W * 0.81 - 2, cy - 9, W * 0.19, 18); g.strokeRect(W * 0.81 - 2, cy - 9, W * 0.19, 18);
+      g.font = "700 13px " + MONO; g.fillStyle = "#55e07a"; g.fillText("24", 2 + W * 0.095, cy + 1); g.fillText("120", W * 0.905 - 2, cy + 1);
+      g.font = "600 10px " + MONO; g.fillStyle = "#8fd3ff"; g.fillText("m/s", 3 + W * 0.085, 18); g.fillText("m", W * 0.915 - 3, 18);
+      g.fillStyle = "rgba(24,28,34,0.92)"; g.fillRect(cx - 26, H - 20, 52, 16); g.fillStyle = "#ffffff"; g.font = "700 12px " + MONO; g.fillText("012°", cx, H - 12);
+    });
+    screen(R.podMap, function (W, H) {
+      g.fillStyle = "#101a22"; g.fillRect(0, 0, W, H);
+      g.strokeStyle = "rgba(120,160,190,0.25)"; g.lineWidth = 1;
+      for (var k = 0; k < 5; k++) { g.beginPath(); g.ellipse(W * 0.3, H * 0.75, 40 + k * 26, 22 + k * 15, 0.3, 0, 2 * Math.PI); g.stroke(); }
+      var cx = W * 0.55, cy = H * 0.52, s = 0.55;
+      g.strokeStyle = "#d9dde2"; g.lineWidth = 2; g.beginPath(); g.arc(cx, cy, 28 * s, 0, 2 * Math.PI); g.stroke();
+      g.lineWidth = 6; g.strokeStyle = "#8a96a3"; g.beginPath(); g.arc(cx, cy, 54 * s, Math.PI * 0.21, Math.PI * 0.79); g.stroke();
+      g.lineWidth = 1.5; g.strokeStyle = "#7ec8e3"; g.beginPath(); g.arc(cx, cy, 38 * s, Math.PI * 0.22, Math.PI * 0.78); g.stroke();
+      g.strokeStyle = "#8a96a3"; g.lineWidth = 5; g.beginPath(); g.moveTo(cx - 14, cy - 20 * s); g.lineTo(cx - 24, cy - 78 * s); g.moveTo(cx + 14, cy - 20 * s); g.lineTo(cx + 24, cy - 78 * s); g.stroke();
+      g.fillStyle = "#f2c230"; g.beginPath(); g.moveTo(cx - 40, cy - 64); g.lineTo(cx - 46, cy - 50); g.lineTo(cx - 34, cy - 50); g.closePath(); g.fill();
+      g.strokeStyle = "rgba(242,194,48,0.6)"; g.setLineDash([3, 3]); g.beginPath(); g.moveTo(cx - 40, cy - 57); g.lineTo(cx - 6, cy - 10); g.stroke(); g.setLineDash([]);
+      g.fillStyle = "#e6e9ee"; g.font = "600 10px " + SANS; g.textAlign = "left"; g.textBaseline = "alphabetic"; g.fillText("TTMath campus", 8, 16); g.fillStyle = "#8fa3b8"; g.fillText("N ↑", W - 28, 16);
+      g.strokeStyle = "#e6e9ee"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(8, H - 10); g.lineTo(48, H - 10); g.moveTo(8, H - 14); g.lineTo(8, H - 6); g.moveTo(48, H - 14); g.lineTo(48, H - 6); g.stroke(); g.fillText("100 m", 54, H - 6);
+    });
+    screen(R.podSys, function (W, H) {
+      g.textBaseline = "middle";
+      [[36, 34], [92, 34], [36, 86], [92, 86]].forEach(function (p, i) {
+        g.strokeStyle = "#2a3440"; g.lineWidth = 5; g.beginPath(); g.arc(p[0], p[1], 19, 0.75 * Math.PI, 2.25 * Math.PI); g.stroke();
+        g.strokeStyle = "#55e07a"; g.beginPath(); g.arc(p[0], p[1], 19, 0.75 * Math.PI, (0.75 + 1.5 * [0.86, 0.88, 0.85, 0.87][i]) * Math.PI); g.stroke();
+        g.fillStyle = "#e6e9ee"; g.font = "700 10px " + MONO; g.textAlign = "center"; g.fillText(["86", "88", "85", "87"][i], p[0], p[1]);
+      });
+      g.font = "600 9px " + MONO; g.fillStyle = "#8fa3b8"; g.textAlign = "center"; g.fillText("ROTOR %", 64, 118);
+      g.textAlign = "left"; g.font = "600 11px " + MONO;
+      [["BATTERY", "86 %", "#55e07a"], ["RANGE", "48 km", "#e6e9ee"], ["CABIN", "1.00 bar", "#e6e9ee"], ["", "21 °C", "#e6e9ee"], ["OUTSIDE", "−63 °C", "#8fd3ff"], ["", "6.1 mbar", "#8fd3ff"]].forEach(function (r, i) {
+        g.fillStyle = "#8fa3b8"; g.fillText(r[0], 130, 18 + i * 21); g.fillStyle = r[2]; g.textAlign = "right"; g.fillText(r[1], W - 8, 18 + i * 21); g.textAlign = "left"; });
+      g.fillStyle = "#1d2630"; g.fillRect(130, H - 14, W - 138, 6); g.fillStyle = "#55e07a"; g.fillRect(130, H - 14, (W - 138) * 0.86, 6);
+    });
+  }
   function campusAtlas() {
     var cv = mkCanvas(ATL_N, ATL_N), g = cv.getContext("2d"), R = ATL_PX;
     // welcome panels and glyphs and plaques from the palace art
@@ -379,7 +427,7 @@
     g.save(); g.translate(R.wb[0], R.wb[1]); drawWhiteboard(g, R.wb[2], R.wb[3]); g.restore();
     slide(g, R.scrLab[0], R.scrLab[1], R.scrLab[2], R.scrLab[3], "Today: simulate an orbit", ["1. Newton's law of gravity: F = GMm / r²", "2. Step the position every second", "3. Plot it: an ellipse appears", "4. Check Kepler: T² ∝ a³"], orbitPic);
     [0, 1, 2].forEach(function (k) { var r = R["code" + k]; drawCode(g, r[0], r[1], r[2], r[3], CODE[k]); });
-    drawLobby(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]);
+    drawLobby(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]); drawPodScreens(g, R);
     slide(g, R.scrSem[0], R.scrSem[1], R.scrSem[2], R.scrSem[3], "Kepler's laws", ["Orbits are ellipses", "Equal areas in equal times", "T² ∝ a³"], orbitPic);
     g.save(); g.translate(R.menu[0], R.menu[1]); drawMenu(g, R.menu[2], R.menu[3]); g.restore();
     drawBooks(g, R.books[0], R.books[1], R.books[2], R.books[3]);

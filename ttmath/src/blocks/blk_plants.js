@@ -192,7 +192,14 @@
   }
   // a stem, a cane or a trunk: g.y = -1 makes the LEAF material draw bark (tint 0) or a green stem (tint 1)
   function stem(b, pts, r, tint) { var n0 = b.count(); tubeAlong(b, pts, r, 7, MT.LEAF, tint); b.tag(n0, tint, -1); }
+  // plants set into a bed (a planter's soil) are built without their pots: POT_H is each kind's pot height, its soil line
+  // at 0.94 of it, which bedPlant puts on the bed's soil
+  var POT_H = { fig: 0.46, monstera: 0.42, snake: 0.34, kentia: 0.5, olive: 0.55, ficus: 0.42, fern: 0.3, maple: 0.42, croton: 0.34, anthurium: 0.2, orchid: 0.16, strelitzia: 0.45, agave: 0.24, bromeliad: 0.17, pothos: 0.16 }, POT_SKIP = false;
+  function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
+    B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+  }
   function pot(b, kind, r, h) {
+    if (POT_SKIP) return h * 0.94;
     // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass
     var prof = kind === 1 ? [[r * 0.72, 0], [r * 0.8, h * 0.08], [r, h * 0.88], [r * 1.06, h * 0.9], [r * 1.06, h], [r * 0.95, h]]
       : kind === 2 ? [[r * 0.94, 0], [r, h * 0.04], [r, h], [r * 0.93, h]] : [[r * 0.7, 0], [r * 0.82, h * 0.06], [r, h * 0.55], [r * 0.98, h * 0.95], [r * 0.94, h], [r * 0.88, h]];
@@ -203,7 +210,7 @@
   }
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
-  function plantBuilder(kind, seed) { return furn("plant_" + kind + "_" + seed, function (b) {
+  function plantBuilder(kind, seed, bed) { POT_SKIP = !!bed; var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
       var top = pot(b, 0, 0.24, 0.46), H = 1.55 + 0.35 * R(), tr = [v3(0, top - 0.05, 0)];
@@ -261,9 +268,9 @@
         leafCard(b, c6, d6, u6, 0.26 + 0.08 * R(), 0.18, 0.4, 0.05, LEAF_CELLS.ficus, R(), 0.8);
       }
     } else if (kind === "fern") {                            // Boston fern on a stand: arching fronds, about 0.9 m
-      var top7 = pot(b, 1, 0.2, 0.3), stand = b.count(); latheOn(b, 0, -0.03, 0, [[0.0, 0], [0.24, 0], [0.24, 0.03], [0.0, 0.03]], 24, MT.WOOD);
-      for (var lg = 0; lg < 3; lg++) { var la = lg / 3 * Math.PI * 2; tubeAlong(b, [v3(Math.cos(la) * 0.16, -0.03, Math.sin(la) * 0.16), v3(Math.cos(la) * 0.22, -0.5, Math.sin(la) * 0.22)], 0.014, 6, MT.WOOD, 0); }
-      b.tag(stand, null, 2);
+      var top7 = pot(b, 1, 0.2, 0.3), stand = b.count(); if (!POT_SKIP) latheOn(b, 0, -0.03, 0, [[0.0, 0], [0.24, 0], [0.24, 0.03], [0.0, 0.03]], 24, MT.WOOD);
+      for (var lg = 0; lg < (POT_SKIP ? 0 : 3); lg++) { var la = lg / 3 * Math.PI * 2; tubeAlong(b, [v3(Math.cos(la) * 0.16, -0.03, Math.sin(la) * 0.16), v3(Math.cos(la) * 0.22, -0.5, Math.sin(la) * 0.22)], 0.014, 6, MT.WOOD, 0); }
+      if (b.count() > stand) b.tag(stand, null, 2);
       for (k = 0; k < 26; k++) { a = R() * Math.PI * 2; var d7 = v3(Math.cos(a), 0.5 + 0.6 * R(), Math.sin(a)).normalize();
         leafCard(b, v3(Math.cos(a) * 0.04, top7, Math.sin(a) * 0.04), d7, v3(-Math.cos(a) * 0.3, 1, -Math.sin(a) * 0.3).normalize(), 0.45 + 0.25 * R(), 0.22, 0.9 + 0.4 * R(), 0.05, LEAF_CELLS.fern, R(), 0.3); }
     } else if (kind === "maple") {                          // Japanese maple: a slender tree with tiers of red sprays, about 1.7 m
@@ -309,6 +316,6 @@
           leafCard(b, pp, v3(Math.cos(a + (j % 2 ? 1 : -1)), 0.2, Math.sin(a + (j % 2 ? 1 : -1))).normalize(), UP, 0.1 + 0.03 * R(), 0.09, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
         stem(b, chain, 0.003, 1); }
     }
-  }); }
+  }); POT_SKIP = false; return out; }
   // a plant on the floor of a wing room: s along the wing, u in from the glass
   function wingPlant(B, sg, s, u, y, kind, seed, rot) { place(B, plantBuilder(kind, seed), sg, s, u, y, rot || 0); obst(sg, s - 0.3, s + 0.3, u - 0.3, u + 0.3); }

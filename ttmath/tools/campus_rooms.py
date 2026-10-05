@@ -24,7 +24,7 @@ SEALED = dict(
 # with the line of sight from 10.6 m by the palace to 6.2 m at the gateway (s: the distance along the palace's axis, as
 # rad). The gateway arch stands in front of a glass end wall with the entrance airlock; a pod stop by the airlock.
 COURTYARD = dict(s0=33.3, s1=77.7, crown=[(33.3, 10.6), (56.0, 8.6), (77.7, 6.2)], ribs=1.5,
-                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=4.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=0.0))          # left of the avenue: the rover stands on the right
+                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=4.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
 COURTYARD_ROOMS = [
     dict(code="T04-01", name="Courtyard hall", kind="move", use="The courtyard under a glass vault on slender steel ribs: the paving, the bollards and young trees, the wings' doors on both sides and the palace's door at the end, warm and in air.", also="Assemblies, the graduation reception, stargazing evenings in shirt sleeves."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="Under the gateway: outer and inner sliding glass doors with a chamber 6 m long between them; the inner doors open once the outer ones have closed and the air is in. Suit lockers and a bench along the side.", also=""),
@@ -169,7 +169,7 @@ TERMINAL_ROOMS = [
 # needs large blades), skids, navigation lights. One waits at the pod stop by the entrance (T04-03), four on the pads.
 # Walk up to one to board it; fly it anywhere over the campus and the crater, up to 400 m, at up to 40 m/s; set it down on
 # any pad or on open, level ground, and step out beside it.
-POD = dict(length=6.0, width=2.4, height=2.4, rotor_r=1.25, rotors=[(-2.1, 1.5), (2.1, 1.5), (-2.1, -1.6), (2.1, -1.6)],
+POD = dict(length=6.0, width=2.4, height=2.4, rotor_r=1.1, rotors=[(-2.45, 2.0), (2.45, 2.0), (-2.45, -2.0), (2.45, -2.0)],   # room to get in between the right-hand ducts
            top_speed=40.0, climb=8.0, ceiling=400.0, min_clear=2.5, land_slope=0.12)
 
 # ------------------------------------------------------------------------------------------------- T-16 Sun court

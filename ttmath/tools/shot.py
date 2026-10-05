@@ -8,7 +8,7 @@ OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
 MODE = sys.argv[1] if len(sys.argv) > 1 else "desk"
 SHOTS = json.loads(sys.argv[2]) if len(sys.argv) > 2 else []
 SAMPLE = "--sample" in sys.argv
-HIDE = "document.querySelectorAll('.hud,.compass,.joy,.actbtns,.timepill,.onboard,.toast,.pin,.skylabel,.sheet').forEach(function(e){e.style.display='none'});"
+HIDE = "document.querySelectorAll('.hud,.compass,.joy,.actbtns,.timepill,.onboard,.toast,.pin,.skylabel,.sheet,.podbar').forEach(function(e){e.style.display='none'});"
 async def main():
     page = write_test_page("_test_tt.html"); srv = serve(8767)
     try:

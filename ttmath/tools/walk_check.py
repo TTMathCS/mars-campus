@@ -1,7 +1,7 @@
 """Walking regression test: run before every push. Walks the routes a visitor takes, with the page's own walker, and
 fails if any of them stops short: from the start over the ridge, through the courtyard, into a wing, into the palace,
-out of the back door onto the terrace, into the Crescent and a classroom, down its stair, out into its garden gallery, and
-to the Sun court.
+out of the back door onto the terrace, into the Crescent and a classroom, down its stair, out into its garden gallery, to
+the Sun court; then boards the pod at the pod stop, flies it up and lands it again.
 usage: python3 ttmath/tools/walk_check.py [--built]   (--built: the published ttmath/index.html, else the source page)
 Exit code 1 if a walk fails."""
 import asyncio, json, os, sys, time
@@ -50,6 +50,11 @@ async def main():
                 end = json.loads(path)[-1]
                 print("%-30s %s   end lat %.1f rad %.1f y %.2f" % (name, "PASS" if ok else "FAIL", end[0], end[1], end[4]))
                 failed += 0 if ok else 1
+            # the pod: board it at the pod stop, climb, hover, land it again and step out
+            st = await pg.evaluate("(function(){__mars.pod('board');__mars.pod('keys',[' ']);__mars.pod('run',3);__mars.pod('keys',[]);var up=__mars.pod('run',3);__mars.pod('land');var down=__mars.pod('run',20);return JSON.stringify([up,down]);})()")
+            up, down = json.loads(st); ok = up["flying"] and up["alt"] > 15 and not down["flying"] and abs(down["px"] - down["x"]) + abs(down["pz"] - down["z"]) < 8
+            print("%-30s %s   up %.1f m, landed at %.1f %.1f, out at %.1f %.1f" % ("fly the pod and land it", "PASS" if ok else "FAIL", up["alt"], down["x"], down["z"], down["px"], down["pz"]))
+            failed += 0 if ok else 1
             await b.close()
     finally:
         srv.terminate()

@@ -70,10 +70,9 @@
     });
     DOORS.push(door);
   }
-  // the back terrace: basalt paving level with the balcony on a concrete retaining wall, a parapet, a stair at each end
+  // the back terrace: basalt paving level with the balcony on a concrete retaining wall; sealed under the winter garden's vault
   function backTerrace(B) {
     var yB = PALY.B, t0 = BACK.t0, t1 = BACK.t1, r0 = BACK.tr0, r1 = BACK.tr1, NT = 64; BACK._B = B;
-    var sa = BACK.stairW / 2 / BACK.stairR;                                  // half the stair's width as an angle on the side edges
     // paving
     B.surf(NT, 12, function (i, j, q) { var th = lerp(t0, t1, i / NT), r = lerp(r0, r1, j / 12), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yB; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r * Math.sin(th); q.f[1] = r * Math.cos(th); q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; });
     function gAt(p) { return cgH(p.x, p.z); }
@@ -84,7 +83,7 @@
         q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * sgn, 0, (d.z - PAL.c.z) * sgn]; q.f[0] = th * r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
     }
     // the outer edge is the Crescent's glass front (blk_crescent.js)
-    // the two side edges: a retaining wall with a parapet, broken by the stair in the middle
+    // the two side edges: a retaining wall down into the ground and a kerb
     [[t0, -1], [t1, 1]].forEach(function (e) {
       var th = e[0], sg = e[1], tg = palPol(1, th + sg * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z];  // outward, across the edge
       function radial(ra, rb, off, top, sgn) {
@@ -92,26 +91,11 @@
         B.surf(n, 1, function (i, j, q) { var r = lerp(ra, rb, i / n), lat = r * Math.sin(th), rad = r * Math.cos(th), p = palXZ(lat + tn[0] * 0 + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, rad + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4;
           q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [tn[0] * sgn, 0, tn[2] * sgn]; q.f[0] = r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
       }
-      [[r0, BACK.stairR - BACK.stairW / 2], [BACK.stairR + BACK.stairW / 2, r1]].forEach(function (rr) {
-        radial(rr[0], rr[1], 0.3, yB + BACK.kerb, 1); radial(rr[0], rr[1], 0, yB + BACK.kerb, -1);
-        var lo = (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * 0.15, ro = (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * 0.15;
-        guardAlong(function (t) { var r = lerp(rr[0], rr[1], t); return palXZ(r * Math.sin(th) + lo, r * Math.cos(th) + ro); }, rr[1] - rr[0]);
-        var n = Math.max(2, Math.round((rr[1] - rr[0]) / 0.5));
-        B.surf(n, 1, function (i, j, q) { var r = lerp(rr[0], rr[1], i / n), off = j ? -0.03 : 0.33, p = palXZ(r * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, r * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off);
-          q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
-      });
-      // the stair: concrete treads from the terrace down to the ground, cheek walls either side
-      function gOut(d) { return gAt(palXZ(BACK.stairR * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * d, BACK.stairR * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * d)); }
-      var rise = yB - gOut(1.0), nst = 1;                                       // size the flight to the ground at its foot
-      for (var it = 0; it < 3; it++) { nst = Math.max(1, Math.round(rise / 0.165)); rise = yB - gOut(0.3 + nst * 0.32 + 0.2); }
-      nst = Math.max(1, Math.round(rise / 0.165)); var hs = rise / nst, st = new Builder();
-      for (var k = 0; k < nst; k++) st.box(-BACK.stairW / 2, -rise - 0.4, k * 0.32, BACK.stairW / 2, -k * hs, (k + 1) * 0.32, MT.CONCRETE);
-      [-1, 1].forEach(function (cs) { st.box(cs * BACK.stairW / 2 - (cs > 0 ? 0 : 0.25), -rise - 0.4, 0, cs * BACK.stairW / 2 + (cs > 0 ? 0.25 : 0), 0.45, nst * 0.32 + 0.1, MT.CONCRETE); });
-      for (var n2 = 0; n2 < st.f.length; n2++) st.f[n2] = 0.45 + 0.07 * st.f[n2] * 0.4;
-      var ax = new THREE.Vector3(tn[0], 0, tn[2]).normalize(), along = new THREE.Vector3(-ax.z, 0, ax.x), Ms = new THREE.Matrix4().makeBasis(along, new THREE.Vector3(0, 1, 0), ax);
-      var p0 = palXZ(BACK.stairR * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * 0.3, BACK.stairR * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * 0.3);
-      Ms.setPosition(p0.x, yB, p0.z); B.add(st, Ms);
-      BACK["stair" + (sg > 0 ? "R" : "L")] = { p: p0, ax: ax, along: along, n: nst, hs: hs, run: 0.32 };
+      // the kerb along the edge; the winter garden's glass end wall stands on it (winterGarden), where the outside stairs were
+      radial(r0, r1, 0.3, yB + BACK.kerb, 1); radial(r0, r1, 0, yB + BACK.kerb, -1);
+      var n = Math.max(2, Math.round((r1 - r0) / 0.5));
+      B.surf(n, 1, function (i, j, q) { var r = lerp(r0, r1, i / n), off = j ? -0.03 : 0.33, p = palXZ(r * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, r * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off);
+        q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
     });
     // bollard lights along the Crescent's front
     [-40, -24, -8, 8, 24, 40].forEach(function (deg) {                    // between the Crescent's doors
@@ -144,21 +128,83 @@
       if (alat < BACK.w + BACK.wall + 0.3 && -o.rad > PAL.ringIn - 0.1) return NaN;
     }
     if (r < PAL.ringOut + 0.3) return undefined;                            // the ring itself: the palace decides
-    // the stairs
-    var st = [BACK.stairL, BACK.stairR];
-    for (var i = 0; i < 2; i++) {
-      var s = st[i]; if (!s) continue;
-      var dx = x - s.p.x, dz = z - s.p.z, a = dx * s.ax.x + dz * s.ax.z, b = dx * s.along.x + dz * s.along.z;
-      if (Math.abs(b) < BACK.stairW / 2 - 0.15 && a > -0.35 && a < s.n * s.run + 0.6) { var k = clamp(Math.floor(a / s.run), 0, s.n); return a >= s.n * s.run ? undefined : yB - k * s.hs; }
-      if (Math.abs(b) < BACK.stairW / 2 + 0.4 && a > 0 && a < s.n * s.run + 0.1) return NaN;   // the cheek walls
-    }
+    // the winter garden's planters
+    if (WGD && WGD.posts.some(function (c) { return Math.hypot(x - c.x, z - c.z) < c.r; })) return NaN;
     if (th < BACK.t0 - 0.01 || th > BACK.t1 + 0.01) {                       // just outside a side edge: the wall and parapet
       var dth = th < BACK.t0 ? BACK.t0 - th : th - BACK.t1;
-      if (r < BACK.tr1 + 0.4 && dth * r < 0.45) return NaN;
+      if (r < BACK.tr1 + 0.4 && dth * r < 0.45) return NaN;                 // the glass end walls
       return undefined;
     }
     if (r < BACK.tr1 - 0.25) { if (yf > yB - 0.6) return yB; return NaN; }   // on the terrace (from below: the wall)
     if (r < BACK.tr1 + 0.5) return NaN;                                       // the parapet on the outer edge
     return undefined;
   }
-  function backInside(x, z) { if (!PAL.built) return 0; var o = palLoc(x, z, {}); return (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) ? 1 : 0; }
+  function backInside(x, z) {                                               // the vestibule and the winter garden are inside
+    if (!PAL.built) return 0; var o = palLoc(x, z, {}), th = Math.atan2(o.lat, o.rad); if (th < 0) th += 2 * Math.PI;
+    if (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) return 1;
+    return (WGD && o.r > PAL.ringOut && o.r < BACK.tr1 && th > BACK.t0 && th < BACK.t1) ? 1 : 0;
+  }
+
+  // ---- the winter garden (T09-01): the back terrace sealed under a glass vault on bronze ribs (Jim, 5 Oct 2026: "all open
+  // space should be covered by dome or sealed"). The vault springs from the ring beam at the foot of the dome and lands under
+  // the Crescent's eave; its section is a parabola with the crown 13 m up (P2.winter); glass end walls close it where the
+  // outside stairs were. Olive trees, red maples and palms in big planters, oak benches, uplights on the ribs.
+  var WGD = null;
+  function wgY(r) { return WGD.crown - WGD.k * Math.pow(r - WGD.rm, 2); }
+  function winterGarden(B) {
+    var C = crsInit(), yB = PALY.B, rIn = PAL.ringOut + 0.1, yIn = yB + PAL.beam, rOut = C.roofIn + 0.4, yOut = crsRoofY(C.roofIn) - C.roofT - 0.05, crown = yB + P2.winter.crown;
+    var q = Math.sqrt((crown - yIn) / (crown - yOut)), rm = (rIn + q * rOut) / (1 + q);
+    WGD = { rIn: rIn, rOut: rOut, rm: rm, k: (crown - yIn) / Math.pow(rm - rIn, 2), crown: crown, posts: [] };
+    P2DOMAINS.push({ l0: -36.5, l1: 36.5, r0: -46.5, r1: -18, y0: yB - 0.6, y1: crown + 0.6 });
+    var t0 = BACK.t0, t1 = BACK.t1, G = BACK_GLASS, NR = 28, yV = yB + BACK.roofY + BACK.roofT + 0.06, rCut = rm - Math.sqrt((crown - yV) / WGD.k);
+    var tv = Math.asin((BACK.w + BACK.wall + 0.35) / rCut);                 // the vestibule's half-width as an angle where the vault meets its roof
+    function P(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y === undefined ? wgY(r) : y, p.z); }
+    function glassPatch(ra, rb, ta, tb) {
+      var nt = Math.max(2, Math.ceil(Math.abs(tb - ta) * 38 / 0.8)), nr = Math.max(2, Math.ceil((rb - ra) / 0.6));
+      G.surf(nt, nr, function (i, j, q) { var th = lerp(ta, tb, i / nt), r = lerp(ra, rb, j / nr), p = palPol(r, th), d = palPol(1, th), s = -2 * WGD.k * (r - rm), L = Math.hypot(1, s);
+        q.p[0] = p.x; q.p[1] = wgY(r); q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -s / L, 1 / L, (d.z - PAL.c.z) * -s / L]; q.f[0] = th * r; q.f[1] = r; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    }
+    // the glass: over the whole terrace, and over the vestibule only above its roof
+    glassPatch(rIn, rOut, t0, Math.PI - tv); glassPatch(rIn, rOut, Math.PI + tv, t1); glassPatch(rCut, rOut, Math.PI - tv, Math.PI + tv);
+    // ribs every 2.5 degrees (on the vestibule's roof where it stands in the way), purlins along the vault, a bronze sill at the foot
+    for (var th = t0; th <= t1 + 1e-6; th += 2.5 * D2R) {
+      var ra = Math.abs(th - Math.PI) < tv ? rCut : rIn, pts = []; for (var k = 0; k <= 24; k++) { var r = lerp(ra, rOut, k / 24); pts.push(P(r, th, wgY(r) - 0.06)); }
+      tubeAlong(B, pts, (th - t0 < 1e-3 || t1 - th < 1e-3) ? 0.1 : 0.07, 6, MT.RIB);
+    }
+    [31.0, 34.6, 38.2, 41.8, 44.4].forEach(function (r) { var pts = []; for (var k = 0; k <= 60; k++) pts.push(P(r, lerp(t0, t1, k / 60), wgY(r) - 0.08)); tubeAlong(B, pts, 0.04, 5, MT.RIB); });
+    [[t0, Math.PI - tv], [Math.PI + tv, t1]].forEach(function (sp) { var pts = []; for (var k = 0; k <= 40; k++) pts.push(P(rIn - 0.05, lerp(sp[0], sp[1], k / 40), yIn + 0.06)); tubeAlong(B, pts, 0.08, 6, MT.RIB); });
+    var eb = []; for (var k2 = 0; k2 <= 60; k2++) eb.push(P(rOut - 0.1, lerp(t0, t1, k2 / 60), yOut - 0.12)); tubeAlong(B, eb, 0.12, 6, MT.RIB);
+    // the end walls: glass in the radial plane under the vault, on mullions every 1.5 m, standing on the edge's kerb
+    [[t0, -1], [t1, 1]].forEach(function (e) {
+      var th = e[0], tg = palPol(1, th + e[1] * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z], n = 20;
+      G.surf(n, 1, function (i, j, q) { var r = lerp(rIn, rOut, i / n), p = palPol(r, th); q.p[0] = p.x; q.p[1] = j ? wgY(r) - 0.05 : yB + BACK.kerb; q.p[2] = p.z; q.nn = tn; q.f[0] = r; q.f[1] = q.p[1]; q.f2[0] = j ? 4 : 0.1; q.f2[1] = 1; q.m = 0; });
+      for (var r = rIn + 1.5; r < rOut - 0.5; r += 1.5) tubeAlong(B, [P(r, th, yB + BACK.kerb), P(r, th, wgY(r) - 0.1)], 0.045, 5, MT.RIB);
+      var sill = []; for (var k = 0; k <= 12; k++) sill.push(P(lerp(rIn, rOut, k / 12), th, yB + BACK.kerb + 0.04)); tubeAlong(B, sill, 0.06, 5, MT.RIB);
+    });
+    // the garden: big round planters with olive trees, red maples and palms between the paths to the Crescent's doors
+    var R2 = mulberry(4040);
+    [[16, "olive"], [-16, "olive"], [34, "maple"], [-34, "maple"], [44.5, "kentia"], [-44.5, "kentia"]].forEach(function (pl, i) {
+      var th = Math.PI + pl[0] * D2R, c = palPol(37.6, th), rr = 1.2;
+      latheOn(B, c.x, yB, c.z, [[rr, 0], [rr, 0.62], [rr + 0.06, 0.66], [rr - 0.08, 0.68], [rr - 0.08, 0.6], [0.0, 0.6]], 32, MT.CONCRETE, 0.4);
+      B.geo(new THREE.CylinderGeometry(rr - 0.1, rr - 0.1, 0.02, 32), T(c.x, yB + 0.6, c.z), MT.RUBBER, 1);                                      // the soil
+      bedPlant(B, pl[1], 500 + i, T(c.x, yB, c.z, 0, R2() * 6.28, 0), 0.61, 2.3);                                                              // the tree set into it
+      WGD.posts.push({ x: c.x, z: c.z, r: rr + 0.3 });
+      extLight(c.x, yB + 0.8, c.z, WARMC, 1.0, 6, [0, 1, 0], 1.6);
+    });
+    // long oak benches facing the Crescent, and ferns and flowering shrubs along the foot of the dome
+    [[8, 41.0], [-8, 41.0], [25, 41.0], [-25, 41.0]].forEach(function (bn) {
+      var th = Math.PI + bn[0] * D2R, c = palPol(bn[1], th), yaw = Math.atan2(PAL.c.x - c.x, PAL.c.z - c.z);
+      var gb = new Builder(); for (var k = 0; k < 5; k++) { gb.box(-1.4, 0.43, -0.25 + k * 0.1, 1.4, 0.47, -0.17 + k * 0.1, MT.WOOD); gb.tag(gb.count() - 24, null, 2); }
+      [-1.05, 1.05].forEach(function (x) { gb.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
+      B.add(gb, T(c.x, yB, c.z, 0, yaw, 0)); WGD.posts.push({ x: c.x, z: c.z, r: 0.6 });
+    });
+    var kinds = ["fern", "bromeliad", "anthurium", "croton", "agave", "orchid"];
+    for (var k3 = 0; k3 < 14; k3++) {
+      var a3 = lerp(-46, 46, k3 / 13); if (Math.abs(a3) < 9) continue;
+      var th3 = Math.PI + a3 * D2R, c3 = palPol(30.2, th3); B.add(plantBuilder(kinds[k3 % kinds.length], 520 + k3), T(c3.x, yB, c3.z, 0, k3 * 1.7, 0)); WGD.posts.push({ x: c3.x, z: c3.z, r: 0.45 });
+    }
+    // uplights along the foot washing the ribs
+    for (var a4 = -45; a4 <= 45; a4 += 7.5) { if (Math.abs(a4) < 6) continue; var p4 = palPol(rIn + 0.4, Math.PI + a4 * D2R), d4 = palPol(1, Math.PI + a4 * D2R);
+      B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p4.x, yB + 0.03, p4.z), MT.LIGHT, 1);
+      extLight(p4.x, yB + 0.2, p4.z, WARMC, 1.4, 9, [(d4.x - PAL.c.x) * 0.55, 0.83, (d4.z - PAL.c.z) * 0.55], 2); }
+  }

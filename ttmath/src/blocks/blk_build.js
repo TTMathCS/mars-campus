@@ -20,7 +20,7 @@
     PLAZA.c = palXZ(0, 88);
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(), W = new Builder(), D = new Builder();
-    campusExterior(B); backDoor(B); backTerrace(B); crescentBuild(B, W); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
+    campusExterior(B); backDoor(B); backTerrace(B); crescentBuild(B, W); winterGarden(B); podStop(B); [1, -1].forEach(function (sg) { wingInterior(W, sg); }); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings);
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
@@ -48,11 +48,12 @@
     envIn.pos.set(PAL.c.x, PALY.B + 2.0, PAL.c.z);
     var wp = wingXZ(1, 3.0, 43); envW.pos.set(wp.x, wingFloor(1, 43) + 1.6, wp.z);
     var cp = palXZ(0, 56); envOut.pos.set(cp.x, cgH(cp.x, cp.z) + 2.0, cp.z);
+    podInit();                                                          // the pod waiting at the pod stop
   }
   // doors open as you come near; reflections refresh as the sky changes
   function campusUpdate(time, dt) {
     for (var i = 0; i < DOORS.length; i++) {
-      var d = DOORS[i], dist = Math.hypot(px - d.c.x, pz - d.c.z), tgt = dist < 3.4 ? 1 : 0;
+      var d = DOORS[i], dist = Math.hypot(px - d.c.x, pz - d.c.z), tgt = dist < 3.4 && !POD.flying ? 1 : 0;
       if (Math.abs(tgt - d.open) < 1e-3 && d.set) continue;
       d.open += (tgt - d.open) * Math.min(1, dt * 3.5); d.set = true;
       d.leaves.forEach(function (lf) { var o = lf.side * d.open * 1.16, x = d.dir.x * o, z = d.dir.z * o; [lf.fm].concat(lf.gm).forEach(function (m) { m.matrix.makeTranslation(x, 0, z); m.matrixWorldNeedsUpdate = true; }); });
@@ -68,5 +69,5 @@
     }
     return false;
   }
-  function campusSupport(x, z, yf) { var w = wingSupport(x, z, yf); if (w !== undefined) return w; var c = crescentSupport(x, z, yf); if (c !== undefined) return c; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
+  function campusSupport(x, z, yf) { var ps = podStopSupport(x, z); if (ps !== undefined) return ps; var w = wingSupport(x, z, yf); if (w !== undefined) return w; var c = crescentSupport(x, z, yf); if (c !== undefined) return c; var b = backSupport(x, z, yf); if (b !== undefined) return b; return palSupport(x, z, yf); }
   function campusInside(x, z) { return Math.max(palInside(x, z), wingInside(x, z), backInside(x, z), crescentInside(x, z)); }

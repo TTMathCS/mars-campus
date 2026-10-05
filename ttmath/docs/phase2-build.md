@@ -54,8 +54,13 @@ the Crescent's first build (T-06 v1: 46 to 60 m, 4.2 m floors). Next, after the 
    `crescentStair` (two flights, `stairY`), `crescentEStairs` (`esY`), `crescentLift`, `crescentChandelier`,
    `crescentGallery`; furniture in `blk_crsfurnish.js` with plants from `CRESCENT_PLANTS`; `crescentSupport` for walking,
    with a step tolerance of 0.6 m that keeps you off the stairs from below and out of the stairwells from above).
-3. The winter garden's glass vault over the back terrace (T09-01); the terrace's outside stairs go.
-4. The flying pods: the pod stop by the entrance (T04-03) and flight (keys, touch), landing, the near plane by height.
+3. ~~The winter garden's glass vault over the back terrace (T09-01)~~ (v0.11: `winterGarden` in `blk_backdoor.js`: a
+   parabolic vault from the ring beam at the dome's foot to the Crescent's eave, `wgY(r)`, ribs every 2.5°, purlins, glass
+   end walls where the outside stairs were, olive trees, maples and palms in big planters, benches, uplights).
+4. ~~The flying pods~~ (v0.11: `blk_pod.js`: the craft's geometry, `podStop` on the left of the avenue, `podInit`;
+   `podUpdate` flies where you look with inertia, keeps clear of the ground and roofs by `podFloor`, lands only on open,
+   level ground (`podCanLand`); the cockpit view (the near plane up to 0.32 m with height) or the chase view; a soft
+   shadow under the pod; `__mars.pod(...)` for tests). The pod port's pads and pods come with T-14.
 5. The courtyard hall's glass vault and the entrance airlock under the gateway (T04-01, T04-02).
 6. The Sun court's sunken floor and low vault, and its link from the lobby (T-16, T17-01).
 7. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the

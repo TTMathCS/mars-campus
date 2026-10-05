@@ -126,15 +126,64 @@
       extLight(p.x, g + 0.75, p.z, WARMC, 1.1, 6);
       COLL.posts.push({ x: p.x, z: p.z, r: 0.35 });
     }); });
-    // ---- solar field behind the right wing
-    for (var rr = 0; rr < 3; rr++) for (var cc2 = 0; cc2 < 6; cc2++) {
-      var p = palXZ(24 + rr * 3.2, 39 + cc2 * 3.4), g = cgH(p.x, p.z), yaw = Math.atan2(PAL.Rt.x, PAL.Rt.z);
-      var sb = new Builder(); sb.surf(1, 1, function (i, j, q) { q.p[0] = (i - 0.5) * 2.9; q.p[1] = 0.001; q.p[2] = (j - 0.5) * 1.6; q.nn = [0, 1, 0]; q.f[0] = i * 2.9; q.f[1] = j * 1.6; q.f2[0] = 1; q.m = MT.SOLAR; });
-      sb.box(-1.5, -0.05, -0.83, 1.5, 0, 0.83, MT.ANOD);
-      B.add(sb, T(p.x, g + 1.0, p.z, -0.55, yaw, 0));
-      tubeAlong(B, [new THREE.Vector3(p.x, g - 0.2, p.z), new THREE.Vector3(p.x, g + 0.95, p.z)], 0.05, 6, MT.STEEL, 0.5);
-      COLL.posts.push({ x: p.x, z: p.z, r: 1.4 });
-    }
+    // ---- the Sun court (T-16), where the solar field stood: the campus is on the city's grid and has no power plant of
+    // its own. An armillary sundial on a concrete plinth, its rod parallel to Mars's axis (Gale crater is 5.4 deg south,
+    // so the rod points south and 5.4 deg up), an hour band marked for the day hours of the sol; precast benches in a
+    // half-circle facing it. The paving and the path round the wing are in the drape.
+    (function () {
+      var SC = P2.suncourt, c = palXZ(SC.lat, SC.rad), g0 = cgH(c.x, c.z), R = SC.sphere / 2, yc = g0 + SC.plinth + R, phi = 5.4 * D2R;
+      var O = new THREE.Vector3(c.x, yc, c.z), A = new THREE.Vector3(0, Math.sin(phi), Math.cos(phi));          // the polar axis
+      var U = new THREE.Vector3(1, 0, 0), V = new THREE.Vector3().crossVectors(A, U);                              // the equator's plane
+      function bronze(g) { return addF2(g, 0, 7); }
+      function smooth(sb, k) { for (var n = 0; n < sb.f.length; n++) sb.f[n] = 0.45 + 0.07 * sb.f[n] * (k || 1); }  // precast: no board marks or tie holes
+      var pl = new Builder();                                            // the plinth: a turned pedestal, the ring stands in its cap
+      latheOn(pl, 0, 0, 0, [[0.0, 0], [0.5, 0], [0.5, 0.2], [0.44, 0.24], [0.36, 0.3], [0.33, SC.plinth + 0.05], [0.4, SC.plinth + 0.1], [0.4, SC.plinth + 0.15], [0.0, SC.plinth + 0.15]], 32, MT.CONCRETE);
+      smooth(pl, 0.5); B.add(pl, T(c.x, g0 - 0.15, c.z));
+      B.geo(bronze(new THREE.TorusGeometry(R, 0.03, 8, 128)), T(c.x, yc, c.z, 0, Math.PI / 2, 0), MT.BRASS);           // meridian ring, upright north-south
+      B.geo(bronze(new THREE.TorusGeometry(R * 0.985, 0.022, 8, 128)), T(c.x, yc, c.z, Math.PI / 2, 0, 0), MT.BRASS);  // horizon ring
+      B.geo(bronze(new THREE.BoxGeometry(0.16, 0.08, 0.1)), T(c.x, g0 + SC.plinth + 0.03, c.z), MT.BRASS);              // the ring's foot in the cap
+      // the equatorial hour band, square to the axis, touching the meridian ring inside
+      var Re = R - 0.045, hw = 0.09, th = 0.015, NT = 128;
+      function bandPt(t, r, w) { return O.clone().addScaledVector(U, Math.cos(t) * r).addScaledVector(V, Math.sin(t) * r).addScaledVector(A, w); }
+      [[Re - th, -1], [Re + th, 1]].forEach(function (f) {
+        B.surf(NT, 1, function (i, j, q) { var t = i / NT * 2 * Math.PI, p = bandPt(t, f[0], j ? hw : -hw), n = bandPt(t, 1, 0).sub(O).multiplyScalar(f[1]);
+          q.p[0] = p.x; q.p[1] = p.y; q.p[2] = p.z; q.nn = [n.x, n.y, n.z]; q.f[0] = t * Re; q.f[1] = j * 2 * hw; q.f2[1] = 7; q.m = MT.BRASS; }, true);
+      });
+      [-1, 1].forEach(function (e) {
+        B.surf(NT, 1, function (i, j, q) { var t = i / NT * 2 * Math.PI, p = bandPt(t, j ? Re + th : Re - th, e * hw); q.p[0] = p.x; q.p[1] = p.y; q.p[2] = p.z; q.nn = [A.x * e, A.y * e, A.z * e]; q.f2[1] = 7; q.m = MT.BRASS; }, true);
+      });
+      // hour marks on the inside of the band where the rod's shadow falls by day: noon at the bottom, 6 to 18 Mars hours
+      for (var hr = 6; hr <= 18; hr++) {
+        var t = Math.PI + (hr - 6) * Math.PI / 12, rd = bandPt(t, 1, 0).sub(O), tg = new THREE.Vector3().crossVectors(A, rd), big = hr % 3 === 0;
+        var M = new THREE.Matrix4().makeBasis(tg, A, rd.clone().negate()); M.setPosition(bandPt(t, Re - th - 0.003, 0));
+        B.geo(new THREE.BoxGeometry(big ? 0.016 : 0.009, hw * (big ? 1.8 : 1.1), 0.006), M, MT.BRASS);
+      }
+      // the polar rod (the gnomon) with an arrowhead toward the south celestial pole and a fletch at the north end
+      var rot = Math.PI / 2 - phi;
+      B.geo(bronze(new THREE.CylinderGeometry(0.018, 0.018, 2 * R + 0.3, 12)), T(c.x, yc, c.z, rot, 0, 0), MT.BRASS);
+      var tip = O.clone().addScaledVector(A, R + 0.24); B.geo(bronze(new THREE.ConeGeometry(0.055, 0.18, 14)), T(tip.x, tip.y, tip.z, rot, 0, 0), MT.BRASS);
+      var tail = O.clone().addScaledVector(A, -R - 0.1);
+      [0, Math.PI / 2].forEach(function (a) { var M = T(tail.x, tail.y, tail.z, rot, 0, 0).multiply(new THREE.Matrix4().makeRotationY(a)); B.geo(bronze(new THREE.BoxGeometry(0.11, 0.16, 0.006)), M, MT.BRASS); });
+      COLL.posts.push({ x: c.x, z: c.z, r: 1.35 });
+      var l0 = SC.lat - SC.w / 2, l1 = SC.lat + SC.w / 2, r0 = SC.rad - SC.d / 2, r1 = SC.rad + SC.d / 2;
+      function line(a, b) { var n = Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 0.5)), o = []; for (var k = 0; k <= n; k++) o.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]); return o; }
+      kerbAlong(B, line([l0 + 3.0, r1], [l1, r1]), -0.15, 0); kerbAlong(B, line([l1, r1], [l1, r0]), -0.15, 0);
+      kerbAlong(B, line([l1, r0], [l0, r0]), -0.15, 0); kerbAlong(B, line([l0, r0], [l0, r1]), -0.15, 0);
+      var sp = sunPath(); kerbAlong(B, sp.slice(2), 1.1, 1.25); kerbAlong(B, sp.slice(2), -1.25, -1.1);
+      // a warm uplight in the paving, toward the sphere, for the evening
+      var lp = palXZ(SC.lat + 2.2, SC.rad - 0.6), gl = cgH(lp.x, lp.z), dl = new THREE.Vector3(c.x - lp.x, yc - gl, c.z - lp.z).normalize();
+      B.box(lp.x - 0.09, gl - 0.05, lp.z - 0.09, lp.x + 0.09, gl + 0.07, lp.z + 0.09, MT.ANOD);
+      extLight(lp.x, gl + 0.1, lp.z, WARMC, 1.3, 7, [dl.x, dl.y, dl.z], 1);
+      // five precast benches in a half-circle on the far side, facing the sundial
+      for (var k = 0; k < SC.benches; k++) {
+        var a = (-64 + 128 * k / (SC.benches - 1)) * D2R, bp = palXZ(SC.lat + 5.0 * Math.cos(a), SC.rad + 5.0 * Math.sin(a)), gb = cgH(bp.x, bp.z);
+        var rw = new THREE.Vector3(PAL.Rt.x * Math.cos(a) + PAL.F.x * Math.sin(a), 0, PAL.Rt.z * Math.cos(a) + PAL.F.z * Math.sin(a)).normalize();
+        var tw = new THREE.Vector3(-rw.z, 0, rw.x), bn = new Builder();
+        bn.box(-0.85, -0.25, -0.17, 0.85, 0.4, 0.17, MT.CONCRETE); bn.box(-0.92, 0.4, -0.25, 0.92, 0.47, 0.25, MT.CONCRETE); smooth(bn);
+        var Mb = new THREE.Matrix4().makeBasis(tw, new THREE.Vector3(0, 1, 0), rw); Mb.setPosition(bp.x, gb, bp.z); B.add(bn, Mb);
+        [-0.55, 0.55].forEach(function (o) { COLL.posts.push({ x: bp.x + tw.x * o, z: bp.z + tw.z * o, r: 0.45 }); });
+      }
+    })();
     // ---- the logo wall by the path: concrete with a brushed-steel face and the backlit logo
     (function () {
       var c = SIGNP.c, nx = RIDGE_VIEW.x - c.x, nz = RIDGE_VIEW.z - c.z, nl = Math.hypot(nx, nz); nx /= nl; nz /= nl;
@@ -307,6 +356,30 @@
       q.p[0] = cx + c * pr[0]; q.p[1] = cy + pr[1]; q.p[2] = cz + s * pr[0]; q.nn = [c * dy / l, -dr / l, s * dy / l]; q.f[0] = th * Math.max(0.05, pr[0]); q.f[1] = pr[1]; q.f2[0] = g2x === undefined ? pr[1] : g2x; q.f2[1] = g2y || 0; q.m = mat;
     }, true);
   }
+  // the Sun court's path from the plaza round the end of the classroom wing: a smooth line every half metre (lat, rad)
+  var SUN_PATH = null;
+  function sunPath() {
+    if (SUN_PATH) return SUN_PATH;
+    var SC = P2.suncourt, PATH = [[SC.lat - SC.w / 2 + 1.8, SC.rad + SC.d / 2 - 0.4], [22.8, 76.0], [21.6, 80.4], [18.6, 84.4], [14.0, 87.9], [9.0, 88.5]], pts = [];
+    for (var n = 0; n < PATH.length - 1; n++) {
+      var a0 = PATH[Math.max(0, n - 1)], a1 = PATH[n], a2 = PATH[n + 1], a3 = PATH[Math.min(PATH.length - 1, n + 2)], ns = Math.ceil(Math.hypot(a2[0] - a1[0], a2[1] - a1[1]) / 0.5);
+      for (var k = 0; k < ns; k++) { var t = k / ns, t2 = t * t, t3 = t2 * t;
+        pts.push([0, 1].map(function (c) { return 0.5 * (2 * a1[c] + (-a0[c] + a2[c]) * t + (2 * a0[c] - 5 * a1[c] + 4 * a2[c] - a3[c]) * t2 + (-a0[c] + 3 * a1[c] - 3 * a2[c] + a3[c]) * t3); })); }
+    }
+    pts.push(PATH[PATH.length - 1]); SUN_PATH = pts; return pts;
+  }
+  // a concrete kerb along a line of (lat, rad) points, between side offsets o0 < o1 (m, to the line's left)
+  function kerbAlong(B, pts, o0, o1) {
+    function frame(j) { var a = pts[Math.max(0, j - 1)], b = pts[Math.min(pts.length - 1, j + 1)], dl = b[0] - a[0], dr = b[1] - a[1], l = Math.hypot(dl, dr) || 1; return [-dr / l, dl / l]; }
+    function side(j, o) { var n = frame(j); return palXZ(pts[j][0] + n[0] * o, pts[j][1] + n[1] * o); }
+    function worldN(j, sg) { var n = frame(j); return [sg * (PAL.Rt.x * n[0] + PAL.F.x * n[1]), 0, sg * (PAL.Rt.z * n[0] + PAL.F.z * n[1])]; }
+    B.surf(1, pts.length - 1, function (i, j, q) { var p = side(j, i ? o1 : o0), g = cgH(p.x, p.z);          // the top
+      q.p[0] = p.x; q.p[1] = g + 0.12; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = 0.45 + 0.004 * j; q.f[1] = 0.47; q.f2[0] = 0.12; q.m = MT.CONCRETE; });
+    [[o0, -1], [o1, 1]].forEach(function (f) {                                                                   // the two sides
+      B.surf(1, pts.length - 1, function (i, j, q) { var p = side(j, f[0]), g = cgH(p.x, p.z), y = i ? g - 0.12 : g + 0.12;
+        q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = worldN(j, f[1]); q.f[0] = 0.45 + 0.004 * j; q.f[1] = 0.47; q.f2[0] = y - g; q.m = MT.CONCRETE; });
+    });
+  }
   // paving: courtyard slabs between the wings, the avenue from the palace door to the plaza, the plaza, rover bays
   var PLAZA = { c: { x: 0, z: 0 }, a: 9, b: 4.2 };
   var AVE = { s0: PAL.vFront + 0.05, s1: 83.75 };
@@ -329,6 +402,19 @@
         var s = lerp(PAL.vFront - 0.25, WG.sB + WG.ew, j / 180), l0 = s < AVE.s0 ? vaultW(PAL.vFront) + PAL.vt : aveHalf(s), l1 = latf(s) - 0.1, lat = sg * lerp(l0, l1, i / 18), p = palXZ(lat, s);
         q.p[0] = p.x; q.p[1] = cgH(p.x, p.z) + 0.05; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = s; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE;
       });
+    });
+    // the Sun court's basalt paving and its path from the plaza round the end of the classroom wing
+    var SC = P2.suncourt;
+    D.surf(24, 38, function (i, j, q) {
+      var lat = SC.lat - SC.w / 2 + SC.w * i / 24, rad = SC.rad - SC.d / 2 + SC.d * j / 38, p = palXZ(lat, rad);
+      q.p[0] = p.x; q.p[1] = cgH(p.x, p.z) + 0.05; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE;
+    });
+    var pts = sunPath();
+    var run = [0]; for (var n = 1; n < pts.length; n++) run.push(run[n - 1] + Math.hypot(pts[n][0] - pts[n - 1][0], pts[n][1] - pts[n - 1][1]));
+    D.surf(4, pts.length - 1, function (i, j, q) {
+      var a = pts[Math.max(0, j - 1)], b = pts[Math.min(pts.length - 1, j + 1)], dl = b[0] - a[0], dr = b[1] - a[1], l = Math.hypot(dl, dr) || 1, o = -1.1 + 2.2 * i / 4;
+      var lat = pts[j][0] - dr / l * o, rad = pts[j][1] + dl / l * o, p = palXZ(lat, rad);
+      q.p[0] = p.x; q.p[1] = cgH(p.x, p.z) + 0.055; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = o; q.f[1] = run[j]; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE;
     });
     ROVER_BAYS.forEach(function (bay) {
       var W = 3.6, L = 6.2, dx = Math.sin(bay.yaw), dz = Math.cos(bay.yaw), bxx = dz, bzz = -dx;

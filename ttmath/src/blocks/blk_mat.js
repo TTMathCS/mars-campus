@@ -85,7 +85,10 @@
     "  } else if (m < 2.5) { alb = vec3(0.025, 0.028, 0.03); rough = 0.04; dustable = 0.3; }",          // dark glass
     "  else if (m < 3.5) { alb = vec3(0.13, 0.135, 0.14); metal = 0.85; rough = 0.34; dustable = 0.6; }",   // anodised aluminium
     "  else if (m < 4.5) { alb = vec3(0.80, 0.81, 0.82); metal = 1.0; rough = 0.26 + 0.12 * vnoise(vec2(pc.x * 260.0, pc.y * 2.0)); dustable = 0.4; }",   // brushed steel
-    "  else if (m < 5.5) { alb = vec3(0.96, 0.87, 0.64); metal = 1.0; rough = 0.14 + 0.12 * fbm4(vW.xz * 2.7 + vW.y * 2.2); }",   // polished brass
+    "  else if (m < 5.5) {",                                              // BRASS: polished; g.y 7 bronze weathered outside (dark, dull, dusty)
+    "    if (g.y > 6.5 && g.y < 7.5) { float pt = fbm4(vW.xz * 3.1 + vW.y * 4.3); alb = vec3(0.47, 0.32, 0.19) * (0.8 + 0.3 * pt); metal = 0.8; rough = 0.4 + 0.18 * pt; dustable = 0.9; }",
+    "    else { alb = vec3(0.96, 0.87, 0.64); metal = 1.0; rough = 0.14 + 0.12 * fbm4(vW.xz * 2.7 + vW.y * 2.2); }",
+    "  }",
     "  else if (m < 6.5) { alb = marble(vW, g.y, rough);",                 // g.x = 98: wall cladding in 1.2 x 1.8 m slabs with fine joints
     "    if (g.x > 97.5 && g.x < 98.5) { float row = floor(f.y / 1.8), jn = max(aline(f.x + row * 0.6, 1.2, 0.004), aline(f.y, 1.8, 0.004)); alb *= 1.0 - 0.4 * jn; rough = mix(rough, 0.55, jn); }",
     "  }",

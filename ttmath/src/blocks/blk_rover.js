@@ -1,6 +1,7 @@
   /* ===================== Pressurized rover ===================== */
   // A crewed pressurized rover of the kind NASA has tested: a cabin on a six-wheel chassis, a wide front window,
-  // two suitports on the back, solar panel and radiator on the roof. Parked on the ground, pitched to the terrain.
+  // two suitports on the back, a radiator on the roof (no solar panel: they charge on the campus). Parked on the ground,
+  // pitched to the terrain.
   function roverBuilder() {
     var L = new Builder(), NA = 36, a = 1.12, b = 0.98, yc = 1.78;
     function sect(th, sx, sy) { var c = Math.cos(th), s = Math.sin(th), p = 4; return [sx * a * Math.sign(c) * Math.pow(Math.abs(c), 2 / p), yc + sy * b * Math.sign(s) * Math.pow(Math.abs(s), 2 / p)]; }
@@ -39,8 +40,9 @@
       var fend = []; for (k = 0; k <= 10; k++) { var t = Math.PI * (0.12 + 0.76 * k / 10); fend.push(new THREE.Vector3(xw, 0.56 + Math.sin(t) * 0.68, zz + Math.cos(t) * 0.68)); }
       L.surf(10, 1, function (i, j, q) { var p = fend[i]; q.p[0] = p.x + (j ? 0.24 : -0.24) * sx; q.p[1] = p.y; q.p[2] = p.z; q.f[0] = i * 0.1; q.f[1] = j * 0.48; q.m = MT.COMPOSITE; });
     }); });
-    // roof: solar panel on posts, radiator, mast with a small dish, handrails
-    var sb = L.count(); L.box(-0.95, 2.86, -1.55, 0.95, 2.92, 0.7, MT.ANOD); L.surf(1, 1, function (i, j, q) { q.p[0] = (i - 0.5) * 1.86; q.p[1] = 2.925; q.p[2] = lerp(-1.5, 0.65, j); q.nn = [0, 1, 0]; q.f[0] = i * 1.86; q.f[1] = j * 2.15; q.m = MT.SOLAR; });
+    // roof: a radiator panel on posts, mast with a small dish, handrails
+    var sb = L.count(); L.box(-0.95, 2.86, -1.55, 0.95, 2.92, 0.7, MT.ANOD);
+    for (var fin = 0; fin < 9; fin++) L.box(-0.9, 2.92, -1.5 + fin * 0.25, 0.9, 2.95, -1.47 + fin * 0.25, MT.STEEL);
     [[-0.8, -1.4], [0.8, -1.4], [-0.8, 0.55], [0.8, 0.55]].forEach(function (c) { tubeAlong(L, [new THREE.Vector3(c[0], 2.6, c[1]), new THREE.Vector3(c[0], 2.86, c[1])], 0.03, 5, MT.STEEL); });
     L.box(-1.16, 1.25, -1.2, -1.13, 2.05, 0.6, MT.STEEL); L.box(1.13, 1.25, -1.2, 1.16, 2.05, 0.6, MT.STEEL);
     tubeAlong(L, [new THREE.Vector3(0.62, 2.7, -1.72), new THREE.Vector3(0.62, 3.55, -1.72)], 0.022, 5, MT.STEEL);

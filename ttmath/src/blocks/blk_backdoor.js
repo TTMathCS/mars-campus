@@ -15,8 +15,8 @@
     B.zone = ZONE.ROT;
     B.surf(6, 10, function (i, j, q) { var lat = lerp(-Wo, Wo, i / 6), rad = -lerp(r0 - 0.05, r1 + 0.25, j / 10), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yB + 0.01; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.m = MT.BALSTONE; });
     // ceiling under the roof slab, with a downlight
-    B.surf(6, 8, function (i, j, q) { var lat = lerp(-W, W, i / 6), rad = -lerp(PAL.ringOut - 0.2, r1, j / 8), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yR; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[1] = 0; q.m = MT.PLASTER; });
-    var dl = palXZ(0, -30.1); B.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 16), 1.8, 0), T(dl.x, yR - 0.012, dl.z), MT.LIGHT, 1);
+    B.surf(6, 8, function (i, j, q) { var lat = lerp(-W, W, i / 6), rad = -lerp(PAL.ringOut - 0.2, r1, j / 8), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yR - 0.012; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[1] = 0; q.m = MT.PLASTER; });   // just under the roof slab, never on it
+    var dl = palXZ(0, -30.1); B.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 16), 1.8, 0), T(dl.x, yR - 0.024, dl.z), MT.LIGHT, 1);
     extLight(dl.x, yR - 0.15, dl.z, [1.0, 0.85, 0.66], 1.4, 6, [0, -1, 0], 1.2);
     B.zone = ZONE.OUT;
     // roof slab: white composite with a dark aluminium fascia, over the collar and a little past the doors
@@ -30,9 +30,10 @@
     var cb = new Builder(), cr0 = PAL.ringIn - 0.05, cr1 = PAL.ringOut + 0.12;
     [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -(Wo + 0.25), -0.02, cr0 + 0.3, sd > 0 ? Wo + 0.25 : -W, BACK.roofY + 0.02, cr1, MT.ANOD); });
     cb.tag(0, 3, null);
-    var mj = cb.count();
-    [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -(Wo + 0.25), -0.02, cr0, sd > 0 ? Wo + 0.25 : -W, BACK.roofY + 0.02, cr0 + 0.3, MT.MARBLE); });
-    cb.tag(mj, 98, 4);
+    // inside the dome, a steel portal: jambs and a lintel that the cut ribs of the lattice land on (blk_palace2 domeRibs)
+    var pz0 = PAL.ringIn - 0.35, pw = W + 0.5, pH = BACK.roofY + 0.4;
+    [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -pw, -0.02, pz0, sd > 0 ? pw : -W, BACK.roofY, cr0 + 0.3, MT.RIB); });
+    cb.box(-pw, BACK.roofY, pz0, pw, pH, PAL.ringOut - 0.75, MT.RIB);
     var Mc = new THREE.Matrix4().makeBasis(new THREE.Vector3(Rt.x, 0, Rt.z), new THREE.Vector3(0, 1, 0), new THREE.Vector3(-F.x, 0, -F.z)); Mc.setPosition(PAL.c.x, yB, PAL.c.z);
     B.add(cb, Mc);
     // side walls: frames (posts, sill, head) and glass from the dome to the door line

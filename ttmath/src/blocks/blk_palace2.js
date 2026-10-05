@@ -35,7 +35,7 @@
     matU.uLinkA.value.set(LINK.w + 0.05, LINK.h + 0.08, LINK.pl, 0);
     function light(x, y, z, c, k, range, dir, lobe) { lights.push({ x: x, y: y, z: z, c: [c[0] * k, c[1] * k, c[2] * k], r: range, d: dir || null, lobe: lobe || 0 }); }
     var RUNS = [[8.95, 15.7], [24.3, 174.375], [185.625, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
-    function nearOpening(th, pad) { var a = Math.abs(Math.atan2(Math.sin(th), Math.cos(th))) * R2D; return a < 8.95 + pad || Math.abs(a - 20) < 4.3 + pad; }
+    function nearOpening(th, pad) { var a = Math.abs(Math.atan2(Math.sin(th), Math.cos(th))) * R2D; return a < 8.95 + pad || Math.abs(a - 20) < 4.3 + pad || a > 180 - 5.625 - pad; }   // front, links, back door
     function glyphUV(gi) { var A = ATL.glyph, u0 = A[0] + (A[2] - A[0]) * (gi + 0.06) / GLYPH_N, u1 = A[0] + (A[2] - A[0]) * (gi + 0.94) / GLYPH_N, v0 = lerp(A[1], A[3], 0.02), v1 = lerp(A[1], A[3], 0.98); return [[u0, v0], [u1, v0], [u1, v1], [u0, v1]]; }
     function V3(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y, p.z); }
     function inward(th) { var d = palPol(1, th); return [PAL.c.x - d.x, 0, PAL.c.z - d.z]; }            // unit vector toward the axis
@@ -330,6 +330,9 @@
       var o = palLoc(p.x, p.z, {}), hy = p.y - PALY.B;
       for (var sg = -1; sg <= 1; sg += 2) { var L = linkLoc(sg, o.lat, o.rad); if (L.sl > 20 && Math.abs(L.ll) < LINK.w + 0.4 && hy < linkArch(L.ll) + 0.45) return true; }
       if (o.rad < 20 || Math.abs(o.lat) > vaultW(26) + PAL.vt + 0.45) return false; var s = o.lat / (vaultW(26) + PAL.vt + 0.45); return hy < (vaultH(26) + 0.55 + 0.45) * Math.pow(Math.max(0, 1 - s * s), 0.55); }
+    // the back door: the ribs stop at its jambs and on a steel lintel over it, so nothing crosses the doorway
+    var BW = 2.55 + 0.25, BH = 2.85 + 0.3;
+    function inBackDoor(p) { var o = palLoc(p.x, p.z, {}); return o.rad < 0 && Math.abs(o.lat) < BW && p.y - PALY.B < BH; }
     var T3 = new THREE.Vector3(), Bn = new THREE.Vector3();
     function beam(pts, nrm) {
       var N = pts.length - 1; if (N < 1) return;
@@ -350,12 +353,16 @@
     RIBF.forEach(function (F) {
       var N = Math.ceil(sMax / Math.cos(Math.atan(Math.abs(F.tn))) / 0.6);
       for (var k = 0; k < F.m; k++) {
-        var th0 = k / F.m * 2 * Math.PI, run = [], rn = [];
+        var th0 = k / F.m * 2 * Math.PI, run = [], rn = [], wasDoor = false;
+        var at = function (sv) { var ph = domePhAtS(sv), th = th0 + F.tn * domeLam(ph), p = sp(ph, th); p.tag = sv / sMax; return { p: p, n: sn(ph, th) }; };
+        var edge = function (s0, s1) { for (var it = 0; it < 14; it++) { var sm = (s0 + s1) / 2; if (inBackDoor(at(sm).p) === inBackDoor(at(s0).p)) s0 = sm; else s1 = sm; } return at((s0 + s1) / 2); };
         for (var i = 0; i <= N; i++) {
-          var ph = domePhAtS(i / N * sMax), th = th0 + F.tn * domeLam(ph), p = sp(ph, th);
-          p.tag = i / N;
+          var sv = i / N * sMax, A = at(sv), p = A.p, door = inBackDoor(p);
+          if (i > 0 && door !== wasDoor) { var E = edge((i - 1) / N * sMax, sv); if (door) { run.push(E.p); rn.push(E.n); } else { beam(run, rn); run = [E.p]; rn = [E.n]; } }
+          wasDoor = door;
+          if (door) continue;
           if (inVault(p)) { beam(run, rn); run = []; rn = []; continue; }
-          run.push(p); rn.push(sn(ph, th));
+          run.push(p); rn.push(A.n);
         }
         beam(run, rn);
       }

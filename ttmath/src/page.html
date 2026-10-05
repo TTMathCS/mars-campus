@@ -2164,7 +2164,7 @@
     matU.uLinkA.value.set(LINK.w + 0.05, LINK.h + 0.08, LINK.pl, 0);
     function light(x, y, z, c, k, range, dir, lobe) { lights.push({ x: x, y: y, z: z, c: [c[0] * k, c[1] * k, c[2] * k], r: range, d: dir || null, lobe: lobe || 0 }); }
     var RUNS = [[8.95, 15.7], [24.3, 174.375], [185.625, 335.7], [344.3, 351.05]].map(function (c) { return [c[0] * D2R, c[1] * D2R]; });
-    function nearOpening(th, pad) { var a = Math.abs(Math.atan2(Math.sin(th), Math.cos(th))) * R2D; return a < 8.95 + pad || Math.abs(a - 20) < 4.3 + pad; }
+    function nearOpening(th, pad) { var a = Math.abs(Math.atan2(Math.sin(th), Math.cos(th))) * R2D; return a < 8.95 + pad || Math.abs(a - 20) < 4.3 + pad || a > 180 - 5.625 - pad; }   // front, links, back door
     function glyphUV(gi) { var A = ATL.glyph, u0 = A[0] + (A[2] - A[0]) * (gi + 0.06) / GLYPH_N, u1 = A[0] + (A[2] - A[0]) * (gi + 0.94) / GLYPH_N, v0 = lerp(A[1], A[3], 0.02), v1 = lerp(A[1], A[3], 0.98); return [[u0, v0], [u1, v0], [u1, v1], [u0, v1]]; }
     function V3(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y, p.z); }
     function inward(th) { var d = palPol(1, th); return [PAL.c.x - d.x, 0, PAL.c.z - d.z]; }            // unit vector toward the axis
@@ -2459,6 +2459,9 @@
       var o = palLoc(p.x, p.z, {}), hy = p.y - PALY.B;
       for (var sg = -1; sg <= 1; sg += 2) { var L = linkLoc(sg, o.lat, o.rad); if (L.sl > 20 && Math.abs(L.ll) < LINK.w + 0.4 && hy < linkArch(L.ll) + 0.45) return true; }
       if (o.rad < 20 || Math.abs(o.lat) > vaultW(26) + PAL.vt + 0.45) return false; var s = o.lat / (vaultW(26) + PAL.vt + 0.45); return hy < (vaultH(26) + 0.55 + 0.45) * Math.pow(Math.max(0, 1 - s * s), 0.55); }
+    // the back door: the ribs stop at its jambs and on a steel lintel over it, so nothing crosses the doorway
+    var BW = 2.55 + 0.25, BH = 2.85 + 0.3;
+    function inBackDoor(p) { var o = palLoc(p.x, p.z, {}); return o.rad < 0 && Math.abs(o.lat) < BW && p.y - PALY.B < BH; }
     var T3 = new THREE.Vector3(), Bn = new THREE.Vector3();
     function beam(pts, nrm) {
       var N = pts.length - 1; if (N < 1) return;
@@ -2479,12 +2482,16 @@
     RIBF.forEach(function (F) {
       var N = Math.ceil(sMax / Math.cos(Math.atan(Math.abs(F.tn))) / 0.6);
       for (var k = 0; k < F.m; k++) {
-        var th0 = k / F.m * 2 * Math.PI, run = [], rn = [];
+        var th0 = k / F.m * 2 * Math.PI, run = [], rn = [], wasDoor = false;
+        var at = function (sv) { var ph = domePhAtS(sv), th = th0 + F.tn * domeLam(ph), p = sp(ph, th); p.tag = sv / sMax; return { p: p, n: sn(ph, th) }; };
+        var edge = function (s0, s1) { for (var it = 0; it < 14; it++) { var sm = (s0 + s1) / 2; if (inBackDoor(at(sm).p) === inBackDoor(at(s0).p)) s0 = sm; else s1 = sm; } return at((s0 + s1) / 2); };
         for (var i = 0; i <= N; i++) {
-          var ph = domePhAtS(i / N * sMax), th = th0 + F.tn * domeLam(ph), p = sp(ph, th);
-          p.tag = i / N;
+          var sv = i / N * sMax, A = at(sv), p = A.p, door = inBackDoor(p);
+          if (i > 0 && door !== wasDoor) { var E = edge((i - 1) / N * sMax, sv); if (door) { run.push(E.p); rn.push(E.n); } else { beam(run, rn); run = [E.p]; rn = [E.n]; } }
+          wasDoor = door;
+          if (door) continue;
           if (inVault(p)) { beam(run, rn); run = []; rn = []; continue; }
-          run.push(p); rn.push(sn(ph, th));
+          run.push(p); rn.push(A.n);
         }
         beam(run, rn);
       }
@@ -3377,8 +3384,8 @@
     B.zone = ZONE.ROT;
     B.surf(6, 10, function (i, j, q) { var lat = lerp(-Wo, Wo, i / 6), rad = -lerp(r0 - 0.05, r1 + 0.25, j / 10), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yB + 0.01; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.m = MT.BALSTONE; });
     // ceiling under the roof slab, with a downlight
-    B.surf(6, 8, function (i, j, q) { var lat = lerp(-W, W, i / 6), rad = -lerp(PAL.ringOut - 0.2, r1, j / 8), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yR; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[1] = 0; q.m = MT.PLASTER; });
-    var dl = palXZ(0, -30.1); B.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 16), 1.8, 0), T(dl.x, yR - 0.012, dl.z), MT.LIGHT, 1);
+    B.surf(6, 8, function (i, j, q) { var lat = lerp(-W, W, i / 6), rad = -lerp(PAL.ringOut - 0.2, r1, j / 8), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = yR - 0.012; q.p[2] = p.z; q.nn = [0, -1, 0]; q.f[0] = lat; q.f[1] = rad; q.f2[1] = 0; q.m = MT.PLASTER; });   // just under the roof slab, never on it
+    var dl = palXZ(0, -30.1); B.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 16), 1.8, 0), T(dl.x, yR - 0.024, dl.z), MT.LIGHT, 1);
     extLight(dl.x, yR - 0.15, dl.z, [1.0, 0.85, 0.66], 1.4, 6, [0, -1, 0], 1.2);
     B.zone = ZONE.OUT;
     // roof slab: white composite with a dark aluminium fascia, over the collar and a little past the doors
@@ -3392,9 +3399,10 @@
     var cb = new Builder(), cr0 = PAL.ringIn - 0.05, cr1 = PAL.ringOut + 0.12;
     [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -(Wo + 0.25), -0.02, cr0 + 0.3, sd > 0 ? Wo + 0.25 : -W, BACK.roofY + 0.02, cr1, MT.ANOD); });
     cb.tag(0, 3, null);
-    var mj = cb.count();
-    [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -(Wo + 0.25), -0.02, cr0, sd > 0 ? Wo + 0.25 : -W, BACK.roofY + 0.02, cr0 + 0.3, MT.MARBLE); });
-    cb.tag(mj, 98, 4);
+    // inside the dome, a steel portal: jambs and a lintel that the cut ribs of the lattice land on (blk_palace2 domeRibs)
+    var pz0 = PAL.ringIn - 0.35, pw = W + 0.5, pH = BACK.roofY + 0.4;
+    [-1, 1].forEach(function (sd) { cb.box(sd > 0 ? W : -pw, -0.02, pz0, sd > 0 ? pw : -W, BACK.roofY, cr0 + 0.3, MT.RIB); });
+    cb.box(-pw, BACK.roofY, pz0, pw, pH, PAL.ringOut - 0.75, MT.RIB);
     var Mc = new THREE.Matrix4().makeBasis(new THREE.Vector3(Rt.x, 0, Rt.z), new THREE.Vector3(0, 1, 0), new THREE.Vector3(-F.x, 0, -F.z)); Mc.setPosition(PAL.c.x, yB, PAL.c.z);
     B.add(cb, Mc);
     // side walls: frames (posts, sill, head) and glass from the dome to the door line

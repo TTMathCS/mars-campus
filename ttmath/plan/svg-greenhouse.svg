@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 680" width="620" height="680" font-family="Helvetica, Arial, sans-serif">
+<title>T-08 · Garden of Primes: plan</title>
+<rect width="620" height="680" fill="#FAF8F3"/>
+<text x="24.0" y="28.0" font-size="16.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">T-08 · Garden of Primes: plan</text>
+<text x="24.0" y="48.0" font-size="11.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">Two glass vaults 12 m wide and 40 m long down the slope, the potting room between them; the doors at the near end.</text>
+<polygon points="130.0,92.0 262.0,92.0 262.0,532.0 130.0,532.0" fill="#D3E6C3" stroke="#2B2926" stroke-width="1.3"/>
+<polygon points="306.0,92.0 438.0,92.0 438.0,532.0 306.0,532.0" fill="#D3E6C3" stroke="#2B2926" stroke-width="1.3"/>
+<polygon points="143.2,109.6 176.2,109.6 176.2,155.8 143.2,155.8" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="215.8,109.6 248.8,109.6 248.8,155.8 215.8,155.8" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="143.2,171.2 176.2,171.2 176.2,217.4 143.2,217.4" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="215.8,171.2 248.8,171.2 248.8,217.4 215.8,217.4" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="143.2,232.8 176.2,232.8 176.2,279.0 143.2,279.0" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="215.8,232.8 248.8,232.8 248.8,279.0 215.8,279.0" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="143.2,294.4 176.2,294.4 176.2,340.6 143.2,340.6" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="215.8,294.4 248.8,294.4 248.8,340.6 215.8,340.6" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="143.2,356.0 176.2,356.0 176.2,402.2 143.2,402.2" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<polygon points="215.8,356.0 248.8,356.0 248.8,402.2 215.8,402.2" fill="#B5D29F" stroke="#6F8F5A" stroke-width="0.8"/>
+<circle cx="196.0" cy="140.4" r="6.6" fill="#8FB878" stroke="#5F844C" stroke-width="0.7"/>
+<circle cx="196.0" cy="202.0" r="6.6" fill="#8FB878" stroke="#5F844C" stroke-width="0.7"/>
+<circle cx="196.0" cy="263.6" r="6.6" fill="#8FB878" stroke="#5F844C" stroke-width="0.7"/>
+<circle cx="196.0" cy="325.2" r="6.6" fill="#8FB878" stroke="#5F844C" stroke-width="0.7"/>
+<polyline points="339.0,532.0 339.0,477.0 405.0,477.0 405.0,400.0 339.0,400.0 339.0,279.0 405.0,279.0 405.0,169.0" fill="none" stroke="#C9B48F" stroke-width="7.5" stroke-linecap="round"/>
+<polyline points="339.0,532.0 339.0,477.0 405.0,477.0 405.0,400.0 339.0,400.0 339.0,279.0 405.0,279.0 405.0,169.0" fill="none" stroke="#EADDC2" stroke-width="5.5" stroke-linecap="round"/>
+<circle cx="320.3" cy="503.4" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="423.7" cy="503.4" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="372.0" cy="438.5" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="320.3" cy="367.0" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="423.7" cy="345.0" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="372.0" cy="317.5" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="320.3" cy="235.0" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<circle cx="423.7" cy="224.0" r="13.2" fill="#97C283" stroke="#5F844C" stroke-width="0.8"/>
+<polygon points="130.0,466.0 262.0,466.0 262.0,532.0 130.0,532.0" fill="#E8DFF0" stroke="#2B2926" stroke-width="0.9" stroke-dasharray="4 3"/>
+<polygon points="306.0,92.0 438.0,92.0 438.0,169.0 306.0,169.0" fill="#A6CDB1" stroke="#2B2926" stroke-width="0.9" stroke-dasharray="4 3"/>
+<circle cx="158.6" cy="505.6" r="6.1" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.8"/>
+<circle cx="196.0" cy="505.6" r="6.1" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.8"/>
+<circle cx="233.4" cy="505.6" r="6.1" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.8"/>
+<circle cx="323.6" cy="109.6" r="9.3" fill="#8C8C84" stroke="#5E5E58" stroke-width="0.7"/>
+<circle cx="347.8" cy="133.8" r="9.3" fill="#8C8C84" stroke="#5E5E58" stroke-width="0.7"/>
+<circle cx="372.0" cy="109.6" r="9.3" fill="#8C8C84" stroke="#5E5E58" stroke-width="0.7"/>
+<circle cx="396.2" cy="133.8" r="9.3" fill="#8C8C84" stroke="#5E5E58" stroke-width="0.7"/>
+<circle cx="420.4" cy="109.6" r="9.3" fill="#8C8C84" stroke="#5E5E58" stroke-width="0.7"/>
+<polygon points="262.0,246.0 306.0,246.0 306.0,378.0 262.0,378.0" fill="#DFDED9" stroke="#2B2926" stroke-width="1.3"/>
+<text x="284.0" y="270.2" font-size="10.1" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T08-04</text>
+<text x="284.0" y="309.8" font-size="8.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 284.0 309.8)">potting</text>
+<text x="284.0" y="353.8" font-size="8.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 284.0 353.8)">seed bank</text>
+<polyline points="262.0,326.3 262.0,337.3" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="262.0,326.3 273.0,326.3" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M273.0,326.3 A11.0,11.0 0 0 1 262.0,337.3" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<polyline points="306.0,326.3 306.0,337.3" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="306.0,326.3 295.0,326.3" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M295.0,326.3 A11.0,11.0 0 0 0 306.0,337.3" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<text x="196.0" y="295.5" font-size="12.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T08-01</text>
+<text x="196.0" y="313.1" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Kitchen garden</text>
+<text x="372.0" y="327.4" font-size="12.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T08-02</text>
+<text x="372.0" y="345.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Orchard vault</text>
+<text x="196.0" y="481.4" font-size="9.5" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T08-05 Tea corner</text>
+<text x="372.0" y="149.2" font-size="9.5" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T08-03 Fern grotto</text>
+<polygon points="108.0,538.6 460.0,538.6 460.0,562.8 108.0,562.8" fill="#E2D9C6" stroke="#B9AE98" stroke-width="0.8"/>
+<polyline points="187.2,532.0 204.8,532.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="187.2,532.0 187.2,514.4" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M187.2,514.4 A17.6,17.6 0 0 1 204.8,532.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<polyline points="330.2,532.0 347.8,532.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="330.2,532.0 330.2,514.4" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M330.2,514.4 A17.6,17.6 0 0 1 347.8,532.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<text x="466.6" y="550.7" font-size="9.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">garden path</text>
+<line x1="284.0" y1="603.5" x2="284.0" y2="572.1" stroke="#A8432A" stroke-width="1.8"/>
+<polygon points="284.0,566.1 288.5,575.1 279.5,575.1" fill="#A8432A"/>
+<text x="284.0" y="615.5" font-size="10.0" font-weight="700" fill="#A8432A" text-anchor="middle" dominant-baseline="middle">in from the garden</text>
+<line x1="24.0" y1="650.0" x2="134.0" y2="650.0" stroke="#24272A" stroke-width="2"/>
+<line x1="24.0" y1="646.0" x2="24.0" y2="654.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="24.0" y="664.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">0</text>
+<line x1="79.0" y1="646.0" x2="79.0" y2="654.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="79.0" y="664.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">5</text>
+<line x1="134.0" y1="646.0" x2="134.0" y2="654.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="134.0" y="664.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">10 m</text>
+<line x1="380.0" y1="631.0" x2="380.0" y2="651.0" stroke="#4E575B" stroke-width="1.6"/><polygon points="380.0,659.0 375.0,649.0 385.0,649.0" fill="#4E575B"/>
+<text x="389.0" y="645.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">toward the palace and the start</text>
+</svg>

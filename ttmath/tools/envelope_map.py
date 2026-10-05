@@ -1,11 +1,11 @@
-"""Draws ttmath/tools/out/envelope.json (from envelope.py) as a map, north up: how tall a building can be at each
+"""Draws ttmath/tools/data/envelope.json (from envelope.py) as a map, north up: how tall a building can be at each
 spot and stay hidden from the start point, with the start, the ridge viewpoint and today's campus outlined.
 usage: python3 ttmath/tools/envelope_map.py [out.png]   (needs numpy and Pillow)"""
 import json, math, os, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 HERE = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(HERE, "out")
-E = json.load(open(os.path.join(OUT, "envelope.json")))
+E = json.load(open(os.path.join(HERE, "data", "envelope.json")))
 dst = sys.argv[1] if len(sys.argv) > 1 else os.path.join(OUT, "envelope_map.png")
 AZ = np.array(E["az"], float); D = np.array(E["d"], float); HID = np.array(E["hidden"], float)
 S, PX = 2.4, 1000                                  # pixels per metre; the map spans 1000 px, centred north-west of the start

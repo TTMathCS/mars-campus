@@ -1,12 +1,13 @@
 """How tall a building may be, anywhere round the campus, and still stay hidden from the start point (CP-1).
 usage: python3 ttmath/tools/envelope.py   (then envelope_map.py draws it; needs numpy and Pillow)
 Samples the page's own ground (the real NASA mesh near the start, the simulated land beyond) along rays from the
-start, every 2 degrees from bearing 250 to 40 and every metre out to 460 m, and writes ttmath/tools/out/envelope.json:
+start, every 2 degrees from bearing 250 to 40 and every metre out to 460 m, and writes ttmath/tools/data/envelope.json
+(kept in the repo: the site plan is drawn from it):
 for each ray the ground and the highest point still hidden behind the ground nearer the start (eye 1.7 m up)."""
 import asyncio, json, os, time
 from playwright.async_api import async_playwright
 from _page import TOOLS, write_test_page, serve, prepare, GPU_ARGS
-OUT = os.path.join(TOOLS, "out"); os.makedirs(OUT, exist_ok=True)
+OUT = os.path.join(TOOLS, "data"); os.makedirs(OUT, exist_ok=True)
 SAMPLE = """(function(){
   var out = { az: [], d: [], g: [] }, D = [];
   for (var d = 0.5; d <= 460; d += (d < 140 ? 0.5 : 1.0)) D.push(+d.toFixed(1));
@@ -44,7 +45,9 @@ async def main():
                 hid.append(h)
             data["hidden"] = hid
             data["campus"] = [[q[0], q[2]] for q in await pg.evaluate("__mars.campusSample(25)")]        # today's buildings, seen from above
-            json.dump(data, open(os.path.join(OUT, "envelope.json"), "w"))
+            rnd = lambda x, n: [rnd(y, n) for y in x] if isinstance(x, list) else (None if x != x else round(x, n)) if isinstance(x, float) else x
+            data = {k: rnd(v, 2 if k in ("az", "d") else 1) for k, v in data.items()}
+            json.dump(data, open(os.path.join(OUT, "envelope.json"), "w"), separators=(",", ":"))
             print("rays", len(data["az"]), "samples", len(data["d"]), round(time.time() - t0, 1), "s")
             await b.close()
     finally:

@@ -1,14 +1,16 @@
-"""TTMath campus, phase 2: the plan for Jim's approval. Draws the site plan over the map of how tall a building may be
-and stay hidden from the start (out/envelope.json from envelope.py) and writes the plan pages in ttmath/plan/.
+"""TTMath campus, phase 2: the site plan and the overview pages. Draws the site plan over the map of how tall a building
+may be and stay hidden from the start (data/envelope.json from envelope.py) and writes index, buildings and rover pages in
+ttmath/plan/; campus_buildings.py writes a page per building. Shapes come from the room program, campus_rooms.py.
 usage: python3 ttmath/tools/campus_plan.py   (needs numpy and Pillow)
 Places are in the Math Palace's frame, in metres: rad from the dome's centre toward the start (the visitor), lat to
 the visitor's right. The program (what each building is for) is PROGRAM below; heights are checked against the map."""
 import base64, html, io, json, math, os
 import numpy as np
 from PIL import Image
+import campus_rooms as R
 HERE = os.path.dirname(os.path.abspath(__file__)); TT = os.path.dirname(HERE); OUT = os.path.join(TT, "plan")
 os.makedirs(OUT, exist_ok=True); E = html.escape
-ENV = json.load(open(os.path.join(HERE, "out", "envelope.json")))
+ENV = json.load(open(os.path.join(HERE, "data", "envelope.json")))
 AZ = np.array(ENV["az"], float); AZU = np.where(AZ < 200, AZ + 360, AZ); DD = np.array(ENV["d"], float)
 HID = np.array(ENV["hidden"], float); GR = np.array(ENV["g"], float)
 C = np.array([math.sin(math.radians(326)) * 124, -math.cos(math.radians(326)) * 124])          # the dome's centre
@@ -45,11 +47,21 @@ def arc(r0, r1, p0, p1, n=40):
     return a + b
 
 
-def fan(lat, rad, r0, r1, a0, a1, n=24):
-    """a fan (a lecture hall): stage at the point (lat, rad) facing +rad... angles from the +rad axis"""
-    pts = [(lat + r1 * math.sin(math.radians(a)), rad - r1 * math.cos(math.radians(a))) for a in np.linspace(a0, a1, n)]
-    pts += [(lat + r0 * math.sin(math.radians(a)), rad - r0 * math.cos(math.radians(a))) for a in np.linspace(a1, a0, n)]
-    return pts
+def fan(G, n=24):
+    """Infinity Hall's outline from the room program: the stage at the point, the fan opening along the turn (0 = +rad)"""
+    t = math.radians(G["turn"]); r0, r1 = G["r_stage"], G["r_foyer"][1]; a = G["half_angle"]
+    L = lambda x, y: (G["lat"] + x * math.cos(t) + y * math.sin(t), G["rad"] + y * math.cos(t) - x * math.sin(t))
+    pts = [L(r1 * math.sin(math.radians(b)), r1 * math.cos(math.radians(b))) for b in np.linspace(-a, a, n)]
+    return pts + [L(r0 * math.sin(math.radians(b)), r0 * math.cos(math.radians(b))) for b in np.linspace(a, -a, n)]
+
+
+def infinity_height(lat, rad):
+    """Infinity Hall's section: the stage house 11 m, the roof stepping down over the rows to 7.5 m, the foyer 6.5 m"""
+    G = R.INFINITY; t = math.radians(G["turn"]); dx, dy = lat - G["lat"], rad - G["rad"]
+    y = dy * math.cos(t) + dx * math.sin(t); r = math.hypot(dx, dy) if y > 0 else 0.0
+    if r <= G["r_seats"][0]: return 11.0
+    if r <= G["r_seats"][1]: return 11.0 - 3.5 * (r - G["r_seats"][0]) / (G["r_seats"][1] - G["r_seats"][0])
+    return 6.5
 
 
 def wing(sg):
@@ -67,25 +79,25 @@ EXISTING = [
     dict(code="T-05", name="Logo wall", shape=rect(lw[0], lw[1], 4.8, 1.2, 0), h=1.45, area=0, use="The curved wall with the TTMath logo by the path, just past the ridge."),
 ]
 NEW = [
-    dict(code="T-06", name="The Crescent: the Academy", shape=arc(46, 60, -50, 50), h=9.0, area=2600, floors=2,
-         use="Eight classrooms, each named after a mathematician (Euclid, Archimedes, Hypatia, Fibonacci, Gauss, Noether, Ramanujan, Turing), a competition room, the teachers' room, a student lounge and a study hall, on two floors in a crescent that wraps the back of the dome. Its roof is a terrace you walk out onto from the palace's back door.",
+    dict(code="T-06", name="The Crescent: the Academy", shape=arc(R.CRESCENT["r0"], R.CRESCENT["r1"], R.CRESCENT["a0"], R.CRESCENT["a1"]), h=9.0, area=2600, floors=2,
+         use="Eight classrooms, each named after a mathematician (Euclid, Archimedes, Hypatia, Fibonacci, Gauss, Noether, Ramanujan, Turing), a study hall, a competition room, a games room and lounge, the teachers' room, on two floors in a crescent that wraps the back of the dome. The upper floor opens onto the palace's back terrace, the lower floor onto the garden.",
          look="White fibre-composite shell like the wings, a glass front onto the garden, oak and terrazzo inside."),
-    dict(code="T-07", name="Infinity Hall", shape=fan(-60, -86, 6, 34, -38, 38), h=13.0, area=900,
-         use="A lecture theatre with 240 seats on raked tiers, a stage and a screen 14 m wide: talks, competitions, films, the graduation.",
+    dict(code="T-07", name="Infinity Hall", shape=fan(R.INFINITY), h=11.0, hprof=infinity_height, h_note="11 m at the stage, 6.5 m at the foyer", area=900,
+         use="A lecture theatre with 240 seats on 12 rows climbing the slope like a Greek theatre, a stage and a screen 14 m wide: talks, competitions, films, the graduation.",
          look="A low shell shaped like a lemniscate (∞) in plan above the foyer, copper-coloured cladding, timber inside."),
-    dict(code="T-08", name="Garden of Primes", shape=rect(62, -100, 26, 40, 0), h=8.0, area=1040,
+    dict(code="T-08", name="Garden of Primes", shape=rect(R.GREENHOUSE["lat"], R.GREENHOUSE["rad"], 2 * R.GREENHOUSE["vault_w"] + R.GREENHOUSE["link_w"], R.GREENHOUSE["vault_l"], 0), h=8.0, area=1010,
          use="Two glass barrel vaults full of real plants under grow lights: vegetables and herbs for the café, citrus and fig trees, a fern grotto, benches among the beds. A biology class and a quiet place to read.",
          look="Clear vaults on white steel ribs, plants in raised beds, a path that turns at prime numbers of steps."),
     dict(code="T-09", name="Fibonacci Garden", shape=[(-36, -66), (36, -66), (30, -132), (-30, -132)], h=0, area=0, ground=True,
          use="A garden in three terraces down the slope from the palace to the observatory, its paths laid on a golden spiral: basalt gravel, Mars rock, math sculptures (a Klein bottle, a trefoil knot, a Möbius bench), lights at Fibonacci distances.",
          look="Stone walls, gravel, sculptures in bronze and stone: built for Mars, nothing that needs air."),
-    dict(code="T-10", name="Observatory", name_dy=24, shape=circle(0, -146, 9), h=24.0, area=320, floors=4,
+    dict(code="T-10", name="Observatory", name_dy=24, shape=circle(R.OBSERVATORY["lat"], R.OBSERVATORY["rad"], R.OBSERVATORY["r"]), h=24.0, area=1020, floors=4,
          use="A tower with a telescope dome on top, at the foot of the garden on the palace's axis: Mars's night sky, Earth and the Moon as evening stars, Phobos and Deimos. A viewing deck round the dome.",
          look="A slender stone-clad tower, a white dome 9 m across that opens, a ring of windows at the deck."),
-    dict(code="T-11", name="Low-gravity Sports Dome", short="Sports Dome", shape=circle(-58, -158, 17), h=16.0, area=900,
-         use="A sports hall under a dome 34 m across for games in Mars gravity (0.38 g): basketball with 2.6 times the hang time, a climbing wall, a running track round the edge.",
+    dict(code="T-11", name="Low-gravity Sports Dome", short="Sports Dome", shape=circle(R.SPORTS["lat"], R.SPORTS["rad"], R.SPORTS["r"]), h=16.0, area=900,
+         use="A sports hall under a dome 34 m across for games in Mars gravity (0.38 g): basketball with 2.6 times the hang time, a climbing wall, a fitness gallery with treadmills that load you to your Earth weight.",
          look="A ribbed composite dome with a band of windows, a sprung timber floor inside."),
-    dict(code="T-12", name="Robotics and Rover Hangar", short="Rover Hangar", shape=rect(72, -156, 34, 22, 0), h=8.0, area=750,
+    dict(code="T-12", name="Robotics and Rover Hangar", short="Rover Hangar", shape=rect(R.HANGAR["lat"], R.HANGAR["rad"], R.HANGAR["w"], R.HANGAR["d"], 0), h=8.0, area=750,
          use="The engineering lab where students build robots and rovers, and the hangar for the campus rovers, with a suitport for each and a workshop. The test yard next to it has a track with ramps and rocks.",
          look="A long steel and composite hall with three big doors onto the yard, a rover in each bay."),
     dict(code="T-13", name="Rover test yard", short="Test yard", shape=rect(108, -152, 30, 36, 0), h=0, area=0, ground=True,
@@ -93,25 +105,40 @@ NEW = [
     dict(code="T-14", name="Pod Port", shape=[(-24, -184), (64, -184), (64, -230), (-24, -230)], h=0, area=0, ground=True,
          use="A parking field for flying pods, ready for travel when it comes: six landing pads 14 m across with lit rings and charging masts, pods parked on four of them, a taxi lane to the terminal.",
          look="Dark pads with white markings and a ring of lights; the pods in white composite with tinted canopies."),
-    dict(code="T-15", name="Pod terminal", shape=rect(20, -173, 26, 12, 0), h=6.0, area=310,
-         use="A glass lounge by the pads: check-in, a waiting room with the view, a charging room and the pod crew's office.",
+    dict(code="T-15", name="Pod terminal", shape=rect(R.TERMINAL["lat"], R.TERMINAL["rad"], R.TERMINAL["w"], R.TERMINAL["d"], 0), h=6.0, area=310,
+         use="A glass lounge by the pads: check-in, a waiting room with the view, a charging room, the pod crew's office and two boarding collars, so nobody needs a suit.",
          look="A low glass pavilion under a thin white roof that overhangs the pad side."),
+    dict(code="T-16", name="Sun court", shape=rect(R.SUNCOURT["lat"], R.SUNCOURT["rad"], R.SUNCOURT["w"], R.SUNCOURT["d"], 0), h=R.SUNCOURT["sphere"] + R.SUNCOURT["plinth"], area=0, ground=True,
+         use="Where the solar field stood behind the classroom wing (the campus is on the city's grid): an outdoor classroom round a bronze armillary sundial that keeps Mars time, stone benches in a half-circle.",
+         look="Basalt paving, stone benches, the bronze sphere on a stone plinth."),
 ]
-PADS = [(lat, rad) for rad in (-198, -218) for lat in (-6, 20, 46)]
+PADS = R.PODPORT["pads"]
 
 
 # ------------------------------------------------------------------------------------------------- checks
+def inside(pts, lat, rad):
+    c = False
+    for i in range(len(pts)):
+        (x0, y0), (x1, y1) = pts[i], pts[i - 1]
+        if (y0 > rad) != (y1 > rad) and lat < x0 + (rad - y0) * (x1 - x0) / (y1 - y0): c = not c
+    return c
+
+
 def check(b):
-    pts = b["shape"]; hs = []
-    for (lat, rad) in pts + [(sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts))]:
+    """the smallest clearance under the line of sight over the footprint (outline and a 2 m grid inside it), with the
+    building's height at each point (hprof, or its height h everywhere); returns (clearance, mean ground)"""
+    pts = b["shape"]; hp = b.get("hprof") or (lambda lat, rad: b["h"]); res = []
+    lats, rads = [p[0] for p in pts], [p[1] for p in pts]
+    grid = [(x, y) for x in np.arange(min(lats), max(lats), 2.0) for y in np.arange(min(rads), max(rads), 2.0) if inside(pts, x, y)]
+    for (lat, rad) in pts + grid:
         h, g = at(lat, rad)
-        if h is not None: hs.append((h, g))
-    if not hs: return None, None
-    return min(h for h, g in hs), sum(g for h, g in hs) / len(hs)
+        if h is not None: res.append((h - hp(lat, rad), g))
+    if not res: return None, None
+    return min(m for m, g in res), sum(g for m, g in res) / len(res)
 
 
 for b in EXISTING + NEW:
-    b["limit"], b["gnd"] = check(b)
+    b["spare"], b["gnd"] = check(b)
 
 # ------------------------------------------------------------------------------------------------- the drawing
 LAT0, LAT1, RAD0, RAD1 = -130.0, 150.0, -245.0, 135.0         # what the plan shows: the start at the bottom
@@ -214,22 +241,24 @@ td.n{white-space:nowrap}td.code{font-weight:700;white-space:nowrap}.cards{displa
 .ask{background:#FFF6E3;border:1px solid #E4C98C;padding:12px 14px;margin:18px 0}footer{font-size:13px;color:var(--ink2);border-top:1px solid var(--rule);margin-top:28px}
 @media (max-width:640px){table,tbody,tr,td{display:block}thead{display:none}tr{border-top:1px solid var(--rule);padding:8px 10px}td{border:0;padding:2px 0}}"""
 open(os.path.join(OUT, "plan.css"), "w").write(CSS)
-NAV = [("index.html", "The plan"), ("buildings.html", "The buildings"), ("rover.html", "The rover"), ("pods.html", "The pod port")]
+NAV = R.PLAN_NAV
+PAGE = {b["code"]: b["page"] for b in R.BUILDINGS}
+PAGE["T-13"] = "hangar.html"
 
 
 def page(fn, title, body):
     nav = "".join('<a href="%s"%s>%s</a>' % (h, ' class="on"' if h == fn else "", n) for h, n in NAV)
     open(os.path.join(OUT, fn), "w").write("""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s · TTMath campus, phase 2</title><meta name="robots" content="noindex"><link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="plan.css"></head>
-<body><header><div class="in"><div class="crumb"><a href="../../">Mars – No Way Home</a> · <a href="../">TTMath on Mars</a> · TTMath campus, phase 2 · for Jim's approval</div><nav>%s</nav></div></header>
-<main>%s</main><footer><p>Drawn by <code>ttmath/tools/campus_plan.py</code> from the program in it and the line-of-sight map from <code>ttmath/tools/envelope.py</code>.</p></footer></body></html>
+<body><header><div class="in"><div class="crumb"><a href="../../">Mars – No Way Home</a> · <a href="../">TTMath on Mars</a> · <a href="index.html">TTMath campus, phase 2</a></div><nav>%s</nav></div></header>
+<main>%s</main></body></html>
 """ % (E(title), nav, body))
 
 
 area_now = sum(b["area"] for b in EXISTING); area_new = sum(b["area"] for b in NEW)
-rows = "".join('<tr><td class="code">%s</td><td><b>%s</b><br>%s</td><td class="n">%s</td><td class="n">%s m%s</td></tr>' % (
-    b["code"], E(b["name"]), E(b["use"]), ("%s m²" % format(b["area"], ",")) if b["area"] else "outdoor",
-    ("%g" % b["h"]) if b["h"] else "0", (" · hidden to %d m" % b["limit"]) if b["limit"] is not None else "") for b in NEW)
+rows = "".join('<tr><td class="code">%s</td><td><b>%s</b><br>%s</td><td class="n">%s</td><td>%s%s</td></tr>' % (
+    ('<a href="%s">%s</a>' % (PAGE[b["code"]], b["code"])) if b["code"] in PAGE else b["code"], E(b["name"]), E(b["use"]), ("%s m²" % format(b["area"], ",")) if b["area"] else "outdoor",
+    b.get("h_note") or (("%g m" % b["h"]) if b["h"] else "0 m"), (" · %.1f m below the line of sight" % b["spare"]) if b["spare"] is not None else "") for b in NEW)
 page("index.html", "The plan", """<h1>TTMath campus, phase 2</h1>
 <p class="lede">The campus grows to about three times its size: ten new buildings and spaces on the slope behind the Math Palace, where the ground falls 15 to 20 m to the plain. From the start nothing new can be seen: every building stays under the ridge's line of sight, checked against the real terrain. You reach the new quarter through a new back door in the rotunda, or round the dome.</p>
 <figure><a href="site-plan.svg"><img src="site-plan.svg" alt="Site plan of the TTMath campus with phase 2: the Math Palace and its courtyard, and behind it the Crescent, Infinity Hall, the Garden of Primes, the Fibonacci Garden, the observatory, the sports dome, the robotics and rover hangar and the pod port, over a map of how tall a building may be and stay hidden from the start"></a>
@@ -237,10 +266,9 @@ page("index.html", "The plan", """<h1>TTMath campus, phase 2</h1>
 <p>Floor area today: about %s m². New: %s m². Together: %s m², <b>%.1f times</b> today's.</p>
 <div class="cards"><a class="card" href="buildings.html"><b>The buildings</b><span>Each new building: what it is for, its size, how tall it may be</span></a>
 <a class="card" href="rover.html"><b>The rover</b><span>A new rover that looks the part</span></a><a class="card" href="pods.html"><b>The pod port</b><span>Parking for flying pods, ready for travel</span></a></div>
-<div class="ask"><b>For your approval:</b> the layout and the list of buildings. Once you approve, I build them into the demo, one at a time, starting with the Crescent (more classrooms) and the pod port. Say what to change by its code (T-06 …).</div>
-<h2>Also in phase 2</h2><ul><li><b>More real look</b> everywhere: furniture, wood, the dome's glass and frame, and real plants in the Garden of Primes (already in hand; it needs no approval).</li>
-<li>The <b>solar panels</b> behind the classroom wing go: the campus draws its power from the town's reactor, so the ground stays clean.</li></ul>""" % (format(area_now, ","), format(area_new, ","), format(area_now + area_new, ","), (area_now + area_new) / area_now))
-page("buildings.html", "The buildings", """<h1>The buildings</h1><p class="lede">Ten new buildings and spaces, coded T-06 to T-15 after today's T-01 to T-05. Heights are checked against the line of sight from the start: "hidden to" is the most a building could be there.</p>
+<h2>Also in phase 2</h2><ul><li><b>More real look</b> everywhere: furniture, wood, the dome's glass and frame, and real plants.</li>
+<li><b>No power plant on the campus:</b> it is on the grid of the city nearby. Where the solar field stood behind the classroom wing is now the Sun court (T-16).</li></ul>""" % (format(area_now, ","), format(area_new, ","), format(area_now + area_new, ","), (area_now + area_new) / area_now))
+page("buildings.html", "The buildings", """<h1>The buildings</h1><p class="lede">Eleven new buildings and spaces, coded T-06 to T-16 after today's T-01 to T-05; click a code for its floor plans and rooms. Heights are checked against the line of sight from the start over the whole footprint: the number after the height is how far the building stays below it at its tightest point.</p>
 <div class="tw"><table><thead><tr><th>Code</th><th>What it is for</th><th>Floor area</th><th>Height</th></tr></thead><tbody>%s</tbody></table></div>
 <h2>Today's campus</h2><ul>%s</ul>""" % (rows, "".join("<li><b>%s %s</b>: %s</li>" % (b["code"], E(b["name"]), E(b["use"])) for b in EXISTING)))
 page("rover.html", "The rover", """<h1>The rover</h1><p class="lede">Today's rovers are boxy and plain. The new one is an expedition machine you would want to drive: long, low and muscular, built for Mars.</p>
@@ -250,9 +278,7 @@ page("rover.html", "The rover", """<h1>The rover</h1><p class="lede">Today's rov
 <li><b>Body:</b> white and graphite composite with orange accents, panel lines, grab handles, a roof rack with a high-gain antenna, a light bar across the front and amber side markers.</li>
 <li><b>Details that make it real:</b> dust on the lower body, scuffed treads, a winch on the nose, sample drawers on the sides, a docking collar at the back that seals onto the hangar.</li></ul>
 <p>Three of them: one at the hangar (T-12), one by the gateway, one out on the test yard (T-13).</p>""")
-page("pods.html", "The pod port", """<h1>The pod port</h1><p class="lede">A parking field for flying pods (T-14) with its terminal (T-15), at the far end of the campus on the plain, where nothing on the ground can be seen from the start. Built now so the campus is ready for travel by air when it comes.</p>
-<ul><li><b>Six pads</b> 14 m across in two rows, dark with white markings, a ring of lights round each, a charging mast beside it; a taxi lane to the terminal.</li>
-<li><b>The pods:</b> four parked on the pads, two-seat craft about 6 m long: a teardrop cabin in white composite with a tinted canopy, four big ducted rotors (Mars's thin air needs large blades), landing skids, navigation lights. No toy shapes: proportions and detail of a real aircraft.</li>
-<li><b>The terminal:</b> a glass lounge under a thin white roof, check-in, a waiting room with the view of the pads, a charging room.</li></ul>""")
 print("new floor area", area_new, "total", area_now + area_new, "x%.2f" % ((area_now + area_new) / area_now))
-for b in NEW: print(b["code"], b["name"][:28].ljust(28), "h", b["h"], "limit", None if b["limit"] is None else round(b["limit"], 1), "ground", None if b["gnd"] is None else round(b["gnd"], 1))
+for b in NEW: print(b["code"], b["name"][:28].ljust(28), "h", b["h"], "to spare", None if b["spare"] is None else round(b["spare"], 1), "ground", None if b["gnd"] is None else round(b["gnd"], 1))
+bad = [b["code"] for b in NEW if b["spare"] is not None and b["spare"] < 0.5 and b.get("h")]
+print("CHECK:", "every new building stays at least 0.5 m below the line of sight (today's campus is checked by hidden.py)" if not bad else "too tall: %s" % bad)

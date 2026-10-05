@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" width="760" height="580" font-family="Helvetica, Arial, sans-serif">
+<title>T-14 · Pod Port and T-15 · terminal: plan</title>
+<rect width="760" height="580" fill="#FAF8F3"/>
+<text x="24.0" y="28.0" font-size="16.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">T-14 · Pod Port and T-15 · terminal: plan</text>
+<text x="24.0" y="48.0" font-size="11.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">Six pads 14 m across, pods parked on four; they taxi to the terminal&#x27;s boarding collars, so nobody needs a suit.</text>
+<polygon points="176.0,181.0 584.0,181.0 584.0,211.0 176.0,211.0" fill="#6B7076" stroke="#6B7076" stroke-width="0.5"/>
+<polyline points="176.0,196.0 584.0,196.0" fill="none" stroke="#F2C14E" stroke-width="1.3" stroke-linecap="butt" stroke-dasharray="7 5"/>
+<polygon points="176.0,316.0 584.0,316.0 584.0,346.0 176.0,346.0" fill="#6B7076" stroke="#6B7076" stroke-width="0.5"/>
+<polyline points="176.0,331.0 584.0,331.0" fill="none" stroke="#F2C14E" stroke-width="1.3" stroke-linecap="butt" stroke-dasharray="7 5"/>
+<polygon points="287.0,211.0 317.0,211.0 317.0,316.0 287.0,316.0" fill="#6B7076" stroke="#6B7076" stroke-width="0.5"/>
+<polyline points="302.0,211.0 302.0,316.0" fill="none" stroke="#F2C14E" stroke-width="1.3" stroke-linecap="butt" stroke-dasharray="7 5"/>
+<polygon points="443.0,211.0 473.0,211.0 473.0,316.0 443.0,316.0" fill="#6B7076" stroke="#6B7076" stroke-width="0.5"/>
+<polyline points="458.0,211.0 458.0,316.0" fill="none" stroke="#F2C14E" stroke-width="1.3" stroke-linecap="butt" stroke-dasharray="7 5"/>
+<circle cx="224.0" cy="256.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="224.0" cy="256.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="224.0" y="229.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P1</text>
+<polygon points="218.0,238.0 230.0,238.0 231.8,271.6 216.2,271.6" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<circle cx="208.4" cy="244.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="208.4" cy="268.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="239.6" cy="244.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="239.6" cy="268.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="273.8" cy="226.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<circle cx="380.0" cy="256.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="380.0" cy="256.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="380.0" y="229.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P2</text>
+<circle cx="429.8" cy="226.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<circle cx="536.0" cy="256.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="536.0" cy="256.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="536.0" y="229.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P3</text>
+<polygon points="530.0,238.0 542.0,238.0 543.8,271.6 528.2,271.6" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<circle cx="520.4" cy="244.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="520.4" cy="268.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="551.6" cy="244.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="551.6" cy="268.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="585.8" cy="226.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<circle cx="224.0" cy="136.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="224.0" cy="136.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="224.0" y="109.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P4</text>
+<polygon points="218.0,118.0 230.0,118.0 231.8,151.6 216.2,151.6" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<circle cx="208.4" cy="124.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="208.4" cy="148.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="239.6" cy="124.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="239.6" cy="148.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="273.8" cy="106.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<circle cx="380.0" cy="136.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="380.0" cy="136.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="380.0" y="109.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P5</text>
+<circle cx="429.8" cy="106.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<circle cx="536.0" cy="136.0" r="42.0" fill="#5B6066" stroke="#FFFFFF" stroke-width="2.2"/>
+<circle cx="536.0" cy="136.0" r="36.0" fill="none" stroke="#F2C14E" stroke-width="1.6"/>
+<text x="536.0" y="109.0" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">T14-P6</text>
+<polygon points="530.0,118.0 542.0,118.0 543.8,151.6 528.2,151.6" fill="#F4F4F1" stroke="#1D2124" stroke-width="0.9"/>
+<circle cx="520.4" cy="124.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="520.4" cy="148.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="551.6" cy="124.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="551.6" cy="148.0" r="6.9" fill="none" stroke="#E8E8E4" stroke-width="1.0"/>
+<circle cx="585.8" cy="106.0" r="3.0" fill="#F2C14E" stroke="#3A3A36" stroke-width="0.8"/>
+<polygon points="302.0,370.0 374.0,370.0 374.0,442.0 302.0,442.0" fill="#E8DFF0" stroke="#2B2926" stroke-width="1.3"/>
+<text x="338.0" y="400.5" font-size="10.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T15-01</text>
+<text x="338.0" y="412.2" font-size="8.2" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Lounge</text>
+<polygon points="374.0,370.0 404.0,370.0 404.0,442.0 374.0,442.0" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.3"/>
+<text x="389.0" y="400.5" font-size="10.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 389.0 400.5)">T15-02</text>
+<text x="389.0" y="412.2" font-size="8.2" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 389.0 412.2)">Check-in</text>
+<polygon points="404.0,370.0 431.0,370.0 431.0,442.0 404.0,442.0" fill="#D8DDE2" stroke="#2B2926" stroke-width="1.3"/>
+<text x="417.5" y="400.5" font-size="10.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 417.5 400.5)">T15-03</text>
+<text x="417.5" y="412.2" font-size="8.2" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 417.5 412.2)">Charging</text>
+<polygon points="431.0,370.0 458.0,370.0 458.0,442.0 431.0,442.0" fill="#E4E2DA" stroke="#2B2926" stroke-width="1.3"/>
+<text x="444.5" y="400.5" font-size="10.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 444.5 400.5)">T15-04</text>
+<text x="444.5" y="412.2" font-size="8.2" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.0 444.5 412.2)">Crew</text>
+<polyline points="302.0,370.0 374.0,370.0" fill="none" stroke="#3E86B8" stroke-width="3.0" stroke-linecap="butt"/>
+<polyline points="302.0,370.0 302.0,442.0" fill="none" stroke="#3E86B8" stroke-width="3.0" stroke-linecap="butt"/>
+<polygon points="318.8,350.8 333.2,350.8 333.2,370.0 318.8,370.0" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.0"/>
+<polygon points="348.8,350.8 363.2,350.8 363.2,370.0 348.8,370.0" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.0"/>
+<text x="296.0" y="360.4" font-size="9.0" font-weight="700" fill="#24272A" text-anchor="end" dominant-baseline="middle">T15-05 boarding collars</text>
+<polyline points="374.0,418.0 374.0,424.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="374.0,418.0 380.0,418.0" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M380.0,418.0 A6.0,6.0 0 0 1 374.0,424.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<polyline points="404.0,418.0 404.0,424.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="404.0,418.0 410.0,418.0" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M410.0,418.0 A6.0,6.0 0 0 1 404.0,424.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<polyline points="431.0,418.0 431.0,424.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="431.0,418.0 437.0,418.0" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M437.0,418.0 A6.0,6.0 0 0 1 431.0,424.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<polyline points="383.6,442.0 394.4,442.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="383.6,442.0 383.6,431.2" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M383.6,431.2 A10.8,10.8 0 0 1 394.4,442.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<line x1="389.0" y1="475.0" x2="389.0" y2="449.8" stroke="#A8432A" stroke-width="1.8"/>
+<polygon points="389.0,443.8 393.5,452.8 384.5,452.8" fill="#A8432A"/>
+<text x="389.0" y="487.0" font-size="10.0" font-weight="700" fill="#A8432A" text-anchor="middle" dominant-baseline="middle">in from the campus</text>
+<text x="590.0" y="196.0" font-size="9.0" font-weight="400" fill="#B08A2E" text-anchor="start" dominant-baseline="middle">taxi lanes</text>
+<line x1="24.0" y1="548.0" x2="84.0" y2="548.0" stroke="#24272A" stroke-width="2"/>
+<line x1="24.0" y1="544.0" x2="24.0" y2="552.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="24.0" y="562.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">0</text>
+<line x1="54.0" y1="544.0" x2="54.0" y2="552.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="54.0" y="562.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">5</text>
+<line x1="84.0" y1="544.0" x2="84.0" y2="552.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="84.0" y="562.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">10 m</text>
+<line x1="520.0" y1="530.0" x2="520.0" y2="550.0" stroke="#4E575B" stroke-width="1.6"/><polygon points="520.0,558.0 515.0,548.0 525.0,548.0" fill="#4E575B"/>
+<text x="529.0" y="544.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">toward the palace and the start</text>
+</svg>

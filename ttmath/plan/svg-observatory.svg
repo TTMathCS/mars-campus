@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 350" width="980" height="350" font-family="Helvetica, Arial, sans-serif">
+<title>T-10 · Observatory: the four levels</title>
+<rect width="980" height="350" fill="#FAF8F3"/>
+<text x="24.0" y="28.0" font-size="16.0" font-weight="700" fill="#24272A" text-anchor="start" dominant-baseline="middle">T-10 · Observatory: the four levels</text>
+<text x="24.0" y="48.0" font-size="11.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">A tower 18 m across at the foot of the garden; the stair and the lift on the far side; the door faces the palace.</text>
+<polygon points="140.0,264.0 147.5,263.6 155.0,262.4 162.2,260.5 169.3,257.8 176.0,254.4 182.3,250.2 188.2,245.5 193.5,240.2 198.2,234.3 202.4,228.0 205.8,221.3 208.5,214.2 210.4,207.0 211.6,199.5 212.0,192.0 211.6,184.5 210.4,177.0 208.5,169.8 205.8,162.7 202.4,156.0 198.2,149.7 193.5,143.8 188.2,138.5 182.3,133.8 176.0,129.6 169.3,126.2 162.2,123.5 155.0,121.6 147.5,120.4 140.0,120.0 132.5,120.4 125.0,121.6 117.8,123.5 110.7,126.2 104.0,129.6 97.7,133.8 91.8,138.5 86.5,143.8 81.8,149.7 77.6,156.0 74.2,162.7 71.5,169.8 69.6,177.0 68.4,184.5 68.0,192.0 68.4,199.5 69.6,207.0 71.5,214.2 74.2,221.3 77.6,228.0 81.8,234.3 86.5,240.2 91.8,245.5 97.7,250.2 104.0,254.4 110.7,257.8 117.8,260.5 125.0,262.4 132.5,263.6" fill="#F4EFE5" stroke="#2B2926" stroke-width="1.3"/>
+<text x="140.0" y="201.9" font-size="11.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T10-01</text>
+<text x="140.0" y="214.8" font-size="9.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Planet hall</text>
+<circle cx="132.0" cy="139.2" r="13.6" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.9"/>
+<polyline points="132.0,139.2 145.6,139.2" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="132.0,139.2 132.0,152.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polygon points="152.0,134.4 166.4,134.4 166.4,148.8 152.0,148.8" fill="#FFFFFF" stroke="#2B2926" stroke-width="1.0"/>
+<polyline points="152.0,134.4 166.4,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="166.4,134.4 152.0,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="132.8,264.0 147.2,264.0" fill="none" stroke="#FAF8F3" stroke-width="3.4" stroke-linecap="butt"/>
+<polyline points="132.8,264.0 132.8,249.6" fill="none" stroke="#2B2926" stroke-width="0.9" stroke-linecap="butt"/>
+<path d="M132.8,249.6 A14.4,14.4 0 0 1 147.2,264.0" fill="none" stroke="#2B2926" stroke-width="0.7"/>
+<line x1="140.0" y1="296.0" x2="140.0" y2="272.4" stroke="#A8432A" stroke-width="1.8"/>
+<polygon points="140.0,266.4 144.5,275.4 135.5,275.4" fill="#A8432A"/>
+<circle cx="100.0" cy="179.2" r="1.2" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="111.6" cy="179.2" r="1.5" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="123.2" cy="179.2" r="2.2" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="134.8" cy="179.2" r="1.9" fill="#C1663C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="146.4" cy="179.2" r="5.8" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="158.0" cy="179.2" r="5.0" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="169.6" cy="179.2" r="3.6" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<circle cx="181.2" cy="179.2" r="3.4" fill="#C9A27C" stroke="#7A5C3E" stroke-width="0.6"/>
+<text x="140.0" y="101.2" font-size="10.0" font-weight="600" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">level 0 · +0.0 m</text>
+<polygon points="375.0,264.0 382.5,263.6 390.0,262.4 397.2,260.5 404.3,257.8 411.0,254.4 417.3,250.2 423.2,245.5 428.5,240.2 433.2,234.3 437.4,228.0 440.8,221.3 443.5,214.2 445.4,207.0 446.6,199.5 447.0,192.0 446.6,184.5 445.4,177.0 443.5,169.8 440.8,162.7 437.4,156.0 433.2,149.7 428.5,143.8 423.2,138.5 417.3,133.8 411.0,129.6 404.3,126.2 397.2,123.5 390.0,121.6 382.5,120.4 375.0,120.0 367.5,120.4 360.0,121.6 352.8,123.5 345.7,126.2 339.0,129.6 332.7,133.8 326.8,138.5 321.5,143.8 316.8,149.7 312.6,156.0 309.2,162.7 306.5,169.8 304.6,177.0 303.4,184.5 303.0,192.0 303.4,199.5 304.6,207.0 306.5,214.2 309.2,221.3 312.6,228.0 316.8,234.3 321.5,240.2 326.8,245.5 332.7,250.2 339.0,254.4 345.7,257.8 352.8,260.5 360.0,262.4 367.5,263.6" fill="#EBDFC6" stroke="#2B2926" stroke-width="1.3"/>
+<text x="375.0" y="165.2" font-size="11.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T10-02</text>
+<text x="375.0" y="178.0" font-size="9.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Classroom</text>
+<circle cx="367.0" cy="139.2" r="13.6" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.9"/>
+<polyline points="367.0,139.2 380.6,139.2" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="367.0,139.2 367.0,152.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polygon points="387.0,134.4 401.4,134.4 401.4,148.8 387.0,148.8" fill="#FFFFFF" stroke="#2B2926" stroke-width="1.0"/>
+<polyline points="387.0,134.4 401.4,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="401.4,134.4 387.0,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="338.2,196.8 411.8,196.8" fill="none" stroke="#9A8672" stroke-width="1.6" stroke-linecap="butt"/>
+<polyline points="341.4,208.8 408.6,208.8" fill="none" stroke="#9A8672" stroke-width="1.6" stroke-linecap="butt"/>
+<polyline points="344.6,220.8 405.4,220.8" fill="none" stroke="#9A8672" stroke-width="1.6" stroke-linecap="butt"/>
+<polyline points="347.8,232.8 402.2,232.8" fill="none" stroke="#9A8672" stroke-width="1.6" stroke-linecap="butt"/>
+<polyline points="351.0,251.2 399.0,251.2" fill="none" stroke="#24272A" stroke-width="2.6" stroke-linecap="butt"/>
+<text x="375.0" y="101.2" font-size="10.0" font-weight="600" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">level 1 · +4.5 m</text>
+<polygon points="610.0,264.0 617.5,263.6 625.0,262.4 632.2,260.5 639.3,257.8 646.0,254.4 652.3,250.2 658.2,245.5 663.5,240.2 668.2,234.3 672.4,228.0 675.8,221.3 678.5,214.2 680.4,207.0 681.6,199.5 682.0,192.0 681.6,184.5 680.4,177.0 678.5,169.8 675.8,162.7 672.4,156.0 668.2,149.7 663.5,143.8 658.2,138.5 652.3,133.8 646.0,129.6 639.3,126.2 632.2,123.5 625.0,121.6 617.5,120.4 610.0,120.0 602.5,120.4 595.0,121.6 587.8,123.5 580.7,126.2 574.0,129.6 567.7,133.8 561.8,138.5 556.5,143.8 551.8,149.7 547.6,156.0 544.2,162.7 541.5,169.8 539.6,177.0 538.4,184.5 538.0,192.0 538.4,199.5 539.6,207.0 541.5,214.2 544.2,221.3 547.6,228.0 551.8,234.3 556.5,240.2 561.8,245.5 567.7,250.2 574.0,254.4 580.7,257.8 587.8,260.5 595.0,262.4 602.5,263.6" fill="#D8DDE2" stroke="#2B2926" stroke-width="1.3"/>
+<text x="610.0" y="201.9" font-size="11.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T10-03</text>
+<text x="610.0" y="214.8" font-size="9.0" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">Control room</text>
+<circle cx="602.0" cy="139.2" r="13.6" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.9"/>
+<polyline points="602.0,139.2 615.6,139.2" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="602.0,139.2 602.0,152.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polygon points="622.0,134.4 636.4,134.4 636.4,148.8 622.0,148.8" fill="#FFFFFF" stroke="#2B2926" stroke-width="1.0"/>
+<polyline points="622.0,134.4 636.4,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="636.4,134.4 622.0,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<text x="610.0" y="101.2" font-size="10.0" font-weight="600" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">level 2 · +9.0 m</text>
+<polygon points="845.0,264.0 852.5,263.6 860.0,262.4 867.2,260.5 874.3,257.8 881.0,254.4 887.3,250.2 893.2,245.5 898.5,240.2 903.2,234.3 907.4,228.0 910.8,221.3 913.5,214.2 915.4,207.0 916.6,199.5 917.0,192.0 916.6,184.5 915.4,177.0 913.5,169.8 910.8,162.7 907.4,156.0 903.2,149.7 898.5,143.8 893.2,138.5 887.3,133.8 881.0,129.6 874.3,126.2 867.2,123.5 860.0,121.6 852.5,120.4 845.0,120.0 837.5,120.4 830.0,121.6 822.8,123.5 815.7,126.2 809.0,129.6 802.7,133.8 796.8,138.5 791.5,143.8 786.8,149.7 782.6,156.0 779.2,162.7 776.5,169.8 774.6,177.0 773.4,184.5 773.0,192.0 773.4,199.5 774.6,207.0 776.5,214.2 779.2,221.3 782.6,228.0 786.8,234.3 791.5,240.2 796.8,245.5 802.7,250.2 809.0,254.4 815.7,257.8 822.8,260.5 830.0,262.4 837.5,263.6" fill="#E8DFF0" stroke="#2B2926" stroke-width="1.3"/>
+<text x="845.0" y="247.2" font-size="10.1" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T10-05</text>
+<polygon points="845.0,228.0 848.8,227.8 852.5,227.2 856.1,226.2 859.6,224.9 863.0,223.2 866.2,221.1 869.1,218.8 871.8,216.1 874.1,213.2 876.2,210.0 877.9,206.6 879.2,203.1 880.2,199.5 880.8,195.8 881.0,192.0 880.8,188.2 880.2,184.5 879.2,180.9 877.9,177.4 876.2,174.0 874.1,170.8 871.8,167.9 869.1,165.2 866.2,162.9 863.0,160.8 859.6,159.1 856.1,157.8 852.5,156.8 848.8,156.2 845.0,156.0 841.2,156.2 837.5,156.8 833.9,157.8 830.4,159.1 827.0,160.8 823.8,162.9 820.9,165.2 818.2,167.9 815.9,170.8 813.8,174.0 812.1,177.4 810.8,180.9 809.8,184.5 809.2,188.2 809.0,192.0 809.2,195.8 809.8,199.5 810.8,203.1 812.1,206.6 813.8,210.0 815.9,213.2 818.2,216.1 820.9,218.8 823.8,221.1 827.0,223.2 830.4,224.9 833.9,226.2 837.5,227.2 841.2,227.8" fill="#D8DDE2" stroke="#2B2926" stroke-width="1.3"/>
+<text x="845.0" y="209.6" font-size="10.1" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T10-04</text>
+<circle cx="845.0" cy="187.2" r="7.2" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.9"/>
+<polyline points="841.0,156.0 849.0,156.0" fill="none" stroke="#A8432A" stroke-width="4.0" stroke-linecap="butt"/>
+<text x="865.8" y="187.2" font-size="8.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">pier</text>
+<circle cx="837.0" cy="139.2" r="13.6" fill="#FFFFFF" stroke="#2B2926" stroke-width="0.9"/>
+<polyline points="837.0,139.2 850.6,139.2" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="837.0,139.2 837.0,152.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polygon points="857.0,134.4 871.4,134.4 871.4,148.8 857.0,148.8" fill="#FFFFFF" stroke="#2B2926" stroke-width="1.0"/>
+<polyline points="857.0,134.4 871.4,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<polyline points="871.4,134.4 857.0,148.8" fill="none" stroke="#8A847C" stroke-width="0.6" stroke-linecap="butt"/>
+<text x="845.0" y="101.2" font-size="10.0" font-weight="600" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">level 3 · +13.5 m</text>
+<line x1="24.0" y1="322.0" x2="64.0" y2="322.0" stroke="#24272A" stroke-width="2"/>
+<line x1="24.0" y1="318.0" x2="24.0" y2="326.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="24.0" y="336.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">0</text>
+<line x1="44.0" y1="318.0" x2="44.0" y2="326.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="44.0" y="336.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">2.5</text>
+<line x1="64.0" y1="318.0" x2="64.0" y2="326.0" stroke="#24272A" stroke-width="1.5"/>
+<text x="64.0" y="336.0" font-size="10.0" font-weight="400" fill="#24272A" text-anchor="middle" dominant-baseline="middle">5 m</text>
+<line x1="700.0" y1="306.0" x2="700.0" y2="326.0" stroke="#4E575B" stroke-width="1.6"/><polygon points="700.0,334.0 695.0,324.0 705.0,324.0" fill="#4E575B"/>
+<text x="709.0" y="320.0" font-size="10.0" font-weight="400" fill="#4E575B" text-anchor="start" dominant-baseline="middle">toward the palace and the start</text>
+</svg>

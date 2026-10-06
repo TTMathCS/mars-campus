@@ -67,4 +67,4 @@ renderer.setAnimationLoop((now) => {
   controls.update(camera); walkPad(dt); keepInside();
   renderer.render(scene, camera);
 });
-window.__splat = { camera, splat, room: R, renderer, scene };
+window.__splat = { THREE, camera, splat, room: R, renderer, scene };

@@ -20,14 +20,15 @@ dose budget unchanged: 6 hours up from sunset); 20 public-domain paintings place
 book name, links both ways); **the hub's model turns smoothly** (72 frames of revision H); **the salon published**
 (three views: salon, salon2, hearth); the master suite up (photo, door, 360).
 
-**Gaussian splatting (task in progress).** Toolchain in the scratchpad's `gs/`: micromamba with a conda-forge env
-(`libtorch` CPU, `libopencv`, `cxx-compiler`, `cmake`) and OpenSplat built with `-DGPU_RUNTIME=CPU`
-(`gs/OpenSplat/build/opensplat`). `palace/tools/render/splat_views.py` renders a rig of views of a room with poses
-(nerfstudio `transforms.json`) and a starting point cloud; `splat_publish.py` writes `palace/splat/data/<room>.spz`,
-lists it in `rooms.json` and keeps the dataset in `palace/blender/splats/<room>/`. The viewer is `palace/splat/`
-(Spark, vendored; three.js from `palace/walk/lib/`). Queue on the first machine: a 12-view test, a 100-iteration
-benchmark, then the demo rig (208 views at 640x360) of the master suite up; then fit it (iterations set from the
-benchmark), publish, show Jim. Read `palace/blender/splats/README.md`.
+**Gaussian splatting (task in progress).** `palace/tools/render/splat_views.py` path-traces a room from a rig of
+234 cameras round its 360 stop (640x360, 24 spp, one grading curve) and writes the poses (nerfstudio `transforms.json`)
+and the starting cloud (points where rays through the views' pixels first meet the room; a far sphere for what the
+windows show). `splat_tools.sh` builds OpenSplat for the CPU (micromamba, conda-forge LibTorch and OpenCV);
+`splat_publish.py` writes `palace/splat/data/<room>.spz` and lists it in `rooms.json`. The page is `palace/splat/`
+(Spark, vendored). Read `palace/blender/splats/README.md`. Now: the master suite up's 234 views render on the first
+machine (until about 04:25 UTC); then the dataset goes to `palace/blender/splats/bedroom/` and the second machine fits
+it (4000 steps), publishes, and I check it (`splat_check.py` in my scratchpad renders the splat in headless Chromium
+from rig poses and measures it against the views) and show Jim, who decides whether we go on with splats.
 
 **Rooms (all Crown rooms now designed with the new furniture, plants and paintings in code):** published: master
 suite up, salon. Previews queued (first machine, `blend/queue_a.txt`): Wellness (new, `crown_wellness.py`, `gym.py`),

@@ -20,15 +20,11 @@ dose budget unchanged: 6 hours up from sunset); 20 public-domain paintings place
 book name, links both ways); **the hub's model turns smoothly** (72 frames of revision H); **the salon published**
 (three views: salon, salon2, hearth); the master suite up (photo, door, 360).
 
-**Gaussian splatting (task in progress).** `palace/tools/render/splat_views.py` path-traces a room from a rig of
-234 cameras round its 360 stop (640x360, 24 spp, one grading curve) and writes the poses (nerfstudio `transforms.json`)
-and the starting cloud (points where rays through the views' pixels first meet the room; a far sphere for what the
-windows show). `splat_tools.sh` builds OpenSplat for the CPU (micromamba, conda-forge LibTorch and OpenCV);
-`splat_publish.py` writes `palace/splat/data/<room>.spz` and lists it in `rooms.json`. The page is `palace/splat/`
-(Spark, vendored). Read `palace/blender/splats/README.md`. Now: the master suite up's 234 views render on the first
-machine (until about 04:25 UTC); then the dataset goes to `palace/blender/splats/bedroom/` and the second machine fits
-it (4000 steps), publishes, and I check it (`splat_check.py` in my scratchpad renders the splat in headless Chromium
-from rig poses and measures it against the views) and show Jim, who decides whether we go on with splats.
+**Gaussian splatting: set aside by Jim** (6 Oct, 11:05: "since I don't have real photo, so gausssian splatting
+doesn't help too much but consumes too much token and slow ... go back to the best way to create the real life
+expeiences and continue"). The quick splat of the master suite up stays at `palace/splat/#bedroom`, unlinked; the
+tools and the dataset are archived (`palace/blender/splats/README.md`). The way forward: path-traced photos of every
+room, a 360 at each room's stop on the tour, then the walk.
 
 **Rooms (all Crown rooms now designed with the new furniture, plants and paintings in code):** published: master
 suite up, salon. Previews queued (first machine, `blend/queue_a.txt`): Wellness (new, `crown_wellness.py`, `gym.py`),

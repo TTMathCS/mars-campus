@@ -5,6 +5,18 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 6 Oct 2026: no Gaussian splats; path-traced photos and 360s
+
+- **Tried, then set aside.** Jim asked "try to use gaussian splatting if possible. I heard it is pretty good for real
+  experience?" and "maybe show me something gaussian splatting can do first". A splat of the master suite up was fitted
+  on the CPU to 234 path-traced views of it (a quick fit, 31 dB against the views; the page `palace/splat/`). Jim, after
+  seeing it: "since I don't have real photo, so gausssian splatting doesn't help too much but consumes too much token
+  and slow. in this case go back to the best way to create the real life expeiences and continue". A splat is only as
+  good as the pictures it is fitted to, and ours are renders, so it adds little to them for hours of fitting.
+- **What we do instead:** path-traced photographs of every room, and a 360 at each room's stop on the tour, so a
+  visitor can stand in the room and look all round; then the walk. The splat tools, the dataset and the page stay in
+  the repo (`palace/blender/splats/`, `palace/tools/render/splat_*.py`), unlinked.
+
 ## 6 Oct 2026: by day in the ground, by night in the sky
 
 - **The rule turned round.** Jim, on the idea page's "By day in the sky, by night in the ground": "it should be

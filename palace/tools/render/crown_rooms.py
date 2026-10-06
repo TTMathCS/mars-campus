@@ -26,15 +26,16 @@ def tint_fabric(root, rgb, sat=0.0):
             if "Sheen Tint" in b.inputs and not b.inputs["Sheen Tint"].links: b.inputs["Sheen Tint"].default_value = (*rgb, 1)
 
 
-def basalt(name="polished basalt"):
+def basalt(name="polished basalt", matte=False):
     """polished basalt: near-black, fine grey grains, honed to a soft sheen: reflections blurred and broken a little,
-    as in real stone (a mirror finish read as a wet floor)"""
+    as in real stone (a mirror finish read as a wet floor); matte: flamed, no sheen, black under bright light (the
+    garden's platform under its grow lights)"""
     m, nt = lib._mat(name)
     if nt is None: return m
-    L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Coat Weight"].default_value = 0.4; b.inputs["Coat Roughness"].default_value = 0.1
+    L = nt.links; b = nt.nodes["Principled BSDF"]; b.inputs["Coat Weight"].default_value = 0.0 if matte else 0.4; b.inputs["Coat Roughness"].default_value = 0.1
     tc = nt.nodes.new("ShaderNodeTexCoord")
     rn = nt.nodes.new("ShaderNodeTexNoise"); rn.inputs["Scale"].default_value = 3.0; rn.inputs["Detail"].default_value = 8; L.new(tc.outputs["Object"], rn.inputs["Vector"])
-    L.new(lib._math(nt, "MULTIPLY_ADD", rn.outputs["Fac"], 0.14, 0.13), b.inputs["Roughness"])          # 0.13 to 0.27
+    L.new(lib._math(nt, "MULTIPLY_ADD", rn.outputs["Fac"], 0.14, 0.55 if matte else 0.13), b.inputs["Roughness"])   # 0.13 to 0.27; matte 0.55 to 0.69
     v = nt.nodes.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 260; L.new(tc.outputs["Object"], v.inputs["Vector"])
     n = nt.nodes.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = 0.7; n.inputs["Detail"].default_value = 6; L.new(tc.outputs["Object"], n.inputs["Vector"])
     cr = nt.nodes.new("ShaderNodeValToRGB"); cr.color_ramp.elements[0].position = 0.0; cr.color_ramp.elements[0].color = (0.018, 0.018, 0.019, 1); cr.color_ramp.elements[1].position = 1.0; cr.color_ramp.elements[1].color = (0.06, 0.058, 0.056, 1)
@@ -1164,6 +1165,17 @@ def garden_room(M, rnd):
     lib.box("coffee machine front", (0.3, 0.02, 0.14), at(R_GL + 0.9, sb - tang(0.9), 1.07), M["graphite"], rot_z=face_out(sb))
     lib.instance_of(S["vase"], at(R_GL + 0.75, sb + tang(0.8), 0.88), 0.4, 1.4)
     plants.make("olive", at(R_GL + 1.8, b0 + tang(1.6, R_GL + 1.8), 0.0), seed=539, pot=(1.3, 0.8, "basalt", True), height=3.6, stems=2)
+    # the coffee nook on the inner side toward the garden: two oat sofas facing across a low oak table, a kentia and a
+    # fiddle-leaf fig either side
+    nb, nr = 45.6, R_GL + 3.4; oat = seating.fabric("breakfast oat", (0.64, 0.58, 0.50), "boucle")
+    lib.box("nook rug", (5.2, 4.2, 0.014), at(nr, nb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(nb), segs=2)
+    for s_ in (-1, 1):
+        bb = nb + s_ * tang(1.35, nr)
+        seating.sofa("nook sofa", at(nr, bb, 0.0), face_ccw(bb) if s_ > 0 else face_cw(bb), length=3.0, fabric_mat=oat, seed=540 + s_)
+    tables.coffee_table("nook table", at(nr, nb, 0.0), face_cw(nb), length=1.8, width=0.85, kind="stack")
+    plants.make("kentia palm", at(R_GL + 1.2, nb - tang(3.0, R_GL + 1.2), 0.0), seed=543, pot=(0.95, 0.72, "black"), height=3.4, stems=3)
+    plants.make("fiddle-leaf fig", at(R_GL + 1.2, w1 - tang(1.2, R_GL + 1.2), 0.0), seed=544, pot=(0.8, 0.66, "white"), height=2.8)
+    lights.globes("nook globes", at(nr, nb), n=5, spread=0.7, low=2.4, high=3.2, ceiling=ceil_at(nb), watts=45, seed=16)
     paint("breakfast painting", "vangogh_cottages", 3.0, at(RM + 1.0, b0 + tang(0.17, RM + 1.0), 0.0), face_cw(b0), 2.3, tall=True)
     # C-34, the sky garden (furnishing.py): a platform of honed black basalt (Jim, 4 Oct: "I like black platform"),
     # raised 12 cm, through the garden; raised beds of basalt along both walls full of herbs and flowers; trees of
@@ -1171,7 +1183,7 @@ def garden_room(M, rnd):
     # by the basin, birds of paradise, tree ferns in the shade, agaves; boxwood balls; daybeds under the trees and a
     # long travertine bench; low lights along the beds
     import seating, tables, lights, plants, atrium
-    crown.curved_box("garden platform", R_GL + 0.05, R_OUT - 0.05, w1 + 0.1, b1 + crown.PAD, 0.0, 0.12, M["basalt"])
+    crown.curved_box("garden platform", R_GL + 0.05, R_OUT - 0.05, w1 + 0.1, b1 + crown.PAD, 0.0, 0.12, basalt("flamed basalt", matte=True))
     crown.curved_box("platform shadow gap", R_GL + 0.04, R_OUT - 0.04, w1 + 0.08, b1 + crown.PAD, 0.0, 0.02, M["shadow"])
     Z = 0.12
     beds_out = [(49.2, 55.4), (56.6, 62.6), (63.8, 70.8)]; beds_in = [(49.6, 58.0), (61.6, 70.6)]

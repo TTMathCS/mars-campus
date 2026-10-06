@@ -155,8 +155,8 @@ def garden_top(lat, rad):
 
 
 def entrance_top(lat, rad):
-    E2 = R.ENTRANCE; a, h = E2["r"], E2["h"]; rho = (a * a + h * h) / (2 * h); q = math.hypot(lat - E2["c"][0], rad - E2["c"][1])
-    return 0.134 + h - rho + math.sqrt(max(0.0, rho * rho - q * q))
+    E2 = R.ENTRANCE; a, h, hd = E2["r"], E2["h"], E2["drum"]; hc = h - hd; rho = (a * a + hc * hc) / (2 * hc); q = math.hypot(lat - E2["c"][0], rad - E2["c"][1])
+    return 0.134 + h - rho + math.sqrt(max(0.0, rho * rho - min(q, a) ** 2))
 
 
 def pod_dock_top(lat, rad):
@@ -171,7 +171,7 @@ def link_shape(L):
 
 
 NEW = [
-    dict(code="T-04", name="Entrance dome and airlock", short="Entrance dome", shape=circle(R.ENTRANCE["c"][0], R.ENTRANCE["c"][1], R.ENTRANCE["r"]), h=R.ENTRANCE["h"], hprof=rel(entrance_top), h_note="glass dome 6.6 m tall", area=530, label_dy=8,
+    dict(code="T-04", name="Entrance dome and airlock", short="Entrance dome", shape=circle(R.ENTRANCE["c"][0], R.ENTRANCE["c"][1], R.ENTRANCE["r"]), h=R.ENTRANCE["h"], hprof=rel(entrance_top), h_note="glass dome 6.8 m tall on a 3 m glass drum", area=530, label_dy=8,
          use="The old courtyard's front becomes the entrance plaza under a shallow glass dome 26 m across in front of the Ring's Gate Hall, with the airlock at its front: the way in from the start.",
          look="A low dome of glass on a steel lattice, the campus's name on a stone wall inside, young trees in planters."),
     dict(code="T04-02", name="Entrance airlock", short="Airlock", shape=rect(0, (R.ENTRANCE["airlock"]["s0"] + R.ENTRANCE["airlock"]["s1"]) / 2, R.ENTRANCE["airlock"]["w"], R.ENTRANCE["airlock"]["s1"] - R.ENTRANCE["airlock"]["s0"], 0), h=R.ENTRANCE["airlock"]["h"] + 0.25, area=30, nolabel=True,

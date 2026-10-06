@@ -444,7 +444,7 @@
     arcWall(B, o.r0, o.a0, o.a1, yR - 0.05, y1, MT.ANOD, 0, -1, 3); arcWall(B, o.r1, o.a0, o.a1, yR - 0.05, y1, MT.ANOD, 0, 1, 3);
     radWall(B, o.a0, o.r0, o.r1, yR - 0.05, y1, MT.ANOD, 0, -1, 3); radWall(B, o.a1, o.r0, o.r1, yR - 0.05, y1, MT.ANOD, 0, 1, 3);
     flatBits(o.r0, o.r1, o.a0, o.a1, [h]).forEach(function (q) { flat(B, q[0], q[1], q[2], q[3], y1, MT.ANOD, 0, true); });
-    CRS_GLASS.surf(2, 2, function (i, j, q) { var a = lerp(h.a0, h.a1, i / 2), r = lerp(h.r0, h.r1, j / 2), p = crsPt(r, a); q.p[0] = p.x; q.p[1] = y1 + 0.01; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = a * r; q.f[1] = r; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+    CRS_GLASS.surf(2, 2, function (i, j, q) { var a = lerp(h.a0, h.a1, i / 2), r = lerp(h.r0, h.r1, j / 2), p = crsPt(r, a); q.p[0] = p.x; q.p[1] = y1 + 0.01; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = a * r; q.f[1] = r; q.f2[0] = 3; q.f2[1] = 4; q.m = 0; });
     [1 / 3, 2 / 3].forEach(function (t) { var rr = lerp(h.r0, h.r1, t), bb = new Builder(); bb.box(-(h.a1 - h.a0) * rr / 2, 0, -0.03, (h.a1 - h.a0) * rr / 2, 0.05, 0.03, MT.ANOD); bb.tag(0, 3, null); B.add(bb, crsFrame(rr, (h.a0 + h.a1) / 2, y1)); });
   }
 
@@ -566,7 +566,7 @@
     B.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), p = crsPt(gr1 + 0.12, a), d = crsPt(1, a), g = groundAt(p.x, p.z, yL), y = j ? tops[i] + 0.05 : Math.min(g, tops[i]) - 0.6; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [d.x - PAL.c.x, 0, d.z - PAL.c.z]; q.f[0] = a * gr1; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
     // the glass roof from under the Ring's eave down to the wall, on bronze rafters every 1.5 m, a gutter on the wall
     CRS_GLASS.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), r = j ? gr1 - 0.15 : rT, p = crsPt(r, a), d = crsPt(1, a), y = j ? tops[i] + 0.16 : yE, dr = gr1 - 0.15 - rT, dy = tops[i] + 0.16 - yE, L = Math.hypot(dr, dy);
-      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -dy / L, dr / L, (d.z - PAL.c.z) * -dy / L]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -dy / L, dr / L, (d.z - PAL.c.z) * -dy / L]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = 3; q.f2[1] = 4; q.m = 0; });
     var nrf = Math.round((A1 - A0) * (rT + gr1) / 2 / 1.5);
     for (var k = 0; k <= nrf; k++) { var a = lerp(A0 + 0.002, A1 - 0.002, k / nrf), pa = crsPt(rT, a), pb = crsPt(gr1 - 0.15, a), yb = topAt(a) + 0.1; tubeAlong(B, [new THREE.Vector3(pa.x, yE - 0.07, pa.z), new THREE.Vector3(pb.x, yb, pb.z)], 0.045, 6, MT.RIB); }
     arcWall(B, rT - 0.05, A0, A1, yE - 0.2, yE + 0.02, MT.RIB, 0, -1, 3);                                                // the beam under the eave

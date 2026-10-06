@@ -249,9 +249,9 @@ GARDEN_RING_AREAS = [
 # front; its height stays under the line of sight from the start
 # The dome stands 2.4 m into the Ring's front, so its glass lands on the Gate Hall's facade along an arch 13.7 m wide
 # (a dome only touching the Ring would leave the joint open); the airlock's inner end stands inside the dome's edge.
-ENTRANCE = dict(c=(0.0, 71.0), r=11.6, h=6.6, airlock=dict(s0=81.6, s1=86.6, w=6.0, h=2.6))
+ENTRANCE = dict(c=(0.0, 71.0), r=11.6, h=6.8, drum=3.0, airlock=dict(s0=81.6, s1=86.6, w=6.0, h=2.6))   # a glass drum 3 m tall, a cap to 6.8 m
 ENTRANCE_ROOMS = [
-    dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across and 6.6 m high on a steel lattice, its back on the Ring's front: paving, the campus's name on a stone wall, planters with young trees, benches.", also="Arrivals and farewells, the graduation photo."),
+    dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across: an upright glass drum 3 m tall on a stone curb, a shallow cap on a ring beam to 6.8 m, on a bronze lattice, its back on the Ring's front; the airlock comes in through a framed doorway in the drum: paving, the campus's name on a stone wall, planters with young trees, benches.", also="Arrivals and farewells, the graduation photo."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="At the dome's front: outer and inner sliding glass doors with a chamber 5 m long between them, never open together; suit lockers and a bench.", also=""),
 ]
 

@@ -7,6 +7,8 @@
     [THREE.BackSide, THREE.FrontSide].forEach(function (side, i) { var m = new THREE.Mesh(g, glassMat(side)); m.renderOrder = order + i; m.frustumCulled = false; m.matrixAutoUpdate = false; scene.add(m); GLASS_MESHES.push(m); out.push(m); });
     return out;
   }
+  // glass of a hall open to the sky: from inside it mirrors the day outside, not a room (GLASS_FS, vK.y 4)
+  function hallGlass(G) { for (var k = 1; k < G.f2.length; k += 2) if (G.f2[k] > 0.5 && G.f2[k] < 2.5) G.f2[k] = 4; return G; }
   function buildCampus() {
     buildCampusGround();
     // palace levels from the ground around the dome ring
@@ -26,11 +28,11 @@
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
     // glass: the dome first, then the wing facades and the links
     var gg = domeGlassGeometry(); var pd = glassPair(gg, 6); palGlassB = pd[0]; palGlassF = pd[1];
-    glassPair(BACK_GLASS.build(), 8); glassPair(CRS_GLASS.build(), 8); glassPair(GRD_GLASS.build(), 10); glassPair(ENT_GLASS.build(), 10);
+    glassPair(BACK_GLASS.build(), 8); glassPair(CRS_GLASS.build(), 8); glassPair(hallGlass(GRD_GLASS).build(), 10); glassPair(hallGlass(ENT_GLASS).build(), 10);
     // sliding doors: frames and glass built where they stand closed, moved along the facade when someone comes near
     DOORS.forEach(function (d) {
       d.leaves.forEach(function (lf) {
-        var M = d.M || wingFrame(d.sg, d.s, 0.12, d.y), fb = new Builder(), gb = new Builder(); fb.zone = ZONE.OUT; fb.add(lf.frame, M); gb.add(lf.glass, M);
+        var M = d.M || wingFrame(d.sg, d.s, 0.12, d.y), fb = new Builder(), gb = new Builder(); fb.zone = ZONE.OUT; fb.add(lf.frame, M); gb.add(lf.glass, M); if (d.hall) hallGlass(gb);
         lf.fm = bakedMesh(fb, matMat, campusLights, null, { noOcclude: true }); BAKE.meshes.pop(); scene.add(lf.fm); DOOR_MESHES.push(lf.fm);
         lf.gm = glassPair(gb.build(), 12);
       });

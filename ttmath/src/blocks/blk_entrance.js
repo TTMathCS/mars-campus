@@ -1,7 +1,10 @@
   /* ===================== Phase 2: the entrance dome (T04-01) and its airlock (T04-02) ===================== */
-  // Jim, 5 Oct 2026: "the entrance is not sealed by dome. it needs to". A shallow glass dome on a bronze lattice over the
-  // plaza in front of the Gate Hall (P2.entrance): 23 m across, 6.6 m high, standing 2.4 m into the Ring's front so its
-  // glass lands on the Gate Hall's facade; inside, paving, planters with young trees, the campus's name on a stone wall.
+  // Jim, 5 Oct 2026: "the entrance is not sealed by dome. it needs to". A glass dome on a bronze lattice over the plaza in
+  // front of the Gate Hall (P2.entrance): 23 m across, a drum of upright glass 3 m tall on a stone curb, a shallow cap on a
+  // ring beam to 6.8 m, standing 2.4 m into the Ring's front so its glass lands on the Gate Hall's facade; inside,
+  // paving, planters with young trees, the campus's name on a stone wall. Jim, 6 Oct 2026, of the first one, a cap that
+  // came down to the ground with a rib ending in mid-air over the airlock: "why has this? not designed well". The airlock
+  // now comes in through a framed doorway in the drum, under the ring beam, where every rib lands.
   // The way in from outside is the airlock at its front: outer and inner sliding doors with a chamber 5 m long between
   // them, each opening only once the other has closed (doorsUpdate), so the two are never open together.
   // Dome frame: q metres from the dome's centre on the ground, phi from the start's side (+rad) toward +lat.
@@ -11,13 +14,14 @@
     var E = P2.entrance, a = E.r, A = E.airlock, pg = palXZ(0, A.s1 + 0.6), yA = Math.max(PALY.B, cgH(pg.x, pg.z));
     // the airlock stands on the ground outside; the plaza slopes gently down from it to the Gate Hall's door; the dome sits
     // on a low wall at the airlock's level, its top where the plan puts it (under the line of sight)
-    var h2 = E.h - (yA - PALY.B);
-    ENT = { c: { lat: E.c[0], rad: E.c[1] }, a: a, h: h2, rho: (a * a + h2 * h2) / (2 * h2), y: PALY.B, yA: yA, yb: yA, s0: A.s0, s1: A.s1, hw: A.w / 2, ah: A.h, rLow: 63.5 };
+    var h2 = E.h - (yA - PALY.B), hd = E.drum, hc = h2 - hd;
+    ENT = { c: { lat: E.c[0], rad: E.c[1] }, a: a, h: h2, hd: hd, rho: (a * a + hc * hc) / (2 * hc), y: PALY.B, yA: yA, yb: yA, s0: A.s0, s1: A.s1, hw: A.w / 2, ah: A.h, rLow: 63.5 };
+    ENT.phiP = Math.asin((ENT.hw + 0.12) / a);                                          // the airlock's doorway in the drum: phi within this
     return ENT;
   }
   function entFloor(rad) { return ENT.y + (ENT.yA - ENT.y) * clamp((rad - ENT.rLow) / (ENT.s0 - ENT.rLow), 0, 1); }
   function entPt(q, phi) { return { lat: ENT.c.lat + q * Math.sin(phi), rad: ENT.c.rad + q * Math.cos(phi) }; }
-  function entTop(q) { return ENT.yb + ENT.h - ENT.rho + Math.sqrt(Math.max(0, ENT.rho * ENT.rho - q * q)); }
+  function entTop(q) { return ENT.yb + ENT.h - ENT.rho + Math.sqrt(Math.max(0, ENT.rho * ENT.rho - q * q)); }   // the cap; at q = a the drum's top
   // how far the dome reaches along phi: its edge, or the Ring's front where it stands into it
   function entReach(phi) {
     var R1 = CRS.r1 + 0.1, cu = ENT.c.lat * Math.sin(phi) + ENT.c.rad * Math.cos(phi), cc = ENT.c.lat * ENT.c.lat + ENT.c.rad * ENT.c.rad, disc = cu * cu - (cc - R1 * R1);
@@ -34,7 +38,7 @@
     fr.tag(0, 3, null); B.add(fr, M);
     [[-ENT.hw + 0.05, -1.18], [1.18, ENT.hw - 0.05]].forEach(function (sp) { ENT_GLASS.surf(2, 1, function (i, j, q) { var lat = lerp(sp[0], sp[1], i / 2), pp = palXZ(lat, s); q.p[0] = pp.x; q.p[1] = y0 + (j ? top - 0.1 : 0.1); q.p[2] = pp.z; q.nn = [PAL.F.x, 0, PAL.F.z]; q.f2[0] = j ? 2.4 : 0.1; q.f2[1] = 1; q.m = 0; }); });
     ENT_GLASS.surf(2, 1, function (i, j, q) { var lat = -1.05 + 2.1 * i / 2, pp = palXZ(lat, s); q.p[0] = pp.x; q.p[1] = y0 + (j ? top - 0.1 : hD + 0.14); q.p[2] = pp.z; q.nn = [PAL.F.x, 0, PAL.F.z]; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
-    var door = { c: { x: p.x, z: p.z }, y: y0, dir: { x: PAL.Rt.x, z: PAL.Rt.z }, open: 0, leaves: [], M: M.clone().multiply(new THREE.Matrix4().makeTranslation(0, 0, 0.12)), lock: lock || null, slide: 1.05 };
+    var door = { c: { x: p.x, z: p.z }, y: y0, dir: { x: PAL.Rt.x, z: PAL.Rt.z }, open: 0, leaves: [], M: M.clone().multiply(new THREE.Matrix4().makeTranslation(0, 0, 0.12)), lock: lock || null, slide: 1.05, hall: true };
     [-1, 1].forEach(function (side) {
       var lf = new Builder(), x0 = side < 0 ? -1.07 : 0.0, x1 = side < 0 ? 0.0 : 1.07;
       lf.box(x0, 0, -0.03, x1, 0.09, 0.03, MT.ANOD); lf.box(x0, 2.2, -0.03, x1, 2.28, 0.03, MT.ANOD); lf.box(x0, 0.09, -0.03, x0 + 0.06, 2.2, 0.03, MT.ANOD); lf.box(x1 - 0.06, 0.09, -0.03, x1, 2.2, 0.03, MT.ANOD);
@@ -53,7 +57,7 @@
     B.surf(NP, NQ, function (i, j, q) { var phi = i / NP * 2 * Math.PI, qq = (entReach(phi) - 0.06) * j / NQ, o = entPt(qq, phi), p = palXZ(o.lat, o.rad); q.p[0] = p.x; q.p[1] = entFloor(o.rad); q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = o.lat; q.f[1] = o.rad; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; }, true);
     // the curb the glass stands on, out of the ground, where the dome stands clear of the Ring and the airlock
     var runs = [], cur = null, nc = 160;
-    for (var ic = 0; ic <= nc; ic++) { var phc = ic / nc * 2 * Math.PI, oc = entPt(E.a, phc), ok = entReach(phc) > E.a - 0.01 && !inAirlockBox(oc.lat, oc.rad, 0.3); if (ok) { if (!cur) { cur = []; runs.push(cur); } cur.push(phc); } else cur = null; }
+    for (var ic = 0; ic <= nc; ic++) { var phc = ic / nc * 2 * Math.PI, oc = entPt(E.a, phc), ok = entReach(phc) > E.a - 0.01 && Math.abs(Math.atan2(Math.sin(phc), Math.cos(phc))) > E.phiP; if (ok) { if (!cur) { cur = []; runs.push(cur); } cur.push(phc); } else cur = null; }
     runs.forEach(function (rn) {
       if (rn.length < 2) return; var n = rn.length - 1;
       B.surf(n, 1, function (i, j, q) { var phi = rn[i], o = entPt(E.a + 0.18, phi), p = palXZ(o.lat, o.rad), g = cgH(p.x, p.z), yy = j ? E.yb + 0.32 : Math.min(g, entFloor(o.rad)) - 0.4; q.p[0] = p.x; q.p[1] = yy; q.p[2] = p.z; q.nn = [Math.sin(phi) * PAL.Rt.x + Math.cos(phi) * PAL.F.x, 0, Math.sin(phi) * PAL.Rt.z + Math.cos(phi) * PAL.F.z]; q.f[0] = phi * E.a; q.f[1] = yy; q.f2[0] = yy - g; q.m = MT.CONCRETE; });
@@ -61,24 +65,41 @@
       B.surf(n, 1, function (i, j, q) { var phi = rn[i], o = entPt(E.a - 0.12, phi), p = palXZ(o.lat, o.rad); q.p[0] = p.x; q.p[1] = j ? E.yb + 0.32 : entFloor(o.rad) - 0.02; q.p[2] = p.z; q.nn = [-(Math.sin(phi) * PAL.Rt.x + Math.cos(phi) * PAL.F.x), 0, -(Math.sin(phi) * PAL.Rt.z + Math.cos(phi) * PAL.F.z)]; q.f[0] = phi * E.a; q.f[1] = q.p[1]; q.f2[0] = 0.3; q.m = MT.CONCRETE; });
       tubeAlong(B, rn.map(function (phi) { return W(E.a, phi, E.yb + 0.36); }), 0.07, 6, MT.RIB);
     });
-    // the glass cap, clipped by the Ring's front and round the airlock's box
-    var NG = 120, NV = 18;
+    // the glass: the cap, clipped by the Ring's front; the drum, upright from the curb to the ring beam, where the dome stands
+    // clear of the Ring, open at the airlock's doorway
+    var NG = 120, NV = 18, cx0 = palXZ(E.c.lat, E.c.rad), cyS = E.yb + E.h - E.rho, yDb = E.yb + 0.32, yDt = E.yb + E.hd;
+    function out(phi) { return [Math.sin(phi) * PAL.Rt.x + Math.cos(phi) * PAL.F.x, 0, Math.sin(phi) * PAL.Rt.z + Math.cos(phi) * PAL.F.z]; }
     for (var i = 0; i < NG; i++) for (var j = 0; j < NV; j++) (function (i, j) {
-      var p0 = i / NG * 2 * Math.PI, p1 = (i + 1) / NG * 2 * Math.PI, t0 = j / NV, t1 = (j + 1) / NV, om = entPt(entReach((p0 + p1) / 2) * (t0 + t1) / 2, (p0 + p1) / 2);
-      if (inAirlockBox(om.lat, om.rad, 0.12) && entTop(entReach((p0 + p1) / 2) * (t0 + t1) / 2) < E.yA + E.ah + 0.15) return;
-      ENT_GLASS.surf(1, 1, function (u, v, q) { var phi = u ? p1 : p0, qq = entReach(phi) * (v ? t1 : t0) + 0.0, P = W(qq, phi, entTop(qq) + 0.02); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z;
-        var cx = palXZ(E.c.lat, E.c.rad), cy = E.yb + E.h - E.rho; q.nn = [P.x - cx.x, P.y - cy, P.z - cx.z]; q.f[0] = phi * qq; q.f[1] = qq; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
+      var p0 = i / NG * 2 * Math.PI, p1 = (i + 1) / NG * 2 * Math.PI, t0 = j / NV, t1 = (j + 1) / NV;
+      ENT_GLASS.surf(1, 1, function (u, v, q) { var phi = u ? p1 : p0, qq = Math.min(E.a, entReach(phi)) * (v ? t1 : t0), P = W(qq, phi, entTop(qq) + 0.02); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z;
+        q.nn = [P.x - cx0.x, P.y - cyS, P.z - cx0.z]; q.f[0] = phi * qq; q.f[1] = qq; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
     })(i, j);
-    // the lattice: meridian ribs every 10 degrees and rings round, a ring at the top, bronze
+    // the drum's runs: every quarter degree, where the dome stands clear of the Ring's front, less the doorway
+    var drum = [], run2 = null;
+    for (var k5 = 0; k5 <= 1440; k5++) { var ph5 = E.phiP + (2 * Math.PI - 2 * E.phiP) * k5 / 1440; if (entReach(ph5) > E.a - 0.01) { if (!run2) { run2 = []; drum.push(run2); } run2.push(ph5); } else run2 = null; }
+    drum.forEach(function (rn) {
+      if (rn.length < 2) return; var n = rn.length - 1;
+      ENT_GLASS.surf(n, 1, function (u, v, q) { var phi = rn[u], P = W(E.a, phi, v ? yDt - 0.06 : yDb); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z; q.nn = out(phi); q.f[0] = phi * E.a; q.f[1] = P.y; q.f2[0] = P.y - yDb; q.f2[1] = 1; q.m = 0; });
+      tubeAlong(B, rn.map(function (phi) { return W(E.a, phi, yDt); }), 0.09, 8, MT.RIB);                       // the ring beam
+    });
+    // the doorway: two bronze jambs, the fascia over the airlock's roof up to the ring beam, the beam across it
+    var pd = []; for (var k6 = 0; k6 <= 16; k6++) pd.push(lerp(-E.phiP, E.phiP, k6 / 16));
+    tubeAlong(B, pd.map(function (phi) { return W(E.a, phi, yDt); }), 0.09, 8, MT.RIB);
+    [1, -1].forEach(function (sd) { B.surf(16, 1, function (u, v, q) { var phi = pd[u], P = W(E.a + sd * 0.07, phi, v ? yDt : E.yA + E.ah - 0.06), nn = out(phi); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z; q.nn = [nn[0] * sd, 0, nn[2] * sd]; q.f[0] = phi * E.a; q.f[1] = P.y; q.f2[0] = 3; q.m = MT.ANOD; }); });
+    [-E.phiP, E.phiP].forEach(function (pj) { var jb = new Builder(), Pj = W(E.a, pj, 0), nn = out(pj), M = new THREE.Matrix4().makeBasis(new THREE.Vector3(nn[2], 0, -nn[0]), new THREE.Vector3(0, 1, 0), new THREE.Vector3(nn[0], 0, nn[2])).setPosition(Pj.x, E.yA - 0.05, Pj.z);
+      jb.box(-0.1, 0, -0.1, 0.1, yDt - E.yA + 0.05, 0.1, MT.ANOD); jb.tag(0, 3, null); B.add(jb, M); });
+    // the lattice: meridian ribs every 10 degrees from the crown ring down to the ring beam (or to the Gate Hall's facade),
+    // rings round the cap, mullions down the drum under each rib
     for (var m = 0; m < 36; m++) {
-      var phi = m * 10 * D, qm = entReach(phi), pts = [];
-      for (var k = 0; k <= 20; k++) { var qq = lerp(1.2, qm, k / 20), o = entPt(qq, phi); if (inAirlockBox(o.lat, o.rad, 0.1) && entTop(qq) < E.yA + E.ah + 0.1) break; pts.push(W(qq, phi, entTop(qq) - 0.04)); }
-      if (pts.length > 1) tubeAlong(B, pts, 0.055, 6, MT.RIB);
+      var phi = m * 10 * D, qm = Math.min(E.a, entReach(phi)), pts = [];
+      for (var k = 0; k <= 20; k++) { var qq = lerp(1.2, qm, k / 20); pts.push(W(qq, phi, entTop(qq) - 0.04)); }
+      tubeAlong(B, pts, 0.055, 6, MT.RIB);
+      if (entReach(phi) > E.a - 0.01 && Math.abs(Math.atan2(Math.sin(phi), Math.cos(phi))) > E.phiP + 0.01) tubeAlong(B, [W(E.a, phi, yDb), W(E.a, phi, yDt)], 0.05, 6, MT.RIB);
     }
     [1.2, 4.0, 6.6, 8.8, 10.5].forEach(function (qr) {
       var run = [];
       function flush() { if (run.length > 1) tubeAlong(B, run, qr === 1.2 ? 0.08 : 0.045, 6, MT.RIB); run = []; }
-      for (var k2 = 0; k2 <= 180; k2++) { var ph = k2 / 180 * 2 * Math.PI, o2 = entPt(qr, ph); if (qr > entReach(ph) - 0.05 || (inAirlockBox(o2.lat, o2.rad, 0.1) && entTop(qr) < E.yA + E.ah + 0.1)) { flush(); continue; } run.push(W(qr, ph, entTop(qr) - 0.04)); }
+      for (var k2 = 0; k2 <= 180; k2++) { var ph = k2 / 180 * 2 * Math.PI; if (qr > entReach(ph) - 0.05) { flush(); continue; } run.push(W(qr, ph, entTop(qr) - 0.04)); }
       flush();
     });
     // the airlock: a glass box on an aluminium frame, its floor, the two pairs of doors

@@ -102,7 +102,7 @@
 <text x="560.0" y="1164.9" font-size="9.0" font-weight="700" fill="#24272A" text-anchor="middle" dominant-baseline="middle">T04-02</text>
 <text x="560.0" y="1175.4" font-size="7.4" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">airlock</text>
 <text x="560.0" y="1109.3" font-size="10.5" font-weight="700" fill="#2A6E8E" text-anchor="middle" dominant-baseline="middle">T04-01 entrance dome</text>
-<text x="560.0" y="1125.1" font-size="8.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">glass dome 23 m across, 6.6 m high</text>
+<text x="560.0" y="1125.1" font-size="8.5" font-weight="400" fill="#4E575B" text-anchor="middle" dominant-baseline="middle">glass dome 23 m across, 6.8 m high on a 3 m glass drum</text>
 <line x1="560.0" y1="1223.4" x2="560.0" y2="1194.1" stroke="#A8432A" stroke-width="1.8"/>
 <polygon points="560.0,1188.1 564.5,1197.1 555.5,1197.1" fill="#A8432A"/>
 <text x="560.0" y="1235.4" font-size="9.5" font-weight="700" fill="#A8432A" text-anchor="middle" dominant-baseline="middle">in from the start</text>

@@ -256,7 +256,7 @@ def ring():
             # the entrance: the dome over the plaza, the airlock at its front, the Gate Hall behind
             d.circ(EN["c"], EN["r"], "#E6F0F4", "#3E86B8", 1.6); A = EN["airlock"]
             d.room("T04-02", box(-A["w"] / 2, A["s0"], A["w"] / 2, A["s1"]), "move", "airlock", room_w=A["w"], size=9)
-            d.note(EN["c"][0], EN["c"][1] + 3.5, "T04-01 entrance dome", 10.5, 700, "#2A6E8E"); d.note(EN["c"][0], EN["c"][1] + 6.0, "glass dome 23 m across, 6.6 m high", 8.5, 400, INK2)
+            d.note(EN["c"][0], EN["c"][1] + 3.5, "T04-01 entrance dome", 10.5, 700, "#2A6E8E"); d.note(EN["c"][0], EN["c"][1] + 6.0, "glass dome 23 m across, 6.8 m high on a 3 m glass drum", 8.5, 400, INK2)
             d.arrow((0, A["s1"] + 6.0), (0, A["s1"] + 0.4), "in from the start", RED, 9.5)
             for yy in (A["s0"], A["s1"]): d.line([(-1.3, yy), (1.3, yy)], PAPER, 3.6)
             d.line([(-1.3, 62.0), (1.3, 62.0)], PAPER, 3.6); d.line([(-1.3, 46.0), (1.3, 46.0)], PAPER, 3.6)

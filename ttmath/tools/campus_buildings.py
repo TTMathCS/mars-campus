@@ -5,6 +5,7 @@ Plans are drawn in the Math Palace's frame like the site plan: the palace and th
 lat to the right. Room sizes in the tables are measured from the drawn outlines (also saved to data/room_areas.json)."""
 import html, json, math, os
 import campus_rooms as R
+import campus_timetable as TTB
 HERE = os.path.dirname(os.path.abspath(__file__)); TT = os.path.dirname(HERE); OUT = os.path.join(TT, "plan")
 E = html.escape
 D2R = math.pi / 180
@@ -235,6 +236,7 @@ def ring():
             elif full: ri, ro = r0, r1
             else: ri, ro = rc, r1
             nm = rm.get("short") if (a1 - a0) < 10 else rm["name"].split(":")[0]
+            if rm.get("no"): nm = "%d %s" % (rm["no"], nm)
             d.room(rm["code"], ring_band_pts(ri, ro, a0, a1), ring_kind(rm["kind"]), nm, at=polar((ri + ro) / 2, am), rot=upright(am), room_w=(ri + ro) / 2 * (a1 - a0) * D2R, size=10)
             if rm["floor"] == "both" and fl == "lower": areas[rm["code"]] = areas.get(rm["code"], 0) + area_of(ring_band_pts(ri, ro, a0, a1))
             # the glass: onto the plain (the upper floor where it stands clear), onto the gallery, onto the grove
@@ -644,9 +646,55 @@ def table(rooms, areas):
     def size(c):
         a = areas.get(c)
         return ("%d m²" % (round(a / 10) * 10 if a >= 100 else round(a))) if a else ""
-    rows = "".join('<tr><td class="code">%s</td><td><b>%s</b></td><td>%s%s</td><td class="n">%s</td></tr>' % (
-        r["code"], E(r["name"]), E(r["use"]), (" <i>Also: %s</i>" % E(r["also"])) if r.get("also") else "", size(r["code"])) for r in rooms)
-    return '<div class="tw"><table><thead><tr><th>Code</th><th>Room</th><th>What it is for</th><th>Size</th></tr></thead><tbody>%s</tbody></table></div>' % rows
+    nos = any(r.get("no") for r in rooms)
+    rows = "".join('<tr><td class="code">%s</td>%s<td><b>%s</b></td><td>%s%s</td><td class="n">%s</td></tr>' % (
+        r["code"], ('<td class="n"><b>%s</b></td>' % (r.get("no") or "")) if nos else "", E(r["name"]), E(r["use"]), (" <i>Also: %s</i>" % E(r["also"])) if r.get("also") else "", size(r["code"])) for r in rooms)
+    return '<div class="tw"><table><thead><tr><th>Code</th>%s<th>Room</th><th>What it is for</th><th>Size</th></tr></thead><tbody>%s</tbody></table></div>' % ('<th>No.</th>' if nos else "", rows)
+
+
+def schedule_page():
+    """plan/schedule.html: the Fall timetable with the room of every class, and the rooms by number"""
+    T = TTB.data(); days = T["days"]
+    names = {rm["no"]: rm for rm in R.RING_ROOMS if rm.get("no")}
+    def cell(c):
+        if not c: return "<td></td>"
+        t, r = c
+        if r == 0: return '<td class="off">%s<br><span>online</span></td>' % E(t)
+        return '<td class="%s">%s<br><b>%d</b> %s%s</td>' % ("both" if r < 0 else "on", E(t), abs(r), E(names[abs(r)]["name"].split(":")[0]), " + online" if r < 0 else "")
+    body = []
+    for g in T["groups"]:
+        rows = []
+        for c in g["classes"]:
+            for i, row in enumerate(c["rows"]):
+                head = '<td class="code" rowspan="%d">%s</td>' % (len(c["rows"]), E(c["name"])) if i == 0 else ""
+                hw = '<td rowspan="%d">%s</td>' % (len(c["rows"]), E(c["hw"])) if i == 0 else ""
+                rows.append("<tr>%s%s%s</tr>" % (head, "".join(cell(x) for x in row), hw))
+        body.append('<h2>%s</h2><div class="tw tt"><table><thead><tr><th>Class</th>%s<th>Homework class</th></tr></thead><tbody>%s</tbody></table></div>' % (
+            E(g["name"]), "".join("<th>%s</th>" % d for d in days), "".join(rows)))
+    used = {}
+    for g in T["groups"]:
+        for c in g["classes"]:
+            for row in c["rows"]:
+                for x in row:
+                    if x and x[1]: used.setdefault(abs(x[1]), set()).add(c["name"])
+    where = {"T06-20": "the right wing today", "T06-23": "the right wing today", "T06-24": "the right wing today", "T06-25": "the left wing today", "T06-26": "the left wing today", "T06-38": "the left wing today"}
+    def place(rm):
+        if rm["code"] in where: return where[rm["code"]]
+        if -57 <= rm["a"][0] and rm["a"][1] <= 58: return "the Crescent, " + ("upstairs" if rm["floor"] == "upper" else "downstairs")
+        return "the Ring, to build"
+    dirrows = "".join('<tr><td class="n"><b>%d</b></td><td><b>%s</b></td><td>%s</td><td>%s</td></tr>' % (
+        rm["no"], E(rm["name"]), E(place(rm)), E(", ".join(sorted(used.get(rm["no"], [])))) or "") for no, rm in sorted(names.items()))
+    lede = ("TTMath's %s (%s, %d weeks), as it shows on the two screens past the airlock in the palace's front vault: every class, the days and times, "
+            "and the room it meets in. Classes printed in black meet in the room, in red online, in purple in the room and online at once." % (T["term"]["title"], T["term"]["dates"], T["term"]["weeks"]))
+    rule = ("<p>Jim, 5 Oct 2026: <i>\"each area esp classroom should have room number so students know which room they should go. also check ttmath.ca for fall schedule. "
+            "the schedule should be somewhere in the entrance so students know where they are going to\"</i>; the schedule is Jim's picture of 6 Oct 2026.</p>"
+            "<ul><li><b>Room numbers</b> have three digits: the first is the floor, <b>2</b> upstairs (the floor you come in on, level with the palace) and <b>1</b> downstairs "
+            "(the garden level); the last two count up as you walk to the right from the Gate Hall, all the way round the Ring, so a room upstairs is right over the room "
+            "with the same last two digits downstairs. Halls, corridors and stairs have names.</li>"
+            "<li><b>The wings' rooms</b> carry the numbers of their rooms in the Ring already (Pythagoras 219, Lovelace 213, Socrates 211), so a class keeps its room number when the wings come down.</li>"
+            "<li><b>Each class keeps its room</b> where it can; no two classes ever share a room at the same time (<code>campus_timetable.py</code> checks it).</li></ul>")
+    page("schedule.html", "Timetable · Fall 2026", '<h1>The Fall 2026 timetable and the rooms</h1><p class="lede">%s</p>%s%s<h2>The rooms by number</h2>'
+         '<div class="tw"><table><thead><tr><th>No.</th><th>Room</th><th>Where</th><th>Fall classes</th></tr></thead><tbody>%s</tbody></table></div>' % (E(lede), rule, "".join(body), dirrows))
 
 
 def fig(src, cap): return '<figure><a href="%s"><img src="%s" alt="%s"></a><figcaption>%s</figcaption></figure>' % (src, src, E(cap), cap)
@@ -686,18 +734,20 @@ if __name__ == "__main__":
         src, areas = draw(); AREAS.update(areas)
         figs = "".join(fig(sv, "<b>%s</b>, to scale." % E(title.split(" · ")[0] + (" · " + ("upper floor" if "upper" in sv else "lower floor") if "ring-" in sv else ""))) for sv in (src if isinstance(src, list) else [src]))
         page(fn, title, '<h1>%s</h1><p class="lede">%s</p>%s%s%s' % (E(title), E(lede), more, figs, table(rooms, areas)))
+    schedule_page()
     missing = [r["code"] for b in SPECS for r in b[4] if r["code"] not in AREAS]
     indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T14", "T04-03")) and c not in ("T07-05", "T11-03"))
     print("building pages written:", len(SPECS), "; rooms", sum(len(s[4]) for s in SPECS), "; indoor floor area about", round(indoor), "m2; no size for", missing)
     os.makedirs(os.path.join(HERE, "data"), exist_ok=True)
     json.dump({k: round(v, 1) for k, v in sorted(AREAS.items())}, open(os.path.join(HERE, "data", "room_areas.json"), "w"), indent=0)
     # the data the demo builds from
-    keep = ("code", "name", "floor", "a", "kind", "double", "band", "short")
+    keep = ("code", "name", "floor", "a", "kind", "double", "band", "short", "no")
     data = {"crescent": dict(R.CRESCENT, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.CRESCENT_PLANTS.get(r["code"], [])) for r in R.CRESCENT_ROOMS]),
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[{k: v for k, v in r.items() if k in keep} for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK}
+            "ring": dict(R.RING, rooms=[{k: v for k, v in r.items() if k in keep} for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)
     print("wrote blk_p2data.js", len(js), "bytes")

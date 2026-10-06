@@ -167,6 +167,36 @@ RING_ROOMS = [
 RING_MOVES = [("M1 Mathematics", "T06-20 Pythagoras"), ("Lobby", "T06-27 Gate Hall"), ("Coding Lab", "T06-23 Lovelace"), ("Seminar Room", "T06-24 Socrates"),
               ("Café", "T06-38 Café"), ("Reception", "T06-27 Gate Hall"), ("Library", "T06-25 Library"), ("Reading Room", "T06-26 Reading room")]
 
+# Room numbers (Jim, 5 Oct 2026: "each area esp classroom should have room number so students know which room they
+# should go"). Three digits: the first is the floor, 2 upstairs (the floor you come in on, level with the palace and the
+# garden ring), 1 downstairs (the garden level); the last two say where the room stands, counting up in steps of 5
+# degrees of the Ring as you walk to the right from the Gate Hall, all the way round. So the numbers rise one way round
+# the Ring, a room upstairs has the number of the room under it plus 100, and a bay can change its use and keep its
+# number. Halls, corridors and stairs have names, not numbers. The wings' rooms already carry the numbers of the rooms
+# they move to (WING_NOS), so a class keeps its room number when the wings come down.
+def room_no(rm):
+    if rm.get("band") or rm["kind"] in ("move", "gate") or rm["floor"] not in ("upper", "lower"): return None
+    mid = (rm["a"][0] + rm["a"][1]) / 2.0
+    return (200 if rm["floor"] == "upper" else 100) + int(((180.0 - mid) % 360.0) / 5.0 + 0.5)
+for _rm in RING_ROOMS: _rm["no"] = room_no(_rm)
+RING_NOS = {rm["code"]: rm["no"] for rm in RING_ROOMS if rm["no"]}
+assert len(set(RING_NOS.values())) == len(RING_NOS), "two rooms share a number"
+for _rm in CRESCENT_ROOMS: _rm["no"] = RING_NOS.get(_rm["code"]) if room_no(_rm) else None
+# the wings' rooms today (by their kind in the demo) and the Ring's rooms they move to
+WING_MOVES = dict(math="T06-20", lab="T06-23", seminar="T06-24", cafe="T06-38", library="T06-25", study="T06-26")
+WING_NOS = {k: [RING_NOS[c], [rm for rm in RING_ROOMS if rm["code"] == c][0]["name"]] for k, c in WING_MOVES.items()}
+
+# The way in, until the Ring's front is built (Jim, 5 Oct 2026: "the side stairs are connected from outside, not in the
+# dome seal. also this stairs are not designed well"): the wings' glass doors onto the open courtyard close for good, so
+# no stair and no door of the campus opens to the air; the one way in is the palace's front vault, which becomes an
+# airlock: outer sliding doors at its mouth and inner ones 2.5 m in, in glass walls that close the vault's arch, never
+# open together. The welcome panels stand in the chamber; past the inner doors the Fall timetable fills a screen on each
+# wall (campus_timetable.py), with the room numbers. The wings are reached through the palace and the glass links; the
+# right link's stair is rebuilt to a proper rise and going (risers about 15 cm, treads 30 cm) with handrails on both
+# sides, lit treads and landings at both ends.
+VAULT_LOCK = dict(outer=34.0, inner=31.5, door_w=2.4, door_h=2.62, boards=dict(r0=28.5, r1=31.3, lat=3.72, y0=0.7, h=1.6))
+LINK_STAIR = dict(riser=0.16, tread=0.30, landing=1.2, rail=0.9)
+
 # the garden ring between the dome and the Ring, sealed all round: at the palace's level under a glass vault whose crown
 # follows the line of sight (m above the palace's floor, by angle), except where the start looks down through the dip in
 # the ridge: there it steps down into the sunken grove at the lower floor's level, under flat glass at ground level
@@ -350,4 +380,4 @@ BUILDINGS = [
 PLAN_NAV = [("index.html", "The plan"), ("buildings.html", "The buildings")] + [(b, c) for b, c in (
     ("ring.html", "T-04, T-06"), ("infinity.html", "T-07"), ("greenhouse.html", "T-08"), ("garden.html", "T-09"),
     ("observatory.html", "T-10"), ("sports.html", "T-11"), ("hangar.html", "T-12"), ("pods.html", "T-14, T-15"),
-    ("links.html", "T-17"))] + [("rover.html", "The rover")]
+    ("links.html", "T-17"))] + [("schedule.html", "Timetable"), ("rover.html", "The rover")]

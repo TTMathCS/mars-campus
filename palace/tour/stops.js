@@ -145,5 +145,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/dining.jpg", caption: "The dining room: the table for eight under five glass globes, by the glass onto the atrium." },
   { img: "photos/kitchen.jpg", caption: "The kitchen: the island for breakfast, the open shelves lit from within, the robot that cooks on its rail, the table for four." },
   { img: "photos/guests2.jpg", caption: "The guest lounge from the gallery: the sitting room below and the atrium through the glass." },
-  { img: "photos/crown_suite_door.jpg", caption: "The master suite's doors on the Glide: a pair of walnut pivot doors 4 m tall with long bronze pulls, set in the suite's wall of bronze and frosted glass, lit by alabaster pendants." }
+  { img: "photos/crown_suite_door.jpg", caption: "The master suite's doors on the Glide: a pair of walnut pivot doors 4 m tall with long bronze pulls, set in the suite's wall of bronze and frosted glass, lit by alabaster pendants." },
+  { img: "photos/crown_salon2.jpg", caption: "Across the great salon from the recital room: the orange maple, the crescent groups round their tables, and at the far end Turner's sea over the hearth." },
+  { img: "photos/crown_hearth.jpg", caption: "The hearth room in the Crown: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent and a gold ginkgo." }
 ];

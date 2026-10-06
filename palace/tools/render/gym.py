@@ -1,5 +1,6 @@
-"""Arcadia's gym equipment, as in the best hotel gyms: treadmills and rowers in graphite with black belts and pads and
-a lit console, a rack of steel dumbbells, mats for yoga. Local frame as seating.py: x across the machine, the user
+"""Arcadia's gym equipment, as in the best hotel gyms: treadmills, rowers and studio bikes in graphite with black belts
+and pads and a lit console, a rack of steel dumbbells, a power rack with its bar and plates, weight benches, mats for
+yoga. Local frame as seating.py: x across the machine, the user
 facing -y (the console's side), z up from the floor; placed by loc and rot_z."""
 import bpy, math
 import lib
@@ -83,3 +84,81 @@ def dumbbell_rack(name, loc, rot_z, length=2.4, pairs=8):
 def mat(name, loc, rot_z, color=(0.22, 0.26, 0.24)):
     """a yoga mat, 1.85 by 0.62 m, rolled out"""
     return _piece(name, loc, rot_z, [_b(name + " mat", (0.62, 1.85, 0.006), (0, 0, 0.003), lib.principled(name + " rubber", color, 0.85), 0.003)])
+
+
+def bike(name, loc, rot_z):
+    """a studio bike: two feet and a spine, the flywheel in its hood at the front, the saddle and the bars on raked
+    posts, the pedals, a small lit console"""
+    K = _mats(); parts = []
+    for y in (-0.5, 0.46): parts.append(_b(name + " foot", (0.56, 0.08, 0.06), (0, y, 0.03), K["frame"], 0.015))
+    parts.append(_b(name + " spine", (0.08, 1.0, 0.08), (0, -0.02, 0.1), K["frame"], 0.02))
+    parts.append(_cyl(name + " flywheel", 0.25, 0.05, (0, -0.3, 0.36), K["steel"], axis="X", verts=64))
+    parts.append(_b(name + " hood", (0.15, 0.36, 0.42), (0, -0.4, 0.42), K["frame"], 0.05))
+    parts.append(_b(name + " seat post", (0.06, 0.06, 0.78), (0, 0.2, 0.47), K["frame"], 0.015, tilt=-0.28))
+    parts.append(_b(name + " saddle", (0.17, 0.28, 0.06), (0, 0.31, 0.88), K["pad"], 0.025))
+    parts.append(_b(name + " bar post", (0.06, 0.06, 0.7), (0, -0.4, 0.86), K["frame"], 0.015, tilt=0.18))
+    parts.append(_b(name + " bars", (0.52, 0.06, 0.035), (0, -0.48, 1.18), K["pad"], 0.015))
+    parts.append(_b(name + " console", (0.22, 0.05, 0.14), (0, -0.44, 1.27), K["frame"], 0.01, tilt=0.5))
+    parts.append(_b(name + " screen", (0.16, 0.012, 0.1), (0, -0.466, 1.275), K["screen"], 0.003, tilt=0.5))
+    for x in (-0.12, 0.12): parts.append(_b(name + " pedal", (0.1, 0.12, 0.03), (x, -0.12, 0.3), K["black"], 0.008))
+    return _piece(name, loc, rot_z, parts)
+
+
+def weight_bench(name, loc, rot_z, length=1.3):
+    """a flat bench: a long leather pad on a graphite rail, two legs on wide feet"""
+    K = _mats(); parts = [_b(name + " pad", (0.3, length, 0.09), (0, 0, 0.46), K["pad"], 0.035),
+                          _b(name + " rail", (0.08, length - 0.2, 0.08), (0, 0, 0.37), K["frame"], 0.02)]
+    for y in (-length / 2 + 0.14, length / 2 - 0.14):
+        parts.append(_b(name + " leg", (0.08, 0.08, 0.36), (0, y, 0.18), K["frame"], 0.02))
+        parts.append(_b(name + " foot", (0.5, 0.08, 0.05), (0, y, 0.025), K["frame"], 0.015))
+    return _piece(name, loc, rot_z, parts)
+
+
+def power_rack(name, loc, rot_z, w=1.25, d=1.4, h=2.3):
+    """a power rack: four graphite uprights on long feet, tied at the top; a steel bar on the front uprights with black
+    plates either end; the user stands in it facing -y"""
+    K = _mats(); parts = []
+    for x in (-w / 2, w / 2):
+        for y in (-d / 2, d / 2): parts.append(_b(name + " upright", (0.075, 0.075, h), (x, y, h / 2), K["frame"], 0.01))
+        parts.append(_b(name + " top side", (0.075, d, 0.075), (x, 0, h - 0.04), K["frame"], 0.01))
+        parts.append(_b(name + " foot", (0.09, d + 0.2, 0.05), (x, 0, 0.025), K["frame"], 0.01))
+        parts.append(_b(name + " hook", (0.06, 0.1, 0.05), (x, -d / 2 + 0.07, 1.39), K["black"], 0.01))
+    for y in (-d / 2, d / 2): parts.append(_b(name + " top", (w, 0.075, 0.075), (0, y, h - 0.04), K["frame"], 0.01))
+    parts.append(_cyl(name + " bar", 0.014, 2.2, (0, -d / 2 + 0.08, 1.44), K["steel"], axis="X", verts=16))
+    for sx in (-1, 1):
+        for k, (r, t) in enumerate(((0.225, 0.05), (0.225, 0.05), (0.16, 0.035))):
+            parts.append(_cyl(name + " plate", r, t, (sx * (w / 2 + 0.13 + 0.055 * k), -d / 2 + 0.08, 1.44), K["black"], axis="X", verts=48))
+    return _piece(name, loc, rot_z, parts)
+
+
+def kettlebell(name, loc, rot_z, kg=16):
+    """a cast-iron kettlebell: a round bell flattened at the foot, a handle arched over it"""
+    K = _mats(); r = 0.07 + 0.003 * kg; parts = []
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=r, location=(0, 0, r * 0.92)); b = bpy.context.active_object
+    b.name = name + " bell"; b.scale = (1, 1, 0.92); b.data.materials.append(K["black"])
+    for pg in b.data.polygons: pg.use_smooth = True
+    parts.append(b)
+    bpy.ops.mesh.primitive_torus_add(major_radius=r * 0.62, minor_radius=0.016, major_segments=32, minor_segments=8, location=(0, 0, r * 1.75), rotation=(math.pi / 2, 0, 0))
+    h = bpy.context.active_object; h.name = name + " handle"; h.data.materials.append(K["black"]); parts.append(h)
+    return _piece(name, loc, rot_z, parts)
+
+
+def med_ball(name, loc, d=0.32, color=(0.08, 0.09, 0.1)):
+    """a medicine ball of soft rubber"""
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=32, ring_count=16, radius=d / 2, location=(0, 0, d / 2)); b = bpy.context.active_object
+    b.name = name; b.data.materials.append(lib.principled(name + " rubber", color, 0.75))
+    for pg in b.data.polygons: pg.use_smooth = True
+    return _piece(name, loc, 0.0, [b])
+
+
+def plyo_box(name, loc, rot_z, size=(0.76, 0.6, 0.5)):
+    """a jump box of ash plywood with rounded edges"""
+    K = _mats(); w, d, h = size
+    return _piece(name, loc, rot_z, [_b(name + " box", (w, d, h), (0, 0, h / 2), K["wood"], 0.025)])
+
+
+def heavy_bag(name, loc, ceiling, h=1.2, d=0.38, bottom=0.55):
+    """a heavy bag of black leather hung on a chain from the ceiling"""
+    K = _mats(); parts = [_cyl(name + " bag", d / 2, h, (0, 0, bottom + h / 2), K["pad"], verts=40)]
+    parts.append(_cyl(name + " chain", 0.008, ceiling - bottom - h, (0, 0, (ceiling + bottom + h) / 2), K["steel"], verts=8))
+    return _piece(name, loc, 0.0, parts)

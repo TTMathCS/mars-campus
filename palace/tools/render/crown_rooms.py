@@ -419,7 +419,8 @@ SUITE_DOOR = (R_GL + 1.0, R_GL + 3.6)        # the doorways between the dressing
 def sunset_lounge(M, rnd):
     """the sunset lounge (261 to 279; furnishing.py): two long low sofas 6 m, curving with the ring, face the west
     windows across long travertine tables, a daybed beside each; low lamps, for the sunset does the rest; beds of
-    agaves and golden barrels on the piers between the windows, so the glass stays clear; gold ginkgos to glow"""
+    agaves and golden barrels on the piers between the windows, so the glass stays clear; between the two groups a
+    velvet crescent round a marble table; gold ginkgos and red and orange maples to glow; a warm halo over each group"""
     import seating, tables, lights, plants
     b0, b1 = 261.0, 279.0
     crown.ring_room(b0, b1, M, M["stone_linen"])
@@ -453,7 +454,20 @@ def sunset_lounge(M, rnd):
             plants.make("golden barrel", at(R_OUT - 0.6, pb, 0.425), seed=360 + k, r=0.28)
     for k, bb in enumerate((b0 + tang(2.2, R_GL + 2.0), b1 - tang(2.2, R_GL + 2.0))):
         plants.make("ginkgo", at(R_GL + 2.0, bb, 0.0), seed=370 + k, pot=(1.4, 0.75, "basalt"), height=5.6)
-    washers(b0, b1, 60, (1.0, 0.80, 0.60))
+    # between the two, under the stop: a rust velvet crescent round a marble table, facing the windows, two club chairs
+    cc = 270.0; marble = seating.stone("sunset marble", (0.86, 0.84, 0.80), (0.40, 0.38, 0.36), "marble", 0.12)
+    lib.box("rug", (7.6, 6.4, 0.014), at(RM + 1.2, cc, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(cc), segs=2)
+    seating.crescent("sunset crescent", at(RM - 1.2, cc, 0.0), face_out(cc), radius=2.8, length=6.4, fabric_mat=rust, seed=380)
+    tables.coffee_table("sunset round table", at(RM + 1.6, cc, 0.0), 0.0, length=1.6, kind="round", mat=marble)
+    for s_ in (-1, 1):
+        seating.club_chair("sunset chair", at(RM + 3.9, cc + s_ * tang(1.4, RM + 3.9), 0.0), face_in(cc) - s_ * 0.35, fabric_mat=sand, seed=381 + s_)
+    # a red and an orange maple by the glass either side of it, to glow with the ginkgos at sunset
+    for k, (bb, col) in enumerate(((cc - tang(5.2, R_GL + 2.2), "red"), (cc + tang(5.2, R_GL + 2.2), "orange"))):
+        plants.make("japanese maple", at(R_GL + 2.2, bb, 0.0), seed=384 + k, pot=(1.4, 0.62, "basalt"), height=4.2, colour=col, stems=3)
+    # halos over the three groups, warm
+    for bb, r in ((265.4, rs + 1.0), (cc, RM + 1.4), (274.6, rs + 1.0)):
+        lights.halo("sunset halo", at(r, bb), d=5.0, z=5.4, ceiling=ceil_at(bb), watts=800, color=(1.0, 0.74, 0.50))
+    washers(b0, b1, 150, (1.0, 0.80, 0.60))
 
 
 def radial_frame(r, b, inward=False):
@@ -758,14 +772,21 @@ def washers(b0, b1, watts=90, color=(1.0, 0.83, 0.64)):
 
 def studio(M, rnd):
     """the Studio (324 to 360), north-north-west: the art studio in the north light (C-27), the photo and print room
-    (C-28), the craft room (C-29); furnished to the furnishing program: a sofa and a daybed facing the easels, leather
-    chairs at the desks, a viewing sofa for the prints, a banquette by the potter's wheel, chosen plants"""
-    import seating, tables, plants
+    (C-28), the craft room (C-29); furnished to the furnishing program: a long sofa, a daybed and club chairs facing the
+    easels, Jim's big canvases on the end wall, leather chairs at the screens, a viewing sofa and chairs for the prints, a
+    banquette by the potter's wheel, chosen plants; lit like the salon (the slatted ceiling, the Glide's light, washers,
+    a halo over each room's work)"""
+    import seating, tables, plants, lights
     extra_materials(M)
     oat = seating.fabric("studio linen", (0.62, 0.56, 0.47), "linen"); cognac = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
+    moss = seating.fabric("moss velvet", (0.10, 0.13, 0.08), "velvet")
     b0, b1, w1, w2 = 324.0, 360.0, 339.0, 349.0
     crown.ring_room(b0, b1, M, M["oak"])
-    for b in (w1, w2): room_wall(b, M)
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
+    crown.glide_lights(b0, b1)
+    room_wall(w1, M)
+    room_wall(w2, M, opening=(R_GL + 1.4, R_GL + 5.0))   # the print room's far wall is for prints: open only by the glass
+    t = 0.15 / 130.0 / D                    # half a cross wall: things hung on a wall stand off its face
     S = imports(M)
     # C-27, the art studio: easels by the outer wall, the canvases lit across from the slots
     pal = [((0.62, 0.36, 0.20), [(0.06, 0.94, 0.08, 0.42, (0.42, 0.18, 0.09)), (0.06, 0.94, 0.55, 0.92, (0.80, 0.56, 0.36))]),
@@ -783,15 +804,35 @@ def studio(M, rnd):
     leaning_canvases(w1, R_OUT - 1.3, M, rnd, side=-1, n=5)
     plants.make("bird of paradise", at(R_GL + 1.2, 337.6, 0.0), seed=501, pot=(1.0, 0.7, "bronze"), height=3.5, stems=5)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.1, b0 + tang(1.3, R_OUT - 1.1), 0.0), seed=502, pot=(0.75, 0.62, "white"), height=2.6)
+    plants.make("japanese maple", at(R_GL + 1.5, 333.6, 0.0), seed=511, pot=(1.4, 0.62, "basalt"), height=4.0, colour="red", stems=3)
+    plants.make("kentia palm", at(R_OUT - 1.2, w1 - tang(1.4, R_OUT - 1.2), 0.0), seed=512, pot=(0.95, 0.72, "black"), height=3.4, stems=3)
+    # three of Jim's big canvases on the end wall
+    big = [((0.55, 0.20, 0.10), [(0.06, 0.94, 0.06, 0.48, (0.75, 0.38, 0.14)), (0.06, 0.94, 0.56, 0.94, (0.20, 0.10, 0.08))]),
+           ((0.10, 0.14, 0.22), [(0.08, 0.92, 0.08, 0.30, (0.30, 0.42, 0.62)), (0.08, 0.92, 0.38, 0.92, (0.06, 0.08, 0.12))]),
+           ((0.74, 0.66, 0.52), [(0.10, 0.90, 0.10, 0.55, (0.62, 0.48, 0.30)), (0.10, 0.90, 0.62, 0.90, (0.85, 0.80, 0.68))])]
+    for k, (r, w, h) in enumerate(((122.6, 2.4, 1.8), (127.2, 2.0, 2.8), (131.8, 2.4, 1.8))):
+        lib.box("wall canvas", (w, 0.04, h), at(r, b0 + t + tang(0.03, r), 1.2 + h / 2), furn.painting_material("studio wall canvas %d" % k, *big[k]), rot_z=face_cw(b0))
+    # a sculpture corner between the work table and the print room: white plinths with pieces in bronze and marble
+    marble_w = seating.stone("studio marble", (0.88, 0.86, 0.82), (0.55, 0.53, 0.50), "marble", 0.15)
+    pieces = [[(0.0, 0.0), (0.16, 0.0), (0.2, 0.2), (0.12, 0.55), (0.05, 0.95), (0.09, 1.05), (0.0, 1.1)],
+              [(0.0, 0.0), (0.24, 0.0), (0.3, 0.12), (0.26, 0.3), (0.12, 0.42), (0.0, 0.45)],
+              [(0.0, 0.0), (0.05, 0.0), (0.035, 0.6), (0.06, 1.3), (0.02, 1.6), (0.0, 1.62)]]
+    for k, (r, bb, h) in enumerate(((RM + 1.6, 335.2, 1.0), (RM - 0.6, 336.0, 0.8), (RM + 3.2, 336.4, 0.6))):
+        lib.box("plinth", (0.6, 0.6, h), at(r, bb, h / 2), M["white_wall"] if "white_wall" in M else M["porcelain"], bevel=0.004, rot_z=face_in(bb))
+        furn.lathe("sculpture", pieces[k], (M["bronze"], marble_w, M["bronze"])[k], 64, at(r, bb, h))
+    lights.globes("sculpture globes", at(RM + 1.2, 335.9), n=5, spread=0.9, low=3.0, high=3.8, ceiling=ceil_at(335.9), watts=45, seed=15)
     # where Jim sits back to look at the work: a sofa and a chair facing the easels on a rug, a low table of art books;
     # a still life set up on a small table by the easels
     sb = 330.0
-    lib.box("studio rug", (5.6, 4.0, 0.014), at(R_GL + 3.0, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
-    seating.sofa("studio sofa", at(R_GL + 1.75, sb, 0.0), face_out(sb), length=4.2, fabric_mat=oat, seed=503)
-    seating.daybed("studio daybed", at(R_GL + 3.6, sb + tang(2.9, R_GL + 3.6), 0.0), face_ccw(sb) + 0.35, length=2.3, width=1.1, fabric_mat=cognac, seed=504)
-    tables.coffee_table("studio table", at(R_GL + 3.2, sb, 0.0), face_in(sb), length=2.0, width=0.9, kind="stack")
+    lib.box("studio rug", (7.2, 5.0, 0.014), at(R_GL + 3.2, sb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(sb), segs=2)
+    seating.sofa("studio sofa", at(R_GL + 1.8, sb, 0.0), face_out(sb), length=5.2, fabric_mat=oat, seed=503)
+    seating.daybed("studio daybed", at(R_GL + 3.7, sb + tang(3.3, R_GL + 3.7), 0.0), face_ccw(sb) + 0.35, length=2.3, width=1.1, fabric_mat=cognac, seed=504)
+    for k, (r, d) in enumerate(((R_GL + 3.3, 3.1), (R_GL + 4.7, 2.6))):
+        bb = sb - tang(d, r); seating.club_chair("studio club chair", at(r, bb, 0.0), face_cw(bb) - 0.5 + 0.35 * k, fabric_mat=moss, seed=513 + k)
+    tables.coffee_table("studio table", at(R_GL + 3.3, sb, 0.0), face_in(sb), length=2.2, width=1.0, kind="stack")
+    lights.globes("studio globes", at(R_GL + 3.2, sb), n=9, spread=0.8, low=3.0, high=4.2, ceiling=ceil_at(sb), watts=50, seed=14)
     for k in range(4):
-        q = at(R_GL + 3.15, sb + tang(-0.25 + 0.03 * k, R_GL + 3.15), 0.37 + 0.035 * k)
+        q = at(R_GL + 3.25, sb + tang(-0.25 + 0.03 * k, R_GL + 3.25), 0.37 + 0.035 * k)
         lib.box("art book", (0.32, 0.24, 0.032), q, (M["ceramics"] + [M["walnut"]])[k % 4], bevel=0.004, rot_z=face_in(sb) + rnd.uniform(-0.2, 0.2))
     st = 332.4; q = at(R_OUT - 3.0, st, 0.0)
     lib.box("still life table", (0.8, 0.6, 0.78), (q[0], q[1], 0.39), M["raw_canvas"], bevel=0.01, rot_z=face_in(st))
@@ -818,12 +859,26 @@ def studio(M, rnd):
     for (bb, img) in ((342.6, "crown-sunset.jpg"), (345.6, "flight-crater.jpg")):
         screen("screen", repo_file("palace", "design", "img", img), 0.72, 0.42, at(R_OUT - 0.42, bb, 0.915), face_in(bb), M)
         seating.desk_chair("screen chair", at(R_OUT - 1.25, bb, 0.0), face_out(bb), fabric_mat=cognac, seed=505 + int(bb))
+    # a plan chest in the middle, prints laid out on it to choose from
+    pc = 343.4
+    lib.box("plan chest", (3.6, 1.2, 0.9), at(RM + 2.4, pc, 0.45), M["walnut"], bevel=0.008, rot_z=face_in(pc))
+    for z in (0.2, 0.42, 0.64): lib.box("plan drawer line", (3.5, 1.21, 0.006), at(RM + 2.4, pc, z), M["shadow"], rot_z=face_in(pc))
+    for k, img in enumerate(("flight-dunes.jpg", "crown-sunset.jpg", "flight-crater.jpg")):
+        bb = pc + tang(-1.15 + 1.15 * k, RM + 2.4)
+        po = picture_quad("laid print", 0.9, 0.6, image_material("laid print %d" % k, repo_file("palace", "design", "img", img), 0.0, 0.6))
+        po.location = at(RM + 2.4, bb, 0.905); po.rotation_euler = (-math.pi / 2, 0, face_in(bb) + rnd.uniform(-0.12, 0.12))
+    lib.box("print rug", (6.0, 4.6, 0.014), at(131.0, 346.6, 0.007), M["rug"], bevel=0.006, rot_z=face_in(346.6), segs=2)
     # the viewing sofa, facing Jim's prints on the cross wall
     seating.sofa("print sofa", at(130.6, 346.9, 0.0), face_cw(346.9), length=4.0, fabric_mat=oat, seed=507)
-    framed_print("print", repo_file("palace", "design", "img", "crown-garden.jpg"), 1.6, 0.9, at(129.4, w2 - tang(0.03, 129.4), 1.7), face_cw(w2), M)
-    for (r, img, w, h) in ((R_OUT - 0.75, "flight-cliffs.jpg", 1.1, 0.62), (R_OUT - 2.0, "port-aerial.jpg", 0.95, 0.53)):
-        framed_print("print", repo_file("palace", "design", "img", img), w, h, at(r, w2 - tang(0.03, r), 1.62), face_cw(w2), M)
-    framed_print("print", repo_file("palace", "design", "img", "flight-west.jpg"), 1.6, 0.9, at(R_OUT - 1.3, w1 + tang(0.03, R_OUT - 1.3), 1.65), face_ccw(w1), M)
+    framed_print("print", repo_file("palace", "design", "img", "crown-garden.jpg"), 3.2, 1.8, at(130.2, w2 - t - tang(0.03, 130.2), 2.0), face_ccw(w2), M)
+    for (r, img, w, h) in ((R_OUT - 1.2, "flight-cliffs.jpg", 1.6, 0.9), (126.2, "port-aerial.jpg", 1.6, 0.9)):
+        framed_print("print", repo_file("palace", "design", "img", img), w, h, at(r, w2 - t - tang(0.03, r), 1.75), face_ccw(w2), M)
+    framed_print("print", repo_file("palace", "design", "img", "flight-west.jpg"), 1.8, 1.0, at(R_OUT - 1.3, w1 + t + tang(0.03, R_OUT - 1.3), 1.8), face_cw(w1), M)
+    for k, (r, d) in enumerate(((128.6, 2.6), (132.6, 2.6))):
+        bb = 346.9 - tang(0.2, r); seating.club_chair("print chair", at(r, bb, 0.0), face_cw(bb) + (0.35 if k == 0 else -0.35), fabric_mat=moss, seed=520 + k)
+    plants.make("ginkgo", at(R_GL + 2.0, w2 - tang(1.6, R_GL + 2.0), 0.0), seed=522, pot=(1.2, 0.62, "basalt"), height=3.8, colour="gold")
+    plants.make("kentia palm", at(R_GL + 1.6, w1 + tang(1.3, R_GL + 1.6), 0.0), seed=523, pot=(0.9, 0.7, "black"), height=3.2, stems=3)
+    lights.halo("print halo", at(RM, 344.0), d=5.0, z=5.6, ceiling=ceil_at(344.0), watts=1100, color=(1.0, 0.93, 0.84))
     # C-29, crafts: the potter's wheel, the kiln, shelves of pots, a bench for models and repairs
     wb = 352.2
     lib.box("wheel body", (0.62, 0.55, 0.42), at(RM, wb, 0.21), M["pale_grey"], bevel=0.02, rot_z=face_in(wb))
@@ -864,10 +919,14 @@ def studio(M, rnd):
         q = at(RM + rnd.uniform(-0.3, 0.3), bb); furn.ornament("drying pot", q[0], q[1], 0.78, rnd.uniform(0.12, 0.26), rnd, [M["greenware"]])
         bb += tang(rnd.uniform(0.22, 0.34))
     plants.make("olive", at(R_OUT - 1.4, 358.5, 0.0), seed=510, pot=(1.1, 0.8, "terracotta"), height=3.0, stems=2)
+    plants.make("lemon", at(RM + 1.6, 358.7, 0.0), seed=524, pot=(1.0, 0.75, "terracotta"), height=2.4)
+    work_table("craft table", RM + 2.6, 354.2, M, rnd, length=3.8, depth=1.4)
+    lights.halo("craft halo", at(RM, 353.6), d=5.0, z=5.6, ceiling=ceil_at(353.6), watts=1100)
+    lights.halo("studio halo", at(RM - 1.0, 331.0), d=7.0, z=6.5, ceiling=ceil_at(331.0), watts=2000, color=(1.0, 0.93, 0.84))
     for bc in (326.0, 331.0, 336.0, 341.5, 346.5, 351.5, 356.5):
         for r in (RM - 1.5, RM + 1.3):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 150, (1.0, 0.9, 0.78), 0.03, 50, 0.5)
-    washers(b0, b1, 70)
+    washers(b0, b1, 200)
 
 
 def star_chair(name, loc, rot_z, M):
@@ -1205,7 +1264,8 @@ ROOMS = {
         "study": dict(loc=at(R_GL + 2.2, 295.6, 1.6), target=at(R_OUT - 2.0, 290.6, 1.6), lens=19),
     }, stops={"library": at(RM - 3.0, 306.8, 0.0), "maproom": at(RM + 2.6, 318.2, 0.0), "study": at(RM, 292.0, 0.0)}),
     "studio": dict(build=studio, span=(324.0, 360.0), sun=(192.0, 36.0), cams={
-        "studio": dict(loc=at(R_GL + 0.9, 335.6, 1.4), target=at(R_OUT - 2.4, 328.6, 1.2), lens=21),
+        "studio": dict(loc=at(R_GL + 2.4, 337.6, 1.5), target=at(RM, 325.0, 1.8), lens=20),
+        "prints": dict(loc=at(R_GL + 3.0, 340.6, 1.5), target=at(130.0, 349.0, 1.8), lens=20),
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
     }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
     "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={

@@ -2,11 +2,14 @@
 its line in the furnishing program (palace/tools/furnishing.py), in the same frame and with the same helpers as
 crown_rooms.py, which adds it to its ROOMS.
   C-13 Spa, 180 to 191.5: a round hot pool in a basalt plinth, a cold plunge, a cedar sauna with a glass front against
-       the outer wall (a window inside it), two daybeds in white leather, tree ferns, boxwood along the windows.
+       the outer wall (a window inside it), two daybeds in white leather, two chaises facing the windows under a halo,
+       tree ferns, boxwood along the windows, an orchid.
   C-14 Sky pool, 191.5 to 204.5: a pool 25 m by 6 m along the ring, lit under the water, three halos over it, daybeds
-       in pairs along the windows facing it, a row of kentia palms on the inner side, birds of paradise at its ends.
-  C-15 Gym, 204.5 to 216: treadmills and rowers facing the windows, a rack of dumbbells, mats, a mirror on the cross
-       wall, a leather bench along the glass, a pair of fiddle-leaf figs.
+       in pairs along the windows facing it, a chosen line of plants on the inner side (kentias, a red and an orange
+       maple, a fiddle-leaf fig), birds of paradise at its ends.
+  C-15 Gym, 204.5 to 216: four treadmills, three bikes and two rowers facing the windows, a power rack, benches and
+       dumbbells before a mirror wall, six mats by the glass, a leather bench, chosen plants, Jim's photographs of Mars
+       on the cross wall, three halos.
 Frosted glass on the Glide for the spa and the gym, clear for the pool, a door into each."""
 import bpy, math
 from mathutils import Vector
@@ -68,9 +71,15 @@ def sky_pool(M):
             seating.daybed("pool daybed", at(rd, bb, 0.0), face_cw(bb), length=2.2, width=1.05, fabric_mat=cushion, frame_mat=teak, seed=400 + 2 * k + (s > 0))
         tables.drum("towel drum", at(rd + 0.75, bp, 0.0), d=0.5, h=0.45)
         for j in range(3): seating.soft_box("towel", (0.36, 0.26, 0.05), at(rd + 0.75, bp, 0.475 + 0.05 * j), towel, r=0.02, crown=0.004, bulge=0.004, crease=0.002, seed=j, yaw=face_in(bp) + 0.1 * j)
-    # kentia palms in a row on the inner side; birds of paradise at the pool's ends
-    for k, bb in enumerate([PS0 + (PS1 - PS0) * (j + 0.5) / 5 for j in range(5)]):
-        plants.make("kentia palm", at(R_GL + 2.6, bb, 0.0), seed=410 + k, pot=(0.95, 0.72, "black"), height=3.3 + 0.35 * (k % 3), stems=3)
+    # the inner side, a chosen line: kentias at the ends, a red and an orange maple, a fiddle-leaf fig in the middle;
+    # birds of paradise at the pool's ends by the windows
+    line = [("kentia palm", dict(pot=(0.95, 0.72, "black"), height=3.6, stems=3)),
+            ("japanese maple", dict(pot=(1.3, 0.62, "basalt"), height=3.4, colour="red", stems=3)),
+            ("fiddle-leaf fig", dict(pot=(0.8, 0.66, "white"), height=2.8, stems=3)),
+            ("japanese maple", dict(pot=(1.3, 0.62, "basalt"), height=3.6, colour="orange", stems=3)),
+            ("kentia palm", dict(pot=(0.95, 0.72, "black"), height=3.3, stems=3))]
+    for k, (bb, (kind, kw)) in enumerate(zip([PS0 + (PS1 - PS0) * (j + 0.5) / 5 for j in range(5)], line)):
+        plants.make(kind, at(R_GL + 2.6, bb, 0.0), seed=410 + k, **kw)
     for k, bb in enumerate((SPA + tang(1.4, R_OUT - 1.5), GYM - tang(1.4, R_OUT - 1.5))):
         plants.make("bird of paradise", at(R_OUT - 1.5, bb, 0.0), seed=420 + k, pot=(1.0, 0.7, "bronze"), height=3.2, stems=5)
     # three halos over the water
@@ -122,28 +131,57 @@ def spa(M):
         plants.make("tree fern", at(r, bb, 0.0), seed=440 + k, pot=(0.9, 0.5, "basalt"), height=h)
     for k, bb in enumerate((185.6, 187.2, 188.8, 190.4)):
         plants.make("boxwood", at(R_OUT - 0.9, bb, 0.0), seed=450 + k, pot=(0.7, 0.55, "white", True), d=0.8)
+    plants.make("orchid", at(R_GL + 2.7, 185.4, 0.45), seed=455, pot=(0.2, 0.16, "white"), colour="white", spikes=2)
+    # two chaises facing the windows at the far end, a drum between them, under a halo
+    for k, bb in enumerate((188.7, 190.0)):
+        seating.daybed("spa chaise", at(R_OUT - 3.4, bb, 0.0), face_out(bb), length=2.0, width=0.85, fabric_mat=white, seed=436 + k)
+    tables.drum("spa drum", at(R_OUT - 3.6, 189.35, 0.0), d=0.42, h=0.42)
+    lights.halo("spa halo", at(R_OUT - 3.6, 189.35), d=4.0, z=4.8, ceiling=ceil_at(189.35), watts=700)
     # light: a cluster of opal globes low over the hot pool
-    lights.globes("spa globes", (hc.x, hc.y), n=11, spread=1.1, low=2.6, high=3.8, ceiling=ceil_at(185.4), watts=36, seed=11)
+    lights.globes("spa globes", (hc.x, hc.y), n=11, spread=1.1, low=2.6, high=3.8, ceiling=ceil_at(185.4), watts=48, seed=11)
 
 
 def gym(M):
     import seating, plants, lights, gym as G
-    # treadmills and rowers facing the windows
+    leather = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
+    # a row facing the windows: four treadmills, three studio bikes, two rowers
     rm = R_OUT - 3.0
-    for k, bb in enumerate((206.0, 206.8, 207.6)): G.treadmill("treadmill", at(rm, bb, 0.0), face_out(bb))
-    for k, bb in enumerate((209.0, 209.9)): G.rower("rower", at(rm + 0.1, bb, 0.0), face_out(bb))
-    # the dumbbells and a mirror on the cross wall
+    for bb in (205.7, 206.35, 207.0, 207.65): G.treadmill("treadmill", at(rm, bb, 0.0), face_out(bb))
+    for bb in (208.5, 209.0, 209.5): G.bike("bike", at(rm + 0.3, bb, 0.0), face_out(bb))
+    for bb in (210.4, 210.95): G.rower("rower", at(rm + 0.1, bb, 0.0), face_out(bb))
+    # weights before the mirror on the cross wall: the dumbbells, a power rack, two benches
     G.dumbbell_rack("dumbbell rack", at(129.6, B1 - tang(0.62, 129.6), 0.0), face_ccw(B1), length=2.6)
     crown.curved_box("gym mirror", 126.6, R_OUT - 0.4, B1 - tang(0.2, 130) - tang(0.02, 130), B1 - tang(0.2, 130), 0.15, 2.7, lib.principled("gym mirror", (0.92, 0.92, 0.92), 0.02, 1.0))
-    # mats for yoga in the middle
+    G.power_rack("power rack", at(132.6, 214.2, 0.0), face_cw(214.2))
+    for r in (127.9, 130.9): G.weight_bench("weight bench", at(r, 214.3, 0.0), face_cw(214.3))
+    # in the middle, a floor of black rubber for free training: plyo boxes, kettlebells, medicine balls, a heavy bag
+    zc, zr = 208.0, 128.2
+    crown.curved_box("training floor", zr - 2.2, zr + 2.2, zc - tang(3.6, zr), zc + tang(3.6, zr), 0.0, 0.012, lib.principled("gym floor rubber", (0.025, 0.025, 0.027), 0.85))
+    for k, (h, dx) in enumerate(((0.5, -0.9), (0.6, 0.0), (0.75, 0.95))):
+        bb = zc + tang(dx - 2.0, zr + 1.2); G.plyo_box("plyo box", at(zr + 1.2, bb, 0.012), face_in(bb), size=(0.76, 0.6, h))
+    for k in range(6):
+        bb = zc + tang(-0.4 + 0.45 * k, zr - 1.3); G.kettlebell("kettlebell", at(zr - 1.3, bb, 0.012), face_in(bb), kg=8 + 4 * k)
     for k in range(4):
-        bb = 211.2 + 1.0 * k; G.mat("yoga mat", at(RM - 1.0, bb, 0.0), face_in(bb), color=((0.20, 0.25, 0.22), (0.28, 0.24, 0.20))[k % 2])
-    # a leather bench along the glass, a pair of fiddle-leaf figs
-    seating.bench("gym bench", at(R_GL + 1.1, 210.4, 0.0), face_out(210.4), length=3.0, depth=0.55, fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
-    for k, s_ in enumerate((-1, 1)):                     # the figs either end of the bench
+        bb = zc + tang(2.2 + 0.4 * k, zr + 0.8); G.med_ball("medicine ball", at(zr + 0.8, bb, 0.012), d=0.3 + 0.02 * k)
+    q = at(zr - 0.6, zc + tang(3.0, zr - 0.6)); G.heavy_bag("heavy bag", (q[0], q[1], 0.0), ceiling=ceil_at(zc) - 0.05)
+    # six mats for yoga by the glass
+    for k, (r, bb) in enumerate([(r, bb) for r in (R_GL + 4.9, R_GL + 7.1) for bb in (211.7, 212.7, 213.7)]):
+        G.mat("yoga mat", at(r, bb, 0.0), face_out(bb), color=((0.20, 0.25, 0.22), (0.28, 0.24, 0.20), (0.24, 0.20, 0.17))[k % 3])
+    # a leather bench along the glass, a fiddle-leaf fig either end
+    seating.bench("gym bench", at(R_GL + 1.1, 210.4, 0.0), face_out(210.4), length=3.0, depth=0.55, fabric_mat=leather)
+    for k, s_ in enumerate((-1, 1)):
         bb = 210.4 + s_ * tang(2.2, R_GL + 1.1); plants.make("fiddle-leaf fig", at(R_GL + 1.1, bb, 0.0), seed=460 + k, pot=(0.75, 0.62, "white"), height=2.8)
-    for k in (-1, 0, 1):
-        bb = 210.25 + 3.3 * k; lights.halo("gym halo", at(RM + 1.0, bb), d=3.0, z=4.6, ceiling=ceil_at(bb), watts=700)
+    # chosen plants: an orange maple by the mats, an olive in the window corner, a kentia in the far corner
+    plants.make("japanese maple", at(R_GL + 4.2, 215.0, 0.0), seed=463, pot=(1.3, 0.62, "basalt"), height=3.6, colour="orange", stems=3)
+    plants.make("olive", at(R_OUT - 1.2, GYM + tang(1.3, R_OUT - 1.2), 0.0), seed=464, pot=(1.1, 0.8, "terracotta"), height=3.0, stems=2)
+    plants.make("kentia palm", at(R_OUT - 1.1, B1 - tang(1.6, R_OUT - 1.1), 0.0), seed=465, pot=(0.95, 0.72, "black"), height=3.4, stems=3)
+    # Jim's photographs of Mars on the cross wall from the pool
+    t = 0.15 / 130.0 / D
+    for (r, img) in ((126.2, "port-liftoff.jpg"), (131.0, "mars-earth.jpg")):
+        CR.framed_print("gym print", CR.repo_file("palace", "design", "img", img), 2.4, 1.35, at(r, GYM + t + tang(0.03, r), 1.95), face_cw(GYM), M)
+    # three halos 5 m across: over the machines, the mats, the weights
+    for (r, bb) in ((rm - 0.6, 208.0), (R_GL + 6.0, 212.7), (131.0, 214.0)):
+        lights.halo("gym halo", at(r, bb), d=5.0, z=5.2, ceiling=ceil_at(bb), watts=1000)
 
 
 def wellness(M, rnd):
@@ -160,12 +198,12 @@ def wellness(M, rnd):
     crown.glass_wall("gym glass", GLASS, GYM, B1, M, state="frosted", doors=[(213.0, 2.2)])
     crown.glide_lights(B0, B1)
     sky_pool(M); spa(M); gym(M)
-    CR.washers(B0, SPA, 110); CR.washers(SPA, GYM, 150); CR.washers(GYM, B1, 170)
+    CR.washers(B0, SPA, 160); CR.washers(SPA, GYM, 160); CR.washers(GYM, B1, 200)
 
 
 WELLNESS = {
     "wellness": dict(build=wellness, span=(B0, B1), sun=(198.0, 30.0), cams={
-        "wellness": dict(loc=at(R_GL + 2.2, SPA + tang(1.6, R_GL + 2.2), 1.55), target=at(PC + 1.0, PB + 2.0, 0.5), lens=18),
+        "wellness": dict(loc=at(R_GL + 4.4, SPA + tang(1.2, R_GL + 4.4), 1.55), target=at(PC + 1.0, PB + 2.0, 0.5), lens=18),
         "wellness2": dict(loc=at(130.9, GYM - tang(1.0, 130.9), 1.45), target=at(R_GL + 3.0, PB - 3.0, 0.9), lens=19),
         "spa": dict(loc=at(R_GL + 1.6, SPA - tang(1.0, R_GL + 1.6), 1.6), target=at(R_OUT - 2.0, 183.0, 1.0), lens=19),
         "gym": dict(loc=at(R_GL + 2.0, GYM + tang(1.4, R_GL + 2.0), 1.6), target=at(R_OUT - 1.0, 211.0, 1.1), lens=19),

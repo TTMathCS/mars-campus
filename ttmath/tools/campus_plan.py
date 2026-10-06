@@ -362,6 +362,7 @@ td.n{white-space:nowrap}td.code{font-weight:700;white-space:nowrap}.cards{displa
 .ask{background:#FFF6E3;border:1px solid #E4C98C;padding:12px 14px;margin:18px 0}footer{font-size:13px;color:var(--ink2);border-top:1px solid var(--rule);margin-top:28px}
 @media (max-width:640px){table,tbody,tr,td{display:block}thead{display:none}tr{border-top:1px solid var(--rule);padding:8px 10px}td{border:0;padding:2px 0}}
 .tt table{font-size:13px}.tt td{white-space:nowrap}.tt td span{color:var(--ink2)}.tt td.off{color:var(--red)}.tt td.both{color:#6B3FA0}.tt td b{font-size:14px}
+.tt td span.when{color:#1F4FB4}.tt td span.note{color:var(--red)}.tt td.dl{color:var(--red)}.tt tr.team td{background:#F6E8EE}.tt tr.team td b{color:#A0228C}
 @media (max-width:640px){.tt table{display:table}.tt tbody{display:table-row-group}.tt thead{display:table-header-group}.tt tr{display:table-row;padding:0}.tt td{display:table-cell;border-top:1px solid var(--rule);padding:6px 8px}}"""
 open(os.path.join(OUT, "plan.css"), "w").write(CSS)
 NAV = R.PLAN_NAV

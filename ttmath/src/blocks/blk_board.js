@@ -1,79 +1,130 @@
-  /* ===================== The Fall timetable in the Gate Hall, and the rooms' door plates ===================== */
+  /* ===================== The Gate Hall's two big screens: the Fall timetable and the contests; the door plates ===================== */
   // Jim, 5 Oct 2026: "the schedule should be somewhere in the entrance so students know where they are going to"; "each
-  // area esp classroom should have room number". Two big screens on the Gate Hall's wall show TTMath's 2026 Fall Schedule
-  // as Jim sent it (P2.timetable, from campus_timetable.py): every class, its days and times, and the room it meets in
-  // (amber), online (red) or both (violet). Their own texture (the atlas is full), drawn once; a plain emissive material
-  // that takes the exposure like the screens in the campus material.
-  var BOARD = { W: 2048, H: 1024, mesh: null };
-  function boardCanvas() {
-    var T2 = P2.timetable, s = MOBILE ? 0.5 : 1, cv = mkCanvas(BOARD.W * s, BOARD.H * 2 * s), g = cv.getContext("2d");
-    g.scale(s, s);
-    var split = [["FunMath", "Basic and Calculus", "By invitation and Olympiad"], ["Contest", "Computer Science"]];
-    split.forEach(function (names, bi) { drawBoard(g, 0, bi * BOARD.H, BOARD.W, BOARD.H, T2, T2.groups.filter(function (gr) { return names.indexOf(gr.name) >= 0; })); });
-    return cv;
+  // area esp classroom should have room number"; 6 Oct 2026: "2 big screens, one is for schedule, one is for below
+  // contest", "compress all schedule within one screen, leaving second screen as contest above". On the Gate Hall's wall,
+  // side by side: the whole 2026 Fall Schedule (P2.timetable, campus_timetable.py: every class, its days and times, and
+  // the room it meets in (amber), online (red) or both (violet)) in two columns, and TTMath's Sept-Dec contests
+  // (P2.contests, campus_contests.py). Each on its own texture, drawn once at 4096 x 2048 units (3072 px, 1536 on a
+  // phone); a plain emissive material that takes the exposure like the screens in the campus material.
+  var SCR = { W: 4096, H: 2048 };
+  var AMB = "#e8b04a", VIO = "#a98be6", RED = "#ff7f6e", INK = "#eef0f2", DIM = "#9aa3ad", BLUE = "#86b6ff", PINK = "#e97fa0", MAG = "#e46ad6";
+  function screenCanvas(draw) {
+    var s = MOBILE ? 0.375 : 0.75, cv = mkCanvas(Math.round(SCR.W * s), Math.round(SCR.H * s)), g = cv.getContext("2d");
+    g.scale(s, s); var bg = g.createLinearGradient(0, 0, 0, SCR.H); bg.addColorStop(0, "#0d1116"); bg.addColorStop(1, "#080a0d"); g.fillStyle = bg; g.fillRect(0, 0, SCR.W, SCR.H);
+    g.textBaseline = "middle"; draw(g, SCR.W, SCR.H); return cv;
   }
-  function drawBoard(g, x0, y0, W, H, T2, groups) {
-    var bg = g.createLinearGradient(0, y0, 0, y0 + H); bg.addColorStop(0, "#0d1116"); bg.addColorStop(1, "#080a0d");
-    g.fillStyle = bg; g.fillRect(x0, y0, W, H);
-    var AMB = "#e8b04a", VIO = "#a98be6", RED = "#ff7f6e", INK = "#eef0f2", DIM = "#9aa3ad", M = 46;
-    g.textBaseline = "middle";
-    g.fillStyle = INK; g.font = "700 52px " + SANS; g.fillText(T2.term.title, x0 + M, y0 + 66);
-    var tw = g.measureText(T2.term.title).width; g.fillStyle = DIM; g.font = "400 30px " + SANS; g.fillText(T2.term.dates + "  ·  " + T2.term.weeks + " weeks", x0 + M + tw + 28, y0 + 70);
-    // the legend, right
-    function chip(x, y, txt, col, h) { g.font = "700 " + Math.round(h * 0.66) + "px " + SANS; var w = g.measureText(txt).width + h * 0.6; g.fillStyle = col; roundRect(g, x, y - h / 2, w, h, h * 0.22); g.fill(); g.fillStyle = "#101418"; g.fillText(txt, x + h * 0.3, y + 1); return w; }
-    var lx = x0 + W - M - 470, ly = y0 + 68;
-    lx += chip(lx, ly, "Room", AMB, 34) + 18; lx += chip(lx, ly, "Room + online", VIO, 34) + 22;
-    g.fillStyle = RED; g.font = "700 26px " + SANS; g.fillText("Online", lx, ly + 1);
-    // columns
-    var cols = [M, M + 470], cw = 252; for (var k = 0; k < 5; k++) cols.push(cols[1] + (k + 1) * cw); var hwX = cols[6];
-    var hy = y0 + 132; g.fillStyle = AMB; g.font = "700 22px " + SANS;
-    ["CLASS"].concat(T2.days).forEach(function (t, i) { g.fillText(t, x0 + (i === 0 ? cols[0] : cols[i] + 6), hy); }); g.fillText("HOMEWORK", x0 + hwX + 6, hy);
-    g.fillStyle = "#2a323b"; g.fillRect(x0 + M, hy + 22, W - 2 * M, 2);
+  function chip(g, x, y, txt, col, h) { g.font = "700 " + Math.round(h * 0.66) + "px " + SANS; var w = g.measureText(txt).width + h * 0.6; g.fillStyle = col; roundRect(g, x, y - h / 2, w, h, h * 0.22); g.fill(); g.fillStyle = "#101418"; g.fillText(txt, x + h * 0.3, y + 1); return w; }
+  // the timetable: the title across the top, then two columns of classes, each with its own head
+  function drawSchedule(g, W, H) {
+    var T2 = P2.timetable, M = 60;
+    g.fillStyle = INK; g.font = "700 92px " + SANS; g.fillText(T2.term.title, M, 96);
+    var tw = g.measureText(T2.term.title).width; g.fillStyle = DIM; g.font = "400 50px " + SANS; g.fillText(T2.term.dates + "  ·  " + T2.term.weeks + " weeks", M + tw + 44, 102);
+    var lx = W - M - 760; lx += chip(g, lx, 98, "Room", AMB, 56) + 28; lx += chip(g, lx, 98, "Room + online", VIO, 56) + 34;
+    g.fillStyle = RED; g.font = "700 44px " + SANS; g.fillText("Online", lx, 100);
+    g.fillStyle = "#2a323b"; g.fillRect(M, 170, W - 2 * M, 3);
+    var split = [["FunMath", "Basic and Calculus", "By invitation and Olympiad"], ["Contest", "Computer Science"]], CW = (W - 2 * M - 60) / 2;
+    split.forEach(function (names, ci) { drawColumn(g, M + ci * (CW + 60), 196, CW, H - 196 - 30, T2, T2.groups.filter(function (gr) { return names.indexOf(gr.name) >= 0; })); });
+  }
+  function drawColumn(g, x0, y0, W, H, T2, groups) {
+    var cols = [0, 424], cw = 240; for (var k = 0; k < 5; k++) cols.push(cols[1] + (k + 1) * cw); var hwX = cols[6];
+    g.fillStyle = AMB; g.font = "700 30px " + SANS;
+    ["CLASS"].concat(T2.days).forEach(function (t, i) { g.fillText(t, x0 + cols[i] + (i ? 6 : 0), y0 + 22); }); g.fillText("HOMEWORK", x0 + hwX + 6, y0 + 22);
+    g.fillStyle = "#2a323b"; g.fillRect(x0, y0 + 48, W, 2);
     var nrow = 0; groups.forEach(function (gr) { nrow += 1; gr.classes.forEach(function (c) { nrow += c.rows.length; }); });
-    var top = hy + 34, rh = Math.min(40, (y0 + H - 30 - top) / nrow), y = top;
+    var top = y0 + 60, rh = Math.min(76, (y0 + H - top) / nrow), y = top;
     groups.forEach(function (gr) {
-      g.fillStyle = AMB; g.font = "700 23px " + SANS; g.fillText(gr.name.toUpperCase(), x0 + M, y + rh * 0.55); y += rh;
+      g.fillStyle = AMB; g.font = "700 32px " + SANS; g.fillText(gr.name.toUpperCase(), x0, y + rh * 0.56); y += rh;
       gr.classes.forEach(function (c) {
-        g.fillStyle = "#1a2028"; g.fillRect(x0 + M, y - 1, W - 2 * M, 1);
+        g.fillStyle = "#1a2028"; g.fillRect(x0, y - 1, W, 2);
         c.rows.forEach(function (row, ri) {
           var cy = y + rh / 2;
           if (ri === 0) {
-            g.fillStyle = INK; g.font = "600 25px " + SANS; fitText(g, c.name, x0 + cols[0], cy, 452);
-            g.fillStyle = DIM; g.font = "400 19px " + SANS; fitText(g, c.hw, x0 + hwX + 6, cy, W - M - hwX - 6);
+            g.fillStyle = INK; g.font = "600 34px " + SANS; fitText(g, c.name, x0, cy, 410);
+            g.fillStyle = DIM; g.font = "400 26px " + SANS; fitText(g, c.hw.replace(" pm", "p").replace(" am", "a"), x0 + hwX + 6, cy, W - hwX - 6);
           }
           row.forEach(function (cell, di) {
-            if (!cell) return; var cx = x0 + cols[di + 1] + 6, t = cell[0], r = cell[1];
-            g.fillStyle = r === 0 ? RED : "#d5d9de"; g.font = "500 21px " + SANS; g.fillText(t.replace(" pm", "p").replace(" am", "a"), cx, cy);
-            var tw2 = g.measureText(t.replace(" pm", "p").replace(" am", "a")).width + 10;
-            if (r !== 0) chip(cx + tw2, cy, String(Math.abs(r)) + (r < 0 ? "+" : ""), r < 0 ? VIO : AMB, Math.min(28, rh - 6));
+            if (!cell) return; var cx = x0 + cols[di + 1] + 6, t = cell[0].replace(" pm", "p").replace(" am", "a"), r = cell[1];
+            g.fillStyle = r === 0 ? RED : "#d5d9de"; g.font = "500 27px " + SANS; fitText(g, t, cx, cy, r === 0 ? 236 : 160);
+            if (r !== 0) chip(g, cx + Math.min(160, g.measureText(t).width) + 10, cy, String(Math.abs(r)) + (r < 0 ? "+" : ""), r < 0 ? VIO : AMB, Math.min(40, rh - 10));
           });
           y += rh;
         });
       });
     });
   }
+  // the contests: as the sheet, its nine columns, the team contests, the notes under it
+  function drawContests(g, W, H) {
+    var C2 = P2.contests, M = 50, Y = 0;
+    g.textAlign = "center"; g.fillStyle = INK; g.font = "700 88px " + SANS; g.fillText(C2.title, W / 2, 78);
+    g.font = "600 38px " + SANS; var vw = g.measureText(C2.venue).width + 60; g.fillStyle = "#4a4419"; g.fillRect(W / 2 - vw / 2, 132, vw, 54); g.fillStyle = "#ffe066"; g.fillText(C2.venue, W / 2, 160);
+    g.textAlign = "right"; g.fillStyle = DIM; g.font = "400 28px " + SANS; g.fillText(C2.contact[0] + "   " + C2.contact[1], W - M, 50); g.fillStyle = BLUE; g.font = "600 32px " + SANS; g.fillText(C2.contact[2], W - M, 92);
+    g.textAlign = "left";
+    var cw = [1000, 470, 330, 640, 230, 260, 280, 260, 526], cx = [M]; cw.forEach(function (w, k) { cx.push(cx[k] + w); });
+    function cell(k, y, lines, font, col, h) { g.font = font; g.fillStyle = col; g.textAlign = "center"; var lh = Math.min(42, (h - 14) / Math.max(1, lines.length)), y0 = y + h / 2 - (lines.length - 1) * lh / 2;
+      lines.forEach(function (t, i) { fitText(g, t, cx[k] + cw[k] / 2, y0 + i * lh, cw[k] - 24); }); g.textAlign = "left"; }
+    Y = 214; g.fillStyle = "#1c2a3c"; g.fillRect(M, Y, cx[9] - M, 74); g.fillStyle = "#4a4419"; g.fillRect(cx[6], Y, cw[6], 74);
+    C2.columns.forEach(function (t, k) { cell(k, Y, [t], "700 32px " + SANS, k === 6 ? "#ffe066" : INK, 74); });
+    Y += 74;
+    var RH = 140;
+    C2.contests.forEach(function (c, n) {
+      if (n % 2 === 0) { g.fillStyle = "#211620"; g.fillRect(M, Y, cx[9] - M, RH); }
+      g.fillStyle = "#2a323b"; g.fillRect(M, Y + RH - 2, cx[9] - M, 2);
+      // the name: the body that sets it, the contest, a note, the day and time
+      var lines = [[c.name, 44, "700 ", RED]]; if (c.note) lines.push([c.note, 32, "600 ", RED]); lines.push([c.when, 34, "600 ", BLUE]);
+      var lh = c.note ? 40 : 48, ly0 = Y + RH / 2 - (lines.length - 1) * lh / 2, mid = cx[0] + cw[0] / 2;
+      lines.forEach(function (L, li) {
+        var ly = ly0 + li * lh, pre = li === 0 && c.org ? c.org + ": " : "", px = L[1], wp, wn;
+        do { g.font = L[2] + px + "px " + SANS; wp = g.measureText(pre).width; wn = g.measureText(L[0]).width; px -= 1; } while (wp + wn > cw[0] - 30 && px > 16);
+        var x = mid - (wp + wn) / 2; g.textAlign = "left";
+        if (pre) { g.fillStyle = PINK; g.fillText(pre, x, ly); }
+        g.fillStyle = L[3]; g.fillText(L[0], x + wp, ly);
+      });
+      cell(1, Y, c.info, "500 30px " + SANS, "#d5d9de", RH);
+      cell(2, Y, c.grades, "600 34px " + SANS, INK, RH);
+      cell(3, Y, c.level, "500 30px " + SANS, "#d5d9de", RH);
+      cell(4, Y, [c.price[0]], "700 50px " + SANS, INK, RH); cell(5, Y, [c.price[1]], "700 50px " + SANS, INK, RH);
+      cell(6, Y, [c.early], "700 38px " + SANS, RED, RH); cell(7, Y, [c.deadline], "700 38px " + SANS, c.deadline === "FULL" ? RED : INK, RH);
+      cell(8, Y, C2.register, "500 30px " + SANS, "#d5d9de", RH);
+      Y += RH;
+    });
+    var TH = 58;
+    C2.teams.forEach(function (t) {
+      g.fillStyle = "#2a1a2a"; g.fillRect(M, Y, cx[9] - M, TH); g.fillStyle = "#3a2a3a"; g.fillRect(M, Y + TH - 2, cx[9] - M, 2);
+      cell(0, Y, [t.name], "700 38px " + SANS, MAG, TH); cell(1, Y, [t.when], "500 28px " + SANS, INK, TH); cell(2, Y, [t.grades], "500 28px " + SANS, INK, TH); cell(3, Y, [t.level], "500 28px " + SANS, INK, TH);
+      cell(4, Y, [t.price], "600 30px " + SANS, INK, TH); [5, 6, 7].forEach(function (k) { cell(k, Y, ["N/A"], "500 28px " + SANS, DIM, TH); }); cell(8, Y, ["TTmath students only"], "600 28px " + SANS, INK, TH);
+      Y += TH;
+    });
+    // the notes
+    Y += 44; g.textAlign = "center"; g.font = "700 46px " + SANS; g.fillStyle = "#b48cff"; g.fillText(C2.notes_head, W / 2, Y); var hw = g.measureText(C2.notes_head).width; g.fillRect(W / 2 - hw / 2, Y + 28, hw, 3);
+    Y += 64; var NC = { maroon: PINK, blue: BLUE, red: RED, ink: "#d5d9de" }, nh = Math.min(46, (H - 24 - Y) / C2.notes.length);
+    C2.notes.forEach(function (n) { g.font = (n[1] === "red" ? "600 " : "400 ") + "31px " + SANS; g.fillStyle = NC[n[1]] || INK; fitText(g, n[0], W / 2, Y, W - 2 * M); Y += nh; });
+    g.textAlign = "left";
+  }
   function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r); g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h); g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r); g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y); g.closePath(); }
   function fitText(g, t, x, y, w) { var f = g.font, px = parseFloat(f.match(/(\d+)px/)[1]); while (g.measureText(t).width > w && px > 12) { px -= 1; g.font = f.replace(/\d+px/, px + "px"); } g.fillText(t, x, y); g.font = f; }
   var BOARD_VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
   var BOARD_FS = "uniform sampler2D map; uniform float uExposure, uBright; varying vec2 vUv;\n" +
     "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * uBright + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
-  // the screens on the Gate Hall's wall at 164 degrees, facing into the hall: A (FunMath, Basic, by invitation) on the left,
-  // B (Contest, CS) on the right as you face them; a dark aluminium bezel round each
+  // a screen: the canvas on a quad along a radius at angle a, from r0 to r1 (the viewer's left to right), y0 to y0 + h
+  function screenQuad(cv, a, r0, r1, y0, h) {
+    var tex = new THREE.CanvasTexture(cv); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); tex.minFilter = THREE.LinearMipmapLinearFilter;
+    var pos = [], uvs = [];
+    [[r0, y0, 0, 0], [r1, y0, 1, 0], [r1, y0 + h, 1, 1], [r0, y0 + h, 0, 1]].forEach(function (c) { var p = crsPt(c[0], a); pos.push(p.x, c[1], p.z); uvs.push(c[2], c[3]); });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setIndex([0, 1, 2, 0, 2, 3, 0, 2, 1, 0, 3, 2]);
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure, uBright: { value: 1.05 } }, vertexShader: BOARD_VS, fragmentShader: BOARD_FS });
+    var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m); return m;
+  }
+  // the two screens on the Gate Hall's wall at 164 degrees, facing into the hall: the timetable on the left as you face
+  // them, the contests on the right; a dark aluminium bezel round each, a soft light in front
   function timetableBoards(W) {
     var C = CRS, a = 164 * D2R + (C.wall / 2 + 0.07) / 55.8, y0 = C.yU + 1.0, h = 2.15, w = 4.3, spans = [[51.5, 51.5 + w], [56.1, 56.1 + w]];
-    var tex = new THREE.CanvasTexture(boardCanvas()); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); tex.generateMipmaps = true; tex.minFilter = THREE.LinearMipmapLinearFilter;
-    var pos = [], uvs = [], idx = [];
-    spans.forEach(function (sp, bi) {
-      var v0 = bi === 0 ? 0.5 : 0.0, v1 = bi === 0 ? 1.0 : 0.5, n = pos.length / 3;
-      [[sp[0], y0, 0, v0], [sp[1], y0, 1, v0], [sp[1], y0 + h, 1, v1], [sp[0], y0 + h, 0, v1]].forEach(function (c) { var p = crsPt(c[0], a); pos.push(p.x, c[1], p.z); uvs.push(c[2], c[3]); });
-      idx.push(n, n + 1, n + 2, n, n + 2, n + 3, n, n + 2, n + 1, n, n + 3, n + 2);
+    screenQuad(screenCanvas(drawSchedule), a, spans[0][0], spans[0][1], y0, h);
+    screenQuad(screenCanvas(drawContests), a, spans[1][0], spans[1][1], y0, h);
+    spans.forEach(function (sp) {
       var bz = new Builder(), Mb = crsFrame((sp[0] + sp[1]) / 2, 164 * D2R + C.wall / 2 / 55.8, y0 + h / 2);
       bz.box(0.0, -h / 2 - 0.06, -w / 2 - 0.06, 0.06, h / 2 + 0.06, w / 2 + 0.06, MT.ANOD); bz.tag(0, 3, null); W.add(bz, Mb);
       var lp = crsPt((sp[0] + sp[1]) / 2, 164 * D2R + 1.2 / 55.8); wLight(lp.x, y0 + h / 2, lp.z, [0.75, 0.82, 1.0], 0.9, 6);
     });
-    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setIndex(idx);
-    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure, uBright: { value: 1.05 } }, vertexShader: BOARD_VS, fragmentShader: BOARD_FS });
-    BOARD.mesh = new THREE.Mesh(geo, mat); BOARD.mesh.matrixAutoUpdate = false; scene.add(BOARD.mesh);
     crsObst(51.2, 60.7, 164 * D2R, 164 * D2R + 0.6 / 55.8, "upper");
   }
 

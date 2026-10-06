@@ -418,4 +418,4 @@ BUILDINGS = [
 PLAN_NAV = [("index.html", "The plan"), ("buildings.html", "The buildings")] + [(b, c) for b, c in (
     ("ring.html", "T-04, T-06"), ("infinity.html", "T-07"), ("greenhouse.html", "T-08"), ("garden.html", "T-09"),
     ("observatory.html", "T-10"), ("sports.html", "T-11"), ("hangar.html", "T-12"), ("pods.html", "T-14, T-15"),
-    ("links.html", "T-17"))] + [("schedule.html", "Timetable"), ("rover.html", "The rover")]
+    ("links.html", "T-17"))] + [("schedule.html", "Timetable"), ("contests.html", "Contests"), ("rover.html", "The rover")]

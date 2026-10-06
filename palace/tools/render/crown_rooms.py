@@ -638,6 +638,17 @@ def library_up(M, rnd):
     lights.arc_lamp("study arc lamp", at(RM - 3.0, db - tang(2.6, RM - 3.0), 0.0), face_cw(db) - 0.5, reach=2.2)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.4, b0 + tang(1.5, R_OUT - 1.4), 0.0), seed=382, pot=(0.75, 0.62, "white"), height=2.9)
     plants.make("kentia palm", at(R_GL + 1.3, bs0 - tang(1.4, R_GL + 1.3), 0.0), seed=383, pot=(0.95, 0.72, "black"), height=3.4)
+    # a reading corner by the frosted glass (furnishing.py): two leather wing chairs turned to each other, a round
+    # side table, a floor lamp, on a rug of its own; an olive tree by the desk's far end
+    rq = Vector(at(R_GL + 3.1, bs0 - tang(3.2, R_GL + 3.1), 0.0)); rb_ = bs0 - tang(3.2, R_GL + 3.1)
+    lib.box("reading rug", (3.6, 3.0, 0.014), (rq.x, rq.y, 0.007), M["rug"], bevel=0.006, rot_z=face_in(rb_), segs=2)
+    for s_ in (-1, 1):
+        bb = rb_ + s_ * tang(0.85, R_GL + 3.1)
+        seating.club_chair("reading chair", at(R_GL + 3.1, bb, 0.0), (face_ccw(bb) if s_ > 0 else face_cw(bb)) + s_ * 0.5, fabric_mat=leather, seed=384 + s_, w=1.0, d=0.98)
+    tables.drum("reading table", at(R_GL + 2.5, rb_, 0.0), d=0.5, h=0.55, mat=lib.wood("reading walnut", (0.20, 0.12, 0.07), (0.10, 0.06, 0.035), 0.35))
+    furn.table_lamp("reading lamp", at(R_GL + 2.5, rb_, 0.55), M, watts=35, shade_r=0.16)
+    for k in range(3): lib.box("book", (0.22, 0.16, 0.03), at(R_GL + 2.45, rb_ + tang(0.12, R_GL + 2.5), 0.55 + 0.03 * k), M["leather"] if k % 2 else M["linen"], bevel=0.004, rot_z=face_in(rb_) + 0.2 * k)
+    plants.make("olive", at(R_OUT - 2.2, bs0 - tang(1.6, R_OUT - 2.2), 0.0), seed=387, pot=(1.4, 0.6, "basalt"), height=3.6, stems=2)
     # on the cross wall: a long walnut credenza with two lamps, Van Gogh's self-portrait over it
     tables.console("study credenza", at(RM - 1.0, b0 + tang(0.45, RM - 1.0), 0.0), face_cw(b0), length=4.2, depth=0.5, h=0.78,
                    mat=lib.wood("credenza walnut", (0.20, 0.12, 0.07), (0.10, 0.06, 0.035), 0.35))

@@ -202,7 +202,8 @@ CROWN = dict(
                     ("Made of", "Polished basalt, regolith plaster, linen, glass."),
                     ("In it", "The basalt table for 22 under glass globes, linen chairs, the afternoon sun low through the slots.")],
              photos=[("../tour/photos/crown_dining.jpg", "The dining hall: the basalt table for 22, the glass globes and the slots."),
-                     ("../tour/photos/crown_wine.jpg", "The wine room: the wine wall and the tasting group."), ("../tour/photos/crown_wine2.jpg", "The wine room from the windows.")], views=[("crown_dining", "The dining hall")], plan=("img/plan/crown-dining_up.jpg", "Part 5, west-south-west."),
+                     ("../tour/photos/crown_wine.jpg", "The wine room: the wine wall and the tasting group."), ("../tour/photos/crown_wine2.jpg", "The wine room from the windows."),
+                     ("../tour/photos/crown_kitchen_up.jpg", "The chef's kitchen: the islands under the halo, the chef's table.")], views=[("crown_dining", "The dining hall")], plan=("img/plan/crown-dining_up.jpg", "Part 5, west-south-west."),
              above=("img/above/crown-dining.jpg", "the long basalt table for 22 under its glass globes in the middle, sideboards under the slots at either end, and the Glide along the garden side.")),
         dict(id="sunset", codes=["C-20", "C-21", "C-22"], k="C-20 to C-22 · part 6 · west", name="The sunset lounge",
              purpose="The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight down the room for a few minutes while the sky round it turns blue, as the sky of Mars does. At one end the guests' lounge, where visitors spend their days; at the other a gallery of Jim's paintings and his photographs of Mars.",
@@ -234,7 +235,7 @@ CROWN = dict(
              purpose="A breakfast room in the morning light through the east slots, and a sky garden of fruit trees, flowers and herbs: a conservatory in the ring, with fresh herbs for the chef's kitchen.",
              facts=[("Rooms", "C-33 Breakfast room · C-34 Sky garden"), ("Made of", "Oak and linen-coloured stone, basalt beds, raked gravel."),
                     ("In it", "A round oak table for six under a glass globe, a sitting corner by the slots; beds of basil, sage, rosemary and thyme, lavender, marigolds and poppies under small lemon and olive trees; grow lights on long cables.")],
-             photos=[("../tour/photos/crown_breakfast.jpg", "The breakfast room at sunrise, the sun through the east slots."), ("../tour/photos/crown_garden.jpg", "The sky garden: herbs and flowers under lemon and olive trees.")],
+             photos=[("../tour/photos/crown_breakfast.jpg", "The breakfast room at sunrise: the round table for eight under its globes."), ("../tour/photos/crown_garden.jpg", "The sky garden: herbs and flowers under lemon and olive trees.")],
              views=[("crown_garden", "The sky garden")], plan=("img/plan/crown-garden_room.jpg", "Part 10, north-east."),
              above=("img/above/crown-garden.jpg", "the breakfast room at the left end: the round table for six under its globe, the sideboard along the Glide, the sitting corner and an olive tree by the slots; then the sky garden, its raised beds of herbs and flowers along both walls under lemon and olive trees, two benches, and the grow lights in rows overhead.")),
     ])

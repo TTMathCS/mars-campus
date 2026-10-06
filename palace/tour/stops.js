@@ -130,7 +130,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." },
   { img: "photos/crown_stars.jpg", caption: "The star lounge in the Crown's Observatory at night: reclining chairs under the slots full of stars, candles on the side tables, a floor of polished basalt." },
   { img: "photos/crown_telescope.jpg", caption: "The telescope room in the Crown's Observatory at night: screens showing what the telescope sees, the Milky Way in the slots, and the portal up to the dome." },
-  { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for six under a glass globe, an olive tree, and the morning sun through the east slots laid across the inner wall." },
+  { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for eight in upholstered chairs under a cluster of opal globes, an orchid on the table, and the first sun laid across the floor." },
   { img: "photos/crown_garden.jpg", caption: "The sky garden in the Crown: beds of herbs and flowers along both walls under small lemon and olive trees, grow lights on long cables, the morning sun on the inner wall." },
   { img: "photos/guests.jpg", caption: "The guest lounge: sofas by the glass, the table for twelve, the gallery of the guest suites." },
   { img: "photos/cellar.jpg", caption: "The wine cellar: the tasting table under the iron chandelier, an aisle of racks and casks beyond the arch." },
@@ -152,5 +152,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_spa.jpg", caption: "The spa: the round hot pool lit under its rim, opal globes over it, tree ferns by the glass, chaises at the windows." },
   { img: "photos/crown_gym.jpg", caption: "The gym: treadmills, bikes and rowers facing the windows, a floor for free training, the weights before the mirror wall." },
   { img: "photos/crown_wine.jpg", caption: "The wine room: the wine wall lit from behind, a tasting group in oxblood leather, the serving island under its globes." },
-  { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." }
+  { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." },
+  { img: "photos/crown_kitchen_up.jpg", caption: "The chef's kitchen in the Crown: two islands of steel under a halo of light and the long hood, the chef's table in green leather under opal globes, a wall of walnut cupboards." }
 ];

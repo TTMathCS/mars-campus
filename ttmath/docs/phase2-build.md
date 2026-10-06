@@ -84,8 +84,11 @@ each pushed when it is checked:
    `P2.timetable` on their own canvas). The wings, links, gateway and Sun court are gone from `blk_campus2.js`;
    `blk_wings.js` still holds the furniture builders the Ring uses. The rooms' floors share one captured reflection
    (`envW`, in Euclid), so `blk_mat.js` blurs it and dims it where a room sees little sky.
-7. The door plates with the room numbers, direction signs along the corridors, the rooms' directory in the Gate Hall
-   (CP-35; `blk_board.js` already has `plateSlot`, `drawPlates`, `doorPlates` for the atlas's freed regions).
+7. ~~The door plates and the rooms' directory~~ (v0.14, `blk_board.js`: `drawPlates` prints a plate per numbered room in
+   the atlas where the gateway's name and the wings' signs were (`plateSlot`, 46 slots of 192 x 48), `doorPlates` puts
+   one beside each door; `drawRingMap` draws the Ring as a map, `drawDirectory` the Gate Hall's directory on its own
+   texture (`directoryScreen`), `drawLobbyDirectory` the hall's screen in the atlas). Still to do: direction signs
+   along the corridors.
 8. The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21).
 9. Details and realism everywhere (CP-30).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the

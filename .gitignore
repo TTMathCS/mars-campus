@@ -1,1 +1,3 @@
 __pycache__/
+# pages the TTMath test tools write while they run (ttmath/tools/_page.py)
+_test_*.html

@@ -247,7 +247,6 @@
   };
   var ATL = {};
   Object.keys(ATL_PX).forEach(function (k) { var r = ATL_PX[k]; ATL[k] = [r[0] / ATL_N, 1 - (r[1] + r[3]) / ATL_N, (r[0] + r[2]) / ATL_N, 1 - r[1] / ATL_N]; });
-  var PLATES = ["M1  Mathematics", "Lobby", "Coding Lab", "Seminar Room", "Café", "Reception", "Library", "Reading Room"];
   function atlasSub(name, u0, v0, u1, v1) { var A = ATL[name]; return [lerp(A[0], A[2], u0), lerp(A[1], A[3], v0), lerp(A[0], A[2], u1), lerp(A[1], A[3], v1)]; }
   var MONO = "Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace", SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   // text that looks written by hand: every character a little rotated and shifted
@@ -326,20 +325,6 @@
     g.fillStyle = "#cfd6e0"; g.beginPath(); g.arc(cx + a * Math.cos(0.9), cy + b * Math.sin(0.9), H * 0.015, 0, 7); g.fill();
     g.fillStyle = "rgba(95,134,184,0.25)"; g.beginPath(); g.moveTo(cx - c, cy); for (var t = 0.9; t <= 1.5; t += 0.05) g.lineTo(cx + a * Math.cos(t), cy + b * Math.sin(t)); g.closePath(); g.fill();
   }
-  function drawLobby(g, x0, y0, W, H) {
-    g.save(); g.translate(x0, y0);
-    g.fillStyle = "#0e1622"; g.fillRect(0, 0, W, H);
-    g.fillStyle = "#ffffff"; g.font = "600 " + Math.round(H * 0.075) + "px " + SANS; g.textBaseline = "alphabetic"; g.fillText("TTMath Mars Campus", W * 0.05, H * 0.13);
-    g.fillStyle = "#e8b04a"; g.font = Math.round(H * 0.045) + "px " + SANS; g.fillText("Sol 528  ·  14:32 LMST", W * 0.05, H * 0.21);
-    g.fillStyle = "#9fb0c6"; g.textAlign = "right"; g.fillText("−63 °C   6.1 mbar   wind 4 m/s", W * 0.95, H * 0.21); g.textAlign = "left";
-    g.fillStyle = "#1c2a3d"; g.fillRect(W * 0.05, H * 0.27, W * 0.9, H * 0.006);
-    function at(code) { var q = P2.ring.rooms.filter(function (rm) { return rm.code === code; })[0]; return q ? q.name.split(":")[0] + (q.no ? "  " + q.no : "") : ""; }
-    var rows = [["09:00", "Algebra: quadratic equations", at("T06-20")], ["10:30", "Python: the orbit of Phobos", at("T06-23")], ["13:00", "The geometry of the dome", "Math Palace"],
-      ["14:30", "Seminar: Kepler's three laws", at("T06-24")], ["16:00", "Chess and coffee", at("T06-38")], ["18:00", "Stargazing: Earth after sunset", "Garden ring"]];
-    g.font = Math.round(H * 0.048) + "px " + SANS;
-    rows.forEach(function (r, i) { var y = H * (0.36 + i * 0.1); g.fillStyle = i === 3 ? "#e8b04a" : "#ffffff"; g.fillText(r[0], W * 0.05, y); g.fillStyle = "#dfe6ef"; g.fillText(r[1], W * 0.19, y); g.fillStyle = "#7f93ad"; g.textAlign = "right"; g.fillText(r[2], W * 0.95, y); g.textAlign = "left"; });
-    g.restore();
-  }
   function drawMenu(g, W, H) {                     // chalk: white with a little grain, on the board material
     var rnd = mulberry(99); g.save();
     function chalk(str, x, y, size, seed) { handText(g, str, x, y, size, "rgba(255,255,255,0.92)", seed); }
@@ -363,12 +348,6 @@
       if (w > 22) { g.save(); g.translate(x + w / 2 + 4, H - h * 0.5); g.rotate(-Math.PI / 2); g.fillStyle = "rgba(233,226,207,0.85)"; g.font = Math.round(w * 0.42) + "px " + SERIF; g.textAlign = "center"; g.fillText(["EUCLID", "GAUSS", "EULER", "NOETHER", "RAMANUJAN", "TURING", "KEPLER", "LOVELACE", "CALCULUS", "ALGEBRA", "TOPOLOGY", "PRIMES"][Math.floor(rnd() * 12)], 0, 0); g.restore(); }
       x += w;
     }
-    g.restore();
-  }
-  function drawSign(g, x0, y0, W, H, lines) {
-    g.save(); g.translate(x0, y0); g.fillStyle = "#2a2d31"; g.fillRect(0, 0, W, H);
-    g.fillStyle = "#e8b04a"; g.fillRect(0, 0, W * 0.02, H);
-    lines.forEach(function (l, i) { g.fillStyle = i ? "#d6dbe1" : "#ffffff"; g.font = (i ? "" : "600 ") + Math.round(H * (i ? 0.1 : 0.13)) + "px " + SANS; g.fillText(l, W * 0.08, H * (0.24 + i * 0.16)); });
     g.restore();
   }
   // the pod's three displays: flight (attitude, speed, height, heading), the map of the campus, the craft's systems
@@ -427,17 +406,13 @@
     VEST_PANELS.forEach(function (sp, i) { drawPanel(g, R.vest[0] + i * 768, R.vest[1], 768, 512, sp); });
     var ga = glyphAtlas(); g.drawImage(ga, R.glyph[0], R.glyph[1], R.glyph[2], R.glyph[3]);
     var pa = plaqueAtlas(); g.drawImage(pa, R.plaque[0], R.plaque[1], R.plaque[2], R.plaque[3]);
-    g.save(); g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.font = "600 76px " + SANS;
-    var txt = "TTMATH   MARS   CAMPUS"; g.fillText(txt.split("").join(String.fromCharCode(8202)), R.gate[0] + R.gate[2] / 2, R.gate[1] + R.gate[3] / 2 + 3); g.restore();
     g.save(); g.translate(R.wb[0], R.wb[1]); drawWhiteboard(g, R.wb[2], R.wb[3]); g.restore();
     slide(g, R.scrLab[0], R.scrLab[1], R.scrLab[2], R.scrLab[3], "Today: simulate an orbit", ["1. Newton's law of gravity: F = GMm / r²", "2. Step the position every second", "3. Plot it: an ellipse appears", "4. Check Kepler: T² ∝ a³"], orbitPic);
     [0, 1, 2].forEach(function (k) { var r = R["code" + k]; drawCode(g, r[0], r[1], r[2], r[3], CODE[k]); });
-    drawLobby(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]); drawPodScreens(g, R);
+    drawLobbyDirectory(g, R.scrLobby[0], R.scrLobby[1], R.scrLobby[2], R.scrLobby[3]); drawPodScreens(g, R);
     slide(g, R.scrSem[0], R.scrSem[1], R.scrSem[2], R.scrSem[3], "Kepler's laws", ["Orbits are ellipses", "Equal areas in equal times", "T² ∝ a³"], orbitPic);
     g.save(); g.translate(R.menu[0], R.menu[1]); drawMenu(g, R.menu[2], R.menu[3]); g.restore();
     drawBooks(g, R.books[0], R.books[1], R.books[2], R.books[3]);
-    PLATES.forEach(function (t, i) { var x = R.plates[0] + i * 256; g.fillStyle = "#2a2d31"; g.fillRect(x + 2, R.plates[1] + 2, 252, 60); g.fillStyle = "#ffffff"; g.font = "600 24px " + SANS; g.textBaseline = "middle"; g.fillText(t, x + 18, R.plates[1] + 33); g.fillStyle = "#e8b04a"; g.fillRect(x + 2, R.plates[1] + 2, 6, 60); });
-    drawSign(g, R.signR[0], R.signR[1], R.signR[2], R.signR[3], ["Classroom wing", "→  M1 Mathematics", "→  Lobby  ·  exit to the courtyard", "→  Coding Lab  ·  Seminar Room", "←  Math Palace"]);
-    drawSign(g, R.signL[0], R.signL[1], R.signL[2], R.signL[3], ["Café and library wing", "→  Café", "→  Reception  ·  exit to the courtyard", "→  Library  ·  Reading Room", "←  Math Palace"]);
+    drawPlates(g);                                                  // the Ring's door plates (blk_board.js)
     return cv;
   }

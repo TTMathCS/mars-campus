@@ -172,12 +172,13 @@
       crsPlace(B, diningChair(5), rt - 0.72, a, F.y, OUT); crsPlace(B, cup(), rt - 0.18, a, F.y + 0.755, 0); }
     [3.0, 9.6, 13.2].forEach(function (d) { if (d < F.span - 1.8) { tableForFour(B, 55.4, F.at(d, true), F.y, 1.0, d > 9 ? 4 : 2, F.floor); tableLamp(55.4, F.at(d, true)); } });
     for (var d2 = d0 + 0.85; d2 < d1 - 0.4; d2 += 1.75) tableLamp(rt, F.at(d2, true));
+    [-1.5, 0, 1.5].forEach(function (x) { tableLamp(rbar + 0.03, ba + x / rbar, 1.8); });           // low over the bar, under the menu
     // a brass cone on a long cable over each table, warm, as low as a café's lights hang (none in a skylight's well)
-    function tableLamp(r, a) {
+    function tableLamp(r, a, h) {
       if (inSkylight(r, a, 0.3)) return;
-      var y = F.y + 2.2, p = crsPt(r, a); B.add(pendantCone(), crsFrame(r, a, y));
+      var y = F.y + (h || 2.2), p = crsPt(r, a); B.add(pendantCone(), crsFrame(r, a, y));
       tubeAlong(B, [new THREE.Vector3(p.x, y + 0.28, p.z), new THREE.Vector3(p.x, F.y + C.hR, p.z)], 0.004, 3, MT.STEEL);
-      wLight(p.x, y - 0.1, p.z, LAMPC, 0.85, 4.5, [0, -1, 0], 0.8);
+      wLight(p.x, y - 0.1, p.z, LAMPC, 1.3, 5.5, [0, -1, 0], 0.7);
     }
     roomPlants(B, rm, F, [rt, F.at(d0 + 0.85 + 1.75, true), 0.755]);
   }
@@ -213,7 +214,7 @@
     var C = CRS, D = D2R, da = 168.6 * D; crsPlace(B, receptionDesk(), 48.6, da, F.y, OUT); crsObst(47.9, 49.3, da - 2.2 / 48.6, da + 2.2 / 48.6, F.floor);
     crsPlace(B, officeChair(), 49.5, da - 0.8 / 49.5, F.y, OUT); crsPlace(B, officeChair(), 49.5, da + 0.8 / 49.5, F.y, OUT);
     [[57.6, 172.5], [57.6, 182.5], [53.0, 183.0]].forEach(function (b) { var a = b[1] * D; crsPlace(B, gardenBench(2.4), b[0], a, F.y, 0); crsObst(b[0] - 0.35, b[0] + 0.35, a - 1.3 / b[0], a + 1.3 / b[0], F.floor); });
-    timetableBoards(B);
+    timetableBoards(B); directoryScreen(B);
     roomPlants(B, rm, F, null);
   }
   function underGate(B, rm, F) {

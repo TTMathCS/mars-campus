@@ -121,9 +121,9 @@
     B.surf(n, 1, function (i, j, q) { var a = lerp(a0, a1, i / n), p = crsPt(r, a), d = crsPt(1, a), y = j ? y1 : y0;
       q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * out, 0, (d.z - PAL.c.z) * out]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = f2x === undefined ? 99 : f2x; q.f2[1] = g2 || 0; q.m = mat; });
   }
-  function radWall(B, a, r0, r1, y0, y1, mat, g2, side, f2x) {          // a flat wall along a radius at angle a, facing +a (+1) or -a (-1)
-    var n = Math.max(2, Math.ceil((r1 - r0) / 0.5)), t = crsPt(1, a + Math.PI / 2), tn = [(t.x - PAL.c.x) * side, 0, (t.z - PAL.c.z) * side];
-    B.surf(n, 1, function (i, j, q) { var r = lerp(r0, r1, i / n), p = crsPt(r, a), y = j ? y1 : y0;
+  function radWall(B, a, r0, r1, y0, y1, mat, g2, side, f2x, ny) {      // a flat wall along a radius at angle a, facing +a (+1) or -a (-1); ny rows up it
+    var n = Math.max(2, Math.ceil((r1 - r0) / 0.5)), t = crsPt(1, a + Math.PI / 2), tn = [(t.x - PAL.c.x) * side, 0, (t.z - PAL.c.z) * side], m = ny || 1;
+    B.surf(n, m, function (i, j, q) { var r = lerp(r0, r1, i / n), p = crsPt(r, a), y = lerp(y0, y1, j / m);
       q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = tn; q.f[0] = r; q.f[1] = y; q.f2[0] = f2x === undefined ? 99 : f2x; q.f2[1] = g2 || 0; q.m = mat; });
   }
   function flat(B, r0, r1, a0, a1, y, mat, g2, up) {                    // a level floor (up) or ceiling (down)
@@ -265,7 +265,7 @@
     });
     [[-hA, -1], [hA, 1]].forEach(function (e) { radWall(W, e[0] - e[1] * hw / 53, rc, r1 - 0.06, yL, yU + C.hR + 0.1, MT.PLASTER, 0, -e[1]); });   // the hall's side walls, two storeys
     [[164, -1], [191, 1]].forEach(function (e) {                                                                                                   // the Gate Hall's, and below it
-      var a = e[0] * D - e[1] * hw / 53; radWall(W, a, rc, r1 - 0.06, yU, yU + C.hGate + 0.1, MT.PLASTER, 0, -e[1]); radWall(W, a, rc, r1 - 0.06, yL, yL + C.hR + 0.1, MT.PLASTER, 0, -e[1]);
+      var a = e[0] * D - e[1] * hw / 53; radWall(W, a, rc, r1 - 0.06, yU, yU + C.hGate + 0.1, MT.PLASTER, 0, -e[1], undefined, 8); radWall(W, a, rc, r1 - 0.06, yL, yL + C.hR + 0.1, MT.PLASTER, 0, -e[1]);
     });
     radWall(W, up[0] * D + 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, 1);              // the upper corridor's two ends
     radWall(W, up[1] * D - 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, -1);
@@ -287,6 +287,7 @@
         arcWall(W, r1 - 0.06, a0, a1, y, top, MT.PLASTER, wc, -1);
       });
     });
+    doorPlates(W);
     crescentStair(W, C.st, true);
     crescentStair(W, C.gst, false);
     C.rooms.forEach(function (rm) { if (isBay(rm)) bayStair(W, rm); });
@@ -294,7 +295,7 @@
     C.sky.forEach(function (h) { skylightWell(W, h); });
     // lights: pendants in rows in the rooms (three rows in the big ones), downlights in the corridors and the halls
     C.rooms.forEach(function (rm) {
-      if (rm.band || isHall(rm) || isBay(rm)) return;
+      if (rm.band || isHall(rm) || isBay(rm) || rm.kind === "cafe") return;                       // the café has its own lamps over the tables
       var ra0 = rmA0(rm), ra1 = rmA1(rm), span = (ra1 - ra0) * 55.8, nl = Math.max(1, Math.round((span - 1.6) / 3.4));
       var rows = ra1 - ra0 >= 13.5 * D2R ? [52.6, 55.9, 59.2] : [53.2, 58.4];
       rmFloors(rm).forEach(function (fl) {
@@ -321,9 +322,9 @@
     // wall-washers in the Gate Hall's ceiling along its two tall end walls
     [[191, -1], [164, 1]].forEach(function (e) {
       var t = crsPt(1, e[0] * D + Math.PI / 2), dx = (t.x - PAL.c.x) * -e[1], dz = (t.z - PAL.c.z) * -e[1];
-      for (var wr = 51.2; wr < 61.5; wr += 2.5) { var p = crsPt(wr, e[0] * D + e[1] * 0.9 / wr);
+      for (var wr = 51.2; wr < 61.5; wr += 2.5) { var p = crsPt(wr, e[0] * D + e[1] * 1.1 / wr);
         W.geo(addF2(new THREE.CylinderGeometry(0.075, 0.075, 0.02, 14), 1.8, 0), T(p.x, yU + C.hGate - 0.012, p.z), MT.LIGHT, 1);
-        wLight(p.x, yU + C.hGate - 0.25, p.z, LAMPC, 1.7, 8, [dx * 0.6, -0.8, dz * 0.6], 1.0); }
+        wLight(p.x, yU + C.hGate - 0.3, p.z, LAMPC, 2.2, 9, [dx * 0.7, -0.71, dz * 0.7], 1.0); }
     });
     crescentChandelier(W);
     W.zone = ZONE.OUT;

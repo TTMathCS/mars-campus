@@ -125,7 +125,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." },
   { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." },
   { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." },
-  { img: "photos/crown_wellness.jpg", caption: "The pool, 25 m along the ring, with stone edges all round; loungers along the Glide." },
+  { img: "photos/crown_wellness.jpg", caption: "The sky pool, 25 m along the ring: a line of chosen plants on the inner side, kentias, a red and an orange maple and a fiddle-leaf fig; halos over the water." },
   { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." },
   { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." },
   { img: "photos/crown_stars.jpg", caption: "The star lounge in the Crown's Observatory at night: reclining chairs under the slots full of stars, candles on the side tables, a floor of polished basalt." },
@@ -147,5 +147,10 @@ window.TOUR_PHOTOS = [
   { img: "photos/guests2.jpg", caption: "The guest lounge from the gallery: the sitting room below and the atrium through the glass." },
   { img: "photos/crown_suite_door.jpg", caption: "The master suite's doors on the Glide: a pair of walnut pivot doors 4 m tall with long bronze pulls, set in the suite's wall of bronze and frosted glass, lit by alabaster pendants." },
   { img: "photos/crown_salon2.jpg", caption: "Across the great salon from the recital room: the orange maple, the crescent groups round their tables, and at the far end Turner's sea over the hearth." },
-  { img: "photos/crown_hearth.jpg", caption: "The hearth room in the Crown: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent and a gold ginkgo." }
+  { img: "photos/crown_hearth.jpg", caption: "The hearth room in the Crown: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent and a gold ginkgo." },
+  { img: "photos/crown_wellness2.jpg", caption: "The sky pool from the gym end: daybeds in pairs along the windows, and the wall of bronze and glass onto the Glide." },
+  { img: "photos/crown_spa.jpg", caption: "The spa: the round hot pool lit under its rim, opal globes over it, tree ferns by the glass, chaises at the windows." },
+  { img: "photos/crown_gym.jpg", caption: "The gym: treadmills, bikes and rowers facing the windows, a floor for free training, the weights before the mirror wall." },
+  { img: "photos/crown_wine.jpg", caption: "The wine room: the wine wall lit from behind, a tasting group in oxblood leather, the serving island under its globes." },
+  { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." }
 ];

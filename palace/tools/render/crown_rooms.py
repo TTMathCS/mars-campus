@@ -1145,7 +1145,7 @@ def garden_room(M, rnd):
         lm = bpy.context.active_object; lm.scale = (1, 1, 1.2); lm.data.materials.append(lemon_skin)
         for p_ in lm.data.polygons: p_.use_smooth = True
     plants.make("orchid", (tc_.x - 0.25, tc_.y, 0.76), seed=530, pot=(0.24, 0.12, "white"), colour="white")
-    lights.globes("breakfast globes", (tc_.x, tc_.y), n=9, spread=0.85, low=2.0, high=2.9, ceiling=ceil_at(tb), watts=40, seed=5)
+    lights.globes("breakfast globes", (tc_.x, tc_.y), n=9, spread=0.85, low=2.0, high=2.9, ceiling=ceil_at(tb), watts=50, seed=5)
     # the banquette along the windows, its table, three chairs across it; a lemon tree at each end
     bq = 44.4; rq = R_OUT - 0.75
     seating.sofa("window banquette", at(rq, bq, 0.0), face_in(bq), length=5.6, depth=1.0, fabric_mat=seating.fabric("sage velvet", (0.24, 0.30, 0.22), "velvet"), arms=False, bend=rq, seed=531)
@@ -1155,7 +1155,7 @@ def garden_room(M, rnd):
     plants.make("orchid", at(rq - 1.25, bq, 0.76), seed=536, pot=(0.22, 0.11, "white"), colour="pink")
     for k, bb in enumerate((bq - tang(3.6, R_OUT - 1.0), bq + tang(3.6, R_OUT - 1.0))):
         plants.make("lemon", at(R_OUT - 1.0, bb, 0.0), seed=537 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)
-    lights.globes("banquette globes", at(rq - 1.25, bq), n=5, spread=1.4, low=2.0, high=2.6, ceiling=ceil_at(bq), watts=30, seed=9)
+    lights.globes("banquette globes", at(rq - 1.25, bq), n=5, spread=1.4, low=2.0, high=2.6, ceiling=ceil_at(bq), watts=42, seed=9)
     # the sideboard with the coffee on the inner side, flowers; an olive in a basalt planter by the cross wall
     sb = 39.0
     tables.console("sideboard", at(R_GL + 0.75, sb, 0.0), face_out(sb), length=3.4, depth=0.55, h=0.88)
@@ -1225,14 +1225,21 @@ def garden_room(M, rnd):
         pts.append(Vector(at(R_OUT - 0.03 - abs(rnd.gauss(0, 0.05)), bb, z)))
     me = bpy.data.meshes.new("wall ivy"); me.from_pydata([tuple(p) for p in pts], [], []); ob = lib.link(bpy.data.objects.new("wall ivy", me))
     atrium.scatter_leaves(ob, ivy_leaf, "ivy leaves", 0.7, 1.3)
-    # warm downlights for the evening (the grow lights are flush in the ceiling)
+    # the grow lights: five long luminous strips in the ceiling along the ring, daylight white, that keep the garden
+    # growing under the Crown's shield (and light it like a day under cloud)
+    grow = lib.emission("grow light", (1.0, 0.96, 0.90), 24.0)
+    for r in (R_GL + 2.2, RM - 2.6, RM, RM + 2.6, R_OUT - 2.2):
+        zc = min(ceil_at(bb) for bb in (w1, (w1 + b1) / 2, b1)) - 0.02      # the garden lies between the spires: a level ceiling
+        crown.curved_box("grow light", r - 0.22, r + 0.22, w1 + tang(0.6, r), b1 - tang(0.6, r), zc - 0.03, zc, grow)
+    # warm downlights for the evening
     for bb in crown.steps(w1 + 1.0, b1 - 1.0, 1.0 / tang(3.0)):
         for r in (R_OUT - 1.0, R_GL + 0.65):
             lib.spot_light("garden downlight", at(r, bb, ceil_at(bb) - 0.06), 45, (1.0, 0.84, 0.66), 0.03, 50, 0.6)
     for bc in (38.0, 41.6, 45.2):
         for r in (RM - 1.4, RM + 1.4):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 80, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
-    washers(b0, w1, 60)
+    washers(b0, w1, 160)
+    washers(w1, b1, 140)
 
 
 
@@ -1318,3 +1325,5 @@ if __name__ == "__main__":
             c = R["cams"][j]; lib.camera(j, c["loc"], c["target"], lens=c["lens"], shift_y=c.get("shift", 0.0)); lib.photo_finish(0.3, 0.15)
             t = time.time(); lib.render(tmp, (w, h), spp, exposure=ex)
         os.replace(tmp, paths[j]); print("rendered", j, "in %.1f s" % (time.time() - t), flush=True)
+    sys.stdout.flush(); sys.stderr.flush()
+    os._exit(0)          # every picture is saved: skip Blender's teardown, which can crash (exit 139) after big scenes

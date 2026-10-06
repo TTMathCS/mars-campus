@@ -260,6 +260,22 @@ def chefs_kitchen(M, rnd):
     plants.make("fiddle-leaf fig", at(R_GL + 1.5, b1 - tang(2.4, R_GL + 1.5), 0.0), seed=311, pot=(0.8, 0.66, "white"), height=2.8)
     for k in range(4):
         bb = bq + tang(3.4 + 1.2 * k, R_OUT - 0.7); plants.make("lavender", at(R_OUT - 0.7, bb, 0.0), seed=305 + k, pot=(0.55, 0.42, "terracotta"), size=0.6)
+    # the chef's table between the islands and the windows: oak, 4.8 m, eight upholstered chairs, globes over it
+    ct, cr = 247.6, RM + 4.2
+    tables.dining_table("chef's table", at(cr, ct, 0.0), face_in(ct), length=4.8, width=1.2, mat=M["oak_top"], base=M["bronze_dark"])
+    sage = seating.fabric("kitchen sage", (0.30, 0.34, 0.26), "linen")
+    for k in range(8):
+        side = 1 if k < 4 else -1; bb = ct + tang(-1.65 + 1.1 * (k % 4), cr + side * 1.05)
+        seating.dining_chair("chef's chair", at(cr + side * 1.05, bb, 0.0), face_in(bb) if side > 0 else face_out(bb), fabric_mat=sage, seed=312 + k)
+    lights.globes("chef's table globes", at(cr, ct), n=7, spread=1.6, low=2.0, high=2.7, ceiling=ceil_at(ct), watts=45, seed=15)
+    # the pantry along the cross wall at b0: tall walnut doors, 3 m, from near the glass to near the windows
+    pf = b0 + FACE; pd = pf + tang(0.65, RM)
+    crown.curved_box("pantry", R_GL + 3.5, R_OUT - 3.5, pf, pd, 0.1, 3.0, M["walnut_v"])
+    crown.curved_box("pantry kick", R_GL + 3.55, R_OUT - 3.55, pf, pd - tang(0.05, RM), 0.0, 0.1, M["shadow"])
+    crown.curved_box("pantry cornice", R_GL + 3.45, R_OUT - 3.45, pf, pd + tang(0.03, RM), 3.0, 3.08, M["walnut"])
+    r = R_GL + 3.5 + 0.6
+    while r < R_OUT - 3.6:
+        crown.curved_box("pantry joint", r - 0.004, r + 0.004, pd, pd + tang(0.004, RM), 0.12, 2.98, M["shadow"]); r += 0.6
     crown.glass_wall("kitchen glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(bc - tang(2.0, R_GL), 2.2)])
     crown.glide_lights(b0, b1)
     downlights(b0, b1, 90, (1.0, 0.92, 0.82), rs=(RM - 1.8, RM - 0.4, R_OUT - 1.5), every=2.6)
@@ -737,7 +753,7 @@ MORE = {
         "wine2": dict(loc=at(RM - 1.6, 217.4, 1.5), target=at(R_OUT - 3.4, 223.2, 1.5), lens=22),
     }, stops={"wine": at(RM + 1.4, 219.4, 0.0)}),
     "kitchen_up": dict(build=chefs_kitchen, span=(241.2, 252.0), sun=(246.0, 18.0), cams={
-        "kitchen_up": dict(loc=at(R_GL + 0.9, 250.4, 1.6), target=at(R_OUT - 0.8, 243.6, 1.1), lens=19),
+        "kitchen_up": dict(loc=at(RM - 2.4, 250.8, 1.6), target=at(R_OUT - 2.0, 243.2, 1.1), lens=20),
         "kitchen_up2": dict(loc=at(RM + 1.2, 245.4, 1.6), target=at(RM - 0.6, 252.0, 1.4), lens=20),
     }, stops={"kitchen_up": at(RM + 1.0, 247.6, 0.0)}),
     "day_room": dict(build=guests_day_room, span=(252.0, 261.0), sun=(258.0, 14.0), cams={

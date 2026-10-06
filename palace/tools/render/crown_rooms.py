@@ -1281,7 +1281,7 @@ ROOMS = {
     "arrival": dict(build=arrival, span=(91.44, 108.0), sun=(250.0, 14.0), cams={
         "arrival": dict(loc=at(RM + 2.6, 106.9, 1.6), target=at(RM - 0.6, 96.4, 4.2), lens=17),
         "arrival2": dict(loc=at(R_GL + 1.2, 97.7, 1.6), target=at(R_OUT - 1.0, 103.6, 3.6), lens=17),
-    }, stops={"arrival": at(RM + 4.4, 98.6, 0.0)}),        # in from the Door, the great tree and the portal ahead
+    }, stops={"arrival": at(RM + 4.4, 98.6, 0.0), "door": at(RM, 93.6, 0.0)}),        # in from the Door, the great tree and the portal ahead; the Door
     "dining": dict(build=dining, span=(223.2, 241.2), sun=(244.0, 13.0), cams={
         "dining": dict(loc=at(R_OUT - 2.4, 225.4, 1.6), target=at(RM - 1.0, 234.6, 2.2), lens=18),
         "dining2": dict(loc=at(RM + 0.6, 240.6, 1.65), target=at(RM + 0.6, 228.0, 1.4), lens=20),
@@ -1308,16 +1308,16 @@ ROOMS = {
         "studio": dict(loc=at(R_GL + 2.4, 337.6, 1.5), target=at(RM, 325.0, 1.8), lens=20),
         "prints": dict(loc=at(RM + 0.6, 340.4, 1.6), target=at(130.4, 348.4, 1.4), lens=22),
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
-    }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
+    }, stops={"studio": at(RM + 0.3, 332.2, 0.0), "prints": at(RM - 1.0, 343.0, 0.0), "craft": at(RM - 1.0, 354.0, 0.0)}),
     "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={
         "stars": dict(loc=at(R_OUT - 5.4, 15.9, 1.25), target=at(R_OUT, 10.6, 4.6), lens=17),
         "stars_day": dict(loc=at(R_OUT - 5.4, 15.9, 1.25), target=at(R_OUT, 10.6, 4.6), lens=17, day=True),
         "telescope": dict(loc=at(RM - 1.0, 24.9, 1.5), target=at(R_OUT - 0.8, 31.2, 1.2), lens=20),
-    }, stops={"stars": at(RM + 1.0, 12.4, 0.0)}),
+    }, stops={"stars": at(RM + 1.0, 12.4, 0.0), "telescope": at(RM - 1.5, 27.5, 0.0)}),
     "garden": dict(build=garden_room, span=(36.0, 72.0), sun=(66.0, 6.0), sun_strength=10.0, cams={
         "breakfast": dict(loc=at(RM - 0.6, 44.3, 1.4), target=at(RM + 0.7, 40.9, 0.8), lens=22),
         "garden": dict(loc=at(R_GL + 1.5, 52.2, 1.3), target=at(R_OUT - 1.2, 61.5, 1.0), lens=20),
-    }, stops={"garden": at(RM - 0.3, 59.2, 0.0)}),
+    }, stops={"garden": at(RM - 0.3, 59.2, 0.0), "breakfast": at(RM - 3.0, 44.5, 0.0)}),
 }
 
 

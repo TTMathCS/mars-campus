@@ -291,6 +291,19 @@ def arrival(M, rnd):
         seating.bench("door bench", at(RM + s_ * 4.6, b0 + tang(3.2), 0.0), face_cw(b0 + tang(3.2)) + math.pi / 2, length=2.8, depth=0.6,
                       fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
     paint("arrival painting", "vangogh_starry_night", 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), 2.6)
+    # C-03, the Door's own room (91.44 to 95.76, furnishing.py), between the pod hangar and the Door: a cross wall to
+    # the hangar with a wide opening, a curved leather bench along each side wall (the windows and the glass), a pair
+    # of orange maples flanking the Door, a halo, frosted glass onto the Glide
+    d0 = b0 - 4.32; dc = (d0 + b0) / 2
+    crown.partition(d0, M, M["basalt_wall"], opening=(RM - 3.0, RM + 3.0), head=4.2)
+    crown.slat_ceiling(d0 - crown.PAD, b0, M)
+    cognac_ = seating.fabric("door cognac", (0.30, 0.14, 0.06), "leather")
+    for (r_, rot_) in ((R_OUT - 0.75, face_in(dc)), (R_GL + 1.0, face_out(dc))):
+        seating.sofa("door bench", at(r_, dc, 0.0), rot_, length=3.6, depth=0.8, fabric_mat=cognac_, arms=False, bend=r_, seed=int(r_))
+    for s_ in (-1, 1):
+        plants.make("japanese maple", at(RM + s_ * 3.8, b0 - tang(1.4, RM + s_ * 3.8), 0.0), seed=108 + s_, pot=(1.5, 0.6, "basalt"), height=4.5, colour="orange", stems=3)
+    lights.halo("door halo", at(RM, dc), d=3.6, z=4.6, ceiling=ceil_at(dc), watts=600)
+    crown.glass_wall("door glass", R_GL + 0.2, d0, b0, M, state="frosted")
     washers(b0 - 4.0, b1, 220)
     # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
     crown.glass_wall("arrival glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(99.5, 3.0), (105.0, 3.0)])

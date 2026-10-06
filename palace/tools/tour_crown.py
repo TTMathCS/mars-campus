@@ -37,7 +37,7 @@ STOPS = [
      "The suits wait in their ports in the outer wall, so no dust comes in; a leather bench down the middle for the boots and a walnut counter for helmets and gloves."),
     ("crown_hangar", "C-02", "hangar", "hangar", (RM - 1.0, 84.7), (RM + 0.4, 81.4), "The pod hangar", "Pod hangar", "Arrival",
      "Arcadia's airlock: the pods fly in through the door in the outer wall, and the hangar fills with air in about 90 seconds while the dust is blown off them."),
-    ("crown_door", "C-03", "arrival", "door", (RM, 93.6), (RM, 91.6), "The Door", "The Door", "Arrival",
+    ("crown_door", "C-03", "arrival", "door", (RM, 93.6), (RM, 95.6), "The Door", "The Door", "Arrival",
      "Arcadia's front door, a round opening 5 m across closed by an iris of light that knows Jim by face, eyes and walk; orange maples flank it and curved leather benches line the walls."),
     ("crown_arrival", "C-04", "arrival", "arrival", (RM + 4.4, 98.6), (RM - 1.0, 104.0), "The Arrival hall", "Arrival", "Arrival",
      "20 m tall under the Arrival spire: the great maple, red and orange, in a round cognac banquette, a halo of light 12 m up, The Starry Night across the hall, and the portal to the Orb, the spires and the Pentagon."),
@@ -135,7 +135,8 @@ def write():
     body = ",\n".join([one(i) for i in range(len(STOPS))] + orb)
     s = s[:a] + head + body + s[b:]
     open(STOPS_JS, "w", encoding="utf-8").write(s)
-    print("stops.js: %d Crown stops, %d of them as they are now, %d kept from before, %d of the Orb kept" % (len(STOPS), len(CURRENT), sum(1 for i in range(len(STOPS)) if one(i) in olds.values()), len(orb)))
+    kept = [t[0] for t in STOPS if t[0] not in CURRENT and t[0] in olds and 'ready: false' not in olds[t[0]] and os.path.exists(os.path.join(PANO, t[0] + ".jpg"))]
+    print("stops.js: %d Crown stops: %d with their new 360, %d old 360s kept for now, %d hidden; %d of the Orb kept" % (len(STOPS), len(CURRENT), len(kept), len(STOPS) - len(CURRENT) - len(kept), len(orb)))
 
 
 def jobs(out="final/crown_pano/%s.jpg"):

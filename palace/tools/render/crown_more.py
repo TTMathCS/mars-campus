@@ -808,7 +808,8 @@ def pod_hangar(M, rnd):
     into Arrival at the far end"""
     b0, b1 = 78.0, 91.44
     mats(M)
-    crown.ring_room(b0, b1, M, M["basalt"])
+    crown.ring_room(b0, b1, M, M["basalt"], part_walls=False)
+    crown.partition(b0, M, M["regolith"]); crown.partition(b1, M, M["basalt_wall"], opening=(RM - 3.0, RM + 3.0), head=4.2)   # the way on to the Door
     bc = (b0 + b1) / 2
     # the great door in the outer wall, under the slots: steel leaves with their joints, a frame
     dw = tang(7.0, R_OUT)

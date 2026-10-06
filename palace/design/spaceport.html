@@ -37,7 +37,7 @@
       </div>
       <div>
         <p><b>The pod station</b> is a hangar with a barrel roof on the west side, facing home, with four pod pads outside its doors. <b>The cargo yard</b> takes containers from the ships; in phase 2 a maglev station opens under the terminal.</p>
-        <p><b>Power</b> comes from two reactors buried inside a 150 m keep-out fence to the south-west, with their radiators, and from Arcadia along the 30 km cable (chapter 05). There are no panels on the ground. The <b>fuel plant</b>, the <b>tank farm</b> and the <b>ice mine</b> lie to the north.</p>
+        <p><b>Power</b> comes from the city's grid, which reaches the port here and goes on to Arcadia along the 30 km cable; batteries and fuel cells stand by for an outage (chapter 05). There are no panels on the ground. The <b>fuel plant</b>, the <b>tank farm</b> and the <b>ice mine</b> lie to the north.</p>
       </div>
     </div>
   </section>
@@ -107,10 +107,6 @@
     function road(pts, w) { S("path", { d: P(pts.map(function (p) { return M(p[0], p[1]); })), stroke: "#9b8a7c", "stroke-width": w || 3.4, fill: "none", "stroke-linecap": "round" }, svg); }
     road([[-900, 0], [-420, 0]], 4); road([[90, 0], [1386, 800]]); road([[90, 0], [1600, 0]]); road([[90, 0], [1386, -800]]); road([[0, 90], [455, 780]]); road([[-150, 90], [-300, 1000]]); road([[0, -90], [0, -640]]);
     T(svg, M(-880, 18)[0], M(0, 18)[1], "rover road to Arcadia, 30 km →", "t2", { style: "font-size:12px" });
-    // two reactors and their fence; nothing else on the ground to the south
-    var rp = M(-560, -380); S("circle", { cx: r1(rp[0]), cy: r1(rp[1]), r: r1(150 * k), fill: "none", stroke: "#d0694c", "stroke-width": 1.2, "stroke-dasharray": "4 3" }, svg); S("circle", { cx: r1(rp[0]), cy: r1(rp[1]), r: r1(26 * k), fill: "#e8e4de", stroke: "var(--ink)" }, svg);
-    var rp2 = M(-622, -380); S("circle", { cx: r1(rp2[0]), cy: r1(rp2[1]), r: r1(26 * k), fill: "#e8e4de", stroke: "var(--ink)", "stroke-width": 1 }, svg);
-    T(svg, rp[0] - 30, rp[1] + 70, "two reactors, 5 MWe each, buried", "", { "text-anchor": "middle", style: "font-size:12px" });
     // terminal, tower, pod station
     S("circle", { cx: X0, cy: Y0, r: r1(90 * k), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.4 }, svg); S("circle", { cx: X0, cy: Y0, r: r1(55 * k), fill: "none", stroke: "var(--ink-2)" }, svg);
     T(svg, X0 + 40, Y0 + 44, "terminal", "halo", { style: "font-size:13px;font-weight:600" });

@@ -5,6 +5,18 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 6 Oct 2026: no reactor; the city provides the power
+
+- **Asked** (Jim, reviewing the plan): "no nuclear reactor is needed since it is provided by city".
+- **Changed:** Arcadia and its spaceport have no reactors and no radiator field. The power comes from the city's grid on
+  two buried DC cables by different routes (30 km by the rover road from the spaceport, where the city's grid reaches;
+  and through the city's first tunnel, L5-16), 15 MW each. Arcadia keeps its own batteries (L4-03) and fuel cells on
+  the ships' methane and oxygen (L4-20) for an outage, and heat pumps (L4-02) make the warmth the reactors' spare heat
+  used to give (about 2 MW for 0.7 MW of power). In the room program L4-01 Fission reactors became the City feed and
+  L4-02 the Fusion-ready bay the Heat pumps. Chapter 05 rewritten; chapters 01, 02, 03, 07, 08, 10, the idea page, the
+  atlas, the science pages' boxes on Arcadia, README and REQUIREMENTS (SY-1, SY-4) brought into line.
+- **Still to do:** the spaceport's aerial picture shows the two reactor domes; it is to be rendered again without them.
+
 ## 6 Oct 2026: every Crown room glazed onto the Glide, as the master suite
 
 - **Asked:** Jim, "all rooms in the crown should have same window as master bedroom". Shown the two (A: the suite's

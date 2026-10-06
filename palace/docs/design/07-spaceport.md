@@ -27,7 +27,7 @@ plant with its six tanks, the ice mine on the left, and the three landing pads 1
 
 The pads are 80 m across, of heat-resistant sintered regolith, each inside a ring berm 6 m high. The terminal is a
 low white dome 180 m across with a 77 m control tower. The pod station faces home, on the west side. Power comes from
-two buried reactors inside a keep-out fence, with no panels on the ground; the fuel plant, the tank farm and the ice
+the city's grid, which reaches the port here, with batteries and fuel cells standing by and no panels on the ground; the fuel plant, the tank farm and the ice
 mine lie to the north. In phase 2 a
 maglev station opens under the terminal.
 

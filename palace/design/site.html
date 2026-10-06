@@ -75,7 +75,6 @@
         <p>At the centre stands the <b>Orb's dock</b>, a ring of dark basalt 31 m across and 5.5 m high with a bronze band and five bronze pads on top, round the <b>Sun Well</b>, the glass sky lens 20 m across over the Pentagon's atrium, 68 m below. The Orb comes down onto the pads for service, or if its drive ever stops. A hatch in its base then opens onto the dock, and a stair and a lift inside the ring go down into the atrium.</p>
         <p>Under each spire lies a <b>pad</b> of dark basalt 14 m across with a bronze rim, where the Crown would settle if its drives ever stopped. While the drives run, rings of pale light pulse slowly on it where the anti-gravity field reaches the ground.</p>
         <p>The <b>Pentagon</b> lies under the paving with its five corners exactly below the five spires, and the ground hints at it. Five strips of dark glass, lit warm from below at dusk, trace its five avenues from the dock out to the corners. Where each avenue ends, a low <b>corner pavilion</b> of glass under a thin white roof holds a stair and an airlock down to the corner core. The other ways in are the Sun Well and the <b>rover tunnel</b> from level L5, which climbs at 12% and comes out 700 m east, where the road to the spaceport begins. The pods fly straight into the hangar in the east spire, so they never touch the ground here.</p>
-        <p>A field of <b>radiators</b> 400 m north gets rid of the spare heat from the reactors (chapter 05).</p>
         <table class="spec"><tbody>
           <tr><td>The Crown's ring</td><td class="n">Ø 244–276 m, 40 m up</td></tr>
           <tr><td>The Orb, over the Sun Well</td><td class="n">Ø 48 m, 48–96 m up</td></tr>
@@ -89,7 +88,6 @@
           <tr><td>Glass over the avenues</td><td class="n">5 strips, 96 m long</td></tr>
           <tr><td>The Pentagon, below</td><td class="n">160 m sides, 5 levels</td></tr>
           <tr><td>Graded ground round Arcadia</td><td class="n">Ø 840 m</td></tr>
-          <tr><td>Radiator field</td><td class="n">150 × 60 m, 400 m north</td></tr>
         </tbody></table>
       </div>
       <figure class="fig"><svg id="fSite" viewBox="0 0 640 640" role="img" aria-label="Site plan of Arcadia"></svg><figcaption><b>Site plan</b>, north up. The white ring is the Crown overhead, with its rooms named round the outside; blue dashed lines are below ground. The red mark is the pod hangar door, facing the garden. The pale pentagon is the paving over the Pentagon, with a pavilion at each corner and glass over the five avenues.</figcaption></figure>
@@ -142,9 +140,9 @@
     </div>
     <div class="tw"><table class="spec"><thead><tr><th style="width:18%">Mars</th><th style="width:36%">At the site</th><th>The design's answer</th></tr></thead><tbody>
       <tr><td>Thin air</td><td>870 Pa, less than 1% of Earth's, mostly carbon dioxide</td><td>Every room is pressurised; suits outside; the pod flies on rocket thrust because wings and rotors can't lift much in such thin air.</td></tr>
-      <tr><td>Cold</td><td>−20 °C on a summer afternoon, −90 °C at night, below −120 °C in winter</td><td>Thick insulated shells; spare heat from the reactors warms the rooms; the ground below stays near −60 °C all year, steadier than the air.</td></tr>
+      <tr><td>Cold</td><td>−20 °C on a summer afternoon, −90 °C at night, below −120 °C in winter</td><td>Thick insulated shells; heat pumps warm the rooms; the ground below stays near −60 °C all year, steadier than the air.</td></tr>
       <tr><td>Radiation</td><td>About 230 mSv a year on the open surface, 70 times Earth's</td><td>16 m of soil over the Pentagon stops it; the Crown's shell cuts it to a third; people sleep below ground. See chapter 08.</td></tr>
-      <tr><td>Dust and storms</td><td>Dust devils every afternoon in summer; a planet-wide storm about every 5½ Earth years that dims the sun for weeks</td><td>Storm shutters, sealed suit ports, and reactors that keep the power on when the sun is gone.</td></tr>
+      <tr><td>Dust and storms</td><td>Dust devils every afternoon in summer; a planet-wide storm about every 5½ Earth years that dims the sun for weeks</td><td>Storm shutters, sealed suit ports, and the city's power on buried cables, which no storm touches.</td></tr>
       <tr><td>Low gravity</td><td>38% of Earth's</td><td>A 50 m pool, a gym and walking everywhere: no lifts, a moving walkway only in the Crown.</td></tr>
       <tr><td>Toxic soil</td><td>Perchlorate salts in the dust</td><td>Suits stay outside at the suit ports; farm soil is washed; the air is filtered.</td></tr>
       <tr><td>Long seasons</td><td>A year of 668 sols; spring and summer in the north last about 370 sols</td><td>A Mars clock and calendar in every room (chapter 09); two years of food and spares in store.</td></tr>
@@ -343,7 +341,6 @@
     RL.forEach(function (l) { var q = pl(l[0], CN.indexOf(l[0]) >= 0 ? 186 : 160), an = Math.sin(l[0] * D), east = l[0] === 90; T(svg, east ? 634 : q[0], q[1] + (east ? -16 : 4), l[1], CN.indexOf(l[0]) >= 0 ? "disp" : "t2", { "text-anchor": east ? "end" : an > 0.3 ? "start" : an < -0.3 ? "end" : "middle", style: CN.indexOf(l[0]) >= 0 ? "font-size:15px;font-weight:600" : "font-size:12.5px" }); if (l[2]) T(svg, q[0], q[1] + 19, l[2], "t2", { "text-anchor": "start", style: "font-size:12px" }); });
     var lab = [["Orb's dock", 0, 27, "middle", "halo"], ["Orb above", 0, -29, "middle", "halo"], ["Stone Garden", -80, -2, "middle", "halo"], ["raked gravel, 7 stones", -80, 13, "middle", "t2 halo"], ["pad and field ring", 98, -134, "start", "ti halo"], ["hangar door", 114, 17, "end", "tr halo"], ["Pentagon below (dashed)", -128, -150, "end", "ti"], ["paved pentagon over it", -128, -136, "end", "t2"], ["corner pavilion", 46, -100, "start", "halo"], ["glass over the avenue", 40, 58, "start", "ti halo"], ["rover tunnel from L5", 212, 20, "middle", "ti halo"]];
     lab.forEach(function (l) { var q = M(l[1], l[2]); T(svg, q[0], q[1], l[0], l[4], { "text-anchor": l[3], style: "font-size:12.5px" }); });
-    T(svg, 20, 28, "↑ Radiator field, 400 m north", "t2", { style: "font-size:12.5px" });
     T(svg, 620, 612, "Road to the spaceport leaves 700 m east →", "t2", { "text-anchor": "end", style: "font-size:12.5px" });
     BOOK.scalebar(svg, 24, 606, k, [0, 50, 100], "m"); BOOK.north(svg, 606, 52);
   })();

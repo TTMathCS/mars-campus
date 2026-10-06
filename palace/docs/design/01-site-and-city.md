@@ -86,8 +86,7 @@ construction/design as well. and at least some hints that there is big part unde
 - **Pads under the spires:** basalt discs 14 m across with bronze rims, where the Crown would settle if its drives
   stopped; rings of pale light pulse on them while the drives run.
 
-The other ways in are the Sun Well and the rover tunnel from L5, which comes out 700 m east. The radiators stand
-400 m north.
+The other ways in are the Sun Well and the rover tunnel from L5, which comes out 700 m east.
 
 | Ground | Size |
 | --- | --- |
@@ -122,9 +121,9 @@ a small crown over a small pentagon, joined by tunnels; people move between home
 | Mars | At the site | The design's answer |
 | --- | --- | --- |
 | Thin air | 870 Pa, under 1% of Earth's, mostly CO₂ | Every room pressurised; suits outside; the pod flies on rocket thrust |
-| Cold | −20 °C on a summer afternoon, −90 °C at night | Thick insulated shells; spare reactor heat warms the rooms |
+| Cold | −20 °C on a summer afternoon, −90 °C at night | Thick insulated shells; heat pumps warm the rooms |
 | Radiation | About 230 mSv a year on the open surface | 16 m of soil over the Pentagon; the Crown's shell cuts it to a third; sleep below ground |
-| Dust and storms | Dust devils in summer; a planet-wide storm every 5½ Earth years | Storm shutters, sealed suit ports, reactors that keep the power on; no panels to bury |
+| Dust and storms | Dust devils in summer; a planet-wide storm every 5½ Earth years | Storm shutters, sealed suit ports, the city's power on buried cables; no panels to bury |
 | Low gravity | 38% of Earth's | A 50 m pool, a gym and walking everywhere |
 | Toxic soil | Perchlorate salts in the dust | Suits stay outside; farm soil is washed; the air is filtered |
 

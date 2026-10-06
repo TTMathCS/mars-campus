@@ -24,13 +24,13 @@ on.*
 
 ## The order of work
 
-1. **Land and switch on, 2023.** 12 cargo ships land on the open plain of AP-1; robots bury the spaceport's two
-   reactors; from mid-2023 everything runs on their 10 MW.
+1. **Land and plug in, 2023.** 12 cargo ships land on the open plain of AP-1; robots lay the cable to the city's
+   grid; from mid-2023 everything runs on the city's power.
 2. **Water and fuel, 2023 to 2025.** The ice mine, the fuel plant line by line, the three pads.
 3. **The corridor, 2023 to 2024.** The rover road and the trench with the 30 km DC cable and the fibre.
 4. **The dig, 2024 to 2025.** 3.1 million m³ from a pit 70 m deep, about 4,300 m³ a sol; 1.5 million t of ice kept;
    kilns at the pit's edge fire the first panels.
-5. **The Pentagon from the bottom up, 2025 to 2026.** L5 and L4 with Arcadia's reactors (L4-01) and the air and water
+5. **The Pentagon from the bottom up, 2025 to 2026.** L5 and L4 with the city feed (L4-01) and the air and water
    plants, then L3 (the kilns move to L3-07), L2 and L1; the roof and 16 m of soil late in 2026.
 6. **Air and warmth, 2026 to 2027.** 560 t of oxygen and 1,560 t of nitrogen and argon made on L4, let in early 2027.
 7. **The Crown, 2026 to 2027.** Five pads; the ring assembled 2 m up in ten 36° parts; tested and lifted to +40 m in
@@ -51,7 +51,7 @@ foundry (L3-06) prints their parts.
 
 ![What each wave of ships brings from Earth, in tonnes](../img/book/phases-waves.png)
 
-- About **3,600 t in 36 cargo ships** of about 100 t (our estimate): the reactors, the robots and kilns, the fuel
+- About **3,600 t in 36 cargo ships** of about 100 t (our estimate): the robots and kilns, the fuel
   plant's and life support's machines, wiring, lamps and electronics, seeds and saplings, Jim's things, and the drives
   and portals of future technology.
 - The cargo ships of the first two waves **stay** on the plain east of the pads: stores, the first greenhouse, and

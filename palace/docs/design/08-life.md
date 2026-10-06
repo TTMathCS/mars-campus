@@ -6,7 +6,7 @@
 
 Outside, the air is a hundredth as thick as Earth's and almost all carbon dioxide, the ground is −60 °C, the soil holds
 perchlorate salts and the sky lets through cosmic rays. Inside Arcadia none of that reaches Jim. L4, 59 m down, makes
-the air and the water from Mars itself and takes them back again; the garden level grows the food; the reactors keep
+the air and the water from Mars itself and takes them back again; the garden level grows the food; heat pumps keep
 it warm; the soil and ice overhead keep the radiation out. **Requirements:** SY-3, SY-4, LV-3.
 
 ![The loops of life support: what Mars gives, what L4 makes, what Arcadia uses and what comes back](../img/book/life-loops.png)
@@ -76,7 +76,8 @@ the [floor plans](../plans/README.md).*
 
 ## Warmth
 
-About **2 MW** of the reactors' heat warms Arcadia through the floors (chapter 05). The Pentagon's walls, roof and floor
+About **2 MW** of warmth from heat pumps on L4 (L4-02), taken back from the air leaving the rooms and from the
+machines, warms Arcadia through the floors, for about 0.7 MW of the city's power (chapter 05). The Pentagon's walls, roof and floor
 are insulated so the ice-rich ground stays frozen, as under buildings on permafrost.
 
 | Where the heat goes, a worked estimate | Heat |
@@ -106,7 +107,7 @@ are insulated so the ice-rich ground stays frozen, as under buildings on permafr
 
 Suits stay outside in suit ports (the suit room C-01, the rover hall on L5), the pod is brushed and blown clean in the
 hangar before it fills with air, every air handler has fine filters, and the perchlorate is taken out of the water on
-L4. Dust storms do no harm: no panels to bury, reactors and lamps that run on.
+L4. Dust storms do no harm: no panels to bury, the city's power on buried cables, lamps that run on.
 
 ## Fire
 

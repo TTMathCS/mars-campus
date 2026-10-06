@@ -70,7 +70,7 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | 209,700 m² | The Pentagon's floor area, 11 times the Crown |
 | 48 m | The Orb across, three floors of rooms round the Wormhole Gate, a ball 18 m across: press send and it shoots you like light to any place and time |
 | 30 km | To Arcadia Spaceport, due east |
-| 20 MWe | Four reactors, two at Arcadia and two at the port; no panels or mirrors on the ground |
+| 2 cables | Power from the city's grid by two routes, 15 MW each; no reactor, no panels or mirrors on the ground |
 | 4 min 40 s | The pod's scenic flight, 37 km; the Gate does the travelling |
 | 0 | Lifts: portals link every part of Arcadia |
 

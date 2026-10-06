@@ -47,7 +47,7 @@ L1's rooms, with the codes of the [floor plans](../plans/README.md), ring by rin
 | Jim's home below ground, for the nights and the evenings: his residence, the club, the baths, the library and the guests. Everyone sleeps here, under 16 m of soil | 16 m tall under a sky of lamps: orchards, a farm, a lake that is also the water reserve, a forest with a stream, and a meadow with bees |
 | **L3 Studio, −50 m · L3-01 to L3-23** | **L4 Life support, −59 m · L4-01 to L4-19** |
 | ![L3 Studio](../img/book/pentagon-plan-L3.png) | ![L4 Life support](../img/book/pentagon-plan-L4.png) |
-| Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms | Two fission reactors and a bay kept for fusion, water from ice, the air plant, the storm reserve of two years' food, and recycling |
+| Jim's studio and workshops, the robot foundry that prints parts for the city, laboratories and the medical centre, the house mind and the control rooms | The city feed, batteries, fuel cells and heat pumps, water from ice, the air plant, the storm reserve of two years' food, and recycling |
 | **L5 Transit, −68 m · L5-01 to L5-21** | |
 | ![L5 Transit](../img/book/pentagon-plan-L5.png) | |
 | The maglev station (phase 2), the cargo halls, the seed vault, the tunnel works, and the rover hall with the tunnel up to the plain. The sun court is at its centre | |

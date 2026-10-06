@@ -45,7 +45,7 @@
   place({ id: "house", kind: "jim", name: "Arcadia · Jim's home", sub: "Crown above, Pentagon below", lat: HOUSE_LL.lat, lon: HOUSE_LL.lon, size: 1.2, prio: 100, view: { d: 1.25, tilt: 58, head: 118 },
     k: "Jim's Mars · home", d: "The Crown, a white ring 276 m across, floats 40 m above the Stone Garden on anti-gravity drives in its five spires. The mirror Orb hovers at its centre: the universe fills its rooms in 3D at a switch, round the Wormhole Gate. Below the ground, the Pentagon holds five levels, 209,700 m².", link: ["The Crown", BOOK + "crown.html"] });
   place({ id: "port", kind: "jim", name: "Arcadia Spaceport", sub: "30 km east of Arcadia", lat: PORT_LL.lat, lon: PORT_LL.lon, size: 4, prio: 95, view: { d: 5.5, tilt: 50, head: 70 },
-    k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station and two buried reactors, with no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
+    k: "Jim's Mars · spaceport", d: "Three pads for ships from Earth, the terminal, a fuel plant that makes methane and oxygen from ground ice and air, the pod station, power from the city's grid and no panels on the ground. It stands on AP-1, the safest of the Arcadia Planitia sites studied as a landing site for SpaceX Starship.", link: ["The spaceport", BOOK + "spaceport.html"] });
   var cityLL = siteLL(0, -1500);
   place({ id: "city", kind: "jim", name: "Arcadia City", sub: "future · grows round Arcadia", lat: cityLL.lat, lon: cityLL.lon, size: 9, prio: 90, view: { d: 11, tilt: 35, head: 0 },
     k: "Jim's Mars · the future city", d: "Homes take the seeds of a sunflower spiral round the Crown, 137.5° apart and about 450 m from their neighbours. The civic buildings fall on the Fibonacci seeds, which line up due north as one avenue. 233 homes reach 3.8 km out.", link: ["Site and city", BOOK + "site.html"] });
@@ -125,7 +125,6 @@
     ["fuel", "Fuel plant", 30455, -840, 14, 8, "Turns ice and carbon dioxide into methane and oxygen for the ships."],
     ["tanks", "Tank farm", 30700, -810, 38, 8, "Six spheres of liquid methane and oxygen."],
     ["mine", "Ice mine", 29700, -1050, 0, 8, "An open pit into the ice-rich ground. Conveyors carry ice to the fuel plant."],
-    ["reactor", "Reactors", 29440, 380, 6, 8, "Two fission reactors buried behind a keep-out ring: power for the port and the fuel plant, day and night, in storms too."],
     ["cargo", "Cargo yard", 30545, 290, 8, 8, "Containers from Earth and from the city's workshops."],
     ["dunes", "Dune Sea", 21300, -3300, 20, 40, "Dark sand dunes crossed by dust devils. Part of the demo's scenic route."],
     ["crater", "Crater, 3.2 km", 13800, -2300, 55, 30, "A crater with frost in its shadows. Part of the demo's scenic route."],
@@ -757,7 +756,7 @@
 
   /* ---------------------------------------------------------------- the panel: search, places, card, layers, buttons */
   var listEl = $("list"), qEl = $("q"), selId = null;
-  var GROUPS = [["Jim's Mars", ["house", "port", "city", "ttmath", "ap9"]], ["At the site", ["crown", "orb", "garden", "pentagon", "terminal", "pad2", "fuel", "mine", "reactor", "dunes", "crater", "cliffs", "storm"]], ["Space", ["phobos", "deimos", "relay", "earth", "transfer", "sun"]], ["Landmarks", F.map(function (f) { return f[0]; })], ["Rovers and landers", L.map(function (l) { return l[0]; })]];
+  var GROUPS = [["Jim's Mars", ["house", "port", "city", "ttmath", "ap9"]], ["At the site", ["crown", "orb", "garden", "pentagon", "terminal", "pad2", "fuel", "mine", "dunes", "crater", "cliffs", "storm"]], ["Space", ["phobos", "deimos", "relay", "earth", "transfer", "sun"]], ["Landmarks", F.map(function (f) { return f[0]; })], ["Rovers and landers", L.map(function (l) { return l[0]; })]];
   var BYID = {}; P.forEach(function (p) { BYID[p.id] = p; });
   function renderList(q) {
     q = (q || "").trim().toLowerCase(); listEl.innerHTML = "";

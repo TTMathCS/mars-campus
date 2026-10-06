@@ -5,49 +5,53 @@ Everything needed to continue is in this repo. Last updated 2 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## Where the work stopped: 4 Oct 2026, 23:20 UTC (read this first)
+## Where the work stopped: 6 Oct 2026, 02:40 UTC (read this first)
 
-Jim's brief for the Crown is `palace/docs/crown-rev-h.md` (every ask in his words, and what each became); his order:
-**the Crown first** (each room's design and pictures, and the walk), then the same for every other room. The rules in
-CLAUDE.md (no small chairs; furniture sized to the room; every plant chosen; pictures with true blacks) apply everywhere.
+Jim's newest asks (6 Oct): **"by day in the sky, by night in the ground: it should be opposite. day has too much
+rediation so day should be in the ground while night in the sky"** (done: see palace/docs/decisions.md), and
+**"try to use gaussian splatting if possible ... maybe show me something gaussian splatting can do first, then we
+can move ahead?"** (in progress: a demo of the master suite up, below). His brief for the Crown is
+`palace/docs/crown-rev-h.md`; the order: the Crown first (each room's design and pictures, and the walk), then the
+other levels. The rules in CLAUDE.md apply everywhere.
 
-**Done and live:** the Crown's revision H in scripts, plans and texts; the master suite up refurnished (photo, door
-photo, 360); **paintings**: 20 public-domain works in `palace/tools/render/assets/art/` (made by `fetch_art.py`, which
-names each source; archive copy `palace/blender/assets/art/`), each chosen for one room (the list is in
-`palace/tools/furnishing.py`; `crown_rooms.paint()` hangs them); **the tour's ring map** redrawn for revision H with
-a dot in every one of the 29 rooms (`tour/rooms.js`, made by `palace/tools/tour_rooms.py`, which `gen_plan.py` runs);
-**the pages reorganized**: a short hub (the turning model, two place cards, the chapters), `design/idea.html` for the
-idea and the key numbers, the science listed after the chapters, one book name ("Arcadia design plan"), the top bar
-Chapters / Floor plans / 360° tour / Mars Atlas, links both ways between room pages and floor plans, the tour's room
-name opening its page, the same room names in the tour and on the pages.
+**Done and live:** revision H in scripts, plans and texts; the rule turned round (by day below, by night up; the
+dose budget unchanged: 6 hours up from sunset); 20 public-domain paintings placed room by room (`fetch_art.py`,
+`furnishing.py`); the tour's ring map with a dot in every room; the reorganized pages (short hub, `idea.html`, one
+book name, links both ways); **the hub's model turns smoothly** (72 frames of revision H); **the salon published**
+(three views: salon, salon2, hearth); the master suite up (photo, door, 360).
 
-**Rooms in `palace/tools/render/` and their state:**
-- bedroom (C-07): published. dressing (C-06), bath up (C-08): only their glass fronts and doorways are new.
-- **Wellness (C-13 spa, C-14 sky pool, C-15 gym): rebuilt** in `crown_wellness.py` (with `gym.py`): the room program
-  moved its cross walls to 191.5 and 204.5 so the pool is a true 25 m (6 m wide, at radius 124 to 130). Built and
-  queued for preview; not yet checked or rendered final.
-- salon (C-09 to C-11): first final view done but **too bright and washed out** (walls clip to white at exposure 1.0,
-  so the grade can only make them grey). Testing exposure 0.3 and -0.2 (queued); re-render the salon finals at the
-  better one, grade `pale` (mostly pale walls), and use the same exposure for the other pale rooms.
-- Arrival hall, star lounge: finals queued. Dining hall, library: previews queued (code untested until then).
-- every other Crown room: still revision G furniture; rebuild each from `furnishing.py` as Wellness was.
+**Gaussian splatting (task in progress).** Toolchain in the scratchpad's `gs/`: micromamba with a conda-forge env
+(`libtorch` CPU, `libopencv`, `cxx-compiler`, `cmake`) and OpenSplat built with `-DGPU_RUNTIME=CPU`
+(`gs/OpenSplat/build/opensplat`). `palace/tools/render/splat_views.py` renders a rig of views of a room with poses
+(nerfstudio `transforms.json`) and a starting point cloud; `splat_publish.py` writes `palace/splat/data/<room>.spz`,
+lists it in `rooms.json` and keeps the dataset in `palace/blender/splats/<room>/`. The viewer is `palace/splat/`
+(Spark, vendored; three.js from `palace/walk/lib/`). Queue on the first machine: a 12-view test, a 100-iteration
+benchmark, then the demo rig (208 views at 640x360) of the master suite up; then fit it (iterations set from the
+benchmark), publish, show Jim. Read `palace/blender/splats/README.md`.
 
-**Renders in flight:** first machine (this container: `blend/runner.py a`, queue `blend/queue_a.txt`, pusher
-`blend/pusher_a.sh`): previews, then the Arrival finals, turntable frames 0 to 35 with `spots.json`, the star lounge.
-Second machine (session_01FjAVBjC6iYGKfCFcyGwjNW): turntable frames 40 to 71, pushed in batches to
-`palace/blender/renders/house_h/` (36 to 51 are in). When all 72 frames are there, run `pub_house.py`.
+**Rooms (all Crown rooms now designed with the new furniture, plants and paintings in code):** published: master
+suite up, salon. Previews queued (first machine, `blend/queue_a.txt`): Wellness (new, `crown_wellness.py`, `gym.py`),
+dining hall (with its drinks lounge), studio and craft, breakfast and the sky garden (on a black basalt platform: my
+reading of Jim's "black platform", to confirm with him), wine room, chef's kitchen, sunset lounge, guests' lounge,
+gallery, dressing room, bath up, study; then the Arrival and star lounge finals. Each: check the preview, render
+1600x900 96 spp at exposure -0.2, grade `pale` (rooms of pale walls) or `day`, publish with `pub.py`, rewrite its
+entry in `gen_plan.py` (the salon's is the model), save its `.blend`.
 
-**Open with Jim:** the sky garden's "black platform instead of black": a continuous black stone path in place of the
-pale stepping stones, or a black floor in place of the gravel? Ask before rebuilding the Garden room.
+**Second machine** (session_01FjAVBjC6iYGKfCFcyGwjNW): finished the turntable; free. Good use: the long splat fits,
+or the room finals, one at a time.
 
-**Next, in order:** (1) settle the exposure, then the salon, Arrival, star lounge finals: grade, publish, new 360s
-(move each Crown stop's `p` to its room entry's `stops`); (2) check and render Wellness, dining, library; (3) the
-remaining Crown rooms (wine, kitchen up, day room, sunset, gallery, studio, photo, craft, telescope, breakfast,
-dressing, bath up, suit room, hangar), each with its paintings; (4) a 360 in every Crown room; (5) the walk: bake the
-whole ring (`walk_bake.py`, halves `144:324` and `324:504`, `walk_pack.mjs`), link it from the Crown pages; (6) the
-other levels: the guest lounge, the moss garden and the music room first (Jim's notes in `crown-rev-h.md`).
+**Next:** (1) the splat demo for Jim; (2) the room previews, finals and pages; (3) a 360 (or a splat) in every Crown
+room; (4) the walk; (5) the other levels (the guest lounge, the moss garden, the music room first).
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
+
+### 6 Oct, from 02:00 UTC
+- The container had stopped at 23:40 on 4 Oct (the account's weekly limit); restarted the runner and the pusher;
+  the second machine resumed after the reset and finished the turntable.
+- Jim's rule turned round (by day in the ground, by night in the sky) across the idea page, the chapters, the room
+  program (C-20 is now the guests' lounge), the plans' pairs and the docs.
+- The hub's turntable published with all 72 frames of revision H; the salon's three views published.
+- Gaussian splatting: toolchain built (OpenSplat on CPU), `splat_views.py`, `splat_publish.py` and `palace/splat/`.
 
 ### 4 Oct, from 22:40 UTC
 - Synced main (TTMath commits only under `ttmath/`; the second machine's bedroom 360 and turntable frames 36 to 51).

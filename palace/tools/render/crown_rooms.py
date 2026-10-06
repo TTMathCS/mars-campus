@@ -461,9 +461,9 @@ def sunset_lounge(M, rnd):
     tables.coffee_table("sunset round table", at(RM + 1.6, cc, 0.0), 0.0, length=1.6, kind="round", mat=marble)
     for s_ in (-1, 1):
         seating.club_chair("sunset chair", at(RM + 3.9, cc + s_ * tang(1.4, RM + 3.9), 0.0), face_in(cc) - s_ * 0.35, fabric_mat=sand, seed=381 + s_)
-    # a red and an orange maple by the glass either side of it, to glow with the ginkgos at sunset
-    for k, (bb, col) in enumerate(((cc - tang(5.2, R_GL + 2.2), "red"), (cc + tang(5.2, R_GL + 2.2), "orange"))):
-        plants.make("japanese maple", at(R_GL + 2.2, bb, 0.0), seed=384 + k, pot=(1.4, 0.62, "basalt"), height=4.2, colour=col, stems=3)
+    # a red maple by the glass behind the first group, an orange one beyond the crescent, to glow with the ginkgos
+    for k, (r, bb, col) in enumerate(((R_GL + 1.8, 263.4, "red"), (R_GL + 2.2, cc + tang(5.2, R_GL + 2.2), "orange"))):
+        plants.make("japanese maple", at(r, bb, 0.0), seed=384 + k, pot=(1.4, 0.62, "basalt"), height=4.2, colour=col, stems=3)
     # halos over the three groups, warm
     for bb, r in ((265.4, rs + 1.0), (cc, RM + 1.4), (274.6, rs + 1.0)):
         lights.halo("sunset halo", at(r, bb), d=5.0, z=5.4, ceiling=ceil_at(bb), watts=800, color=(1.0, 0.74, 0.50))

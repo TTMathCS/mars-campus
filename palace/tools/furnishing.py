@@ -96,7 +96,7 @@ CROWN = {
                                               "between them, a rust velvet crescent 6.4 m round a marble table, two club chairs"], tables=["long low travertine tables", "a round marble table"],
                  lights=["low lamps", "a warm halo over each group", "washers"],
                  plants=[("agave", "a bed of agaves and golden barrels by the windows"), ("ginkgo", "gold, to glow at sunset"),
-                         ("japanese maple", "a red and an orange, 4.2 m, by the glass either side of the crescent")],
+                         ("japanese maple", "a red one by the glass behind the first group, an orange one beyond the crescent, 4.2 m")],
                  art=[], doors="none"),
     "C-22": dict(name="Gallery", seating=["long leather benches down the middle, museum style"], tables=[],
                  lights=["picture lights over every painting", "washers"], plants=[("olive", "one sculptural old olive"), ("kentia palm", "a pair by the glass at the ends")],

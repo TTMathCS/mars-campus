@@ -214,7 +214,7 @@ CROWN = dict(
              facts=[("Rooms", "C-23 Study · C-24 Library, two floors · C-25 Map room; C-26 Reading gallery upstairs"), ("Size", "The library 44 m along the ring and 16.5 m deep, 20 m tall under the spire."),
                     ("Made of", "Oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe."),
                     ("In it", "A gallery reached by a spiral stair; low cases along the Glide; reading tables under brass pendants; leather chairs by the slots; the Mars globe in a bronze meridian; chests of map drawers.")],
-             photos=[("../tour/photos/crown_library.jpg", "The Library: two floors of books along the curve of the ring."), ("../tour/photos/crown_maproom.jpg", "The map room and its globe of Mars, 3 m across.")],
+             photos=[("../tour/photos/crown_library.jpg", "The library: two floors of walnut shelves round a spiral stair, 20 m tall under the spire."), ("../tour/photos/crown_maproom.jpg", "The map room and its globe of Mars, 3 m across.")],
              views=[("crown_library", "The Library"), ("crown_maproom", "The map room")], plan=("img/plan/crown-library_up.jpg", "Part 7, north-west."),
              above=("img/above/crown-library.jpg", "the study at the left end, the reading tables and the spiral stair on its long rug in the library hall, low cases along the Glide, and the map room with its globe of Mars at the right end.")),
         dict(id="studio", codes=["C-27", "C-28", "C-29"], k="C-27 to C-29 · part 8 · north-north-west", name="The Studio",

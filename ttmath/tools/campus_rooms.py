@@ -271,7 +271,7 @@ TERMINAL_ROOMS = [
 # composite under a one-piece tinted canopy, two seats side by side with the pilot on the right as in a helicopter, chin
 # windows at the feet, the door on the right. A pod never needs flat ground and never touches a roof: set down, it floats
 # level 0.45 m over the ground or its dock (hover), and you step out on its right. Up to 400 m and 40 m/s.
-POD = dict(length=5.6, width=2.3, height=1.95, halo=dict(rx=3.3, rz=2.05, w=0.42, t=0.13, y=1.02), hover=0.45,
+POD = dict(length=5.6, width=2.3, height=1.95, halo=dict(rx=3.2, rz=1.9, w=0.34, t=0.11, y=0.8), hover=0.45,
            top_speed=40.0, climb=8.0, ceiling=400.0, min_clear=1.2)
 # The pod dock (Jim: "the parking is too close to the building. need special parking so that when parked, there is
 # connection so people can go directly into the building"): a round deck at the upper floor's level off the Ring's right

@@ -178,9 +178,11 @@
     "  } else if (m < 24.5) { alb = vec3(0.91, 0.90, 0.88); rough = 0.07; }",   // ceramic
     "  else if (m < 25.5) { alb = (g.x > 0.5 && g.x < 1.5 ? vec3(0.05, 0.045, 0.045) : (g.x > 1.5 && g.x < 2.5 ? vec3(0.45, 0.24, 0.11) : vec3(0.30, 0.17, 0.11))) * (0.9 + 0.2 * vnoise(pc * 60.0)); rough = 0.45; }",   // leather: g.x 0 brown, 1 black, 2 cognac
     "  else if (m < 26.5) { vec3 t = texture2D(uAtlas, f).rgb; alb = vec3(0.012); emi = pow(t, vec3(2.2)) * 0.95 * g.x; rough = 0.05; }",   // SCREEN
-    "  else if (m < 27.5) {",                                             // COMPOSITE: vehicle bodywork, panel lines and fasteners
+    "  else if (m < 27.5) {",                                             // COMPOSITE: vehicle bodywork, panel lines and fasteners; g.y 1: the pods' glossy pearl paint, few seams
+    "    if (g.y > 0.5 && g.y < 1.5) { float js = max(aline(f.x, 2.8, 0.004), aline(f.y, 3.1, 0.004)); alb = vec3(0.86, 0.855, 0.84) * (1.0 - 0.55 * js); rough = 0.13; dustable = 0.25; }",
+    "    else {",
     "    float j = max(aline(f.x, 0.9, 0.008), aline(f.y, 0.6, 0.008)); float rv = 1.0 - smoothstep(0.006, 0.01, length(fract(f / vec2(0.15, 0.6)) - vec2(0.5, 0.06)) * 0.15);",
-    "    alb = vec3(0.80, 0.79, 0.76) * (1.0 - 0.45 * j) * (1.0 - 0.3 * rv) * (0.95 + 0.06 * vnoise(pc * 8.0)); rough = 0.48; dustable = 1.2;",
+    "    alb = vec3(0.80, 0.79, 0.76) * (1.0 - 0.45 * j) * (1.0 - 0.3 * rv) * (0.95 + 0.06 * vnoise(pc * 8.0)); rough = 0.48; dustable = 1.2; }",
     "  } else if (m < 28.5) {",                                           // SIGN: brushed steel plate with the backlit logo
     "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
     "    alb = mix(vec3(0.42, 0.43, 0.44), vec3(0.96), lg); metal = 1.0 - lg; rough = mix(0.3 + 0.1 * vnoise(vec2(pc.x * 200.0, pc.y * 2.0)), 0.2, lg); emi = vec3(1.0, 0.98, 0.95) * 0.55 * lg; dustable = 0.5 * (1.0 - lg);",

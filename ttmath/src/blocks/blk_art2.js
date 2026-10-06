@@ -242,7 +242,8 @@
     glyph: [0, 520, 1536, 128], plaque: [0, 656, 1280, 128], gate: [0, 792, 1536, 112],
     wb: [0, 912, 1024, 362], scrLab: [1032, 912, 768, 432], code0: [0, 1282, 336, 189], code1: [344, 1282, 336, 189], code2: [688, 1282, 336, 189],
     scrLobby: [1032, 1352, 768, 432], menu: [0, 1480, 1016, 300], scrSem: [0, 1788, 344, 194], books: [352, 1788, 1696, 190], plates: [0, 1984, 2048, 64],
-    podPfd: [1536, 520, 256, 154], podMap: [1792, 520, 256, 154], podSys: [1536, 682, 256, 154]
+    podPfd: [1536, 520, 256, 154], podMap: [1792, 520, 256, 154], podSys: [1536, 682, 256, 154],
+    podReg: [1800, 690, 240, 60], podRed: [1800, 760, 16, 16], podGreen: [1824, 760, 16, 16], podWhite: [1848, 760, 16, 16]
   };
   var ATL = {};
   Object.keys(ATL_PX).forEach(function (k) { var r = ATL_PX[k]; ATL[k] = [r[0] / ATL_N, 1 - (r[1] + r[3]) / ATL_N, (r[0] + r[2]) / ATL_N, 1 - r[1] / ATL_N]; });
@@ -371,6 +372,9 @@
   }
   // the pod's three displays: flight (attitude, speed, height, heading), the map of the campus, the craft's systems
   function drawPodScreens(g, R) {
+    [["podRed", "#ff2a1a"], ["podGreen", "#1aff5a"], ["podWhite", "#ffffff"]].forEach(function (c) { var r = R[c[0]]; g.fillStyle = c[1]; g.fillRect(r[0], r[1], r[2], r[3]); });
+    var rg = R.podReg; g.fillStyle = "#dcdad3"; g.fillRect(rg[0], rg[1], rg[2], rg[3]); g.fillStyle = "#3a3d42"; g.font = "700 38px " + SANS; g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText("TTM \u00b7 01", rg[0] + rg[2] / 2, rg[1] + rg[3] / 2 + 2); g.textAlign = "left";
     function screen(r, draw) { g.save(); g.translate(r[0], r[1]); g.beginPath(); g.rect(0, 0, r[2], r[3]); g.clip(); g.fillStyle = "#0a0c0f"; g.fillRect(0, 0, r[2], r[3]); draw(r[2], r[3]); g.restore(); }
     screen(R.podPfd, function (W, H) {
       var cx = W / 2, cy = H / 2;

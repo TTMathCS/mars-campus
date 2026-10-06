@@ -67,8 +67,11 @@ is not sealed by dome"; the pods on anti-gravity with a dock): the design is in 
 by `campus_plan.py`. It replaces the courtyard hall and the Sun court's vault (the old steps 5 and 6). Build it in steps,
 each pushed when it is checked:
 
-5. The pods v2: the halo drive instead of rotors, a real cabin, landing anywhere at a float (`POD.hover`) and Shift down
-   to the ground; then the pod dock and its bridge and collar (T04-03, T17-02) with the pod lounge (T06-21).
+5. ~~The pods v2~~ (v0.12: `blk_pod.js`: the halo drive (`haloPt`, `haloBand`), the long teardrop cabin in two tones
+   (`cabin`, `sec`), the tinted canopy (glass kind 3 in `blk_env.js`), the glossy pearl paint (`COMPOSITE` with g.y 1 in
+   `blk_mat.js`), position lights from the atlas (`podRed`, `podGreen`, `podWhite`); `podPark` floats a pod
+   `P2.pod.hover` over the highest ground under its halo; `podCanLand` refuses only roofs; Shift goes down to the float).
+   The pod dock and its bridge and collar (T04-03, T17-02) come with the Ring's right side and its pod lounge (T06-21).
 6. The Ring's right side, two storeys (52 to 120 degrees: Archimedes, Pythagoras, the pod lounge, Lovelace; below them
    Newton, the maker space, Kepler), the garden gallery along it; generalise `blk_crescent.js` from the Crescent's +-52
    degrees to the Ring's sections (`RING.sections`).

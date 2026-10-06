@@ -696,7 +696,8 @@ if __name__ == "__main__":
     data = {"crescent": dict(R.CRESCENT, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.CRESCENT_PLANTS.get(r["code"], [])) for r in R.CRESCENT_ROOMS]),
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
-            "links": R.LINKS, "pod": R.POD}
+            "links": R.LINKS, "pod": R.POD,
+            "ring": dict(R.RING, rooms=[{k: v for k, v in r.items() if k in keep} for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)
     print("wrote blk_p2data.js", len(js), "bytes")

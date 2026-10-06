@@ -32,6 +32,7 @@
     "  } else {",
     "    col = envLook(vK.y < 0.5 ? 1.0 : 2.0, vW, R, 0.03) * F; a = F * 0.7 + 0.035;",
     "  }",
+    "  if (vK.y > 2.5) { a = max(a, outside ? 0.62 : 0.22); col += vec3(0.010, 0.009, 0.008) * a; }",   // the pods' tinted canopy: dark from outside, a light tint from the seat
     "  if (vK.y < 0.5) {",                                                // dome mullions: every lattice cell split into four panes
     "    float mull = max(aline(vS.x, 0.5, 0.03), aline(vS.y, 0.5, 0.03)) * (1.0 - smoothstep(0.86, 0.9, vK.x));",
     "    vec3 mc = pow(vec3(0.2, 0.19, 0.18), vec3(2.2)) * 0.6 * (outside ? uSunIrr * max(dot(n, uSun), 0.0) + ambientAt(n) : WARM * 0.12) + envLook(outside ? 0.0 : 1.0, vW, R, 0.3) * 0.08;",   // slim dark mullions

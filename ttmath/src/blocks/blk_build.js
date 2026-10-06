@@ -63,6 +63,7 @@
   function blockedByBuilding(x, z) {
     for (var i = 0; i < COLL.posts.length; i++) { var p = COLL.posts[i], dx = x - p.x, dz = z - p.z; if (dx * dx + dz * dz < p.r * p.r) return true; }
     for (var r = 0; r < COLL.rovers.length; r++) { var dx2 = x - COLL.rovers[r].x, dz2 = z - COLL.rovers[r].z; if (dx2 * dx2 + dz2 * dz2 < 7.5) return true; }
+    for (var q = 0; q < POD.list.length; q++) { var pd = POD.list[q]; if (pd !== POD.cur && Math.hypot(x - pd.x, z - pd.z) < 2.2) return true; }   // a parked pod
     if (SIGNP.n) {
       var lx = x - SIGNP.c.x, lz = z - SIGNP.c.z, s = lx * SIGNP.t.x + lz * SIGNP.t.z, o = lx * SIGNP.n.x + lz * SIGNP.n.z + s * s / 24;
       if (Math.abs(s) < SIGNP.W / 2 + 0.35 && Math.abs(o) < SIGNP.T / 2 + 0.35) return true;

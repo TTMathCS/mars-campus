@@ -1,0 +1,31 @@
+/* Arcadia's rooms as Gaussian splats: the same look as the tour (palace/tour/) */
+:root {
+  --ink: #f3e8da; --dim: #c9b39c; --line: rgba(243, 232, 218, 0.18);
+  --panel: rgba(16, 11, 9, 0.6); --hot: #ff9b6b; --ice: #9fd3ee;
+  --display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0b0706; color: var(--ink); font-family: var(--body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#view:active { cursor: grabbing; }
+.hud { position: fixed; z-index: 2; pointer-events: none; }
+#where { left: calc(env(safe-area-inset-left, 0px) + 18px); top: calc(env(safe-area-inset-top, 0px) + 14px); max-width: min(520px, 70vw); }
+#where .k { font: 500 12px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+#where .t { font: 600 28px/1.05 var(--display); margin-top: 4px; text-shadow: 0 1px 12px rgba(0, 0, 0, .55); }
+#where .t a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(243, 232, 218, .35); pointer-events: auto; }
+#where .t a:hover { border-bottom-color: var(--hot); }
+#hint { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 22px); transform: translateX(-50%); z-index: 2;
+  padding: 8px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; font: 500 13px var(--body); color: var(--dim);
+  pointer-events: none; transition: opacity .6s; white-space: nowrap; }
+#load { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 500 13px var(--mono); color: var(--dim); letter-spacing: .08em; z-index: 3; pointer-events: none; }
+#pad { position: fixed; right: calc(env(safe-area-inset-right, 0px) + 16px); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); z-index: 2; display: none;
+  grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 46px); gap: 6px; }
+#pad button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 10px; font: 600 18px var(--body); touch-action: none; }
+#pad button[data-k="f"] { grid-column: 2; grid-row: 1; }
+#pad button[data-k="l"] { grid-column: 1; grid-row: 2; }
+#pad button[data-k="b"] { grid-column: 2; grid-row: 2; }
+#pad button[data-k="r"] { grid-column: 3; grid-row: 2; }
+@media (pointer: coarse) { #pad { display: grid; } #where .t { font-size: 22px; } }

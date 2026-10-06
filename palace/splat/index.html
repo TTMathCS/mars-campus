@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcadia</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="splat.css">
+<script type="importmap">
+{ "imports": { "three": "../walk/lib/three.module.min.js", "three/addons/": "../walk/lib/addons/", "@sparkjsdev/spark": "./lib/spark.module.min.js" } }
+</script>
+</head>
+<body>
+<canvas id="view" aria-label="The room in 3D: drag to look round, W A S D or the arrow keys to walk"></canvas>
+<div class="hud" id="where"><div class="k" id="wK"></div><div class="t" id="wT"></div></div>
+<div id="hint">Drag to look round · W A S D to walk</div>
+<div id="pad" aria-label="Walk"><button type="button" data-k="f" aria-label="Forward">▲</button><button type="button" data-k="l" aria-label="Left">◀</button><button type="button" data-k="b" aria-label="Back">▼</button><button type="button" data-k="r" aria-label="Right">▶</button></div>
+<div id="load">Loading the room…</div>
+<script type="module" src="splat.js"></script>
+</body>
+</html>

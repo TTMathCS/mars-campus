@@ -216,7 +216,10 @@
     "  vec3 F0 = mix(vec3(0.04), albl, metal); vec3 Fr = F0 + (max(vec3(1.0 - rough), F0) - F0) * pow(1.0 - NdV, 5.0);",
     "  vec3 R = reflect(vd, n);",
     "  float so = clamp(pow(NdV + ao, exp2(-16.0 * rough - 1.0)) - 1.0 + ao, 0.0, 1.0);",
-    "  col += Fr * envLook(zone, vW, R, rough) * so * (1.0 - 0.6 * rough * rough);",
+    // the Ring's rooms share one captured view (a classroom): blurred and, in rooms that see little sky, dimmed, so no
+    // room mirrors another's lamps and windows
+    "  float rE = zone > 1.5 ? max(rough, 0.5) : rough, kE = zone > 1.5 ? mix(0.35, 1.0, smoothstep(0.03, 0.3, vSky)) : 1.0;",
+    "  col += Fr * envLook(zone, vW, R, rE) * so * kE * (1.0 - 0.6 * rough * rough);",
     "  if (sh > 0.0) { vec3 H = normalize(uSun - vd); float a = max(rough * rough, 0.003), a2 = a * a, nh = max(dot(n, H), 0.0), dd = nh * nh * (a2 - 1.0) + 1.0; col += uSunIrr * sh * NdL * (a2 / (3.14159 * dd * dd)) * Fr * 0.2; }",
     "  if (isLeaf > 0.5) {",                                              // light through the leaf: lamps and the sun from behind
     "    float back = max(-dot(n, uSun), 0.0), shb = back > 0.0 ? shadowAt(vW, -n) : 0.0;",

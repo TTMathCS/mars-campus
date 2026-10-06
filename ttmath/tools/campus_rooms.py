@@ -24,7 +24,7 @@ SEALED = dict(
 # with the line of sight from 10.6 m by the palace to 6.2 m at the gateway (s: the distance along the palace's axis, as
 # rad). The gateway arch stands in front of a glass end wall with the entrance airlock; a pod stop by the airlock.
 COURTYARD = dict(s0=33.3, s1=77.7, crown=[(33.3, 10.6), (56.0, 8.6), (77.7, 6.2)], ribs=1.5,
-                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=3.2), podstop=dict(lat=-8.0, rad=81.0, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
+                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=3.2), podstop=dict(lat=-18.5, rad=74.5, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
 COURTYARD_ROOMS = [
     dict(code="T04-01", name="Courtyard hall", kind="move", use="The courtyard under a glass vault on slender steel ribs: the paving, the bollards and young trees, the wings' doors on both sides and the palace's door at the end, warm and in air.", also="Assemblies, the graduation reception, stargazing evenings in shirt sleeves."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="Under the gateway: outer and inner sliding glass doors with a chamber 6 m long between them; the inner doors open once the outer ones have closed and the air is in. Suit lockers and a bench along the side.", also=""),
@@ -89,6 +89,34 @@ CRESCENT_PLANTS = {
     "T06-14": [("snake", "window1"), ("pothos", "shelf")],
 }
 
+# the Ring's other rooms, each with its own plants (Jim, 4 Oct 2026: "it should includes all kinds of plants, different
+# colors like maple leaves"); the Crescent's rooms keep theirs (CRESCENT_PLANTS)
+RING_PLANTS = dict(CRESCENT_PLANTS, **{
+    "T06-19": [("olive", "window0"), ("croton", "window1"), ("orchid", "desk"), ("snake", "door")],
+    "T06-20": [("strelitzia", "window0"), ("fig", "windowmid"), ("anthurium", "desk"), ("fern", "corner1")],
+    "T06-21": [("kentia", "window0"), ("monstera", "window1"), ("bromeliad", "corner0")],
+    "T06-22": [("snake", "window0"), ("pothos", "shelf")],
+    "T06-23": [("ficus", "window0"), ("agave", "window1"), ("orchid", "desk"), ("pothos", "shelf")],
+    "T06-24": [("maple", "window0"), ("kentia", "window1"), ("anthurium", "desk")],
+    "T06-25": [("fig", "window0"), ("monstera", "windowmid"), ("fern", "corner0"), ("pothos", "shelf")],
+    "T06-26": [("strelitzia", "window0"), ("olive", "window1"), ("croton", "corner1")],
+    "T06-27": [("maple", "window0"), ("maple", "window1"), ("kentia", "corner0"), ("strelitzia", "corner1")],
+    "T06-28": [("snake", "window1")],
+    "T06-29": [("ficus", "window0"), ("agave", "window1")],
+    "T06-30": [("kentia", "window0"), ("bromeliad", "corner1")],
+    "T06-31": [("snake", "window1"), ("pothos", "shelf")],
+    "T06-32": [("fern", "window0"), ("orchid", "desk")],
+    "T06-33": [("monstera", "corner0")],
+    "T06-35": [("kentia", "corner0"), ("monstera", "corner1")],
+    "T06-36": [("snake", "window0")],
+    "T06-37": [("olive", "window0"), ("fig", "windowmid"), ("olive", "window1"), ("strelitzia", "corner1")],
+    "T06-38": [("monstera", "window0"), ("maple", "window1"), ("anthurium", "desk"), ("croton", "corner0")],
+    "T06-39": [("kentia", "window0"), ("kentia", "window1"), ("croton", "corner0")],
+    "T06-40": [("bromeliad", "window0"), ("agave", "window1"), ("orchid", "desk")],
+    "T06-41": [("fig", "window0"), ("fern", "corner1")],
+    "T06-42": [("orchid", "desk"), ("snake", "window1")],
+})
+
 # ------------------------------------------------------------------------------------------------- T-06 the Ring
 # Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter
 # building"; "the entrance is not sealed by dome. it needs to. overall I like this structure similar like apple
@@ -114,7 +142,13 @@ RING = dict(r0=46.0, r1=62.0, rc=49.6, floor_h=5.6, upper=0.0, lower=-5.6, ceil=
                       dict(a=(191.0, 197.0), kind="low", roof=5.5, roof_out=4.3, ceil_upper=4.9, ceil_out=3.7, note="lockers, washrooms and a stair by the gate"),
                       dict(a=(197.0, 303.0), kind="sunk", roof=-0.45, note="only the lower floor, its roof at ground level with skylights")],
             gallery=dict(r0=62.0, r1=68.5, a=(-52.0, 120.0), wall=1.2),
-            upper_corridor=(-57.0, 197.0), lower_corridor=(-180.0, 180.0))
+            upper_corridor=(-57.0, 197.0), lower_corridor=(-180.0, 180.0),
+            # the hall's stair and lift (as in the Crescent); the stair-and-lift bays (T06-16, T06-18): two flights of 16
+            # risers and a half landing along the bay, the lift at its outer end; in the sunk quarter the lower corridor
+            # runs along the outer wall from cw outward, with crossings at both ends; the Gate Hall's doors
+            stair=dict(a=3.6, r0=51.0, r1=60.6, w=3.0, n=32, landing=(55.2, 56.4)), lift=(49.8, -4.6),
+            bay_stair=dict(n=32, w=1.4, landing=1.3, lift=2.2), cw=58.4, skylight=dict(every=10.0, w=2.0, l=6.0),
+            gate=dict(inner_doors=(173.0, 180.0, 187.0), outer_doors=(180.0,)))
 RING_ROOMS = [
     # upper floor, level with the palace's balcony and the garden ring (the Crescent's rooms stay where they are)
     dict(code="T06-01", name="Hall and stair", floor="upper", a=(-7, 7), kind="move", double=True, use="The way in from the garden ring and down to the garden gallery: a hall two storeys tall with a wide stair and a lift, the timetable on a screen, long benches.", also="Exhibitions of students' work."),
@@ -130,8 +164,8 @@ RING_ROOMS = [
     dict(code="T06-24", name="Socrates", floor="upper", a=(120, 134), kind="seminar", use="The wing's seminar room: one long table for 20, a screen and a whiteboard, under the roof that slopes down toward the hill (ceiling 4.9 to 3.7 m).", also="Parents' evenings."),
     dict(code="T06-25", name="Library", floor="upper", a=(134, 152), kind="library", use="The wing's library: shelves along the outer wall, reading tables by the glass onto the garden ring, the librarian's desk, under a sloping ceiling (4.9 to 3.7 m).", also=""),
     dict(code="T06-26", name="Reading room", floor="upper", a=(152, 164), kind="reading", use="The wing's reading room: deep armchairs and long sofas by the garden glass, lamps, a quiet room, under a sloping ceiling.", also=""),
-    dict(code="T06-27", name="Gate Hall", floor="gate", a=(164, 191), kind="gate", use="The way in, two storeys tall: from the entrance dome through the Ring into the garden ring and on to the palace's door; the reception desk and the lobby's timetable screens from the wings, a big model of the campus, benches and tall plants.", also="Welcome days, the graduation reception."),
-    dict(code="T06-28", name="Lockers and stair", floor="upper", a=(191, 197), kind="service", short="Lockers", use="Lockers, washrooms and a stair down to the dining hall and the café on the lower floor.", also=""),
+    dict(code="T06-27", name="Gate Hall", floor="gate", a=(164, 191), kind="gate", use="The way in, two storeys tall: from the entrance dome through the Ring into the garden ring and on to the palace's door; the reception desk, the Fall timetable on a wall of screens with every class's room, a wide stair down to the lower corridor and a glass lift, benches and tall plants.", also="Welcome days, the graduation reception."),
+    dict(code="T06-28", name="Lockers", floor="upper", a=(191, 197), kind="service", short="Lockers", use="Lockers and washrooms by the Gate Hall, whose stair goes down to the dining hall and the café on the lower floor.", also=""),
     dict(code="T06-16", name="West stair and lift", floor="both", a=(-57, -52), kind="move", short="Stair", use="A stair and a lift where the upper floor ends on the west: down to the lower floor that goes on all the way round.", also=""),
     dict(code="T06-07", name="Washrooms", floor="upper", a=(-52, -43), kind="service", short="WC", use="Washrooms for the upper floor, above the lower ones; a cleaner's cupboard.", also=""),
     dict(code="T06-06", name="Noether", floor="upper", a=(-43, -25), kind="class", use="Classroom for symmetry and abstract algebra: 30 seats, a wall of tilings.", also=""),
@@ -200,7 +234,9 @@ LINK_STAIR = dict(riser=0.16, tread=0.30, landing=1.2, rail=0.9)
 # the garden ring between the dome and the Ring, sealed all round: at the palace's level under a glass vault whose crown
 # follows the line of sight (m above the palace's floor, by angle), except where the start looks down through the dip in
 # the ridge: there it steps down into the sunken grove at the lower floor's level, under flat glass at ground level
-GARDEN_RING = dict(r0=28.6, r1=46.0, crown=[(-80, 7.0), (-70, 7.5), (-60, 9.5), (-50, 12.5), (-40, 13.0), (55, 13.0), (65, 11.0), (75, 10.3), (85, 9.0),
+# The vault springs from the dome's own glass at spring m up (lower where the line of sight is low: never more than
+# crown - 1), so the dome rises out of a glass garden and the palace's tall front door stands under the vault.
+GARDEN_RING = dict(r0=28.6, r1=46.0, spring=8.2, crown=[(-80, 7.0), (-70, 7.5), (-60, 9.5), (-50, 12.5), (-40, 13.0), (55, 13.0), (65, 11.0), (75, 10.3), (85, 9.0),
                                            (95, 7.8), (105, 6.8), (115, 6.3), (125, 6.2), (135, 6.6), (145, 7.4), (155, 8.2), (165, 9.8), (195, 9.4),
                                            (200, 8.2), (207, 6.2), (214, 5.2), (224, 5.2)],
                    grove=dict(a=(224.0, 280.0), floor=-5.6, roof=1.0), sundial=dict(a=150.0, r=38.0))
@@ -211,7 +247,9 @@ GARDEN_RING_AREAS = [
 
 # the entrance: the old courtyard becomes a plaza under a shallow glass dome in front of the Gate Hall, the airlock at its
 # front; its height stays under the line of sight from the start
-ENTRANCE = dict(c=(0.0, 73.4), r=11.6, h=6.6, airlock=dict(s0=84.8, s1=89.8, w=6.0, h=2.6))
+# The dome stands 2.4 m into the Ring's front, so its glass lands on the Gate Hall's facade along an arch 13.7 m wide
+# (a dome only touching the Ring would leave the joint open); the airlock's inner end stands inside the dome's edge.
+ENTRANCE = dict(c=(0.0, 71.0), r=11.6, h=6.6, airlock=dict(s0=81.6, s1=86.6, w=6.0, h=2.6))
 ENTRANCE_ROOMS = [
     dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across and 6.6 m high on a steel lattice, its back on the Ring's front: paving, the campus's name on a stone wall, planters with young trees, benches.", also="Arrivals and farewells, the graduation photo."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="At the dome's front: outer and inner sliding glass doors with a chamber 5 m long between them, never open together; suit lockers and a bench.", also=""),

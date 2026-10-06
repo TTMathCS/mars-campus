@@ -114,7 +114,7 @@
   // inward at rot 0, outward at PI, +a at -PI/2, -a at PI/2; desks and chairs face +a at rot 0.
   var ROT = { "in": 0, out: Math.PI, plusA: -Math.PI / 2, minusA: Math.PI / 2 };
   function roomFrame(rm) {
-    var C = CRS, a0 = rmA0(rm), a1 = rmA1(rm), y = rm.floor === "upper" ? C.yU : C.yL, mid = (a0 + a1) / 2, eastSide = mid >= 0;
+    var C = CRS, a0 = rmA0(rm), a1 = rmA1(rm), y = rm.floor === "lower" ? C.yL : C.yU, mid = (a0 + a1) / 2, eastSide = mid >= 0;
     // the hall is at the room's inner end: the board goes on the wall at the far end, the students face it
     var front = eastSide ? a1 : a0, back = eastSide ? a0 : a1, sgn = eastSide ? 1 : -1, rM = (C.rc + C.r1) / 2;
     return { a0: a0, a1: a1, y: y, mid: mid, front: front, back: back, sgn: sgn, rM: rM, span: (a1 - a0) * rM, floor: rm.floor,
@@ -208,7 +208,7 @@
   function gamesLounge(B, rm, F) {
     var C = CRS;
     [[52.4, 2.4], [55.0, 2.4], [52.4, 5.0], [55.0, 5.0], [52.4, 7.6]].forEach(function (g) { var a = F.at(g[1], false); crsPlace(B, gameTable(), g[0], a, F.y, 0); crsObst(g[0] - 0.75, g[0] + 0.75, a - 0.75 / g[0], a + 0.75 / g[0], F.floor);
-      [-0.62, 0.62].forEach(function (dz) { crsPlace(B, cafeChair(), g[0] + dz, a, F.y, dz > 0 ? -Math.PI / 2 : Math.PI / 2); }); });
+      [-0.7, 0.7].forEach(function (dz) { crsPlace(B, diningChair(2), g[0] + dz, a, F.y, dz > 0 ? Math.PI / 2 : -Math.PI / 2); }); });
     shelvesOnCorridor(B, F, 5, 0.6);
     crsPlace(B, cubeWall(3.6, 2.2), 54.6, F.back + F.sgn * 0.07 / F.rM, F.y + 0.5, F.sgn > 0 ? 0 : Math.PI);
     // the lounge by the glass: two long sofas facing each other over a low table and a rug
@@ -261,17 +261,20 @@
   function crescentFurnish(W) {
     var C = CRS; W.zone = ZONE.WING;
     C.rooms.forEach(function (rm) {
-      if (rm.band) return;
+      if (rm.band || isBay(rm)) return;
       var F = roomFrame(rm);
       var th = { "T06-02": "euclid", "T06-03": "hypatia", "T06-05": "fibonacci", "T06-06": "noether", "T06-10": "gauss" }[rm.code];
       if (rm.code === "T06-01" || rm.code === "T06-08") hallRoom(W, rm, F);
+      else if (rm.code === "T06-35") underGate(W, rm, F);
+      else if (rm.code === "T06-28") lockerRoom(W, rm, F);
+      else if (RING_FURNISH[rm.kind]) RING_FURNISH[rm.kind](W, rm, F);
       else if (rm.kind === "class") classroom(W, rm, F, th);
       else if (rm.kind === "study") studyHall(W, rm, F);
       else if (rm.kind === "compete") competitionRoom(W, rm, F);
       else if (rm.kind === "games") gamesLounge(W, rm, F);
       else if (rm.kind === "staff") teachersRoom(W, rm, F);
       else if (rm.kind === "lab") computerRoom(W, rm, F);
-      else if (rm.kind === "service") washrooms(W, rm, F, rm.code === "T06-14");
+      else if (rm.kind === "service") washrooms(W, rm, F, rm.code === "T06-14" || rm.code === "T06-31");
     });
     W.zone = ZONE.OUT;
   }
@@ -279,9 +282,9 @@
   function crescentGalleryFurnish(B) {
     var C = CRS, G = C.gal, rP = G.r1 - 0.85, rB = G.r1 - 1.9, kinds = ["kentia", "strelitzia", "fern", "monstera", "maple", "olive", "agave", "bromeliad", "croton", "fig", "anthurium", "ficus"], n = 0;
     var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
-    for (var a = -G.a + 3.0 / rP; a < G.a - 3.0 / rP; a += 8.0 / rP) {
+    for (var a = G.a0 + 3.0 / rP; a < G.a1 - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
       for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; bedPlant(B, kind, 300 + n, crsFrame(rP, pa, C.yL, n * 1.3), 0.5, 1.7); }   // big plants set into the troughs
-      var ba = a + 4.0 / rP; if (ba < G.a - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
+      var ba = a + 4.0 / rP; if (ba < G.a1 - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }

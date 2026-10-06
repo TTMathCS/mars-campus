@@ -333,8 +333,9 @@
     g.fillStyle = "#e8b04a"; g.font = Math.round(H * 0.045) + "px " + SANS; g.fillText("Sol 528  ·  14:32 LMST", W * 0.05, H * 0.21);
     g.fillStyle = "#9fb0c6"; g.textAlign = "right"; g.fillText("−63 °C   6.1 mbar   wind 4 m/s", W * 0.95, H * 0.21); g.textAlign = "left";
     g.fillStyle = "#1c2a3d"; g.fillRect(W * 0.05, H * 0.27, W * 0.9, H * 0.006);
-    var rows = [["09:00", "Algebra: quadratic equations", "M1 Mathematics"], ["10:30", "Python: the orbit of Phobos", "Coding Lab"], ["13:00", "The geometry of the dome", "Math Palace"],
-      ["14:30", "Seminar: Kepler's three laws", "Seminar Room"], ["16:00", "Chess and coffee", "Café"], ["18:00", "Stargazing: Earth after sunset", "Courtyard"]];
+    function at(code) { var q = P2.ring.rooms.filter(function (rm) { return rm.code === code; })[0]; return q ? q.name.split(":")[0] + (q.no ? "  " + q.no : "") : ""; }
+    var rows = [["09:00", "Algebra: quadratic equations", at("T06-20")], ["10:30", "Python: the orbit of Phobos", at("T06-23")], ["13:00", "The geometry of the dome", "Math Palace"],
+      ["14:30", "Seminar: Kepler's three laws", at("T06-24")], ["16:00", "Chess and coffee", at("T06-38")], ["18:00", "Stargazing: Earth after sunset", "Garden ring"]];
     g.font = Math.round(H * 0.048) + "px " + SANS;
     rows.forEach(function (r, i) { var y = H * (0.36 + i * 0.1); g.fillStyle = i === 3 ? "#e8b04a" : "#ffffff"; g.fillText(r[0], W * 0.05, y); g.fillStyle = "#dfe6ef"; g.fillText(r[1], W * 0.19, y); g.fillStyle = "#7f93ad"; g.textAlign = "right"; g.fillText(r[2], W * 0.95, y); g.textAlign = "left"; });
     g.restore();

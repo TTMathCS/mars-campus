@@ -90,10 +90,8 @@
       // the ground, except where the campus is cut into it
       var G = D.cg, CUTS = D.cuts || [];
       function gH(x, z) { var u = Math.min(Math.max((x - G.x0) / G.res - 0.5, 0), G.nx - 1.001), v = Math.min(Math.max((z - G.z0) / G.res - 0.5, 0), G.nz - 1.001), i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j, H = G.h, W = G.nx; return (H[j * W + i] * (1 - fu) + H[j * W + i + 1] * fu) * (1 - fv) + (H[(j + 1) * W + i] * (1 - fu) + H[(j + 1) * W + i + 1] * fu) * fv; }
-      function latfW(s) { var k = (s - 55.5) / 22.5; return 10.5 - 1.5 * k * k; }
       function inCut(x, z) { var dx = x - P.cx, dz = z - P.cz; if (dx * dx + dz * dz < (P.R + 0.1) * (P.R + 0.1)) return true; var s = dx * fx + dz * fz, al = Math.abs(dx * rx + dz * rz);
-        if (al < P.vW && s > 0 && s < P.vF + 0.1) return true; var u = al - latfW(s); if (s > 33.2 && s < 77.8 && u > -0.1 && u < 5.85) return true;
-        var sl = al * 0.34202 + s * 0.93969, ll = al * 0.93969 - s * 0.34202; if (sl > 26.0 && sl < 35.9 && Math.abs(ll) < 1.95) return true;
+        if (al < P.vW && s > 0 && s < P.vF + 0.1) return true;
         var lat = dx * rx + dz * rz;
         for (var n = 0; n < CUTS.length; n++) { var c = CUTS[n]; if (c[6] < 0.5) { var ql = lat - c[0], qr = s - c[1], r = Math.sqrt(ql * ql + qr * qr), a = Math.atan2(ql, -qr); if (r > c[2] && r < c[3] && a > c[4] && a < c[5]) return true; }
           else if (lat > c[0] && lat < c[2] && s > c[1] && s < c[3]) return true; }

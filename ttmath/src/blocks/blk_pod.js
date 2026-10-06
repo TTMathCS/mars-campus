@@ -171,10 +171,12 @@
     var o = palLoc(x, z, {}), r = o.r, yB = PALY.B;
     if (r < PAL.ringOut + 0.5) top = Math.max(top, yB + PAL.beam + (PAL.H - PAL.beam) * Math.sqrt(Math.max(0, 1 - Math.pow(Math.min(r, PAL.R) / PAL.R, 2))) + 0.6);
     if (o.rad > 22 && o.rad < PAL.vFront + 1.5 && Math.abs(o.lat) < 7) top = Math.max(top, yB + 8);   // the front vault and its door
-    if (o.rad > 31 && o.rad < WG.sB + 0.15 && Math.abs(o.lat) < latf(clamp(o.rad, WG.sA, WG.sB)) + WG.D + 0.4) top = Math.max(top, yB + 7.8);   // the wings, the courtyard, the gateway
-    if (o.rad < 0 && WGD && r > PAL.ringOut && r < BACK.tr1 + 0.5) top = Math.max(top, (r < WGD.rOut ? wgY(Math.max(r, WGD.rIn)) : yB + 6.5) + 0.5);
-    if (CRS && o.rad < -20 && r > CRS.r0 - 1.5 && r < CRS.gal.r1 + 0.5 && Math.abs(Math.atan2(o.lat, -o.rad)) < CRS.a1 + 0.05) top = Math.max(top, CRS.yU + CRS.roofY + CRS.roofRise + 0.6);
-    var SC = P2.suncourt; if (Math.abs(o.lat - SC.lat) < SC.w / 2 + 1 && Math.abs(o.rad - SC.rad) < SC.d / 2 + 1) top = Math.max(top, SC.crown + 0.5);
+    if (CRS) {                                                                // the Ring and its gallery, the garden ring's vault
+      var d = ringDeg(Math.atan2(o.lat, -o.rad)), gal = d > CRS.gal.d0 && d < CRS.gal.d1;
+      if (r > CRS.r0 - 0.6 && r < (gal ? CRS.gal.r1 : CRS.r1) + 1.2) top = Math.max(top, ringRoofY(clamp(r, CRS.roofIn, CRS.roofOut), d) + 0.6);
+      if (GRD && r >= PAL.ringOut - 0.5 && r <= CRS.r0 - 0.6) { var S = grSection(d); top = Math.max(top, (grInGrove(d) ? PALY.B + P2.garden_ring.grove.roof : grY(S, clamp(r, S.rIn, S.rOut))) + 0.6); }
+    }
+    if (ENT) { var qe = Math.hypot(o.lat - ENT.c.lat, o.rad - ENT.c.rad); if (qe < ENT.a + 1.0) top = Math.max(top, entTop(Math.min(qe, ENT.a)) + 0.6); if (inAirlockBox(o.lat, o.rad, 1.0)) top = Math.max(top, ENT.yA + ENT.ah + 0.6); }
     COLL.rovers.forEach(function (rv) { if (Math.hypot(x - rv.x, z - rv.z) < 4.5) top = Math.max(top, g + 3.4); });
     return top;
   }

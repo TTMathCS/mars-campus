@@ -1,7 +1,6 @@
-  /* ===================== Phase 2: the palace's back door (T09-04) and the back terrace (T09-01) ===================== */
-  // A glass vestibule through the back of the dome at balcony level opens onto a stone terrace that wraps the back of
-  // the dome, level with the balcony; the ground falls away behind it, so the terrace stands on a low retaining wall with
-  // a parapet, and a stair at each end goes down to the ground. Sizes and places from P2 (campus_rooms.py).
+  /* ===================== Phase 2: the palace's back door (T09-04) ===================== */
+  // A glass vestibule through the back of the dome at balcony level, its sliding doors opening into the garden ring
+  // (blk_gardenring.js), the way to the Ring's hall. Sizes from P2 (campus_rooms.py).
   // Palace-frame angles: 0 toward the start, PI straight behind the dome.
   var BACK = { gap: 5.625 * D2R, w: 2.55, wall: 0.15, r1: 31.6, roofY: 2.85, roofT: 0.2, doorW: 1.22, kerb: 0.12, guard: 1.0,
                t0: (180 - 50) * D2R, t1: (180 + 50) * D2R, tr0: PAL.ringOut, tr1: 46.0, stairR: 37.0, stairW: 3.0, par: 0.9 };
@@ -70,141 +69,15 @@
     });
     DOORS.push(door);
   }
-  // the back terrace: basalt paving level with the balcony on a concrete retaining wall; sealed under the winter garden's vault
-  function backTerrace(B) {
-    var yB = PALY.B, t0 = BACK.t0, t1 = BACK.t1, r0 = BACK.tr0, r1 = BACK.tr1, NT = 64; BACK._B = B;
-    // paving
-    B.surf(NT, 12, function (i, j, q) { var th = lerp(t0, t1, i / NT), r = lerp(r0, r1, j / 12), p = palPol(r, th); q.p[0] = p.x; q.p[1] = yB; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r * Math.sin(th); q.f[1] = r * Math.cos(th); q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; });
-    function gAt(p) { return cgH(p.x, p.z); }
-    // the outer edge: retaining wall down into the ground, a parapet with a coping
-    function wallArc(r, th0, th1, top, sgn) {
-      var n = Math.max(2, Math.round(Math.abs(th1 - th0) * r / 0.5));
-      B.surf(n, 1, function (i, j, q) { var th = lerp(th0, th1, i / n), p = palPol(r, th), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4, d = palPol(1, th);
-        q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * sgn, 0, (d.z - PAL.c.z) * sgn]; q.f[0] = th * r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
-    }
-    // the outer edge is the Crescent's glass front (blk_crescent.js)
-    // the two side edges: a retaining wall down into the ground and a kerb
-    [[t0, -1], [t1, 1]].forEach(function (e) {
-      var th = e[0], sg = e[1], tg = palPol(1, th + sg * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z];  // outward, across the edge
-      function radial(ra, rb, off, top, sgn) {
-        var n = Math.max(2, Math.round((rb - ra) / 0.5));
-        B.surf(n, 1, function (i, j, q) { var r = lerp(ra, rb, i / n), lat = r * Math.sin(th), rad = r * Math.cos(th), p = palXZ(lat + tn[0] * 0 + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, rad + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off), g = gAt(p), y = j ? top : Math.min(g, yB) - 0.4;
-          q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [tn[0] * sgn, 0, tn[2] * sgn]; q.f[0] = r; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
-      }
-      // the kerb along the edge; the winter garden's glass end wall stands on it (winterGarden), where the outside stairs were
-      radial(r0, r1, 0.3, yB + BACK.kerb, 1); radial(r0, r1, 0, yB + BACK.kerb, -1);
-      var n = Math.max(2, Math.round((r1 - r0) / 0.5));
-      B.surf(n, 1, function (i, j, q) { var r = lerp(r0, r1, i / n), off = j ? -0.03 : 0.33, p = palXZ(r * Math.sin(th) + (PAL.Rt.x * tn[0] + PAL.Rt.z * tn[2]) * off, r * Math.cos(th) + (PAL.F.x * tn[0] + PAL.F.z * tn[2]) * off);
-        q.p[0] = p.x; q.p[1] = yB + BACK.kerb; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = r; q.f[1] = j * 0.36; q.f2[0] = 3; q.m = MT.CONCRETE; });
-    });
-    // bollard lights along the Crescent's front
-    [-40, -24, -8, 8, 24, 40].forEach(function (deg) {                    // between the Crescent's doors
-      var th = Math.PI + deg * D2R, p = palPol(r1 - 1.6, th);
-      latheOn(B, p.x, yB - 0.05, p.z, [[0.1, 0], [0.1, 0.9]], 16, MT.ANOD, 0.3);
-      latheOn(B, p.x, yB + 0.85, p.z, [[0.112, 0], [0.112, 0.08], [0.09, 0.1], [0.0, 0.105]], 16, MT.ANOD, 0.9);
-      B.geo(addF2(new THREE.CylinderGeometry(0.094, 0.094, 0.1, 16, 1, true), 1.4, 0), T(p.x, yB + 0.8, p.z), MT.LIGHT, 1);
-      extLight(p.x, yB + 0.8, p.z, WARMC, 1.1, 6);
-      COLL.posts.push({ x: p.x, z: p.z, r: 0.35 });
-    });
-  }
-  // a glass guard along a line on the terrace's edge: path(t) gives the point at t in 0..1, len its length (m)
-  function guardAlong(path, len) {
-    var B = BACK._B, yB = PALY.B, y0 = yB + BACK.kerb, y1 = yB + BACK.guard, n = Math.max(2, Math.round(len / 0.5)), np = Math.max(1, Math.round(len / 1.5));
-    BACK_GLASS.surf(n, 1, function (i, j, q) { var p = path(i / n), pa = path(Math.max(0, i / n - 0.01)), pb = path(Math.min(1, i / n + 0.01)), dx = pb.x - pa.x, dz = pb.z - pa.z;
-      q.p[0] = p.x; q.p[1] = j ? y1 - 0.05 : y0 + 0.02; q.p[2] = p.z; q.nn = [dz, 0, -dx]; q.f[0] = i / n * len; q.f[1] = q.p[1]; q.f2[0] = j ? 1.0 : 0.05; q.f2[1] = 1; q.m = 0; });
-    var rail = []; for (var k = 0; k <= n; k++) { var p = path(k / n); rail.push(new THREE.Vector3(p.x, y1, p.z)); }
-    tubeAlong(B, rail, 0.025, 8, MT.STEEL);
-    for (k = 0; k <= np; k++) { var pp = path(k / np); tubeAlong(B, [new THREE.Vector3(pp.x, y0, pp.z), new THREE.Vector3(pp.x, y1, pp.z)], 0.02, 6, MT.STEEL); }
-  }
-  // where you can stand: the vestibule and the terrace at balcony level, the stairs; undefined elsewhere, NaN where blocked
+  // where you can stand in the vestibule: between its glass sides at balcony level; undefined elsewhere
   function backSupport(x, z, yf) {
     if (!PAL.built) return undefined;
-    var o = palLoc(x, z, {}), r = o.r, th = Math.atan2(o.lat, o.rad); if (th < 0) th += 2 * Math.PI;
-    if (r < PAL.ringIn - 0.4 || r > BACK.tr1 + 4.5) return undefined;
-    var yB = PALY.B, alat = Math.abs(o.lat);
-    // the vestibule (and the ring's gap): open between the side walls, blocked by them
-    if (-o.rad > PAL.ringIn - 0.4 && -o.rad < BACK.r1 + 0.3 && o.rad < 0) {
-      if (alat < BACK.w - 0.3) return yB;
-      if (alat < BACK.w + BACK.wall + 0.3 && -o.rad > PAL.ringIn - 0.1) return NaN;
-    }
-    if (r < PAL.ringOut + 0.3) return undefined;                            // the ring itself: the palace decides
-    // the winter garden's planters
-    if (WGD && WGD.posts.some(function (c) { return Math.hypot(x - c.x, z - c.z) < c.r; })) return NaN;
-    if (th < BACK.t0 - 0.01 || th > BACK.t1 + 0.01) {                       // just outside a side edge: the wall and parapet
-      var dth = th < BACK.t0 ? BACK.t0 - th : th - BACK.t1;
-      if (r < BACK.tr1 + 0.4 && dth * r < 0.45) return NaN;                 // the glass end walls
-      return undefined;
-    }
-    if (r < BACK.tr1 - 0.25) { if (yf > yB - 0.6) return yB; return NaN; }   // on the terrace (from below: the wall)
-    if (r < BACK.tr1 + 0.5) return NaN;                                       // the parapet on the outer edge
-    return undefined;
+    var o = palLoc(x, z, {}), alat = Math.abs(o.lat);
+    if (o.rad >= 0 || -o.rad < PAL.ringIn - 0.4 || -o.rad > BACK.r1 + 0.3 || alat > BACK.w + BACK.wall + 0.3) return undefined;
+    if (alat < BACK.w - 0.3) return PALY.B;
+    return -o.rad > PAL.ringIn - 0.1 ? NaN : undefined;
   }
-  function backInside(x, z) {                                               // the vestibule and the winter garden are inside
-    if (!PAL.built) return 0; var o = palLoc(x, z, {}), th = Math.atan2(o.lat, o.rad); if (th < 0) th += 2 * Math.PI;
-    if (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) return 1;
-    return (WGD && o.r > PAL.ringOut && o.r < BACK.tr1 && th > BACK.t0 && th < BACK.t1) ? 1 : 0;
-  }
-
-  // ---- the winter garden (T09-01): the back terrace sealed under a glass vault on bronze ribs (Jim, 5 Oct 2026: "all open
-  // space should be covered by dome or sealed"). The vault springs from the ring beam at the foot of the dome and lands under
-  // the Crescent's eave; its section is a parabola with the crown 13 m up (P2.winter); glass end walls close it where the
-  // outside stairs were. Olive trees, red maples and palms in big planters, oak benches, uplights on the ribs.
-  var WGD = null;
-  function wgY(r) { return WGD.crown - WGD.k * Math.pow(r - WGD.rm, 2); }
-  function winterGarden(B) {
-    var C = crsInit(), yB = PALY.B, rIn = PAL.ringOut + 0.1, yIn = yB + PAL.beam, rOut = C.roofIn + 0.4, yOut = crsRoofY(C.roofIn) - C.roofT - 0.05, crown = yB + P2.winter.crown;
-    var q = Math.sqrt((crown - yIn) / (crown - yOut)), rm = (rIn + q * rOut) / (1 + q);
-    WGD = { rIn: rIn, rOut: rOut, rm: rm, k: (crown - yIn) / Math.pow(rm - rIn, 2), crown: crown, posts: [] };
-    P2DOMAINS.push({ l0: -36.5, l1: 36.5, r0: -46.5, r1: -18, y0: yB - 0.6, y1: crown + 0.6 });
-    var t0 = BACK.t0, t1 = BACK.t1, G = BACK_GLASS, NR = 28, yV = yB + BACK.roofY + BACK.roofT + 0.06, rCut = rm - Math.sqrt((crown - yV) / WGD.k);
-    var tv = Math.asin((BACK.w + BACK.wall + 0.35) / rCut);                 // the vestibule's half-width as an angle where the vault meets its roof
-    function P(r, th, y) { var p = palPol(r, th); return new THREE.Vector3(p.x, y === undefined ? wgY(r) : y, p.z); }
-    function glassPatch(ra, rb, ta, tb) {
-      var nt = Math.max(2, Math.ceil(Math.abs(tb - ta) * 38 / 0.8)), nr = Math.max(2, Math.ceil((rb - ra) / 0.6));
-      G.surf(nt, nr, function (i, j, q) { var th = lerp(ta, tb, i / nt), r = lerp(ra, rb, j / nr), p = palPol(r, th), d = palPol(1, th), s = -2 * WGD.k * (r - rm), L = Math.hypot(1, s);
-        q.p[0] = p.x; q.p[1] = wgY(r); q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -s / L, 1 / L, (d.z - PAL.c.z) * -s / L]; q.f[0] = th * r; q.f[1] = r; q.f2[0] = 3; q.f2[1] = 1; q.m = 0; });
-    }
-    // the glass: over the whole terrace, and over the vestibule only above its roof
-    glassPatch(rIn, rOut, t0, Math.PI - tv); glassPatch(rIn, rOut, Math.PI + tv, t1); glassPatch(rCut, rOut, Math.PI - tv, Math.PI + tv);
-    // ribs every 2.5 degrees (on the vestibule's roof where it stands in the way), purlins along the vault, a bronze sill at the foot
-    for (var th = t0; th <= t1 + 1e-6; th += 2.5 * D2R) {
-      var ra = Math.abs(th - Math.PI) < tv ? rCut : rIn, pts = []; for (var k = 0; k <= 24; k++) { var r = lerp(ra, rOut, k / 24); pts.push(P(r, th, wgY(r) - 0.06)); }
-      tubeAlong(B, pts, (th - t0 < 1e-3 || t1 - th < 1e-3) ? 0.1 : 0.07, 6, MT.RIB);
-    }
-    [31.0, 34.6, 38.2, 41.8, 44.4].forEach(function (r) { var pts = []; for (var k = 0; k <= 60; k++) pts.push(P(r, lerp(t0, t1, k / 60), wgY(r) - 0.08)); tubeAlong(B, pts, 0.04, 5, MT.RIB); });
-    [[t0, Math.PI - tv], [Math.PI + tv, t1]].forEach(function (sp) { var pts = []; for (var k = 0; k <= 40; k++) pts.push(P(rIn - 0.05, lerp(sp[0], sp[1], k / 40), yIn + 0.06)); tubeAlong(B, pts, 0.08, 6, MT.RIB); });
-    var eb = []; for (var k2 = 0; k2 <= 60; k2++) eb.push(P(rOut - 0.1, lerp(t0, t1, k2 / 60), yOut - 0.12)); tubeAlong(B, eb, 0.12, 6, MT.RIB);
-    // the end walls: glass in the radial plane under the vault, on mullions every 1.5 m, standing on the edge's kerb
-    [[t0, -1], [t1, 1]].forEach(function (e) {
-      var th = e[0], tg = palPol(1, th + e[1] * Math.PI / 2), tn = [tg.x - PAL.c.x, 0, tg.z - PAL.c.z], n = 20;
-      G.surf(n, 1, function (i, j, q) { var r = lerp(rIn, rOut, i / n), p = palPol(r, th); q.p[0] = p.x; q.p[1] = j ? wgY(r) - 0.05 : yB + BACK.kerb; q.p[2] = p.z; q.nn = tn; q.f[0] = r; q.f[1] = q.p[1]; q.f2[0] = j ? 4 : 0.1; q.f2[1] = 1; q.m = 0; });
-      for (var r = rIn + 1.5; r < rOut - 0.5; r += 1.5) tubeAlong(B, [P(r, th, yB + BACK.kerb), P(r, th, wgY(r) - 0.1)], 0.045, 5, MT.RIB);
-      var sill = []; for (var k = 0; k <= 12; k++) sill.push(P(lerp(rIn, rOut, k / 12), th, yB + BACK.kerb + 0.04)); tubeAlong(B, sill, 0.06, 5, MT.RIB);
-    });
-    // the garden: big round planters with olive trees, red maples and palms between the paths to the Crescent's doors
-    var R2 = mulberry(4040);
-    [[16, "olive"], [-16, "olive"], [34, "maple"], [-34, "maple"], [44.5, "kentia"], [-44.5, "kentia"]].forEach(function (pl, i) {
-      var th = Math.PI + pl[0] * D2R, c = palPol(37.6, th), rr = 1.2;
-      latheOn(B, c.x, yB, c.z, [[rr, 0], [rr, 0.62], [rr + 0.06, 0.66], [rr - 0.08, 0.68], [rr - 0.08, 0.6], [0.0, 0.6]], 32, MT.CONCRETE, 0.4);
-      B.geo(new THREE.CylinderGeometry(rr - 0.1, rr - 0.1, 0.02, 32), T(c.x, yB + 0.6, c.z), MT.RUBBER, 1);                                      // the soil
-      bedPlant(B, pl[1], 500 + i, T(c.x, yB, c.z, 0, R2() * 6.28, 0), 0.61, 2.3);                                                              // the tree set into it
-      WGD.posts.push({ x: c.x, z: c.z, r: rr + 0.3 });
-      extLight(c.x, yB + 0.8, c.z, WARMC, 1.0, 6, [0, 1, 0], 1.6);
-    });
-    // long oak benches facing the Crescent, and ferns and flowering shrubs along the foot of the dome
-    [[8, 41.0], [-8, 41.0], [25, 41.0], [-25, 41.0]].forEach(function (bn) {
-      var th = Math.PI + bn[0] * D2R, c = palPol(bn[1], th), yaw = Math.atan2(PAL.c.x - c.x, PAL.c.z - c.z);
-      var gb = new Builder(); for (var k = 0; k < 5; k++) { gb.box(-1.4, 0.43, -0.25 + k * 0.1, 1.4, 0.47, -0.17 + k * 0.1, MT.WOOD); gb.tag(gb.count() - 24, null, 2); }
-      [-1.05, 1.05].forEach(function (x) { gb.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
-      B.add(gb, T(c.x, yB, c.z, 0, yaw, 0)); WGD.posts.push({ x: c.x, z: c.z, r: 0.6 });
-    });
-    var kinds = ["fern", "bromeliad", "anthurium", "croton", "agave", "orchid"];
-    for (var k3 = 0; k3 < 14; k3++) {
-      var a3 = lerp(-46, 46, k3 / 13); if (Math.abs(a3) < 9) continue;
-      var th3 = Math.PI + a3 * D2R, c3 = palPol(30.2, th3); B.add(plantBuilder(kinds[k3 % kinds.length], 520 + k3), T(c3.x, yB, c3.z, 0, k3 * 1.7, 0)); WGD.posts.push({ x: c3.x, z: c3.z, r: 0.45 });
-    }
-    // uplights along the foot washing the ribs
-    for (var a4 = -45; a4 <= 45; a4 += 7.5) { if (Math.abs(a4) < 6) continue; var p4 = palPol(rIn + 0.4, Math.PI + a4 * D2R), d4 = palPol(1, Math.PI + a4 * D2R);
-      B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p4.x, yB + 0.03, p4.z), MT.LIGHT, 1);
-      extLight(p4.x, yB + 0.2, p4.z, WARMC, 1.4, 9, [(d4.x - PAL.c.x) * 0.55, 0.83, (d4.z - PAL.c.z) * 0.55], 2); }
+  function backInside(x, z) {                                               // the vestibule is inside
+    if (!PAL.built) return 0; var o = palLoc(x, z, {});
+    return (o.rad < -PAL.ringOut && -o.rad < BACK.r1 && Math.abs(o.lat) < BACK.w) ? 1 : 0;
   }

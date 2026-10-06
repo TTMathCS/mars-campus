@@ -193,7 +193,6 @@ def upright(a):
 def ring():
     C = R.RING; r0, r1, rc = C["r0"], C["r1"], C["rc"]; GL, GR, EN, PD = C["gallery"], R.GARDEN_RING, R.ENTRANCE, R.POD_DOCK
     out, areas = [], {}
-    CW = r1 - 3.6                                                         # where the corridor runs on the outside, in the sunk quarter
     for fl, title, sub, fname in (("upper", "T-06 · The Ring: the upper floor", "Level with the palace's floor and the garden ring. The front, the start's side, at the bottom; behind the dome at the top.", "svg-ring-upper.svg"),
                                   ("lower", "T-06 · The Ring: the lower floor", "5.6 m down, all the way round: the garden gallery behind and on the right, underground on the right front, beside the sunken grove on the left.", "svg-ring-lower.svg")):
         W, H, S = 1120, 1250, 6.3
@@ -221,19 +220,15 @@ def ring():
                 if fl == "upper":
                     segs = [(-57, -7), (7, 120), (191, 197)]; band = (r0, rc)
                 else:
-                    segs = [(-57, -7), (7, 164), (191, 197)]; band = (r0, rc)
+                    segs = [(-57, -7), (7, 164), (191, 303)]; band = (r0, rc)
                 for s0, s1 in segs:
                     d.room(rm["code"], ring_band_pts(band[0], band[1], s0, s1), "move", at=polar((band[0] + band[1]) / 2, (s0 + s1) / 2), rot=upright((s0 + s1) / 2), size=8.5)
-                if fl == "lower":                                          # outside in the sunk quarter, past the rooms on the grove side
-                    d.room(rm["code"], ring_band_pts(CW, r1, 197, 303), "move", at=polar((CW + r1) / 2, 250), rot=upright(250), size=8.5)
-                    for ax in (197, 303): d.poly(ring_band_pts(r0, r1, ax - 2.2, ax), FILL["move"], WALL, 0.8)
-                else:
+                if fl == "upper":
                     for s0, s1 in ((120, 164),):                               # through the rooms under the sloping roof, along the garden glass
                         d.poly(ring_band_pts(r0, rc, s0, s1), "none", "#77706A", 0.8, "4 3")
                 continue
             full = rm["kind"] in ("gate",) or rm["code"] in ("T06-01", "T06-08", "T06-35") or (fl == "upper" and sc["kind"] == "low")
-            if fl == "lower" and sc["kind"] == "sunk": ri, ro = r0, CW
-            elif full: ri, ro = r0, r1
+            if full: ri, ro = r0, r1
             else: ri, ro = rc, r1
             nm = rm.get("short") if (a1 - a0) < 10 else rm["name"].split(":")[0]
             if rm.get("no"): nm = "%d %s" % (rm["no"], nm)
@@ -241,16 +236,21 @@ def ring():
             if rm["floor"] == "both" and fl == "lower": areas[rm["code"]] = areas.get(rm["code"], 0) + area_of(ring_band_pts(ri, ro, a0, a1))
             # the glass: onto the plain (the upper floor where it stands clear), onto the gallery, onto the grove
             glass_out = (fl == "upper" and sc["kind"] == "two") or (fl == "lower" and GL["a"][0] <= am <= GL["a"][1])
-            glass_in = fl == "lower" and V0 <= am % 360 <= V1
             if rm["kind"] not in ("service", "move", "plant", "store", "kitchen") and glass_out: d.line([polar(r1, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)
-            if glass_in: d.line([polar(r0, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)
+            if fl == "lower" and rm["kind"] in ("cafe", "art"): d.line([polar(rc, a0 + (a1 - a0) * k / 12) for k in range(13)], GLASS, 2.6)   # glass to the corridor
+        if fl == "lower": d.line([polar(r0, a) for a in frange(V0, V1 + 0.1, 1.0)], GLASS, 2.6)              # the corridor's glass onto the grove
         d.areas.update(areas)
         if fl == "upper":
             # the corridor's glass onto the garden ring, the sunk quarter's roof with its skylights
             for s0, s1 in ((-57, 197),): d.line([polar(r0, a) for a in frange(s0, s1 + 0.1, 1.0)], GLASS, 2.0)
             d.poly(ring_band_pts(r0, r1, 197, 303), "#E4E0D6", "#9C968C", 0.9, "5 4")
-            for a in frange(203, 300, 8.0):
-                for rr in (50.0, 57.0): d.poly(ring_band_pts(rr - 1.4, rr + 1.4, a - 1.6, a + 1.6), "#D6E6EF", "#7C9AAA", 0.6)
+            SK, rS = C["skylight"], (rc + r1) / 2                         # a skylight about every 10 degrees over each room below, as built
+            for rm in R.RING_ROOMS:
+                if rm.get("band") or rm["floor"] != "lower" or ring_sec(rm["a"][0] + 0.01)["kind"] != "sunk" or ring_sec(rm["a"][1] - 0.01)["kind"] != "sunk": continue
+                sp = rm["a"][1] - rm["a"][0]; n = max(1, round(sp / SK["every"])); hw = SK["w"] / 2 / rS / D2R
+                for k in range(n):
+                    am = rm["a"][0] + (k + 0.5) * sp / n
+                    d.poly(ring_band_pts(rS - SK["l"] / 2, rS + SK["l"] / 2, am - hw, am + hw), "#D6E6EF", "#7C9AAA", 0.6)
             d.note(*polar(54, 230), "the lower floor's roof at ground level, skylights", 9, 400, INK2, rot=upright(230))
             d.poly(ring_band_pts(GL["r0"], GL["r1"], GL["a"][0], GL["a"][1]), "none", "#8A847A", 0.8, "5 4"); d.note(*polar(65.3, 20), "garden gallery's glass roof, below", 8.5, 400, INK2, rot=upright(20))
             # the entrance: the dome over the plaza, the airlock at its front, the Gate Hall behind
@@ -746,7 +746,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[{k: v for k, v in r.items() if k in keep} for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

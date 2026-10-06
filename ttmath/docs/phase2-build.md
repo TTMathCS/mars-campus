@@ -72,15 +72,22 @@ each pushed when it is checked:
    `blk_mat.js`), position lights from the atlas (`podRed`, `podGreen`, `podWhite`); `podPark` floats a pod
    `P2.pod.hover` over the highest ground under its halo; `podCanLand` refuses only roofs; Shift goes down to the float).
    The pod dock and its bridge and collar (T04-03, T17-02) come with the Ring's right side and its pod lounge (T06-21).
-6. The Ring's right side, two storeys (52 to 120 degrees: Archimedes, Pythagoras, the pod lounge, Lovelace; below them
-   Newton, the maker space, Kepler), the garden gallery along it; generalise `blk_crescent.js` from the Crescent's +-52
-   degrees to the Ring's sections (`RING.sections`).
-7. The front: the Gate Hall, the entrance dome and its airlock (the door interlock from the courtyard step, kept in the
-   session notes), the right front under the sloping roof (Socrates, the library, the reading room; life support and
-   the store below); the wings come down and their rooms' furniture moves into the Ring.
-8. The left front, sunk: the kitchen, the dining hall, the café, the assembly hall, the art and music rooms and the clinic
-   on the lower floor, the corridor against the earth, the skylights; the sunken grove.
-9. The garden ring's vault all the way round (its crown by `GARDEN_RING.crown`), the sundial moved into it.
+6. ~~The Ring~~ (v0.13: the old steps 6 to 9 built as one). `blk_ring.js` (the Crescent's block, renamed and generalised
+   to `RING.sections`: `secAt`, `ringRoofY`, the shell, floors and ceilings, the corridor partitions (glass for the café
+   and the art studio, `CRS_GLAZED`), the Gate Hall (`gateFloor`, `gateCeilingBelow`), the bay stairs (`bayStair`,
+   `bayY`), the grand stairs and lifts, the skylights of the sunk quarter (`CRS.sky`, `skylightWell`, `skylightTop`;
+   `flatBits` cuts their holes in the ceilings and the roof), `ringOutside`, `crescentGallery`, `crescentSupport`);
+   `blk_gardenring.js` (the garden ring's vault from the dome's glass to the Ring's eave, the sunken grove,
+   `gardenSupport`); `blk_entrance.js` (the entrance dome, the sloping plaza, the airlock whose doors are interlocked
+   by `d.lock` in `doorsUpdate`, `entranceSupport`); `blk_ringfurnish.js` (the Ring's rooms beyond the Crescent's
+   kinds, `diningChair`, `tableForFour`); `blk_board.js` (the timetable's two screens in the Gate Hall, drawn from
+   `P2.timetable` on their own canvas). The wings, links, gateway and Sun court are gone from `blk_campus2.js`;
+   `blk_wings.js` still holds the furniture builders the Ring uses. The rooms' floors share one captured reflection
+   (`envW`, in Euclid), so `blk_mat.js` blurs it and dims it where a room sees little sky.
+7. The door plates with the room numbers, direction signs along the corridors, the rooms' directory in the Gate Hall
+   (CP-35; `blk_board.js` already has `plateSlot`, `drawPlates`, `doorPlates` for the atlas's freed regions).
+8. The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21).
+9. Details and realism everywhere (CP-30).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -136,11 +136,16 @@ def garden_crown(a):
     return float(np.interp(a, [k[0] for k in K], [k[1] for k in K]))
 
 
+def garden_spring(a):
+    """where the garden ring's vault springs from the dome's glass: (radius, height above the palace's floor)"""
+    hs = min(R.GARDEN_RING["spring"], garden_crown(a) - 1.0); return 28.0 * math.sqrt(max(0.0, 1.0 - ((hs - 0.9) / 14.1) ** 2)), hs
+
+
 def garden_vault(a):
-    """the garden ring's vault at angle a: a parabola from the dome's foot (r0, 0.6 m) to its outer edge (r1, on the
-    Ring's eave, or on a low wall where the Ring is sunk), its top at the crown; (crown, rm, k) above the palace's floor"""
-    G = R.GARDEN_RING; sc = ring_section(a); yIn = 0.6; yOut = 0.6 if sc["kind"] == "sunk" else sc["roof"] - 0.35; c = max(garden_crown(a), yOut + 0.3)
-    q = math.sqrt((c - yIn) / (c - yOut)); rm = (G["r0"] + q * G["r1"]) / (1 + q); return c, rm, (c - yIn) / (rm - G["r0"]) ** 2
+    """the garden ring's vault at angle a: a parabola from the dome's glass (garden_spring) to its outer edge (r1, on
+    the Ring's eave, or on a low wall where the Ring is sunk), its top at the crown; (crown, rm, k) above the palace's floor"""
+    G = R.GARDEN_RING; sc = ring_section(a); rs, yIn = garden_spring(a); yOut = 0.6 if sc["kind"] == "sunk" else sc["roof"] - 0.35; c = max(garden_crown(a), max(yIn, yOut) + 0.3)
+    q = math.sqrt((c - yIn) / (c - yOut)); rm = (rs + q * G["r1"]) / (1 + q); return c, rm, (c - yIn) / (rm - rs) ** 2
 
 
 def garden_top(lat, rad):

@@ -26,7 +26,9 @@ document.title = R.name + " · Arcadia";
 $("wK").textContent = R.k;
 const a = document.createElement("a"); a.href = R.page; a.textContent = R.name; $("wT").appendChild(a);
 
-const splat = new SplatMesh({ url: "data/" + R.file });
+const splat = new SplatMesh({ url: "data/" + R.file, onProgress: (e) => {
+  if (e.lengthComputable && e.total) $("load").textContent = "Loading the room… " + Math.round(100 * e.loaded / e.total) + "%";
+} });
 splat.rotation.x = -Math.PI / 2;
 scene.add(splat);
 Promise.resolve(splat.initialized).then(() => { $("load").hidden = true; }, () => { $("load").textContent = "Could not load the room"; });

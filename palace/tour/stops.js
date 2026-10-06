@@ -153,5 +153,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_gym.jpg", caption: "The gym: treadmills, bikes and rowers facing the windows, a floor for free training, the weights before the mirror wall." },
   { img: "photos/crown_wine.jpg", caption: "The wine room: the wine wall lit from behind, a tasting group in oxblood leather, the serving island under its globes." },
   { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." },
-  { img: "photos/crown_kitchen_up.jpg", caption: "The chef's kitchen in the Crown: two islands of steel under a halo of light and the long hood, the chef's table in green leather under opal globes, a wall of walnut cupboards." }
+  { img: "photos/crown_kitchen_up.jpg", caption: "The chef's kitchen in the Crown: two islands of steel under a halo of light and the long hood, the chef's table in green leather under opal globes, a wall of walnut cupboards." },
+  { img: "photos/crown_kitchen_up2.jpg", caption: "The chef's kitchen: the cooking line and its open shelves under the long hood, the steel island, copper pendants, and frosted glass onto the Glide." }
 ];

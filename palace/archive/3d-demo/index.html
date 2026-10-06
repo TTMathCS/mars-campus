@@ -1190,8 +1190,9 @@
      Arcadia Spaceport, 30 km east of the Crown (sheet A-501). Plan coordinates on that sheet are
      metres east (x) and north (y) of the terminal; world = (30 000 + x, -y).
      Terminal, control tower, pod station with four pads, three ship pads behind berms with the
-     ship from Earth on Pad 2, fuel plant and tank farm, the ice mine with its conveyor, the two
-     buried reactors, the cargo yard, roads and lights. No panels on the ground: power is nuclear.
+     ship from Earth on Pad 2, fuel plant and tank farm, the ice mine with its conveyor, the
+     cargo yard, roads and lights. Power comes from the city's grid by buried cable (6 Oct 2026): no
+     reactors, and no panels on the ground.
      ========================================================================================== */
   var PORT = (function () {
     var OX = 30000;
@@ -1394,21 +1395,6 @@
     boxAt(g, (c0[0] + c1[0]) / 2, 5, (c0[1] + c1[1]) / 2, cl, 1.4, 2.6, ca);
     for (var ci = 0; ci <= cl; ci += 24) { var cx = c0[0] + (c1[0] - c0[0]) * ci / cl, cz = c0[1] + (c1[1] - c0[1]) * ci / cl; boxAt(g, cx, 2.2, cz, 0.6, 5, 2.2, ca); }
     mesh(g, mTi);
-
-    /* ---------------- two buried reactors with their radiators, inside a keep-out fence */
-    g = new GB();
-    var rp = W(-560, -380), rh = gh(rp[0], rp[1]);
-    lathe(g, [[26, -1], [25.2, 2.4], [21.5, 4.3], [12, 5.3], [0, 5.6]], 64, rp[0], rh, rp[1]);
-    lathe(g, [[26, -1], [25.2, 2.4], [21.5, 4.3], [12, 5.3], [0, 5.6]], 64, rp[0] - 62, gh(rp[0] - 62, rp[1]), rp[1]);
-    mesh(g, mWhite);
-    g = new GB();
-    for (var rd = 0; rd < 6; rd++) { boxAt(g, rp[0] + 45 + rd * 7, rh + 5, rp[1] - 30, 0.4, 10, 22, 0); boxAt(g, rp[0] + 45 + rd * 7, rh + 5, rp[1] + 30, 0.4, 10, 22, 0); }
-    mesh(g, MAT.make({ color: 0x34383c, rough: 0.35, metal: 0.6 }));
-    (function () {
-      var n = 80, im = new THREE.InstancedMesh(BOXG, mTi, n), m = new THREE.Matrix4();
-      for (var i = 0; i < n; i++) { var a = i / n * Math.PI * 2, x = rp[0] + Math.sin(a) * 150, z = rp[1] + Math.cos(a) * 150; m.makeScale(0.2, 2.2, 0.2).setPosition(x, gh(x, z) + 1.1, z); im.setMatrixAt(i, m); }
-      im.frustumCulled = false; grp.add(im);
-    })();
 
     /* ---------------- cargo yard: stacked containers */
     (function () {

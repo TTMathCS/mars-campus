@@ -203,7 +203,7 @@ CROWN = dict(
                     ("In it", "The basalt table for 22 under glass globes, linen chairs, the afternoon sun low through the slots.")],
              photos=[("../tour/photos/crown_dining.jpg", "The dining hall: the basalt table for 22, the glass globes and the slots."),
                      ("../tour/photos/crown_wine.jpg", "The wine room: the wine wall and the tasting group."), ("../tour/photos/crown_wine2.jpg", "The wine room from the windows."),
-                     ("../tour/photos/crown_kitchen_up.jpg", "The chef's kitchen: the islands under the halo, the chef's table.")], views=[("crown_dining", "The dining hall")], plan=("img/plan/crown-dining_up.jpg", "Part 5, west-south-west."),
+                     ("../tour/photos/crown_kitchen_up.jpg", "The chef's kitchen: the islands under the halo, the chef's table."), ("../tour/photos/crown_kitchen_up2.jpg", "The kitchen's cooking line.")], views=[("crown_dining", "The dining hall")], plan=("img/plan/crown-dining_up.jpg", "Part 5, west-south-west."),
              above=("img/above/crown-dining.jpg", "the long basalt table for 22 under its glass globes in the middle, sideboards under the slots at either end, and the Glide along the garden side.")),
         dict(id="sunset", codes=["C-20", "C-21", "C-22"], k="C-20 to C-22 · part 6 · west", name="The sunset lounge",
              purpose="The west side of the ring: low sofas face the west slots, and at sunset the sun shines straight down the room for a few minutes while the sky round it turns blue, as the sky of Mars does. At one end the guests' lounge, where visitors spend their days; at the other a gallery of Jim's paintings and his photographs of Mars.",

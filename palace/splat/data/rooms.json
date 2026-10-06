@@ -1,0 +1,16 @@
+[
+ {
+  "id": "bedroom",
+  "name": "The master suite up",
+  "k": "The Crown \u00b7 Master suite up",
+  "page": "../design/rooms-crown.html#suite_up",
+  "file": "bedroom.spz",
+  "centre": [
+   107.238,
+   -70.979,
+   0.0
+  ],
+  "reach": 2.9,
+  "yaw0": 56.5
+ }
+]

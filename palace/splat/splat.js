@@ -19,9 +19,11 @@ window.addEventListener("resize", resize); resize();
 // The design model is z up (Blender); three.js is y up: (x, y, z) -> (x, z, -y)
 const toThree = (p) => new THREE.Vector3(p[0], p[2], -p[1]);
 
-const rooms = await (await fetch("data/rooms.json")).json();
+let rooms = [];
+try { rooms = await (await fetch("data/rooms.json")).json(); } catch (e) { rooms = []; }
 const id = (location.hash || "").slice(1);
 const R = rooms.find((r) => r.id === id) || rooms[0];
+if (!R) { $("load").textContent = "Could not load the room"; throw new Error("no rooms in data/rooms.json"); }
 document.title = R.name + " · Arcadia";
 $("wK").textContent = R.k;
 const a = document.createElement("a"); a.href = R.page; a.textContent = R.name; $("wT").appendChild(a);

@@ -1,46 +1,50 @@
 # Handoff: where Mars Campus stands and how to continue
 
 Read this first if you are picking the project up in a new session, on another account or with another AI.
-Everything needed to continue is in this repo. Last updated 2 Oct 2026.
+Everything needed to continue is in this repo. Last updated 6 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## Where the work stopped: 6 Oct 2026, 02:40 UTC (read this first)
+## Where the work stopped: 6 Oct 2026, 20:40 UTC (read this first)
 
-Jim's newest asks (6 Oct): **"by day in the sky, by night in the ground: it should be opposite. day has too much
-rediation so day should be in the ground while night in the sky"** (done: see palace/docs/decisions.md), and
-**"try to use gaussian splatting if possible ... maybe show me something gaussian splatting can do first, then we
-can move ahead?"** (in progress: a demo of the master suite up, below). His brief for the Crown is
-`palace/docs/crown-rev-h.md`; the order: the Crown first (each room's design and pictures, and the walk), then the
-other levels. The rules in CLAUDE.md apply everywhere.
+Jim's newest asks (6 Oct): every Crown room glazed onto the Glide like the master bedroom (done, his choice A);
+**"no nuclear reactor is needed since it is provided by city"** (done everywhere, the spaceport's picture too); and
+**"Can you review the plan?"** (done: the review and its fixes are in `palace/docs/decisions.md`, "the plan
+reviewed"; **three questions wait for his answer** in `palace/REQUIREMENTS.md`, section 10: Q1 what else the city
+provides, Q2 the true reason for day below / night up, Q3 the Pentagon now 7 times the Crown). His brief for the
+Crown is `palace/docs/crown-rev-h.md`; Gaussian splats were tried and set aside (6 Oct).
 
-**Done and live:** revision H in scripts, plans and texts; the rule turned round (by day below, by night up; the
-dose budget unchanged: 6 hours up from sunset); 20 public-domain paintings placed room by room (`fetch_art.py`,
-`furnishing.py`); the tour's ring map with a dot in every room; the reorganized pages (short hub, `idea.html`, one
-book name, links both ways); **the hub's model turns smoothly** (72 frames of revision H); **the salon published**
-(three views: salon, salon2, hearth); the master suite up (photo, door, 360).
+**The pipeline now.** Both machines render one job at a time: this one from `blend/queue_a.txt` (runner and pusher in
+the scratchpad; restart them after a container restart), the second (session_01FjAVBjC6iYGKfCFcyGwjNW) from the list
+sent to it, pushing raw finals to `palace/blender/renders/crown_h/`. Each final is graded (`grade.py pale|day|night`),
+published with `pub.py photo`, and its room's entry in `gen_plan.py` updated. **Published with the glass walls:** the
+sky pool (two), spa, gym, wine room (two), chef's kitchen (two), breakfast room. **Rendering:** salon (3), arrival
+(2), dining (2), sunset (2), observatory (3) here; library (3) and studio (3) there.
 
-**Gaussian splatting: set aside by Jim** (6 Oct, 11:05: "since I don't have real photo, so gausssian splatting
-doesn't help too much but consumes too much token and slow ... go back to the best way to create the real life
-expeiences and continue"). The quick splat of the master suite up stays at `palace/splat/#bedroom`, unlinked; the
-tools and the dataset are archived (`palace/blender/splats/README.md`). The way forward: path-traced photos of every
-room, a 360 at each room's stop on the tour, then the walk.
+**Rooms redesigned tonight because their previews were too empty or dark** (furnishing program first, then code;
+previews `prev/g3_*`): the sky garden (two island beds and a basin plaza on the black platform), the dressing room
+(a sitting corner, a triple mirror, palms), the bath up (a bathing pool of black basalt in the middle, chaises,
+kentias), the guests' lounge (a games table, a red maple, chairs at the windows), the suit room (slat ceiling, light,
+club chairs, agaves, a photograph), the pod hangar (both pods home, lines of light in the ceiling, washers, palms at
+the Door), the gallery (Jim's big canvases, four lit sculptures). Their finals follow the previews.
 
-**Rooms (all Crown rooms now designed with the new furniture, plants and paintings in code):** published: master
-suite up, salon. Previews queued (first machine, `blend/queue_a.txt`): Wellness (new, `crown_wellness.py`, `gym.py`),
-dining hall (with its drinks lounge), studio and craft, breakfast and the sky garden (on a black basalt platform: my
-reading of Jim's "black platform", to confirm with him), wine room, chef's kitchen, sunset lounge, guests' lounge,
-gallery, dressing room, bath up, study; then the Arrival and star lounge finals. Each: check the preview, render
-1600x900 96 spp at exposure -0.2, grade `pale` (rooms of pale walls) or `day`, publish with `pub.py`, rewrite its
-entry in `gen_plan.py` (the salon's is the model), save its `.blend`.
+**The 360 tour of the Crown:** a stop in every room, 29, written by `palace/tools/tour_crown.py` from the scenes'
+stops (keep the two in step); `python3 palace/tools/tour_crown.py jobs` prints the render jobs (4096 wide, 24 spp,
+about 15 min each). Publish each with `pub.py pano`, add its id to `CURRENT` in `tour_crown.py`, run it again. Old
+Rev G 360s stay shown, with their old captions, until replaced.
 
-**Second machine** (session_01FjAVBjC6iYGKfCFcyGwjNW): finished the turntable; free. Good use: the long splat fits,
-or the room finals, one at a time.
-
-**Next:** (1) the splat demo for Jim; (2) the room previews, finals and pages; (3) a 360 (or a splat) in every Crown
-room; (4) the walk; (5) the other levels (the guest lounge, the moss garden, the music room first).
+**Still to do, in order:** the finals above; the 29 360s; the Crown's pictures from above (`img/above/crown-*.jpg`
+are Rev G); the outside pictures of the Crown (by day, from the garden, at sunset, the site from the air: still the
+Rev G ring, from the archived 3D model; `overall.py` has the Rev H ring and could render them path-traced); save each
+scene's `.blend`; the walk; then the other levels (the guest lounge, the moss garden, the music room first).
 
 ## Work log (newest first; every step is pushed as it finishes — Jim, 3 Oct: "keep your progress logged and synced")
+
+### 6 Oct, from 19:50 UTC
+- Published the second machine's finals (pool, spa, gym, wine) and the kitchen and breakfast room; the review of the
+  plan (Rev H numbers and drawings everywhere, day/night leftovers, the requirements now hold the 4 and 6 Oct asks,
+  three questions for Jim); the spaceport without reactor domes (archived 3D model, `book_renders.py`); the tour's 29
+  Crown stops; seven rooms redesigned after their previews.
 
 ### 6 Oct, from 02:00 UTC
 - The container had stopped at 23:40 on 4 Oct (the account's weekly limit); restarted the runner and the pusher;

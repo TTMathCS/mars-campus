@@ -345,6 +345,27 @@ def guests_day_room(M, rnd):
         lib.box("block", (s_, s_, s_), at(R_GL + 0.48, bb, 0.62 + s_ / 2), rnd.choice(blocks), bevel=0.006, rot_z=rnd.uniform(0, 1))
     plants.make("fiddle-leaf fig", at(R_OUT - 1.0, b1 - tang(1.3, R_OUT - 1.0), 0.0), seed=325, pot=(0.75, 0.62, "white"), height=2.6)
     plants.make("kentia palm", at(R_GL + 1.1, b0 + tang(7.9), 0.0), seed=326, pot=(0.95, 0.72, "black"), height=3.0)
+    # the games table by the glass (furnishing.py): square walnut, 1.2 m, four leather club chairs round it, cards and a
+    # chess board on it, a halo over it; a red maple in a round basalt planter between the groups
+    gb_ = b0 + tang(6.0, R_GL + 3.4); gq = Vector(at(R_GL + 3.4, gb_, 0.0)); fi = face_in(gb_)
+    lib.box("games rug", (4.2, 4.2, 0.014), (gq.x, gq.y, 0.007), M["rug2"], bevel=0.006, rot_z=fi, segs=2)
+    lib.box("games top", (1.2, 1.2, 0.045), (gq.x, gq.y, 0.715), M["walnut"], bevel=0.01, rot_z=fi)
+    lib.box("games apron", (1.08, 1.08, 0.1), (gq.x, gq.y, 0.64), M["walnut"], bevel=0.005, rot_z=fi)
+    for (u, v) in ((-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5)):
+        lp = gq + Vector((u * math.cos(fi) - v * math.sin(fi), u * math.sin(fi) + v * math.cos(fi), 0))
+        lib.box("games leg", (0.06, 0.06, 0.6), (lp.x, lp.y, 0.3), M["walnut"], rot_z=fi)
+    lib.box("chess board", (0.42, 0.42, 0.02), (gq.x, gq.y, 0.748), M["oak_top"], rot_z=fi + 0.1)
+    for k in range(4):
+        a_ = fi + k * math.pi / 2; d_ = Vector((-math.sin(a_), math.cos(a_), 0))          # each chair on a side, facing the table
+        seating.club_chair("games chair", tuple(gq + d_ * 1.15), a_, fabric_mat=cognac, seed=330 + k, w=0.95, d=0.92)   # its front (-y) to the table
+    lights.halo("games halo", (gq.x, gq.y), d=3.0, z=4.2, ceiling=ceil_at(gb_), watts=600)
+    plants.make("japanese maple", at(R_GL + 2.6, b0 + tang(11.4, R_GL + 2.6), 0.0), seed=334, pot=(1.6, 0.6, "basalt"), height=4.0, colour="red", stems=3)
+    # two lounge chairs at the windows at the far end, facing out, a drum between them
+    lb_ = b1 - tang(3.8, R_OUT - 2.4)
+    for k in (-1, 1):
+        bb = lb_ + k * tang(0.9, R_OUT - 2.4)
+        seating.club_chair("window chair", at(R_OUT - 2.4, bb, 0.0), face_out(bb) + k * 0.2, fabric_mat=seating.fabric("moss velvet", (0.16, 0.20, 0.12), "velvet"), seed=336 + k)
+    tables.drum("window drum", at(R_OUT - 2.2, lb_, 0.0), d=0.45, h=0.45)
     # the paintings on the cross wall by the sunset lounge: Mondrian's composition and Leger's Contrast of Forms
     CR.paint("day painting", "mondrian_composition", 2.6, at(130.6, b1 - FACE - tang(0.02, 130.6), 0.0), face_ccw(b1), 2.3)
     CR.paint("day painting", "leger_contrast_of_forms", 2.6, at(125.4, b1 - FACE - tang(0.02, 125.4), 0.0), face_ccw(b1), 2.3, tall=True)
@@ -389,6 +410,25 @@ def gallery(M, rnd):
     # on the cross walls, the collection's pieces in turn: now Van Gogh's Night Cafe and Picabia's Edtaonisl
     CR.paint("gallery night cafe", "vangogh_night_cafe", 3.4, at(RM, b0 + FACE + tang(0.02, RM), 0.0), face_cw(b0), 2.2)
     CR.paint("gallery edtaonisl", "picabia_edtaonisl", 3.0, at(RM, b1 - FACE - tang(0.02, RM), 0.0), face_ccw(b1), 2.2)
+    # Jim's big canvases on the cross walls beside the two masterpieces, and a line of sculptures on white plinths down
+    # the Glide side, each in its own light
+    big = [((0.18, 0.22, 0.30), [(0.06, 0.94, 0.50, 0.94, (0.70, 0.42, 0.20)), (0.06, 0.94, 0.06, 0.46, (0.10, 0.12, 0.16))]),
+           ((0.62, 0.52, 0.36), [(0.08, 0.92, 0.40, 0.92, (0.34, 0.16, 0.08)), (0.30, 0.70, 0.08, 0.36, (0.80, 0.70, 0.52))])]
+    for k, (wb, fc) in enumerate(((b0 + FACE + tang(0.03, RM + 4.6), face_cw(b0)), (b1 - FACE - tang(0.03, RM + 4.6), face_ccw(b1)))):
+        pm = furn.painting_material("jim big canvas %d" % k, *big[k])
+        furn.painting("big canvas", 2.6, 2.0, at(RM + 4.6, wb, 2.2), fc, pm, M["frame"])
+        works.append((at(RM + 4.6, wb, 2.2), 1))
+    import seating
+    marble_w = seating.stone("gallery marble", (0.88, 0.86, 0.82), (0.55, 0.53, 0.50), "marble", 0.15)
+    pieces = [[(0.0, 0.0), (0.16, 0.0), (0.2, 0.2), (0.12, 0.55), (0.05, 0.95), (0.09, 1.05), (0.0, 1.1)],
+              [(0.0, 0.0), (0.24, 0.0), (0.3, 0.12), (0.26, 0.3), (0.12, 0.42), (0.0, 0.45)],
+              [(0.0, 0.0), (0.05, 0.0), (0.035, 0.6), (0.06, 1.3), (0.02, 1.6), (0.0, 1.62)],
+              [(0.0, 0.0), (0.2, 0.0), (0.22, 0.3), (0.3, 0.55), (0.18, 0.8), (0.0, 0.84)]]
+    for k, (bb, h) in enumerate(((b0 + tang(3.6, R_GL + 2.4), 1.0), (bc - tang(2.8, R_GL + 2.4), 0.8), (bc + tang(2.8, R_GL + 2.4), 0.9), (b1 - tang(3.6, R_GL + 2.4), 0.7))):
+        q = at(R_GL + 2.4, bb, h)
+        lib.box("plinth", (0.6, 0.6, h), at(R_GL + 2.4, bb, h / 2), M["white_wall"], bevel=0.004, rot_z=face_in(bb))
+        furn.lathe("sculpture", pieces[k], (M["bronze"], marble_w, M["bronze"], marble_w)[k], 64, q)
+        frm = at(R_GL + 2.4, bb, 4.55); sp = lib.spot_light("sculpture light", frm, 90, (1.0, 0.92, 0.82), 0.03, 22, 0.35); aim(sp, frm, (q[0], q[1], h + 0.4))
     import plants
     plants.make("olive", at(R_GL + 1.6, bc, 0.0), seed=340, pot=(1.6, 0.55, "basalt"), height=4.2, stems=3)
     for k, r in enumerate((R_GL + 1.3, R_OUT - 1.3)):       # a pair flanking the Night Cafe on the far cross wall
@@ -499,6 +539,30 @@ def dressing_room(M, rnd):
     lib.box("valet bar", (0.44, 0.03, 0.03), at(R_OUT - 2.2, vb, 1.3), M["walnut"], rot_z=face_in(vb))
     lib.box("jacket", (0.48, 0.04, 0.75), at(R_OUT - 2.2, vb, 0.9), lib.fabric("garment 0", (0.08, 0.09, 0.14), 0.85, 0.3), bevel=0.015, rot_z=face_in(vb))
     CR.paint("dressing painting", "matisse_woman_with_hat", 2.4, at(R_GL + 6.0, b1 - FACE - tang(0.02, R_GL + 6.0), 0.0), face_ccw(b1), 2.0, tall=True)
+    # the sitting corner between the island and the bedroom's wardrobes (furnishing.py): a velvet sofa 3.2 m with its
+    # back to the Glide, a marble table, two club chairs facing it from the windows' side, on its own rug; an arched
+    # lamp, a fiddle-leaf fig
+    gb = b1 - tang(4.2, RM + 0.6)
+    lib.box("sitting rug", (4.4, 3.8, 0.014), at(RM + 0.6, gb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(gb), segs=2)
+    seating.sofa("dressing sofa", at(RM - 0.9, gb, 0.0), face_out(gb), length=3.2, fabric_mat=seating.fabric("sage velvet", (0.30, 0.34, 0.27), "velvet"), seed=113)
+    tables.coffee_table("dressing table", at(RM + 0.55, gb, 0.0), face_in(gb), length=1.5, width=0.8, mat=M["marble"])
+    for k in (-1, 1):
+        bb = gb + k * tang(0.85, RM + 2.0)
+        seating.club_chair("dressing chair", at(RM + 2.0, bb, 0.0), face_in(bb) - k * 0.25, fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"), seed=114 + k)
+    plants.make("orchid", at(RM + 0.55, gb, 0.36), seed=116, pot=(0.2, 0.1, "white"), colour="magenta")
+    lights.arc_lamp("dressing arc", at(RM - 1.3, gb + tang(2.0, RM - 1.3), 0.0), face_cw(gb) + 0.5, reach=1.8)
+    plants.make("fiddle-leaf fig", at(RM - 1.2, gb - tang(2.2, RM - 1.2), 0.0), seed=117, pot=(0.75, 0.62, "white"), height=2.6)
+    lights.globes("sitting globes", at(RM + 0.55, gb), n=5, spread=0.6, low=2.4, high=3.1, ceiling=ceil_at(gb), watts=40, seed=21)
+    # the triple mirror in bronze facing the ottoman, its wings turned in; a pair of kentias by the frosted glass
+    mq = Vector(at(RM - 4.3, bc, 0.0)); fo = face_out(bc)
+    for k in (-1, 0, 1):
+        a_ = fo - k * 0.42; off = Vector((math.cos(fo), math.sin(fo), 0)) * (0.73 * k)        # the wings turned in, towards the ottoman
+        c_ = mq + off + Vector((math.sin(fo), -math.cos(fo), 0)) * (0.16 * abs(k))              # (a model's front is -y)
+        lib.box("mirror frame", (0.74, 0.05, 2.3), (c_.x, c_.y, 1.2), M["bronze_dark"], bevel=0.01, rot_z=a_)
+        g_ = Vector((c_.x, c_.y, 1.2)) + Vector((math.sin(a_), -math.cos(a_), 0)) * 0.026
+        lib.box("mirror glass", (0.68, 0.012, 2.22), tuple(g_), M["mirror"], rot_z=a_)
+    for bb in (b0 + tang(0.9, R_GL + 1.0), bc + tang(1.6, R_GL + 1.0)):
+        plants.make("kentia palm", at(R_GL + 1.0, bb, 0.0), seed=int(bb * 7), pot=(0.9, 0.7, "black"), height=3.2, stems=3)
     downlights(b0, b1, 70)
     lights.halo("dressing halo", at(RM - 2.2, bc), d=4.0, z=4.4, ceiling=ceil_at(bc), watts=700)
     CR.washers(b0, b1, 140)
@@ -587,6 +651,27 @@ def bath_up(M, rnd):
         crown.curved_box("towel rail", R_OUT - 0.14, R_OUT - 0.12, b1 - FACE - tang(1.5, R_OUT), b1 - FACE - tang(0.4, R_OUT), z, z + 0.02, M["bronze"])
     lib.box("hung towel", (0.9, 0.04, 0.6), at(R_OUT - 0.17, b1 - FACE - tang(0.95, R_OUT), 1.0), M["towel"], bevel=0.015, rot_z=face_in(b1))
     CR.paint("bath painting", "hokusai_great_wave", 2.8, at(RM + 1.0, b1 - FACE - tang(0.02, RM + 1.0), 0.0), face_ccw(b1), 2.1)
+    # the bathing pool in the middle (furnishing.py, layout): black basalt, 6 m along the ring and 2.6 m across inside a
+    # rim 0.3 m wide and 0.45 m high, warm water lit from below; two white leather chaises along its windows' side, a
+    # drum of towels between them, a halo over it; a bird of paradise at its far end
+    pr_, pa_ = RM - 2.0, bc; hl = tang(3.0, pr_); r0_, r1_ = pr_ - 1.3, pr_ + 1.3; RIM = 0.3
+    for (q0, q1, a0_, a1_) in ((r0_ - RIM, r0_, pa_ - hl - tang(RIM, pr_), pa_ + hl + tang(RIM, pr_)), (r1_, r1_ + RIM, pa_ - hl - tang(RIM, pr_), pa_ + hl + tang(RIM, pr_)),
+                               (r0_, r1_, pa_ - hl - tang(RIM, pr_), pa_ - hl), (r0_, r1_, pa_ + hl, pa_ + hl + tang(RIM, pr_))):
+        crown.curved_box("pool rim", q0, q1, a0_, a1_, 0.0, 0.45, M["basalt"])
+    crown.curved_box("pool floor", r0_, r1_, pa_ - hl, pa_ + hl, 0.0, 0.02, M["basalt"])
+    crown.curved_box("pool water", r0_, r1_, pa_ - hl, pa_ + hl, 0.37, 0.375, pent_rooms.pool_water("bath pool water", (0.84, 0.94, 0.92)))
+    for rr in (r0_ + 0.02, r1_ - 0.02):
+        lights.strip("pool light", at(rr, pa_ - hl + tang(0.2, rr), 0.2), at(rr, pa_ + hl - tang(0.2, rr), 0.2), color=(0.85, 0.95, 1.0), strength=18.0, w=0.02)
+    for k in (-1, 1):
+        cb_ = pa_ + k * tang(1.25, r1_ + 1.2)
+        seating.daybed("pool chaise", at(r1_ + 1.2, cb_, 0.0), face_cw(cb_), length=2.1, width=0.85, fabric_mat=white, seed=148 + k)
+    tables.drum("pool drum", at(r1_ + 1.2, pa_, 0.0), d=0.42, h=0.42, mat=M["bath_trav"])
+    for t in range(3): lib.box("towel", (0.36, 0.26, 0.05), at(r1_ + 1.2, pa_, 0.44 + 0.05 * t), M["towel"], bevel=0.02, rot_z=face_in(pa_) + 0.12 * t)
+    lights.halo("pool halo", at(pr_, pa_), d=4.6, z=4.8, ceiling=ceil_at(pa_), watts=800)
+    plants.make("bird of paradise", at(pr_, pa_ + hl + tang(1.4, pr_), 0.0), seed=150, pot=(1.0, 0.7, "bronze"), height=3.0, stems=5)
+    # three kentias along the frosted glass beyond the towel bench
+    for k, bb in enumerate((bc + tang(2.4, R_GL + 1.0), bc + tang(4.2, R_GL + 1.0), bc + tang(6.0, R_GL + 1.0))):
+        plants.make("kentia palm", at(R_GL + 1.0, bb, 0.0), seed=151 + k, pot=(0.9, 0.7, "black"), height=3.4 - 0.3 * (k % 2), stems=3)
     downlights(b0, b1, 70)
     lights.halo("bath halo", at(RM + 1.2, lb), d=4.0, z=4.6, ceiling=ceil_at(lb), watts=700)
     CR.washers(b0, b1, 140)
@@ -672,6 +757,25 @@ def suit_room(M, rnd):
     for i in range(4):
         q = at(RM, bc + tang(-1.9 + 1.25 * i), 0.0)
         for s_ in (-0.08, 0.08): lib.box("boot", (0.14, 0.3, 0.14), (q[0] + s_ * math.cos(bc * D), q[1] - s_ * math.sin(bc * D), 0.07), M["suit_grey"], bevel=0.04, rot_z=face_in(bc))
+    # light (furnishing.py): an oak-slat ceiling lit from its coves, a line of light along the lockers' tops, a halo over
+    # the bench, washers on the walls
+    import seating, tables, lights, plants
+    crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
+    lights.strip("locker light", at(R_OUT - 0.8, a0, 2.56), at(R_OUT - 0.8, a0 + 6 * tang(W, R_OUT), 2.56), color=(0.95, 0.96, 1.0), strength=30.0, w=0.03)
+    lights.halo("suit halo", at(RM, bc), d=4.0, z=4.4, ceiling=ceil_at(bc), watts=700)
+    CR.washers(b0, b1, 160)
+    # two leather club chairs by the airlock to wait in, a drum between; agaves in basalt bowls under the windows beyond
+    # the lockers, a kentia by the glass; Jim's photograph of a lift-off at the Port on the cross wall
+    cognac = seating.fabric("suit cognac", (0.30, 0.14, 0.06), "leather")
+    for k, d_ in enumerate((2.6, 4.0)):
+        bb = b0 + tang(d_, RM + 3.2)
+        seating.club_chair("airlock chair", at(RM + 3.2, bb, 0.0), face_ccw(bb) + (0.35 if k else -0.35), fabric_mat=cognac, seed=160 + k)
+    tables.drum("airlock drum", at(RM + 3.5, b0 + tang(3.3, RM + 3.5), 0.0), d=0.42, h=0.45)
+    for k in range(3):
+        bb = a0 + 6 * tang(W, R_OUT) + tang(1.4 + 1.6 * k, R_OUT - 0.8)
+        plants.make("agave", at(R_OUT - 0.8, bb, 0.0), seed=163 + k, pot=(0.9, 0.36, "basalt"), size=0.8, colour="blue" if k != 1 else "green")
+    plants.make("kentia palm", at(R_GL + 1.0, b0 + tang(5.0, R_GL + 1.0), 0.0), seed=166, pot=(0.9, 0.7, "black"), height=3.0, stems=3)     # by the glass, past the dust room
+    CR.framed_print("suit print", CR.repo_file("palace", "design", "img", "port-liftoff.jpg"), 2.4, 1.35, at(RM + 2.6, b1 - FACE - tang(0.03, RM + 2.6), 1.95), face_ccw(b1), M)
     downlights(b0, b1, 90, (0.92, 0.95, 1.0), every=2.4)
     # the Glide side, frosted: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
     crown.glass_wall("suit room glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(76.0, 2.2)])
@@ -716,12 +820,15 @@ def pod_hangar(M, rnd):
     crown.curved_box("door frame", R_OUT - 0.2, R_OUT - 0.05, bc + dw / 2, bc + dw / 2 + tang(0.2, R_OUT), 0.0, 3.0, M["bronze_dark"])
     crown.curved_box("hazard band", R_OUT - 1.0, R_OUT - 0.4, bc - dw / 2, bc + dw / 2, 0.0, 0.004, M["hazard"])
     # two pads: one pod home, one away
-    for k, there in ((-1, True), (1, False)):
+    for k, there in ((-1, True), (1, True)):               # both pods home (furnishing.py)
         pb = bc + k * tang(7.6); q = at(RM + 0.2, pb, 0.0)
         lib.cyl("pad", 2.9, 0.05, q, M["graphite"], verts=96, bevel=0.01)
         furn.ring_prism("pad ring", [(q[0] + 2.6 * math.cos(2 * math.pi * i / 96), q[1] + 2.6 * math.sin(2 * math.pi * i / 96)) for i in range(96)],
                         [(q[0] + 2.45 * math.cos(2 * math.pi * i / 96), q[1] + 2.45 * math.sin(2 * math.pi * i / 96)) for i in range(96)], 0.05, 0.054, M["hazard"])
-        if there: pod("pod", (q[0], q[1], 0.05), face_cw(pb), M)
+        furn.ring_prism("pad glow", [(q[0] + 2.75 * math.cos(2 * math.pi * i / 96), q[1] + 2.75 * math.sin(2 * math.pi * i / 96)) for i in range(96)],
+                        [(q[0] + 2.7 * math.cos(2 * math.pi * i / 96), q[1] + 2.7 * math.sin(2 * math.pi * i / 96)) for i in range(96)], 0.05, 0.056,
+                        lib.emission("pad glow", (0.95, 0.80, 0.55), 6.0))
+        if there: pod("pod", (q[0], q[1], 0.05), face_cw(pb), M)                  # its nose (+x) out, to the great door
     # yellow lines along the ring, tool chests by the Glide side, a charging post
     for r in (R_GL + 1.0, R_OUT - 1.4): crown.curved_box("floor line", r - 0.05, r + 0.05, b0 + tang(0.6), b1 - tang(0.6), 0.0, 0.003, M["hazard"])
     for i in range(3):
@@ -737,6 +844,18 @@ def pod_hangar(M, rnd):
         for (r, d) in ((R_IN + 0.6, 1), (R_OUT - 0.6, -1)):
             frm = at(r, pb, 6.0); sp = lib.spot_light("flood", frm, 900, (0.95, 0.96, 1.0), 0.08, 60, 0.6); aim(sp, frm, at(RM + 0.2, pb, 0.0))
     downlights(b0, b1, 80, (0.95, 0.96, 1.0), every=3.4)
+    # five long lines of light in the ceiling, daylight white, following it up under the spire; washers on both walls
+    line = lib.emission("hangar light line", (0.96, 0.97, 1.0), 26.0)
+    for r in (R_GL + 2.2, RM - 3.0, RM, RM + 3.0, R_OUT - 2.2):
+        for bb in crown.steps(b0 + tang(0.8, r), b1 - tang(0.8, r), 1.0 / 0.5)[:-1]:
+            zc = ceil_at(bb + 0.25) - 0.02; crown.curved_box("light line", r - 0.2, r + 0.2, bb, min(bb + 0.5, b1 - tang(0.8, r)), zc - 0.03, zc, line)
+    CR.washers(b0, b1, 200)
+    # at the Door end, where the house begins: a pair of kentias flanking the way to the Door, a leather bench along the glass
+    import seating, plants
+    for k in (-1, 1): plants.make("kentia palm", at(RM + k * 3.6, b1 - tang(1.3, RM + k * 3.6), 0.0), seed=170 + k, pot=(1.0, 0.75, "black"), height=3.4, stems=3)
+    bw_ = b1 - FACE - tang(0.45, RM + 5.7)                   # the bench against the cross wall by the Door, beyond the outer kentia
+    crown.curved_box("hangar bench", RM + 4.4, RM + 7.0, bw_ - tang(0.25, RM + 5.7), bw_ + tang(0.25, RM + 5.7), 0.0, 0.42, M["steel"])
+    crown.curved_box("hangar bench pad", RM + 4.4, RM + 7.0, bw_ - tang(0.25, RM + 5.7), bw_ + tang(0.25, RM + 5.7), 0.42, 0.48, M["leather"])
     # the Glide side, frosted: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
     crown.glass_wall("hangar glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(85.0, 2.6)])
 

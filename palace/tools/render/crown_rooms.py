@@ -1225,24 +1225,47 @@ def garden_room(M, rnd):
              (65.6, "ginkgo", dict(height=4.2)), (69.4, "olive", dict(height=3.0, stems=2)))
     for k, (bb, kind, kw) in enumerate(trees): plants.make(kind, at(R_OUT - 1.0, bb, Z + 0.5), seed=300 + k, **kw)
     for k, bb in enumerate((53.0, 67.0)): plants.make("lemon", at(R_GL + 0.8, bb, Z + 0.42), seed=320 + k, height=2.2)
-    # on the platform: the basin, a red maple by it, birds of paradise, tree ferns, agaves
+    # down the middle (furnishing.py, layout): two island beds 15 m long, kerbed in basalt like the wall beds, either
+    # side of a round basin, so the black platform is the paths between beds: 2.8 m on the Glide side, 2.9 m on the
+    # windows' side, a plaza round the basin
     pr = (R_GL + 1.3 + R_OUT - 1.9) / 2
+    IR0, IR1 = R_GL + 4.1, R_OUT - 4.8                          # the islands, from r = 122.6 to 130.2
+    isl = [(49.6, 56.6), (63.4, 70.6)]
+    for (ia, ib) in isl:
+        crown.curved_box("island kerb", IR0, IR1, ia, ib, Z, Z + 0.45, M["basalt"])
+        crown.curved_box("island soil", IR0 + 0.08, IR1 - 0.08, ia + tang(0.08, pr), ib - tang(0.08, pr), Z + 0.45, Z + 0.455, M["soil"])
+        herb_bed("island herbs", IR0 + 0.08, IR1 - 0.08, ia + tang(0.1, pr), ib - tang(0.1, pr), Z + 0.455, M, rnd, density=7.0)
+        for rr in (IR0 - 0.03, IR1 + 0.03):
+            lights.strip("island light", at(rr, ia + tang(0.1, rr), Z + 0.03), at(rr, ib - tang(0.1, rr), Z + 0.03), strength=14.0, w=0.015)
+        for (r_, bb) in ((IR0 + 0.5, ia + tang(0.5, IR0)), (IR1 - 0.5, ia + tang(0.5, IR1)), (IR0 + 0.5, ib - tang(0.5, IR0)), (IR1 - 0.5, ib - tang(0.5, IR1))):
+            plants.make("boxwood", at(r_, bb, Z + 0.45), seed=int(bb * 13 + r_), d=0.75)
+    ZI = Z + 0.45
+    # the first island: an orange maple and a group of kentias, birds of paradise, golden barrels at the plaza end
+    plants.make("japanese maple", at(pr + 0.6, 51.8, ZI), seed=350, height=4.0, colour="orange", stems=3)
+    for k, (r_, bb, h) in enumerate(((pr - 1.6, 54.2, 3.6), (pr - 2.2, 55.0, 3.1), (pr - 1.2, 55.3, 2.8))):
+        plants.make("kentia palm", at(r_, bb, ZI), seed=351 + k, height=h, stems=3)
+    for k, (r_, bb) in enumerate(((pr + 2.0, 54.4), (pr + 2.5, 55.3))):
+        plants.make("bird of paradise", at(r_, bb, ZI), seed=355 + k, height=2.9 - 0.3 * k, stems=5)
+    for k, (r_, bb) in enumerate(((pr + 0.8, 56.0), (pr + 0.1, 55.8), (pr + 1.4, 55.7))):
+        plants.make("golden barrel", at(r_, bb, ZI), seed=358 + k, r=0.24 + 0.05 * k)
+    # the second island: a red maple, tree ferns in its shade, agaves at the plaza end
+    plants.make("japanese maple", at(pr - 0.4, 67.2, ZI), seed=360, height=3.8, colour="red", stems=3)
+    for k, (r_, bb, h) in enumerate(((pr + 1.8, 68.6, 2.9), (pr + 2.4, 69.6, 2.4), (pr + 1.2, 69.9, 2.6))):
+        plants.make("tree fern", at(r_, bb, ZI), seed=361 + k, height=h)
+    for k, (r_, bb) in enumerate(((pr + 1.4, 64.2), (pr + 2.2, 64.6), (pr + 0.6, 64.4))):
+        plants.make("agave", at(r_, bb, ZI), seed=365 + k, size=0.75, colour="blue" if k != 1 else "green")
+    plants.make("olive", at(pr - 2.4, 64.6, ZI), seed=368, height=3.0, stems=2)
+    # the plaza: the basin of black basalt with its spout, a red maple beside it, a long travertine bench facing it
+    # and two daybeds across from the bench
     c = at(pr, 60.0, Z)
     lib.cyl("basin", 1.3, 0.45, c, M["basalt"], verts=128, bevel=0.02)
     lib.cyl("basin water", 1.2, 0.01, (c[0], c[1], Z + 0.40), lib.glass("basin water", (0.80, 0.90, 0.88), 0.0, 1.33), verts=128)
     lib.cyl("basin inside", 1.2, 0.02, (c[0], c[1], Z + 0.12), M["basalt"], verts=128)
     lib.cyl("basin spout", 0.04, 0.25, (c[0], c[1], Z + 0.4), M["bronze"], verts=24)
     plants.make("japanese maple", at(pr - 2.2, 60.0 + tang(2.6, pr - 2.2), Z), seed=330, pot=(1.6, 0.6, "basalt"), height=3.6, colour="red", stems=3)
-    for k, (r, bb) in enumerate(((pr + 1.6, 52.4), (pr + 2.2, 53.3))):
-        plants.make("bird of paradise", at(r, bb, Z), seed=331 + k, pot=(1.0, 0.7, "bronze"), height=3.2 - 0.4 * k, stems=5)
-    for k, (r, bb, h) in enumerate(((pr - 1.6, 67.6, 2.9), (pr - 0.6, 68.6, 2.4), (pr - 1.9, 69.3, 2.6))):
-        plants.make("tree fern", at(r, bb, Z), seed=334 + k, pot=(0.95, 0.5, "basalt"), height=h)
-    for k, (r, bb) in enumerate(((pr + 1.2, 64.2), (pr + 2.0, 64.9), (pr + 1.5, 65.7))):
-        plants.make("agave", at(r, bb, Z), seed=337 + k, pot=(0.9, 0.38, "travertine"), size=0.75, colour="blue" if k != 1 else "green")
-    # daybeds under the trees by the outer beds, a long travertine bench facing the basin
     linen = seating.fabric("garden linen", (0.72, 0.68, 0.60), "linen")
-    for k, bb in enumerate((56.0, 63.2)):
-        seating.daybed("garden daybed", at(R_OUT - 3.1, bb, Z), face_cw(bb) + math.pi * 0.5 + (0.25 if k else -0.25), length=2.3, width=1.1, fabric_mat=linen, seed=340 + k)
+    for k, bb in enumerate((58.3, 61.7)):
+        seating.daybed("garden daybed", at(pr + 2.6, bb, Z), face_in(bb) + math.pi * 0.5, length=2.3, width=1.1, fabric_mat=linen, seed=340 + k)
     trav = seating.stone("garden travertine", (0.80, 0.73, 0.62), (0.62, 0.55, 0.45), "travertine", 0.3)
     blk = lambda nm, size, ctr: seating.soft_box(nm, size, ctr, trav, r=0.012, crown=0, bulge=0, crease=0, sub=1)
     seating._piece("garden bench", at(pr - 1.8, 60.0, Z), face_out(60.0),

@@ -84,7 +84,7 @@ Gate shows the place it opens onto, a far nebula. Rendered from its own scene (`
 
 ![Arcadia Spaceport from the air](../design/img/port-aerial.jpg)
 
-From the south-west: the two reactor domes in front, the terminal dome and the control tower, the pod station, the
+From the south-west: the terminal dome and the control tower, the pod station, the
 fuel plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out. No panels on the ground. *[Chapter 07](design/07-spaceport.md).*
 
 ## The scenic flight

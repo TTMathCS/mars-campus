@@ -27,7 +27,7 @@ Every question put to Jim, his answer in his own words, and what it changed. New
   foundry's work for the city; Q2, the true reason for "by day below, by night up" (the dose comes from the hours up,
   not from which hours); Q3, the Pentagon now 7 times the Crown, not about 10 (PG-1).
 - **Still to do:** render again the outside pictures that show the Rev G ring (the Crown by day, from the garden and
-  at sunset, the site from the air, Arcadia in section and its turntable) and the spaceport without its reactor domes.
+  at sunset, and the site from the air); the spaceport's was rendered again without its reactor domes the same day.
 
 ## 6 Oct 2026: no reactor; the city provides the power
 
@@ -39,7 +39,8 @@ Every question put to Jim, his answer in his own words, and what it changed. New
   used to give (about 2 MW for 0.7 MW of power). In the room program L4-01 Fission reactors became the City feed and
   L4-02 the Fusion-ready bay the Heat pumps. Chapter 05 rewritten; chapters 01, 02, 03, 07, 08, 10, the idea page, the
   atlas, the science pages' boxes on Arcadia, README and REQUIREMENTS (SY-1, SY-4) brought into line.
-- **Still to do:** the spaceport's aerial picture shows the two reactor domes; it is to be rendered again without them.
+- **Done the same day:** the spaceport's aerial picture rendered again without the two reactor domes (the archived 3D model
+  lost them, `palace/archive/3d-demo/src/50_port.js`).
 
 ## 6 Oct 2026: every Crown room glazed onto the Glide, as the master suite
 

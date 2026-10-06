@@ -8,7 +8,7 @@ Where the ships land and take off, 30 km east of Arcadia on landing site AP-1. S
 
 ![Arcadia Spaceport from the south-west](../../design/img/port-aerial.jpg)
 
-*From the south-west: the two reactor domes in front, the terminal dome and control tower, the pod station, the fuel
+*From the south-west: the terminal dome and control tower, the pod station, the fuel
 plant with its six tanks, the ice mine on the left, and the three landing pads 1.6 km out.*
 
 | | |

@@ -560,8 +560,7 @@ Keep new pages consistent with these (sources and working are in the chapters):
   maglev (phase 2) 30 km at 400 km/h in a 7 m tunnel at −68 m, about 6 min; Hohmann transfer 259 days, windows every
   26 months; Jim launches Nov–Dec 2026 and lands mid-2027.
 - The spaceport: three pads Ø 80 m with berms (radius 114–147 m, 6 m high) at bearings 60, 90 and 120, 1.6 km from
-  the terminal (Ø 180 m); tower 77 m; pod station 70 × 120 m with four pod pads; (the two reactor domes south-west of the terminal
-  are gone since 6 Oct; the aerial picture still shows them until it is rendered again); one ship's propellant 1,200 t (260 t CH₄, 940 t O₂, plus 100 t spare O₂) from 585 t of water and 715 t of
+  the terminal (Ø 180 m); tower 77 m; pod station 70 × 120 m with four pod pads (no reactors since 6 Oct); one ship's propellant 1,200 t (260 t CH₄, 940 t O₂, plus 100 t spare O₂) from 585 t of water and 715 t of
   CO₂, about 8.6 GWh, about 5 months at 2.4 MW; tank farm six spheres Ø 36 m; ice mine 320 × 200 m, 9 m deep, 1 km
   north.
 

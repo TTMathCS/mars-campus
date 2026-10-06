@@ -209,6 +209,8 @@ def salon(M, rnd):
     paint("salon east painting", "delaunay_landscape_disc", 3.0, at(R_OUT - 2.1, 172.08 - tang(0.17, R_OUT - 2.1), 0.0), face_ccw(172.08), 2.15, tall=True)
     paint("hearth painting", "turner_shipwreck", 3.6, at(RM + 0.6, hb + tang(0.02), 0.0), face_cw(hb), 3.0)
     washers(b0, b1, 220)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("salon glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(148.0, 2.6), (156.3, 2.6), (168.0, 2.6), (176.0, 2.6)])
 
 
 def paint(name, key, size, loc, rot_z, z, tall=False):
@@ -290,6 +292,8 @@ def arrival(M, rnd):
                       fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
     paint("arrival painting", "vangogh_starry_night", 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), 2.6)
     washers(b0 - 4.0, b1, 220)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("arrival glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(99.5, 3.0), (105.0, 3.0)])
 
 
 def dining(M, rnd):
@@ -357,6 +361,8 @@ def dining(M, rnd):
     plants.make("ginkgo", at(R_GL + 1.7, b0 + tang(1.6, R_GL + 1.7), 0.0), seed=285, pot=(1.4, 0.75, "basalt"), height=5.5)
     lights.halo("lounge halo", at(lr + 0.6, lb), d=3.4, z=4.2, ceiling=ceil_at(lb), watts=600)
     washers(b0, b1, 220)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("dining glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(228.5, 2.6), (236.0, 2.6)])
 
 
 def bedroom_up(M, rnd):
@@ -469,6 +475,8 @@ def sunset_lounge(M, rnd):
     for bb, r in ((265.4, rs + 1.0), (cc, RM + 1.4), (274.6, rs + 1.0)):
         lights.halo("sunset halo", at(r, bb), d=5.0, z=5.4, ceiling=ceil_at(bb), watts=800, color=(1.0, 0.74, 0.50))
     washers(b0, b1, 150, (1.0, 0.80, 0.60))
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("sunset glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(268.0, 2.4), (276.0, 2.4)])
 
 
 def radial_frame(r, b, inward=False):
@@ -524,6 +532,10 @@ def library_up(M, rnd):
     b0, b1, bs0, bs1 = 288.0, 324.0, 297.0, 316.8
     crown.ring_room(b0, b1, M, M["oak"])
     crown.glide_lights(b0, b1)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom"); the study's glass frosted, for Jim's desk
+    crown.glass_wall("study glass", R_GL + 0.2, b0, bs0, M, state="frosted", doors=[(292.0, 2.2)])
+    crown.glass_wall("library glass", R_GL + 0.2, bs0, bs1, M, state="clear", doors=[(302.9, 2.2), (309.3, 2.2)])
+    crown.glass_wall("map room glass", R_GL + 0.2, bs1, b1, M, state="clear", doors=[(320.4, 2.2)])
     th = 0.3 / 130 / D
     for b in (bs0, bs1):     # walnut walls with a wide opening between the three rooms
         for (r0, r1) in ((R_GL + 0.05, R_GL + 4.0), (R_OUT - 4.0, R_OUT)):
@@ -800,8 +812,8 @@ def studio(M, rnd):
     work_table("work table", RM - 1.0, 331.0, M, rnd)
     seating.desk_chair("work chair", at(RM - 0.1, 332.4, 0.0), face_ccw(332.4) + 0.4, fabric_mat=cognac, seed=500)
     for bb in (325.2, 326.4):
-        lib.box("flat file", (1.4, 0.9, 0.86), at(R_GL + 0.65, bb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(bb))
-        for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.4, 0.004, 0.006), at(R_GL + 1.102, bb, z), M["shadow"], rot_z=face_out(bb))
+        lib.box("flat file", (1.4, 0.9, 0.86), at(R_GL + 0.75, bb, 0.43), M["walnut"], bevel=0.008, rot_z=face_out(bb))
+        for z in (0.2, 0.4, 0.6, 0.8): lib.box("drawer line", (1.4, 0.004, 0.006), at(R_GL + 1.202, bb, z), M["shadow"], rot_z=face_out(bb))
     leaning_canvases(w1, R_OUT - 1.3, M, rnd, side=-1, n=5)
     plants.make("bird of paradise", at(R_GL + 1.2, 337.6, 0.0), seed=501, pot=(1.0, 0.7, "bronze"), height=3.5, stems=5)
     plants.make("fiddle-leaf fig", at(R_OUT - 1.1, b0 + tang(1.3, R_OUT - 1.1), 0.0), seed=502, pot=(0.75, 0.62, "white"), height=2.6)
@@ -928,6 +940,10 @@ def studio(M, rnd):
         for r in (RM - 1.5, RM + 1.3):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 150, (1.0, 0.9, 0.78), 0.03, 50, 0.5)
     washers(b0, b1, 200)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("studio glass", R_GL + 0.2, b0, w1, M, state="clear", doors=[(335.6, 2.4)])
+    crown.glass_wall("print room glass", R_GL + 0.2, w1, w2, M, state="clear", doors=[(343.5, 2.4)])
+    crown.glass_wall("craft room glass", R_GL + 0.2, w2, b1, M, state="clear", doors=[(350.6, 2.4)])
 
 
 def star_chair(name, loc, rot_z, M):
@@ -1055,6 +1071,9 @@ def observatory(M, rnd):
     tables.coffee_table("telescope table", at(RM + 0.5, 29.8, 0.0), face_in(29.8), length=2.0, width=0.9, kind="stack")
     plants.make("kentia palm", at(R_GL + 1.2, 33.8, 0.0), seed=67, pot=(0.95, 0.72, "black"), height=3.2)
     washers(w1, b1, 60, (1.0, 0.72, 0.45))
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("star lounge glass", R_GL + 0.2, b0, w1, M, state="clear", doors=[(6.0, 2.4)])
+    crown.glass_wall("telescope glass", R_GL + 0.2, w1, b1, M, state="clear", doors=[(29.5, 2.4)])
 
 
 def gravel_material():
@@ -1193,21 +1212,21 @@ def garden_room(M, rnd):
         herb_bed("herbs out", R_OUT - 1.82, R_OUT - 0.18, a + tang(0.1, R_OUT - 1), b - tang(0.1, R_OUT - 1), Z + 0.505, M, rnd, density=11.0)
         lights.strip("bed light", at(R_OUT - 1.93, a + tang(0.1, R_OUT - 1.93), Z + 0.03), at(R_OUT - 1.93, b - tang(0.1, R_OUT - 1.93), Z + 0.03), strength=14.0, w=0.015)
     for (a, b) in beds_in:
-        crown.curved_box("bed wall", R_GL + 0.15, R_GL + 1.15, a, b, Z, Z + 0.42, M["basalt"])
-        crown.curved_box("bed soil", R_GL + 0.23, R_GL + 1.07, a + tang(0.08, R_GL + 0.6), b - tang(0.08, R_GL + 0.6), Z + 0.42, Z + 0.425, M["soil"])
-        herb_bed("herbs in", R_GL + 0.23, R_GL + 1.07, a + tang(0.1, R_GL + 0.6), b - tang(0.1, R_GL + 0.6), Z + 0.425, M, rnd, density=11.0)
-        lights.strip("bed light", at(R_GL + 1.18, a + tang(0.1, R_GL + 1.18), Z + 0.03), at(R_GL + 1.18, b - tang(0.1, R_GL + 1.18), Z + 0.03), strength=14.0, w=0.015)
+        crown.curved_box("bed wall", R_GL + 0.3, R_GL + 1.3, a, b, Z, Z + 0.42, M["basalt"])
+        crown.curved_box("bed soil", R_GL + 0.38, R_GL + 1.22, a + tang(0.08, R_GL + 0.75), b - tang(0.08, R_GL + 0.75), Z + 0.42, Z + 0.425, M["soil"])
+        herb_bed("herbs in", R_GL + 0.38, R_GL + 1.22, a + tang(0.1, R_GL + 0.75), b - tang(0.1, R_GL + 0.75), Z + 0.425, M, rnd, density=11.0)
+        lights.strip("bed light", at(R_GL + 1.33, a + tang(0.1, R_GL + 1.33), Z + 0.03), at(R_GL + 1.33, b - tang(0.1, R_GL + 1.33), Z + 0.03), strength=14.0, w=0.015)
     for (a, b) in beds_out:                                    # boxwood balls at the beds' ends
         for k, bb in enumerate((a + tang(0.45, R_OUT - 1.0), b - tang(0.45, R_OUT - 1.0))): plants.make("boxwood", at(R_OUT - 1.0, bb, Z + 0.5), seed=int(bb * 10), d=0.7)
     for (a, b) in beds_in:
-        for k, bb in enumerate((a + tang(0.4, R_GL + 0.65), b - tang(0.4, R_GL + 0.65))): plants.make("boxwood", at(R_GL + 0.65, bb, Z + 0.42), seed=int(bb * 10) + 1, d=0.6)
+        for k, bb in enumerate((a + tang(0.4, R_GL + 0.8), b - tang(0.4, R_GL + 0.8))): plants.make("boxwood", at(R_GL + 0.8, bb, Z + 0.42), seed=int(bb * 10) + 1, d=0.6)
     trees = ((51.0, "japanese maple", dict(height=3.0, colour="red", stems=3)), (54.0, "olive", dict(height=3.2, stems=2)),
              (58.4, "japanese maple", dict(height=2.8, colour="orange", stems=2)), (61.2, "lemon", dict(height=2.6)),
              (65.6, "ginkgo", dict(height=4.2)), (69.4, "olive", dict(height=3.0, stems=2)))
     for k, (bb, kind, kw) in enumerate(trees): plants.make(kind, at(R_OUT - 1.0, bb, Z + 0.5), seed=300 + k, **kw)
-    for k, bb in enumerate((53.0, 67.0)): plants.make("lemon", at(R_GL + 0.65, bb, Z + 0.42), seed=320 + k, height=2.2)
+    for k, bb in enumerate((53.0, 67.0)): plants.make("lemon", at(R_GL + 0.8, bb, Z + 0.42), seed=320 + k, height=2.2)
     # on the platform: the basin, a red maple by it, birds of paradise, tree ferns, agaves
-    pr = (R_GL + 1.15 + R_OUT - 1.9) / 2
+    pr = (R_GL + 1.3 + R_OUT - 1.9) / 2
     c = at(pr, 60.0, Z)
     lib.cyl("basin", 1.3, 0.45, c, M["basalt"], verts=128, bevel=0.02)
     lib.cyl("basin water", 1.2, 0.01, (c[0], c[1], Z + 0.40), lib.glass("basin water", (0.80, 0.90, 0.88), 0.0, 1.33), verts=128)
@@ -1252,6 +1271,9 @@ def garden_room(M, rnd):
             lib.spot_light("downlight", at(r, bc, ceil_at(bc) - 0.06), 80, (1.0, 0.82, 0.62), 0.03, 45, 0.5)
     washers(b0, w1, 160)
     washers(w1, b1, 140)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("breakfast glass", R_GL + 0.2, b0, w1, M, state="clear", doors=[(42.0, 2.4)])
+    crown.glass_wall("garden glass", R_GL + 0.2, w1, b1, M, state="clear", doors=[(59.8, 2.4)])
 
 
 

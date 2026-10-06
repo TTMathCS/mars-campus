@@ -349,6 +349,8 @@ def guests_day_room(M, rnd):
     CR.paint("day painting", "mondrian_composition", 2.6, at(130.6, b1 - FACE - tang(0.02, 130.6), 0.0), face_ccw(b1), 2.3)
     CR.paint("day painting", "leger_contrast_of_forms", 2.6, at(125.4, b1 - FACE - tang(0.02, 125.4), 0.0), face_ccw(b1), 2.3, tall=True)
     CR.washers(b0, b1, 160)
+    # the Glide side, frosted for the guests: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("guests glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(257.4, 2.2)])
 
 
 # ---------------------------------------------------------------- C-22 the gallery
@@ -404,6 +406,8 @@ def gallery(M, rnd):
         bb = math.degrees(math.atan2(q[0], q[1])) % 360
         frm = at(rr, bb, 4.55); sp = lib.spot_light("art light", frm, 120, (1.0, 0.92, 0.82), 0.03, 26, 0.35); aim(sp, frm, q)
     CR.washers(b0, b1, 150)
+    # the Glide side: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("gallery glass", R_GL + 0.2, b0, b1, M, state="clear", doors=[(281.5, 2.4)])
 
 
 # ---------------------------------------------------------------- C-06 the dressing room
@@ -646,12 +650,12 @@ def suit_room(M, rnd):
     CR.screen("airlock panel", CR.repo_file("palace", "design", "img", "mars-map.jpg"), 0.3, 0.2, at(RM - 0.6, ab + tang(0.27, RM), 1.2), face_cw(ab), M, emit=1.6)
     # the dust room: a glass booth with a grille floor and air jets, by the airlock
     db0, db1 = b0 + tang(0.6, R_GL + 1.2), b0 + tang(2.4, R_GL + 1.2)
-    for r in (R_GL + 0.25, R_GL + 2.2): crown.curved_box("booth glass", r, r + 0.012, db0, db1, 0.0, 2.4, M["glass"])
-    crown.curved_box("booth glass", R_GL + 0.25, R_GL + 2.2, db1, db1 + tang(0.012, R_GL + 1.2), 0.0, 2.4, M["glass"])
-    crown.curved_box("booth roof", R_GL + 0.25, R_GL + 2.2, db0, db1, 2.4, 2.45, M["steel"])
-    crown.curved_box("grille", R_GL + 0.3, R_GL + 2.15, db0, db1, 0.0, 0.02, lib.principled("grille", (0.05, 0.05, 0.05), 0.5, 0.8))
+    for r in (R_GL + 0.5, R_GL + 2.45): crown.curved_box("booth glass", r, r + 0.012, db0, db1, 0.0, 2.4, M["glass"])
+    crown.curved_box("booth glass", R_GL + 0.5, R_GL + 2.45, db1, db1 + tang(0.012, R_GL + 1.2), 0.0, 2.4, M["glass"])
+    crown.curved_box("booth roof", R_GL + 0.5, R_GL + 2.45, db0, db1, 2.4, 2.45, M["steel"])
+    crown.curved_box("grille", R_GL + 0.55, R_GL + 2.4, db0, db1, 0.0, 0.02, lib.principled("grille", (0.05, 0.05, 0.05), 0.5, 0.8))
     for i in range(6):
-        for z in (0.6, 1.2, 1.8): lib.cyl("air jet", 0.025, 0.05, at(R_GL + 2.18, db0 + (db1 - db0) * (i + 0.5) / 6, z), M["steel"], verts=12, rot=(math.pi / 2, 0, face_out((db0 + db1) / 2)))
+        for z in (0.6, 1.2, 1.8): lib.cyl("air jet", 0.025, 0.05, at(R_GL + 2.43, db0 + (db1 - db0) * (i + 0.5) / 6, z), M["steel"], verts=12, rot=(math.pi / 2, 0, face_out((db0 + db1) / 2)))
     # benches, boots under them, helmets on a shelf on the partition
     for k in (-1, 1):
         bb = bc + k * tang(1.3)
@@ -669,6 +673,8 @@ def suit_room(M, rnd):
         q = at(RM, bc + tang(-1.9 + 1.25 * i), 0.0)
         for s_ in (-0.08, 0.08): lib.box("boot", (0.14, 0.3, 0.14), (q[0] + s_ * math.cos(bc * D), q[1] - s_ * math.sin(bc * D), 0.07), M["suit_grey"], bevel=0.04, rot_z=face_in(bc))
     downlights(b0, b1, 90, (0.92, 0.95, 1.0), every=2.4)
+    # the Glide side, frosted: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("suit room glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(76.0, 2.2)])
 
 
 # ---------------------------------------------------------------- C-02 the pod hangar
@@ -731,6 +737,8 @@ def pod_hangar(M, rnd):
         for (r, d) in ((R_IN + 0.6, 1), (R_OUT - 0.6, -1)):
             frm = at(r, pb, 6.0); sp = lib.spot_light("flood", frm, 900, (0.95, 0.96, 1.0), 0.08, 60, 0.6); aim(sp, frm, at(RM + 0.2, pb, 0.0))
     downlights(b0, b1, 80, (0.95, 0.96, 1.0), every=3.4)
+    # the Glide side, frosted: a wall of bronze and glass from the floor to the ceiling, as in the master suite (Jim, 6 Oct: "all rooms in the crown should have same window as master bedroom")
+    crown.glass_wall("hangar glass", R_GL + 0.2, b0, b1, M, state="frosted", doors=[(85.0, 2.6)])
 
 
 MORE = {

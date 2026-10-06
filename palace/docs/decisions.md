@@ -5,6 +5,17 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 6 Oct 2026: every Crown room glazed onto the Glide, as the master suite
+
+- **Asked:** Jim, "all rooms in the crown should have same window as master bedroom". Shown the two (A: the suite's
+  wall of bronze and glass onto the Glide, floor to ceiling; B: the windows to the outside at eye level, already the
+  same in every room), he chose **A**.
+- **Changed:** every room of the Crown now has that wall on its Glide side (`crown.glass_wall`, bronze fins every
+  2.6 m, a transom at 4 m, switchable glass below it, clear above): clear where the room is seen in passing, frosted
+  where it wants privacy (the study, the guests' lounge, the suit room and the hangar, and as before the suite, the
+  spa, the gym and the kitchen); pivot doors where the way in is clear (`palace/tools/furnishing.py`, `doors`). The
+  windows to the outside stay at eye level.
+
 ## 6 Oct 2026: no Gaussian splats; path-traced photos and 360s
 
 - **Tried, then set aside.** Jim asked "try to use gaussian splatting if possible. I heard it is pretty good for real

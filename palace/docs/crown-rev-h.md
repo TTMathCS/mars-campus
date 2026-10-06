@@ -16,6 +16,9 @@ requirements/experience and move to other rooms"); then the same for every other
   on both sides"): through both walls, 0.5 to 3.0 m above the floor, 5 m wide every 8 m. Each is lined in one closed
   piece of bronze, 4 cm thick, standing 2 cm proud of both faces, so its edges run straight and unbroken; a window a
   cross wall would cut is left out, so every window stands whole in its room.
+- **Glazed onto the Glide, every room as the master suite** ("all rooms in the crown should have same window as
+  master bedroom", 6 Oct): a wall of bronze and glass from the floor to the ceiling on each room's Glide side, clear
+  or frosted as the room needs, with pivot doors.
 
 ## The rooms
 - **Seating sized to the rooms, never small chairs** ("the sofa are so small while the environement space is huge";

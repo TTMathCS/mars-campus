@@ -391,8 +391,8 @@ def gallery(M, rnd):
     CR.paint("gallery edtaonisl", "picabia_edtaonisl", 3.0, at(RM, b1 - FACE - tang(0.02, RM), 0.0), face_ccw(b1), 2.2)
     import plants
     plants.make("olive", at(R_GL + 1.6, bc, 0.0), seed=340, pot=(1.6, 0.55, "basalt"), height=4.2, stems=3)
-    for k, bb in enumerate((b0 + tang(1.6, R_GL + 1.3), b1 - tang(1.6, R_GL + 1.3))):
-        plants.make("kentia palm", at(R_GL + 1.3, bb, 0.0), seed=341 + k, pot=(0.95, 0.72, "black"), height=3.3 + 0.3 * k, stems=3)
+    for k, r in enumerate((R_GL + 1.3, R_OUT - 1.3)):       # a pair flanking the Night Cafe on the far cross wall
+        plants.make("kentia palm", at(r, b0 + tang(1.6, r), 0.0), seed=341 + k, pot=(0.95, 0.72, "black"), height=3.3 + 0.3 * k, stems=3)
     # benches of walnut and tan leather, one each side of the free wall
     for (r, k) in ((RM + 1.7, 1), (RM - 1.5, -1)):
         crown.curved_box("bench", r - 0.22, r + 0.22, bc - tang(0.9, r), bc + tang(0.9, r), 0.0, 0.38, M["walnut"])

@@ -99,7 +99,7 @@ CROWN = {
                          ("japanese maple", "a red one by the glass behind the first group, an orange one beyond the crescent, 4.2 m")],
                  art=[], doors="a wall of bronze and glass onto the Glide from the floor to the ceiling, as in the master suite, clear; two pairs of pivot doors"),
     "C-22": dict(name="Gallery", seating=["long leather benches down the middle, museum style"], tables=[],
-                 lights=["picture lights over every painting", "washers"], plants=[("olive", "one sculptural old olive"), ("kentia palm", "a pair by the glass at the ends")],
+                 lights=["picture lights over every painting", "washers"], plants=[("olive", "one sculptural old olive"), ("kentia palm", "a pair flanking the Night Café on the far cross wall")],
                  art=["the most paintings in the Crown, on both cross walls and freestanding walls down the room: Van Gogh's The Night Café, Picabia's Edtaonisl, and the collection in turn"], doors="a wall of bronze and glass onto the Glide from the floor to the ceiling, as in the master suite, clear; a pair of pivot doors"),
     "C-23": dict(name="Study", seating=["a leather executive chair", "a reading sofa 4 m and a club chair"], tables=["Jim's day desk, walnut, 2.8 m"],
                  lights=["an alabaster pendant over the desk", "a halo"], plants=[("fiddle-leaf fig", "2.8 m")], art=["Van Gogh's Self-Portrait with a Straw Hat"], doors="a wall of bronze and glass onto the Glide from the floor to the ceiling, as in the master suite, frosted for Jim's desk; a pair of pivot doors"),

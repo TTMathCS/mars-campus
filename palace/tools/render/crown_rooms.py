@@ -817,10 +817,10 @@ def studio(M, rnd):
     pieces = [[(0.0, 0.0), (0.16, 0.0), (0.2, 0.2), (0.12, 0.55), (0.05, 0.95), (0.09, 1.05), (0.0, 1.1)],
               [(0.0, 0.0), (0.24, 0.0), (0.3, 0.12), (0.26, 0.3), (0.12, 0.42), (0.0, 0.45)],
               [(0.0, 0.0), (0.05, 0.0), (0.035, 0.6), (0.06, 1.3), (0.02, 1.6), (0.0, 1.62)]]
-    for k, (r, bb, h) in enumerate(((RM + 1.6, 335.2, 1.0), (RM - 0.6, 336.0, 0.8), (RM + 3.2, 336.4, 0.6))):
+    for k, (r, bb, h) in enumerate(((124.6, 334.6, 1.0), (123.0, 335.2, 0.8), (126.0, 335.6, 0.6))):
         lib.box("plinth", (0.6, 0.6, h), at(r, bb, h / 2), M["white_wall"] if "white_wall" in M else M["porcelain"], bevel=0.004, rot_z=face_in(bb))
         furn.lathe("sculpture", pieces[k], (M["bronze"], marble_w, M["bronze"])[k], 64, at(r, bb, h))
-    lights.globes("sculpture globes", at(RM + 1.2, 335.9), n=5, spread=0.9, low=3.0, high=3.8, ceiling=ceil_at(335.9), watts=45, seed=15)
+    lights.globes("sculpture globes", at(124.5, 335.1), n=5, spread=0.9, low=3.0, high=3.8, ceiling=ceil_at(335.1), watts=45, seed=15)
     # where Jim sits back to look at the work: a sofa and a chair facing the easels on a rug, a low table of art books;
     # a still life set up on a small table by the easels
     sb = 330.0
@@ -1272,7 +1272,7 @@ ROOMS = {
     }, stops={"library": at(RM - 3.0, 306.8, 0.0), "maproom": at(RM + 2.6, 318.2, 0.0), "study": at(RM, 292.0, 0.0)}),
     "studio": dict(build=studio, span=(324.0, 360.0), sun=(192.0, 36.0), cams={
         "studio": dict(loc=at(R_GL + 2.4, 337.6, 1.5), target=at(RM, 325.0, 1.8), lens=20),
-        "prints": dict(loc=at(R_GL + 3.0, 340.6, 1.5), target=at(130.0, 349.0, 1.8), lens=20),
+        "prints": dict(loc=at(RM + 0.6, 340.4, 1.6), target=at(130.4, 348.4, 1.4), lens=22),
         "craft": dict(loc=at(R_GL + 0.75, 349.7, 1.5), target=at(R_OUT - 1.0, 356.0, 1.0), lens=20),
     }, stops={"studio": at(RM + 0.3, 332.2, 0.0)}),
     "observatory": dict(build=observatory, span=(0.0, 36.0), sun=(200.0, 30.0), night=True, cams={

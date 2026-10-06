@@ -2,7 +2,8 @@
 <title>L4 Life support, Rev G</title>
 <rect width="1200" height="1000" fill="#F7F5F0"/>
 <polygon points="595.9,90.8 906.2,518.0 595.9,945.2 93.7,782.0 93.7,254.0" fill="#EFEBE3" fill-opacity="1.00" stroke="#1C2124" stroke-width="2.40"/>
-<polygon data-code="L4-01" points="549.4,526.2 493.5,603.2 533.8,727.4 679.9,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
+<polygon data-code="L4-01" points="549.4,526.2 493.5,603.2 511.1,657.5 606.5,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
+<polygon data-code="L4-20" points="622.8,526.2 516.1,673.0 533.8,727.4 679.9,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
 <polygon data-code="L4-02" points="696.2,526.2 538.8,742.9 556.5,797.2 753.4,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
 <polygon data-code="L4-03" points="769.7,526.2 561.5,812.7 579.2,867.1 826.8,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
 <polygon data-code="L4-04" points="843.1,526.2 584.2,882.6 601.9,936.9 900.2,526.2" fill="#D9DDE1" fill-opacity="1.00" stroke="#33302C" stroke-width="0.90"/>
@@ -40,10 +41,12 @@
 <text x="119.1" y="763.6" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">CC4</text>
 <polygon points="123.1,247.1 144.4,276.4 115.1,297.8 93.7,268.4" fill="#5E6A70" fill-opacity="1.00" stroke="#1C2124" stroke-width="1.00"/>
 <text x="119.1" y="272.4" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">CC5</text>
-<text x="564.1" y="595.8" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 564.1 595.8)">L4-01</text>
-<text x="571.5" y="601.1" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 571.5 601.1)">Fission reactors</text>
+<text x="540.1" y="578.3" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 540.1 578.3)">L4-01</text>
+<text x="547.5" y="583.7" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 547.5 583.7)">City feed</text>
+<text x="588.2" y="613.2" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 588.2 613.2)">L4-20</text>
+<text x="595.5" y="618.6" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 595.5 618.6)">Fuel cells</text>
 <text x="636.2" y="648.2" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 636.2 648.2)">L4-02</text>
-<text x="643.6" y="653.5" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 643.6 653.5)">Fusion-ready bay</text>
+<text x="643.6" y="653.5" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 643.6 653.5)">Heat pumps</text>
 <text x="684.3" y="683.1" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 684.3 683.1)">L4-03</text>
 <text x="691.7" y="688.4" font-size="9.2" font-weight="400" fill="#3A4246" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 691.7 688.4)">Batteries and heat store</text>
 <text x="732.4" y="718.0" font-size="11.0" font-weight="700" fill="#1C2124" text-anchor="middle" dominant-baseline="middle" transform="rotate(-54.0 732.4 718.0)">L4-04</text>

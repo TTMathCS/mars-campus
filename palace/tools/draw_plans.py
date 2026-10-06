@@ -556,7 +556,7 @@ def build():
 <a class="card" href="l1.html"><b>L1 · Residence</b><span>Jim's home, the club, the baths, the library, the guests: L1-01 to L1-43</span></a>
 <a class="card" href="l2.html"><b>L2 · Garden</b><span>L2-01 to L2-21</span></a>
 <a class="card" href="l3.html"><b>L3 · Studio</b><span>L3-01 to L3-23</span></a>
-<a class="card" href="l4.html"><b>L4 · Life support</b><span>L4-01 to L4-19</span></a>
+<a class="card" href="l4.html"><b>L4 · Life support</b><span>L4-01 to L4-20</span></a>
 <a class="card" href="l5.html"><b>L5 · Transit</b><span>L5-01 to L5-21</span></a>
 <a class="card" href="pairs.html"><b>Two of a kind</b><span>Each pair and its two purposes</span></a>
 <a class="card" href="rooms.html"><b>All codes</b><span>Every room in one list</span></a>

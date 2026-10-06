@@ -169,9 +169,10 @@ L3 = [
 ]
 
 L4 = [
-    dict(code="L4-01", name="Fission reactors", kind="tech", at=("A", 1), rings=("A", "B"), use="Two 5 MWe microreactors.", also=""),
-    dict(code="L4-02", name="Fusion-ready bay", kind="tech", at=("C", 1), use="Kept for a fusion plant when one exists.", also=""),
-    dict(code="L4-03", name="Batteries and heat store", kind="tech", at=("D", 1), use="", also=""),
+    dict(code="L4-01", name="City feed", kind="tech", at=("A", 1), use="Power from the city's grid: its two buried cables come in here, by different routes, and become Arcadia's own direct current.", also="No reactor of its own: the city makes the power (Jim, 6 Oct 2026)."),
+    dict(code="L4-20", name="Fuel cells", kind="tech", at=("B", 1), use="Standby power, if the city's grid is ever down: fuel cells burning the methane and oxygen kept for the ships.", also=""),
+    dict(code="L4-02", name="Heat pumps", kind="tech", at=("C", 1), use="Warmth for the house: heat taken back from the air leaving the rooms and from the machines on this level, about 2 MW in the coldest weeks.", also="Warm water for the ice melt (L4-05)."),
+    dict(code="L4-03", name="Batteries and heat store", kind="tech", at=("D", 1), use="20 MWh: the evening peak, and the first hours if the grid fails; a tank of hot water for the floors.", also=""),
     dict(code="L4-04", name="Switchgear", kind="tech", at=("E", 1), use="", also=""),
     dict(code="L4-05", name="Ice melt", kind="tech", at=("A", 2), use="Melting the ice from the mine.", also=""),
     dict(code="L4-06", name="Purification", kind="tech", at=("B", 2), use="Removing the perchlorate salts.", also=""),

@@ -11,7 +11,7 @@ Every room has a code, a purpose, a place and a size, and two of a kind only whe
 | [L1 · Residence](l1.md) | 43 rooms |
 | [L2 · Garden](l2.md) | 21 rooms |
 | [L3 · Studio](l3.md) | 23 rooms |
-| [L4 · Life support](l4.md) | 19 rooms |
+| [L4 · Life support](l4.md) | 20 rooms |
 | [L5 · Transit](l5.md) | 21 rooms |
 
 ## Taken out of Rev B

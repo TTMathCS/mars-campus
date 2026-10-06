@@ -173,7 +173,7 @@ RING_ROOMS = [
     dict(code="T06-CU", name="Upper corridor", floor="upper", a=(-57, 197), band="corridor", kind="move", use="Along the garden side behind glass, from the west stair round the back and the right, through the Gate Hall to the stair down by the gate.", also=""),
     # lower floor, all the way round: the garden gallery behind and on the right, underground on the right-front, the
     # sunken grove's side on the left
-    dict(code="T06-08", name="Lower hall", floor="lower", a=(-7, 7), kind="move", use="Under the hall's gallery: glass doors out to the garden gallery and the garden domes.", also=""),
+    dict(code="T06-08", name="Lower hall", floor="lower", a=(-7, 7), kind="move", use="Under the hall's gallery: glass doors out to the garden gallery and the garden domes; by the glass a seating group on a rug: two long sofas facing over a low table, an armchair at each end, a fig and a kentia palm beside it.", also="Parents wait here; small talks after class."),
     dict(code="T06-09", name="Study hall", floor="lower", a=(7, 27), kind="study", use="A quiet room for homework: 40 carrels with lamps, a librarian's desk, shelves along the corridor wall.", also="Exam room."),
     dict(code="T06-10", name="Gauss", floor="lower", a=(27, 41), kind="class", use="Classroom for statistics and data: 24 seats at tables with screens.", also=""),
     dict(code="T06-11", name="Turing", floor="lower", a=(41, 52), kind="lab", short="Turing", use="Computer classroom: 16 workstations for coding and modelling.", also=""),

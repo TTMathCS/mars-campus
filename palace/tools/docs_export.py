@@ -22,7 +22,7 @@ BOOK = {
     "crown": [("fElev", "elevation"), ("fPlan", "plan"), ("fOrbIn", "orb-inside"), ("fDash", "dashboard"), ("fZoom", "zoom"), ("fField", "field"), ("fSection", "sections")],
     "pentagon": [("fSec", "section"), ("fPlan", "plan-L1"), ("fDose", "dose"), ("fDig", "dig")],
     "interiors": [("fMap", "map"), ("fSuites", "suites"), ("fArrive", "arrive"), ("fSol", "sol")],
-    "power": [("fFlow", "flow"), ("fReactor", "reactor"), ("fSol", "sol"), ("fTrench", "trench"), ("fRad", "radiators")],
+    "power": [("fFlow", "flow"), ("fSol", "sol"), ("fTrench", "trench")],
     "transport": [("fOrbit", "orbit"), ("fPod", "pod"), ("fProfile", "profile"), ("fTunnel", "tunnel")],
     "spaceport": [("fPlan", "plan"), ("fFuel", "fuel"), ("fPit", "pit"), ("fTurn", "turn"), ("fPad", "pad")],
     "life": [("fLoop", "loops"), ("fAir", "air"), ("fWater", "water"), ("fFood", "food"), ("fDose", "dose")],

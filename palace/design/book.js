@@ -12,7 +12,7 @@ var BOOK = (function () {
     ["rooms-atrium", "03·2", "L1: round the atrium", "The atrium and the sun court, the great library, the thermal baths, the cinema"],
     ["rooms-club", "03·3", "L1: the club", "The wine cellar under its brick vaults"],
     ["interiors", "04", "Interiors", "Every room, the materials, light, and the rooms round the Wormhole Gate"],
-    ["power", "05", "Power", "Four reactors, storage and the grid, in sunshine and in storms"],
+    ["power", "05", "Power", "From the city's grid, with storage and heat pumps of its own, in sunshine and in storms"],
     ["transport", "06", "Transportation", "Ships from Earth, the pod, rovers, the maglev and the portals"],
     ["spaceport", "07", "Arcadia Spaceport", "Pads, terminal, the fuel plant and the ice mine"],
     ["life", "08", "Life support", "Air, water, food, warmth and protection from radiation and dust"],

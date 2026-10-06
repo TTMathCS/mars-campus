@@ -33,6 +33,9 @@ drew it: the light, the soft shadows, the plants, the paintings. The page is [`p
 
        opensplat palace/blender/splats/bedroom -n 4000 --densify-until 3900 --sh-degree 2 --max-gaussians 1200000 -o gs/bedroom.ply
 
+   `splat_tools.sh` applies [`opensplat_cpu_bounds.patch`](../../tools/render/opensplat_cpu_bounds.patch): the CPU
+   rasterizer skips blobs with a NaN or huge footprint and clamps their bounds, so the fitting no longer crashes.
+
 3. **Publishing.** [`splat_publish.py`](../../tools/render/splat_publish.py) writes the fitted splat as `.spz`
    (compressed, about a tenth of the `.ply`) into `palace/splat/data/`, and lists the room in
    `palace/splat/data/rooms.json` with where its rig stood (`centre`, in the design's metres), how far you may step

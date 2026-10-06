@@ -1,11 +1,13 @@
 #!/bin/sh
 # Build the splat-fitting tool, OpenSplat (github.com/pierotofy/OpenSplat, AGPL-3.0), for the CPU, in <dir> (default
 # ./gs): a micromamba environment from conda-forge (LibTorch for the CPU, OpenCV, a C++ compiler, CMake), then OpenSplat
-# built against it. About 15 minutes on a 4-core machine; needs conda.anaconda.org, conda-forge and github.com.
+# built against it, with opensplat_cpu_bounds.patch applied. About 15 minutes on a 4-core machine; needs
+# conda.anaconda.org, conda-forge and github.com.
 #   sh splat_tools.sh [dir]
 # then fit with:
 #   env MAMBA_ROOT_PREFIX=<dir>/mroot <dir>/mm/bin/micromamba run -p <dir>/env <dir>/OpenSplat/build/opensplat <dataset> ...
 set -e
+HERE=$(cd "$(dirname "$0")" && pwd)
 GS=$(mkdir -p "${1:-gs}" && cd "${1:-gs}" && pwd)
 cd "$GS"
 export MAMBA_ROOT_PREFIX="$GS/mroot"
@@ -16,7 +18,7 @@ if [ ! -d env ]; then
   mm/bin/micromamba create -y -p "$GS/env" -c conda-forge 'libtorch=*=cpu*' libopencv cxx-compiler cmake make pkg-config
 fi
 if [ ! -d OpenSplat ]; then
-  git clone https://github.com/pierotofy/OpenSplat && (cd OpenSplat && git checkout -q 688944f)
+  git clone https://github.com/pierotofy/OpenSplat && (cd OpenSplat && git checkout -q 688944f && git apply "$HERE/opensplat_cpu_bounds.patch")
 fi
 mkdir -p OpenSplat/build && cd OpenSplat/build
 "$GS/mm/bin/micromamba" run -p "$GS/env" cmake -DCMAKE_BUILD_TYPE=Release -DGPU_RUNTIME=CPU -DCMAKE_PREFIX_PATH="$GS/env" .. > cmake.log

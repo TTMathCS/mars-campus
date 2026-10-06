@@ -75,7 +75,7 @@ construction/design as well. and at least some hints that there is big part unde
 - **A paved pentagon** of sintered-regolith slabs, 166 m on a side, 4 m wider all round than the Pentagon below, so the
   ground shows from the air where Arcadia lies. A dark basalt kerb edges it, with a line of light that glows warm at
   dusk.
-- **The Stone Garden**, the circle inscribed in it: raked gravel 224 m across and **seven basalt stones**, no mirrors
+- **The Stone Garden**, the circle inside it: raked gravel 204 m across and **seven basalt stones**, no mirrors
   and no panels.
 - **The Orb's dock** at the centre: a ring of dark basalt 30.8 m across and 5.5 m high with a bronze band and five
   bronze pads, round the **Sun Well**, the glass sky lens 20 m across over the Pentagon's atrium, 68 m below. The Orb
@@ -91,7 +91,7 @@ The other ways in are the Sun Well and the rover tunnel from L5, which comes out
 | Ground | Size |
 | --- | --- |
 | Paved pentagon | 166 m sides, 141 m from the centre to each corner |
-| Stone Garden | Ø 224 m, seven stones of 2 to 4 m |
+| Stone Garden | Ø 204 m, seven stones of 2 to 4 m |
 | The Orb's dock | Ø 30.8 m, 5.5 m high, pads 6.9 m up |
 | Pads under the spires | 5, Ø 14 m, 130 m from the centre |
 | Corner pavilions | 5, 116 m from the centre; glass 6.2 × 8.2 m, roof 8.6 × 11 m, 3.4 m high |

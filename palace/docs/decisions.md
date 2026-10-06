@@ -5,6 +5,30 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 6 Oct 2026: the plan reviewed
+
+- **Asked** (Jim): "Can you review the plan?"
+- **Brought into line, no decision needed.** The Crown's numbers to revision H in every chapter, the README, the
+  requirements, the Atlas and the drawings: the ring 26 m wide and 224 m across inside, the Glide 3.5 m wide and
+  734 m long, the roof +56 m between the spires, rooms 12.5 m tall and 20 m under the spires, 28,700 m² with the Orb
+  (8.4 times the TTMath campus), about 210,000 t of which 120,000 t is ice, 156 MN on each drive; the Stone Garden
+  204 m across; the air 2.4 million m³, 2,300 t. The day-and-night rule's leftovers: the Crown chapter's modes, the
+  Interiors chapter, the Pentagon's summary, the study, the studio and the breakfast room. "No glass wall anywhere"
+  became "no glass wall to the outside". The city's 60–70 MW in phase 3 is no longer "in L4-02" (now the heat pumps);
+  GN-12 no longer says reactors. The requirements now hold Jim's asks of 4 and 6 Oct (GN-19, GN-20, CR-5 to CR-9,
+  LV-8 to LV-11, DM-14), with a round 6 in their history.
+- **Decided with our best judgment.** The spires' upper floors (C-05, C-12, C-19, C-26, C-32) were at +51 m, which
+  is now inside the 20 m halls: they move up to **+62 m**, under the spire roofs, about 1,090 m² each, with the drive in
+  the tip above them. **Power, water and air reach the floating Crown through the portals in its spires** (future
+  technology, like the portals themselves); batteries in each spire keep the drives running for a day, and seated on
+  its pads the Crown plugs into the Pentagon's power, water and air.
+- **Asked of Jim** ([REQUIREMENTS, section 10](../REQUIREMENTS.md#10-open-questions)): Q1, whether the city should
+  also own the spaceport, the fuel plant and ice mine, the relays, the maglev and tunnels, the city control room and the
+  foundry's work for the city; Q2, the true reason for "by day below, by night up" (the dose comes from the hours up,
+  not from which hours); Q3, the Pentagon now 7 times the Crown, not about 10 (PG-1).
+- **Still to do:** render again the outside pictures that show the Rev G ring (the Crown by day, from the garden and
+  at sunset, the site from the air, Arcadia in section and its turntable) and the spaceport without its reactor domes.
+
 ## 6 Oct 2026: no reactor; the city provides the power
 
 - **Asked** (Jim, reviewing the plan): "no nuclear reactor is needed since it is provided by city".

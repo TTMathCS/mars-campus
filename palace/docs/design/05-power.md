@@ -64,7 +64,7 @@ global dust storm hides the sun for weeks and changes nothing here.*
 
 The city's power comes in on two buried direct-current cables by different routes, so a cut in one leaves the other:
 one runs 30 km beside the rover road from the spaceport, where the city's grid reaches, and the other comes through
-the first of the city's tunnels (L5-16). Each, at ±20 kV, can carry 15 MW, the house and the port together with room
+the first of the city's tunnels (L5-16). Each, at ±20 kV, can carry 15 MW, Arcadia and the port together with room
 to spare, with about 1.5% lost at full load. An optical fibre runs in each trench and backs up the radio links. Inside
 Arcadia power is distributed as direct current; the switchgear is on L4 (L4-04), beside the batteries.
 

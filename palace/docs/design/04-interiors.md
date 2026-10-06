@@ -8,9 +8,9 @@
 
 *Jim's family room on L1, path-traced from the 3D model. Every room, picture first: **[The rooms, in pictures](../rooms.md)**.*
 
-The rooms of Arcadia, what they look like and what they are made of. The Crown is for daylight, views, music and
-guests; the Pentagon for sleep, water, gardens and work. The aim everywhere: calm rooms of real materials that feel
-like Earth, in a house that could only be on Mars. **Requirements:** LV-1 to LV-7, TR-5, TR-6.
+The rooms of Arcadia, what they look like and what they are made of. The Crown is for the evenings: the sunset, the
+views, dinners, music and guests; the Pentagon for the day, for sleep, water, gardens and work. The aim everywhere:
+calm rooms of real materials that feel like Earth, in a home that could only be on Mars. **Requirements:** LV-1 to LV-7, TR-5, TR-6.
 
 ![Where the rooms are: the Crown's main floor and the Pentagon's L1, to one scale](../img/book/interiors-map.png)
 
@@ -44,16 +44,16 @@ machines.
 
 | Part | Codes | What it is like |
 | --- | --- | --- |
-| Arrival (spire, E) | C-01 to C-05 | The pod hangar, the suit room, the Door and the Arrival hall, 9 m tall, of basalt and plaster, with the first view back over the garden to the Orb. Upstairs, dock control watches the pods come in |
+| Arrival (spire, E) | C-01 to C-05 | The pod hangar, the suit room, the Door and the Arrival hall, 20 m tall, of basalt and plaster, with the first view back over the garden to the Orb. Upstairs, dock control watches the pods come in |
 | Master suite up (dip, SE) | C-06 to C-08 | Jim's rooms for the night up in the sky: the bedroom faces the south-east windows, with the dressing room at one end and a bath with a soaking tub by the windows at the other |
 | Salon (spire, SSE) | C-09 to C-12 | The great salon, 45 m along the ring, with wool rugs and low sofas; the hearth room of cold, lit mist at one end and the recital room with the concert grand at the other. Upstairs, the Sky lounge |
 | Wellness (dip, SSW) | C-13 to C-15 | A 25 m sky pool along the ring, where low gravity makes every wave rise high and fall slowly; a spa with a cedar sauna and a round hot pool; a gym with the view |
 | Dining (spire, SW) | C-16 to C-19 | A dining hall for 22 at one basalt table, the chef's kitchen, and a wine room of Mars glass stocked from the cellar below. Upstairs, the Sky bar |
 | Sunset (dip, W) | C-20 to C-22 | The sun sets straight down the length of the sunset lounge. At one end the guests' lounge; at the other a gallery of Jim's paintings and photographs of Mars |
-| Library (spire, NW) | C-23 to C-26 | Jim's study in the north light, two floors of walnut shelves round a spiral stair, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery under the roof |
-| Studio (dip, NNW) | C-27 to C-29 | An art studio in the steady north light, a photo and print room, and a craft room for pottery and models; heavy work goes down to the workshops on L3 |
+| Library (spire, NW) | C-23 to C-26 | Jim's evening study, with Earth an evening star in its window, two floors of walnut shelves round a spiral stair, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery under the roof |
+| Studio (dip, NNW) | C-27 to C-29 | An art studio for painting at dusk, in the last of the north light and then under daylight lamps, a photo and print room, and a craft room for pottery and models; heavy work goes down to the workshops on L3 |
 | Observatory (spire, NNE) | C-30 to C-32 | A star lounge with reclining seats under the northern sky, and the telescope room. Upstairs, the telescope dome with a 1 m telescope |
-| Garden room (dip, NE) | C-33 to C-34 | A breakfast room in the morning light through the east slots, and a sky garden of fruit trees, flowers and herbs |
+| Garden room (dip, NE) | C-33 to C-34 | A breakfast room for a late supper under the stars, and for breakfast as the sun rises on a day off, and a sky garden of fruit trees, flowers and herbs |
 
 ## The Orb's rooms
 
@@ -93,7 +93,7 @@ quietest, safest room on Mars, and where Jim sleeps.
 The pod flies straight into the hangar from the garden side. The hangar fills with air in about 90 seconds while the
 dust is blown off the pod. Beside it, the suit room keeps the suits in ports in the outer wall, so no dust comes in.
 **The Door**, a round opening 5 m across closed by an iris of light, recognises Jim by face, eyes and the way he walks,
-and opens only for him and his guests. Then the Arrival hall: 9 m tall, basalt floor, olive-wood bench, and the
+and opens only for him and his guests. Then the Arrival hall: 20 m tall, basalt floor, olive-wood bench, and the
 first window slot looking back to the Orb.
 
 ## The Pentagon's rooms

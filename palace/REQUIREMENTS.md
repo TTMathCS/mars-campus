@@ -1,6 +1,6 @@
 # Arcadia, Jim's home on Mars: requirements
 
-Demo 2 of [Mars – your new home](../README.md) · owner: Jim (TTMath) · last updated 3 Oct 2026
+Demo 2 of [Mars – your new home](../README.md) · owner: Jim (TTMath) · last updated 6 Oct 2026
 
 **[Demo 2 home](README.md) · Requirements · [Decisions](docs/decisions.md) · [Design](docs/design/README.md) · [Rooms](docs/rooms.md) · [Floor plans](docs/plans/README.md) · [Pictures](docs/gallery.md)**
 
@@ -8,16 +8,17 @@ This file lists everything Jim has asked for in demo 2. Each requirement has an 
 link to where the design answers it. It is the source of truth for the demo: when Jim asks for something new, it
 goes here first.
 
-> **Where things stand, 3 Oct 2026**
-> - Demo 2 is **Arcadia**, Jim's home on Mars (Jim, 3 Oct: "just Arcadia"; GN-1). The homepage shows a city rising on
->   Mars and never says "demo" (GN-17); no notes for visitors on any page (GN-18).
-> - Floor plans **Rev G approved** by Jim on 3 Oct ("approve"): every room designed, with a code (GN-16). The Orb is
->   **48 m** across, decided with our best judgment as he asked ("do per your best judgements"; OR-1 to OR-9).
-> - **Nothing waits for an answer.** The Orb's design (Rev E) and the built ground (GN-13) stand as drawn: Jim asked
->   for no changes.
-> - The design plan: all ten chapters are written.
-> - **It must look real.** Every room is rendered as path-traced pictures and 360° views, one at a time, following the
->   floor plans ([the photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/)). The real-time 3D pages are hidden from the site (2 Oct).
+> **Where things stand, 6 Oct 2026**
+> - Demo 2 is **Arcadia**, Jim's home on Mars (GN-1). The homepage shows a city rising on Mars and never says "demo"
+>   (GN-17); no notes for visitors on any page (GN-18).
+> - Floor plans **Rev G approved** by Jim on 3 Oct, every room with a code (GN-16); the Orb 48 m across. The Crown is
+>   now **revision H** (4 Oct): wider, taller, windows at eye level (CR-5 to CR-7), and from 6 Oct a wall of glass onto
+>   the Glide in every room (CR-8); its rooms furnished to their size with chosen plants and paintings (LV-8 to LV-10).
+> - **By day below, by night up** (6 Oct, LV-3). **No reactor**: the city's grid gives the power (6 Oct, SY-1, GN-12).
+> - **Three questions for Jim** from the review of the plan on 6 Oct ([section 10](#10-open-questions)).
+> - **It must look real.** Every room is rendered as path-traced pictures, with a 360° view at its stop on the
+>   [photo tour](https://ttmathcs.github.io/mars-campus/palace/tour/); Gaussian splats were tried and set aside (6 Oct).
+>   The real-time 3D pages are hidden from the site (2 Oct).
 
 ## How to read the tables
 
@@ -35,6 +36,7 @@ goes here first.
 | ⏳ To design | A design book chapter still to write |
 | 🎬 Built | Works in the 3D demo |
 | 🔧 In progress | Being worked on now |
+| ❓ Asked | A question is with Jim ([section 10](#10-open-questions)) |
 
 **Ch 02** links open a design book chapter on the live site. **Summary** links open the chapter's page in this
 repo, with its diagrams and pictures.
@@ -50,7 +52,7 @@ repo, with its diagrams and pictures.
 7. [Getting home](#7-getting-home)
 8. [Systems](#8-systems)
 9. [What you can do in the demo](#9-what-you-can-do-in-the-demo)
-10. [Open questions](#10-open-questions): none
+10. [Open questions](#10-open-questions): three, from the review of 6 Oct
 11. [History and old IDs](#11-history-and-old-ids)
 
 ## 1. The vision and the rules
@@ -68,13 +70,15 @@ repo, with its diagrams and pictures.
 | GN-9 | Organised documents: requirements, plans and maps easy to move between, with the diagrams and pictures visible in the repo | Must | ✅ Done 1 Oct 2026: this file, [Demo 2 home](README.md) and [docs/](docs/design/README.md) | [Demo 2 home](README.md) |
 | GN-10 | Use the diagrams and the rendered pictures as much as possible; every picture must look real | Must | ✅ Done 1 Oct 2026: 39 diagrams exported, all ten pictures re-rendered; the cockpit view did not look real and was taken out | [Pictures](docs/gallery.md) |
 | GN-11 | Works on Jim's laptop, and on a phone | Should | Design book checked at desktop and phone size | [HANDOFF.md](../HANDOFF.md) |
-| GN-12 | Nothing spread over the ground: no solar panels and no mirrors. "It is bit scary to have so many panels on the ground… better to remove them all if no good design." | Must | ☑️ Decided 1 Oct 2026: the garden mirrors and the solar field are gone; the Stone Garden is gravel and seven stones; reactors supply all the power | [Decisions](docs/decisions.md#1-oct-2026-nothing-on-the-ground) · [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) |
+| GN-12 | Nothing spread over the ground: no solar panels and no mirrors. "It is bit scary to have so many panels on the ground… better to remove them all if no good design." | Must | ☑️ Decided 1 Oct 2026: the garden mirrors and the solar field are gone; the Stone Garden is gravel and seven stones. Since 6 Oct the city's grid gives the power, by buried cable: no reactor (SY-1) | [Decisions](docs/decisions.md#1-oct-2026-nothing-on-the-ground) · [Ch 05](https://ttmathcs.github.io/mars-campus/palace/design/power.html) |
 | GN-13 | A designed ground, not raw soil, with hints of the big part underground. "the ground is raw and need some construction/design as well. and at least some hints that there is big part underground, instead of raw ground/soil" | Must | ✅ Rev E, 1 Oct 2026, stands (Jim asked for no changes): a paved pentagon 4 m wider than the Pentagon below, kerbed in basalt with a line of light; the Stone Garden inside it; glass over the five avenues; a glass pavilion over each corner stair; basalt pads under the spires. Still no panels and no mirrors (GN-12) | [Ch 01](https://ttmathcs.github.io/mars-campus/palace/design/site.html#plan) · [Summary](docs/design/01-site-and-city.md#the-site-plan) · [Decisions](docs/decisions.md#1-oct-2026-a-built-ground-and-a-dock-for-the-orb) |
 | GN-14 | The Mars science on the homepage, beside the two demos: "show these are science facts of mars and research on how to build on mars. consider weather/etc... all factors" (Jim, 2 Oct 2026) | Must | ✅ A *The science* section on the homepage with a card each for Mars facts and Building on Mars; the pages themselves are separate (GN-15) | [Homepage](https://ttmathcs.github.io/mars-campus/#science) · [The science](../science/README.md) |
 | GN-15 | Separate pages and files, as a global rule: each topic its own page, big topics split into nested subpages ("like surface/core/weather/space/resources/etc. please keep this as global rule", Jim, 2 Oct 2026) | Must | ✅ Applied to the science (`science/`, 20 subject pages under two hubs); written into `CLAUDE.md`, `AGENTS.md` and the handoff for every page to come | [CLAUDE.md](../CLAUDE.md) · [Decisions](docs/decisions.md) |
 | GN-16 | Every room designed before it is drawn, with a code to refer to it: what it is for, what else it can be used for, where it is and how big. Two of a kind only when each has its own job. Jim, 2 Oct 2026: "I like you to design it and plan it well before draw the images"; "it is OK to have duplicates but just need to design well as long as they could be used for multiple purpose"; "each room / area give it some code which can be easily referenced" | Must | ✅ Floor plans Rev G, approved by Jim on 3 Oct 2026: 179 rooms and areas, codes L1-01 to L5-21, C-01 to C-34, O-00 to O-17 and G-01 to G-08; the pictures follow it | [Rev G](https://ttmathcs.github.io/mars-campus/palace/plans/) · [Summary](docs/plans/README.md) |
 | GN-17 | The homepage shows a city being built on Mars, place by place, and never says "demo". Jim, 3 Oct 2026: "on homepage don't use demo, use some phrase to show the city is building in progress on mars" | Must | ✅ *Under construction · A city rising on Mars*; the cards are tagged *Built · Gale Crater* and *In design · Arcadia Planitia* | [Homepage](https://ttmathcs.github.io/mars-campus/) · [Decisions](docs/decisions.md) |
 | GN-18 | No notes for visitors on the pages: no "how to move", no "what's real", no status or review notes; keep them in the docs. Jim, 3 Oct 2026: "I hate all this kinds of notes, just garbage shows on the page since there are already duplicates in the 3d. You can keep those for your memory to save somewhere else you know, but not on the pages for users/visitors" | Must | ✅ Off the homepage, the design plan and the science pages; kept in [README.md](../README.md#controls); a global rule in [CLAUDE.md](../CLAUDE.md) | [CLAUDE.md](../CLAUDE.md) |
+| GN-19 | Keep every original design file, so any picture can be made again or improved: "can you put original files somewhere so we can reproduce or improve later? just archives all those original design files" (Jim, 4 Oct 2026) | Must | 🔧 The scene scripts in `palace/tools/render/`, a Blender file of every scene with its cameras, and the textures, models and skies, in `palace/blender/` | [The archive](blender/README.md) |
+| GN-20 | Pictures in the tone of the first ones: true blacks, real contrast, never washed out. "new ones are bit too bright and looks more not real" (Jim, 4 Oct 2026) | Must | ✅ Each picture is graded against the family room, the library, the salon and the dining hall (`grade.py`) | [Pictures](docs/gallery.md) |
 
 ## 2. Site and city
 
@@ -89,10 +93,15 @@ repo, with its diagrams and pictures.
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with window slots instead of glass walls | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
+| CR-1 | Above ground, the most future-proof, dream-like design. Not a pentagon, and no big glass because the sun is strong | Must | ✅ Rev B: the Crown, a white ceramic ring 276 m across, with windows at eye level instead of glass walls to the outside | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#look) · [Summary](docs/design/02-crown.md) |
 | CR-2 | It floats on anti-gravity: no legs, and nothing touches the ground | Must | ✅ A drive in each of the five spires, with fallback pads | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#float) · [Summary](docs/design/02-crown.md#how-it-floats) |
-| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 19,500 m², 5.7 times the campus, with the Orb at 48 m (3 Oct 2026) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
+| CR-3 | The part above ground is much bigger than the TTMath campus | Must | ✅ 28,700 m², 8.4 times the campus, with the Orb at 48 m (Rev H, 4 Oct 2026) | [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#areas) |
 | CR-4 | No elevators: the Crown and the underground are linked by a wormhole or another transmission device | Must | ✅ Portals in the spires, the Orb and every Pentagon level; stairs as the real fallback | [Ch 06](https://ttmathcs.github.io/mars-campus/palace/design/transport.html#portals) · [Summary](docs/design/06-transport.md#in-arcadia-portals) |
+| CR-5 | Wider inside: "reduce the radius of inner circle so there are should be more interior spaces. priority" (Jim, 4 Oct 2026) | Must | ✅ Rev H: the inner wall moves from r = 125 m to 115 m; the ring is 20 m wide inside, the rooms 16.5 m deep | [Rev H](docs/crown-rev-h.md) · [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#plan) |
+| CR-6 | Taller inside: "the crown inside is too short. I need increase the ceilling height much higher and look more spacious" (4 Oct) | Must | ✅ Rev H: rooms 12.5 m tall, 20 m in the halls under the spires; the spires' upper floors move up to +62 m | [Rev H](docs/crown-rev-h.md) · [Ch 02](https://ttmathcs.github.io/mars-campus/palace/design/crown.html#build) |
+| CR-7 | Windows in straight, clean lines, low enough to see out while walking: "all the windows on the wall looks not straight lines"; "I need them to be lower so when people walking their height should see through the windows on both sides" (4 Oct) | Must | ✅ Rev H: 0.5 to 3.0 m above the floor through both walls, 5 m wide every 8 m, each lined in one piece of bronze | [Rev H](docs/crown-rev-h.md) |
+| CR-8 | Every room of the Crown with the master bedroom's window: "all rooms in the crown should have same window as master bedroom" (6 Oct); shown two readings, Jim chose the wall of glass onto the Glide | Must | ✅ A wall of bronze and glass from floor to ceiling on each room's Glide side, clear or frosted as the room needs, with pivot doors | [Decisions](docs/decisions.md) · [Rooms](https://ttmathcs.github.io/mars-campus/palace/design/rooms-crown.html) |
+| CR-9 | The star lounge's walls of switchable glass: dark by day at a switch, clear at night for the stars (4 Oct) | Should | 🔧 | [Rev H](docs/crown-rev-h.md) |
 
 ## 4. The Orb: the universe in VR and the Wormhole Gate
 
@@ -126,7 +135,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 
 | ID | Requirement | Priority | Status | Where |
 | --- | --- | --- | --- | --- |
-| PG-1 | Most of Arcadia underground because of the weather: about 10 times the area above ground | Must | ✅ 209,700 m², 11 times the Crown | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html) · [Summary](docs/design/03-pentagon.md) |
+| PG-1 | Most of Arcadia underground because of the weather: about 10 times the area above ground | Must | ❓ 209,700 m², 88% of Arcadia; since Rev H made the Crown bigger, 7 times the Crown. Asked of Jim, 6 Oct ([section 10](#10-open-questions)) | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html) · [Summary](docs/design/03-pentagon.md) |
 | PG-2 | Underground, "the pentagon shape solid design" | Must | ✅ One solid pentagon, 160 m sides, five levels from 24 to 68 m down under 16 m of soil | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#plan) · [Summary](docs/design/03-pentagon.md#the-plan) |
 | PG-3 | "All crazy ideas and future-proof tech" below ground (round 2) | Should | 📐 Residence, a garden level with a lake and a forest, studio and workshops, life support, and the transit halls | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#levels) · [Summary](docs/design/03-pentagon.md#the-five-levels) |
 
@@ -136,11 +145,15 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | --- | --- | --- | --- | --- |
 | LV-1 | Many rooms, each detailed: living room, bedroom, bath, study, dining, kitchen, library, cellar, pool, sauna, gym, guest suites, gardens, hangar (round 1) | Must | 📐 All of them, in the Crown and on levels L1 and L2 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html) · [Summary](docs/design/04-interiors.md) |
 | LV-2 | Two master suites, "one up and one down" | Must | ✅ Master suite up in the Crown's south-east dip; master suite down on L1, sector 1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#suites) · [Summary](docs/design/04-interiors.md#two-master-suites) |
-| LV-3 | Sleep below ground most nights, to limit radiation | Must | ☑️ Decided 1 Oct (Jim: true). About 19 mSv a year, with about 6 hours a day in the Crown and rest in the Orb (OR-6): the budget is in chapter 08 | [Ch 03](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html#why) · [Ch 08](https://ttmathcs.github.io/mars-campus/palace/design/life.html#radiation) |
+| LV-3 | Sleep below ground most nights, to limit radiation; then, from 6 Oct, "day has too much rediation so day should be in the ground while night in the sky" | Must | ☑️ Decided 1 Oct (Jim: true); turned round on 6 Oct: by day below in the Pentagon, by night up in the Crown for about 6 hours from sunset, and everyone sleeps below. About 19 mSv a year (chapter 08). The reason given on the pages is asked of Jim, 6 Oct ([section 10](#10-open-questions)) | [Ch 08](https://ttmathcs.github.io/mars-campus/palace/design/life.html#radiation) · [Decisions](docs/decisions.md) |
 | LV-4 | Watch TV (round 2) | Should | 📐 The 40-seat cinema and the family room on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
 | LV-5 | Read books (round 2) | Should | 📐 The Library spire in the Crown and the Great library on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
 | LV-6 | Play the piano, and other things to use (round 2) | Could | 📐 The recital room (C-11) in the Salon part of the Crown, and the music room (L1-01) on L1 | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#crown) |
 | LV-7 | Few visitors: "I don't expect a lot of visitors because it's for my retirement" (1 Oct) | Should | ☑️ The demo is played as Jim, not as a guest. The guest rooms stay as designed, because the few visitors from Earth stay until the next launch window ([why](docs/decisions.md#decided-with-our-best-judgment-1-oct-2026)) | [Ch 04](https://ttmathcs.github.io/mars-campus/palace/design/interiors.html#pentagon) |
+| LV-8 | Seating sized to the rooms, never small chairs: "the sofa are so small while the environement space is huge"; "I hate those small chairs" (4 Oct) | Must | ✅ Long sofas along the walls, deep sectionals, daybeds, banquettes and big lounge chairs, groups facing their tables, in the furnishing program | [Furnishing](tools/furnishing.py) |
+| LV-9 | Plants chosen for each room, all kinds and colours: "all the plants so far … are same, and looks strange" (4 Oct) | Must | ✅ A plant library of real species in planters sized to them, planned room by room | [Furnishing](tools/furnishing.py) |
+| LV-10 | Paintings: "I need paintings on the wall with good design around crown" (4 Oct) | Should | 🔧 Public-domain masterpieces and large canvases in designed frames with their own lights, in every Crown room; the Gallery holds the most | [Rev H](docs/crown-rev-h.md) |
+| LV-11 | The master suite: "needs a door. plants is not good. bed too small. need fancy bed lights. replace table/chair with more luxury and good design ones"; "same thing for all rest rooms" (4 Oct) | Must | ✅ The suite up: doors onto the Glide, a grand bed with its own lights, a luxurious desk and seats; the rest rooms to follow | [Rooms](https://ttmathcs.github.io/mars-campus/palace/design/rooms-crown.html) |
 
 ## 7. Getting home
 
@@ -198,11 +211,18 @@ guided tour for guests. It is built in three phases. Each phase replaces the old
 | DM-11 | Change the time of day: sunrise, noon, blue sunset, night, dust storm (round 1) | Should | 2 | 🎬 Live in the Crown: all five |
 | DM-12 | See a map of where you are; take a guided tour or walk freely (round 1) | Should | 2–3 | 🔧 The Crown has a map of the ring: click a part to glide there; walk freely or ride the Glide. The Pentagon has a map of the level you are on (the garden's five sectors and the lake on L2, Jim's rooms on L1): click a place to go there; and a guided tour of two minutes, from the atrium through Jim's rooms (the piano plays, the screen shows Earth) to the garden and the sun court |
 | DM-13 | Extras: swim in the 50 m pool in low gravity, watch Earth as the evening star from the Observatory, send a message home and see the delay, walk the forest on L2 | Could | 2–3 | ☑️ Decided 1 Oct (best judgment). 🎬 The forest on L2 is live; in the Orb, send a message home and see when it reaches Earth and when a reply can come |
+| DM-14 | The tour's map covers every room: "navigation at top right corner should cover all rooms/areas"; "those dots should exist in all rooms/areas to be clickable" (4 Oct) | Must | 🔧 A dot in every Crown room on the ring map; a 360 at each room's stop is being rendered | [Tour](https://ttmathcs.github.io/mars-campus/palace/tour/) |
 
 ## 10. Open questions
 
-None. Jim answered every question; where he asked us to use our best judgment, the choice and the reason are in the
-[decision log](docs/decisions.md).
+From the review of the plan, 6 Oct 2026. Where Jim asked us to use our best judgment, the choice and the reason are in
+the [decision log](docs/decisions.md).
+
+| # | Question | Our suggestion |
+| --- | --- | --- |
+| Q1 | Now that the city gives the power, should it also own the other city-sized works the plan puts with Arcadia: the spaceport with its fuel plant and ice mine, the relay satellites, the maglev and its tunnels, the city control room (L3-19) and the robot foundry that prints parts for the city (L3-06)? The city's power must reach the port from 2023, before Arcadia, its first home, is built | Yes: the city owns and runs them. Arcadia keeps what a home on Mars needs to live through a cut on its own: its air and water, the farm and two years of food, batteries and fuel cells, and the medical centre until the city's hospital opens; the rooms this frees get new uses for Jim |
+| Q2 | The reason the pages give for "by day below, by night up" is not quite right: nearly all the dose is cosmic rays, which fall by day and by night alike; sunlight's ultraviolet is stopped by any wall; solar storms can come at any time, and the storm watch sends everyone below. What keeps Jim at 19 mSv a year is about 6 hours a sol up, whenever they are | Keep the rule, evenings up for the sunset and the stars, and give the true reason on the pages (LV-3) |
+| Q3 | Underground is now 7 times the area above, not about 10 (PG-1), since the Crown grew in Rev H; even a sixth level would make it only 9 times | Keep it: 88% of Arcadia is still below ground |
 
 ## 11. History and old IDs
 
@@ -212,6 +232,7 @@ None. Jim answered every question; where he asked us to use our best judgment, t
 | 3 | 29–30 Sep 2026 | Start again: the Crown and the Pentagon, floor plans Rev A and Rev B | [Floor plans Rev B](docs/archive/plans-rev-b.md) |
 | 4 | 30 Sep 2026 onwards | The design book and the Mars Atlas (Rev C), then Jim's answers (Rev D) and his words on the Orb (Rev E) | [Design](docs/design/README.md) |
 | 5 | 1–2 Oct 2026 | The Orb's rooms as a question (Rev F), then floor plans Rev G: every room designed, with a code | [Floor plans Rev G](docs/plans/README.md) |
+| 6 | 3–6 Oct 2026 | Arcadia named; the Crown's revision H (wider, taller, windows at eye level), the rooms furnished to their size; by day below and by night up; every Crown room glazed onto the Glide; no reactor, the city's power; the plan reviewed | [Rev H](docs/crown-rev-h.md) · [Decisions](docs/decisions.md) |
 
 The rounds 3 and 4 IDs used until 1 Oct 2026 map to the new IDs like this:
 

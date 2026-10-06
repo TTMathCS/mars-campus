@@ -71,15 +71,15 @@
     <h2><small>The site plan</small>Arcadia and its ground</h2>
     <div class="two">
       <div>
-        <p>The ground over the Pentagon is built, not left raw. A <b>paved pentagon</b> of sintered-regolith slabs, 4 m wider all round than the Pentagon below, shows from the air exactly where Arcadia lies under the ground. A kerb of dark basalt edges it, with a thin line of light that glows warm at dusk. Inside it the <b>Stone Garden</b> is a circle of raked gravel 224 m across with <b>seven dark basalt stones</b>: no mirrors and no panels, so the ground stays as clean as a stone garden in Kyoto.</p>
+        <p>The ground over the Pentagon is built, not left raw. A <b>paved pentagon</b> of sintered-regolith slabs, 4 m wider all round than the Pentagon below, shows from the air exactly where Arcadia lies under the ground. A kerb of dark basalt edges it, with a thin line of light that glows warm at dusk. Inside it the <b>Stone Garden</b> is a circle of raked gravel 204 m across with <b>seven dark basalt stones</b>: no mirrors and no panels, so the ground stays as clean as a stone garden in Kyoto.</p>
         <p>At the centre stands the <b>Orb's dock</b>, a ring of dark basalt 31 m across and 5.5 m high with a bronze band and five bronze pads on top, round the <b>Sun Well</b>, the glass sky lens 20 m across over the Pentagon's atrium, 68 m below. The Orb comes down onto the pads for service, or if its drive ever stops. A hatch in its base then opens onto the dock, and a stair and a lift inside the ring go down into the atrium.</p>
         <p>Under each spire lies a <b>pad</b> of dark basalt 14 m across with a bronze rim, where the Crown would settle if its drives ever stopped. While the drives run, rings of pale light pulse slowly on it where the anti-gravity field reaches the ground.</p>
         <p>The <b>Pentagon</b> lies under the paving with its five corners exactly below the five spires, and the ground hints at it. Five strips of dark glass, lit warm from below at dusk, trace its five avenues from the dock out to the corners. Where each avenue ends, a low <b>corner pavilion</b> of glass under a thin white roof holds a stair and an airlock down to the corner core. The other ways in are the Sun Well and the <b>rover tunnel</b> from level L5, which climbs at 12% and comes out 700 m east, where the road to the spaceport begins. The pods fly straight into the hangar in the east spire, so they never touch the ground here.</p>
         <table class="spec"><tbody>
-          <tr><td>The Crown's ring</td><td class="n">Ø 244–276 m, 40 m up</td></tr>
+          <tr><td>The Crown's ring</td><td class="n">Ø 224–276 m, 40 m up</td></tr>
           <tr><td>The Orb, over the Sun Well</td><td class="n">Ø 48 m, 48–96 m up</td></tr>
           <tr><td>Paved pentagon over the Pentagon</td><td class="n">166 m sides</td></tr>
-          <tr><td>Stone Garden</td><td class="n">Ø 224 m</td></tr>
+          <tr><td>Stone Garden</td><td class="n">Ø 204 m</td></tr>
           <tr><td>Basalt stones</td><td class="n">7, 2 to 4 m</td></tr>
           <tr><td>The Orb's dock</td><td class="n">Ø 30.8 m, 5.5 m high</td></tr>
           <tr><td>Sun Well lens</td><td class="n">Ø 20.4 m</td></tr>
@@ -300,9 +300,9 @@
     // basalt pads with bronze rims under the spires, where the Crown would settle
     CN0.forEach(function (b) { var q = pl(b, 130); S("circle", { cx: r1(q[0]), cy: r1(q[1]), r: r1(7 * k), fill: "#4a413b", stroke: "#a87c4c", "stroke-width": 1.4 }, svg); });
     // Stone Garden: raked gravel rings and seven basalt stones
-    S("circle", { cx: c, cy: c, r: r1(112 * k), fill: "#d9c6b3", "fill-opacity": .75, stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
-    for (var rr = 15; rr < 112; rr += 4.5) S("circle", { cx: c, cy: c, r: r1(rr * k), "class": "ink3", "stroke-width": .3, "stroke-opacity": .7 }, svg);
-    [[26, 40, 3.2], [22, 150, 2.4], [30, 230, 4.1], [18, 300, 2.0], [38, 330, 2.8], [104, 200, 3.4], [100, 20, 2.6]].forEach(function (st) { var q = pl(st[1], st[0]); S("ellipse", { cx: r1(q[0]), cy: r1(q[1]), rx: r1(st[2] * 1.3 * k + 1), ry: r1(st[2] * k + 1), fill: "#3a302b", "fill-opacity": .85 }, svg); });
+    S("circle", { cx: c, cy: c, r: r1(102 * k), fill: "#d9c6b3", "fill-opacity": .75, stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    for (var rr = 15; rr < 102; rr += 4.5) S("circle", { cx: c, cy: c, r: r1(rr * k), "class": "ink3", "stroke-width": .3, "stroke-opacity": .7 }, svg);
+    [[26, 40, 3.2], [22, 150, 2.4], [30, 230, 4.1], [18, 300, 2.0], [38, 330, 2.8], [94, 200, 3.4], [91, 20, 2.6]].forEach(function (st) { var q = pl(st[1], st[0]); S("ellipse", { cx: r1(q[0]), cy: r1(q[1]), rx: r1(st[2] * 1.3 * k + 1), ry: r1(st[2] * k + 1), fill: "#3a302b", "fill-opacity": .85 }, svg); });
     // glass strips over the five avenues, from the Orb's dock to the corner pavilions
     CN0.forEach(function (b) {
       var a = pl(b, 15), z = pl(b, 111);
@@ -320,15 +320,15 @@
     S("path", { d: P(CN.map(function (b) { return pl(b, 29.8); }), true), "class": "ice", "stroke-width": 1.4, "stroke-dasharray": "5 4" }, svg);
     // the rover tunnel from L5, heading east under the plain
     S("path", { d: P([pl(90, 136), M(266 / k * 1.0, 0)]), "class": "ice", "stroke-width": 5, "stroke-opacity": .45, "stroke-dasharray": "7 5" }, svg);
-    // the Crown's ring above, 16 m wide, with the five spires and the hangar door
-    var outer = [], inner = []; for (var b = 0; b <= 360; b += 2) { outer.push(pl(b, 138)); inner.push(pl(b, 122)); }
-    S("path", { d: P(outer, true) + P(inner.slice().reverse(), true), fill: "var(--shell)", stroke: "var(--ink)", "stroke-width": 1.5, "fill-rule": "evenodd" }, svg);
+    // the Crown's ring above, 26 m wide, with the five spires and the hangar door; seen through, as it is 40 m up
+    var outer = [], inner = []; for (var b = 0; b <= 360; b += 2) { outer.push(pl(b, 138)); inner.push(pl(b, 112)); }
+    S("path", { d: P(outer, true) + P(inner.slice().reverse(), true), fill: "var(--shell)", "fill-opacity": .6, stroke: "var(--ink)", "stroke-width": 1.5, "fill-rule": "evenodd" }, svg);
     CN.forEach(function (b) {
       var a = pl(b - 7, 130), o = pl(b + 7, 130), t = pl(b, 130);
-      S("path", { d: P([pl(b - 9, 122), pl(b, 138), pl(b + 9, 122)]), fill: "none", "class": "ink2", "stroke-width": 1 }, svg);
+      S("path", { d: P([pl(b - 9, 112), pl(b, 138), pl(b + 9, 112)]), fill: "none", "class": "ink2", "stroke-width": 1 }, svg);
       [9, 18, 27, 36].forEach(function (q, j) { S("circle", { cx: r1(t[0]), cy: r1(t[1]), r: r1(q * k), "class": "ice", "stroke-width": 1, "stroke-opacity": .75 - j * .15 }, svg); });
     });
-    var d0 = pl(84.4, 122), d1 = pl(89.6, 122); S("line", { x1: r1(d0[0]), y1: r1(d0[1]), x2: r1(d1[0]), y2: r1(d1[1]), "class": "route", "stroke-width": 5 }, svg);
+    var d0 = pl(82.6, 112), d1 = pl(87.4, 112); S("line", { x1: r1(d0[0]), y1: r1(d0[1]), x2: r1(d1[0]), y2: r1(d1[1]), "class": "route", "stroke-width": 5 }, svg);
     // the Orb's dock round the Sun Well: a basalt ring with five bronze pads; the Orb can come down onto it
     S("circle", { cx: c, cy: c, r: r1(15.4 * k), fill: "#3a332e", stroke: "var(--ink)", "stroke-width": 1 }, svg);
     CN0.forEach(function (b) { var q = pl(b, 13.5); S("circle", { cx: r1(q[0]), cy: r1(q[1]), r: r1(1.0 * k + 0.6), fill: "#c99a62" }, svg); });

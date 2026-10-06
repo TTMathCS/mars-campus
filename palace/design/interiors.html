@@ -21,7 +21,7 @@
   <div class="open">
     <div class="no">Chapter 04</div>
     <h1>Interiors</h1>
-    <p class="lede">The rooms of Arcadia, what they look like and what they are made of. The Crown is for daylight, views, music and guests; the Pentagon for sleep, water, gardens and work. Everywhere the aim is the same: calm rooms of real materials that feel like Earth, in a home that could only be on Mars.</p>
+    <p class="lede">The rooms of Arcadia, what they look like and what they are made of. The Crown is for the evenings: the sunset, the views, dinners, music and guests; the Pentagon for the day, for sleep, water, gardens and work. Everywhere the aim is the same: calm rooms of real materials that feel like Earth, in a home that could only be on Mars.</p>
   </div>
   <figure class="hero"><img src="../tour/photos/hero.jpg" alt="Jim's family room on L1, path-traced: a curved velvet sofa and two chairs round a travertine table, the oak-slat ceiling with a skylight, and through the glass the atrium's olive trees and the portal column" width="1600" height="900"><figcaption><b>The family room on L1</b>, path-traced from the 3D model, with furniture scanned from real things. Every room, picture first, is in the <a href="https://github.com/ttmathcs/mars-campus/blob/main/palace/docs/rooms.md">rooms in pictures</a>; walk round them in the <a href="../tour/">photo tour</a>.</figcaption></figure>
   <figure class="fig wide"><div class="swipe">Swipe sideways to see the whole drawing</div><div class="scroll"><div class="inner"><svg id="fMap" viewBox="0 0 1180 600" role="img" aria-label="Where the rooms are: the Crown's main floor and the Pentagon's level L1, coloured by use"></svg></div></div>
@@ -84,7 +84,7 @@
       </div>
       <div>
         <p><b>The Door</b> is a round opening 5 m across at the back of the hangar, closed by an iris of light. It recognises you by face, eyes and the way you walk, and opens only for Jim and his guests.</p>
-        <p><b>The Arrival hall</b> is the first room: 9 m tall, a basalt floor, a long olive-wood bench, and the first window slot, looking back across the garden to the Orb. From here the Glide leads round the ring, and a portal leads down to L1.</p>
+        <p><b>The Arrival hall</b> is the first room: 20 m tall under its spire, a basalt floor, a long olive-wood bench, and the first window slot, looking back across the garden to the Orb. From here the Glide leads round the ring, and a portal leads down to L1.</p>
       </div>
     </div>
   </section>
@@ -114,7 +114,7 @@
       <tr><td>Gravity 38% of Earth's</td><td>You weigh 38%; you bounce when you walk fast; water pours and splashes slowly.</td><td>Stairs have taller, deeper steps and handrails both sides. Furniture is heavier than it looks so it doesn't slide. Showers use a curtain of air to keep the water falling. The gym trains against springs and flywheels, not weights.</td></tr>
       <tr><td>Air at 70 kPa, 27% oxygen</td><td>It breathes like Calgary. Water boils at 90 °C.</td><td>The kitchen cooks pasta and rice in pressure cookers. Every material is chosen not to burn in the richer oxygen; there are no open flames, and the hearths burn cold mist lit from below.</td></tr>
       <tr><td>Dust with perchlorate salts</td><td>None, if the design works.</td><td>Suits stay outside at the suit ports; the pod is cleaned in the hangar; the air is filtered everywhere.</td></tr>
-      <tr><td>Radiation</td><td>Nothing you can feel.</td><td>Sleep and long hours below ground; day life in the Crown behind 3 m of ice (chapter 08).</td></tr>
+      <tr><td>Radiation</td><td>Nothing you can feel.</td><td>Days and sleep below ground; evenings in the Crown, behind 3 m of ice (chapter 08).</td></tr>
       <tr><td>Distance from Earth</td><td>Calls lag 3 to 22 minutes each way.</td><td>Messages instead of calls; the Earth archive holds films, music and books locally; the house mind keeps the news up to date (chapter 09).</td></tr>
     </tbody></table></div>
   </section>
@@ -139,7 +139,7 @@
     var c1 = [352, 300];
     function pl(b, r) { return [c1[0] + r * k * Math.sin(b * D), c1[1] - r * k * Math.cos(b * D)]; }
     function band(b0, b1, ra, rb, at) { var o = [], i = []; for (var b = b0; b <= b1 + 1e-6; b += 0.5) { o.push(pl(b, rb)); i.push(pl(b, ra)); } return S("path", Object.assign({ d: P(o.concat(i.reverse()), true) }, at), svg); }
-    S("circle", { cx: c1[0], cy: c1[1], r: r1(112 * k), fill: "#d9c6b3", "fill-opacity": .35 }, svg);
+    S("circle", { cx: c1[0], cy: c1[1], r: r1(102 * k), fill: "#d9c6b3", "fill-opacity": .35 }, svg);
     band(0, 360, G.R_SHELL0, G.R_SHELL1, { fill: "#dcd6cc", stroke: "var(--ink-2)", "stroke-width": .8 });
     band(0, 360, G.R_IN, G.R_GL, { fill: "#f4eee4", stroke: "none" });
     CROWN.filter(function (r) { return !r.up; }).forEach(function (r) { band(r.at[0], r.at[1], G.R_GL, G.R_OUT, { fill: RM.kind(r.kind), stroke: "#8a8178", "stroke-width": .6 }); });
@@ -171,16 +171,16 @@
 
   /* ---------------- the Crown, part by part: what each is like (the rooms and their codes from the floor plans) */
   var LOOK = {
-    1: ["The pod hangar, the suit room, the Door and the Arrival hall, 9 m tall, of basalt and plaster, with the first view back over the garden to the Orb. Upstairs, dock control watches the pods come in.", "basalt · regolith plaster · olive wood"],
+    1: ["The pod hangar, the suit room, the Door and the Arrival hall, 20 m tall, of basalt and plaster, with the first view back over the garden to the Orb. Upstairs, dock control watches the pods come in.", "basalt · regolith plaster · olive wood"],
     2: ["Jim's rooms for the night up in the sky: the bedroom faces the south-east windows, with the dressing room at one end and a bath with a soaking tub by the windows at the other.", "pale oak · walnut · linen · stone"],
     3: ["The great salon runs 45 m along the ring, with deep bronze-lined slots, wool rugs and low sofas; the hearth room of cold, lit mist at one end and the recital room with the concert grand at the other. Upstairs, the Sky lounge.", "wool · bronze · walnut"],
     4: ["A 25 m sky pool along the ring, where low gravity makes every wave rise high and fall slowly; a spa with a cedar sauna and a round hot pool; a gym with the view.", "basalt · cedar · moss walls"],
     5: ["A dining hall for 22 at one basalt table, the chef's kitchen with its pressure cookers, and a wine room of Mars glass stocked from the cellar below. Upstairs, the Sky bar.", "basalt · titanium · glass"],
     6: ["The sun sets straight down the length of the sunset lounge. At one end the guests' lounge, where visitors spend their days; at the other a gallery of Jim's paintings and photographs of Mars.", "linen · olive wood · warm light"],
-    7: ["Jim's study in the north light, two floors of walnut shelves round a spiral stair, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery under the roof.", "walnut · bronze · leather"],
-    8: ["An art studio in the steady north light, a photo and print room, and a craft room for pottery and models; heavy work goes down to the workshops on L3.", "birch · linen canvas · steel"],
+    7: ["Jim's evening study, with Earth an evening star in its window, two floors of walnut shelves round a spiral stair, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery under the roof.", "walnut · bronze · leather"],
+    8: ["An art studio for painting at dusk, in the last of the north light and then under daylight lamps, a photo and print room, and a craft room for pottery and models; heavy work goes down to the workshops on L3.", "birch · linen canvas · steel"],
     9: ["A star lounge with reclining seats under the northern sky, and the telescope room with its controls and screens. Upstairs, the telescope dome with a 1 m telescope.", "dark oak · black stone · star light"],
-    10: ["A breakfast room in the morning light through the east slots, and a sky garden of fruit trees, flowers and herbs, a conservatory in the ring.", "plants · pale stone · morning light"]
+    10: ["A breakfast room for a late supper under the stars, and for breakfast as the sun rises on a day off, and a sky garden of fruit trees, flowers and herbs, a conservatory in the ring.", "plants · pale stone · lamplight"]
   };
   var cr = document.getElementById("crownRooms");
   PLANS.crownParts.forEach(function (cp) {

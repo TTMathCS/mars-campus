@@ -8,7 +8,8 @@ numbers. These pages carry each chapter's diagrams and pictures and its main poi
 here too. Each page links to its full chapter.
 
 All ten chapters are written. Every room is as on the floor plans Rev G, which Jim approved
-on 3 Oct 2026, with the Orb 48 m across.
+on 3 Oct 2026, with the Orb 48 m across, and the Crown as revision H of 4 Oct 2026: wider, taller, with windows at eye
+level and, from 6 Oct, a wall of glass onto the Glide in every room ([Rev H](../crown-rev-h.md)).
 
 | | Chapter | What it covers | Live chapter |
 | --- | --- | --- | --- |
@@ -45,7 +46,7 @@ the 26-month launch windows. A few things are dreams, on purpose, because Jim as
 | | |
 | --- | --- |
 | Site | The Crown at 39.80° N, 201.44° E; the spaceport on AP-1 at 39.80° N, 202.10° E, 30 km east; ground 3.9 km below the Mars average; air 870 Pa |
-| The Crown | Ring 244–276 m across, underside +40 m, spires to +90 m; walls 3 m, mostly ice; about 155,000 t; **19,500 m²** with the Orb |
+| The Crown | Ring 224–276 m across, underside +40 m, roof +56 m between the spires and +90 m at their tips; rooms 12.5 m tall, 20 m under the spires; walls 3 m, mostly ice; about 210,000 t; **28,700 m²** with the Orb |
 | The Orb | Ø 48 m, +48 to +96 m, shell 2 m; the Wormhole Gate, a ball Ø 18 m, in a round space of glass Ø 24 m from +60 to +84; three floors of five rooms between two lanes, 870, 1,070 and 870 m² (2,800 m²) |
 | The Pentagon | 160 m sides, levels L1 −24 to L5 −68 m, 41,940 m² a level, **209,700 m²**, 16 m of soil |
 | Power, phase 1 | 8.6 MW average, from the city's grid by two buried cables (15 MW each); no reactor, no panels on the ground; 2 × 20 MWh batteries; fuel cells; heat pumps |

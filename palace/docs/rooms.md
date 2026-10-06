@@ -158,7 +158,7 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 ![The Arrival hall in the Crown: polished basalt, the olive tree, the sun through the slots and the portal at the far end](../tour/photos/crown_arrival.jpg)
 
 - **The rooms:** C-01 to C-04, part 1 of the ring, east, under the Arrival spire: the suit room, the pod hangar, the
-  Door (a ring of light 5 m across) and the Arrival hall, 9 m tall.
+  Door (a ring of light 5 m across) and the Arrival hall, 20 m tall under its spire.
 - **Made of:** polished basalt underfoot, regolith plaster, bronze reveals round the slots, an olive-wood bench.
 - **In it:** the bench, an olive tree, and at the far end the portal to the Orb, the other spires and the Pentagon.
 
@@ -193,7 +193,7 @@ the outer wall; slots through both walls frame the Orb on one side and the plain
 
 ![The map room: a globe of Mars 3 m across in a bronze meridian](../tour/photos/crown_maproom.jpg)
 
-- **The room:** part 7 of the ring, north-west, under the Library spire: 45 m along the ring and 9.5 m high.
+- **The room:** part 7 of the ring, north-west, under the Library spire: 44 m along the ring and 20 m tall.
 - **Made of:** oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe.
 - **In it:** two floors of books along the outer wall with the slots between them; reading tables and leather chairs;
   in the map room, a globe of Mars 3 m across, made from the same colour map as the Atlas, and chests of map drawers.

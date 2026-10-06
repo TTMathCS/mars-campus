@@ -35,9 +35,9 @@ the [floor plans](../plans/README.md).*
   oxygen in the mix that things burn fast.
 - **Suits at 56.5 kPa**, as NASA's newest suit design can work, are above the 51 kPa of nitrogen and argon in
   Arcadia's air, so nobody has to breathe pure oxygen before going out.
-- **How much:** about 2.3 million m³, 2,100 t of air: 560 t of oxygen, 1,560 t of nitrogen and argon. The oxygen comes
+- **How much:** about 2.4 million m³, 2,300 t of air: 600 t of oxygen, 1,700 t of nitrogen and argon. The oxygen comes
   from water split by electricity (L4-09) and the fuel plant's spare 100 t a ship; the nitrogen and argon are 3% of
-  the Mars air, so the robots freeze the carbon dioxide out of about 52,000 t of it (L4-11) before Jim arrives.
+  the Mars air, so the robots freeze the carbon dioxide out of about 57,000 t of it (L4-11) before Jim arrives.
 - **Breathing out:** a person uses 0.84 kg of oxygen a day and breathes out about 1 kg of carbon dioxide; the gardens
   under their lamps take in roughly a tonne a day (our estimate), so they are fed carbon dioxide from the Mars air.
 - Real: MOXIE made oxygen from Mars air on Perseverance 16 times (2021–2023); the ISS makes its oxygen by electrolysis.
@@ -46,7 +46,7 @@ the [floor plans](../plans/README.md).*
 
 ![The water loop: the ice, melting and cleaning, the tanks, the rooms and the gardens, recycling](../img/book/life-water.png)
 
-- **Plenty to start with:** 1.5 million t of ice from the Pentagon's dig, 90,000 t in the Crown's walls, the ice mine
+- **Plenty to start with:** 1.5 million t of ice from the Pentagon's dig, 120,000 t in the Crown's walls, the ice mine
   by the port. People use a few tonnes a year.
 - **Clean:** melted on L4 (L4-05) and cleaned (L4-06): the soil's perchlorate, about 0.5%, is taken out by ion exchange
   and reverse osmosis, as from polluted wells on Earth, and bacteria break the rest into salt and oxygen.
@@ -59,7 +59,7 @@ the [floor plans](../plans/README.md).*
 | --- | --- | --- |
 | The lake | L2-11, 3,259 m², 2.5 m deep on average | about 8,000 t |
 | Water tanks | L4-08 | about 20,000 t |
-| The Crown's walls | 2.2 m of ice in sealed cells | about 90,000 t |
+| The Crown's walls | 2.2 m of ice in sealed cells | about 120,000 t |
 | The ice store | from the dig | up to 1.5 million t |
 
 ## Food
@@ -83,7 +83,7 @@ are insulated so the ice-rich ground stays frozen, as under buildings on permafr
 | Where the heat goes, a worked estimate | Heat |
 | --- | --- |
 | The Pentagon: 130,000 m² of walls, roof and floor, 0.1 W/m²K, 81 °C between in and out | 1.05 MW |
-| The Crown and the Orb: about 52,000 m² of skin, 0.2 m of aerogel (0.075 W/m²K), 85 °C | 0.33 MW |
+| The Crown and the Orb: about 66,000 m² of skin, 0.2 m of aerogel (0.075 W/m²K), 85 °C | 0.42 MW |
 | Melting ice, warming the air from the tanks, the pools | about 0.3 MW |
 | Margin for the coldest nights | about 0.3 MW |
 | **Arcadia** | **about 2 MW** |

@@ -10,7 +10,7 @@
 
 **Arcadia** is Jim's private home on Mars, for one person, on the icy plains of Arcadia Planitia. **Above ground, the Crown**: a white
 ring 276 m across floats 40 m over a stone garden on anti-gravity, with five spires and a mirror Orb 48 m across, where
-the universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, eleven times the
+the universe fills the rooms in 3D round the **Wormhole Gate**. **Below ground, the Pentagon**: five levels, 24 to 68 m down, seven times the
 Crown's floor area. **Arcadia Spaceport** stands 30 km east. The Wormhole Gate does the travelling, so the pod and the
 rockets are for seeing the views: the pod's scenic flight through a dust storm into the sunset, and voyages to orbit
 and the moons. A city will grow around it.
@@ -66,8 +66,8 @@ things. **[Every room, picture first →](docs/rooms.md)** Walk round them in th
 | --- | --- |
 | 39.80° N, 201.44° E | Arcadia, 3.9 km below Mars' average height, on ground rich in ice |
 | 276 m | The Crown across; it floats 40 m up and its spires reach 90 m |
-| 19,500 m² | The Crown's floor area with the Orb, 5.7 times the TTMath campus |
-| 209,700 m² | The Pentagon's floor area, 11 times the Crown |
+| 28,700 m² | The Crown's floor area with the Orb, 8.4 times the TTMath campus |
+| 209,700 m² | The Pentagon's floor area, 7 times the Crown |
 | 48 m | The Orb across, three floors of rooms round the Wormhole Gate, a ball 18 m across: press send and it shoots you like light to any place and time |
 | 30 km | To Arcadia Spaceport, due east |
 | 2 cables | Power from the city's grid by two routes, 15 MW each; no reactor, no panels or mirrors on the ground |

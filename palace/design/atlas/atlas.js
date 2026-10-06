@@ -450,11 +450,11 @@
   var mPad = new THREE.MeshLambertMaterial({ color: 0xa89888 }), mGarden = new THREE.MeshLambertMaterial({ color: 0xc9b39a });
   var planG = new THREE.Group(); siteG.add(planG);
   function add(geo, mat, x, y, z, g) { var me = new THREE.Mesh(geo, mat); me.position.set(x || 0, y || 0, z || 0); (g || planG).add(me); return me; }
-  // the Crown: ring with five spires (roof 50 + 40 c^6), the Orb, the garden
+  // the Crown: ring with five spires (roof 56 + 34 c^6, Rev H), the Orb, the garden
   (function () {
-    function top(b) { var c = (1 + Math.cos(5 * (b - 18) * D2R)) / 2; return 50 + 40 * Math.pow(c, 6); }
+    function top(b) { var c = (1 + Math.cos(5 * (b - 18) * D2R)) / 2; return 56 + 34 * Math.pow(c, 6); }
     function P(r, b, y) { return [r * Math.sin(b * D2R), y, -r * Math.cos(b * D2R)]; }
-    var pos = [], ri = 122, ro = 138, st = 1;
+    var pos = [], ri = 112, ro = 138, st = 1;
     function q(a, b, c, d) { pos.push.apply(pos, a.concat(b, c, a, c, d)); }
     for (var b = 0; b < 360; b += st) {
       var b1 = b + st, t0 = top(b), t1 = top(b1);

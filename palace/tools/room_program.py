@@ -251,7 +251,7 @@ CROWN = [
     dict(code="C-03", part=1, name="The Door", kind="move", at=(91.44, 95.76), use="The front door of Arcadia, from the hangar.", also=""),
     dict(code="C-04", part=1, name="Arrival hall", kind="move", at=(95.76, 108.0), seen="crown_arrival", use="Where everyone arrives: 20 m tall under its spire, the great maple in its round banquette, the portal to the Orb, the spires and the Pentagon.", also="Where visitors are welcomed."),
     dict(code="C-05", part=1, name="Dock control", kind="work", at=(78.0, 108.0), up=True, use="Upstairs in the Arrival spire: watches the pods dock.", also="", pair="L3-21"),
-    dict(code="C-06", part=2, name="Dressing room", kind="sleep", at=(108.0, 116.64), use="Clothes for the day, next to the bedroom up.", also=""),
+    dict(code="C-06", part=2, name="Dressing room", kind="sleep", at=(108.0, 116.64), use="Clothes for the evening, next to the bedroom up.", also=""),
     dict(code="C-07", part=2, name="Bedroom up", kind="sleep", at=(116.64, 130.32), seen="crown_bedroom",
          use="Jim's room for the nights up in the sky: rest after dinner, reading in bed under the stars before going down; the bed faces the south-east windows.", also="Now and then a whole night under the stars.", pair="L1-08"),
     dict(code="C-08", part=2, name="Bath up", kind="sleep", at=(130.32, 144.0), use="A bath with a soaking tub by the slots.", also=""),

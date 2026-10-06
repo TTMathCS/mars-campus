@@ -473,16 +473,17 @@ The full record is in `palace/docs/decisions.md` (every question, Jim's words, w
   onto the Gate): +64 portal rooms, +72 universe lounges and the bridge, +80 five rest rooms behind radiation glass.
 - **The ground (Rev E, 1 Oct 2026, stands): built, not raw** (Jim: "the ground is raw and need some
   construction/design as well. and at least some hints that there is big part underground", GN-13). A **paved
-  pentagon** 4 m wider than the Pentagon shows where the house lies; the **Stone Garden** (raked gravel 224 m across,
+  pentagon** 4 m wider than the Pentagon shows where the house lies; the **Stone Garden** (raked gravel 204 m across since Rev H,
   seven basalt stones) is the circle inside it; five strips of glass trace the avenues; a glass **corner pavilion**
   holds each corner stair; basalt pads lie under the spires. At the centre the **Orb's dock** (Jim: "some interface
   when orb can land on the ground", OR-9) rings the **Sun Well**, the sky lens over the Pentagon's atrium. Still
   **nothing spread over the ground**: no mirrors and no solar panels (GN-12).
 - **Below ground: the Pentagon.** One solid pentagon, 160 m sides, five levels 24 to 68 m down under 16 m of soil,
-  eleven times the Crown's floor area. Jim sleeps here (the master suite down on L1).
+  seven times the Crown's floor area (Rev H). Jim's days are here, and everyone sleeps here (the master suite down on L1).
 - **Arcadia Spaceport**, 30 km due east on landing zone AP-1: three pads, terminal, pod station, fuel plant, ice mine.
-- **Power:** four 5 MWe fission microreactors, two on the Pentagon's L4 and two at the port, joined by a 30 km DC
-  cable. No solar field.
+- **Power:** from the city's grid (Jim, 6 Oct 2026: "no nuclear reactor is needed since it is provided by city"), on two
+  buried ±20 kV DC cables by different routes, 15 MW each; batteries 20 MWh at Arcadia (L4-03) and at the port; fuel
+  cells on stored methalox (L4-20); heat pumps for warmth (L4-02). No reactor, no solar field.
 - **Travel is by the Wormhole Gate** (Jim, 2 Oct 2026); the pod and the rockets are for seeing the views. **The pod's scenic
   flight:** about 37 km and 4 min 40 s, through a dust storm into the blue sunset.
 - **The city** grows from the house on a sunflower spiral (golden angle), with civic buildings on the Fibonacci seeds.
@@ -524,11 +525,14 @@ Keep new pages consistent with these (sources and working are in the chapters):
 - Site: the Crown at 39.80° N 201.44° E, Arcadia Spaceport on AP-1 at 39.80° N 202.10° E, 30 km apart; ground −3.9 km,
   air 870 Pa (40% above the Mars average); ice within 1 m and tens of metres thick; AP-9 thick ice 58 km east of the
   port. House to Olympus Mons 1,780 km, to Gale crater (TTMath campus) 4,360 km, to Jezero 6,030 km.
-- The Crown: ring 244–276 m across (radius 122–138), underside +40, main floor +41, roof 50 + 40·c⁶ (spires +90,
-  dips +50), where c = (1 + cos 5φ) / 2; walls and roof 3 m (0.1 skin, 0.3 sintered shell, 2.2 ice, 0.2 aerogel, 0.2
-  liner); about 90,000 t of wall ice; mass about 155,000 t, 115 MN per drive. Floor area **19,500 m²** gross (main
-  floor 9,950 + the Glide 3,120 + spire upper floors 3,630 + the Orb 2,800), 5.7 times the TTMath campus. Room sizes
-  on the floor plans are net, inside the walls (rooms between radii 128.5 and 135 m).
+- The Crown (Rev H, 4 Oct 2026): ring 224–276 m across (radius 112–138; inside 115–135), underside +40, main floor
+  +41, roof 56 + 34·c⁶ (spires +90, dips +56), where c = (1 + cos 5φ) / 2; rooms 12.5 m tall, 20 m in the halls under
+  the spires (ceiling min(roof − 2.5, +61)); the spires' upper floors at +62 m; walls and roof 3 m (0.1 skin, 0.3
+  sintered shell, 2.2 ice, 0.2 aerogel, 0.2 liner); about 120,000 t of wall ice; mass about 210,000 t, 156 MN per
+  drive. Floor area **28,700 m²** gross (main floor 17,850 + the Glide 3.5 m × 734 m, 2,570 + spire upper floors
+  5 × 1,090 + the Orb 2,800), 8.4 times the TTMath campus. Room sizes on the floor plans are net, inside the walls
+  (rooms between radii 118.5 and 135 m). Power, water and air reach it through the portals in the spires; on its
+  pads it plugs into the Pentagon's.
 - The Orb: Ø 48 m, +48 to +96, shell 2 m (22 m inside); a round space of glass Ø 24 m from +60 to +84 with the
   Wormhole Gate in it, a ball Ø 18 m; floors at +64, +72 and +80, each with five rooms between an outer lane (along
   the windows) and an inner lane (along the glass), lanes 2.4 m, a passage under each spire; areas to the inside of
@@ -544,20 +548,20 @@ Keep new pages consistent with these (sources and working are in the chapters):
   9.6 × 12 m, glass 6.2 × 8.2 × 2.9 m, roof 8.6 × 11 m at 3.3 m, door facing the garden).
 - The Pentagon: 160 m sides, circumradius 136.1 m, atrium 35 m sides, rings A–E 14 m deep with 4 m streets, 5 m
   avenues, levels L1 −24 (top −16), L2 −41 (16 m tall), L3 −50, L4 −59, L5 −68; 41,940 m² a level, 209,700 m² in all
-  (11 times the Crown); 16 m of soil; the dig 3.1 million m³ and 1.5 million t of ice.
+  (7 times the Crown since Rev H); 16 m of soil; the dig 3.1 million m³ and 1.5 million t of ice.
 - Air inside: 70 kPa with 27% oxygen.
-- Power, phase 1: demand 8 MW average (house 4.9, port 3.1), about 14 MW peak; four 5 MWe heat-pipe microreactors,
-  two on L4 and two in a vault at the port, 9 MW available at each end (18 in all); no solar field; batteries
-  2 × 20 MWh; fuel cells 8 MW on stored methalox (about 9 days at full load); DC link 30 km at ±20 kV, 15 MW, about
-  1.5% loss; heat at the house about 10 MW (2 MW warms the house, 8 to the radiators), radiators 150 × 60 m, 400 m
-  north, up to 20 MW.
+- Power, phase 1 (from 6 Oct 2026): demand 8.6 MW average for Arcadia, the port and the fuel plant; the city's grid
+  on two DC cables at ±20 kV, 15 MW each, about 1.5% loss (one 30 km beside the rover road from the port, one through
+  the city's first tunnel, L5-16), into the city feed (L4-01); batteries 20 MWh at Arcadia (L4-03) and 20 MWh at the
+  port; fuel cells 8 MW on stored methalox (L4-20 and the port; 1,000 t lasts about 9 days); heat pumps (L4-02) give
+  about 2 MW of warmth for 0.7 MW. No reactor, no radiators, no solar field.
 - Transport: the pod is 9.2 × 4.5 m, 4 seats, about 6 t, 22 kN on Mars, top speed 680 km/h, about 1.5 t of methalox
   for the scenic flight (37 km, 4 min 40 s), about 1 t for a direct hop; the bus 12 seats at 40 km/h, 45 min; the
   maglev (phase 2) 30 km at 400 km/h in a 7 m tunnel at −68 m, about 6 min; Hohmann transfer 259 days, windows every
   26 months; Jim launches Nov–Dec 2026 and lands mid-2027.
 - The spaceport: three pads Ø 80 m with berms (radius 114–147 m, 6 m high) at bearings 60, 90 and 120, 1.6 km from
-  the terminal (Ø 180 m); tower 77 m; pod station 70 × 120 m with four pod pads; two reactor domes south-west of the
-  terminal; one ship's propellant 1,200 t (260 t CH₄, 940 t O₂, plus 100 t spare O₂) from 585 t of water and 715 t of
+  the terminal (Ø 180 m); tower 77 m; pod station 70 × 120 m with four pod pads; (the two reactor domes south-west of the terminal
+  are gone since 6 Oct; the aerial picture still shows them until it is rendered again); one ship's propellant 1,200 t (260 t CH₄, 940 t O₂, plus 100 t spare O₂) from 585 t of water and 715 t of
   CO₂, about 8.6 GWh, about 5 months at 2.4 MW; tank farm six spheres Ø 36 m; ice mine 320 × 200 m, 9 m deep, 1 km
   north.
 

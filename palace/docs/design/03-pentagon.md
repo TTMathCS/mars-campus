@@ -5,8 +5,8 @@
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/pentagon.html)**
 
 Arcadia below ground. One solid five-sided block, 160 m on each side and five levels deep, lies under the Stone
-Garden with 16 m of soil on top. It is for the nights and the work: where Jim sleeps, where the gardens and
-the workshops are, and where the air, water and power come from. **Requirements:** PG-1 to PG-3, LV-3, CR-4.
+Garden with 16 m of soil on top. It is Arcadia by day: where Jim lives and works, where the gardens and the
+workshops are, where everyone sleeps, and where the air, water and power come from. **Requirements:** PG-1 to PG-3, LV-3, CR-4.
 
 ![Section east to west through the Pentagon and the Crown](../img/book/pentagon-section.png)
 
@@ -17,7 +17,7 @@ the corner core under the Arrival spire. The atrium drops 68 m from the Sun Well
 | --- | --- |
 | **160 m** | Each of the five sides; the corners lie exactly under the Crown's five spires |
 | **−16 to −68 m** | Five levels, from the roof of L1 to the floor of L5 |
-| **209,700 m²** | Floor area, 41,940 m² a level: 11 times the Crown |
+| **209,700 m²** | Floor area, 41,940 m² a level: 7 times the Crown |
 | **16 m** | Soil on top: it stops the radiation and holds the air pressure down |
 | **2 min** | The longest walk to a portal; there are no lifts |
 

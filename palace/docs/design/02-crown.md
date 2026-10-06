@@ -5,19 +5,19 @@
 **[Open the full chapter on the live site ↗](https://ttmathcs.github.io/mars-campus/palace/design/crown.html)**
 
 Arcadia above ground. A white ring 276 m across floats 40 m over the Stone Garden, with five spires, a mirror Orb
-48 m across at its centre and no big windows. It is for the days: light, views, music and guests. Nothing holds it
-up, and nothing links it to the ground but portals and the pods. **Requirements:** CR-1 to CR-4, OR-1 to OR-9, GN-3.
+48 m across at its centre and windows at eye level all round. It is Arcadia by night: the sunset, dinners, music,
+guests and the stars. Nothing holds it up, and nothing links it to the ground but portals and the pods. **Requirements:** CR-1 to CR-4, OR-1 to OR-9, GN-3.
 
 ![The Crown from the pod on its last approach, at sunset](../../design/img/crown-sunset.jpg)
 
 | | |
 | --- | --- |
-| **276 m** | Across the outside of the ring; 244 m across the inside |
+| **276 m** | Across the outside of the ring; 224 m across the inside |
 | **+40 m** | The underside, over the Stone Garden; the main floor is at +41 m |
-| **+90 m** | The tips of the five spires; between them the roof dips to +50 m |
-| **19,500 m²** | Floor area with the Orb, 5.7 times the TTMath campus |
+| **+90 m** | The tips of the five spires; between them the roof dips to +56 m |
+| **28,700 m²** | Floor area with the Orb, 8.4 times the TTMath campus |
 | **3 m** | Walls and roof, mostly water ice, to keep out cosmic rays |
-| **0** | Legs, lifts or big windows |
+| **0** | Legs, lifts or glass walls to the outside |
 
 ## What it looks like
 
@@ -26,11 +26,12 @@ up, and nothing links it to the ground but portals and the pods. **Requirements:
 *Elevation from the south-south-west, to scale, heights in metres above the plain. The two nearest spires are Dining
 (left) and Salon (right). Dashed lines are the window slots.*
 
-- **The shape:** one continuous ring, 16 m wide, whose roof rises five times into sharp spires and falls between them.
-  The roof line is one smooth curve, 50 + 40·c⁶ m, so the spires look drawn rather than built.
-- **The skin:** glazed white ceramic fired from Mars soil, with a titanium band. No glass walls, because Mars sunlight
-  carries harsh ultraviolet. Windows at eye level, 2.5 m tall and 5 m wide every 8 m, are cut through the 3 m wall on
-  both sides and lined in bronze, so the high sun never reaches far in; at sunset it shines straight down the rooms.
+- **The shape:** one continuous ring, 26 m wide, whose roof rises five times into sharp spires and falls between them.
+  The roof line is one smooth curve, 56 + 34·c⁶ m, so the spires look drawn rather than built.
+- **The skin:** glazed white ceramic fired from Mars soil, with a titanium band. No glass walls to the outside, because
+  Mars sunlight carries harsh ultraviolet. Windows at eye level, 2.5 m tall and 5 m wide every 8 m, are cut through the
+  3 m wall on both sides and lined in bronze, so the high sun never reaches far in; at sunset it shines straight down
+  the rooms. Inside, each room meets the Glide with a wall of bronze and glass from floor to ceiling.
 - **At night** the slots glow warm, a red beacon burns on each spire, and pale blue rings of light pulse on the ground
   under the anti-gravity drives.
 
@@ -47,7 +48,8 @@ middle, and on the ground stand the Orb's dock and the garden's stones.*
 the Sun Well.*
 
 Ten parts of 36°: five under the spires, each with an upper floor, and five in the dips. A moving walkway, the
-**Glide**, runs 779 m round the inner side past every room.
+**Glide**, runs 734 m round the inner side past every room. The rooms are 12.5 m tall, and 20 m in the halls under
+the spires.
 
 | Part | Rooms on the main floor | Upper floor |
 | --- | --- | --- |
@@ -63,8 +65,8 @@ Ten parts of 36°: five under the spires, each with an upper floor, and five in 
 | Garden room (NE) | C-33 Breakfast room · C-34 Sky garden | — |
 
 The rooms and their codes are those of the [floor plans](../plans/README.md), where each room has its purpose, its
-second use and its size. Gross, to the outside of the walls, each part is 995 m² on the main floor, and each spire
-adds an upper floor of 726 m² at +51 m.
+second use and its size. Gross, to the outside of the walls, each part is 1,785 m² on the main floor, and each spire
+adds an upper floor of 1,090 m² at +62 m, above the hall's 20 m ceiling and under the spire's roof.
 
 ## The Orb: the universe in VR and the Wormhole Gate
 
@@ -149,30 +151,33 @@ lift inside the ring go down into the atrium.
 *One spire and its field, to scale. The drive sits in the tip; the fallback pad is directly below it.*
 
 *Future technology.* A drive in the tip of each spire makes a field that pushes against the ground, reaching down as
-a column about 70 m wide. The Crown weighs about 155,000 tonnes, so each drive carries 115 MN. Each drive can hold the
-whole Crown alone, with batteries for a day without power. If every drive failed, stored energy would let the Crown
+a column about 70 m wide. The Crown weighs about 210,000 tonnes, so each drive carries 156 MN. Each drive can hold the
+whole Crown alone. Power, water and air come up through the portals in the spires, future technology too, and
+batteries in each spire keep the drives running for a day without power. If every drive failed, stored energy would let the Crown
 down slowly onto the five pads under the spires: basalt discs 14 m across with a bronze rim, set in the corners of
-the paved pentagon, on real foundations that go down into the ice. The first design stood on five legs;
+the paved pentagon, on real foundations that go down into the ice; seated there, it plugs into the Pentagon's power,
+water and air. The first design stood on five legs;
 Jim chose anti-gravity so that nothing touches the ground.
 
 ## How it is built
 
 ![Sections through the ring at a spire and a dip, and the wall's layers](../img/book/crown-sections.png)
 
-*Sections through the ring at a spire (left) and at a dip (middle), and the wall's five layers.*
+*Sections through the ring at a spire (left) and at a dip (middle), with the glass wall between the Glide and the rooms,
+and the wall's five layers.*
 
 The walls and roof are 3 m thick: a shell of fired Mars soil filled with 2.2 m of water ice in sealed cells. Ice is
 rich in hydrogen, the best stopper of cosmic rays, so the Crown has about a third of the open plain's radiation. The
-ice is also Arcadia's water store, about 90,000 tonnes. The ring is assembled on temporary supports above the pads,
+ice is also Arcadia's water store, about 120,000 tonnes. The ring is assembled on temporary supports above the pads,
 one 36° part at a time; then the drives switch on and lift it to +40 m.
 
 | Mass, estimate | Tonnes |
 | --- | --- |
-| Water ice in the walls and roof | 90,000 |
-| Ceramic shell and skin | 39,000 |
-| Floors, underside and cross walls | 16,000 |
-| Rooms, fittings, water and air systems | 10,000 |
-| **The Crown** | **about 155,000** |
+| Water ice in the walls and roof | 120,000 |
+| Ceramic shell and skin | 51,000 |
+| Floors, underside and cross walls | 25,000 |
+| Rooms, fittings, water and air systems | 15,000 |
+| **The Crown** | **about 210,000** |
 
 ## How it works day to day
 
@@ -183,16 +188,16 @@ inside it, the Orb's dock at the centre and a pavilion at each corner.*
 
 | Mode | What happens |
 | --- | --- |
-| **Day** | Shutters open, daylight through the slots; the Sun Well's sky lens lights the atrium below. Daily life is up here: salon, dining, library, studio, the Orb's lounges. For a quiet hour, a rest room in the Orb |
-| **Sunset** | The sun sets straight down the Sunset lounge and shines in through the slots; the sky round it turns blue |
-| **Night** | The slots glow, the beacons turn on, the Observatory opens. Jim goes down by portal to sleep on L1 |
-| **Dust storm** | Titanium shutters close over the slots and the Orb's windows, the Sun Well's iris closes, pods stay in the hangar; life moves down to L1 |
+| **Day** | Jim's day is below. Up here the shutters stay open, robots clean, the sky garden grows, the kitchen gets the dinner ready; the Sun Well's sky lens lights the atrium below |
+| **Sunset** | Jim comes up by portal. The sun sets straight down the Sunset lounge and shines in through the windows; the sky round it turns blue |
+| **Night** | The windows glow, the beacons turn on: dinner, music, the Orb's lounges, the stars from the Observatory. About six hours after sunset Jim goes down by portal to sleep on L1 |
+| **Dust storm** | Titanium shutters close over the windows and the Orb's windows, the Sun Well's iris closes, pods stay in the hangar; life moves down to L1 |
 | **Emergency** | Every room is within 2 minutes of a portal; if portals fail, pods and escape capsules reach the ground, and the Orb comes down onto its dock |
 
 | Floor area | |
 | --- | --- |
-| Rooms on the main floor, 10 parts of 995 m² | 9,950 m² |
-| The Glide, 4 m wide and 779 m long | 3,120 m² |
-| Upper floors in the five spires, 726 m² each | 3,630 m² |
+| Rooms on the main floor, 10 parts of 1,785 m² | 17,850 m² |
+| The Glide, 3.5 m wide and 734 m long | 2,570 m² |
+| Upper floors in the five spires, 1,090 m² each | 5,450 m² |
 | The Orb, three floors round the Gate: 870, 1,070 and 870 m² | 2,800 m² |
-| **The Crown** | **19,500 m²** |
+| **The Crown** | **28,700 m²** |

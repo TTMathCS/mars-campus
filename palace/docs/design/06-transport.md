@@ -97,5 +97,5 @@ Crown, and the pods and escape capsules between the Crown and the ground.
 | Pod | the spaceport, the Crown's hangar and the sights | 3 to 5 min | 4 people, for the view | phase 1 |
 | Bus | the spaceport and the rover hall on L5 | 45 min | 12 people | phase 1 |
 | Maglev | L5 and the station under the terminal | 6 min | people and containers | phase 2 |
-| Glide | round the Crown, 779 m | up to 4 min | people | phase 1 |
+| Glide | round the Crown, 734 m | up to 4 min | people | phase 1 |
 | Portal | spires, Orb, every level; later every home | 1 step | people, goods | future technology |

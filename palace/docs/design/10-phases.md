@@ -32,7 +32,7 @@ on.*
    kilns at the pit's edge fire the first panels.
 5. **The Pentagon from the bottom up, 2025 to 2026.** L5 and L4 with the city feed (L4-01) and the air and water
    plants, then L3 (the kilns move to L3-07), L2 and L1; the roof and 16 m of soil late in 2026.
-6. **Air and warmth, 2026 to 2027.** 560 t of oxygen and 1,560 t of nitrogen and argon made on L4, let in early 2027.
+6. **Air and warmth, 2026 to 2027.** 600 t of oxygen and 1,700 t of nitrogen and argon made on L4, let in early 2027.
 7. **The Crown, 2026 to 2027.** Five pads; the ring assembled 2 m up in ten 36° parts; tested and lifted to +40 m in
    April 2027; the Orb rises from its dock; the Stone Garden is laid underneath.
 8. **The gardens, 2025 to 2027.** Saplings raised in a ship's hold, planted early in 2027; the lake filled.
@@ -56,8 +56,8 @@ foundry (L3-06) prints their parts.
   and portals of future technology.
 - The cargo ships of the first two waves **stay** on the plain east of the pads: stores, the first greenhouse, and
   later steel for the foundry. From 2027 ships use the pads and fly home.
-- **Mars gives the rest:** about 600,000 t of the Pentagon's panels, 129,000 t of the Crown's shell and ice, about
-  28,000 t of water, 2,100 t of air, the gardens' soil: over 200 t for every tonne shipped.
+- **Mars gives the rest:** about 600,000 t of the Pentagon's panels, 171,000 t of the Crown's shell and ice, about
+  28,000 t of water, 2,300 t of air, the gardens' soil: over 200 t for every tonne shipped.
 
 ## After Jim: the city grows
 
@@ -67,7 +67,7 @@ foundry (L3-06) prints their parts.
 | --- | --- | --- |
 | 1 · Port and home | 2023–2027 | The spaceport, the corridor, Arcadia |
 | 2 · First neighbours | 2029–2038 | 13 homes within 1 km, about 100 people; the maglev opens in 2033; 12 MW |
-| 3 · Arcadia City | 2038–early 2060s | 233 homes out to 3.8 km, about 2,000 people; the school about 2040, hospital 2042, market hall 2044, university 2049, concert hall 2053, stadium early 2060s; 60–70 MW in L4-02 |
+| 3 · Arcadia City | 2038–early 2060s | 233 homes out to 3.8 km, about 2,000 people; the school about 2040, hospital 2042, market hall 2044, university 2049, concert hall 2053, stadium early 2060s; 60–70 MW from the city's grid |
 | 4 · Other cities | from the 2060s | Rail and tunnels to cities near by, portals to those far away |
 
 ## If it runs late

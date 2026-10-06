@@ -210,7 +210,7 @@ CROWN = dict(
              photos=[("../tour/photos/crown_sunset.jpg", "The sunset lounge, the sun low in the west slots.")], views=[("crown_sunset", "The sunset lounge")], plan=("img/plan/crown-sunset.jpg", "Part 6, west.")),
         dict(id="library_up", codes=["C-23", "C-24", "C-25"], k="C-23 to C-26 · part 7 · north-west · a spire", name="The Library",
              purpose="The second library, under its own spire: two floors of walnut shelves along the outer wall with the window slots between them, a study, and a map room round a globe of Mars 3 m across.",
-             facts=[("Rooms", "C-23 Study · C-24 Library, two floors · C-25 Map room; C-26 Reading gallery upstairs"), ("Size", "45 m along the ring and 9.5 m high under the spire."),
+             facts=[("Rooms", "C-23 Study · C-24 Library, two floors · C-25 Map room; C-26 Reading gallery upstairs"), ("Size", "The library 44 m along the ring and 16.5 m deep, 20 m tall under the spire."),
                     ("Made of", "Oak boards, walnut shelves and gallery, brass rails and pendants, a basalt plinth for the globe."),
                     ("In it", "A gallery reached by a spiral stair; low cases along the Glide; reading tables under brass pendants; leather chairs by the slots; the Mars globe in a bronze meridian; chests of map drawers.")],
              photos=[("../tour/photos/crown_library.jpg", "The Library: two floors of books along the curve of the ring."), ("../tour/photos/crown_maproom.jpg", "The map room and its globe of Mars, 3 m across.")],

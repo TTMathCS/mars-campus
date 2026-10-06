@@ -11,7 +11,7 @@
 | **C-03** | The Door | The front door of Arcadia, from the hangar. |  |
 | **C-04** | Arrival hall | Where everyone arrives: 20 m tall under its spire, the great maple in its round banquette, the portal to the Orb, the spires and the Pentagon. |  |
 | **C-05** | Dock control | Upstairs in the Arrival spire: watches the pods dock. | L3-21 |
-| **C-06** | Dressing room | Clothes for the day, next to the bedroom up. |  |
+| **C-06** | Dressing room | Clothes for the evening, next to the bedroom up. |  |
 | **C-07** | Bedroom up | Jim's room for the nights up in the sky: rest after dinner, reading in bed under the stars before going down; the bed faces the south-east windows. | L1-08 |
 | **C-08** | Bath up | A bath with a soaking tub by the slots. |  |
 | **C-09** | Hearth room | A fireside corner of the salon, a hearth of lit mist. |  |

@@ -2,7 +2,7 @@
 round it): each built from its line in the room program (palace/tools/room_program.py), in the same frame and with the
 same helpers as crown_rooms.py, which adds these to its ROOMS.
   C-01 Suit room, C-02 Pod hangar (part 1, Arrival); C-06 Dressing room, C-08 Bath up (part 2, the master suite up);
-  C-16 Wine room, C-18 Chef's kitchen (part 5, Dining); C-20 Guests' day room, C-22 Gallery (part 6, Sunset)."""
+  C-16 Wine room, C-18 Chef's kitchen (part 5, Dining); C-20 Guests' lounge, C-22 Gallery (part 6, Sunset)."""
 import bpy, bmesh, math, os, random
 from mathutils import Vector
 import lib, furn, crown
@@ -248,9 +248,9 @@ def chefs_kitchen(M, rnd):
     CR.washers(b0, b1, 80)
 
 
-# ---------------------------------------------------------------- C-20 the guests' day room
+# ---------------------------------------------------------------- C-20 the guests' lounge
 def guests_day_room(M, rnd):
-    """C-20, the guests' day room (252 to 261), where visitors spend their days up here: desks along the outer wall,
+    """C-20, the guests' lounge (252 to 261), where visitors spend their evenings up here: desks along the outer wall,
     sofas round a low table, a kitchenette and its table, a corner for children (they sleep below ground, in the guest
     wing on L1)"""
     import seating, tables, lights, plants

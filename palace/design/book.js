@@ -3,7 +3,7 @@
 var BOOK = (function () {
   var CH = [
     ["index", "00", "Overview", "Arcadia at a glance: the two places, and the ways in"],
-    ["idea", "00·1", "The idea", "By day in the sky, by night in the ground: the Crown, the Pentagon, the city, and what is real or future"],
+    ["idea", "00·1", "The idea", "By day in the ground, by night in the sky: the Pentagon, the Crown, the city, and what is real or future"],
     ["site", "01", "Site and city", "Where on Mars, why there, the site plan and how the city grows"],
     ["crown", "02", "The Crown", "The floating ring above ground, the Orb with the universe in VR and the Wormhole Gate, and the Stone Garden"],
     ["rooms-crown", "02·1", "The Crown, room by room", "Each part of the ring: what it is for, its plan, pictures and 360° views"],

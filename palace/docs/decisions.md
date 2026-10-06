@@ -5,6 +5,19 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 6 Oct 2026: by day in the ground, by night in the sky
+
+- **The rule turned round.** Jim, on the idea page's "By day in the sky, by night in the ground": "it should be
+  opposite. day has too much rediation so day should be in the ground while night in the sky". Now: **by day down in
+  the Pentagon**, away from the Sun's ultraviolet and the particles of its storms; **by night up in the Crown**, for
+  about 6 hours from sunset (dinners, music, the stars); everyone sleeps below. The dose budget stays 19 mSv a year
+  (6 hours up per sol). Changed: the idea page, the Crown, Pentagon, Interiors and Life support chapters, the room
+  program's uses (the great salon is Jim's living room in the evening, the family room on L1 his living room by day;
+  the sky pool, library, study, studio and breakfast room are for the evening; C-20 is now the guests' lounge), the
+  pairs page and these docs.
+- **Gaussian splatting.** Jim: "try to use gaussian splatting if possible. I heard it is pretty good for real
+  experience?" See HANDOFF for the trial and its result.
+
 ## Decided with our best judgment, 1 Oct 2026
 
 Jim asked us to decide these; he can change any of them.
@@ -65,7 +78,7 @@ Jim asked us to decide these; he can change any of them.
   plan it well before draw the images", then "I mean for certain facilities you can have mltiiples. it is OK to have
   duplicates but just need to design well as long as they could be used for multiple purpose". **Done, for his
   review:** floor plans Rev G. Every room and area has a purpose, a second use where it can, a place and a size;
-  each pair has two different jobs (most: by day up in the Crown, by night down in the Pentagon); the duplicates
+  each pair has two different jobs (most: by day down in the Pentagon, by night up in the Crown); the duplicates
   with no second job are gone: the planetarium (the Orb shows the universe better), two of the four music rooms, the
   club's bar, the two private spas, the Crown's workshop, the second tea house, the reading rooms, and the guest
   suites in the Crown (guests sleep below ground, like Jim). The room program is `palace/tools/room_program.py`, drawn by `palace/tools/draw_plans.py`.

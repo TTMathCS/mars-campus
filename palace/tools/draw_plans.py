@@ -520,7 +520,7 @@ def build():
         if a["place"] not in ("C", "O") and b["place"] in ("C", "O"): a, b = b, a
         rows.append('<tr><td>%s <b>%s</b><br><span>%s</span></td><td>%s <b>%s</b><br><span>%s</span></td></tr>' % (link(a["code"]), E(a["name"]), E(a.get("use", "")), link(b["code"]), E(b["name"]), E(b.get("use", ""))))
     page("pairs.html", "Two of a kind",
-         '<h1>Two of a kind</h1><p class="lede">Jim, 2 Oct 2026: two of a kind is fine "as long as they could be used for multiple purpose". Each pair below has two different jobs. Most pairs follow Arcadia\'s rule: <b>by day up in the Crown</b>, in the light and the view, for about six hours; <b>by night down in the Pentagon</b>, under 16 m of soil, where everyone sleeps.</p><div class="tw"><table class="pairs"><thead><tr><th>Up, or the first</th><th>Down, or the second</th></tr></thead><tbody>%s</tbody></table></div>' % "\n".join(rows),
+         '<h1>Two of a kind</h1><p class="lede">Jim, 2 Oct 2026: two of a kind is fine "as long as they could be used for multiple purpose". Each pair below has two different jobs. Most pairs follow Arcadia\'s rule: <b>by day down in the Pentagon</b>, under 16 m of soil, away from the Sun\'s radiation, where everyone also sleeps; <b>by night up in the Crown</b>, for about six hours from sunset: the stars, dinners, music.</p><div class="tw"><table class="pairs"><thead><tr><th>Up, or the first</th><th>Down, or the second</th></tr></thead><tbody>%s</tbody></table></div>' % "\n".join(rows),
          "pairs.html")
     # ---- all codes
     blocks = []

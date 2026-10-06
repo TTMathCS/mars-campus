@@ -21,7 +21,7 @@ turned the same way. The two master suites (outlined) are one above the other, i
 
 A small palette of **real materials**, most made on Mars: stone and ceramic from the ground, glass from its sand,
 metals from its rocks, wood from the trees on L2. Surfaces are matt and warm; colour comes from the materials, never
-from paint. In the Crown, light comes through the window slots, a blade of gold at sunrise and sunset. In the
+from paint. In the Crown, where Jim spends the evenings, light comes through the windows at eye level, a blade of gold at sunset. In the
 Pentagon every room has a **sky ceiling**, an artificial skylight that follows the time of day. No room shows its
 machines.
 
@@ -45,11 +45,11 @@ machines.
 | Part | Codes | What it is like |
 | --- | --- | --- |
 | Arrival (spire, E) | C-01 to C-05 | The pod hangar, the suit room, the Door and the Arrival hall, 9 m tall, of basalt and plaster, with the first view back over the garden to the Orb. Upstairs, dock control watches the pods come in |
-| Master suite up (dip, SE) | C-06 to C-08 | Jim's day rooms for resting: the bedroom faces the sunrise through the south-east slots, with the dressing room at one end and a bath with a soaking tub by the slots at the other |
+| Master suite up (dip, SE) | C-06 to C-08 | Jim's rooms for the night up in the sky: the bedroom faces the south-east windows, with the dressing room at one end and a bath with a soaking tub by the windows at the other |
 | Salon (spire, SSE) | C-09 to C-12 | The great salon, 45 m along the ring, with wool rugs and low sofas; the hearth room of cold, lit mist at one end and the recital room with the concert grand at the other. Upstairs, the Sky lounge |
 | Wellness (dip, SSW) | C-13 to C-15 | A 25 m sky pool along the ring, where low gravity makes every wave rise high and fall slowly; a spa with a cedar sauna and a round hot pool; a gym with the view |
 | Dining (spire, SW) | C-16 to C-19 | A dining hall for 22 at one basalt table, the chef's kitchen, and a wine room of Mars glass stocked from the cellar below. Upstairs, the Sky bar |
-| Sunset (dip, W) | C-20 to C-22 | The sun sets straight down the length of the sunset lounge. At one end the guests' day room; at the other a gallery of Jim's paintings and photographs of Mars |
+| Sunset (dip, W) | C-20 to C-22 | The sun sets straight down the length of the sunset lounge. At one end the guests' lounge; at the other a gallery of Jim's paintings and photographs of Mars |
 | Library (spire, NW) | C-23 to C-26 | Jim's study in the north light, two floors of walnut shelves round a spiral stair, and a map room with a 3 m globe of Mars. Upstairs, a reading gallery under the roof |
 | Studio (dip, NNW) | C-27 to C-29 | An art studio in the steady north light, a photo and print room, and a craft room for pottery and models; heavy work goes down to the workshops on L3 |
 | Observatory (spire, NNE) | C-30 to C-32 | A star lounge with reclining seats under the northern sky, and the telescope room. Upstairs, the telescope dome with a 1 m telescope |
@@ -73,13 +73,13 @@ room the universe can be switched on, in 3D, in the room itself
 ![The two master suites, to one scale](../img/book/interiors-suites.png)
 
 *The two master suites, plans at the same scale, from the floor plans. Up: three rooms along the outer wall of the
-ring, the window slots facing the sunrise. Down: the bath, the bedroom and the dressing room round a moss garden open
+ring, the windows facing south-east. Down: the bath, the bedroom and the dressing room round a moss garden open
 to a lit roof, between the laundry and the kitchen.*
 
 Jim asked for "one up and one down". They sit one above the other in the south-east. **Master suite up**, C-06 to
 C-08, 540 m², in the Crown's dip between the Arrival and Salon spires: three rooms along the outer wall, the dressing
-room, the bedroom and the bath; the bed faces the south-east slots, so on a clear morning the sun rises straight
-across the room. It is Jim's day room for a nap after lunch or an hour of reading. **Master suite down**, L1-06 to
+room, the bedroom and the bath; the grand bed faces the south-east windows. It is Jim's room for the evening and the night up in the sky, to
+rest after dinner and read under the stars before going down. **Master suite down**, L1-06 to
 L1-09, 430 m², in ring B of sector 1 on L1, 65 m below: the bath, the bedroom and the dressing room round a moss
 garden open to a lit roof 8 m up, under a sky ceiling that dims to stars at night. Under 16 m of soil it is the
 quietest, safest room on Mars, and where Jim sleeps.

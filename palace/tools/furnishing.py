@@ -77,7 +77,7 @@ CROWN = {
     "C-18": dict(name="Chef's kitchen", seating=["a leather banquette for breakfast at the window", "bar stools with backs at the island"],
                  tables=["an island of steel and marble 6 m"], lights=["pendants over the island"], plants=[("lavender", "herbs in pots along the window")],
                  art=[], doors="none"),
-    "C-20": dict(name="Guests' day room", seating=["a sectional 5 x 4 m and two club chairs round a travertine table, all facing it", "leather chairs at two guest desks"],
+    "C-20": dict(name="Guests' lounge", seating=["a sectional 5 x 4 m and two club chairs round a travertine table, all facing it", "leather chairs at two guest desks"],
                  tables=["a travertine table", "two walnut desks", "a kitchenette counter"], lights=["globes", "desk pendants"],
                  plants=[("fiddle-leaf fig", "2.6 m"), ("kentia palm", "3 m"), ("orchid", "on the desks")], art=["Mondrian's composition in yellow and grey", "Léger's Contrast of Forms"], doors="none"),
     "C-21": dict(name="Sunset lounge", seating=["two long low sofas 6 m facing the west windows", "two daybeds"], tables=["long low travertine tables"],

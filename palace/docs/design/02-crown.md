@@ -29,8 +29,8 @@ up, and nothing links it to the ground but portals and the pods. **Requirements:
 - **The shape:** one continuous ring, 16 m wide, whose roof rises five times into sharp spires and falls between them.
   The roof line is one smooth curve, 50 + 40·c⁶ m, so the spires look drawn rather than built.
 - **The skin:** glazed white ceramic fired from Mars soil, with a titanium band. No glass walls, because Mars sunlight
-  carries harsh ultraviolet. Window slots 1.2 m tall are cut through the 3 m wall, so the sun shines straight in only
-  at sunrise and sunset.
+  carries harsh ultraviolet. Windows at eye level, 2.5 m tall and 5 m wide every 8 m, are cut through the 3 m wall on
+  both sides and lined in bronze, so the high sun never reaches far in; at sunset it shines straight down the rooms.
 - **At night** the slots glow warm, a red beacon burns on each spire, and pale blue rings of light pulse on the ground
   under the anti-gravity drives.
 
@@ -56,7 +56,7 @@ Ten parts of 36°: five under the spires, each with an upper floor, and five in 
 | Salon (SSE, spire) | C-09 Hearth room · C-10 Great salon · C-11 Recital room | C-12 Sky lounge |
 | Wellness (SSW) | C-13 Spa · C-14 Sky pool, 25 m · C-15 Gym | — |
 | Dining (SW, spire) | C-16 Wine room · C-17 Dining hall · C-18 Chef's kitchen | C-19 Sky bar |
-| Sunset (W) | C-20 Guests' day room · C-21 Sunset lounge · C-22 Gallery | — |
+| Sunset (W) | C-20 Guests' lounge · C-21 Sunset lounge · C-22 Gallery | — |
 | Library (NW, spire) | C-23 Study · C-24 Library · C-25 Map room | C-26 Reading gallery |
 | Studio (NNW) | C-27 Art studio · C-28 Photo and print room · C-29 Craft room | — |
 | Observatory (NNE, spire) | C-30 Star lounge · C-31 Telescope room | C-32 Telescope dome |
@@ -94,7 +94,7 @@ the universe switched on. Dashed red: the beam that sends you to the target chos
   real sky. Every room has the switch, and the voice works anywhere.
 - **The dashboard:** two small globes always float in the corner of his view, Earth (home) and Mars (where he lives
   now), with their weather, live. One touch or one word hides them, another brings them back.
-- **The rest rooms:** five quiet rooms on the top floor for resting by day, with a day bed, a window to the sky behind
+- **The rest rooms:** five quiet rooms on the top floor for resting in the evening, with a day bed, a window to the sky behind
   radiation glass, and a glass wall onto the Gate that turns frosted. Jim still sleeps below ground at night.
 
 **The Wormhole Gate** sends people and things to any place in the universe and any time, past or future, instantly:

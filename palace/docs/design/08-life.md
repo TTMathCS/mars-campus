@@ -19,7 +19,7 @@ the [floor plans](../plans/README.md).*
 | **70 kPa · 27%** | The air: 70% of sea-level pressure, 27% oxygen, which breathes like Calgary |
 | **98%** | Of the water used again; the ice in the ground makes up the rest |
 | **2 years** | Of food in the storm reserve on L4, besides the farm on L2 |
-| **19 mSv** | A year for Jim: by day up in the Crown, by night down in the Pentagon |
+| **19 mSv** | A year for Jim: by day down in the Pentagon, by night up in the Crown |
 | **0** | Open flames, and suits that come indoors |
 
 ## The air
@@ -93,7 +93,9 @@ are insulated so the ice-rich ground stays frozen, as under buildings on permafr
 
 - On the open plain about **230 mSv a year** (Curiosity's detector); behind the Crown's ice walls about 75; under the
   Pentagon's 16 m of soil about 1 (chapter 03).
-- **By day up, by night down:** about 6 hours of each sol in the Crown and the Orb, the rest below, gives Jim about
+- **By day down, by night up** (Jim, 6 Oct 2026: "day has too much radiation so day should be in the ground while
+  night in the sky"): the day below, away from the Sun's ultraviolet and storm particles; about 6 hours of each sol
+  from sunset in the Crown and the Orb, for dinners, music and the stars; sleep below. That gives Jim about
   **19 mSv a year**, within the limit for radiation workers; over 20 years about 380 mSv, under NASA's 600 mSv career
   limit for astronauts.
 - **Solar storms:** the storm watch (L3-20) sees a flare at once; the particles come minutes to hours later; everyone

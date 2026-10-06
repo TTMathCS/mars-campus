@@ -19,7 +19,7 @@ Every room has a code, a purpose, a place and a size, and two of a kind only whe
 - **The planetarium (Crown, Observatory)**: The Orb shows the universe better; the Observatory keeps the star lounge and the real telescope (C-30 to C-32).
 - **The music room in the Crown's Studio, and the club's music room (L1)**: Music has two rooms with two purposes: the recital room up (C-11) and Jim's music room down (L1-01).
 - **The club's bar (L1)**: Bars: the Sky bar up (C-19) and the bar in Jim's dining room down (L1-03); the ballroom has a counter for parties.
-- **The two guest suites in the Crown's Sunset part**: Guests sleep below ground, like Jim; by day they have the guests' day room (C-20).
+- **The two guest suites in the Crown's Sunset part**: Guests sleep below ground, like Jim; in the evenings they have the guests' lounge (C-20).
 - **The private spa in the master suite up, and the private spa on L1**: Spas: the Crown's spa with a view (C-13) and the sauna and steam rooms below (L1-25); each master bath has a deep tub.
 - **The workshop in the Crown's Studio**: Heavy work is in L3's workshops (L3-01); the Studio keeps a craft room (C-29).
 - **The tea house in the Crown's Garden room**: One tea house, in the meadow of the garden level (L2-19).
@@ -30,5 +30,5 @@ Every room has a code, a purpose, a place and a size, and two of a kind only whe
 - **L1-14 Memory rooms**: Jim's keepsakes from Earth and his memoirs: he is not going back.
 - **L1-19 Ballroom**: Celebrations when visitors come; classes and exhibitions in between.
 - **L1-24 Sports hall**: Climbing, ball games and running in low gravity.
-- **C-20 Guests' day room, C-22 Gallery, C-28 Photo and print room, C-31 Telescope room**: In place of the rooms taken out of the Crown.
+- **C-20 Guests' lounge, C-22 Gallery, C-28 Photo and print room, C-31 Telescope room**: In place of the rooms taken out of the Crown.
 - **Room codes**: Every room and area has a code: L1-02, C-10, O-07, G-01.

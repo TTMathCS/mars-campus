@@ -1351,6 +1351,21 @@ from crown_wellness import WELLNESS  # the spa, the sky pool and the gym (crown_
 ROOMS.update(WELLNESS)
 
 
+def _part(keys):
+    """a whole part of the ring built at once, room by room, for its picture from above (plan:c_<part>)"""
+    def build_(M, rnd):
+        for k in keys: ROOMS[k]["build"](M, rnd)
+    return build_
+
+
+ROOMS.update({     # the parts whose rooms are separate scenes: plan pictures only, so no cameras or stops
+    "part_arrival": dict(build=_part(["suit", "hangar", "arrival"]), span=(72.0, 108.0), sun=(250.0, 14.0), cams={}, stops={}),
+    "part_suite": dict(build=_part(["dressing", "bedroom", "bath_up"]), span=(108.0, 144.0), sun=(118.0, 7.0), cams={}, stops={}),
+    "part_dining": dict(build=_part(["wine", "dining", "kitchen_up"]), span=(216.0, 252.0), sun=(244.0, 13.0), cams={}, stops={}),
+    "part_sunset": dict(build=_part(["day_room", "sunset", "gallery"]), span=(252.0, 288.0), sun=(268.0, 4.5), cams={}, stops={}),
+})
+
+
 def build(room, night_=None):
     sc = lib.reset(); M = materials(); rnd = random.Random(23)
     R = ROOMS[room]; nt = R.get("night", False) if night_ is None else night_; DAY["on"] = not nt

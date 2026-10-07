@@ -7,6 +7,19 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
 
+**21:15 UTC: the photo walk planned again, and rendered at 1024 px.** Jim (Safari on a Mac): "it is not so good",
+"the view is so close view. i need to bit far and zoom out", then "when i walk, it moves too fast. and I can see the
+slow rendering of objects in slow motion. not good". So: one row of points down the middle of each room (8 m from the
+windows and the glass, every 6.5 m) with the tour stops and the ways the walk needs (222 points; `photowalk_plan.py`
+joins points that see each other on a new map of what stands 1.3 m up or more, `walk/data/tall.png`, made with the
+floor maps by `walk_bake.py ... map`); faces of 1024 px at 8 samples, depth maps 512 x 256; the 768 px pictures are
+gone (only C-04.2, rendered at 1024, stayed). The page: 105 degrees across to begin with, zoom out to 115, a point
+looks first into the room; a step takes about 3 s for 6 m, waits for the next sharp picture, and the 360s change
+over in the middle third. The floor maps were wrong for thick walls (inside a wall read as floor: one could walk
+from the Arrival hall into the dressing room through its end wall); fixed in `walk_bake.floor_map` and all ten made
+again. Machines: A arrival, dressing, bedroom, bath_up, salon, wellness, wine, dining, kitchen_up, day_room, sunset;
+B hangar, suit, garden, observatory, studio, library, gallery.
+
 **19:05 UTC: the photo walk is linked** ("Walk the Crown" in every chapter's bar, the Crown's card and page; the
 free walk stays as "Walk freely"). The Arrival hall, the Door's room, the pod hangar and the suit room are in, all
 reachable from the Arrival hall's stop (`photowalk_check.py`). Two fixes on the way: no point stands in the plane of

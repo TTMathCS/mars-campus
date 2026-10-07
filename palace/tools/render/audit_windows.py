@@ -22,8 +22,16 @@ def bearing(x, y): return math.degrees(math.atan2(x, y)) % 360.0
 
 def audit(room):
     sc, R = CR.build(room, False)
-    b0, b1 = R["span"]
-    wins = crown.openings(R_OUT, b0, b1)          # the windows the outer wall keeps in this room
+    # the windows the outer wall really has: its panes, in the middle of the wall (a window that a cross wall would cut,
+    # or one behind a door, is left out of the wall, so it is not in the scene)
+    wins = []
+    for o in bpy.data.objects:
+        if o.type != "MESH" or not o.name.startswith("window glass"): continue
+        pts = [o.matrix_world @ v.co for v in o.data.vertices]
+        if not pts or abs(math.hypot(pts[0].x, pts[0].y) - (R_OUT + crown.WT / 2)) > 0.2: continue
+        bs = [bearing(p.x, p.y) for p in pts]; lo_, hi_ = min(bs), max(bs)
+        if hi_ - lo_ > 180: bs = [b if b > 180 else b + 360 for b in bs]; lo_, hi_ = min(bs), max(bs)
+        wins.append((lo_, hi_))
     hits = []
     for o in bpy.data.objects:
         if o.type != "MESH" or o.hide_render: continue

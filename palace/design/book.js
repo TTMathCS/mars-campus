@@ -96,7 +96,7 @@ var BOOK = (function () {
     var bar = document.createElement("header"); bar.className = "bar";
     var items = CH.map(function (c) { return READY[c[0]] ? '<li><a href="' + chHref(c) + '"><span>' + c[1] + "</span>" + c[2] + "</a></li>" : '<li><span class="soon"><span>' + c[1] + "</span>" + c[2] + " · coming</span></li>"; }).join("")
       + '<li class="grp">The science</li>' + SCIENCE.map(function (c) { return '<li><a href="' + c[1] + '"><span></span>' + c[0] + "</a></li>"; }).join("");
-    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="./">Arcadia design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Floor plans</a><a href="../walk/">Walk the Crown</a><a href="../tour/">360° tour</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
+    bar.innerHTML = '<div class="wrap"><div class="crumb"><a href="../../">Mars – your new home</a> · <a href="./">Arcadia design plan</a>' + (i > 0 ? " · " + CH[i][1] + " " + CH[i][2] : "") + '</div><nav><details><summary>Chapters</summary><ol>' + items + '</ol></details><a href="../plans/">Floor plans</a><a href="../photowalk/">Walk the Crown</a><a href="../tour/">360° tour</a><a class="atlas" href="atlas/">Mars Atlas</a></nav></div>';
     document.body.insertBefore(bar, document.body.firstChild);
     var main = document.querySelector("main");
     if (main && i >= 0) {

@@ -282,6 +282,16 @@
       g.fillStyle = PRC.ink; for (k = 0; k < N; k++) { var pp = P(k); dot(g, pp[0], pp[1], 1.3); }
       serif(g, 13, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; g.fillText("k  →  2k  (mod 200)", b.x + b.w - 8, b.y + b.h - 8);
     },
+    lissajous: function (g, b) {                                      // x = sin(p t + pi/4), y = sin(q t) for six ratios p:q, quiet blues and greens
+      var R = [[1, 2], [2, 3], [3, 4], [1, 3], [3, 5], [4, 5]], cols = [PRC.navy, PRC.teal, PRC.olive, PRC.teal, PRC.navy, PRC.olive], cw = b.w / 3, ch = b.h / 2;
+      R.forEach(function (f, k) {
+        var cx = b.x + cw * (k % 3 + 0.5), cy = b.y + ch * (Math.floor(k / 3) + 0.5), A = Math.min(cw, ch) * 0.38;
+        g.lineWidth = 1.3; g.strokeStyle = cols[k]; g.globalAlpha = 0.85; g.beginPath();
+        for (var i = 0; i <= 900; i++) { var t = i / 900 * 2 * Math.PI, x = cx + A * Math.sin(f[0] * t + Math.PI / 4), y = cy - A * Math.sin(f[1] * t); if (i) g.lineTo(x, y); else g.moveTo(x, y); }
+        g.stroke(); g.globalAlpha = 1;
+        serif(g, 13, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(f[0] + " : " + f[1], cx, cy + ch * 0.47);
+      });
+    },
     harmonograph: function (g, b) {                                   // a pen moved by two swinging pendulums, dying away
       var cx = b.x + b.w / 2, cy = b.y + b.h / 2, A = b.h * 0.46;
       g.lineWidth = 0.7; g.strokeStyle = "rgba(44,74,115,0.72)"; g.beginPath();

@@ -131,6 +131,12 @@ each pushed when it is checked:
    (`CLOCK_T` holds a time for shots); the pinboards drawn on one canvas (`pinAtlas`, `drawPinboard`: `roomWeek` from the
    timetable, `nextContest`, `diagramSheet` with a print's drawing, `quizSheet`, the notice boards' `flyer`) and hung as one
    mesh on the back walls, from `P2.ring.pins` (`RING_PINS`).
+   (v0.24) `blk_artcare.js` (after `blk_ringfurnish.js`; `RING_FURNISH` maps the kinds clinic, art and music to its rooms):
+   `clinicRoom` (`examCouch`, `curtain`, `curtainTrack`, `clinicCounter`, `frostedScreen` round the counsellor's room, `restBed`); `artStudio` (the paintings drawn on one canvas,
+   `paintAtlas` and `drawPainting`, laid as one mesh by `paintMesh` on the easels and the back wall; `tableClutter`,
+   `stretcher`, `kiln`); `musicRoom` (`grandPiano` from a real case outline, `pianoPath`; `uprightPiano`, `pianoBench`,
+   `ensembleChair`, `musicStand`, `practiceBooth` with its glass in `CRS_GLASS` (its normal toward the corridor, so that from the room it mirrors the room), `hungGuitar` and `hungFiddle` on oak
+   hangers, `cello`, `doubleBass`, `drumKit`, `arcSlats` on the outer wall, `onWall` for a piece on a back or front wall).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

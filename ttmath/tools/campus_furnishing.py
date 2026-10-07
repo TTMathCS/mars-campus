@@ -49,6 +49,18 @@ PIECES = dict(
     shadow="Every piece that stands on a floor sits in its own soft shadow (contact shadows, one mesh for all).",
     wall_clock="A round clock 42 cm across, an aluminium rim, a white face with black marks, black hands and a red second hand that keep the visitor's own time.",
     pinboard="Cork 2.8 by 1.4 m in an oak frame, the sheets pinned on it with coloured pins, a light over it.",
+    grand_piano="A grand piano 1.52 by 2.0 m in black lacquer: the case's straight side and its bentside drawn from a real outline, the lid open "
+                "on its prop over the treble side, the gold plate with its openings over the spruce soundboard, the strings (the bass ones copper), "
+                "88 keys on a felt-lined key slip, a score on the desk, three tapered legs on brass cups and casters, the lyre with three brass pedals, "
+                "an adjustable bench with a black leather top.",
+    upright_piano="An upright piano in walnut 1.54 m wide, its back to the wall: 88 keys, the toes and consoles, a score on its desk, three brass pedals.",
+    ensemble_chair="An ensemble chair 0.56 m wide without arms (for bows and guitars): a stuffed seat and a padded back in ink-blue wool on oak legs.",
+    music_stand="A music stand in black steel on a tripod, a score open on its desk.",
+    practice_booth="A practice booth on a corridor wall, 2.2 m along it, 2.3 m deep and 2.5 m high: felt walls on an oak frame, an oak roof, "
+                   "a glass front with a glazed door and a steel pull, an upright piano and its bench inside, a felt panel over the piano, a glass globe lamp.",
+    hung_instruments="Instruments hung on solid wall from oak hangers by their necks: guitars (spruce, dark, black, with their strings), a violin with "
+                     "its bow on a peg, a viola, a ukulele; a cello and a double bass stand leaning back on their floor stands.",
+    slat_wall="Oak slats 4.5 cm wide every 9 cm on dark felt, 4 cm proud of the wall, with oak edges, top and bottom (as the halls' walls).",
 )
 
 # room by room: seating, tables, lights, finishes; "next" is what the following step adds
@@ -77,6 +89,26 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-42": dict(name="Clinic and counsellor", seating=["the nurse's task chair and a chair for whoever comes in", "in the counsellor's lounge a sage sofa 2.4 m by the outer wall facing two cognac club chairs across a walnut table on a rug"],
+                   tables=["the nurse's desk", "the walnut table", "a lamp table"], lights=["a table lamp and a floor lamp in the lounge"],
+                   finishes="linen plaster (the sage walls went dark under the skylights); the examination bay at the back: a padded couch on a steel frame with its paper roll, a sage curtain drawn back on a ceiling track round it, "
+                            "a counter with a basin and frosted cabinets over it on the back wall; two bookcases behind the nurse's desk; the counsellor's lounge a room of its own, "
+                            "frosted glass 2.4 m high in an oak frame round it, open by the front wall; against that glass on the clinic's side two rest beds made up "
+                            "(oak frames, white linen, pillows, ink-blue blankets folded at the foot) with a curtain on a track between them; "
+                            "over the lounge on the front wall a print of Lissajous figures", next=""),
+    "T06-40": dict(name="Art studio", seating=["stools at twelve easels round the long table"], tables=["the long table, jars of paint, cups of brushes, palettes and a roll of paper on it"],
+                   lights=["a light washing the back wall"], finishes="paintings in progress on the easels (a Mars dusk, Olympus Mons, a colour field, circles in squares, the dome, "
+                   "a still life, waves, the pale blue dot); seven finished canvases hung close together on the back wall; a kiln and two bookcases of supplies on the front wall; the sink counter", next=""),
+    "T06-41": dict(name="Music room", seating=["23 ensemble chairs in ink-blue wool in three arcs facing the piano (7, 9, 7), a music stand before each chair of the first arc",
+                   "a bench at the grand piano and one in each booth"], tables=[], lights=["linear pendants, two more over the chairs", "a brass cone low over the keys", "a brass floor lamp by the player", "a light washing down the slats", "a globe lamp in each booth"],
+                   finishes="linen plaster (was sage); the stage is the outer wall, solid here: oak slats on felt 9 m long and 3.5 m high behind the grand piano, which stands on a forest rug "
+                            "with its lid open toward the chairs; on the corridor wall two practice booths from the back corner, three bookcases of scores, then the door; "
+                            "on the back wall three guitars hung, the cello and the double bass on their stands, the drum kit in the corner on a charcoal rug; "
+                            "on the front wall a violin, a viola and a ukulele by the door and four oatmeal felt panels; a fig by the piano, a fern by the door",
+                   layout="d along the room from the front wall (0) to the back (11.7 m), r from the corridor wall (49.6) to the outer wall (62); the door at d 2.1 on the corridor wall; "
+                          "the piano's middle at r 60.0, d 5.2, its keys toward the front and its bentside toward the chairs; the arcs centred on r 59.6, d 5.85 at 3.6, 5.0 and 6.4 m; "
+                          "the booths from the back wall to d 6.8 (r 49.7 to 52.0); the bookcases from there toward the door",
+                   next=""),
     "class": dict(name="Classrooms", seating=["shell chairs with upholstered seat pads at the double desks", "in the big rooms, a linen sofa 3 m in a reading corner by the window"],
                   tables=["double desks", "the teacher's desk"], lights=["linear pendants in rows", "a light over the pinboard"], finishes="off-white plaster",
                   details=["a wall clock over the board, its hands keeping the visitor's own time",

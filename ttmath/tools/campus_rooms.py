@@ -113,7 +113,7 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-38": [("monstera", "window0"), ("maple", "window1"), ("anthurium", "desk"), ("croton", "corner0")],
     "T06-39": [("kentia", "window0"), ("kentia", "window1"), ("croton", "corner0")],
     "T06-40": [("bromeliad", "window0"), ("agave", "window1"), ("orchid", "desk")],
-    "T06-41": [("fig", "window0"), ("fern", "corner1")],
+    "T06-41": [("fig", "window1"), ("fern", "corner1")],
     "T06-42": [("orchid", "desk"), ("snake", "window1")],
 })
 
@@ -152,6 +152,7 @@ RING_ART = [
     dict(room="T06-26", wall="back", r=55.95, y=1.75, w=1.2, floor="upper", subject="ford", title="Ford circles", note="a circle on every fraction, 1/q squared across: neighbours only ever touch"),
     dict(room="T06-26", wall="front", r=55.2, y=1.85, w=1.8, floor="upper", subject="roses", title="Rose curves", note="r = cos(k theta): petals for every fraction k"),
     dict(room="T06-04", wall="front", r=57.0, y=1.8, w=1.5, floor="upper", subject="voronoi", title="Voronoi cells", note="every point of the plane belongs to the seed nearest to it"),
+    dict(room="T06-42", wall="front", r=59.1, y=1.7, w=1.4, floor="lower", subject="lissajous", title="Lissajous figures", note="a point swinging two ways at once, in the ratio of two whole numbers"),
 ]
 # The classrooms' pinboards (v0.23): a cork board 2.8 by 1.4 m in an oak frame on each classroom's back wall (solid wall,
 # never a window): the room's classes this week (from the timetable), a problem of the week for its mathematician, a

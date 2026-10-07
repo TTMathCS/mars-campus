@@ -18,16 +18,6 @@
     leg(b, -0.3, 0, 0.18, -0.05, 1.75, 0, 0.018, MT.WOOD); leg(b, 0.3, 0, 0.18, 0.05, 1.75, 0, 0.018, MT.WOOD); leg(b, 0, 0, -0.5, 0, 1.62, -0.02, 0.016, MT.WOOD);
     b.box(-0.34, 0.78, 0.04, 0.34, 0.81, 0.16, MT.WOOD); var n0 = b.count(); b.box(-0.32, 0.81, 0.07, 0.32, 1.55, 0.09, MT.PLASTER); b.tag(n0, 0, null);
   }); }
-  function grandPiano() { return furn("piano", function (b) {                         // 1.55 wide (x), 2.2 long (z), keys at -z
-    var sh = new THREE.Shape(); sh.moveTo(-0.77, -1.1); sh.lineTo(0.77, -1.1); sh.lineTo(0.77, -0.05); sh.quadraticCurveTo(0.74, 1.1, 0.05, 1.1); sh.quadraticCurveTo(-0.62, 1.1, -0.77, 0.35); sh.lineTo(-0.77, -1.1);
-    var g = new THREE.ExtrudeGeometry(sh, { depth: 0.3, bevelEnabled: false, curveSegments: 12 }); g.rotateX(Math.PI / 2); g.translate(0, 1.0, 0); b.geo(g, new THREE.Matrix4(), MT.ANOD, 1);
-    b.box(-0.74, 0.7, -1.32, 0.74, 0.76, -1.1, MT.CERAMIC); b.box(-0.74, 0.76, -1.16, 0.74, 0.79, -1.1, MT.ANOD);
-    [[-0.62, -0.95], [0.62, -0.95], [0.1, 0.8]].forEach(function (c) { b.box(c[0] - 0.05, 0, c[1] - 0.05, c[0] + 0.05, 0.7, c[1] + 0.05, MT.ANOD); });
-    b.box(-0.45, 0, -1.75, 0.45, 0.5, -1.45, MT.LEATHER);
-  }); }
-  function bed() { return furn("bed", function (b) {                                  // the clinic's couch, 2.0 long (x)
-    b.box(-1.0, 0.0, -0.45, 1.0, 0.55, 0.45, MT.ANOD); var n0 = b.count(); b.box(-0.98, 0.55, -0.43, 0.98, 0.7, 0.43, MT.FABRIC); b.tag(n0, 5, null); b.box(0.6, 0.7, -0.4, 0.95, 0.82, 0.4, MT.FABRIC);
-  }); }
   function workbench() { return furn("wbench", function (b) {                         // 2.4 along x, 0.9 deep, beech top on steel, a shelf
     b.box(-1.2, 0.86, -0.45, 1.2, 0.92, 0.45, MT.WOOD); b.box(-1.15, 0.2, -0.4, 1.15, 0.23, 0.4, MT.ANOD);
     [[-1.15, -0.4], [1.15, -0.4], [-1.15, 0.4], [1.15, 0.4]].forEach(function (c) { b.box(c[0] - 0.03, 0, c[1] - 0.03, c[0] + 0.03, 0.86, c[1] + 0.03, MT.ANOD); });
@@ -224,24 +214,6 @@
   function assemblyHall(B, rm, F) {                                                   // a low stage, rows of upholstered chairs
     var C = CRS, st = F.at(1.6, true); crsPlace(B, stagePlatform(7.0, 3.0), 55.8, st, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(52.2, 59.4, st - 1.6 / 55.8, st + 1.6 / 55.8, F.floor);
     for (var d = 5.4; d < F.span - 2.0; d += 1.25) { var a = F.at(d, true); for (var r = 51.6; r < 60.4; r += 0.75) { if (Math.abs(r - 55.8) < 0.6) continue; crsPlace(B, officeChair(), r, a, F.y, F.sgn > 0 ? Math.PI : 0); } crsObst(51.2, 55.2, a - 0.35 / 53, a + 0.35 / 53, F.floor); crsObst(56.4, 60.8, a - 0.35 / 58, a + 0.35 / 58, F.floor); }
-    roomPlants(B, rm, F, null);
-  }
-  function artStudio(B, rm, F) {                                                      // easels round a long table, the sink
-    var C = CRS, ta = F.at(F.span / 2, true); crsPlace(B, longTable(6.0), 55.8, ta, F.y, 0); crsObst(55.0, 56.6, ta - 3.1 / 55.8, ta + 3.1 / 55.8, F.floor);
-    for (var k = 0; k < 6; k++) { var x = -2.5 + k; [[57.6, IN], [54.0, OUT]].forEach(function (c) { crsPlace(B, easel(), c[0], ta + x / 55.8, F.y, c[1] - Math.PI / 2); crsPlace(B, stool(), c[0] + (c[1] === IN ? 0.6 : -0.6), ta + x / 55.8, F.y, 0); }); }
-    var sa = F.at(1.0, false); crsPlace(B, counter(3.0), C.rc + 0.45, sa, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, sa - 1.6 / 50, sa + 1.6 / 50, F.floor);
-    roomPlants(B, rm, F, null);
-  }
-  function musicRoom(B, rm, F) {                                                      // the grand piano, chairs and stands for the choir
-    var pa = F.at(2.4, true); crsPlace(B, grandPiano(), 55.8, pa, F.y, F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2); crsObst(54.6, 57.0, pa - 1.6 / 55.8, pa + 1.6 / 55.8, F.floor);
-    for (var d = 5.2; d < F.span - 1.4; d += 1.6) { var a = F.at(d, true); [52.6, 54.2, 57.4, 59.0].forEach(function (r) { crsPlace(B, schoolChair(5), r, a, F.y, F.sgn > 0 ? Math.PI : 0); }); }
-    shelvesOnCorridor(B, F, 3, 1.0);
-    roomPlants(B, rm, F, null);
-  }
-  function clinicRoom(B, rm, F) {                                                     // the nurse's couch, a desk, the counsellor's armchairs
-    var C = CRS, ba = F.at(1.8, false); crsPlace(B, bed(), C.r1 - 1.2, ba, F.y, 0); crsObst(C.r1 - 1.7, C.r1 - 0.7, ba - 1.05 / 61, ba + 1.05 / 61, F.floor);
-    var da = F.at(4.6, false); crsPlace(B, teacherDesk(), C.rc + 1.4, da, F.y, F.sgn > 0 ? Math.PI : 0); crsPlace(B, officeChair(), C.rc + 0.6, da, F.y, OUT); crsObst(C.rc + 0.5, C.rc + 2.3, da - 0.45 / 51, da + 0.45 / 51, F.floor);
-    var aa = F.at(F.span - 2.2, false); [-0.7, 0.7].forEach(function (x) { crsPlace(B, armchair(), 57.0, aa + x / 57, F.y, x > 0 ? ROT.plusA : ROT.minusA); }); crsPlace(B, sideTable(), 57.0, aa, F.y, 0);
     roomPlants(B, rm, F, null);
   }
   function lockerRoom(B, rm, F) {

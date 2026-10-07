@@ -345,6 +345,27 @@ def denoise_light(img, path, quality=92):
     bpy.data.images["Render Result"].save_render(path, scene=dn)
 
 
+def bark_hue(me, raw):
+    """the trunks and branches: their light from a few samples a vertex is noisy in hue, and along a trunk's long faces
+    the noise shows as bands of green and purple; each vertex keeps its own brightness and takes its bark's mean colour"""
+    import numpy as np
+    col = np.asarray(raw, np.float64).reshape(-1, 4)
+    bark = [i for i, m in enumerate(me.materials) if m and "bark" in m.name.lower()]
+    if not bark or not len(me.polygons): return raw
+    nP, nL = len(me.polygons), len(me.loops)
+    mat = np.zeros(nP, np.int32); me.polygons.foreach_get("material_index", mat)
+    tot = np.zeros(nP, np.int32); me.polygons.foreach_get("loop_total", tot)
+    vix = np.zeros(nL, np.int32); me.loops.foreach_get("vertex_index", vix)
+    loop_mat = np.repeat(mat, tot)
+    lum = lambda c: 0.2126 * c[:, 0] + 0.7152 * c[:, 1] + 0.0722 * c[:, 2]
+    for mi in bark:
+        vs = np.unique(vix[loop_mat == mi])
+        if not len(vs): continue
+        c = col[vs, :3]; l = lum(c); mean = c.mean(axis=0); ml = max(float(lum(mean[None, :])[0]), 1e-6)
+        col[vs, :3] = np.clip(mean[None, :] * (l / ml)[:, None], 0.0, 1.0)
+    return col.ravel().tolist()
+
+
 # ---------------------------------------------------------------- where one can walk
 def floor_map(b0, b1, path, objs, cell=0.05):
     """white where one can stand, black where a wall, a table, a pool or a bed is in the way (anything 0.15 to 1.85 m
@@ -557,6 +578,7 @@ def main():
             for i in range(len(ca.data)):
                 for c in range(3): raw[4 * i + c] = min(1.0, raw[4 * i + c] / VMAX)
                 raw[4 * i + 3] = 1.0
+            raw = bark_hue(me, raw)
             ca.data.foreach_set("color", raw)
             vm = simple_material(name + " vertex", "vertex", None, None, vcol=True)
             me.materials.clear(); me.materials.append(vm); drop_layers(me, keep_uv=None)

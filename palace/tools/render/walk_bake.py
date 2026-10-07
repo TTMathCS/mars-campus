@@ -370,8 +370,9 @@ def bark_hue(me, raw):
 # ---------------------------------------------------------------- where one can walk
 def floor_map(b0, b1, path, objs, cell=0.05):
     """white where one can stand, black where a wall, a table, a pool or a bed is in the way (anything 0.15 to 1.85 m
-    up): rays straight down from 1.85 m through every object of the stretch. Across: bearing (b0 to b1), down: radius
-    (R_IN to R_OUT)."""
+    up): rays straight down from 1.85 m through every object of the stretch, and where a ray begins inside a solid
+    (a thick wall: it meets the wall's underside first) no floor either. Across: bearing (b0 to b1), down: radius
+    (R_IN to R_OUT). `walk_bake.py <rooms> <out> 24 0.0125 6 map` makes only this map (and a walk.json without chunks)."""
     from mathutils.bvhtree import BVHTree
     vs, ps, wet = [], [], []
     for o in objs:
@@ -389,7 +390,9 @@ def floor_map(b0, b1, path, objs, cell=0.05):
         r = R_IN + (j + 0.5) * cell
         for i in range(w):
             loc, nrm, idx, dist = tree.ray_cast(P(r, b0 + (i + 0.5) * db, 1.85), down, 2.5)
-            ok = loc is not None and -0.2 < loc.z < 0.15 and not wet[idx]
+            # the first face below, facing down: the ray began inside a solid (a wall thicker than a cell: it found
+            # the wall's underside at the floor), so this is no floor
+            ok = loc is not None and -0.2 < loc.z < 0.15 and not wet[idx] and nrm.z > -0.5
             if not ok: block(j, i)
     # thin upright things the rays slip past (a wall of glass is 1.6 cm thick, the cells 5 cm): each blocks the cells
     # its foot covers, a little widened

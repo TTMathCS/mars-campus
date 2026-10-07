@@ -92,6 +92,12 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-39": dict(name="Assembly hall", seating=["160 stacking chairs with padded ink-blue seats and backs on black steel frames, ten rows of sixteen with a centre aisle", "the operator's chair at the sound desk"],
+                   tables=["the sound desk at the back in the aisle's line", "a table for tea along the back wall: a cream cloth, two urns, cups"],
+                   lights=["linear pendants", "a truss of eight spotlights over the stage's front", "warm light on the stage", "the skylights"],
+                   finishes="linen plaster (was warm grey); the stage 10 by 3.6 m, 0.6 high, an oak floor, a black skirt, steps at both ends; rust velvet curtains and a valance behind it; "
+                            "a walnut lectern with a microphone, two speakers on stands; a dolly of stacked chairs; kentias at the outer corners, a croton by the back door",
+                   layout="d from the front wall (0, the stage) to the back (23.4 m); the rows from d 6 to 15; the sound desk at d 17.8; the tea table and the chair dollies on the back wall", next=""),
     "T06-25": dict(name="Library", seating=["24 upholstered ink-blue chairs at six walnut reading tables", "two cognac club chairs in a reading corner by the corridor wall"],
                    tables=["six walnut reading tables 2.4 m, two green-shaded brass lamps on each", "a lamp table between the club chairs"],
                    lights=["linear pendants", "the green lamps", "a table lamp and a floor lamp in the corner", "the clerestory under the sloping roof"],

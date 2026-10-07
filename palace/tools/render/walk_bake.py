@@ -553,7 +553,7 @@ def main():
         parts = [o]
         if v is not None:        # leaves, slats, shades: all their light in their vertices, as light / VMAX
             me = v.data; ca = me.color_attributes.get("bake") or me.color_attributes.new("bake", "FLOAT_COLOR", "POINT")
-            me.color_attributes.active_color = ca; select_only([v]); sc.cycles.samples = max(16, spp)
+            me.color_attributes.active_color = ca; select_only([v]); sc.cycles.samples = 8       # a leaf's few vertices: its noise reads as the leaves' own variety
             bpy.ops.object.bake(type="COMBINED", pass_filter={"DIRECT", "INDIRECT", "DIFFUSE", "TRANSMISSION", "EMIT"}, target="VERTEX_COLORS")
             raw = [0.0] * (4 * len(ca.data)); ca.data.foreach_get("color", raw)
             for i in range(len(ca.data)):

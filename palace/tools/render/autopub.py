@@ -31,7 +31,6 @@ CAPTION = {
     "telescope": "The telescope room: a desk and a screen on each stretch of wall between the windows, a sofa to watch from, the portal up to the dome.",
     "study": "The study: Jim's desk at the windows, the frosted glass onto the Glide, a reading corner by the olive tree.",
     "wine": "The wine room: the wall of bottles, the tasting group by the windows.",
-    "wine2": "The wine room from the windows: the tasting table and the wall of bottles.",
     "arrival2": "The Arrival hall from the Glide side: the great maple in its round banquette, Van Gogh's Starry Night on the end wall beside the portal.",
     "dressing": "The dressing room up: a round velvet ottoman, the triple mirror, a sitting corner by the windows.",
     "bath_up": "The bath up: a bathing pool of black basalt in the middle, the stone tub between two windows, chaises and kentia palms.",

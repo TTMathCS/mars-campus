@@ -16,6 +16,7 @@
   "bedroom",
   "bath_up",
   "salon",
+  "wellness",
   "day_room",
   "sunset",
   "gallery",
@@ -94,6 +95,24 @@
    "name": "Recital room",
    "b0": 172.08,
    "b1": 180.0
+  },
+  {
+   "code": "C-13",
+   "name": "Spa",
+   "b0": 180.0,
+   "b1": 191.5
+  },
+  {
+   "code": "C-14",
+   "name": "Sky pool, 25 m",
+   "b0": 191.5,
+   "b1": 204.5
+  },
+  {
+   "code": "C-15",
+   "name": "Gym",
+   "b0": 204.5,
+   "b1": 216.0
   },
   {
    "code": "C-20",
@@ -343,6 +362,54 @@
    "light": "c1740_l.jpg",
    "b0": 174.0,
    "b1": 180.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1800.glb",
+   "light": "c1800_l.jpg",
+   "b0": 180.0,
+   "b1": 186.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1860.glb",
+   "light": "c1860_l.jpg",
+   "b0": 186.0,
+   "b1": 192.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1920.glb",
+   "light": "c1920_l.jpg",
+   "b0": 192.0,
+   "b1": 198.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1980.glb",
+   "light": "c1980_l.jpg",
+   "b0": 198.0,
+   "b1": 204.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2040.glb",
+   "light": "c2040_l.jpg",
+   "b0": 204.0,
+   "b1": 210.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2100.glb",
+   "light": "c2100_l.jpg",
+   "b0": 210.0,
+   "b1": 216.0,
    "size": 4096,
    "light_size": 2048
   },

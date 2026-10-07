@@ -80,6 +80,8 @@ def build(rooms):
     if whole: bpy.data.objects.remove(bpy.data.objects["ring outside"])        # all of the ring is here
     for o in list(bpy.data.objects):         # the Glide runs on from room to room, and on from part to part of the ring
         if o.name.startswith("glide end"): bpy.data.objects.remove(o)
+        # the Arrival hall's stills close their scene with a solid wall where the hangar would be: not with the hangar
+        elif o.name.startswith("hangar end") and "hangar" in rooms: bpy.data.objects.remove(o)
     seen = {}                                # where two rooms meet, both built the partition between them: keep one
     for o in list(bpy.data.objects):
         if o.name.startswith("partition") and o.type == "MESH":

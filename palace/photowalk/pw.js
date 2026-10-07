@@ -135,13 +135,23 @@ function ahead(back = false) {
   return best;
 }
 
+// a step: once the next point's sharp picture is in (or after 2.5 s, its small one), the camera walks there, at
+// the pace of a walk (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow rendering of objects in
+// slow motion"): about 3 s for 6 m; the two 360s change over in the middle of the step, quickly
+let going = null;
 async function go(n) {
-  if (!n || move) return;
-  const Q = n.Q;
-  try { await Promise.all([Q.loadDepth(), Q.full ? null : Q.loadSmall()]); } catch (e) { return; }
+  if (!n || move || going) return;
+  const Q = n.Q; going = Q;
+  cursor.position.set(Q.floor.x, Q.floor.y + 0.02, Q.floor.z); cursor.visible = true;      // where one is going, while it loads
+  try {
+    await Promise.all([Q.loadDepth(), Q.loadSmall()]);
+    await Promise.race([Q.loadFull(), new Promise(r => setTimeout(r, 2500))]);
+  } catch (e) { going = null; return; }
+  going = null;
+  if (move) return;
   Q.build(); Q.show();
   world.remove(here.mesh); world.add(here.torn); world.add(Q.torn);       // both shapes, torn at near things' edges
-  move = { A: here, B: Q, t0: performance.now(), ms: SLOW * Math.min(1400, 600 + 75 * n.dist) };
+  move = { A: here, B: Q, t0: performance.now(), ms: SLOW * Math.min(4500, 700 + 360 * n.dist) };
   marks.forEach(m => (m.visible = false)); cursor.visible = false;
   if (hint) { hint = false; $('hint').classList.remove('on'); }
   Q.loadFull().then(() => Q.show()).catch(() => {});
@@ -221,7 +231,7 @@ addEventListener('keydown', e => {
 });
 
 // ---------------------------------------------------------------- each frame
-const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * t);         // a walk: gently off, gently in
 let last = performance.now(), lookT = 0;
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
@@ -232,11 +242,12 @@ function frame(now) {
     const t = Math.min(1, (now - move.t0) / move.ms), e = ease(t);
     camera.position.lerpVectors(move.A.eye, move.B.eye, e);
     // both points' shapes, each surface coloured by the 360s that see it, the one ahead coming in
-    stepping(move.A, move.B, Math.min(1, Math.max(0, (t - 0.1) / 0.75)));
+    const c = Math.min(1, Math.max(0, (t - 0.32) / 0.36)); stepping(move.A, move.B, c * c * (3 - 2 * c));
     renderer.render(world, camera);
     if (t >= 1) { const B = move.B; move = null; arrive(B); }
   } else if (here) {
     camera.position.copy(here.eye);
+    if (going) cursor.material.opacity = 0.45 + 0.35 * Math.sin(now / 160); else cursor.material.opacity = 0.8;
     if ((lookT += dt) > 0.6) { lookT = 0; if (here.full) prefetch(); }
     const tt = now / 1000;
     marks.forEach((m, i) => { if (m.visible) m.material.opacity = Math.max(0.35, 0.85 - near[i].dist * 0.04) * (0.85 + 0.15 * Math.sin(tt * 2.4)); });

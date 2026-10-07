@@ -7,7 +7,6 @@ import * as THREE from 'three';
 
 export const EYE = 1.55;
 const FAR = 400;                      // what is further (the sky) is drawn this far off
-const DW = 256, DH = 128;             // the depth map's size
 const TEAR = 1.25;                    // a triangle of the shape whose corners' distances differ more than this (a near
                                       // thing's edge against what is behind it) is left out while moving
 
@@ -84,11 +83,11 @@ function texture(bmp) {
   return t;
 }
 
-// a direction (Blender's axes, unit) to the depth map's pixel
-function pixel(d) {
+// a direction (Blender's axes, unit) to the pixel of a depth map w x h
+function pixel(d, w, h) {
   const lon = Math.atan2(d[0], d[1]), lat = Math.asin(Math.max(-1, Math.min(1, d[2])));
-  const i = Math.floor((lon / (2 * Math.PI) + 0.5) * DW), j = Math.floor((0.5 - lat / Math.PI) * DH);
-  return [((i % DW) + DW) % DW, Math.max(0, Math.min(DH - 1, j))];
+  const i = Math.floor((lon / (2 * Math.PI) + 0.5) * w), j = Math.floor((0.5 - lat / Math.PI) * h);
+  return [((i % w) + w) % w, Math.max(0, Math.min(h - 1, j))];
 }
 
 export class Pano {
@@ -106,8 +105,8 @@ export class Pano {
       const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(b, 0, 0);
       const px = g.getImageData(0, 0, b.width, b.height).data, n = b.width * b.height, dist = new Float32Array(n);
       for (let k = 0; k < n; k++) { const q = px[4 * k] * 256 + px[4 * k + 1]; dist[k] = q ? 0.25 * 65535 / q : Infinity; }
-      b.close && b.close(); this.dist = dist;
-      const t = new THREE.DataTexture(dist.map(x => Math.min(x, 1e4)), DW, DH, THREE.RedFormat, THREE.FloatType);
+      this.dw = b.width; this.dh = b.height; b.close && b.close(); this.dist = dist;      // 512 x 256 (the first: 256 x 128)
+      const t = new THREE.DataTexture(dist.map(x => Math.min(x, 1e4)), this.dw, this.dh, THREE.RedFormat, THREE.FloatType);
       t.minFilter = t.magFilter = THREE.NearestFilter; t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping;
       t.generateMipmaps = false; t.flipY = false; t.needsUpdate = true; this.depthTex = t;
       return dist;
@@ -120,13 +119,13 @@ export class Pano {
   edge() { const t = this.pic(); return 0.5 / Math.max(1, t.image.width / 3); }
 
   // how far the room is from the point, looking along d (Blender's axes, unit)
-  depth(d) { const [i, j] = pixel(d); return this.dist ? this.dist[j * DW + i] : Infinity; }
+  depth(d) { if (!this.dist) return Infinity; const [i, j] = pixel(d, this.dw, this.dh); return this.dist[j * this.dw + i]; }
 
-  // the room's shape round the point: a sphere of 256 x 128, each vertex as far out as the depth map says; whole for
-  // standing here, torn at near things' edges for stepping
+  // the room's shape round the point: a sphere of the depth map's size, each vertex as far out as the depth map
+  // says; whole for standing here, torn at near things' edges for stepping
   build() {
     if (this.mesh) return this.mesh;
-    const W = DW, H = DH, d = this.dist, e = this.eye, cols = W + 1, nv = cols * H + 2;
+    const W = this.dw, H = this.dh, d = this.dist, e = this.eye, cols = W + 1, nv = cols * H + 2;
     const pos = new Float32Array(nv * 3), vd = new Float32Array(nv), far = k => Math.min(FAR, d[k]);
     let o = 0, v = 0;
     const put = (bx, by, bz, r) => { pos[o++] = e.x + bx * r; pos[o++] = e.y + bz * r; pos[o++] = e.z - by * r; vd[v++] = r; };

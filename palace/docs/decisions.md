@@ -5,6 +5,16 @@
 Every question put to Jim, his answer in his own words, and what it changed. Newest first. Requirement IDs refer to
 [REQUIREMENTS.md](../REQUIREMENTS.md).
 
+## 7 Oct 2026: nothing on the windows
+
+- **Asked** (Jim): "painting should not be on the windows".
+- **Changed:** a rule for every room (in CLAUDE.md): paintings, prints, shelves, lockers and screens hang on solid wall,
+  between the windows or on the cross walls, never over a window. `audit_windows.py` builds each Crown room and lists
+  what is fixed over its outer windows; it found Jim's paintings on the gallery's outer wall, the suit room's lockers,
+  the craft room's pot shelves, the telescope room's screens and the guests' lounge's desks, all moved onto the wall
+  between the windows, and the pod hangar's great door, behind which the wall now keeps no windows. Low things under
+  a sill (the dining hall's sideboards, the map chests, the kitchen's banquette, the tub) stay. → LV-12.
+
 ## 6 Oct 2026: the plan reviewed
 
 - **Asked** (Jim): "Can you review the plan?"

@@ -154,6 +154,7 @@ wormhole works"*. And on the ground: *"also there should be some interface when 
 | LV-9 | Plants chosen for each room, all kinds and colours: "all the plants so far … are same, and looks strange" (4 Oct) | Must | ✅ A plant library of real species in planters sized to them, planned room by room | [Furnishing](tools/furnishing.py) |
 | LV-10 | Paintings: "I need paintings on the wall with good design around crown" (4 Oct) | Should | 🔧 Public-domain masterpieces and large canvases in designed frames with their own lights, in every Crown room; the Gallery holds the most | [Rev H](docs/crown-rev-h.md) |
 | LV-11 | The master suite: "needs a door. plants is not good. bed too small. need fancy bed lights. replace table/chair with more luxury and good design ones"; "same thing for all rest rooms" (4 Oct) | Must | ✅ The suite up: doors onto the Glide, a grand bed with its own lights, a luxurious desk and seats; the rest rooms to follow | [Rooms](https://ttmathcs.github.io/mars-campus/palace/design/rooms-crown.html) |
+| LV-12 | Nothing on the windows: "painting should not be on the windows" (Jim, 7 Oct 2026) | Must | ✅ A rule for every room: paintings, prints, shelves, lockers and screens on solid wall only; `audit_windows.py` checks each scene | [Decisions](docs/decisions.md) · [CLAUDE.md](../CLAUDE.md) |
 
 ## 7. Getting home
 

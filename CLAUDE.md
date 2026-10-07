@@ -45,6 +45,10 @@ Publishing is a push to `main` (GitHub Pages).
   bougainvillea, agave …), in planters sized to them; never one pot plant repeated everywhere. Jim, 4 Oct 2026: "I hate
   those small chairs"; "make them proportional the furniture be proportional to the size of the room"; "all the plants
   so far … are same, and looks strange … it should includes all kinds of plants, different colors like maple leaves".
+- **Nothing hangs on the windows.** Paintings, prints, shelves, lockers and screens go on solid wall, between the
+  windows or on the cross walls, never over a window (low things under a sill are fine). `palace/tools/render/
+  audit_windows.py <room>` lists what a scene puts over its windows; `crown.pier_spots` and `crown.solid_runs` find the
+  solid wall. Jim, 7 Oct 2026: "painting should not be on the windows".
 - **Pictures match the earlier ones' tone**: true blacks, real contrast, never washed out (measure them against
   hero, library, salon and dining; `grade.py`). Jim, 4 Oct 2026: "new ones are bit too bright and looks more not
   real".

@@ -189,12 +189,51 @@
     var ia = F.at(F.span / 2, false); crsPlace(B, counter(4.0, 1), 55.8, ia, F.y, 0); crsObst(55.3, 56.3, ia - 2.1 / 56, ia + 2.1 / 56, F.floor);
     roomPlants(B, rm, F, null);
   }
-  function diningHall(B, rm, F) {                                                     // long tables for 120 with upholstered chairs
-    var C = CRS;
-    for (var d = 2.6; d < F.span - 2.2; d += 3.3) { var a = F.at(d, false);
-      [53.0, 58.2].forEach(function (r) { crsPlace(B, longTable(4.2), r, a, F.y, Math.PI / 2); crsObst(r - 2.2, r + 2.2, a - 0.95 / r, a + 0.95 / r, F.floor);
-        for (var k = 0; k < 4; k++) { var rr = r - 1.6 + k * 1.05; crsPlace(B, diningChair(k % 2 ? 4 : 5), rr, a + 0.82 / r, F.y, Math.PI); crsPlace(B, diningChair(k % 2 ? 5 : 4), rr, a - 0.82 / r, F.y, 0); } });
-    }
+  // ---- the dining hall: lunch for a hundred and more ----
+  // the servery, len along x, 0.8 deep, its back at +z: a steel counter, hot wells of food, a tray rail on the diners' side,
+  // a heat lamp over the wells on two posts (the glass guard apart)
+  function servery(len) { return furn("servery" + len, function (b) {
+    var h = len / 2, k = 0, food = [2, 4, 6, 7, 2, 7, 6, 4, 2]; b.box(-h, 0.1, -0.35, h, 0.9, 0.4, MT.STEEL); b.box(-h + 0.05, 0, -0.3, h - 0.05, 0.1, 0.35, MT.RUBBER);
+    b.box(-h - 0.02, 0.9, -0.4, h + 0.02, 0.93, 0.42, MT.STEEL);
+    for (var x = -h + 0.42; x < h - 0.3; x += 0.62, k++) { b.box(x - 0.27, 0.93, -0.12, x + 0.27, 0.935, 0.28, MT.ANOD); var nf = b.count(); b.box(x - 0.25, 0.925, -0.1, x + 0.25, 0.945, 0.26, MT.PLASTIC); b.tag(nf, food[k % food.length], null); }
+    b.box(-h, 0.84, -0.66, h, 0.87, -0.42, MT.STEEL); [-h + 0.1, 0, h - 0.1].forEach(function (x) { b.box(x - 0.015, 0.6, -0.62, x + 0.015, 0.84, -0.6, MT.STEEL); });
+    [-h + 0.05, h - 0.05].forEach(function (x) { b.box(x - 0.02, 0.93, 0.0, x + 0.02, 1.42, 0.04, MT.STEEL); });
+    b.box(-h, 1.42, -0.08, h, 1.47, 0.24, MT.STEEL); var nl = b.count(); b.box(-h + 0.05, 1.415, -0.05, h - 0.05, 1.42, 0.2, MT.LIGHT); b.tag(nl, 1.0, 0);
+  }); }
+  // a steel trolley of trays, the cutlery in cups on top (len 0.9 along x, back at +z)
+  function trayStand() { return furn("traystand", function (b) {
+    b.box(-0.45, 0.05, -0.3, 0.45, 0.08, 0.3, MT.STEEL); b.box(-0.45, 0.9, -0.3, 0.45, 0.93, 0.3, MT.STEEL);
+    [[-0.43, -0.28], [0.43, -0.28], [-0.43, 0.28], [0.43, 0.28]].forEach(function (c) { b.box(c[0] - 0.015, 0, c[1] - 0.015, c[0] + 0.015, 0.93, c[1] + 0.015, MT.STEEL); });
+    var nt = b.count(); b.box(-0.42, 0.08, -0.26, 0.42, 0.62, 0.26, MT.PLASTIC); b.tag(nt, 1, null);
+    for (var k = 0; k < 4; k++) { latheOn(b, -0.3 + k * 0.2, 0.93, 0, [[0.0, 0.0], [0.05, 0.0], [0.05, 0.14], [0.046, 0.14], [0.046, 0.005], [0.0, 0.005]], 14, MT.STEEL, 0);
+      for (var j = 0; j < 7; j++) b.box(-0.3 + k * 0.2 - 0.004 + (j - 3) * 0.008, 0.95, -0.003, -0.3 + k * 0.2 + 0.004 + (j - 3) * 0.008, 1.12, 0.003, MT.STEEL); }
+  }); }
+  // a drum pendant: a linen shade 0.6 across lit from inside, hung low over a table
+  function drumPendant() { return furn("drum", function (b) {
+    var n0 = b.count(); latheOn(b, 0, 0, 0, [[0.3, 0.0], [0.3, 0.3], [0.295, 0.3], [0.295, 0.0]], 32, MT.FABRIC); b.tag(n0, 6, null);
+    b.geo(addF2(new THREE.CircleGeometry(0.29, 28), 1.4, 0), T(0, 0.04, 0, Math.PI / 2, 0, 0), MT.LIGHT, 1);
+  }); }
+  function diningHall(B, rm, F) {                                                     // lunch for a hundred and more: the servery, long tables, a banquette, lamps
+    var C = CRS, y = F.y, ceil = ceilY(rm, F.floor, 55.8), back = F.sgn > 0 ? ROT.plusA : ROT.minusA;
+    // the servery along the back wall (the kitchen behind it), its glass guard, the trays
+    var sa = F.at(0.5, false), Ms = crsFrame(54.0, sa, y, back); B.add(servery(6.0), Ms); contactShadow(servery(6.0), Ms); crsObst(50.9, 57.1, F.back, F.at(1.25, false), F.floor);
+    glassPane(Ms, -2.95, 1.0, 2.95, 1.4, -0.12, 1);
+    crsPlace(B, trayStand(), 57.8, F.at(0.6, false), y, back); crsObst(57.3, 58.3, F.back, F.at(1.0, false), F.floor);
+    // six long oak tables across the room, twelve upholstered chairs at each, three drum lamps low over each
+    [3.4, 6.0, 8.6, 11.2, 13.8, 16.4].forEach(function (d, ti) { var a = F.at(d, false), r = 54.5, len = 6.0;
+      crsPlace(B, longTable(len), r, a, y, Math.PI / 2); crsObst(r - len / 2 - 0.1, r + len / 2 + 0.1, a - 0.55 / r, a + 0.55 / r, F.floor);
+      for (var k = 0; k < 6; k++) { var rr = r - len / 2 + 0.5 + k * (len - 1.0) / 5; crsPlace(B, diningChair((k + ti) % 2 ? 8 : 5), rr, a + 0.84 / rr, y, Math.PI); crsPlace(B, diningChair((k + ti) % 2 ? 5 : 8), rr, a - 0.84 / rr, y, 0); }
+      [r - 2.0, r, r + 2.0].forEach(function (rl) { var p = crsPt(rl, a); B.add(drumPendant(), crsFrame(rl, a, y + 2.3)); tubeAlong(B, [V3(p.x, y + 2.6, p.z), V3(p.x, ceil, p.z)], 0.004, 3, MT.STEEL); wLight(p.x, y + 2.25, p.z, LAMPC, 1.4, 6, [0, -1, 0], 0.8); });
+      B.add(plantBuilder("orchid", 400 + ti), crsFrame(r + 0.8, a, y + 0.75, ti));
+    });
+    // along the outer wall a built-in banquette, a table for four before each pair of seats
+    [[1.9, 4.9], [6.5, 18.6]].forEach(function (run) {
+      var L = run[1] - run[0], ra = F.at((run[0] + run[1]) / 2, false), rb = C.r1 - 0.4, rt = rb - 0.95;
+      crsPlace(B, banquette(+L.toFixed(2), 9), rb, ra, y, ROT["in"]); crsObst(rb - 0.35, C.r1, Math.min(F.at(run[0], false), F.at(run[1], false)), Math.max(F.at(run[0], false), F.at(run[1], false)), F.floor);
+      for (var d = run[0] + 0.8; d < run[1] - 0.5; d += 1.65) { var a = F.at(d, false);
+        crsPlace(B, squareTable(1.2, 0.75), rt, a, y, 0); crsObst(rt - 0.42, rt + 0.42, a - 0.65 / rt, a + 0.65 / rt, F.floor);
+        [-0.32, 0.32].forEach(function (x) { crsPlace(B, diningChair(5), rt - 0.75, a + x / rt, y, OUT); }); }
+    });
     roomPlants(B, rm, F, null);
   }
   function cafeRoom(B, rm, F) {                                                       // the café: the espresso bar along its glass to the corridor, the menu hung

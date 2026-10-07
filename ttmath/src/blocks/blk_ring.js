@@ -111,7 +111,7 @@
   var CRS_FLOOR = { "class": [MT.WOOD, 0], study: [MT.WOOD, 0], lab: [MT.TERRAZZO, 0], compete: [MT.WOOD, 0], games: [MT.WOOD, 0], lounge: [MT.WOOD, 0], staff: [MT.WOOD, 0], service: [MT.TERRAZZO, 0], move: [MT.TERRAZZO, 0],
                     seminar: [MT.WOOD, 3], library: [MT.WOOD, 3], reading: [MT.WOOD, 3], gate: [MT.TERRAZZO, 0], physics: [MT.TERRAZZO, 0], maker: [MT.TERRAZZO, 0], astro: [MT.WOOD, 0],
                     plant: [MT.TERRAZZO, 0], store: [MT.TERRAZZO, 0], kitchen: [MT.TERRAZZO, 0], dining: [MT.WOOD, 0], cafe: [MT.TERRAZZO, 0], assembly: [MT.WOOD, 3], art: [MT.WOOD, 0], music: [MT.WOOD, 3], clinic: [MT.TERRAZZO, 0] };
-  var CRS_WALL = { "class": 0, study: 4, lab: 0, compete: 1, games: 4, lounge: 4, staff: 4, service: 0, move: 0, seminar: 4, library: 4, reading: 4, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 5, cafe: 0, assembly: 1, art: 0, music: 4, clinic: 4 };   // plaster: 0 off-white, 1 warm grey, 4 linen, 5 soft sage
+  var CRS_WALL = { "class": 0, study: 4, lab: 0, compete: 1, games: 4, lounge: 4, staff: 4, service: 0, move: 0, seminar: 4, library: 4, reading: 4, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 4, cafe: 0, assembly: 1, art: 0, music: 4, clinic: 4 };   // plaster: 0 off-white, 1 warm grey, 4 linen, 5 soft sage
   var CRS_GLAZED = { cafe: 1, art: 1 };                                 // rooms with glass to the corridor (and the sunken grove beyond)
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1, seminar: 1, library: 1, physics: 1, maker: 1, astro: 1, art: 1, music: 1, clinic: 1 };
 
@@ -311,7 +311,7 @@
     C.sky.forEach(function (h) { skylightWell(W, h); });
     // lights: pendants in rows in the rooms (three rows in the big ones), downlights in the corridors and the halls
     C.rooms.forEach(function (rm) {
-      if (rm.band || isHall(rm) || isBay(rm) || rm.kind === "cafe") return;                       // the café has its own lamps over the tables
+      if (rm.band || isHall(rm) || isBay(rm) || rm.kind === "cafe" || rm.kind === "dining") return;   // the café and the dining hall have their own lamps over the tables
       var ra0 = rmA0(rm), ra1 = rmA1(rm), span = (ra1 - ra0) * 55.8, nl = Math.max(1, Math.round((span - 1.6) / 3.4));
       var rows = ra1 - ra0 >= 13.5 * D2R ? [52.6, 55.9, 59.2] : [53.2, 58.4];
       rmFloors(rm).forEach(function (fl) {

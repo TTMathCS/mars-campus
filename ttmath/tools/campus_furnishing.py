@@ -92,6 +92,15 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-37": dict(name="Dining hall", seating=["72 upholstered chairs in olive and oatmeal at six long oak tables across the room, twelve at each",
+                   "a rust banquette along the outer wall in two runs with tables for four, two oatmeal chairs across each"],
+                   tables=["six long oak tables 6 m across the room, an orchid on each", "nine tables 1.2 by 0.75 m along the banquette"],
+                   lights=["three linen drum lamps low over each long table", "the heat lamp over the servery", "the skylights"],
+                   finishes="linen plaster (the sage went dark); along the back wall, the kitchen behind it, a stainless servery 6 m: hot wells of food, a tray rail, a glass guard, "
+                            "a heat lamp; a trolley of trays and cutlery; on the front wall a print of the first thousand digits of pi; olives at the outer corners, a fig between the banquettes, "
+                            "a bird of paradise by the door",
+                   layout="d along the room from the back wall (0, the kitchen) to the front (20.4 m); the tables at d 3.4 to 16.4 every 2.6 m, r 51.5 to 57.5; the banquettes at r 61.6 "
+                          "from d 1.9 to 4.9 and 6.5 to 18.6, their tables at r 60.65; the doors at d 2.1 and 18.3", next=""),
     "T06-24": dict(name="Socrates, the seminar room", seating=["twenty high-backed conference chairs in cognac leather with padded arms on five-star bases, nine along each side of the table and one at each end"],
                    tables=["a walnut boardroom table 9 by 1.5 m with rounded ends on three plinths, power ports along its middle; at each place a leather pad, a notebook and pen, a glass; two glass carafes",
                            "a walnut credenza 2.8 m under the screen: cupboards, a coffee machine, cups, a table lamp"],

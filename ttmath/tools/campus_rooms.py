@@ -152,6 +152,7 @@ RING_ART = [
     dict(room="T06-26", wall="back", r=55.95, y=1.75, w=1.2, floor="upper", subject="ford", title="Ford circles", note="a circle on every fraction, 1/q squared across: neighbours only ever touch"),
     dict(room="T06-26", wall="front", r=55.2, y=1.85, w=1.8, floor="upper", subject="roses", title="Rose curves", note="r = cos(k theta): petals for every fraction k"),
     dict(room="T06-04", wall="front", r=57.0, y=1.8, w=1.5, floor="upper", subject="voronoi", title="Voronoi cells", note="every point of the plane belongs to the seed nearest to it"),
+    dict(room="T06-37", wall="front", r=55.2, y=1.95, w=2.6, floor="lower", subject="pidigits", title="The first thousand digits of pi", note="each digit its own colour: the pattern never repeats"),
     dict(room="T06-29", wall="back", r=57.2, y=1.85, w=1.8, floor="lower", subject="spectrum", title="The electromagnetic spectrum", note="light is one narrow band of a range that runs from radio waves to gamma rays"),
     dict(room="T06-42", wall="front", r=59.1, y=1.7, w=1.4, floor="lower", subject="lissajous", title="Lissajous figures", note="a point swinging two ways at once, in the ratio of two whole numbers"),
 ]

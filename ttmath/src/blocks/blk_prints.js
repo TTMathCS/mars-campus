@@ -282,6 +282,13 @@
       g.fillStyle = PRC.ink; for (k = 0; k < N; k++) { var pp = P(k); dot(g, pp[0], pp[1], 1.3); }
       serif(g, 13, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; g.fillText("k  →  2k  (mod 200)", b.x + b.w - 8, b.y + b.h - 8);
     },
+    pidigits: function (g, b) {                                       // the first digits of pi, each digit its own colour, in rows: no pattern ever repeats
+      var D = piDigits(1000).replace(".", ""), cols = 40, rows = Math.ceil(D.length / cols), cw = b.w / cols, ch = Math.min(cw * 1.25, b.h / rows);
+      var pal = ["#e8e2d4", "#c4502f", "#d9a23a", "#e3c35a", "#6f8248", "#2b7a78", "#2c4a73", "#5e4a8a", "#b5546a", "#1f2430"];
+      for (var i = 0; i < D.length && i < cols * rows; i++) { var dgt = +D[i], x = b.x + (i % cols) * cw, yy = b.y + Math.floor(i / cols) * ch;
+        g.fillStyle = pal[dgt]; g.fillRect(x + 0.6, yy + 0.6, cw - 1.2, ch - 1.2);
+        g.fillStyle = dgt === 0 || dgt === 3 ? "rgba(31,36,48,0.8)" : "rgba(242,238,229,0.9)"; serif(g, ch * 0.62); g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(D[i], x + cw / 2, yy + ch / 2 + 1); }
+    },
     spectrum: function (g, b) {                                       // radio to gamma: a wave shortening across, the band's names, the visible slice opened out below
       var x0 = b.x + 8, w = b.w - 16, yb = b.y + b.h * 0.3, cuts = [0, 0.24, 0.4, 0.55, 0.585, 0.72, 0.86, 1.0], i;
       var names = ["Radio", "Microwave", "Infrared", "", "Ultraviolet", "X-ray", "Gamma"], tone = ["#ddd5c4", "#d3cab7", "#d9c2b0", "", "#cbc4d8", "#c2cad6", "#bccbc6"];

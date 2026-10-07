@@ -46,25 +46,19 @@
    "file": "c0720.glb",
    "light": "c0720_l.jpg",
    "b0": 72.0,
-   "b1": 78.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 78.0
   },
   {
    "file": "c0780.glb",
    "light": "c0780_l.jpg",
    "b0": 78.0,
-   "b1": 84.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 84.0
   },
   {
    "file": "c0840.glb",
    "light": "c0840_l.jpg",
    "b0": 84.0,
-   "b1": 90.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 90.0
   },
   {
    "file": "c0900.glb",
@@ -86,9 +80,7 @@
    "file": "c1020.glb",
    "light": "c1020_l.jpg",
    "b0": 102.0,
-   "b1": 108.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 108.0
   }
  ],
  "step": 6.0,

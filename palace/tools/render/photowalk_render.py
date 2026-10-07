@@ -233,6 +233,10 @@ def main():
     if not todo: log("nothing to do"); return
     t = time.time(); sc, R = build(scene, plan); log("built in %.0f s" % (time.time() - t))
     sc.render.use_persistent_data = True        # the camera moves; the scene is kept between renders
+    if os.environ.get("PW_BOUNCES"):            # fewer bounces (a test of speed against the look): max,diffuse,glossy,transmission
+        mx, df, gl, tr = (int(x) for x in os.environ["PW_BOUNCES"].split(","))
+        sc.cycles.max_bounces, sc.cycles.diffuse_bounces, sc.cycles.glossy_bounces, sc.cycles.transmission_bounces = mx, df, gl, tr
+        sc.cycles.transparent_max_bounces = min(sc.cycles.transparent_max_bounces, 8)
     fo = outputs(tmp); ex = EXPOSURE.get(scene, -0.2); night = R.get("night", False)
     for p in todo:
         t = time.time(); faces, depths = render_point(p, out, tmp, fo, size, spp, ex)

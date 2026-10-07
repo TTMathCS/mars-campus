@@ -87,8 +87,14 @@ each pushed when it is checked:
 7. ~~The door plates and the rooms' directory~~ (v0.14, `blk_board.js`: `drawPlates` prints a plate per numbered room in
    the atlas where the gateway's name and the wings' signs were (`plateSlot`, 46 slots of 192 x 48), `doorPlates` puts
    one beside each door; `drawRingMap` draws the Ring as a map, `drawDirectory` the Gate Hall's directory on its own
-   texture (`directoryScreen`), `drawLobbyDirectory` the hall's screen in the atlas). Still to do: direction signs
-   along the corridors.
+   texture (`directoryScreen`), `drawLobbyDirectory` the hall's screen in the atlas).
+   ~~Direction signs and the corridors' prints~~ (v0.17): `blk_signs.js` hangs a blade sign across the corridor at each
+   angle in `P2.ring.signs` (`RING_SIGNS`), each face listing the rooms ahead that way up to the next sign
+   (`roomsAhead`, `aheadLabel`, one canvas for all faces), and an exit sign over each stair's door (`exitCanvas`,
+   `arcQuad`); `blk_prints.js` draws the prints in `P2.ring.art` (`RING_ART`), one cell each on one canvas
+   (`PRINT_DRAW`, `drawPrint`, `printAtlas`), and `corridorArt` hangs them (one mesh), with walnut frames,
+   brass picture lights, benches and plants (small plants on a plinth, `PRINT_PLINTH`). `arcWall` takes rows up the wall (`ny`): the corridors' walls have 6, so the
+   downlights show on them. Both are called from `crescentBuild` after `doorPlates`.
 8. The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21).
 9. Details and realism everywhere (CP-30).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the

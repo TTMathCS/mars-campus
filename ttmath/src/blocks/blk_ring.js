@@ -116,9 +116,9 @@
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1, seminar: 1, library: 1, physics: 1, maker: 1, astro: 1, art: 1, music: 1, clinic: 1 };
 
   // ---- surfaces in the polar frame ----
-  function arcWall(B, r, a0, a1, y0, y1, mat, g2, out, f2x) {          // a curved wall at radius r, facing out (+1) or in (-1)
-    var n = Math.max(2, Math.ceil(Math.abs(a1 - a0) * r / 0.5));
-    B.surf(n, 1, function (i, j, q) { var a = lerp(a0, a1, i / n), p = crsPt(r, a), d = crsPt(1, a), y = j ? y1 : y0;
+  function arcWall(B, r, a0, a1, y0, y1, mat, g2, out, f2x, ny) {      // a curved wall at radius r, facing out (+1) or in (-1); ny rows up it
+    var n = Math.max(2, Math.ceil(Math.abs(a1 - a0) * r / 0.5)), m = ny || 1;
+    B.surf(n, m, function (i, j, q) { var a = lerp(a0, a1, i / n), p = crsPt(r, a), d = crsPt(1, a), y = lerp(y0, y1, j / m);
       q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * out, 0, (d.z - PAL.c.z) * out]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = f2x === undefined ? 99 : f2x; q.f2[1] = g2 || 0; q.m = mat; });
   }
   function radWall(B, a, r0, r1, y0, y1, mat, g2, side, f2x, ny) {      // a flat wall along a radius at angle a, facing +a (+1) or -a (-1); ny rows up it
@@ -252,7 +252,8 @@
         var y = fl === "upper" ? yU : yL, hc = (tall ? y + C.hR : ceilY(rm, fl, rc + 0.5)) - y, cur = ra0;
         function seg(s0, s1) { if (s1 - s0 < 1e-4) return;
           if (glz) { glassFront(W, rc, s0, s1, y, y + C.hC, -1, []); arcWall(W, rc + 0.05, s0, s1, y + C.hC, y + hc + 0.1, MT.PLASTER, wc, 1); return; }
-          arcWall(W, rc - hw, s0, s1, y, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, s0, s1, y, y + hc + 0.1, MT.PLASTER, wc, 1); }
+          arcWall(W, rc - hw, s0, s1, y, y + C.hC + 0.1, MT.PLASTER, 0, -1, undefined, 6); arcWall(W, rc + hw, s0, s1, y, y + hc + 0.1, MT.PLASTER, wc, 1);
+          arcWall(W, rc - hw - 0.012, s0, s1, y, y + 0.1, MT.ANOD, 0, -1); }
         ds.slice().sort(function (p, q) { return p - q; }).forEach(function (d) { seg(cur, d - half); cur = d + half; }); seg(cur, ra1);
         ds.forEach(function (d) {
           if (glz) { glassDoorway(W, rc, d, y, y + C.hC); arcWall(W, rc + 0.05, d - half, d + half, y + C.hC, y + hc + 0.1, MT.PLASTER, wc, 1); return; }
@@ -270,8 +271,10 @@
     radWall(W, up[0] * D + 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, 1);              // the upper corridor's two ends
     radWall(W, up[1] * D - 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, -1);
     // the lower corridor's back: the retaining wall (glass onto the sunken grove); in the halls up to their ceilings
-    arcWall(W, r0 + 0.02, -57 * D, C.grove[0] * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);
-    arcWall(W, r0 + 0.02, C.grove[1] * D, 303 * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);
+    [[-57, C.grove[0]], [C.grove[1], 303]].forEach(function (s) {                                 // with rows up it, and its skirting
+      arcWall(W, r0 + 0.02, s[0] * D, s[1] * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1, undefined, 6);
+      arcWall(W, r0 + 0.032, s[0] * D, s[1] * D, yL, yL + 0.1, MT.ANOD, 0, 1);
+    });
     arcWall(W, r0 + 0.02, 164 * D, 191 * D, yL + C.hC + 0.1, yL + C.hR + 0.05, MT.PLASTER, 0, 1);
     arcWall(W, r0 + 0.02, -hA, hA, yL + C.hC + 0.1, yU - 0.35, MT.PLASTER, 0, 1);                 // up to the landing in the hall
     arcWall(W, r0 + 0.07, -hA, hA, yU + C.hC, yU + C.hR + 0.05, MT.PLASTER, 0, 1);                // and above the glass to the hall's ceiling
@@ -288,6 +291,8 @@
       });
     });
     doorPlates(W);
+    ringSigns(W);
+    corridorArt(W);
     crescentStair(W, C.st, true);
     crescentStair(W, C.gst, false);
     C.rooms.forEach(function (rm) { if (isBay(rm)) bayStair(W, rm); });
@@ -308,11 +313,11 @@
         } });
       });
     });
-    function corridorLights(d0, d1, y) {
-      for (var ka = d0 * D + 2.0 / r0; ka < d1 * D - 1.0 / r0; ka += 4.0 / r0) { var lp2 = crsPt((r0 + rc) / 2, ka); W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, 1.3, 6, [0, -1, 0], 1.2); }
+    function corridorLights(d0, d1, y, k) {
+      for (var ka = d0 * D + 2.0 / r0; ka < d1 * D - 1.0 / r0; ka += 4.0 / r0) { var lp2 = crsPt((r0 + rc) / 2, ka); W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, k, 6, [0, -1, 0], 1.2); }
     }
-    [[up[0], -7], [7, 164], [191, up[1]]].forEach(function (s) { corridorLights(s[0], s[1], yU); });
-    [[-57, -7], [7, 164], [191, 303]].forEach(function (s) { corridorLights(s[0], s[1], yL); });
+    [[up[0], -7], [7, 164], [191, up[1]]].forEach(function (s) { corridorLights(s[0], s[1], yU, 1.3); });
+    [[-57, -7], [7, 164], [191, 303]].forEach(function (s) { corridorLights(s[0], s[1], yL, 1.6); });         // no daylight down there
     [[47.6, -4.5], [47.6, 4.5], [49.8, 0]].forEach(function (d) { var p = crsPt(d[0], d[1] * D); W.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 14), 1.8, 0), T(p.x, yU + C.hR - 0.012, p.z), MT.LIGHT, 1); wLight(p.x, yU + C.hR - 0.2, p.z, LAMPC, 1.8, 8, [0, -1, 0], 1.2); });
     for (var gd = 166.5; gd < 190; gd += 4.5) [47.8, 53.0, 58.6].forEach(function (rr) {             // the Gate Hall's and Under the gate's downlights
       if (Math.abs(gd - 187.4) < 2.4 && rr > 50) return;                                               // not over the stair's opening

@@ -117,6 +117,38 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-42": [("orchid", "desk"), ("snake", "window1")],
 })
 
+# Finding the way along the Ring's corridors (v0.17). Jim, 5 Oct 2026: "each area esp classroom should have room number so
+# students know which room they should go"; 6 Oct 2026: "please continue to improve/bugfix/continue for the walking
+# experience and real life experience". Blade signs hang across the corridors at these angles, each face listing the
+# room numbers ahead of you that way up to the next sign (and the stairs and halls); a lit green exit sign over each
+# stair's door on both floors.
+RING_SIGNS = dict(upper=(-42, -20, 20, 42, 70, 95, 120, 146), lower=(-42, -20, 20, 42, 70, 95, 120, 146, 205, 228, 252, 276, 295))
+# The corridors' prints: on the lower corridor's long back wall (the retaining wall against the garden ring's soil), a
+# walk of framed prints of mathematics, each facing a room and showing what it is named for or used for; at the upper
+# corridor's two blind ends a print over a bench. Each print 1.8 by 1.2 m in a walnut frame with a brass picture light.
+# Benches where people wait (outside the competition room, the classrooms, the music room and the clinic), each with a
+# plant chosen for the corridor's light, all different: downstairs, with no daylight, ones that live in low light (the
+# small ones on a walnut plinth); at the upper ends, by the garden glass, a fig and a bird of paradise. a: the angle
+# (degrees); faces: the room across the corridor.
+RING_ART = [
+    dict(a=-34.0, floor="lower", faces="T06-13", subject="knight", title="The knight's tour", note="a knight visits every square of the board once and comes home"),
+    dict(a=-13.0, floor="lower", faces="T06-12", subject="partitions", title="The partitions of 6", note="eleven ways to break six into parts, the counting Ramanujan and Hardy solved", bench=1.8, plant=("anthurium", 1)),
+    dict(a=13.0, floor="lower", faces="T06-09", subject="pascal", title="Pascal's triangle, odd numbers marked", note="the odd entries draw Sierpinski's triangle"),
+    dict(a=34.0, floor="lower", faces="T06-10", subject="galton", title="The Galton board", note="balls bouncing left or right pile up into Gauss's bell curve", bench=1.8, plant=("snake", -1)),
+    dict(a=47.5, floor="lower", faces="T06-11", subject="turing", title="A Turing pattern", note="two chemicals reacting and spreading make stripes and spots, as Turing showed"),
+    dict(a=63.0, floor="lower", faces="T06-29", subject="cannon", title="Newton's cannon", note="fire fast enough from a mountain and the ball falls round the Earth for ever", bench=1.8, plant=("fern", 1)),
+    dict(a=85.0, floor="lower", faces="T06-30", subject="hilbert", title="The Hilbert curve", note="one path that passes through every cell of the square"),
+    dict(a=111.0, floor="lower", faces="T06-32", subject="kepler", title="Kepler's second law", note="a planet sweeps equal areas in equal times", bench=1.8, plant=("bromeliad", -1)),
+    dict(a=133.0, floor="lower", faces="T06-33", subject="sunflower", title="The golden angle", note="seeds set 137.5 degrees apart pack a sunflower's head"),
+    dict(a=157.0, floor="lower", faces="T06-34", subject="solids", title="The five Platonic solids", note="the only solids with equal regular faces and equal corners"),
+    dict(a=196.0, floor="lower", faces="T06-36", subject="buffon", title="Buffon's needle", note="drop needles on lines: the share that cross tells you pi"),
+    dict(a=214.0, floor="lower", faces="T06-37", subject="penrose", title="A Penrose tiling", note="two rhombs tile the floor for ever and never repeat"),
+    dict(a=286.0, floor="lower", faces="T06-41", subject="harmonics", title="The harmonics of a string", note="a string vibrates in halves, thirds, quarters: the notes of music", bench=1.8, plant=("kentia", 1)),
+    dict(a=300.5, floor="lower", faces="T06-42", subject="cardioid", title="Times two round a circle", note="join each of 200 points to its double and a heart appears", bench=1.8, plant=("monstera", -1)),
+    dict(a=-57.0, floor="upper", end=1, subject="mandel", title="The Mandelbrot set", note="the points that stay near home under z to z squared plus c", bench=1.8, plant=("fig", 1)),
+    dict(a=197.0, floor="upper", end=-1, subject="golden", title="The golden rectangle", note="squares of the Fibonacci numbers and the spiral through them", bench=1.8, plant=("strelitzia", 1)),
+]
+
 # ------------------------------------------------------------------------------------------------- T-06 the Ring
 # Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter
 # building"; "the entrance is not sealed by dome. it needs to. overall I like this structure similar like apple

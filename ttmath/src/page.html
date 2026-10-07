@@ -886,7 +886,7 @@
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
   /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */
-  var P2 = {"crescent":{"r0":46.0,"r1":62.0,"rc":49.6,"a0":-52.0,"a1":52.0,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"estair":{"a":6.5,"w":2.6},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"no":null,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","no":233,"plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","no":229,"plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","no":227,"plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","no":239,"plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","no":243,"plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","no":246,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-52,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","no":null,"plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","no":133,"plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","no":129,"plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","no":127,"plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","no":139,"plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","no":143,"plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","no":145,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-52,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-16","name":"West stair","floor":"both","a":[-52,-45.5],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-17","name":"East stair","floor":"both","a":[45.5,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,52],"band":"gallery","kind":"garden","no":null,"plants":[]}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"domes":[{"code":"T09-02","lat":0.0,"rad":-91.0,"r":22.0,"floor":-5.6,"h":16.0},{"code":"T09-03","lat":0.0,"rad":-115.0,"r":22.0,"floor":-8.4,"h":18.0},{"code":"T09-05","lat":0.0,"rad":-139.0,"r":22.0,"floor":-11.2,"h":20.0}],"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"spiral":{"lat":0.0,"rad":-115.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-12.0,"rad":-86.0},{"name":"trefoil knot","lat":12.0,"rad":-88.0},{"name":"Möbius bench","lat":-12.0,"rad":-120.0},{"name":"stellated dodecahedron","lat":12.0,"rad":-141.0}]},"observatory":{"lat":0.0,"rad":-172.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":30.0,"rad":-176.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5,"floor":0.0,"crown":4.4,"spring":1.6},"courtyard":{"s0":33.3,"s1":77.7,"crown":[[33.3,10.6],[56.0,8.6],[77.7,6.2]],"ribs":1.5,"airlock":{"s0":77.7,"s1":84.0,"w":7.0,"h":3.2},"podstop":{"lat":-18.5,"rad":74.5,"r":4.0,"heading":180.0}},"gallery":{"r0":62.0,"r1":68.5,"a":52.0,"wall":1.2},"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"links":[{"code":"T17-02","name":"Pod dock bridge","a":[61.6,7.02],"b":[68.06,7.75],"w":2.6,"h":2.7,"use":"A glass bridge from the Ring's pod lounge over the garden gallery to the pod dock, and the docking collar that runs out to a pod's door."},{"code":"T17-03","name":"Infinity link","a":[-22.0,-91.0],"b":[-38.5,-92.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to Infinity Hall's foyer."},{"code":"T17-04","name":"Greenhouse link","a":[22.0,-88.0],"b":[48.0,-88.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to the Garden of Primes."},{"code":"T17-05","name":"Observatory collar","a":[0.0,-161.0],"b":[0.0,-163.0],"w":5.0,"h":3.6,"use":"From the lowest garden dome into the observatory."},{"code":"T17-06","name":"Terminal link","a":[9.0,-174.0],"b":[17.0,-176.0],"w":4.0,"h":3.4,"use":"From the observatory to the pod terminal."},{"code":"T17-07","name":"Sports link","a":[-60.0,-126.0],"b":[-58.5,-141.0],"w":4.0,"h":3.4,"use":"From behind Infinity Hall's stage to the sports dome."},{"code":"T17-08","name":"Hangar link","a":[62.0,-120.0],"b":[62.0,-145.0],"w":4.0,"h":3.4,"use":"From the far end of the Garden of Primes to the robotics and rover hangar."}],"pod":{"length":5.6,"width":2.3,"height":1.95,"halo":{"rx":3.2,"rz":1.9,"w":0.34,"t":0.11,"y":0.8},"hover":0.45,"top_speed":40.0,"climb":8.0,"ceiling":400.0,"min_clear":1.2},"ring":{"r0":46.0,"r1":62.0,"rc":49.6,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"bay":10.0,"sections":[{"a":[-57.0,120.0],"kind":"two","roof":5.95,"note":"two storeys: the ground falls to the plain"},{"a":[120.0,164.0],"kind":"low","roof":5.5,"roof_out":4.3,"ceil_upper":4.9,"ceil_out":3.7,"note":"the hill rises: the upper floor's roof slopes down toward it; the lower floor underground"},{"a":[164.0,191.0],"kind":"gate","roof":6.8,"note":"the Gate Hall, two storeys tall"},{"a":[191.0,197.0],"kind":"low","roof":5.5,"roof_out":4.3,"ceil_upper":4.9,"ceil_out":3.7,"note":"lockers, washrooms and a stair by the gate"},{"a":[197.0,303.0],"kind":"sunk","roof":-0.45,"note":"only the lower floor, its roof at ground level with skylights"}],"gallery":{"r0":62.0,"r1":68.5,"a":[-52.0,120.0],"wall":1.2},"upper_corridor":[-57.0,197.0],"lower_corridor":[-180.0,180.0],"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"bay_stair":{"n":32,"w":1.4,"landing":1.3,"lift":2.2},"cw":58.4,"skylight":{"every":10.0,"w":2.0,"l":6.0},"gate":{"inner_doors":[173.0,180.0,187.0],"outer_doors":[180.0]},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"no":null,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","no":233,"plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","no":229,"plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","no":227,"plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-18","name":"East stair and lift","floor":"both","a":[52,58],"kind":"move","short":"Stair","no":null,"plants":[]},{"code":"T06-19","name":"Archimedes","floor":"upper","a":[58,76],"kind":"class","no":223,"plants":[["olive","window0"],["croton","window1"],["orchid","desk"],["snake","door"]]},{"code":"T06-20","name":"Pythagoras","floor":"upper","a":[76,93],"kind":"class","no":219,"plants":[["strelitzia","window0"],["fig","windowmid"],["anthurium","desk"],["fern","corner1"]]},{"code":"T06-21","name":"Pod lounge","floor":"upper","a":[93,100],"kind":"lounge","short":"Pods","no":217,"plants":[["kentia","window0"],["monstera","window1"],["bromeliad","corner0"]]},{"code":"T06-22","name":"Washrooms","floor":"upper","a":[100,106],"kind":"service","short":"WC","no":215,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-23","name":"Lovelace","floor":"upper","a":[106,120],"kind":"lab","no":213,"plants":[["ficus","window0"],["agave","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-24","name":"Socrates","floor":"upper","a":[120,134],"kind":"seminar","no":211,"plants":[["maple","window0"],["kentia","window1"],["anthurium","desk"]]},{"code":"T06-25","name":"Library","floor":"upper","a":[134,152],"kind":"library","no":207,"plants":[["fig","window0"],["monstera","windowmid"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-26","name":"Reading room","floor":"upper","a":[152,164],"kind":"reading","no":204,"plants":[["strelitzia","window0"],["olive","window1"],["croton","corner1"]]},{"code":"T06-27","name":"Gate Hall","floor":"gate","a":[164,191],"kind":"gate","no":null,"plants":[["maple","window0"],["maple","window1"],["kentia","corner0"],["strelitzia","corner1"]]},{"code":"T06-28","name":"Lockers","floor":"upper","a":[191,197],"kind":"service","short":"Lockers","no":269,"plants":[["snake","window1"]]},{"code":"T06-16","name":"West stair and lift","floor":"both","a":[-57,-52],"kind":"move","short":"Stair","no":null,"plants":[]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","no":246,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","no":243,"plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","no":239,"plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-57,197],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","no":null,"plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","no":133,"plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","no":129,"plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","no":127,"plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-29","name":"Newton","floor":"lower","a":[58,76],"kind":"physics","no":123,"plants":[["ficus","window0"],["agave","window1"]]},{"code":"T06-30","name":"Maker space","floor":"lower","a":[76,94],"kind":"maker","no":119,"plants":[["kentia","window0"],["bromeliad","corner1"]]},{"code":"T06-31","name":"Washrooms","floor":"lower","a":[94,106],"kind":"service","short":"WC","no":116,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-32","name":"Kepler","floor":"lower","a":[106,120],"kind":"astro","no":113,"plants":[["fern","window0"],["orchid","desk"]]},{"code":"T06-33","name":"Life support","floor":"lower","a":[120,150],"kind":"plant","short":"Air and water","no":109,"plants":[["monstera","corner0"]]},{"code":"T06-34","name":"Store and archive","floor":"lower","a":[150,164],"kind":"store","short":"Store","no":105,"plants":[]},{"code":"T06-35","name":"Under the gate","floor":"lower","a":[164,191],"kind":"move","no":null,"plants":[["kentia","corner0"],["monstera","corner1"]]},{"code":"T06-36","name":"Kitchen","floor":"lower","a":[191,203],"kind":"kitchen","no":169,"plants":[["snake","window0"]]},{"code":"T06-37","name":"Dining hall","floor":"lower","a":[203,224],"kind":"dining","no":165,"plants":[["olive","window0"],["fig","windowmid"],["olive","window1"],["strelitzia","corner1"]]},{"code":"T06-38","name":"Café","floor":"lower","a":[224,242],"kind":"cafe","no":161,"plants":[["monstera","window0"],["maple","window1"],["anthurium","desk"],["croton","corner0"]]},{"code":"T06-39","name":"Assembly hall","floor":"lower","a":[242,266],"kind":"assembly","no":157,"plants":[["kentia","window0"],["kentia","window1"],["croton","corner0"]]},{"code":"T06-40","name":"Art studio","floor":"lower","a":[266,280],"kind":"art","no":153,"plants":[["bromeliad","window0"],["agave","window1"],["orchid","desk"]]},{"code":"T06-41","name":"Music room","floor":"lower","a":[280,292],"kind":"music","no":151,"plants":[["fig","window0"],["fern","corner1"]]},{"code":"T06-42","name":"Clinic and counsellor","floor":"lower","a":[292,303],"kind":"clinic","short":"Clinic","no":149,"plants":[["orchid","desk"],["snake","window1"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","no":145,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","no":143,"plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","no":139,"plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-180,180],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,120],"band":"gallery","kind":"garden","no":null,"plants":[]}]},"garden_ring":{"r0":28.6,"r1":46.0,"spring":8.2,"crown":[[-80,7.0],[-70,7.5],[-60,9.5],[-50,12.5],[-40,13.0],[55,13.0],[65,11.0],[75,10.3],[85,9.0],[95,7.8],[105,6.8],[115,6.3],[125,6.2],[135,6.6],[145,7.4],[155,8.2],[165,9.8],[195,9.4],[200,8.2],[207,6.2],[214,5.2],[224,5.2]],"grove":{"a":[224.0,280.0],"floor":-5.6,"roof":1.0},"sundial":{"a":150.0,"r":38.0}},"entrance":{"c":[0.0,71.0],"r":11.6,"h":6.8,"drum":3.0,"airlock":{"s0":81.6,"s1":86.6,"w":6.0,"h":2.6}},"pod_dock":{"a":96.5,"r":75.0,"deck_r":6.5,"spot_r":71.6,"bridge":[62.0,68.5],"w":2.6,"h":2.7},"wing_nos":{"math":[219,"Pythagoras"],"lab":[213,"Lovelace"],"seminar":[211,"Socrates"],"cafe":[161,"Café"],"library":[207,"Library"],"study":[204,"Reading room"]},"vault_lock":{"outer":34.0,"inner":31.5,"door_w":2.4,"door_h":2.62,"boards":{"r0":28.5,"r1":31.3,"lat":3.72,"y0":0.7,"h":1.6}},"link_stair":{"riser":0.16,"tread":0.3,"landing":1.2,"rail":0.9},"timetable":{"term":{"title":"2026 Fall Schedule","dates":"Sep 9 – Dec 21","weeks":15},"days":["WED","THU","FRI","SAT","SUN"],"groups":[{"name":"FunMath","classes":[{"name":"FunMath 2","hw":"In class","rows":[[null,null,null,["2:00–4:00 pm",239],["2:00–4:00 pm",239]]]},{"name":"FunMath 3","hw":"Mon 5:30–6:30 pm online","rows":[[["6:45–8:45 pm",239],null,["6:45–8:45 pm",239],["2:00–4:00 pm",243],null],[null,null,null,null,["11:30–1:30 pm",239]]]},{"name":"FunMath 4","hw":"Mon 6:45–7:45 pm online","rows":[[["6:45–8:45 pm",243],["4:15–6:15 pm",243],null,null,["9:15–11:15 am",243]],[null,null,null,["4:15–6:15 pm",243],["11:30–1:30 pm",243]],[null,null,null,null,["2:00–4:00 pm",0]]]},{"name":"FunMath 5","hw":"Mon 8:00–9:00 pm online","rows":[[["4:30–6:30 pm",219],["6:45–8:45 pm",0],["4:30–6:30 pm",219],["9:15–11:15 am",0],["9:15–11:15 am",219]],[null,["6:45–8:45 pm",219],null,["6:30–8:30 pm",219],["4:15–6:15 pm",0]]]}]},{"name":"Basic and Calculus","classes":[{"name":"L2 Basic · Gr 9–10 Algebra","hw":"Mon 5:30–6:30 pm online","rows":[[["6:15–8:45 pm",229],["4:00–6:30 pm",0],["6:30–9:00 pm",229],["2:00–4:30 pm",229],["2:00–4:30 pm",229]],[null,["6:30–9:00 pm",229],["6:45–9:15 pm",0],["6:30–9:00 pm",0],["4:15–6:45 pm",233]]]},{"name":"L3 Basic · Gr 11 Functions","hw":"Mon 6:45–7:45 pm online","rows":[[null,null,["4:00–6:30 pm",-229],["4:15–6:45 pm",233],["11:30–2:00 pm",0]],[null,null,null,null,["4:30–7:00 pm",229]]]},{"name":"L4 Basic · Gr 12 Adv. Functions","hw":"Mon 8:00–9:00 pm online","rows":[[null,["6:45–9:15 pm",0],null,["6:30–9:00 pm",229],["4:45–7:15 pm",-239]]]},{"name":"Calculus & Vectors · Gr 12","hw":"Mon 6:45–7:45 pm online","rows":[[null,["6:15–8:45 pm",-233],null,["11:30–2:00 pm",0],null]]}]},{"name":"Contest","classes":[{"name":"L1 Contest · Foundation","hw":"Mon 5:30–6:30 pm online","rows":[[["4:30–6:30 pm",0],["4:30–6:30 pm",219],["4:30–6:30 pm",0],["9:15–11:15 am",219],["9:15–11:15 am",0]],[null,null,["4:30–6:30 pm",129],["2:00–4:00 pm",219],["9:15–11:15 am",129]],[null,null,["6:45–8:45 pm",219],null,["2:00–4:00 pm",219]]]},{"name":"L2 Contest · Geometry","hw":"Mon 6:45–7:45 pm online","rows":[[["4:30–6:30 pm",0],null,["6:45–8:45 pm",233],["11:30–1:30 pm",233],["9:15–11:15 am",0]],[["4:30–6:30 pm",233],null,null,null,["11:30–1:30 pm",0]],[["6:45–8:45 pm",0],null,null,null,["11:30–1:30 pm",233]]]},{"name":"L3 Contest · Algebra","hw":"Mon 6:45–7:45 pm online","rows":[[["4:30–6:30 pm",129],null,["4:30–6:30 pm",0],["11:30–1:30 pm",129],["11:30–1:30 pm",129]],[["6:45–8:45 pm",0],null,null,["6:30–8:30 pm",0],null]]},{"name":"L4 Contest","hw":"Mon 8:00–9:00 pm online","rows":[[["6:45–8:45 pm",139],null,["6:45–8:45 pm",0],["9:15–11:15 am",0],["9:15–11:15 am",139]]]},{"name":"L5 Contest","hw":"Mon 8:00–9:00 pm online","rows":[[null,null,null,["9:15–11:15 am",-139],null]]},{"name":"AMC 8 Beginner · L1+","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",-129],null]]},{"name":"AMC 8 Advanced · L2+","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-139],null]]},{"name":"AMC 10 · L3+","hw":"In class","rows":[[null,null,null,null,["2:00–4:15 pm",-139]]]},{"name":"Euclid · L4+","hw":"In class","rows":[[null,null,null,null,["9:15–11:15 am",0]],[null,null,null,null,["11:30–1:30 pm",139]]]},{"name":"COMC · L4+","hw":"In class","rows":[[null,null,["6:45–8:45 pm",0],null,null]]}]},{"name":"By invitation and Olympiad","classes":[{"name":"L1 Selective","hw":"In class","rows":[[null,null,null,null,["2:00–4:00 pm",-211]]]},{"name":"L2 Selective","hw":"In class","rows":[[null,null,null,null,["4:15–6:15 pm",-211]]]},{"name":"Math Modeling","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",0],null]]},{"name":"Research Writing","hw":"In class","rows":[[null,null,null,["4:15–6:15 pm",-211],null]]},{"name":"AMC 12 / AIME","hw":"In class","rows":[[null,null,null,["6:30–8:30 pm",0],null]]},{"name":"Math Olympiad Junior","hw":"In class","rows":[[null,null,["6:30–9:00 pm",-139],null,null]]},{"name":"Math Olympiad Senior","hw":"In class","rows":[[null,null,null,["6:30–9:00 pm",-139],null]]}]},{"name":"Computer Science","classes":[{"name":"CS-AI Workshop","hw":"In class","rows":[[null,null,null,["4:45–6:15 pm",-213],null]]},{"name":"CS Basic · Python","hw":"In class","rows":[[null,null,null,["6:30–8:30 pm",213],null]]},{"name":"CS Contest 1 · CCC Junior","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-127],null]]},{"name":"CS Contest 2 · CCC Junior","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",127],null],[null,null,null,["2:00–4:00 pm",0],null]]},{"name":"CS Contest 3 · CCC Senior","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",-213],null]]},{"name":"CS Contest 4 · CCC Senior","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-213],null]]}]}]},"contests":{"title":"2026 Sept–Dec Math Contest","venue":"Individual contests are written at the campus: Ramanujan, room 139, the competition room downstairs","contact":["Tel 647-499-8880","Tel 905-604-9339","info@ttmath.ca"],"columns":["Contest · date · time","Contest info","School gr.","TTmath best level","Price TTmath","Price non-TTmath","Early deadline","Deadline","Registration"],"register":["Your day school","or TTmath"],"contests":[{"org":"CMS","name":"Canada Lynx","when":"Thursday, Oct. 1st @ 5PM or 7PM","info":["Multiple choices","15 questions","1.5 hr"],"grades":["Gr7/8","Gr9/10","Gr11/12"],"level":["L1 completed","L2 completed","L3 completed"],"price":["$20","$30"],"early":"FULL","deadline":"FULL","note":""},{"org":"CMS","name":"COMC","when":"Thursday, Oct. 29th @ 1:30PM","info":["Work shown","12 questions","2.5 hr"],"grades":["Gr9–12"],"level":["L4 completed","(try after L3 completed)"],"price":["$40","$50"],"early":"Sept 29","deadline":"Oct. 15","note":""},{"org":"CMS","name":"Canada Jay","when":"Thursday, Nov. 19th @ 5PM or 7PM","info":["Multiple choices","15 questions","1.5 hr"],"grades":["Gr5/6","Gr7/8"],"level":["L1 completed","L2 completed"],"price":["$20","$30"],"early":"Sept 29","deadline":"Oct. 15","note":""},{"org":"MAA","name":"AMC10/12A","when":"Thursday, Nov. 5th @ 5PM or 7PM","info":["Multiple choices","25 questions","75 minutes"],"grades":["Gr9/10","Gr11/12"],"level":["L3 completed for AMC10","L4 completed for AMC12"],"price":["$30","$50"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"MAA","name":"AMC10/12B","when":"Friday, Nov. 13th @ 5PM or 7PM","info":["Multiple choices","25 questions","75 minutes"],"grades":["Gr9/10","Gr11/12"],"level":["L3 completed for AMC10","L4 completed for AMC12"],"price":["$30","$50"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"","name":"Beaver Computing Challenge","note":"Bring your laptop","when":"Sunday, Nov. 15 @ 5PM or 7:30PM","info":["Multiple choices","12–15 questions","45 minutes"],"grades":["Grade 5/6","Grade 7/8","Grade 9/10"],"level":["Gr10 and under"],"price":["$15","$30"],"early":"Sept 29","deadline":"Oct. 20"},{"org":"Waterloo","name":"Canadian Intermediate (CIMC)","when":"Wednesday, Nov. 18 @ 6:45PM","info":["Answer and solution","9 questions","2 hr"],"grades":["Gr9/10"],"level":["L3 completed"],"price":["$25","$40"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"MAA","name":"AMC8","when":"Sunday, Jan. 24th, 2027 @ 5PM or 7:30PM","info":["Multiple choices","25 questions","40 minutes"],"grades":["Gr8 & under"],"level":["L2 completed"],"price":["$20","$40"],"early":"Sept 29","deadline":"Dec. 20","note":""}],"teams":[{"name":"HMMT Team Contest","when":"Nov. 7, 2026","grades":"Gr7 and above","level":"L5 and MO class","price":"TBD"},{"name":"HiMCM Team Contest","when":"Nov. 4–17, 2026","grades":"Gr7 and above","level":"TTmath Modeling (free)","price":"N/A"},{"name":"ACSL Team Contest","when":"Oct. 19 – May 23","grades":"All students","level":"CS1/2/3/4 (free)","price":"N/A"}],"notes_head":"Please read carefully before your payment:","notes":[["E-transfer: payment@ttmath.ca. Please include the student's name / TT student ID / day school grade / your contact email / contest name, or pay at our school site","maroon"],["Please check the early registration date: the price goes up $10 after the early date for all students","blue"],["Including all contest sites and grades, in each frame you can only do one contest in the school year","red"],["No refund or credit for any contest cancellation; please always check with your home school first","red"],["The contest fee is waived for the corresponding contest if you were a CMS national winner, AMC top 1%, or had a perfect score or Group 1 in any contest last school year","red"],["TT Math School reserves the final right of explanation for the rules above","ink"],["First come, first served: each contest has limited spots","blue"]]}};
+  var P2 = {"crescent":{"r0":46.0,"r1":62.0,"rc":49.6,"a0":-52.0,"a1":52.0,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"estair":{"a":6.5,"w":2.6},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"no":null,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","no":233,"plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","no":229,"plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","no":227,"plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","no":239,"plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","no":243,"plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","no":246,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-52,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","no":null,"plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","no":133,"plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","no":129,"plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","no":127,"plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","no":139,"plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","no":143,"plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","no":145,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-52,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-16","name":"West stair","floor":"both","a":[-52,-45.5],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-17","name":"East stair","floor":"both","a":[45.5,52],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,52],"band":"gallery","kind":"garden","no":null,"plants":[]}]},"infinity":{"lat":-60.0,"rad":-120.0,"turn":0.0,"r_stage":6.0,"r_seats":[8.0,30.0],"r_foyer":[30.0,36.0],"half_angle":38.0,"rows":12,"seats_per_row":20},"greenhouse":{"lat":62.0,"rad":-100.0,"turn":0.0,"vault_w":12.0,"vault_l":40.0,"link_w":4.0,"link_l":12.0,"height":8.0},"garden":{"back_terrace":[28.0,46.0],"domes":[{"code":"T09-02","lat":0.0,"rad":-91.0,"r":22.0,"floor":-5.6,"h":16.0},{"code":"T09-03","lat":0.0,"rad":-115.0,"r":22.0,"floor":-8.4,"h":18.0},{"code":"T09-05","lat":0.0,"rad":-139.0,"r":22.0,"floor":-11.2,"h":20.0}],"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"spiral":{"lat":0.0,"rad":-115.0,"a":2.2,"turns":1.7},"back_door":{"w":6.0,"d":4.0},"sculptures":[{"name":"Klein bottle","lat":-12.0,"rad":-86.0},{"name":"trefoil knot","lat":12.0,"rad":-88.0},{"name":"Möbius bench","lat":-12.0,"rad":-120.0},{"name":"stellated dodecahedron","lat":12.0,"rad":-141.0}]},"observatory":{"lat":0.0,"rad":-172.0,"r":9.0,"floors":4,"floor_h":4.5,"dome_r":4.5},"sports":{"lat":-58.0,"rad":-158.0,"r":17.0,"height":16.0,"court":[24.0,13.0],"gallery":[4.0,5.5],"door_turn":90.0},"hangar":{"lat":72.0,"rad":-156.0,"turn":0.0,"w":34.0,"d":22.0,"height":8.0,"bay_depth":14.0},"podport":{"pads":[[-6.0,-198.0],[20.0,-198.0],[46.0,-198.0],[-6.0,-218.0],[20.0,-218.0],[46.0,-218.0]],"pad_r":7.0,"parked":[0,2,3,5]},"terminal":{"lat":30.0,"rad":-176.0,"turn":0.0,"w":26.0,"d":12.0,"height":6.0,"gates":[12.0,28.0]},"suncourt":{"lat":27.0,"rad":47.5,"w":12.0,"d":19.0,"sphere":2.2,"plinth":0.6,"benches":5,"floor":0.0,"crown":4.4,"spring":1.6},"courtyard":{"s0":33.3,"s1":77.7,"crown":[[33.3,10.6],[56.0,8.6],[77.7,6.2]],"ribs":1.5,"airlock":{"s0":77.7,"s1":84.0,"w":7.0,"h":3.2},"podstop":{"lat":-18.5,"rad":74.5,"r":4.0,"heading":180.0}},"gallery":{"r0":62.0,"r1":68.5,"a":52.0,"wall":1.2},"winter":{"r0":28.6,"r1":46.0,"a":50.0,"crown":13.0,"spring_in":0.6,"spring_out":null},"links":[{"code":"T17-02","name":"Pod dock bridge","a":[61.6,7.02],"b":[68.06,7.75],"w":2.6,"h":2.7,"use":"A glass bridge from the Ring's pod lounge over the garden gallery to the pod dock, and the docking collar that runs out to a pod's door."},{"code":"T17-03","name":"Infinity link","a":[-22.0,-91.0],"b":[-38.5,-92.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to Infinity Hall's foyer."},{"code":"T17-04","name":"Greenhouse link","a":[22.0,-88.0],"b":[48.0,-88.0],"w":4.0,"h":3.4,"use":"From the upper garden dome to the Garden of Primes."},{"code":"T17-05","name":"Observatory collar","a":[0.0,-161.0],"b":[0.0,-163.0],"w":5.0,"h":3.6,"use":"From the lowest garden dome into the observatory."},{"code":"T17-06","name":"Terminal link","a":[9.0,-174.0],"b":[17.0,-176.0],"w":4.0,"h":3.4,"use":"From the observatory to the pod terminal."},{"code":"T17-07","name":"Sports link","a":[-60.0,-126.0],"b":[-58.5,-141.0],"w":4.0,"h":3.4,"use":"From behind Infinity Hall's stage to the sports dome."},{"code":"T17-08","name":"Hangar link","a":[62.0,-120.0],"b":[62.0,-145.0],"w":4.0,"h":3.4,"use":"From the far end of the Garden of Primes to the robotics and rover hangar."}],"pod":{"length":5.6,"width":2.3,"height":1.95,"halo":{"rx":3.2,"rz":1.9,"w":0.34,"t":0.11,"y":0.8},"hover":0.45,"top_speed":40.0,"climb":8.0,"ceiling":400.0,"min_clear":1.2},"ring":{"r0":46.0,"r1":62.0,"rc":49.6,"floor_h":5.6,"upper":0.0,"lower":-5.6,"ceil":4.5,"ceil_corridor":3.8,"bay":10.0,"sections":[{"a":[-57.0,120.0],"kind":"two","roof":5.95,"note":"two storeys: the ground falls to the plain"},{"a":[120.0,164.0],"kind":"low","roof":5.5,"roof_out":4.3,"ceil_upper":4.9,"ceil_out":3.7,"note":"the hill rises: the upper floor's roof slopes down toward it; the lower floor underground"},{"a":[164.0,191.0],"kind":"gate","roof":6.8,"note":"the Gate Hall, two storeys tall"},{"a":[191.0,197.0],"kind":"low","roof":5.5,"roof_out":4.3,"ceil_upper":4.9,"ceil_out":3.7,"note":"lockers, washrooms and a stair by the gate"},{"a":[197.0,303.0],"kind":"sunk","roof":-0.45,"note":"only the lower floor, its roof at ground level with skylights"}],"gallery":{"r0":62.0,"r1":68.5,"a":[-52.0,120.0],"wall":1.2},"upper_corridor":[-57.0,197.0],"lower_corridor":[-180.0,180.0],"stair":{"a":3.6,"r0":51.0,"r1":60.6,"w":3.0,"n":32,"landing":[55.2,56.4]},"lift":[49.8,-4.6],"bay_stair":{"n":32,"w":1.4,"landing":1.3,"lift":2.2},"cw":58.4,"skylight":{"every":10.0,"w":2.0,"l":6.0},"gate":{"inner_doors":[173.0,180.0,187.0],"outer_doors":[180.0]},"rooms":[{"code":"T06-01","name":"Hall and stair","floor":"upper","a":[-7,7],"kind":"move","double":true,"no":null,"plants":[["strelitzia","window0"],["strelitzia","window1"],["maple","corner0"],["kentia","corner1"]]},{"code":"T06-02","name":"Euclid","floor":"upper","a":[7,25],"kind":"class","no":233,"plants":[["croton","window0"],["fig","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-03","name":"Hypatia","floor":"upper","a":[25,43],"kind":"class","no":229,"plants":[["monstera","window0"],["agave","window1"],["anthurium","desk"],["ficus","corner1"]]},{"code":"T06-04","name":"Teachers' room","floor":"upper","a":[43,52],"kind":"staff","short":"Teachers","no":227,"plants":[["olive","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-18","name":"East stair and lift","floor":"both","a":[52,58],"kind":"move","short":"Stair","no":null,"plants":[]},{"code":"T06-19","name":"Archimedes","floor":"upper","a":[58,76],"kind":"class","no":223,"plants":[["olive","window0"],["croton","window1"],["orchid","desk"],["snake","door"]]},{"code":"T06-20","name":"Pythagoras","floor":"upper","a":[76,93],"kind":"class","no":219,"plants":[["strelitzia","window0"],["fig","windowmid"],["anthurium","desk"],["fern","corner1"]]},{"code":"T06-21","name":"Pod lounge","floor":"upper","a":[93,100],"kind":"lounge","short":"Pods","no":217,"plants":[["kentia","window0"],["monstera","window1"],["bromeliad","corner0"]]},{"code":"T06-22","name":"Washrooms","floor":"upper","a":[100,106],"kind":"service","short":"WC","no":215,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-23","name":"Lovelace","floor":"upper","a":[106,120],"kind":"lab","no":213,"plants":[["ficus","window0"],["agave","window1"],["orchid","desk"],["pothos","shelf"]]},{"code":"T06-24","name":"Socrates","floor":"upper","a":[120,134],"kind":"seminar","no":211,"plants":[["maple","window0"],["kentia","window1"],["anthurium","desk"]]},{"code":"T06-25","name":"Library","floor":"upper","a":[134,152],"kind":"library","no":207,"plants":[["fig","window0"],["monstera","windowmid"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-26","name":"Reading room","floor":"upper","a":[152,164],"kind":"reading","no":204,"plants":[["strelitzia","window0"],["olive","window1"],["croton","corner1"]]},{"code":"T06-27","name":"Gate Hall","floor":"gate","a":[164,191],"kind":"gate","no":null,"plants":[["maple","window0"],["maple","window1"],["kentia","corner0"],["strelitzia","corner1"]]},{"code":"T06-28","name":"Lockers","floor":"upper","a":[191,197],"kind":"service","short":"Lockers","no":269,"plants":[["snake","window1"]]},{"code":"T06-16","name":"West stair and lift","floor":"both","a":[-57,-52],"kind":"move","short":"Stair","no":null,"plants":[]},{"code":"T06-07","name":"Washrooms","floor":"upper","a":[-52,-43],"kind":"service","short":"WC","no":246,"plants":[["snake","window0"],["pothos","shelf"]]},{"code":"T06-06","name":"Noether","floor":"upper","a":[-43,-25],"kind":"class","no":243,"plants":[["strelitzia","window1"],["croton","windowmid"],["orchid","desk"],["snake","door"]]},{"code":"T06-05","name":"Fibonacci","floor":"upper","a":[-25,-7],"kind":"class","no":239,"plants":[["agave","window1"],["kentia","windowmid"],["fern","corner0"],["bromeliad","desk"]]},{"code":"T06-CU","name":"Upper corridor","floor":"upper","a":[-57,197],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-08","name":"Lower hall","floor":"lower","a":[-7,7],"kind":"move","no":null,"plants":[["maple","window0"],["monstera","window1"],["strelitzia","corner1"]]},{"code":"T06-09","name":"Study hall","floor":"lower","a":[7,27],"kind":"study","no":133,"plants":[["ficus","window0"],["kentia","window1"],["fern","corner0"],["pothos","shelf"]]},{"code":"T06-10","name":"Gauss","floor":"lower","a":[27,41],"kind":"class","no":129,"plants":[["fig","window0"],["anthurium","desk"],["croton","corner1"]]},{"code":"T06-11","name":"Turing","floor":"lower","a":[41,52],"kind":"lab","short":"Turing","no":127,"plants":[["snake","window1"],["bromeliad","desk"],["pothos","shelf"]]},{"code":"T06-29","name":"Newton","floor":"lower","a":[58,76],"kind":"physics","no":123,"plants":[["ficus","window0"],["agave","window1"]]},{"code":"T06-30","name":"Maker space","floor":"lower","a":[76,94],"kind":"maker","no":119,"plants":[["kentia","window0"],["bromeliad","corner1"]]},{"code":"T06-31","name":"Washrooms","floor":"lower","a":[94,106],"kind":"service","short":"WC","no":116,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-32","name":"Kepler","floor":"lower","a":[106,120],"kind":"astro","no":113,"plants":[["fern","window0"],["orchid","desk"]]},{"code":"T06-33","name":"Life support","floor":"lower","a":[120,150],"kind":"plant","short":"Air and water","no":109,"plants":[["monstera","corner0"]]},{"code":"T06-34","name":"Store and archive","floor":"lower","a":[150,164],"kind":"store","short":"Store","no":105,"plants":[]},{"code":"T06-35","name":"Under the gate","floor":"lower","a":[164,191],"kind":"move","no":null,"plants":[["kentia","corner0"],["monstera","corner1"]]},{"code":"T06-36","name":"Kitchen","floor":"lower","a":[191,203],"kind":"kitchen","no":169,"plants":[["snake","window0"]]},{"code":"T06-37","name":"Dining hall","floor":"lower","a":[203,224],"kind":"dining","no":165,"plants":[["olive","window0"],["fig","windowmid"],["olive","window1"],["strelitzia","corner1"]]},{"code":"T06-38","name":"Café","floor":"lower","a":[224,242],"kind":"cafe","no":161,"plants":[["monstera","window0"],["maple","window1"],["anthurium","desk"],["croton","corner0"]]},{"code":"T06-39","name":"Assembly hall","floor":"lower","a":[242,266],"kind":"assembly","no":157,"plants":[["kentia","window0"],["kentia","window1"],["croton","corner0"]]},{"code":"T06-40","name":"Art studio","floor":"lower","a":[266,280],"kind":"art","no":153,"plants":[["bromeliad","window0"],["agave","window1"],["orchid","desk"]]},{"code":"T06-41","name":"Music room","floor":"lower","a":[280,292],"kind":"music","no":151,"plants":[["fig","window0"],["fern","corner1"]]},{"code":"T06-42","name":"Clinic and counsellor","floor":"lower","a":[292,303],"kind":"clinic","short":"Clinic","no":149,"plants":[["orchid","desk"],["snake","window1"]]},{"code":"T06-14","name":"Washrooms and store","floor":"lower","a":[-52,-41],"kind":"service","short":"WC, store","no":145,"plants":[["snake","window1"],["pothos","shelf"]]},{"code":"T06-13","name":"Games room and lounge","floor":"lower","a":[-41,-27],"kind":"games","no":143,"plants":[["monstera","window0"],["maple","window1"],["fern","corner1"],["orchid","desk"]]},{"code":"T06-12","name":"Ramanujan: competition room","floor":"lower","a":[-27,-7],"kind":"compete","short":"Ramanujan","no":139,"plants":[["olive","window0"],["olive","window1"],["croton","corner0"],["strelitzia","corner1"]]},{"code":"T06-CL","name":"Lower corridor","floor":"lower","a":[-180,180],"band":"corridor","kind":"move","no":null,"plants":[]},{"code":"T06-15","name":"Garden gallery","floor":"lower","a":[-52,120],"band":"gallery","kind":"garden","no":null,"plants":[]}],"signs":{"upper":[-42,-20,20,42,70,95,120,146],"lower":[-42,-20,20,42,70,95,120,146,205,228,252,276,295]},"art":[{"a":-34.0,"floor":"lower","faces":"T06-13","subject":"knight","title":"The knight's tour","note":"a knight visits every square of the board once and comes home"},{"a":-13.0,"floor":"lower","faces":"T06-12","subject":"partitions","title":"The partitions of 6","note":"eleven ways to break six into parts, the counting Ramanujan and Hardy solved","bench":1.8,"plant":["anthurium",1]},{"a":13.0,"floor":"lower","faces":"T06-09","subject":"pascal","title":"Pascal's triangle, odd numbers marked","note":"the odd entries draw Sierpinski's triangle"},{"a":34.0,"floor":"lower","faces":"T06-10","subject":"galton","title":"The Galton board","note":"balls bouncing left or right pile up into Gauss's bell curve","bench":1.8,"plant":["snake",-1]},{"a":47.5,"floor":"lower","faces":"T06-11","subject":"turing","title":"A Turing pattern","note":"two chemicals reacting and spreading make stripes and spots, as Turing showed"},{"a":63.0,"floor":"lower","faces":"T06-29","subject":"cannon","title":"Newton's cannon","note":"fire fast enough from a mountain and the ball falls round the Earth for ever","bench":1.8,"plant":["fern",1]},{"a":85.0,"floor":"lower","faces":"T06-30","subject":"hilbert","title":"The Hilbert curve","note":"one path that passes through every cell of the square"},{"a":111.0,"floor":"lower","faces":"T06-32","subject":"kepler","title":"Kepler's second law","note":"a planet sweeps equal areas in equal times","bench":1.8,"plant":["bromeliad",-1]},{"a":133.0,"floor":"lower","faces":"T06-33","subject":"sunflower","title":"The golden angle","note":"seeds set 137.5 degrees apart pack a sunflower's head"},{"a":157.0,"floor":"lower","faces":"T06-34","subject":"solids","title":"The five Platonic solids","note":"the only solids with equal regular faces and equal corners"},{"a":196.0,"floor":"lower","faces":"T06-36","subject":"buffon","title":"Buffon's needle","note":"drop needles on lines: the share that cross tells you pi"},{"a":214.0,"floor":"lower","faces":"T06-37","subject":"penrose","title":"A Penrose tiling","note":"two rhombs tile the floor for ever and never repeat"},{"a":286.0,"floor":"lower","faces":"T06-41","subject":"harmonics","title":"The harmonics of a string","note":"a string vibrates in halves, thirds, quarters: the notes of music","bench":1.8,"plant":["kentia",1]},{"a":300.5,"floor":"lower","faces":"T06-42","subject":"cardioid","title":"Times two round a circle","note":"join each of 200 points to its double and a heart appears","bench":1.8,"plant":["monstera",-1]},{"a":-57.0,"floor":"upper","end":1,"subject":"mandel","title":"The Mandelbrot set","note":"the points that stay near home under z to z squared plus c","bench":1.8,"plant":["fig",1]},{"a":197.0,"floor":"upper","end":-1,"subject":"golden","title":"The golden rectangle","note":"squares of the Fibonacci numbers and the spiral through them","bench":1.8,"plant":["strelitzia",1]}]},"garden_ring":{"r0":28.6,"r1":46.0,"spring":8.2,"crown":[[-80,7.0],[-70,7.5],[-60,9.5],[-50,12.5],[-40,13.0],[55,13.0],[65,11.0],[75,10.3],[85,9.0],[95,7.8],[105,6.8],[115,6.3],[125,6.2],[135,6.6],[145,7.4],[155,8.2],[165,9.8],[195,9.4],[200,8.2],[207,6.2],[214,5.2],[224,5.2]],"grove":{"a":[224.0,280.0],"floor":-5.6,"roof":1.0},"sundial":{"a":150.0,"r":38.0}},"entrance":{"c":[0.0,71.0],"r":11.6,"h":6.8,"drum":3.0,"airlock":{"s0":81.6,"s1":86.6,"w":6.0,"h":2.6}},"pod_dock":{"a":96.5,"r":75.0,"deck_r":6.5,"spot_r":71.6,"bridge":[62.0,68.5],"w":2.6,"h":2.7},"wing_nos":{"math":[219,"Pythagoras"],"lab":[213,"Lovelace"],"seminar":[211,"Socrates"],"cafe":[161,"Café"],"library":[207,"Library"],"study":[204,"Reading room"]},"vault_lock":{"outer":34.0,"inner":31.5,"door_w":2.4,"door_h":2.62,"boards":{"r0":28.5,"r1":31.3,"lat":3.72,"y0":0.7,"h":1.6}},"link_stair":{"riser":0.16,"tread":0.3,"landing":1.2,"rail":0.9},"timetable":{"term":{"title":"2026 Fall Schedule","dates":"Sep 9 – Dec 21","weeks":15},"days":["WED","THU","FRI","SAT","SUN"],"groups":[{"name":"FunMath","classes":[{"name":"FunMath 2","hw":"In class","rows":[[null,null,null,["2:00–4:00 pm",239],["2:00–4:00 pm",239]]]},{"name":"FunMath 3","hw":"Mon 5:30–6:30 pm online","rows":[[["6:45–8:45 pm",239],null,["6:45–8:45 pm",239],["2:00–4:00 pm",243],null],[null,null,null,null,["11:30–1:30 pm",239]]]},{"name":"FunMath 4","hw":"Mon 6:45–7:45 pm online","rows":[[["6:45–8:45 pm",243],["4:15–6:15 pm",243],null,null,["9:15–11:15 am",243]],[null,null,null,["4:15–6:15 pm",243],["11:30–1:30 pm",243]],[null,null,null,null,["2:00–4:00 pm",0]]]},{"name":"FunMath 5","hw":"Mon 8:00–9:00 pm online","rows":[[["4:30–6:30 pm",219],["6:45–8:45 pm",0],["4:30–6:30 pm",219],["9:15–11:15 am",0],["9:15–11:15 am",219]],[null,["6:45–8:45 pm",219],null,["6:30–8:30 pm",219],["4:15–6:15 pm",0]]]}]},{"name":"Basic and Calculus","classes":[{"name":"L2 Basic · Gr 9–10 Algebra","hw":"Mon 5:30–6:30 pm online","rows":[[["6:15–8:45 pm",229],["4:00–6:30 pm",0],["6:30–9:00 pm",229],["2:00–4:30 pm",229],["2:00–4:30 pm",229]],[null,["6:30–9:00 pm",229],["6:45–9:15 pm",0],["6:30–9:00 pm",0],["4:15–6:45 pm",233]]]},{"name":"L3 Basic · Gr 11 Functions","hw":"Mon 6:45–7:45 pm online","rows":[[null,null,["4:00–6:30 pm",-229],["4:15–6:45 pm",233],["11:30–2:00 pm",0]],[null,null,null,null,["4:30–7:00 pm",229]]]},{"name":"L4 Basic · Gr 12 Adv. Functions","hw":"Mon 8:00–9:00 pm online","rows":[[null,["6:45–9:15 pm",0],null,["6:30–9:00 pm",229],["4:45–7:15 pm",-239]]]},{"name":"Calculus & Vectors · Gr 12","hw":"Mon 6:45–7:45 pm online","rows":[[null,["6:15–8:45 pm",-233],null,["11:30–2:00 pm",0],null]]}]},{"name":"Contest","classes":[{"name":"L1 Contest · Foundation","hw":"Mon 5:30–6:30 pm online","rows":[[["4:30–6:30 pm",0],["4:30–6:30 pm",219],["4:30–6:30 pm",0],["9:15–11:15 am",219],["9:15–11:15 am",0]],[null,null,["4:30–6:30 pm",129],["2:00–4:00 pm",219],["9:15–11:15 am",129]],[null,null,["6:45–8:45 pm",219],null,["2:00–4:00 pm",219]]]},{"name":"L2 Contest · Geometry","hw":"Mon 6:45–7:45 pm online","rows":[[["4:30–6:30 pm",0],null,["6:45–8:45 pm",233],["11:30–1:30 pm",233],["9:15–11:15 am",0]],[["4:30–6:30 pm",233],null,null,null,["11:30–1:30 pm",0]],[["6:45–8:45 pm",0],null,null,null,["11:30–1:30 pm",233]]]},{"name":"L3 Contest · Algebra","hw":"Mon 6:45–7:45 pm online","rows":[[["4:30–6:30 pm",129],null,["4:30–6:30 pm",0],["11:30–1:30 pm",129],["11:30–1:30 pm",129]],[["6:45–8:45 pm",0],null,null,["6:30–8:30 pm",0],null]]},{"name":"L4 Contest","hw":"Mon 8:00–9:00 pm online","rows":[[["6:45–8:45 pm",139],null,["6:45–8:45 pm",0],["9:15–11:15 am",0],["9:15–11:15 am",139]]]},{"name":"L5 Contest","hw":"Mon 8:00–9:00 pm online","rows":[[null,null,null,["9:15–11:15 am",-139],null]]},{"name":"AMC 8 Beginner · L1+","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",-129],null]]},{"name":"AMC 8 Advanced · L2+","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-139],null]]},{"name":"AMC 10 · L3+","hw":"In class","rows":[[null,null,null,null,["2:00–4:15 pm",-139]]]},{"name":"Euclid · L4+","hw":"In class","rows":[[null,null,null,null,["9:15–11:15 am",0]],[null,null,null,null,["11:30–1:30 pm",139]]]},{"name":"COMC · L4+","hw":"In class","rows":[[null,null,["6:45–8:45 pm",0],null,null]]}]},{"name":"By invitation and Olympiad","classes":[{"name":"L1 Selective","hw":"In class","rows":[[null,null,null,null,["2:00–4:00 pm",-211]]]},{"name":"L2 Selective","hw":"In class","rows":[[null,null,null,null,["4:15–6:15 pm",-211]]]},{"name":"Math Modeling","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",0],null]]},{"name":"Research Writing","hw":"In class","rows":[[null,null,null,["4:15–6:15 pm",-211],null]]},{"name":"AMC 12 / AIME","hw":"In class","rows":[[null,null,null,["6:30–8:30 pm",0],null]]},{"name":"Math Olympiad Junior","hw":"In class","rows":[[null,null,["6:30–9:00 pm",-139],null,null]]},{"name":"Math Olympiad Senior","hw":"In class","rows":[[null,null,null,["6:30–9:00 pm",-139],null]]}]},{"name":"Computer Science","classes":[{"name":"CS-AI Workshop","hw":"In class","rows":[[null,null,null,["4:45–6:15 pm",-213],null]]},{"name":"CS Basic · Python","hw":"In class","rows":[[null,null,null,["6:30–8:30 pm",213],null]]},{"name":"CS Contest 1 · CCC Junior","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-127],null]]},{"name":"CS Contest 2 · CCC Junior","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",127],null],[null,null,null,["2:00–4:00 pm",0],null]]},{"name":"CS Contest 3 · CCC Senior","hw":"In class","rows":[[null,null,null,["9:15–11:15 am",-213],null]]},{"name":"CS Contest 4 · CCC Senior","hw":"In class","rows":[[null,null,null,["11:30–1:30 pm",-213],null]]}]}]},"contests":{"title":"2026 Sept–Dec Math Contest","venue":"Individual contests are written at the campus: Ramanujan, room 139, the competition room downstairs","contact":["Tel 647-499-8880","Tel 905-604-9339","info@ttmath.ca"],"columns":["Contest · date · time","Contest info","School gr.","TTmath best level","Price TTmath","Price non-TTmath","Early deadline","Deadline","Registration"],"register":["Your day school","or TTmath"],"contests":[{"org":"CMS","name":"Canada Lynx","when":"Thursday, Oct. 1st @ 5PM or 7PM","info":["Multiple choices","15 questions","1.5 hr"],"grades":["Gr7/8","Gr9/10","Gr11/12"],"level":["L1 completed","L2 completed","L3 completed"],"price":["$20","$30"],"early":"FULL","deadline":"FULL","note":""},{"org":"CMS","name":"COMC","when":"Thursday, Oct. 29th @ 1:30PM","info":["Work shown","12 questions","2.5 hr"],"grades":["Gr9–12"],"level":["L4 completed","(try after L3 completed)"],"price":["$40","$50"],"early":"Sept 29","deadline":"Oct. 15","note":""},{"org":"CMS","name":"Canada Jay","when":"Thursday, Nov. 19th @ 5PM or 7PM","info":["Multiple choices","15 questions","1.5 hr"],"grades":["Gr5/6","Gr7/8"],"level":["L1 completed","L2 completed"],"price":["$20","$30"],"early":"Sept 29","deadline":"Oct. 15","note":""},{"org":"MAA","name":"AMC10/12A","when":"Thursday, Nov. 5th @ 5PM or 7PM","info":["Multiple choices","25 questions","75 minutes"],"grades":["Gr9/10","Gr11/12"],"level":["L3 completed for AMC10","L4 completed for AMC12"],"price":["$30","$50"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"MAA","name":"AMC10/12B","when":"Friday, Nov. 13th @ 5PM or 7PM","info":["Multiple choices","25 questions","75 minutes"],"grades":["Gr9/10","Gr11/12"],"level":["L3 completed for AMC10","L4 completed for AMC12"],"price":["$30","$50"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"","name":"Beaver Computing Challenge","note":"Bring your laptop","when":"Sunday, Nov. 15 @ 5PM or 7:30PM","info":["Multiple choices","12–15 questions","45 minutes"],"grades":["Grade 5/6","Grade 7/8","Grade 9/10"],"level":["Gr10 and under"],"price":["$15","$30"],"early":"Sept 29","deadline":"Oct. 20"},{"org":"Waterloo","name":"Canadian Intermediate (CIMC)","when":"Wednesday, Nov. 18 @ 6:45PM","info":["Answer and solution","9 questions","2 hr"],"grades":["Gr9/10"],"level":["L3 completed"],"price":["$25","$40"],"early":"Sept 29","deadline":"Oct. 20","note":""},{"org":"MAA","name":"AMC8","when":"Sunday, Jan. 24th, 2027 @ 5PM or 7:30PM","info":["Multiple choices","25 questions","40 minutes"],"grades":["Gr8 & under"],"level":["L2 completed"],"price":["$20","$40"],"early":"Sept 29","deadline":"Dec. 20","note":""}],"teams":[{"name":"HMMT Team Contest","when":"Nov. 7, 2026","grades":"Gr7 and above","level":"L5 and MO class","price":"TBD"},{"name":"HiMCM Team Contest","when":"Nov. 4–17, 2026","grades":"Gr7 and above","level":"TTmath Modeling (free)","price":"N/A"},{"name":"ACSL Team Contest","when":"Oct. 19 – May 23","grades":"All students","level":"CS1/2/3/4 (free)","price":"N/A"}],"notes_head":"Please read carefully before your payment:","notes":[["E-transfer: payment@ttmath.ca. Please include the student's name / TT student ID / day school grade / your contact email / contest name, or pay at our school site","maroon"],["Please check the early registration date: the price goes up $10 after the early date for all students","blue"],["Including all contest sites and grades, in each frame you can only do one contest in the school year","red"],["No refund or credit for any contest cancellation; please always check with your home school first","red"],["The contest fee is waived for the corresponding contest if you were a CMS national winner, AMC top 1%, or had a perfect score or Group 1 in any contest last school year","red"],["TT Math School reserves the final right of explanation for the rules above","ink"],["First come, first served: each contest has limited spots","blue"]]}};
 
   /* ===================== Materials: one shader for every built surface ===================== */
   // Real-world surfaces: weathered cladding and concrete outside; marble, brass, oak, fabric and plaster inside.
@@ -3440,9 +3440,9 @@
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1, seminar: 1, library: 1, physics: 1, maker: 1, astro: 1, art: 1, music: 1, clinic: 1 };
 
   // ---- surfaces in the polar frame ----
-  function arcWall(B, r, a0, a1, y0, y1, mat, g2, out, f2x) {          // a curved wall at radius r, facing out (+1) or in (-1)
-    var n = Math.max(2, Math.ceil(Math.abs(a1 - a0) * r / 0.5));
-    B.surf(n, 1, function (i, j, q) { var a = lerp(a0, a1, i / n), p = crsPt(r, a), d = crsPt(1, a), y = j ? y1 : y0;
+  function arcWall(B, r, a0, a1, y0, y1, mat, g2, out, f2x, ny) {      // a curved wall at radius r, facing out (+1) or in (-1); ny rows up it
+    var n = Math.max(2, Math.ceil(Math.abs(a1 - a0) * r / 0.5)), m = ny || 1;
+    B.surf(n, m, function (i, j, q) { var a = lerp(a0, a1, i / n), p = crsPt(r, a), d = crsPt(1, a), y = lerp(y0, y1, j / m);
       q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * out, 0, (d.z - PAL.c.z) * out]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = f2x === undefined ? 99 : f2x; q.f2[1] = g2 || 0; q.m = mat; });
   }
   function radWall(B, a, r0, r1, y0, y1, mat, g2, side, f2x, ny) {      // a flat wall along a radius at angle a, facing +a (+1) or -a (-1); ny rows up it
@@ -3576,7 +3576,8 @@
         var y = fl === "upper" ? yU : yL, hc = (tall ? y + C.hR : ceilY(rm, fl, rc + 0.5)) - y, cur = ra0;
         function seg(s0, s1) { if (s1 - s0 < 1e-4) return;
           if (glz) { glassFront(W, rc, s0, s1, y, y + C.hC, -1, []); arcWall(W, rc + 0.05, s0, s1, y + C.hC, y + hc + 0.1, MT.PLASTER, wc, 1); return; }
-          arcWall(W, rc - hw, s0, s1, y, y + C.hC + 0.1, MT.PLASTER, 0, -1); arcWall(W, rc + hw, s0, s1, y, y + hc + 0.1, MT.PLASTER, wc, 1); }
+          arcWall(W, rc - hw, s0, s1, y, y + C.hC + 0.1, MT.PLASTER, 0, -1, undefined, 6); arcWall(W, rc + hw, s0, s1, y, y + hc + 0.1, MT.PLASTER, wc, 1);
+          arcWall(W, rc - hw - 0.012, s0, s1, y, y + 0.1, MT.ANOD, 0, -1); }
         ds.slice().sort(function (p, q) { return p - q; }).forEach(function (d) { seg(cur, d - half); cur = d + half; }); seg(cur, ra1);
         ds.forEach(function (d) {
           if (glz) { glassDoorway(W, rc, d, y, y + C.hC); arcWall(W, rc + 0.05, d - half, d + half, y + C.hC, y + hc + 0.1, MT.PLASTER, wc, 1); return; }
@@ -3594,8 +3595,10 @@
     radWall(W, up[0] * D + 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, 1);              // the upper corridor's two ends
     radWall(W, up[1] * D - 0.06 / 48, r0, rc, yU, yU + C.hC + 0.1, MT.PLASTER, 0, -1);
     // the lower corridor's back: the retaining wall (glass onto the sunken grove); in the halls up to their ceilings
-    arcWall(W, r0 + 0.02, -57 * D, C.grove[0] * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);
-    arcWall(W, r0 + 0.02, C.grove[1] * D, 303 * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1);
+    [[-57, C.grove[0]], [C.grove[1], 303]].forEach(function (s) {                                 // with rows up it, and its skirting
+      arcWall(W, r0 + 0.02, s[0] * D, s[1] * D, yL, yL + C.hC + 0.1, MT.PLASTER, 0, 1, undefined, 6);
+      arcWall(W, r0 + 0.032, s[0] * D, s[1] * D, yL, yL + 0.1, MT.ANOD, 0, 1);
+    });
     arcWall(W, r0 + 0.02, 164 * D, 191 * D, yL + C.hC + 0.1, yL + C.hR + 0.05, MT.PLASTER, 0, 1);
     arcWall(W, r0 + 0.02, -hA, hA, yL + C.hC + 0.1, yU - 0.35, MT.PLASTER, 0, 1);                 // up to the landing in the hall
     arcWall(W, r0 + 0.07, -hA, hA, yU + C.hC, yU + C.hR + 0.05, MT.PLASTER, 0, 1);                // and above the glass to the hall's ceiling
@@ -3612,6 +3615,8 @@
       });
     });
     doorPlates(W);
+    ringSigns(W);
+    corridorArt(W);
     crescentStair(W, C.st, true);
     crescentStair(W, C.gst, false);
     C.rooms.forEach(function (rm) { if (isBay(rm)) bayStair(W, rm); });
@@ -3632,11 +3637,11 @@
         } });
       });
     });
-    function corridorLights(d0, d1, y) {
-      for (var ka = d0 * D + 2.0 / r0; ka < d1 * D - 1.0 / r0; ka += 4.0 / r0) { var lp2 = crsPt((r0 + rc) / 2, ka); W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, 1.3, 6, [0, -1, 0], 1.2); }
+    function corridorLights(d0, d1, y, k) {
+      for (var ka = d0 * D + 2.0 / r0; ka < d1 * D - 1.0 / r0; ka += 4.0 / r0) { var lp2 = crsPt((r0 + rc) / 2, ka); W.geo(addF2(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 14), 1.8, 0), T(lp2.x, y + C.hC - 0.012, lp2.z), MT.LIGHT, 1); wLight(lp2.x, y + C.hC - 0.2, lp2.z, LAMPC, k, 6, [0, -1, 0], 1.2); }
     }
-    [[up[0], -7], [7, 164], [191, up[1]]].forEach(function (s) { corridorLights(s[0], s[1], yU); });
-    [[-57, -7], [7, 164], [191, 303]].forEach(function (s) { corridorLights(s[0], s[1], yL); });
+    [[up[0], -7], [7, 164], [191, up[1]]].forEach(function (s) { corridorLights(s[0], s[1], yU, 1.3); });
+    [[-57, -7], [7, 164], [191, 303]].forEach(function (s) { corridorLights(s[0], s[1], yL, 1.6); });         // no daylight down there
     [[47.6, -4.5], [47.6, 4.5], [49.8, 0]].forEach(function (d) { var p = crsPt(d[0], d[1] * D); W.geo(addF2(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 14), 1.8, 0), T(p.x, yU + C.hR - 0.012, p.z), MT.LIGHT, 1); wLight(p.x, yU + C.hR - 0.2, p.z, LAMPC, 1.8, 8, [0, -1, 0], 1.2); });
     for (var gd = 166.5; gd < 190; gd += 4.5) [47.8, 53.0, 58.6].forEach(function (rr) {             // the Gate Hall's and Under the gate's downlights
       if (Math.abs(gd - 187.4) < 2.4 && rr > 50) return;                                               // not over the stair's opening
@@ -5104,6 +5109,466 @@
       g.fillStyle = r[2] === 0 ? "#ff7f6e" : "#9fb0c6"; g.textAlign = "right"; g.fillText(r[2] === 0 ? "online" : String(Math.abs(r[2])), W - 20, y); g.textAlign = "left";
     });
     g.restore();
+  }
+
+  /* ===================== Finding the way along the Ring: direction signs, exit signs, the corridors' ends ===================== */
+  // Jim, 5 Oct 2026: "each area esp classroom should have room number so students know which room they should go"; 6 Oct
+  // 2026: "please continue to improve/bugfix/continue for the walking experience and real life experience". Blade signs
+  // hang across the corridors on both floors: each face lists the numbers of the rooms ahead of you that way, up to the
+  // next sign (and the halls and stairs), at the angles the program gives (RING_SIGNS in campus_rooms.py). A lit green exit
+  // sign over each stair's door on both floors. Drawn on canvases of their own (the atlas is full).
+  var SIGN = { cols: 5, rows: 10, W: 384, H: 96 };
+  // the rooms ahead from angle a (degrees) toward decreasing (dir -1) or increasing (dir +1) angle, within span degrees
+  function roomsAhead(fl, a, dir, span) {
+    var out = [];
+    P2.ring.rooms.forEach(function (rm) {
+      if (rm.band || rmFloors(rm).indexOf(fl) < 0) return;
+      var m = (rm.a[0] + rm.a[1]) / 2, d = (((m - a) * dir) % 360 + 540) % 360 - 180;
+      if (d <= 0 || d > span) return;
+      out.push({ rm: rm, d: d });
+    });
+    return out.sort(function (p, q) { return p.d - q.d; });
+  }
+  function aheadLabel(list) {
+    var nos = list.filter(function (x) { return x.rm.no; }).map(function (x) { return x.rm.no; }), extra = [];
+    list.forEach(function (x) { var c = x.rm.code; if (c === "T06-16" || c === "T06-18") extra.push("Stair"); if (c === "T06-01" || c === "T06-08") extra.push("Hall"); if (c === "T06-27" || c === "T06-35") extra.push("Gate Hall"); });
+    var txt = nos.length > 4 ? nos[0] + " – " + nos[nos.length - 1] : nos.join("  ·  ");
+    return { nos: txt, extra: extra.filter(function (v, i, s) { return s.indexOf(v) === i; }).join("  ·  ") };
+  }
+  function drawSignFace(g, x, y, lab) {
+    var W = SIGN.W, H = SIGN.H;
+    g.fillStyle = "#23272c"; g.fillRect(x, y, W, H); g.fillStyle = "#e8b04a"; g.fillRect(x, y, 8, H);
+    g.fillStyle = "#ffffff"; g.font = "700 50px " + SANS; g.textBaseline = "middle"; g.textAlign = "left"; g.fillText("↑", x + 20, y + H / 2 + 2);
+    g.font = "700 40px " + SANS; fitText(g, lab.nos || lab.extra, x + 62, y + (lab.nos && lab.extra ? H * 0.36 : H / 2), W - 74);
+    if (lab.nos && lab.extra) { g.fillStyle = "#c9ced4"; g.font = "500 24px " + SANS; fitText(g, lab.extra, x + 62, y + H * 0.76, W - 74); }
+  }
+  // the green exit sign: a running figure out through a door, an arrow
+  function exitCanvas() {
+    var cv = mkCanvas(256, 128), g = cv.getContext("2d");
+    g.fillStyle = "#0b7d3e"; g.fillRect(0, 0, 256, 128); g.strokeStyle = "#ffffff"; g.fillStyle = "#ffffff"; g.lineCap = "round"; g.lineJoin = "round";
+    g.lineWidth = 6; g.strokeRect(150, 18, 54, 92);                                                              // the door
+    g.beginPath(); g.arc(98, 30, 10, 0, 7); g.fill();                                                             // the figure
+    g.lineWidth = 12; g.beginPath(); g.moveTo(94, 46); g.lineTo(84, 76); g.stroke();
+    g.lineWidth = 9; g.beginPath(); g.moveTo(92, 50); g.lineTo(112, 62); g.lineTo(126, 54); g.moveTo(90, 52); g.lineTo(72, 60); g.lineTo(64, 72); g.stroke();
+    g.beginPath(); g.moveTo(84, 76); g.lineTo(104, 92); g.lineTo(110, 112); g.moveTo(84, 76); g.lineTo(68, 96); g.lineTo(48, 98); g.stroke();
+    g.lineWidth = 7; g.beginPath(); g.moveTo(218, 64); g.lineTo(244, 64); g.moveTo(234, 54); g.lineTo(244, 64); g.lineTo(234, 74); g.stroke();   // the arrow
+    return cv;
+  }
+  // a picture on a curved wall at radius r facing in, from angle a0 to a1 (the viewer's left to right), y0 to y0 + h
+  function arcQuad(cv, r, a0, a1, y0, h, bright) {
+    var tex = new THREE.CanvasTexture(cv), pos = [], uvs = [];
+    [[a0, y0, 0, 0], [a1, y0, 1, 0], [a1, y0 + h, 1, 1], [a0, y0 + h, 0, 1]].forEach(function (c) { var p = crsPt(r, c[0]); pos.push(p.x, c[1], p.z); uvs.push(c[2], c[3]); });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setIndex([0, 1, 2, 0, 2, 3, 0, 2, 1, 0, 3, 2]);
+    var m = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure, uBright: { value: bright } }, vertexShader: BOARD_VS, fragmentShader: BOARD_FS }));
+    m.matrixAutoUpdate = false; scene.add(m); return m;
+  }
+  // all of it, once the Ring's rooms have their doors
+  function ringSigns(W) {
+    var C = CRS, D = D2R, rM = (C.r0 + C.rc) / 2, sw = 1.3, sh = 0.325;
+    var spots = P2.ring.signs;
+    var cv = mkCanvas(SIGN.cols * SIGN.W, SIGN.rows * SIGN.H), g = cv.getContext("2d"), slot = 0, faces = [];
+    ["upper", "lower"].forEach(function (fl) {
+      var S = spots[fl], y = fl === "upper" ? C.yU : C.yL, yc = y + C.hC - 0.5;
+      S.forEach(function (a, i) {
+        [-1, 1].forEach(function (dir) {                                                           // the face toward +a is read by those walking toward -a
+          var nb = S[(i + (dir > 0 ? -1 : 1) + S.length) % S.length], span = Math.abs(((nb - a) % 360 + 540) % 360 - 180);   // up to the next sign that way
+          span = Math.min(45, span < 8 ? 40 : span);
+          var lab = aheadLabel(roomsAhead(fl, a, -dir, span)); if (!lab.nos && !lab.extra) return;
+          var sx = (slot % SIGN.cols) * SIGN.W, sy = Math.floor(slot / SIGN.cols) * SIGN.H; drawSignFace(g, sx, sy, lab);
+          faces.push({ a: a * D + dir * 0.03 / rM, y: yc, uv: [sx / cv.width, 1 - (sy + SIGN.H) / cv.height, (sx + SIGN.W) / cv.width, 1 - sy / cv.height], dir: dir }); slot++;
+        });
+        var M = crsFrame(rM, a * D, yc), bx = new Builder(); bx.box(-0.025, -sh / 2 - 0.02, -sw / 2 - 0.02, 0.025, sh / 2 + 0.02, sw / 2 + 0.02, MT.ANOD); bx.tag(0, 3, null); W.add(bx, M);
+        [-0.5, 0.5].forEach(function (z) { var p0 = new THREE.Vector3(0, sh / 2, z).applyMatrix4(M), p1 = new THREE.Vector3(0, y + C.hC - yc, z).applyMatrix4(M); tubeAlong(W, [p0, p1], 0.006, 4, MT.STEEL); });
+      });
+    });
+    // the faces: one mesh, both sides of each blade; the text reads left to right to whoever faces it
+    var tex = new THREE.CanvasTexture(cv); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    var pos = [], uvs = [], idx = [];
+    faces.forEach(function (f) {
+      var n = pos.length / 3, rl = f.dir > 0 ? rM - sw / 2 : rM + sw / 2, rr = f.dir > 0 ? rM + sw / 2 : rM - sw / 2;   // facing +a: left is the inner side
+      [[rl, 0, f.uv[0], f.uv[1]], [rr, 0, f.uv[2], f.uv[1]], [rr, 1, f.uv[2], f.uv[3]], [rl, 1, f.uv[0], f.uv[3]]].forEach(function (c) { var p = crsPt(c[0], f.a); pos.push(p.x, f.y + (c[1] ? sh / 2 : -sh / 2), p.z); uvs.push(c[2], c[3]); });
+      idx.push(n, n + 1, n + 2, n, n + 2, n + 3, n, n + 2, n + 1, n, n + 3, n + 2);
+    });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setIndex(idx);
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure, uBright: { value: 0.75 } }, vertexShader: BOARD_VS, fragmentShader: BOARD_FS });
+    var sm = new THREE.Mesh(geo, mat); sm.matrixAutoUpdate = false; scene.add(sm);
+    // exit signs over the stairs' doors, both floors, on the corridor side
+    var ex = exitCanvas();
+    P2.ring.rooms.forEach(function (rm) {
+      if (!isBay(rm)) return; var d = (rm.a[0] + rm.a[1]) / 2 * D;
+      var rS = C.rc - C.wall / 2 - 0.015;
+      [C.yU, C.yL].forEach(function (y) { arcQuad(ex, rS, d - 0.21 / rS, d + 0.21 / rS, y + 2.4, 0.21, 1.15); });
+    });
+  }
+
+  /* ===================== The corridors' prints: framed mathematics along the Ring ===================== */
+  // Jim, 6 Oct 2026: "please continue to improve/bugfix/continue for the walking experience and real life experience".
+  // The lower corridor's long back wall gets a walk of framed prints, each facing a room and showing what it is named for
+  // or used for; the upper corridor's two blind ends a print over a bench (the program: RING_ART in campus_rooms.py).
+  // Each print is drawn on a cell of one canvas (warm paper, the picture, its title on the mat under it) and hung in an
+  // oak frame under a brass picture light, a bench and a plant chosen for the corridor's low light where people wait.
+  var PRINT = { W: 600, H: 400, cols: 4, w: 1.8, h: 1.2, yc: 1.7 }, PRINT_PLINTH = { anthurium: 1, bromeliad: 1, orchid: 1 };
+  var PRC = { paper: "#f2eee5", ink: "#1f2430", red: "#c4502f", ochre: "#d9a23a", teal: "#2b7a78", navy: "#2c4a73", sand: "#e3d5b8", rose: "#b5546a", olive: "#6f8248" };
+  function printBox(W, H) { var m = Math.round(H * 0.075); return { x: m, y: m, w: W - 2 * m, h: H - 3 * m }; }
+  function dot(g, x, y, r) { g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.fill(); }
+  // a knight's tour by Warnsdorff's rule (always to the square with the fewest ways on); a closed one if a start gives it
+  function knightTour() {
+    var M = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]], first = null;
+    function onBoard(u, v) { return u >= 0 && u < 8 && v >= 0 && v < 8; }
+    for (var st = 0; st < 64; st++) {
+      var seen = {}, x = st % 8, y = (st / 8) | 0, path = [[x, y]]; seen[x + y * 8] = 1;
+      var ways = function (u, v) { var c = 0; M.forEach(function (m) { if (onBoard(u + m[0], v + m[1]) && !seen[u + m[0] + (v + m[1]) * 8]) c++; }); return c; };
+      while (path.length < 64) {
+        var best = null, bw = 9;
+        M.forEach(function (m) { var u = x + m[0], v = y + m[1]; if (!onBoard(u, v) || seen[u + v * 8]) return; var c = ways(u, v); if (c < bw) { bw = c; best = [u, v]; } });
+        if (!best) break;
+        x = best[0]; y = best[1]; seen[x + y * 8] = 1; path.push(best);
+      }
+      if (path.length < 64) continue;
+      var dx = Math.abs(path[63][0] - path[0][0]), dy = Math.abs(path[63][1] - path[0][1]);
+      if (dx * dy === 2) { path.closed = true; return path; }
+      if (!first) first = path;
+    }
+    return first || [];
+  }
+  function hilbertXY(n, d) {
+    var x = 0, y = 0, t = d;
+    for (var s = 1; s < n; s *= 2) {
+      var rx = 1 & (t >> 1), ry = 1 & (t ^ rx);
+      if (!ry) { if (rx) { x = s - 1 - x; y = s - 1 - y; } var q = x; x = y; y = q; }
+      x += s * rx; y += s * ry; t >>= 2;
+    }
+    return [x, y];
+  }
+  // the five Platonic solids: vertices and faces (each face's corners in order round it)
+  function platonic() {
+    var f = (1 + Math.sqrt(5)) / 2, S = {};
+    S.tetra = { v: [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]], f: [[0, 1, 2], [0, 3, 1], [0, 2, 3], [1, 3, 2]] };
+    var cv = []; [-1, 1].forEach(function (x) { [-1, 1].forEach(function (y) { [-1, 1].forEach(function (z) { cv.push([x, y, z]); }); }); });
+    S.cube = { v: cv, f: [[0, 1, 3, 2], [4, 6, 7, 5], [0, 4, 5, 1], [2, 3, 7, 6], [0, 2, 6, 4], [1, 5, 7, 3]] };
+    var ov = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], of = [];
+    [0, 1].forEach(function (i) { [2, 3].forEach(function (j) { [4, 5].forEach(function (k) { of.push([i, j, k]); }); }); });
+    S.octa = { v: ov, f: of };
+    var iv = []; [-1, 1].forEach(function (p) { [-1, 1].forEach(function (q) { iv.push([0, p, q * f], [p, q * f, 0], [q * f, 0, p]); }); });
+    function d2(a, b) { return (a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) + (a[2] - b[2]) * (a[2] - b[2]); }
+    var iff = [];
+    for (var i = 0; i < 12; i++) for (var j = i + 1; j < 12; j++) for (var k = j + 1; k < 12; k++)
+      if (Math.abs(d2(iv[i], iv[j]) - 4) < 1e-6 && Math.abs(d2(iv[j], iv[k]) - 4) < 1e-6 && Math.abs(d2(iv[i], iv[k]) - 4) < 1e-6) iff.push([i, j, k]);
+    S.icosa = { v: iv, f: iff };
+    // the dodecahedron: the icosahedron's face centres; round each of its corners, the five faces that meet there
+    var dv = iff.map(function (t) { return [0, 1, 2].map(function (c) { return (iv[t[0]][c] + iv[t[1]][c] + iv[t[2]][c]) / 3; }); }), df = [];
+    iv.forEach(function (p, vi) {
+      var around = []; iff.forEach(function (t, fi) { if (t.indexOf(vi) >= 0) around.push(fi); });
+      var n = p.slice(), ln = Math.hypot(n[0], n[1], n[2]); n = n.map(function (c) { return c / ln; });
+      var u = Math.abs(n[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0], e1 = [n[1] * u[2] - n[2] * u[1], n[2] * u[0] - n[0] * u[2], n[0] * u[1] - n[1] * u[0]];
+      var l1 = Math.hypot(e1[0], e1[1], e1[2]); e1 = e1.map(function (c) { return c / l1; });
+      var e2 = [n[1] * e1[2] - n[2] * e1[1], n[2] * e1[0] - n[0] * e1[2], n[0] * e1[1] - n[1] * e1[0]];
+      around.sort(function (a, b) { var A = dv[a], B = dv[b]; return Math.atan2(A[0] * e2[0] + A[1] * e2[1] + A[2] * e2[2], A[0] * e1[0] + A[1] * e1[1] + A[2] * e1[2]) - Math.atan2(B[0] * e2[0] + B[1] * e2[1] + B[2] * e2[2], B[0] * e1[0] + B[1] * e1[1] + B[2] * e1[2]); });
+      df.push(around);
+    });
+    S.dodeca = { v: dv, f: df };
+    return S;
+  }
+  function serif(g, px, style) { g.font = (style ? style + " " : "") + Math.round(px) + "px " + SERIF; }
+  // each print's picture, in its box b (the cell's own units); s, ox, oy: the canvas pixels per unit and the cell's corner
+  // in canvas pixels, for the pictures drawn pixel by pixel
+  var PRINT_DRAW = {
+    knight: function (g, b) {
+      var s = Math.min(b.w, b.h), x0 = b.x + (b.w - s) / 2, y0 = b.y + (b.h - s) / 2, c = s / 8, tour = knightTour();
+      for (var j = 0; j < 8; j++) for (var i = 0; i < 8; i++) { g.fillStyle = (i + j) % 2 ? "#c2a77c" : "#efe5cc"; g.fillRect(x0 + i * c, y0 + j * c, c, c); }
+      g.strokeStyle = PRC.ink; g.lineWidth = 2; g.strokeRect(x0 - 1, y0 - 1, s + 2, s + 2);
+      function at(q) { return [x0 + (q[0] + 0.5) * c, y0 + (q[1] + 0.5) * c]; }
+      g.strokeStyle = PRC.navy; g.lineWidth = 2.2; g.lineJoin = "round"; g.lineCap = "round"; g.beginPath();
+      tour.forEach(function (q, k) { var p = at(q); if (k) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); });
+      if (tour.closed) g.closePath(); g.stroke();
+      g.fillStyle = PRC.navy; tour.forEach(function (q) { var p = at(q); dot(g, p[0], p[1], 2.6); });
+      var p0 = at(tour[0]); g.fillStyle = PRC.red; dot(g, p0[0], p0[1], 5.5);
+      serif(g, c * 0.22, "italic"); g.fillStyle = "rgba(31,36,48,0.55)"; g.textAlign = "left"; g.textBaseline = "top";
+      tour.forEach(function (q, k) { g.fillText(String(k + 1), x0 + q[0] * c + 3, y0 + q[1] * c + 2); });
+    },
+    partitions: function (g, b) {
+      var P = [[6], [5, 1], [4, 2], [4, 1, 1], [3, 3], [3, 2, 1], [3, 1, 1, 1], [2, 2, 2], [2, 2, 1, 1], [2, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1]];
+      var cols = [PRC.red, PRC.ochre, PRC.teal, PRC.navy, PRC.rose, PRC.olive], rows = [P.slice(0, 4), P.slice(4, 8), P.slice(8)];
+      var c = Math.min(b.w / 27, (b.h - 12) / 19.5), y0 = b.y + (b.h - 19.5 * c) / 2 + 2;
+      rows.forEach(function (row) {
+        serif(g, Math.min(14, c * 0.8), "italic");
+        var slot = function (p) { return Math.max(p[0] * c, g.measureText(p.join(" + ")).width + 4); }, gap = 1.6 * c, tw = row.reduce(function (t, p) { return t + slot(p); }, 0) + gap * (row.length - 1), x = b.x + (b.w - tw) / 2;
+        var hgt = Math.max.apply(null, row.map(function (p) { return p.length; }));
+        row.forEach(function (p) {
+          var ox = x + (slot(p) - p[0] * c) / 2;
+          p.forEach(function (n, r) { for (var q = 0; q < n; q++) { g.fillStyle = cols[r]; g.fillRect(ox + q * c, y0 + r * c, c, c); g.strokeStyle = PRC.ink; g.lineWidth = 1.2; g.strokeRect(ox + q * c, y0 + r * c, c, c); } });
+          serif(g, Math.min(14, c * 0.8), "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "top"; g.fillText(p.join(" + "), x + slot(p) / 2, y0 + (hgt + 0.3) * c);
+          x += slot(p) + gap;
+        });
+        y0 += (hgt + 1.5) * c + 0.9 * c;
+      });
+    },
+    pascal: function (g, b) {
+      var N = 32, d = Math.min(b.w / (N + 1), b.h / ((N - 1) * 0.866 + 1.2)), R = d / Math.sqrt(3) * 0.93, cx = b.x + b.w / 2, y0 = b.y + (b.h - (N - 1) * 0.866 * d) / 2;
+      for (var n = 0; n < N; n++) for (var k = 0; k <= n; k++) {
+        var odd = (k & (n - k)) === 0, x = cx + (k - n / 2) * d, y = y0 + n * 0.866 * d;
+        g.beginPath(); for (var e = 0; e < 6; e++) { var an = Math.PI / 6 + e * Math.PI / 3; g[e ? "lineTo" : "moveTo"](x + R * Math.cos(an), y + R * Math.sin(an)); } g.closePath();
+        g.fillStyle = odd ? (n % 8 < 4 ? PRC.navy : PRC.teal) : "#e7dcc7"; g.fill();
+      }
+      // the first rows' numbers, small, on the left
+      serif(g, 11, "italic"); g.fillStyle = PRC.ink; g.textAlign = "left"; g.textBaseline = "middle";
+      var row = [1]; for (var r = 0; r < 7; r++) { g.fillText(row.join("  "), b.x + 4, b.y + 14 + r * 17); var nx = [1]; for (var q = 1; q < row.length; q++) nx.push(row[q - 1] + row[q]); nx.push(1); row = nx; }
+    },
+    galton: function (g, b) {
+      var n = 12, N = 165, bins = [], C = 1, k;
+      for (k = 0; k <= n; k++) { bins.push(Math.round(N * C / 4096)); C = C * (n - k) / (k + 1); }
+      var bw = 25, bd = bw / 3, cx = b.x + b.w / 2, yF = b.y + 4, yP = b.y + 34, sp = 10.5, yB0 = yP + (n - 1) * sp + 9, yB1 = b.y + b.h;
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.6; g.beginPath(); g.moveTo(cx - 70, yF); g.lineTo(cx - 9, yP - 12); g.moveTo(cx + 70, yF); g.lineTo(cx + 9, yP - 12); g.stroke();
+      g.fillStyle = PRC.ink; for (var i = 0; i < n; i++) for (var j = 0; j <= i; j++) dot(g, cx + (j - i / 2) * bw, yP + i * sp, 1.9);
+      g.lineWidth = 1.2; for (k = 0; k <= n + 1; k++) { var xd = cx + (k - (n + 1) / 2) * bw; g.beginPath(); g.moveTo(xd, yB0); g.lineTo(xd, yB1); g.stroke(); }
+      g.lineWidth = 2; g.beginPath(); g.moveTo(cx - (n + 1) / 2 * bw - 6, yB1); g.lineTo(cx + (n + 1) / 2 * bw + 6, yB1); g.stroke();
+      function ball(x, y) { g.fillStyle = PRC.ochre; dot(g, x, y, bd * 0.46); g.fillStyle = "rgba(255,255,255,0.45)"; dot(g, x - bd * 0.13, y - bd * 0.13, bd * 0.14); }
+      bins.forEach(function (cnt, kk) { var x0 = cx + (kk - (n + 1) / 2) * bw; for (var q = 0; q < cnt; q++) ball(x0 + bd * (q % 3 + 0.5), yB1 - bd * (Math.floor(q / 3) + 0.5) - 1); });
+      [[2, 0.6], [5, 2.4], [7, 3.5], [9, 5.6], [10, 4.4]].forEach(function (f) { ball(cx + (f[1] - f[0] / 2) * bw, yP + f[0] * sp - 5); });
+      g.strokeStyle = PRC.red; g.lineWidth = 2.2; g.beginPath();
+      for (var t = -0.5; t <= n + 0.5; t += 0.1) { var cnt = N / Math.sqrt(2 * Math.PI * 3) * Math.exp(-(t - 6) * (t - 6) / 6), X = cx + (t - n / 2) * bw, Y = yB1 - cnt / 3 * bd - 1; if (t > -0.45) g.lineTo(X, Y); else g.moveTo(X, Y); }
+      g.stroke();
+    },
+    turing: function (g, b, s, ox, oy) {
+      var X0 = Math.round(ox + b.x * s), Y0 = Math.round(oy + b.y * s), w = Math.round(b.w * s), h = Math.round(b.h * s);
+      var img = g.createImageData(w, h), d = img.data, R = mulberry(1952), K = 26, kx = [], ky = [], ph = [], k0 = 2 * Math.PI / (14 * s), sig = Math.sqrt(K / 2);
+      for (var i = 0; i < K; i++) { var th = R() * Math.PI; kx.push(k0 * Math.cos(th)); ky.push(k0 * Math.sin(th)); ph.push(R() * 2 * Math.PI); }
+      var A = [58, 36, 24], B2 = [233, 201, 138];
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+        var f = 0; for (var q = 0; q < K; q++) f += Math.cos(kx[q] * x + ky[q] * y + ph[q]);
+        var u = x / w, thr = sig * 1.05 * (1 - Math.min(1, Math.max(0, (u - 0.18) / 0.55))), v = Math.min(1, Math.max(0, (f - thr) / (0.45 * sig) + 0.5)), o = (y * w + x) * 4;
+        d[o] = A[0] + (B2[0] - A[0]) * v; d[o + 1] = A[1] + (B2[1] - A[1]) * v; d[o + 2] = A[2] + (B2[2] - A[2]) * v; d[o + 3] = 255;
+      }
+      g.putImageData(img, X0, Y0);
+    },
+    cannon: function (g, b) {
+      var vF = 1.08, apo = vF * vF / (2 - vF * vF), S = b.h / (1.05 + apo) * 0.9, cx = b.x + b.w * 0.37, cy = b.y + b.h / 2 - (apo - 1.05) / 2 * S, Re = 0.8;
+      function P(r, th) { return [cx + r * S * Math.sin(th), cy - r * S * Math.cos(th)]; }
+      g.fillStyle = "#dfe5e3"; g.beginPath(); g.arc(cx, cy, Re * S, 0, 2 * Math.PI); g.fill();
+      g.strokeStyle = "rgba(31,36,48,0.18)"; g.lineWidth = 1; for (var la = -60; la <= 60; la += 30) { var yy = cy - Re * S * Math.sin(la * D2R), hw = Re * S * Math.cos(la * D2R); g.beginPath(); g.moveTo(cx - hw, yy); g.lineTo(cx + hw, yy); g.stroke(); }
+      [0.35, 0.7].forEach(function (k) { g.beginPath(); g.ellipse(cx, cy, Re * S * k, Re * S, 0, 0, 2 * Math.PI); g.stroke(); });
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.6; g.beginPath(); g.arc(cx, cy, Re * S, 0, 2 * Math.PI); g.stroke();
+      var m0 = P(Re, -0.22), m1 = P(1.0, 0), m2 = P(Re, 0.22); g.fillStyle = "#b9a888"; g.beginPath(); g.moveTo(m0[0], m0[1]); g.lineTo(m1[0], m1[1]); g.lineTo(m2[0], m2[1]); g.closePath(); g.fill(); g.stroke();
+      function path(fr, th1, col, lw, dash) {
+        g.strokeStyle = col; g.lineWidth = lw; g.setLineDash(dash || []); g.beginPath();
+        for (var th = 0, k = 0; th <= th1 + 1e-9; th += 0.01, k++) { var r = fr(th); if (r < Re) break; var p = P(r, th); if (k) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }
+        g.stroke(); g.setLineDash([]);
+      }
+      [0.5, 0.62, 0.74, 0.85, 0.93].forEach(function (v) { var e = 1 - v * v; path(function (th) { return v * v / (1 - e * Math.cos(th)); }, 6.3, PRC.ink, 1.4); });
+      path(function () { return 1; }, 2 * Math.PI, PRC.navy, 1.8);
+      path(function (th) { var e = vF * vF - 1; return vF * vF / (1 + e * Math.cos(th)); }, 2 * Math.PI, PRC.red, 1.8, [7, 4]);
+      g.strokeStyle = PRC.ink; g.lineWidth = 4; g.lineCap = "butt"; var c0 = P(1.0, -0.012); g.beginPath(); g.moveTo(c0[0] - 6, c0[1] - 2); g.lineTo(c0[0] + 9, c0[1] - 5); g.stroke();
+      serif(g, 13, "italic"); g.fillStyle = PRC.ink; g.textAlign = "left"; g.textBaseline = "middle";
+      function note(r, th, col, l1, l2) { var q = P(r, th); g.fillStyle = col; g.fillText(l1, q[0], q[1] - 8); g.fillText(l2, q[0], q[1] + 9); }
+      note(1.2, 0.9, PRC.ink, "too slow:", "falls to the ground");
+      note(1.45, 1.75, PRC.navy, "fast enough:", "falls round for ever");
+      note(1.5, 2.55, PRC.red, "faster:", "an ellipse");
+    },
+    hilbert: function (g, b) {
+      var n = 32, s = Math.min(b.w, b.h) * 0.98, c = s / n, x0 = b.x + (b.w - s) / 2, y0 = b.y + (b.h - s) / 2, prev = null;
+      g.lineWidth = 2.6; g.lineCap = "round";
+      for (var d = 0; d < n * n; d++) {
+        var q = hilbertXY(n, d), p = [x0 + (q[0] + 0.5) * c, y0 + (n - 0.5 - q[1]) * c];
+        if (prev) { var t = d / (n * n - 1); g.strokeStyle = "hsl(" + Math.round(178 - 165 * t) + "," + Math.round(48 + 12 * t) + "%," + Math.round(36 + 6 * Math.sin(Math.PI * t)) + "%)"; g.beginPath(); g.moveTo(prev[0], prev[1]); g.lineTo(p[0], p[1]); g.stroke(); }
+        prev = p;
+      }
+    },
+    kepler: function (g, b) {
+      var a = Math.min(b.w * 0.34, b.h * 0.56), e = 0.6, bb = a * Math.sqrt(1 - e * e), cx = b.x + b.w / 2, cy = b.y + b.h / 2, fx = cx + a * e, N = 12;
+      function solve(M) { var E = M; for (var it = 0; it < 12; it++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E)); return E; }
+      for (var k = 0; k < N; k++) {
+        var E0 = solve(2 * Math.PI * k / N), E1 = solve(2 * Math.PI * (k + 1) / N);
+        g.beginPath(); g.moveTo(fx, cy); for (var t = 0; t <= 24; t++) { var E = E0 + (E1 - E0) * t / 24; g.lineTo(cx + a * Math.cos(E), cy - bb * Math.sin(E)); } g.closePath();
+        g.fillStyle = k % 2 ? "#eadfc5" : "#d8bf86"; g.fill(); g.strokeStyle = "rgba(31,36,48,0.45)"; g.lineWidth = 1; g.stroke();
+      }
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.8; g.beginPath(); g.ellipse(cx, cy, a, bb, 0, 0, 2 * Math.PI); g.stroke();
+      g.setLineDash([4, 4]); g.lineWidth = 1; g.beginPath(); g.moveTo(cx - a - 8, cy); g.lineTo(cx + a + 8, cy); g.stroke(); g.setLineDash([]);
+      var sg = g.createRadialGradient(fx, cy, 1, fx, cy, 13); sg.addColorStop(0, "#fff1c4"); sg.addColorStop(0.5, "#f2b33d"); sg.addColorStop(1, "rgba(217,130,40,0)");
+      g.fillStyle = sg; dot(g, fx, cy, 13);
+      var Ep = solve(2 * Math.PI * 2 / N); g.fillStyle = PRC.navy; dot(g, cx + a * Math.cos(Ep), cy - bb * Math.sin(Ep), 5);
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.2; g.beginPath(); g.moveTo(cx - a * e - 5, cy - 5); g.lineTo(cx - a * e + 5, cy + 5); g.moveTo(cx - a * e - 5, cy + 5); g.lineTo(cx - a * e + 5, cy - 5); g.stroke();
+    },
+    sunflower: function (g, b) {
+      var N = 1100, ga = Math.PI * (3 - Math.sqrt(5)), Rr = Math.min(b.w, b.h) * 0.48, c = Rr / Math.sqrt(N), cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+      var A = [64, 38, 20], B2 = [163, 114, 44];
+      for (var n = 1; n <= N; n++) {
+        var r = c * Math.sqrt(n), th = n * ga, t = Math.sqrt(n / N), dk = (n % 34) < 17 ? 1 : 0.84;
+        g.fillStyle = "rgb(" + Math.round((A[0] + (B2[0] - A[0]) * t) * dk) + "," + Math.round((A[1] + (B2[1] - A[1]) * t) * dk) + "," + Math.round((A[2] + (B2[2] - A[2]) * t) * dk) + ")";
+        dot(g, cx + r * Math.cos(th), cy + r * Math.sin(th), c * (0.36 + 0.16 * t));
+      }
+      serif(g, 13, "italic"); g.fillStyle = PRC.ink; g.textAlign = "left"; g.textBaseline = "middle";
+      g.fillText("137.5° between", cx + Rr + 16, cy - 9); g.fillText("one seed and the next", cx + Rr + 16, cy + 11);
+    },
+    solids: function (g, b) {
+      var S = platonic(), keys = ["tetra", "cube", "octa", "dodeca", "icosa"], names = ["tetrahedron", "cube", "octahedron", "dodecahedron", "icosahedron"], cols = [PRC.red, PRC.ochre, PRC.teal, PRC.navy, PRC.rose];
+      var cw = b.w / 5, rad = Math.min(cw * 0.42, b.h * 0.34), L = [-0.45, 0.6, 0.66], ll = Math.hypot(L[0], L[1], L[2]);
+      keys.forEach(function (key, i) {
+        var so = S[key], cx = b.x + cw * (i + 0.5), cy = b.y + b.h * 0.44, yaw = [-0.5, 0.6, 0.42, 0.3, 0.22][i], pit = [0.5, 0.45, 0.36, 0.33, 0.3][i];
+        var vr = so.v.map(function (p) { var x = p[0] * Math.cos(yaw) + p[2] * Math.sin(yaw), z = -p[0] * Math.sin(yaw) + p[2] * Math.cos(yaw), y = p[1]; return [x, y * Math.cos(pit) - z * Math.sin(pit), y * Math.sin(pit) + z * Math.cos(pit)]; });
+        var R0 = Math.max.apply(null, vr.map(function (p) { return Math.hypot(p[0], p[1], p[2]); })), k = rad / R0;
+        so.f.forEach(function (fc) {
+          var P = fc.map(function (vi) { return vr[vi]; }), u = [P[1][0] - P[0][0], P[1][1] - P[0][1], P[1][2] - P[0][2]], w = [P[2][0] - P[0][0], P[2][1] - P[0][1], P[2][2] - P[0][2]];
+          var nn = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]], cen = [0, 1, 2].map(function (c) { return P.reduce(function (s, p) { return s + p[c]; }, 0) / P.length; });
+          if (nn[0] * cen[0] + nn[1] * cen[1] + nn[2] * cen[2] < 0) nn = nn.map(function (c) { return -c; });
+          if (nn[2] <= 0) return;
+          var ln = Math.hypot(nn[0], nn[1], nn[2]), lam = Math.max(0, (nn[0] * L[0] + nn[1] * L[1] + nn[2] * L[2]) / (ln * ll)), sh = 0.55 + 0.45 * lam;
+          var c0 = parseInt(cols[i].slice(1), 16), rr = (c0 >> 16) & 255, gg = (c0 >> 8) & 255, bl = c0 & 255;
+          g.fillStyle = "rgb(" + Math.round(Math.min(255, rr * sh + 30 * lam)) + "," + Math.round(Math.min(255, gg * sh + 30 * lam)) + "," + Math.round(Math.min(255, bl * sh + 30 * lam)) + ")";
+          g.beginPath(); P.forEach(function (p, j) { g[j ? "lineTo" : "moveTo"](cx + p[0] * k, cy - p[1] * k); }); g.closePath(); g.fill();
+          g.strokeStyle = PRC.ink; g.lineWidth = 1.4; g.lineJoin = "round"; g.stroke();
+        });
+        serif(g, 14, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "top";
+        g.fillText(names[i], cx, b.y + b.h * 0.84); serif(g, 12); g.fillStyle = "rgba(31,36,48,0.7)"; g.fillText(so.f.length + " faces", cx, b.y + b.h * 0.84 + 18);
+      });
+    },
+    buffon: function (g, b) {
+      var d = 40, l = 30, n = 220, rows = Math.floor(b.h / d), top = b.y + (b.h - rows * d) / 2, seed = 1, R, list, cross;
+      for (seed = 1; seed < 400; seed++) {
+        R = mulberry(seed * 7919); list = []; cross = 0;
+        for (var i = 0; i < n; i++) { var x = b.x + 12 + R() * (b.w - 24), y = top + 6 + R() * (rows * d - 12), th = R() * Math.PI, dx = Math.cos(th) * l / 2, dy = Math.sin(th) * l / 2, c = Math.floor((y - dy - top) / d) !== Math.floor((y + dy - top) / d); list.push([x - dx, y - dy, x + dx, y + dy, c]); if (c) cross++; }
+        if (Math.abs(2 * l * n / (d * cross) - Math.PI) < 0.005) break;
+      }
+      g.strokeStyle = "rgba(31,36,48,0.55)"; g.lineWidth = 1.2; for (var k = 0; k <= rows; k++) { g.beginPath(); g.moveTo(b.x, top + k * d); g.lineTo(b.x + b.w, top + k * d); g.stroke(); }
+      g.lineCap = "round"; list.forEach(function (q) { g.strokeStyle = q[4] ? PRC.red : PRC.ink; g.lineWidth = q[4] ? 2.3 : 1.8; g.beginPath(); g.moveTo(q[0], q[1]); g.lineTo(q[2], q[3]); g.stroke(); g.fillStyle = g.strokeStyle; dot(g, q[0], q[1], 1.6); });
+      serif(g, 14, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; var tx = b.x + b.w - 6, ty = b.y + b.h - 4, txt = n + " needles, " + cross + " cross:  2 × " + n + " × " + l + " ÷ (" + d + " × " + cross + ") = " + (2 * l * n / (d * cross)).toFixed(3);
+      g.fillStyle = "rgba(242,238,229,0.92)"; g.fillRect(tx - g.measureText(txt).width - 8, ty - 20, g.measureText(txt).width + 12, 22); g.fillStyle = PRC.ink; g.fillText(txt, tx, ty);
+    },
+    penrose: function (g, b) {
+      var phi = (1 + Math.sqrt(5)) / 2, cx = b.x + b.w / 2, cy = b.y + b.h / 2, Rw = Math.hypot(b.w, b.h) * 0.56, T = [];
+      for (var i = 0; i < 10; i++) {
+        var B = [Math.cos((2 * i - 1) * Math.PI / 10), Math.sin((2 * i - 1) * Math.PI / 10)], C = [Math.cos((2 * i + 1) * Math.PI / 10), Math.sin((2 * i + 1) * Math.PI / 10)];
+        if (i % 2 === 0) { var q = B; B = C; C = q; }
+        T.push([0, [0, 0], B, C]);
+      }
+      function mix(P, Q, t) { return [P[0] + (Q[0] - P[0]) * t, P[1] + (Q[1] - P[1]) * t]; }
+      for (var it = 0; it < 6; it++) {
+        var out = [];
+        T.forEach(function (t) {
+          var A = t[1], B = t[2], C = t[3];
+          if (t[0] === 0) { var P = mix(A, B, 1 / phi); out.push([0, C, P, B], [1, P, C, A]); }
+          else { var Q = mix(B, A, 1 / phi), R = mix(B, C, 1 / phi); out.push([1, R, C, A], [1, Q, R, B], [0, R, Q, A]); }
+        });
+        T = out;
+      }
+      function X(p) { return cx + p[0] * Rw; } function Y(p) { return cy + p[1] * Rw; }
+      [[0, "#c9704f"], [1, "#e9dbbb"]].forEach(function (cc) {
+        g.fillStyle = cc[1]; g.beginPath();
+        T.forEach(function (t) { if (t[0] !== cc[0]) return; g.moveTo(X(t[1]), Y(t[1])); g.lineTo(X(t[2]), Y(t[2])); g.lineTo(X(t[3]), Y(t[3])); g.closePath(); });
+        g.fill();
+      });
+      g.strokeStyle = "#3a2f28"; g.lineWidth = 1.1; g.lineJoin = "round"; g.beginPath();
+      T.forEach(function (t) { g.moveTo(X(t[3]), Y(t[3])); g.lineTo(X(t[1]), Y(t[1])); g.lineTo(X(t[2]), Y(t[2])); });
+      g.stroke();
+    },
+    harmonics: function (g, b) {
+      var names = ["the fundamental", "an octave", "an octave and a fifth", "two octaves", "and a major third", "and a fifth"], rh = b.h / 6, x0 = b.x + 150, x1 = b.x + b.w - 14;
+      for (var n = 1; n <= 6; n++) {
+        var yc = b.y + rh * (n - 0.5), A = rh * 0.36, col = [PRC.navy, PRC.teal, PRC.olive, PRC.ochre, PRC.red, PRC.rose][n - 1];
+        g.fillStyle = col; g.globalAlpha = 0.16; g.beginPath();
+        for (var t = 0; t <= 200; t++) { var x = x0 + (x1 - x0) * t / 200, y = yc - A * Math.sin(n * Math.PI * t / 200); g[t ? "lineTo" : "moveTo"](x, y); }
+        for (t = 200; t >= 0; t--) { x = x0 + (x1 - x0) * t / 200; y = yc + A * Math.sin(n * Math.PI * t / 200); g.lineTo(x, y); }
+        g.closePath(); g.fill(); g.globalAlpha = 1;
+        g.strokeStyle = col; g.lineWidth = 2;
+        [-1, 1].forEach(function (sg) { g.beginPath(); for (var t2 = 0; t2 <= 200; t2++) { var xx = x0 + (x1 - x0) * t2 / 200, yy = yc + sg * A * Math.sin(n * Math.PI * t2 / 200); g[t2 ? "lineTo" : "moveTo"](xx, yy); } g.stroke(); });
+        g.strokeStyle = "rgba(31,36,48,0.35)"; g.lineWidth = 1; g.beginPath(); g.moveTo(x0, yc); g.lineTo(x1, yc); g.stroke();
+        g.fillStyle = PRC.ink; for (var k = 0; k <= n; k++) dot(g, x0 + (x1 - x0) * k / n, yc, k === 0 || k === n ? 3.4 : 2.6);
+        serif(g, 15); g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(String(n), b.x + 6, yc - 1);
+        serif(g, 12.5, "italic"); g.fillText(names[n - 1], b.x + 24, yc - 1);
+      }
+    },
+    cardioid: function (g, b) {
+      var N = 200, R = Math.min(b.w, b.h) * 0.47, cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+      function P(k) { var t = 2 * Math.PI * k / N + Math.PI; return [cx + R * Math.cos(t), cy - R * Math.sin(t)]; }
+      g.lineWidth = 0.9;
+      for (var k = 0; k < N; k++) { var p = P(k), q = P(2 * k % N), t = k / N; g.strokeStyle = "rgba(" + Math.round(150 + 50 * t) + "," + Math.round(50 + 30 * t) + "," + Math.round(80 - 20 * t) + ",0.62)"; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(q[0], q[1]); g.stroke(); }
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.5; g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.stroke();
+      g.fillStyle = PRC.ink; for (k = 0; k < N; k++) { var pp = P(k); dot(g, pp[0], pp[1], 1.3); }
+      serif(g, 13, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; g.fillText("k  →  2k  (mod 200)", b.x + b.w - 8, b.y + b.h - 8);
+    },
+    mandel: function (g, b, s, ox, oy) {
+      var X0 = Math.round(ox + b.x * s), Y0 = Math.round(oy + b.y * s), W = Math.round(b.w * s), H = Math.round(b.h * s), img = g.createImageData(W, H), d = img.data;
+      var sc = Math.max(3.0 / W, 2.2 / H), x0 = -0.72 - sc * W / 2, y0 = -sc * H / 2;
+      for (var j = 0; j < H; j++) for (var i = 0; i < W; i++) {
+        var cx = x0 + sc * i, cy = y0 + sc * j, x = 0, y = 0, n = 0;
+        while (n < 120 && x * x + y * y < 64) { var t = x * x - y * y + cx; y = 2 * x * y + cy; x = t; n++; }
+        var k = (j * W + i) * 4;
+        if (n >= 120) { d[k] = 10; d[k + 1] = 12; d[k + 2] = 22; }
+        else { var sm = (n + 1 - Math.log(Math.log(Math.sqrt(x * x + y * y))) / Math.LN2) / 120, u = Math.pow(Math.min(1, Math.max(0, sm)), 0.45);
+          d[k] = 255 * Math.min(1, 0.06 + 1.5 * u * u); d[k + 1] = 255 * Math.min(1, 0.07 + 0.95 * u * u * u); d[k + 2] = 255 * Math.min(1, 0.16 + 0.5 * u * (1 - u) + 0.2 * u * u * u * u); }
+        d[k + 3] = 255;
+      }
+      g.putImageData(img, X0, Y0);
+    },
+    golden: function (g, b) {
+      var u = Math.min(b.h / 21, b.w / 34), ox = b.x + (b.w - 34 * u) / 2, oy = b.y + (b.h - 21 * u) / 2;
+      var cols = ["#c8553d", "#e7b04a", "#2f6690", "#3a7d44", "#8c5383", "#d8a47f", "#4d7ea8", "#e0c879"];
+      var sq = [[0, 0, 21], [21, 0, 13], [26, 13, 8], [21, 16, 5], [21, 13, 3], [23, 13, 2], [23, 15, 1], [24, 15, 1]];
+      sq.forEach(function (q, n) { g.fillStyle = cols[n]; g.fillRect(ox + q[0] * u, oy + q[1] * u, q[2] * u, q[2] * u); g.strokeStyle = PRC.ink; g.lineWidth = 2.5; g.strokeRect(ox + q[0] * u, oy + q[1] * u, q[2] * u, q[2] * u); });
+      var arcs = [[21, 21, 21, Math.PI, 1.5 * Math.PI], [21, 13, 13, 1.5 * Math.PI, 2 * Math.PI], [26, 13, 8, 0, 0.5 * Math.PI], [26, 16, 5, 0.5 * Math.PI, Math.PI], [24, 16, 3, Math.PI, 1.5 * Math.PI], [24, 15, 2, 1.5 * Math.PI, 2 * Math.PI]];
+      g.strokeStyle = PRC.ink; g.lineWidth = 3.5; arcs.forEach(function (a) { g.beginPath(); g.arc(ox + a[0] * u, oy + a[1] * u, a[2] * u, a[3], a[4]); g.stroke(); });
+      serif(g, 15, "italic"); g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; [[0, 0, 21], [21, 0, 13], [26, 13, 8], [21, 16, 5]].forEach(function (q) { g.fillText(String(q[2]), ox + (q[0] + q[2] / 2) * u, oy + (q[1] + q[2] / 2) * u); });
+    }
+  };
+  // one print on its cell: the paper, the picture clipped to its box, a fine line round it, the title under it
+  function drawPrint(g, x, s, ox, oy) {
+    var W = PRINT.W, H = PRINT.H, b = printBox(W, H);
+    g.fillStyle = PRC.paper; g.fillRect(0, 0, W, H);
+    var gr = g.createLinearGradient(0, 0, W, H); gr.addColorStop(0, "rgba(255,255,255,0.06)"); gr.addColorStop(1, "rgba(120,100,70,0.06)"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    g.save(); g.beginPath(); g.rect(b.x, b.y, b.w, b.h); g.clip(); (PRINT_DRAW[x.subject] || function () {})(g, b, s, ox, oy); g.restore();
+    g.strokeStyle = "rgba(31,36,48,0.75)"; g.lineWidth = 1; g.strokeRect(b.x - 0.5, b.y - 0.5, b.w + 1, b.h + 1);
+    serif(g, H * 0.046, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(x.title, W / 2, b.y + b.h + (H - b.y - b.h) * 0.6);
+  }
+  function printAtlas(art) {
+    var s = MOBILE ? 0.5 : 1, cols = PRINT.cols, rows = Math.ceil(art.length / cols), cv = mkCanvas(Math.round(cols * PRINT.W * s), Math.round(rows * PRINT.H * s)), g = cv.getContext("2d");
+    art.forEach(function (x, k) {
+      var cx = (k % cols) * PRINT.W, cy = Math.floor(k / cols) * PRINT.H;
+      g.save(); g.scale(s, s); g.translate(cx, cy); drawPrint(g, x, s, cx * s, cy * s); g.restore();
+    });
+    return cv;
+  }
+  // the prints on the walls, from the program: one mesh for all; each in an oak frame under a picture light, a bench and a
+  // plant beside it where the program puts one
+  function corridorArt(W) {
+    var C = CRS, D = D2R, art = P2.ring.art || [], cols = PRINT.cols, rows = Math.ceil(art.length / cols), pw = PRINT.w, ph = PRINT.h, rM = (C.r0 + C.rc) / 2;
+    if (!art.length) return;
+    var tex = new THREE.CanvasTexture(printAtlas(art)); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    var pos = [], uvs = [], idx = [], brt = [];
+    function unit(a) { var p = crsPt(1, a); return new THREE.Vector3(p.x - PAL.c.x, 0, p.z - PAL.c.z).normalize(); }
+    art.forEach(function (x, k) {
+      var up = x.floor === "upper", y = up ? C.yU : C.yL, yc = y + PRINT.yc, a, P, Rv, Nv, rw;
+      if (x.end) {                                                  // a blind end of the upper corridor: the wall along a radius, facing along the corridor
+        var aw = x.a * D + x.end * 0.06 / 48; a = aw + x.end * 0.045 / rM; var cp = crsPt(rM, a);
+        P = new THREE.Vector3(cp.x, yc, cp.z); Nv = unit(aw + Math.PI / 2).multiplyScalar(x.end); Rv = unit(aw).multiplyScalar(x.end);
+        var Mf = crsFrame(rM, aw + x.end * 0.022 / rM, yc), bz = new Builder(); bz.box(-0.018, -ph / 2 - 0.05, -pw / 2 - 0.05, 0.018, ph / 2 + 0.05, pw / 2 + 0.05, MT.WOOD); bz.tag(0, null, 2); W.add(bz, Mf);
+        var ab = aw + x.end * 0.5 / rM; crsPlace(W, gardenBench(x.bench || 1.8), rM, ab, y, Math.PI / 2); crsObst(rM - 1.0, rM + 1.0, ab - 0.35 / rM, ab + 0.35 / rM, x.floor);
+        if (x.plant) { var rp = C.rc - 0.42, ap = aw + x.end * 0.55 / rp; crsPlace(W, plantBuilder(x.plant[0], 960 + k), rp, ap, y, k); crsObst(rp - 0.4, rp + 0.4, ap - 0.4 / rp, ap + 0.4 / rp, x.floor); }
+      } else {                                                      // the lower corridor's back wall at r0, facing out across the corridor
+        rw = C.r0 + 0.02; a = x.a * D; var cp2 = crsPt(rw + 0.041, a);
+        P = new THREE.Vector3(cp2.x, yc, cp2.z); Nv = unit(a); Rv = unit(a + Math.PI / 2).multiplyScalar(-1);
+        var Mb = crsFrame(rw, a, yc), bx = new Builder(); bx.box(-pw / 2 - 0.05, -ph / 2 - 0.05, 0.004, pw / 2 + 0.05, ph / 2 + 0.05, 0.039, MT.WOOD); bx.tag(0, null, 2); W.add(bx, Mb);
+        if (x.bench) { var rb = rw + 0.31; crsPlace(W, gardenBench(x.bench), rb, a, y, 0); crsObst(rw, rw + 0.62, a - (x.bench / 2 + 0.05) / rb, a + (x.bench / 2 + 0.05) / rb, x.floor); }
+        if (x.plant) {
+          var rq = rw + 0.36, aq = a + x.plant[1] * ((x.bench || 0) / 2 + 0.55) / rq, py = y;
+          if (PRINT_PLINTH[x.plant[0]]) { var pl = new Builder(); pl.box(-0.21, 0, -0.21, 0.21, 0.56, 0.21, MT.WOOD); pl.tag(0, null, 2); crsPlace(W, pl, rq, aq, y, 0); py = y + 0.56; }
+          crsPlace(W, plantBuilder(x.plant[0], 960 + k), rq, aq, py, k * 1.7); crsObst(rq - 0.38, rq + 0.38, aq - 0.38 / rq, aq + 0.38 / rq, x.floor);
+        }
+      }
+      // the picture, upright and the right way round for whoever faces it
+      var u0 = (k % cols) / cols, u1 = u0 + 1 / cols, v1 = 1 - Math.floor(k / cols) / rows, v0 = v1 - 1 / rows, n = pos.length / 3;
+      [[-1, -1, u0, v0], [1, -1, u1, v0], [1, 1, u1, v1], [-1, 1, u0, v1]].forEach(function (c) { pos.push(P.x + Rv.x * c[0] * pw / 2, P.y + c[1] * ph / 2, P.z + Rv.z * c[0] * pw / 2); uvs.push(c[2], c[3]); brt.push(up ? 0.4 : 0.3); });
+      idx.push(n, n + 1, n + 2, n, n + 2, n + 3);
+      // the picture light: a brass bar on an arm over the frame, lighting it
+      var yb = yc + ph / 2 + 0.13, Bc = P.clone().addScaledVector(Nv, 0.17); Bc.y = yb;
+      tubeAlong(W, [Bc.clone().addScaledVector(Rv, -0.36), Bc.clone().addScaledVector(Rv, 0.36)], 0.02, 10, MT.BRASS);
+      var Wp = P.clone().addScaledVector(Nv, -0.03); Wp.y = yc + ph / 2 + 0.03; tubeAlong(W, [Wp, new THREE.Vector3(Bc.x, yb - 0.01, Bc.z)], 0.008, 6, MT.BRASS);
+      var dl = new THREE.Vector3(P.x - Bc.x, yc - 0.15 - yb, P.z - Bc.z).normalize(); wLight(Bc.x, yb - 0.04, Bc.z, LAMPC, 0.9, 3.2, [dl.x, dl.y, dl.z], 2.5);
+    });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
+    var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
+    var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
+    var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }
 
   /* ===================== The flying pods (T04-03): board one and fly over the campus ===================== */

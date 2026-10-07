@@ -732,9 +732,28 @@ RING_MORE = """<p>Jim, 5 Oct 2026: <i>"why classroom building are half? please b
 <li><b>The wings come down:</b> M1 Mathematics becomes Pythagoras (T06-20), the coding lab Lovelace (T06-23), the seminar room Socrates (T06-24); the library (T06-25), the reading room (T06-26) and the café (T06-38) move in; reception and the lobby become the Gate Hall (T06-27).</li>
 <li><b>Future-proof:</b> 36 bays of 10° on one steel frame with the same facade panels, so any bay can change its use; a metre of water in sealed cells in the roof, a shield against cosmic rays and the campus's water store; the air, water and power run round the lower floor's corridor; the frame over the back half is sized for a third storey.</li></ul>
 <figure><a href="svg-ring-profile.svg"><img src="svg-ring-profile.svg" alt="The Ring unrolled: floors, roof, ground and line of sight"></a><figcaption><b>The Ring unrolled</b> all the way round: its floors and roof, the ground and the line of sight from the start (red; the start sees what is above it). The garden ring's glass vault in green.</figcaption></figure>"""
+def ring_corridors():
+    """the corridors' signs and prints, from the program (RING_SIGNS, RING_ART)"""
+    names = {r["code"]: r for r in R.RING_ROOMS}
+    def where(x):
+        if x.get("end"): return "upper corridor, its %s end (%g°)" % ("west" if x["end"] > 0 else "east", x["a"])
+        rm = names[x["faces"]]
+        return "lower corridor at %g°, facing %s%s" % (x["a"], E(rm["name"]), (" (%s)" % rm["no"]) if rm.get("no") else "")
+    rows = "".join("<tr><td><b>%s</b></td><td>%s</td><td>%s</td><td>%s</td></tr>" % (E(x["title"]), E(x["note"]), where(x),
+                   ("a bench, a %s" % x["plant"][0]) if x.get("bench") else "") for x in R.RING_ART)
+    return ("<h2>Finding the way, and the corridors' prints</h2>"
+            "<p>Blade signs hang across the corridors, upstairs at %s° and downstairs at %s°: each face lists the room numbers ahead of you that way, up to the next sign, "
+            "and the stairs and halls. A lit green exit sign hangs over each stair's door on both floors. Every room has its number beside each of its doors (v0.14).</p>"
+            "<p>On the lower corridor's long back wall, a walk of framed prints of mathematics, each facing a room and showing what it is named for or used for; "
+            "at the upper corridor's two blind ends a print over a bench. Each print 1.8 by 1.2 m in a walnut frame under a brass picture light; benches where people wait, "
+            "each with a plant chosen for its light: downstairs, with no daylight, ones that live in low light; at the upper ends, by the garden glass, a fig and a bird of paradise.</p>"
+            '<div class="tw"><table><thead><tr><th>Print</th><th>What it shows</th><th>Where</th><th>Beside it</th></tr></thead><tbody>%s</tbody></table></div>'
+            % (", ".join("%g" % a for a in R.RING_SIGNS["upper"]), ", ".join("%g" % a for a in R.RING_SIGNS["lower"]), rows))
+
+
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
 SPECS = [
-    ("ring.html", "T-06 · The Ring", RING_LEDE, ring, R.RING_ROOMS + R.ENTRANCE_ROOMS + R.POD_DOCK_ROOMS, RING_MORE),
+    ("ring.html", "T-06 · The Ring", RING_LEDE, ring, R.RING_ROOMS + R.ENTRANCE_ROOMS + R.POD_DOCK_ROOMS, RING_MORE + ring_corridors()),
     ("infinity.html", "T-07 · Infinity Hall", "A lecture theatre for 240 on the west side of the garden domes, built into the slope like a Greek theatre; in from the upper garden dome by a link.", infinity, R.INFINITY_ROOMS, ""),
     ("greenhouse.html", "T-08 · Garden of Primes", "Two glass vaults full of real plants on the east side of the garden domes, joined to them by a link.", greenhouse, R.GREENHOUSE_ROOMS, ""),
     ("garden.html", "T-09 · The garden ring and the garden domes", "The garden all under glass: the garden ring all the way round the dome (with the sunken grove on the left and the armillary sundial at the front right), the garden gallery along the Ring, three glass domes stepping down the hill to the observatory.", garden, R.GARDEN_RING_AREAS + [x for x in R.GARDEN_AREAS if x["code"] != "T09-01"] + R.SUNCOURT_ROOMS, SEALED_MORE),
@@ -763,7 +782,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS]), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

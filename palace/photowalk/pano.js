@@ -7,8 +7,9 @@ import * as THREE from 'three';
 
 export const EYE = 1.55;
 const FAR = 400;                      // what is further (the sky) is drawn this far off
-const TEAR = 1.25;                    // a triangle of the shape whose corners' distances differ more than this (a near
-                                      // thing's edge against what is behind it) is left out while moving
+const TEAR = 1.4;                     // a triangle of the shape whose corners' distances differ more than this (a near
+                                      // thing's edge against what is behind it) is left out while moving; the whole
+                                      // shape is drawn behind, so where neither point saw anything there is no hole
 
 // Blender's world (z up, y north) to the browser's (y up, z south), and back
 export const toThree = (x, y, z) => new THREE.Vector3(x, z, -y);
@@ -155,8 +156,8 @@ export class Pano {
       uniforms: { map: { value: null }, edge: { value: 0 }, centre: { value: this.eye.clone() } },
       vertexShader: vert, fragmentShader: restFrag, side: THREE.DoubleSide,
     });
-    this.mesh = new THREE.Mesh(gw, m); this.torn = new THREE.Mesh(gt, step);
-    this.mesh.frustumCulled = this.torn.frustumCulled = false;
+    this.mesh = new THREE.Mesh(gw, m); this.torn = new THREE.Mesh(gt, step); this.back = new THREE.Mesh(gw, step);
+    this.mesh.frustumCulled = this.torn.frustumCulled = this.back.frustumCulled = false;
     this.show();
     return this.mesh;
   }
@@ -173,8 +174,8 @@ export class Pano {
     if (this.small) { this.small.dispose(); this.small = null; this.smallP = null; }
     if (this.depthTex) { this.depthTex.dispose(); this.depthTex = null; this.depthP = null; this.dist = null; }
     if (this.mesh) {
-      this.mesh.removeFromParent(); this.torn.removeFromParent();
-      this.mesh.geometry.dispose(); this.torn.geometry.dispose(); this.mesh.material.dispose(); this.mesh = this.torn = null;
+      this.mesh.removeFromParent(); this.torn.removeFromParent(); this.back.removeFromParent();
+      this.mesh.geometry.dispose(); this.torn.geometry.dispose(); this.mesh.material.dispose(); this.mesh = this.torn = this.back = null;
     }
   }
 }

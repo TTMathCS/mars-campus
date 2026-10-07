@@ -25,7 +25,8 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPrefere
 renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
 const world = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(72, 1, 0.05, 2000); camera.rotation.order = 'YXZ';
-renderer.setClearColor(0x2a2420);      // what neither 360 saw, for an instant while stepping
+renderer.setClearColor(0x2a2420);
+const behind = new THREE.Scene();      // while stepping: the nearer point's whole shape, drawn first, behind the torn ones
 
 // the spots one can step to, as rings on the floor; and the ring under the pointer
 const ringGeo = new THREE.RingGeometry(0.26, 0.36, 48).rotateX(-Math.PI / 2);
@@ -243,7 +244,10 @@ function frame(now) {
     camera.position.lerpVectors(move.A.eye, move.B.eye, e);
     // both points' shapes, each surface coloured by the 360s that see it, the one ahead coming in
     const c = Math.min(1, Math.max(0, (t - 0.32) / 0.36)); stepping(move.A, move.B, c * c * (3 - 2 * c));
-    renderer.render(world, camera);
+    const back = t < 0.5 ? move.A.back : move.B.back;
+    if (back.parent !== behind) { behind.clear(); behind.add(back); }
+    renderer.autoClear = false; renderer.clear(); renderer.render(behind, camera); renderer.clearDepth();
+    renderer.render(world, camera); renderer.autoClear = true;
     if (t >= 1) { const B = move.B; move = null; arrive(B); }
   } else if (here) {
     camera.position.copy(here.eye);

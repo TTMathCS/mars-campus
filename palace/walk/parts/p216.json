@@ -1,0 +1,102 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  216.0,
+  252.0
+ ],
+ "parts": [
+  "wine",
+  "dining",
+  "kitchen_up"
+ ],
+ "rooms": [
+  {
+   "code": "C-16",
+   "name": "Wine room",
+   "b0": 216.0,
+   "b1": 223.2
+  },
+  {
+   "code": "C-17",
+   "name": "Dining hall",
+   "b0": 223.2,
+   "b1": 241.2
+  },
+  {
+   "code": "C-18",
+   "name": "Chef's kitchen",
+   "b0": 241.2,
+   "b1": 252.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c2160.glb",
+   "light": "c2160_l.jpg",
+   "b0": 216.0,
+   "b1": 222.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2220.glb",
+   "light": "c2220_l.jpg",
+   "b0": 222.0,
+   "b1": 228.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2280.glb",
+   "light": "c2280_l.jpg",
+   "b0": 228.0,
+   "b1": 234.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2340.glb",
+   "light": "c2340_l.jpg",
+   "b0": 234.0,
+   "b1": 240.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2400.glb",
+   "light": "c2400_l.jpg",
+   "b0": 240.0,
+   "b1": 246.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2460.glb",
+   "light": "c2460_l.jpg",
+   "b0": 246.0,
+   "b1": 252.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 217.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 216.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

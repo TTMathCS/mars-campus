@@ -93,7 +93,7 @@ window.TOUR_STOPS = [
   { id: "crown_door", place: "crown", ready: false, name: "The Door", short: "The Door", k: "The Crown · Arrival", p: [126.5, -7.96], az0: 175, img: "pano/crown_door.jpg",
     d: "Arcadia's front door, a round opening 5 m across closed by an iris of light that knows Jim by face, eyes and walk; orange maples flank it and curved leather benches line the walls.",
     links: [{ id: "crown_hangar", at: [126.74, 1.88, 0], label: "Through to the pod hangar" }, { id: "crown_arrival", at: [126.03, -13.47, 0], label: "Through to the Arrival hall" }] },
-  { id: "crown_arrival", place: "crown", ready: false, name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.68, -19.61], az0: 145, img: "pano/crown_arrival.jpg",
+  { id: "crown_arrival", place: "crown", name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.68, -19.61], az0: 145, img: "pano/crown_arrival.jpg",
     d: "20 m tall under the Arrival spire: the great maple, red and orange, in a round cognac banquette, a halo of light 12 m up, The Starry Night across the hall, and the portal to the Orb, the spires and the Pentagon.",
     links: [{ id: "crown_door", at: [126.03, -13.47, 0], label: "Through to the Door" }, { id: "crown_dressing", at: [114.37, -23.48, 0], label: "The Glide: to the dressing room up" }, { id: "bridge", at: [125.72, -39.4, 1.6], label: "Portal: down to the Pentagon" }] },
   { id: "crown_dressing", place: "crown", ready: false, name: "The dressing room up", short: "Dressing room", k: "The Crown · Master suite up", p: [116.72, -47.87], az0: -79, img: "pano/crown_dressing.jpg",

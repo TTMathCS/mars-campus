@@ -102,7 +102,7 @@ window.TOUR_STOPS = [
   { id: "crown_bedroom", place: "crown", name: "The bedroom up", short: "Bedroom up", k: "The Crown · Master suite up", p: [107.24, -70.98], az0: 49, img: "pano/crown_bedroom.jpg",
     d: "The grand bed against its wall of walnut and velvet under a halo of light, red maples either side; a sitting group under Monet's Water Lilies at the bath end, and Jim's desk at the other.",
     links: [{ id: "crown_dressing", at: [112.02, -59.31, 0], label: "Through to the dressing room up" }, { id: "crown_bath", at: [96.74, -81.9, 0], label: "Through to the bath up" }] },
-  { id: "crown_bath", place: "crown", ready: false, name: "The bath up", short: "Bath up", k: "The Crown · Master suite up", p: [86.03, -92.26], az0: -135, img: "pano/crown_bath.jpg",
+  { id: "crown_bath", place: "crown", name: "The bath up", short: "Bath up", k: "The Crown · Master suite up", p: [86.03, -92.26], az0: -135, img: "pano/crown_bath.jpg",
     d: "A soaking tub by the windows under alabaster pendants, a white leather chaise, a marble vanity 4 m long, a tree fern in the humid corner, and Hokusai's Great Wave.",
     links: [{ id: "crown_bedroom", at: [96.74, -81.9, 0], label: "Through to the bedroom up" }, { id: "crown_hearth", at: [75.05, -89.44, 0], label: "The Glide: to the hearth room" }] },
   { id: "crown_hearth", place: "crown", ready: false, name: "The hearth room", short: "Hearth room", k: "The Crown · Salon", p: [66.74, -111.97], az0: -28, img: "pano/crown_hearth.jpg",

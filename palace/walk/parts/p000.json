@@ -1,0 +1,94 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  0.0,
+  36.0
+ ],
+ "parts": [
+  "observatory"
+ ],
+ "rooms": [
+  {
+   "code": "C-30",
+   "name": "Star lounge",
+   "b0": 0.0,
+   "b1": 24.0
+  },
+  {
+   "code": "C-31",
+   "name": "Telescope room",
+   "b0": 24.0,
+   "b1": 36.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c0000.glb",
+   "light": "c0000_l.jpg",
+   "b0": 0.0,
+   "b1": 6.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0060.glb",
+   "light": "c0060_l.jpg",
+   "b0": 6.0,
+   "b1": 12.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0120.glb",
+   "light": "c0120_l.jpg",
+   "b0": 12.0,
+   "b1": 18.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0180.glb",
+   "light": "c0180_l.jpg",
+   "b0": 18.0,
+   "b1": 24.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0240.glb",
+   "light": "c0240_l.jpg",
+   "b0": 24.0,
+   "b1": 30.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0300.glb",
+   "light": "c0300_l.jpg",
+   "b0": 30.0,
+   "b1": 36.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 1.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 0.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

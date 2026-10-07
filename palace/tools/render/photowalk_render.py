@@ -62,10 +62,13 @@ def build(scene, plan):
     crown.outside(M, R["sun"][0], R["sun"][1], sun_strength=R.get("sun_strength", 6.0), skip=(lo, hi))
     if night: crown_rooms.night(R, M)
     # where two rooms meet both built the partition between them, and each closed the Glide at its ends: keep one
-    # partition, and only the Glide's two ends
+    # partition, and only the Glide's two ends. The Arrival hall's stills close their scene with a solid wall where
+    # the hangar would be ("hangar end"): with the hangar built beside it, it would stand in the opening to the Door
+    built = [scene] + before + after
     seen = {}
     for o in list(bpy.data.objects):
         if o.type != "MESH": continue
+        if o.name.startswith("hangar end") and "hangar" in built: bpy.data.objects.remove(o); continue
         c = sum((o.matrix_world @ Vector(v) for v in o.bound_box), Vector()) / 8.0
         if o.name.startswith("glide end"):
             b = bearing(c); inside = (b - lo) % 360.0

@@ -143,6 +143,9 @@ each pushed when it is checked:
    it mirrors the room. The Foucault pendulum: `foucault` lays the disc and pegs and keeps the wire and bob in `FOUC`;
    `pendulumBuild` (from `buildCampus`, once the lights exist) bakes them as a mesh of their own, `pendulumUpdate` (from
    `campusUpdate`) swings it about its pivot (`FOUC_T` holds a time for shots). `PEND` is the Math Palace's pendulum.
+   (v0.26) `makerSpace` in `blk_labs.js`: `makerBench`, `powerDrop`, `printerBox` (glass from `glassPane`), `laserCutter`,
+   `arenaTable`, `rover`, `sheetRack`, `spoolShelf`; the tool wall and the arena's mat are drawn on one canvas
+   (`makerCanvas`, `MAKER`) and laid by `texQuads`, unlit quads of fixed brightness as the art studio's paintings.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -125,14 +125,6 @@
     for (var k = 0; k < 6; k++) { var t = k / 6 * 2 * Math.PI; leg(b, 0.02 * Math.cos(t), 1.58, 0.02 * Math.sin(t), 0.16 * Math.cos(t), 1.66, 0.16 * Math.sin(t), 0.012, MT.BRASS); }
   }); }
 
-  function makerSpace(B, rm, F) {                                                     // workbenches, 3D printers on a long counter, racks
-    var C = CRS;
-    [3.4, 7.0, 10.6].forEach(function (d) { var a = F.at(d, true); [53.6, 57.6].forEach(function (r) { crsPlace(B, workbench(), r, a, F.y, 0); crsObst(r - 0.6, r + 0.6, a - 1.25 / r, a + 1.25 / r, F.floor); crsPlace(B, stool(), r - 0.75, a, F.y, 0); }); });
-    var ca = F.at(F.span - 3.0, true); crsPlace(B, counter(4.0), C.rc + 0.45, ca, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.85, ca - 2.1 / 50, ca + 2.1 / 50, F.floor);
-    [-1.3, 0, 1.3].forEach(function (x) { crsPlace(B, printer3d(), C.rc + 0.45, ca + x / 50, F.y + 0.92, 0); });
-    var ra = F.at(1.2, false); crsPlace(B, rack(), C.r1 - 0.5, ra, F.y, 0); crsObst(C.r1 - 0.85, C.r1 - 0.15, ra - 1.05 / 61, ra + 1.05 / 61, F.floor);
-    roomPlants(B, rm, F, null);
-  }
   function astroRoom(B, rm, F) {                                                      // Kepler: seats facing the sky screen, the planets overhead
     var C = CRS, fr = F.sgn > 0 ? 0 : Math.PI;
     [3.6, 5.2, 6.8, 8.4].forEach(function (d) { var a = F.at(d, true); [52.6, 54.4, 56.2, 58.0, 59.8].forEach(function (r) { crsPlace(B, armchair(), r, a, F.y, fr + Math.PI / 2 * (F.sgn > 0 ? -1 : 1) * 0 + (F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2)); }); crsObst(52.0, 60.4, a - 0.5 / 56, a + 0.5 / 56, F.floor); });

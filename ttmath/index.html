@@ -5031,14 +5031,6 @@
     for (var k = 0; k < 6; k++) { var t = k / 6 * 2 * Math.PI; leg(b, 0.02 * Math.cos(t), 1.58, 0.02 * Math.sin(t), 0.16 * Math.cos(t), 1.66, 0.16 * Math.sin(t), 0.012, MT.BRASS); }
   }); }
 
-  function makerSpace(B, rm, F) {                                                     // workbenches, 3D printers on a long counter, racks
-    var C = CRS;
-    [3.4, 7.0, 10.6].forEach(function (d) { var a = F.at(d, true); [53.6, 57.6].forEach(function (r) { crsPlace(B, workbench(), r, a, F.y, 0); crsObst(r - 0.6, r + 0.6, a - 1.25 / r, a + 1.25 / r, F.floor); crsPlace(B, stool(), r - 0.75, a, F.y, 0); }); });
-    var ca = F.at(F.span - 3.0, true); crsPlace(B, counter(4.0), C.rc + 0.45, ca, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.85, ca - 2.1 / 50, ca + 2.1 / 50, F.floor);
-    [-1.3, 0, 1.3].forEach(function (x) { crsPlace(B, printer3d(), C.rc + 0.45, ca + x / 50, F.y + 0.92, 0); });
-    var ra = F.at(1.2, false); crsPlace(B, rack(), C.r1 - 0.5, ra, F.y, 0); crsObst(C.r1 - 0.85, C.r1 - 0.15, ra - 1.05 / 61, ra + 1.05 / 61, F.floor);
-    roomPlants(B, rm, F, null);
-  }
   function astroRoom(B, rm, F) {                                                      // Kepler: seats facing the sky screen, the planets overhead
     var C = CRS, fr = F.sgn > 0 ? 0 : Math.PI;
     [3.6, 5.2, 6.8, 8.4].forEach(function (d) { var a = F.at(d, true); [52.6, 54.4, 56.2, 58.0, 59.8].forEach(function (r) { crsPlace(B, armchair(), r, a, F.y, fr + Math.PI / 2 * (F.sgn > 0 ? -1 : 1) * 0 + (F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2)); }); crsObst(52.0, 60.4, a - 0.5 / 56, a + 0.5 / 56, F.floor); });
@@ -5781,6 +5773,165 @@
     var pa = F.at(3.3, false); foucault(B, 55.8, pa, y, ceilY(rm, F.floor, 55.8)); crsObst(54.8, 56.8, pa - 1.0 / 55.8, pa + 1.0 / 55.8, F.floor);
     roomPlants(B, rm, F, null);
   }
+  /* ---- the maker space (T06-30): the tool wall, workbenches, the printers, the laser cutter, the robot arena ---- */
+  // a picture drawn on its own canvas and laid on quads that keep a fixed brightness (as the paintings): quads [{M, x0, x1,
+  // y0, y1, z, u0, u1, v0, v1, b}] in their frames M (x across, y up, facing +z at z)
+  function texQuads(cv, quads) {
+    var tex = new THREE.CanvasTexture(cv); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    var pos = [], uvs = [], idx = [], brt = [], v = V3(0, 0, 0);
+    quads.forEach(function (q) { var n = pos.length / 3;
+      [[q.x0, q.y0, q.u0, q.v0], [q.x1, q.y0, q.u1, q.v0], [q.x1, q.y1, q.u1, q.v1], [q.x0, q.y1, q.u0, q.v1]].forEach(function (c) { v.set(c[0], c[1], q.z).applyMatrix4(q.M); pos.push(v.x, v.y, v.z); uvs.push(c[2], c[3]); brt.push(q.b); });
+      idx.push(n, n + 1, n + 2, n, n + 2, n + 3); });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
+    var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
+    var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.002); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+    var m = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide })); m.matrixAutoUpdate = false; scene.add(m);
+  }
+  // the maker space's canvas: on top the tool wall (2048 x 600: pegboard with every tool on its painted outline), below it
+  // the robot arena's mat (1024 x 1024: Mars ground with craters and rocks, a start box and a track)
+  var MAKER = { W: 2048, H: 1624, wallH: 600 };
+  function makerCanvas() {
+    var s = MOBILE ? 0.5 : 1, cv = mkCanvas(Math.round(MAKER.W * s), Math.round(MAKER.H * s)), g = cv.getContext("2d"), R = mulberry(4242), i, j;
+    g.scale(s, s);
+    // pegboard: tempered hardboard, a hole every inch
+    g.fillStyle = "#8f6d4a"; g.fillRect(0, 0, MAKER.W, MAKER.wallH);
+    for (i = 0; i < 2000; i++) { g.fillStyle = "rgba(60,40,20," + (0.03 + R() * 0.05) + ")"; g.fillRect(R() * MAKER.W, R() * MAKER.wallH, 2 + R() * 40, 1 + R() * 3); }
+    g.fillStyle = "rgba(25,16,8,0.85)"; for (i = 6; i < MAKER.W; i += 8.5) for (j = 6; j < MAKER.wallH; j += 8.5) g.fillRect(i, j, 2.2, 2.2);
+    function outline(draw) { g.save(); g.translate(3, 3); g.fillStyle = "rgba(240,236,226,0.9)"; draw(true); g.restore(); draw(false); }
+    function rr(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+    function hook(x, y) { g.fillStyle = "#9a9a98"; g.fillRect(x - 3, y - 6, 6, 10); }
+    function hammer(x, y, k) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : (k ? "#2b2b2b" : "#9b6a3c"); rr(x - 7, y, 14, 150, 5); g.fill(); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#6f7275"; rr(x - 34, y - 14, 68, 22, 4); g.fill(); }); hook(x - 12, y + 12); hook(x + 12, y + 12); }
+    function screwdriver(x, y, c) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : c; rr(x - 9, y, 18, 62, 7); g.fill(); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#b9bcbf"; g.fillRect(x - 2.5, y + 62, 5, 70); }); hook(x, y - 4); }
+    function wrench(x, y, L) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#a9adb1"; rr(x - 5, y + 12, 10, L, 4); g.fill(); g.beginPath(); g.arc(x, y + 8, 12, 0, 2 * Math.PI); g.fill(); g.beginPath(); g.arc(x, y + L + 16, 10, 0, 2 * Math.PI); g.fill(); });
+      g.fillStyle = "#8f6d4a"; g.fillRect(x - 4, y - 6, 8, 10); hook(x, y + L + 16); }
+    function pliers(x, y, c) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#7d8085"; g.beginPath(); g.moveTo(x - 6, y); g.lineTo(x + 6, y); g.lineTo(x + 8, y + 40); g.lineTo(x - 8, y + 40); g.fill();
+      g.fillStyle = sh ? "rgba(240,236,226,0.9)" : c; g.save(); g.translate(x, y + 40); g.rotate(0.12); rr(-14, 0, 9, 80, 4); g.fill(); g.restore(); g.save(); g.translate(x, y + 40); g.rotate(-0.12); rr(5, 0, 9, 80, 4); g.fill(); g.restore(); }); hook(x, y - 4); }
+    function saw(x, y) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#c3c6c9"; g.beginPath(); g.moveTo(x, y + 50); g.lineTo(x + 330, y + 30); g.lineTo(x + 330, y + 60); g.lineTo(x, y + 95); g.fill();
+      g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#8a5a33"; rr(x - 90, y + 30, 100, 80, 18); g.fill(); }); g.fillStyle = "#8f6d4a"; rr(x - 70, y + 50, 52, 40, 12); g.fill(); hook(x - 40, y + 26); hook(x + 200, y + 34); }
+    function clamp(x, y) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#9da1a5"; g.fillRect(x - 4, y, 8, 190); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#c0392b"; g.fillRect(x - 4, y, 46, 16); g.fillRect(x - 4, y + 120, 46, 16); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#2c2c2c"; rr(x + 36, y + 136, 14, 46, 5); g.fill(); }); hook(x, y - 4); }
+    function level(x, y) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#d6a91c"; g.fillRect(x, y, 420, 30); }); g.fillStyle = "#cfe8c8"; g.fillRect(x + 196, y + 8, 28, 14); g.fillStyle = "#2b2b2b"; g.fillRect(x + 8, y + 8, 20, 14); g.fillRect(x + 392, y + 8, 20, 14); hook(x + 60, y + 34); hook(x + 360, y + 34); }
+    function tape(x, y) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#e0b21f"; rr(x - 32, y, 64, 62, 10); g.fill(); }); g.fillStyle = "#2b2b2b"; g.beginPath(); g.arc(x, y + 31, 16, 0, 2 * Math.PI); g.fill(); hook(x, y - 4); }
+    function drill(x, y) { outline(function (sh) { g.fillStyle = sh ? g.fillStyle : "#1f7a74"; rr(x - 70, y, 120, 46, 14); g.fill(); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#222"; rr(x - 30, y + 40, 34, 70, 8); g.fill(); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#2b2b2b"; rr(x - 44, y + 106, 62, 34, 6); g.fill(); g.fillStyle = sh ? "rgba(240,236,226,0.9)" : "#888"; g.fillRect(x + 50, y + 14, 34, 18); });
+      g.fillStyle = "#666"; g.fillRect(x - 60, y + 46, 100, 10); }
+    function glasses(x, y) { g.strokeStyle = "rgba(230,232,236,0.9)"; g.lineWidth = 4; g.strokeRect(x - 46, y, 40, 26); g.strokeRect(x + 6, y, 40, 26); g.beginPath(); g.moveTo(x - 6, y + 8); g.lineTo(x + 6, y + 8); g.stroke(); hook(x, y - 4); }
+    function ears(x, y) { g.strokeStyle = "#2b2b2b"; g.lineWidth = 7; g.beginPath(); g.arc(x, y + 40, 38, Math.PI, 0); g.stroke(); g.fillStyle = "#b03a2e"; rr(x - 50, y + 36, 24, 44, 9); g.fill(); rr(x + 26, y + 36, 24, 44, 9); g.fill(); hook(x, y - 2); }
+    // the wall's layout, left to right in five bays
+    hammer(70, 120, 0); hammer(150, 130, 1); hammer(225, 145, 0);
+    ["#c0392b", "#c0392b", "#2b2b2b", "#d4a017", "#d4a017", "#2b2b2b", "#c0392b"].forEach(function (c, k) { screwdriver(320 + k * 36, 70, c); });
+    ["#c0392b", "#2b6fb3", "#c0392b"].forEach(function (c, k) { pliers(330 + k * 70, 300, c); });
+    for (i = 0; i < 9; i++) wrench(600 + i * 34, 60, 120 + i * 14);
+    saw(1000, 70); level(950, 260); [1010, 1100, 1190].forEach(function (x) { tape(x, 380); });
+    [1430, 1500, 1570, 1640].forEach(function (x) { clamp(x, 60); }); drill(1530, 330);
+    glasses(1800, 80); glasses(1800, 150); ears(1880, 260); ears(1790, 260);
+    g.fillStyle = "rgba(0,0,0,0.35)"; for (i = 1; i < 5; i++) g.fillRect(i * MAKER.W / 5 - 2, 0, 4, MAKER.wallH);   // the board's sheets meet
+    // the arena's mat: dusty Mars ground, craters, scattered rocks, a white start box and a dashed track
+    var y0 = MAKER.wallH, S = 1024;
+    g.fillStyle = "#a35d36"; g.fillRect(0, y0, S, S);
+    for (i = 0; i < 2600; i++) { var c0 = 120 + R() * 70; g.fillStyle = "rgba(" + Math.round(c0 + 40) + "," + Math.round(c0 * 0.55) + "," + Math.round(c0 * 0.35) + "," + (0.08 + R() * 0.12) + ")"; g.beginPath(); g.arc(R() * S, y0 + R() * S, 2 + R() * 26, 0, 2 * Math.PI); g.fill(); }
+    for (i = 0; i < 9; i++) { var cx = 80 + R() * (S - 160), cy = y0 + 80 + R() * (S - 160), cr = 20 + R() * 70;
+      var gr = g.createRadialGradient(cx - cr * 0.2, cy - cr * 0.2, cr * 0.2, cx, cy, cr); gr.addColorStop(0, "rgba(70,32,16,0.55)"); gr.addColorStop(0.8, "rgba(120,62,34,0.25)"); gr.addColorStop(1, "rgba(220,150,100,0.35)");
+      g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, cr, 0, 2 * Math.PI); g.fill(); }
+    for (i = 0; i < 140; i++) { g.fillStyle = "rgba(" + (50 + R() * 40) + ",30,20,0.8)"; g.beginPath(); g.ellipse(R() * S, y0 + R() * S, 2 + R() * 7, 2 + R() * 5, R() * 3, 0, 2 * Math.PI); g.fill(); }
+    g.strokeStyle = "rgba(245,240,230,0.92)"; g.lineWidth = 6; g.strokeRect(60, y0 + S - 220, 160, 160);
+    g.setLineDash([26, 18]); g.lineWidth = 5; g.beginPath(); g.moveTo(140, y0 + S - 220); g.bezierCurveTo(160, y0 + 500, 420, y0 + 700, 520, y0 + 460); g.bezierCurveTo(620, y0 + 220, 880, y0 + 300, 900, y0 + 120); g.stroke(); g.setLineDash([]);
+    g.strokeStyle = "rgba(245,240,230,0.92)"; g.lineWidth = 6; g.beginPath(); g.arc(900, y0 + 110, 46, 0, 2 * Math.PI); g.stroke();
+    return cv;
+  }
+  // a maker's workbench 2.4 along x, 1.2 deep: a thick beech top on a dark steel frame, a plywood shelf with bins under it,
+  // a blue vice at +x, a socket strip along -z; kind varies what is on it
+  function makerBench(len, kind) { return furn("mbench" + len + "_" + kind, function (b) {
+    var h = len / 2, n0 = b.count(), R = mulberry(900 + kind), x; b.box(-h, 0.86, -0.6, h, 0.92, 0.6, MT.WOOD); b.box(-h + 0.08, 0.16, -0.52, h - 0.08, 0.18, 0.52, MT.WOOD); kindTag(b, n0, 1);
+    [[-h + 0.06, -0.54], [h - 0.06, -0.54], [-h + 0.06, 0.54], [h - 0.06, 0.54]].forEach(function (c) { b.box(c[0] - 0.03, 0, c[1] - 0.03, c[0] + 0.03, 0.86, c[1] + 0.03, MT.ANOD); });
+    [-0.54, 0.54].forEach(function (z) { b.box(-h + 0.06, 0.78, z - 0.02, h - 0.06, 0.84, z + 0.02, MT.ANOD); });
+    for (x = -h + 0.25; x < h - 0.4; x += 0.5) { var nb = b.count(); b.box(x, 0.18, -0.2, x + 0.4, 0.36, 0.2, MT.PLASTIC); b.tag(nb, R() < 0.5 ? 3 : 5, null); }
+    var nv = b.count(); b.box(h - 0.25, 0.92, -0.14, h - 0.05, 1.02, 0.14, MT.PLASTIC); b.box(h - 0.05, 0.92, -0.08, h + 0.08, 1.0, 0.08, MT.PLASTIC); b.tag(nv, 3, null);   // the vice
+    b.box(h - 0.07, 0.92, -0.14, h - 0.05, 1.04, 0.14, MT.STEEL); tubeAlong(b, [V3(h + 0.08, 0.96, 0), V3(h + 0.2, 0.96, 0)], 0.008, 5, MT.STEEL); b.box(h + 0.19, 0.91, -0.1, h + 0.21, 1.01, 0.1, MT.STEEL);
+    var ns = b.count(); b.box(-h + 0.2, 0.92, -0.58, -h + 0.9, 0.97, -0.52, MT.PLASTIC); b.tag(ns, 0, null);
+    var nm = b.count(); b.box(-0.55, 0.92, -0.35, 0.25, 0.925, 0.2, MT.PLASTIC); b.tag(nm, 6, null);                          // a cutting mat
+    if (kind % 2 === 0) { var np = b.count(); b.box(-0.35, 0.925, -0.2, -0.2, 0.932, -0.1, MT.PLASTIC); b.tag(np, 6, null);  // a board, a soldering station
+      var nst = b.count(); b.box(0.35, 0.92, -0.4, 0.55, 1.02, -0.25, MT.PLASTIC); b.tag(nst, 5, null); tubeAlong(b, [V3(0.45, 1.02, -0.3), V3(0.45, 1.12, -0.18), V3(0.4, 1.1, -0.05)], 0.006, 5, MT.STEEL); }
+    else { var nr = b.count(); b.box(-0.4, 0.95, -0.12, -0.05, 0.97, 0.1, MT.STEEL); [-0.36, -0.22, -0.09].forEach(function (xx) { [-0.13, 0.11].forEach(function (z) { b.geo(new THREE.CylinderGeometry(0.04, 0.04, 0.03, 14), T(xx, 0.965, z, Math.PI / 2, 0, 0), MT.RUBBER); }); }); }   // a rover's chassis
+  }); }
+  // a cable reel on the ceiling over a bench and its socket box hanging at y (relative to the floor)
+  function powerDrop(B, r, a, y, ceil) { var p = crsPt(r, a), M = crsFrame(r, a, y), bx = new Builder(), nb = bx.count();
+    bx.box(-0.09, -0.06, -0.05, 0.09, 0.06, 0.05, MT.PLASTIC); bx.tag(nb, 1, null); var ns = bx.count(); [-0.045, 0.045].forEach(function (x) { bx.box(x - 0.025, -0.03, -0.052, x + 0.025, 0.03, -0.05, MT.PLASTIC); }); bx.tag(ns, 0, null); B.add(bx, M);
+    tubeAlong(B, [V3(p.x, y + 0.06, p.z), V3(p.x, ceil - 0.25, p.z)], 0.006, 5, MT.RUBBER);
+    var rl = new Builder(), nr = rl.count(); rl.geo(new THREE.CylinderGeometry(0.15, 0.15, 0.12, 20), T(0, 0, 0, 0, 0, Math.PI / 2), MT.PLASTIC); rl.tag(nr, 1, null); rl.box(-0.08, 0.1, -0.08, 0.08, 0.24, 0.08, MT.ANOD); B.add(rl, crsFrame(r, a, ceil - 0.24)); }
+  // an enclosed 3D printer 0.5 wide (x), 0.55 deep, back at +z: a dark case, a glass door (apart), the bed with a print on it,
+  // the head on its gantry, a spool on the side
+  function printerBox(k) { return furn("printer" + k, function (b) {
+    var n0 = b.count(); b.box(-0.25, 0, -0.26, 0.25, 0.04, 0.28, MT.PLASTIC); b.box(-0.25, 0.56, -0.26, 0.25, 0.6, 0.28, MT.PLASTIC); b.box(-0.25, 0, 0.25, 0.25, 0.6, 0.28, MT.PLASTIC);
+    [-1, 1].forEach(function (s) { b.box(s * 0.25 - 0.02, 0, -0.26, s * 0.25, 0.6, 0.28, MT.PLASTIC); }); [[-0.25, -0.23], [0.23, 0.25]].forEach(function (c) { b.box(c[0], 0.04, -0.27, c[1], 0.56, -0.25, MT.PLASTIC); }); b.tag(n0, k % 3 ? 1 : 5, null);
+    b.box(-0.18, 0.12, -0.18, 0.18, 0.13, 0.18, MT.STEEL); tubeAlong(b, [V3(-0.21, 0.42, -0.05), V3(0.21, 0.42, -0.05)], 0.006, 5, MT.STEEL); var nh = b.count(); b.box(-0.04 + (k - 2) * 0.03, 0.38, -0.09, 0.04 + (k - 2) * 0.03, 0.46, -0.01, MT.PLASTIC); b.tag(nh, 5, null);
+    var np = b.count(), pc = [6, 0, 3, 5, 2, 0][k % 6]; if (k % 3 === 0) b.box(-0.06, 0.13, -0.06, 0.06, 0.2, 0.06, MT.PLASTIC); else b.geo(new THREE.CylinderGeometry(0.05, 0.07, 0.1 + 0.03 * k, 16), T(0, 0.18 + 0.015 * k, 0), MT.PLASTIC); b.tag(np, pc, null);
+    var nsp = b.count(); b.geo(new THREE.CylinderGeometry(0.1, 0.1, 0.065, 22), T(0.29, 0.42, 0.05, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(nsp, pc, null); b.box(0.25, 0.4, 0.04, 0.33, 0.44, 0.06, MT.ANOD);
+    var nd = b.count(); b.box(-0.12, 0.58, -0.272, 0.04, 0.6, -0.27, MT.PLASTIC); b.tag(nd, 0, null);
+  }); }
+  // the laser cutter 1.4 wide (x), 0.95 deep, back at +z: a white body, a hinged lid with a dark window, its panel, the duct
+  function laserCutter(ceil) { return furn("laser" + ceil.toFixed(2), function (b) {
+    var n0 = b.count(); b.box(-0.7, 0.08, -0.47, 0.7, 0.92, 0.47, MT.PLASTIC); b.box(-0.7, 0.92, -0.47, 0.7, 1.06, 0.47, MT.PLASTIC); b.tag(n0, 0, null);
+    b.box(-0.55, 1.0, -0.42, 0.45, 1.065, 0.32, MT.DKGLASS); var np = b.count(); b.box(0.5, 0.92, -0.48, 0.68, 1.04, -0.46, MT.PLASTIC); b.tag(np, 1, null);
+    [0.54, 0.6].forEach(function (x) { b.geo(addF2(new THREE.CircleGeometry(0.008, 10), 1.6, 0.6), T(x, 1.0, -0.481, 0, Math.PI, 0), MT.LIGHT, 1); });
+    var nf = b.count(); b.box(-0.68, 0, -0.45, 0.68, 0.08, 0.45, MT.PLASTIC); b.tag(nf, 1, null); b.box(-0.6, 0.4, -0.472, 0.6, 0.41, -0.47, MT.ANOD);
+    tubeAlong(b, [V3(0.4, 0.8, 0.47), V3(0.4, 0.8, 0.62), V3(0.4, 1.4, 0.68), V3(0.4, ceil, 0.68)], 0.075, 14, MT.STEEL);
+  }); }
+  // the robot arena 3.0 by 3.0: an oak rim round a plywood table 0.55 high, its mat drawn on the canvas (apart), cones, and
+  // the rovers students built: six wheels on rocker arms, a deck, a solar panel, a mast with a camera head, an antenna
+  function arenaTable() { return furn("arena", function (b) {
+    var n0 = b.count(); b.box(-1.5, 0.45, -1.5, 1.5, 0.52, 1.5, MT.WOOD); [[-1.5, -1.5, 1.5, -1.44], [-1.5, 1.44, 1.5, 1.5], [-1.5, -1.44, -1.44, 1.44], [1.44, -1.44, 1.5, 1.44]].forEach(function (c) { b.box(c[0], 0.52, c[1], c[2], 0.62, c[3], MT.WOOD); }); kindTag(b, n0, 1);
+    [[-1.4, -1.4], [1.4, -1.4], [-1.4, 1.4], [1.4, 1.4], [0, -1.4], [0, 1.4], [-1.4, 0], [1.4, 0]].forEach(function (c) { b.box(c[0] - 0.04, 0, c[1] - 0.04, c[0] + 0.04, 0.45, c[1] + 0.04, MT.ANOD); });
+    [[0.6, -0.9], [-0.2, 0.5], [0.9, 0.7]].forEach(function (c) { var nc = b.count(); b.geo(new THREE.ConeGeometry(0.05, 0.13, 14), T(c[0], 0.585, c[1]), MT.PLASTIC); b.tag(nc, 2, null); b.box(c[0] - 0.06, 0.52, c[1] - 0.06, c[0] + 0.06, 0.53, c[1] + 0.06, MT.PLASTIC); });
+  }); }
+  function rover(k) { return furn("rover" + k, function (b) {            // 0.42 long (x), its wheels 0.1 across
+    var w = 0.16, nd = b.count(); b.box(-0.18, 0.12, -0.12, 0.18, 0.15, 0.12, MT.STEEL); var np = b.count(); b.box(-0.12, 0.15, -0.08, 0.06, 0.16, 0.06, MT.PLASTIC); b.tag(np, 6, null);
+    [-1, 1].forEach(function (s) { tubeAlong(b, [V3(-0.2, 0.06, s * w), V3(-0.04, 0.13, s * w), V3(0.08, 0.1, s * w), V3(0.2, 0.06, s * w)], 0.008, 4, MT.ANOD);
+      [-0.2, 0.0, 0.2].forEach(function (x) { b.geo(new THREE.CylinderGeometry(0.05, 0.05, 0.04, 16), T(x, 0.05, s * (w + 0.02), Math.PI / 2, 0, 0), MT.RUBBER); }); });
+    var ns = b.count(); b.box(-0.17, 0.17, -0.13, 0.05, 0.175, 0.13, MT.SOLAR);
+    tubeAlong(b, [V3(0.12, 0.15, 0.04), V3(0.12, 0.36, 0.04)], 0.008, 5, MT.ANOD); var nh = b.count(); b.box(0.08, 0.35, -0.01, 0.16, 0.4, 0.09, MT.PLASTIC); b.tag(nh, k % 2 ? 0 : 1, null);
+    [0.02, 0.06].forEach(function (z) { b.geo(new THREE.CircleGeometry(0.012, 12), T(0.161, 0.375, z, 0, Math.PI / 2, 0), MT.DKGLASS); });
+    tubeAlong(b, [V3(-0.15, 0.17, -0.1), V3(-0.15, 0.42, -0.1)], 0.002, 3, MT.STEEL);
+  }); }
+  // racks for sheets of plywood and acrylic, len along x, back at +z, the sheets standing on edge
+  function sheetRack(len) { return furn("sheets" + len, function (b) {
+    var h = len / 2, R = mulberry(61); [-h, h].forEach(function (x) { b.box(x - 0.025, 0, -0.3, x + 0.025, 1.6, 0.3, MT.ANOD); }); b.box(-h, 0, -0.3, h, 0.06, 0.3, MT.ANOD);
+    for (var k = 0; k < 9; k++) { var x = -h + 0.12 + k * (len - 0.24) / 8, ac = R() < 0.35, n0 = b.count(), ht = 1.2 + R() * 0.3; b.box(x - 0.009, 0.06, -0.28, x + 0.009, ht, 0.26, ac ? MT.PLASTIC : MT.WOOD); if (ac) b.tag(n0, [0, 1, 6, 5][Math.floor(R() * 4)], null); else b.tag(n0, null, 1); }
+  }); }
+  // a wall shelf of filament spools, len along x, back at +z
+  function spoolShelf(len) { return furn("spools" + len, function (b) {
+    var h = len / 2, n0 = b.count(); b.box(-h, 0, -0.24, h, 0.025, 0.0, MT.WOOD); kindTag(b, n0, 1); [-h + 0.05, h - 0.05].forEach(function (x) { b.box(x - 0.01, -0.18, -0.02, x + 0.01, 0.0, 0.0, MT.ANOD); });
+    var cols = [0, 1, 5, 6, 3, 0, 2, 1, 5, 7]; for (var x = -h + 0.12, k = 0; x < h - 0.1; x += 0.2, k++) { var ns = b.count(); b.geo(new THREE.CylinderGeometry(0.1, 0.1, 0.065, 22), T(x, 0.125, -0.12, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(ns, cols[k % cols.length], null); b.geo(new THREE.CylinderGeometry(0.03, 0.03, 0.07, 10), T(x, 0.125, -0.12, 0, 0, Math.PI / 2), MT.CERAMIC); }
+  }); }
+  function makerSpace(B, rm, F) {
+    var C = CRS, y = F.y, sg = F.sgn, back = sg > 0 ? ROT.plusA : ROT.minusA, front = sg > 0 ? ROT.minusA : ROT.plusA, ceil = ceilY(rm, F.floor, 55.8), quads = [];
+    // the back wall: the tool wall over a long bench with its vices
+    var tw = 6.0, th = 1.76, tr = 54.6, Mw = crsFrame(tr, F.back + sg * 0.08 / tr, y + 0.95, sg > 0 ? Math.PI / 2 : -Math.PI / 2);   // its +z into the room
+    var fr = new Builder(), nf = fr.count(); fr.box(-tw / 2 - 0.04, -0.04, -0.02, tw / 2 + 0.04, th + 0.04, 0.0, MT.WOOD); kindTag(fr, nf, 2); B.add(fr, Mw);
+    quads.push({ M: Mw, x0: -tw / 2, x1: tw / 2, y0: 0, y1: th, z: 0.004, u0: 0, u1: 1, v0: 1 - MAKER.wallH / MAKER.H, v1: 1, b: 0.42 });
+    var lb = F.at(0.5, false); crsPlace(B, makerBench(6.0, 5), tr, lb, y, sg > 0 ? -Math.PI / 2 : Math.PI / 2); crsObst(tr - 3.05, tr + 3.05, F.back, F.at(1.15, false), F.floor);
+    var wl = crsPt(tr, F.at(1.6, false)); wLight(wl.x, y + 3.2, wl.z, LAMPC, 1.1, 5, [0, -0.5, 0], 1);
+    // four workbenches with stools, a power drop over each
+    [[53.2, 5.0], [58.4, 5.0], [53.2, 8.6], [58.4, 8.6]].forEach(function (p, k) { var a = F.at(p[1], true);
+      crsPlace(B, makerBench(2.4, k), p[0], a, y, sg > 0 ? 0 : Math.PI); crsObst(p[0] - 0.62, p[0] + 0.62, a - 1.22 / p[0], a + 1.22 / p[0], F.floor);
+      [-0.6, 0.6].forEach(function (x) { [[p[0] - 0.95, -Math.PI / 2], [p[0] + 0.95, Math.PI / 2]].forEach(function (s, si) { crsPlace(B, labStool(), s[0], a + x / s[0], y, s[1] + (x > 0 ? 0.15 : -0.1) * (si ? -1 : 1)); }); });
+      powerDrop(B, p[0], a, y + 1.75, ceil); });
+    // the robot arena and its rovers
+    var aa = F.at(12.6, true), ar = 56.0, Ma = crsFrame(ar, aa, y); B.add(arenaTable(), Ma); contactShadow(arenaTable(), Ma); crsObst(ar - 1.55, ar + 1.55, aa - 1.55 / ar, aa + 1.55 / ar, F.floor);
+    quads.push({ M: Ma.clone().multiply(T(0, 0.522, 0, -Math.PI / 2, 0, 0)), x0: -1.44, x1: 1.44, y0: -1.44, y1: 1.44, z: 0, u0: 0, u1: S_U(1024), v0: 0, v1: 1024 / MAKER.H, b: 0.5 });
+    [[-0.95, 0.9, 0.4], [0.2, -0.2, 2.2], [0.7, 0.95, -0.8], [-0.6, -0.8, 1.1]].forEach(function (p, k) { B.add(rover(k), Ma.clone().multiply(T(p[0], 0.522, p[1], 0, p[2], 0))); });
+    // the corridor wall between the doors: six printers on a counter, a shelf of filament over them
+    var c0 = 4.0, c1 = 10.0, cm = F.at((c0 + c1) / 2, true), rr2 = C.rc + 0.405, cl = (c1 - c0) * rr2 / 55.8;
+    crsPlace(B, counter(cl), rr2, cm, y, ROT.out); crsObst(C.rc + 0.05, C.rc + 0.78, F.at(c0, true), F.at(c1, true), F.floor);
+    for (var k2 = 0; k2 < 6; k2++) { var pa = F.at(c0 + 0.5 + k2 * (c1 - c0 - 1.0) / 5, true), Mp = crsFrame(rr2, pa, y + 0.92, ROT.out); B.add(printerBox(k2), Mp); glassPane(Mp, -0.23, 0.04, 0.23, 0.56, -0.262, 1); }
+    B.add(spoolShelf(cl * 0.8), crsFrame(C.rc + 0.075, cm, y + 1.85, ROT.out));
+    // the front wall: racks of bins, the sheets of plywood and acrylic; the laser cutter near the glass, its duct to the ceiling
+    [52.4, 54.5].forEach(function (r) { var a = F.at(0.4, true); crsPlace(B, rack(), r, a, y, front); }); crsObst(51.3, 55.6, F.at(0.75, true), F.front, F.floor);
+    var sa = F.at(0.4, true); crsPlace(B, sheetRack(1.6), 56.6, sa, y, front); crsObst(55.7, 57.5, F.at(0.75, true), F.front, F.floor);
+    var la = F.at(1.35, true); crsPlace(B, laserCutter(ceil - y), 59.4, la, y, front); crsObst(58.6, 60.2, F.at(0.6, true), F.at(1.9, true), F.floor);
+    texQuads(makerCanvas(), quads);
+    roomPlants(B, rm, F, null);
+  }
+  function S_U(px) { return px / MAKER.W; }
 
   /* ===================== The Gate Hall's two big screens: the Fall timetable and the contests; the door plates ===================== */
   // Jim, 5 Oct 2026: "the schedule should be somewhere in the entrance so students know where they are going to"; "each

@@ -106,6 +106,18 @@ ROOMS = {
                           "the benches' long sides along the room in two columns (r 53.2 and 58.4) and three rows (d 4.8, 8.0, 11.2), the aisle between them at r 55.8; "
                           "the pendulum at r 55.8, 3.3 m from the back wall; the side counter from d 4.2 to 10.2",
                    next=""),
+    "T06-30": dict(name="Maker space", seating=["padded lab stools with low backs, two along each side of each workbench"],
+                   tables=["four workbenches 2.4 by 1.2 m: thick beech tops on dark steel frames, a plywood shelf of bins under each, a blue vice at one end, a socket strip, a cutting mat",
+                           "a long bench 6 m under the tool wall", "a counter of six enclosed 3D printers on the corridor wall", "the robot arena 3 by 3 m: a plywood table in an oak rim"],
+                   lights=["linear pendants in three rows", "a power drop over each bench: a reel on the ceiling, its socket box hanging at 1.75 m", "a light over the tool wall"],
+                   finishes="off-white plaster; the glass onto the garden gallery kept clear; on the back wall the tool wall, hardboard pegboard 6 by 1.8 m with every tool on its painted outline "
+                            "(hammers, screwdrivers, pliers, a set of spanners, a saw, a level, tape measures, clamps, a drill, safety glasses, ear defenders); the printers each with a glass door, "
+                            "a print on its bed and a spool on its side, a shelf of filament over them; on the arena a mat of Mars ground (craters, rocks, a start box, a dashed track), cones "
+                            "and four rovers the students built (six wheels on rocker arms, a solar panel, a mast with a camera head); racks of bins and a rack of plywood and acrylic sheets "
+                            "on the front wall, the laser cutter in the corner by the glass with its duct to the ceiling",
+                   layout="d along the room from the front wall (0) to the back (17.5 m), r from the corridor wall (49.6) to the glass (62); the doors at d 2.15 and 15.35; "
+                          "the workbenches at r 53.2 and 58.4, d 5.0 and 8.6; the arena at r 56.0, d 12.6; the printers from d 4 to 10 on the corridor wall",
+                   next="the laser cutter made more like the real machine: a sloping lid with a big tinted window"),
     "T06-42": dict(name="Clinic and counsellor", seating=["the nurse's task chair and a chair for whoever comes in", "in the counsellor's lounge a sage sofa 2.4 m by the outer wall facing two cognac club chairs across a walnut table on a rug"],
                    tables=["the nurse's desk", "the walnut table", "a lamp table"], lights=["a table lamp and a floor lamp in the lounge"],
                    finishes="linen plaster (the sage walls went dark under the skylights); the examination bay at the back: a padded couch on a steel frame with its paper roll, a sage curtain drawn back on a ceiling track round it, "

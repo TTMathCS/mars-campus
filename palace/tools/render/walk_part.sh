@@ -10,7 +10,7 @@ ROOMS=$1; TAG=$2; SPP=${3:-32}; PUSH=${4:-0}
 REPO=${MARS_REPO:-/home/user/mars-campus}
 # the latest scripts first, so a fix pushed while the parts bake reaches the next one
 (cd $REPO && git pull -q --rebase --autostash origin main) || true
-cp $REPO/palace/tools/render/*.py $REPO/palace/tools/render/*.mjs $REPO/palace/tools/render/*.sh blend/ 2>/dev/null || true
+cp $REPO/palace/tools/render/*.py $REPO/palace/tools/render/*.mjs blend/ 2>/dev/null || true     # (not the .sh: this one is running)
 ./bvenv/bin/python blend/walk_bake.py "$ROOMS" walk/$TAG $SPP 0.0125 6 all
 rm -f walk/$TAG/far.glb                      # a part's own far.glb holds the rest of the ring: the whole walk has band.glb
 cp blend/walk_pack.mjs walk/walk_pack.mjs      # beside walk/node_modules, where node finds its packages

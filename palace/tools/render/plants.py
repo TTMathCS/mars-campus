@@ -19,6 +19,7 @@ TAU = 2 * math.pi
 # made each array of leaves: id(V) -> (V, [(template, points, turn x size)])
 INSTANCE = False
 _MADE = {}
+MAX_LEAVES = None       # the walk (walk_bake.py): no tree heavier than this many leaves; those kept are bigger, so the crown stays as full
 
 
 # ---------------------------------------------------------------- meshes from arrays
@@ -219,12 +220,12 @@ def blade(shape, detail=1.0):
                 u = abs((a - c + math.pi) % TAU - math.pi) / 0.42
                 if u < 1: best = max(best, L * (1 - u) ** 0.62 + 0.16 * (1 - u))
             return best * (1 + 0.035 * math.sin(a * 46))
-        return _polar_blade(r, max(24, int(40 * d)), 2, 0.12, 0.08, 0.55)
+        return _polar_blade(r, max(24, int(40 * d)), 2, 0.12, 0.08, 0.55) if detail >= 0.5 else _polar_blade(r, 14, 1, 0.12, 0.08, 0.55)   # the walk: 16 triangles a leaf
     if shape == "ginkgo":           # a fan, notched in the middle, on a long stalk
         def r(a):
             if abs(a) > 1.15: return 0.05
             return (0.95 - 0.28 * math.exp(-(a / 0.09) ** 2)) * (0.55 + 0.45 * math.cos(a * 0.9)) * (1 + 0.02 * math.sin(a * 30))
-        return _polar_blade(r, max(16, int(28 * d)), 2, 0.2, 0.05, 0.7)
+        return _polar_blade(r, max(16, int(28 * d)), 2, 0.2, 0.05, 0.7) if detail >= 0.5 else _polar_blade(r, 10, 1, 0.2, 0.05, 0.7)
     if shape == "petal5":           # a flower of five rounded petals
         def r(a): return 0.25 + 0.75 * abs(math.cos(2.5 * a)) ** 0.6
         return _polar_blade(r, max(20, int(40 * d)), 2, 0.25, 0.0, 0.0)
@@ -477,6 +478,9 @@ def _leaves_on(branches, sp, rnd, tmpl, size, levels=None, per_m=None, up_bias=0
                 dirn = stalk + np.array([0, 0, -droop]) + outv * out_bias * 0.5; dirn /= np.linalg.norm(dirn)
                 upv = np.array([0, 0, 1.0]) * up_bias + outv * out_bias + np.array([rnd.gauss(0, 0.35), rnd.gauss(0, 0.35), rnd.gauss(0, 0.2)])
                 P.append(p); R.append(frame(dirn, upv)); S.append(size * rnd.uniform(0.75, 1.2))
+    if MAX_LEAVES and len(P) > MAX_LEAVES:
+        pick = sorted(random.Random(len(P)).sample(range(len(P)), MAX_LEAVES)); k = (len(P) / MAX_LEAVES) ** 0.5
+        P = [P[i] for i in pick]; R = [R[i] for i in pick]; S = [S[i] * k for i in pick]
     return place(tmpl, P, R, S, rnd)
 
 

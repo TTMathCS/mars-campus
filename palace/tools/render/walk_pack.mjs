@@ -7,12 +7,16 @@
 //   the colour textures are inside the .glb files)
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { dedup, meshopt, prune, quantize, weld } from '@gltf-transform/functions';
+import { dedup, meshopt, prune, quantize, textureCompress, weld } from '@gltf-transform/functions';
 import { MeshoptDecoder, MeshoptEncoder } from 'meshoptimizer';
 import fs from 'fs';
 import path from 'path';
 
 await MeshoptEncoder.ready; await MeshoptDecoder.ready;
+// the chunks' colour textures at most TEX pixels a side (2048: 2.7 cm a pixel, a quarter of the graphics memory of
+// 4096), with sharp if it is installed (npm install sharp); without it they stay as baked
+const TEX = +(process.env.WALK_TEX || 2048);
+let sharp = null; try { sharp = (await import('sharp')).default; } catch (e) { console.log('sharp not installed: textures kept as baked'); }
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS)
   .registerDependencies({ 'meshopt.encoder': MeshoptEncoder, 'meshopt.decoder': MeshoptDecoder });
 const [src, dst] = process.argv.slice(2);
@@ -25,6 +29,7 @@ for (const f of fs.readdirSync(src).sort()) {
     const kind = prim.getMaterial()?.getExtras()?.walk;
     if (kind === 'baked' || kind === 'vertex' || kind === 'glow') prim.setAttribute('NORMAL', null);
   }
+  if (sharp) await doc.transform(textureCompress({ encoder: sharp, resize: [TEX, TEX], targetFormat: 'jpeg', quality: 86 }));
   await doc.transform(prune(), dedup(), weld(),
     quantize({ quantizePosition: 14, quantizeTexcoord: 14, quantizeNormal: 8, quantizeColor: 16 }),
     meshopt({ encoder: MeshoptEncoder, level: 'high' }));

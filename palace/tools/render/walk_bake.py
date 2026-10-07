@@ -25,6 +25,7 @@ import lib, crown, crown_rooms, plants
 from crown import P, R_IN, R_OUT, R_GL, D, WT
 plants.DETAIL = float(os.environ.get("WALK_DETAIL", "0.25"))     # lighter plants for the browser: fewer, plainer leaves
 crown.DOORS_OPEN = True                                          # the doors onto the Glide stand open, to walk through
+plants.MAX_LEAVES = int(os.environ.get("WALK_MAX_LEAVES", "30000"))   # no tree of millions of triangles for the browser
 
 SUN_AZ, SUN_EL, SUN_STRENGTH = 195.0, 32.0, 6.0
 EXPOSURE = 1.0                  # as the Crown's stills: the browser's tone-mapping exposure is 2 ** EXPOSURE

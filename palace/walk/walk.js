@@ -43,7 +43,8 @@ const aniso = renderer.capabilities.getMaxAnisotropy();
 const whole = info.span[1] - info.span[0] > 359.9;                      // the whole ring: rooms stream in and out
 const view = Object.fromEntries(new URLSearchParams(location.hash.slice(1)));
 const startB = +(view.b ?? info.start.b);
-let done = 0; const total = info.chunks.filter(c => apart(centreOf(c), startB) <= 32).length + 3 + (whole ? 1 : 0);
+const START_NEAR = 7;                                                   // degrees: the chunk one stands in and its nearest neighbour
+let done = 0; const total = info.chunks.filter(c => apart(centreOf(c), startB) <= START_NEAR).length + 3 + (whole ? 1 : 0);
 const progress = () => { done++; barEl.style.width = (100 * Math.min(done, total) / total).toFixed(0) + '%'; };
 
 // the baked surfaces: their colour (in the chunk) times the light on them (the chunk's light map: light / emax,
@@ -90,7 +91,7 @@ const chunks = new Chunks({ chunks: info.chunks, loader, texLoader, scene, conve
 const ringOrder = [...info.chunks].sort((p, q) => p.b0 - q.b0);
 const loadedAt = b => { const c = ringOrder.find(c => ((b - c.b0) % 360 + 360) % 360 < c.b1 - c.b0); return !!(c && chunks.state.get(c.file)?.group); };
 const canStand = (x, z) => floorOk(x, z) && loadedAt(((Math.atan2(x, -z) / D) % 360 + 360) % 360);   // never into a room not yet there
-await chunks.around(startB, progress);
+await chunks.around(startB, progress, START_NEAR);                      // the rest of the ring streams in as one walks (chunks.update)
 
 // outside: the rest of the ring, the Stone Garden 41 m down, the Orb, lit by the afternoon sun and the Mars sky
 const sunDir = (() => { const a = info.sun.az * D, e = info.sun.el * D; return new THREE.Vector3(Math.sin(a) * Math.cos(e), Math.sin(e), -Math.cos(a) * Math.cos(e)); })();

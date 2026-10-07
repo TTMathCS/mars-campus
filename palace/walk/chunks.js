@@ -35,9 +35,10 @@ export class Chunks {
     this.state.delete(c.file);
   }
 
-  // everything near a bearing, nearest first: for the start, with a call after each chunk
-  async around(b, each) {
-    const want = this.chunks.filter(c => apart(centreOf(c), b) <= this.near).sort((p, q) => apart(centreOf(p), b) - apart(centreOf(q), b));
+  // the chunks within `within` degrees of a bearing, nearest first: for the start (the room one stands in; the rest
+  // streams in while one walks), with a call after each chunk
+  async around(b, each, within = this.near) {
+    const want = this.chunks.filter(c => apart(centreOf(c), b) <= within).sort((p, q) => apart(centreOf(p), b) - apart(centreOf(q), b));
     for (let i = 0; i < want.length; i += 3) {
       await Promise.all(want.slice(i, i + 3).map(c => this.load(c).then(() => each && each())));
     }

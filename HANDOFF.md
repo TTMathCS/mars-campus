@@ -17,6 +17,15 @@ either machine and pushes, and joins the walk's parts. **The walk first:** both 
 (`walk_part.sh <rooms> <tag>`, five parts each), then the 360s. Outside views of revision H render in seconds
 (`overall.py`): publish them over `palace/design/img/crown-*.jpg` and `site-aerial.jpg`.
 
+**12:40 UTC: the walk is live** (`palace/walk/`, linked as "Walk the Crown" from every chapter's bar, the Crown card
+and the Crown page), first the Arrival part (72 to 108 degrees) and the sunset part (252 to 288). The ring is baked a
+part at a time (`walk_part.sh <rooms> <tag> 24`, about 35 minutes a part; machine A: p072, p108, p144, p180, p216;
+machine B: p252, p288, p324, p000, p036); `autopub.py` joins the parts (`walk_merge.py`) and pushes. Fixed on the way:
+the simplifier no longer decimates plants (trees became shards), the doors onto the Glide stand open in the walk
+(`crown.DOORS_OPEN`), thin glass walls block walking, and the Glide's lane is not closed where parts meet. Never copy
+a new `walk_part.sh` over one a running job is reading (bash reads a script as it goes). Then: the 360s, both
+machines, each back into the tour by itself (autopub).
+
 ### 7 Oct 2026, 02:15 UTC
 
 Jim's newest ask (7 Oct): **"painting should not be on the windows"**, kept as a global rule (CLAUDE.md): nothing hangs

@@ -1,105 +1,222 @@
   /* ===================== The Gate Hall's two big screens: the Fall timetable and the contests; the door plates ===================== */
   // Jim, 5 Oct 2026: "the schedule should be somewhere in the entrance so students know where they are going to"; "each
   // area esp classroom should have room number"; 6 Oct 2026: "2 big screens, one is for schedule, one is for below
-  // contest", "compress all schedule within one screen, leaving second screen as contest above". On the Gate Hall's wall,
-  // side by side: the whole 2026 Fall Schedule (P2.timetable, campus_timetable.py: every class, its days and times, and
-  // the room it meets in (amber), online (red) or both (violet)) in two columns, and TTMath's Sept-Dec contests
-  // (P2.contests, campus_contests.py). Each on its own texture, drawn once at 4096 x 2048 units (3072 px, 1536 on a
-  // phone); a plain emissive material that takes the exposure like the screens in the campus material.
+  // contest", "compress all schedule within one screen, leaving second screen as contest above"; 7 Oct 2026: "the schedule
+  // and contest on the big screen need a better way to display well. now it is bit messy and fonts small". On the Gate
+  // Hall's wall, side by side: the 2026 Fall Schedule (P2.timetable, campus_timetable.py: every class, its days and times,
+  // and the room it meets in, online, or both) and TTMath's Sept-Dec contests (P2.contests, campus_contests.py), each
+  // screen turning its pages (below). Each on its own texture, 4096 x 2048 units (3072 px, 1536 on a phone), redrawn when
+  // its page turns; a plain emissive material that takes the exposure like the screens in the campus material.
   var SCR = { W: 4096, H: 2048 };
-  var AMB = "#e8b04a", VIO = "#a98be6", RED = "#ff7f6e", INK = "#eef0f2", DIM = "#9aa3ad", BLUE = "#86b6ff", PINK = "#e97fa0", MAG = "#e46ad6";
+  var AMB = "#e8b04a", RED = "#ff7f6e", INK = "#eef0f2", DIM = "#9aa3ad", BLUE = "#86b6ff";
   function screenCanvas(draw) {
     var s = MOBILE ? 0.375 : 0.75, cv = mkCanvas(Math.round(SCR.W * s), Math.round(SCR.H * s)), g = cv.getContext("2d");
     g.scale(s, s); var bg = g.createLinearGradient(0, 0, 0, SCR.H); bg.addColorStop(0, "#0d1116"); bg.addColorStop(1, "#080a0d"); g.fillStyle = bg; g.fillRect(0, 0, SCR.W, SCR.H);
     g.textBaseline = "middle"; draw(g, SCR.W, SCR.H); return cv;
   }
-  function chip(g, x, y, txt, col, h) { g.font = "700 " + Math.round(h * 0.66) + "px " + SANS; var w = g.measureText(txt).width + h * 0.6; g.fillStyle = col; roundRect(g, x, y - h / 2, w, h, h * 0.22); g.fill(); g.fillStyle = "#101418"; g.fillText(txt, x + h * 0.3, y + 1); return w; }
-  // the timetable: the title across the top, then two columns of classes, each with its own head
-  function drawSchedule(g, W, H) {
-    var T2 = P2.timetable, M = 60;
-    g.fillStyle = INK; g.font = "700 92px " + SANS; g.fillText(T2.term.title, M, 96);
-    var tw = g.measureText(T2.term.title).width; g.fillStyle = DIM; g.font = "400 50px " + SANS; g.fillText(T2.term.dates + "  ·  " + T2.term.weeks + " weeks", M + tw + 44, 102);
-    var lx = W - M - 760; lx += chip(g, lx, 98, "Room", AMB, 56) + 28; lx += chip(g, lx, 98, "Room + online", VIO, 56) + 34;
-    g.fillStyle = RED; g.font = "700 44px " + SANS; g.fillText("Online", lx, 100);
-    g.fillStyle = "#2a323b"; g.fillRect(M, 170, W - 2 * M, 3);
-    var split = [["FunMath", "Basic and Calculus", "By invitation and Olympiad"], ["Contest", "Computer Science"]], CW = (W - 2 * M - 60) / 2;
-    split.forEach(function (names, ci) { drawColumn(g, M + ci * (CW + 60), 196, CW, H - 196 - 30, T2, T2.groups.filter(function (gr) { return names.indexOf(gr.name) >= 0; })); });
+  // ---- the screens turn their pages (v0.21). Jim, 7 Oct 2026: "the schedule and contest on the big screen need a
+  // better way to display well. now it is bit messy and fonts small". Eighty-seven classes a week cannot be read from
+  // the hall on one page, so each screen turns its pages as a lobby's screens do, in type that reads across the hall
+  // (names about 6 cm tall): the timetable a page for Wednesday to Friday, Saturday, Sunday and Monday's homework
+  // classes, opening on today's; the contests a card each in date order, then what to read before paying.
+  var SCH_PAGES = [{ tab: "WED – FRI", days: [0, 1, 2] }, { tab: "SATURDAY", days: [3] }, { tab: "SUNDAY", days: [4] }, { tab: "MONDAY", hw: true }];
+  var DAY_NAME = { WED: "Wednesday", THU: "Thursday", FRI: "Friday", SAT: "Saturday", SUN: "Sunday" };
+  var GROUP_COL = { "FunMath": "#3fb5a5", "Basic and Calculus": "#5b9cf0", "Contest": "#ef8a5b", "By invitation and Olympiad": "#b28ae8", "Computer Science": "#7cc36e" };
+  var GROUP_NAME = { "FunMath": "FunMath", "Basic and Calculus": "Basic and Calculus", "Contest": "Contest", "By invitation and Olympiad": "By invitation and Olympiad", "Computer Science": "Computer Science" };
+  // "6:45–8:45 pm" or "11:30–1:30 pm": [start, end] in minutes; the am or pm printed is the end's
+  function schSpan(t) {
+    var m = String(t).match(/(\d+):(\d+)\D+(\d+):(\d+)\s*(am|pm)/); if (!m) return [0, 0];
+    var h1 = +m[1], m1 = +m[2], h2 = +m[3], m2 = +m[4], pm = m[5] === "pm"; if (pm && h2 < 12) h2 += 12;
+    var e = h2 * 60 + m2, st = h1 * 60 + m1; if (pm && h1 < 12 && (h1 + 12) * 60 + m1 <= e) st += 720; return [st, e];
   }
-  function drawColumn(g, x0, y0, W, H, T2, groups) {
-    var cols = [0, 424], cw = 240; for (var k = 0; k < 5; k++) cols.push(cols[1] + (k + 1) * cw); var hwX = cols[6];
-    g.fillStyle = AMB; g.font = "700 30px " + SANS;
-    ["CLASS"].concat(T2.days).forEach(function (t, i) { g.fillText(t, x0 + cols[i] + (i ? 6 : 0), y0 + 22); }); g.fillText("HOMEWORK", x0 + hwX + 6, y0 + 22);
-    g.fillStyle = "#2a323b"; g.fillRect(x0, y0 + 48, W, 2);
-    var nrow = 0; groups.forEach(function (gr) { nrow += 1; gr.classes.forEach(function (c) { nrow += c.rows.length; }); });
-    var top = y0 + 60, rh = Math.min(76, (y0 + H - top) / nrow), y = top;
-    groups.forEach(function (gr) {
-      g.fillStyle = AMB; g.font = "700 32px " + SANS; g.fillText(gr.name.toUpperCase(), x0, y + rh * 0.56); y += rh;
-      gr.classes.forEach(function (c) {
-        g.fillStyle = "#1a2028"; g.fillRect(x0, y - 1, W, 2);
-        c.rows.forEach(function (row, ri) {
-          var cy = y + rh / 2;
-          if (ri === 0) {
-            g.fillStyle = INK; g.font = "600 34px " + SANS; fitText(g, c.name, x0, cy, 410);
-            g.fillStyle = DIM; g.font = "400 26px " + SANS; fitText(g, c.hw.replace(" pm", "p").replace(" am", "a"), x0 + hwX + 6, cy, W - hwX - 6);
-          }
-          row.forEach(function (cell, di) {
-            if (!cell) return; var cx = x0 + cols[di + 1] + 6, t = cell[0].replace(" pm", "p").replace(" am", "a"), r = cell[1];
-            g.fillStyle = r === 0 ? RED : "#d5d9de"; g.font = "500 27px " + SANS; fitText(g, t, cx, cy, r === 0 ? 236 : 160);
-            if (r !== 0) chip(g, cx + Math.min(160, g.measureText(t).width) + 10, cy, String(Math.abs(r)) + (r < 0 ? "+" : ""), r < 0 ? VIO : AMB, Math.min(40, rh - 10));
-          });
-          y += rh;
-        });
-      });
-    });
+  function schHM(v, ap) { var h = Math.floor(v / 60) % 12 || 12, mm = v % 60; return h + ":" + (mm < 10 ? "0" : "") + mm + (ap ? (v >= 720 ? " pm" : " am") : ""); }
+  // the classes of a day (index into the days), in the order they start: start, end, name, room (0 online, -n both), group
+  function schDay(di) {
+    var out = [];
+    P2.timetable.groups.forEach(function (gr, gi) { gr.classes.forEach(function (c, ci) { c.rows.forEach(function (row) { var cell = row[di]; if (!cell) return; var sp = schSpan(cell[0]); out.push({ s: sp[0], e: sp[1], name: c.name, room: cell[1], group: gr.name, o: gi * 100 + ci }); }); }); });
+    return out.sort(function (p, q) { return p.s - q.s || p.o - q.o; });
   }
-  // the contests: as the sheet, its nine columns, the team contests, the notes under it
-  function drawContests(g, W, H) {
-    var C2 = P2.contests, M = 50, Y = 0;
-    g.textAlign = "center"; g.fillStyle = INK; g.font = "700 88px " + SANS; g.fillText(C2.title, W / 2, 78);
-    g.font = "600 38px " + SANS; var vw = g.measureText(C2.venue).width + 60; g.fillStyle = "#4a4419"; g.fillRect(W / 2 - vw / 2, 132, vw, 54); g.fillStyle = "#ffe066"; g.fillText(C2.venue, W / 2, 160);
-    g.textAlign = "right"; g.fillStyle = DIM; g.font = "400 28px " + SANS; g.fillText(C2.contact[0] + "   " + C2.contact[1], W - M, 50); g.fillStyle = BLUE; g.font = "600 32px " + SANS; g.fillText(C2.contact[2], W - M, 92);
-    g.textAlign = "left";
-    var cw = [1000, 470, 330, 640, 230, 260, 280, 260, 526], cx = [M]; cw.forEach(function (w, k) { cx.push(cx[k] + w); });
-    function cell(k, y, lines, font, col, h) { g.font = font; g.fillStyle = col; g.textAlign = "center"; var lh = Math.min(42, (h - 14) / Math.max(1, lines.length)), y0 = y + h / 2 - (lines.length - 1) * lh / 2;
-      lines.forEach(function (t, i) { fitText(g, t, cx[k] + cw[k] / 2, y0 + i * lh, cw[k] - 24); }); g.textAlign = "left"; }
-    Y = 214; g.fillStyle = "#1c2a3c"; g.fillRect(M, Y, cx[9] - M, 74); g.fillStyle = "#4a4419"; g.fillRect(cx[6], Y, cw[6], 74);
-    C2.columns.forEach(function (t, k) { cell(k, Y, [t], "700 32px " + SANS, k === 6 ? "#ffe066" : INK, 74); });
-    Y += 74;
-    var RH = 140;
-    C2.contests.forEach(function (c, n) {
-      if (n % 2 === 0) { g.fillStyle = "#211620"; g.fillRect(M, Y, cx[9] - M, RH); }
-      g.fillStyle = "#2a323b"; g.fillRect(M, Y + RH - 2, cx[9] - M, 2);
-      // the name: the body that sets it, the contest, a note, the day and time
-      var lines = [[c.name, 44, "700 ", RED]]; if (c.note) lines.push([c.note, 32, "600 ", RED]); lines.push([c.when, 34, "600 ", BLUE]);
-      var lh = c.note ? 40 : 48, ly0 = Y + RH / 2 - (lines.length - 1) * lh / 2, mid = cx[0] + cw[0] / 2;
-      lines.forEach(function (L, li) {
-        var ly = ly0 + li * lh, pre = li === 0 && c.org ? c.org + ": " : "", px = L[1], wp, wn;
-        do { g.font = L[2] + px + "px " + SANS; wp = g.measureText(pre).width; wn = g.measureText(L[0]).width; px -= 1; } while (wp + wn > cw[0] - 30 && px > 16);
-        var x = mid - (wp + wn) / 2; g.textAlign = "left";
-        if (pre) { g.fillStyle = PINK; g.fillText(pre, x, ly); }
-        g.fillStyle = L[3]; g.fillText(L[0], x + wp, ly);
-      });
-      cell(1, Y, c.info, "500 30px " + SANS, "#d5d9de", RH);
-      cell(2, Y, c.grades, "600 34px " + SANS, INK, RH);
-      cell(3, Y, c.level, "500 30px " + SANS, "#d5d9de", RH);
-      cell(4, Y, [c.price[0]], "700 50px " + SANS, INK, RH); cell(5, Y, [c.price[1]], "700 50px " + SANS, INK, RH);
-      cell(6, Y, [c.early], "700 38px " + SANS, RED, RH); cell(7, Y, [c.deadline], "700 38px " + SANS, c.deadline === "FULL" ? RED : INK, RH);
-      cell(8, Y, C2.register, "500 30px " + SANS, "#d5d9de", RH);
-      Y += RH;
-    });
-    var TH = 58;
-    C2.teams.forEach(function (t) {
-      g.fillStyle = "#2a1a2a"; g.fillRect(M, Y, cx[9] - M, TH); g.fillStyle = "#3a2a3a"; g.fillRect(M, Y + TH - 2, cx[9] - M, 2);
-      cell(0, Y, [t.name], "700 38px " + SANS, MAG, TH); cell(1, Y, [t.when], "500 28px " + SANS, INK, TH); cell(2, Y, [t.grades], "500 28px " + SANS, INK, TH); cell(3, Y, [t.level], "500 28px " + SANS, INK, TH);
-      cell(4, Y, [t.price], "600 30px " + SANS, INK, TH); [5, 6, 7].forEach(function (k) { cell(k, Y, ["N/A"], "500 28px " + SANS, DIM, TH); }); cell(8, Y, ["TTmath students only"], "600 28px " + SANS, INK, TH);
-      Y += TH;
-    });
-    // the notes
-    Y += 44; g.textAlign = "center"; g.font = "700 46px " + SANS; g.fillStyle = "#b48cff"; g.fillText(C2.notes_head, W / 2, Y); var hw = g.measureText(C2.notes_head).width; g.fillRect(W / 2 - hw / 2, Y + 28, hw, 3);
-    Y += 64; var NC = { maroon: PINK, blue: BLUE, red: RED, ink: "#d5d9de" }, nh = Math.min(46, (H - 24 - Y) / C2.notes.length);
-    C2.notes.forEach(function (n) { g.font = (n[1] === "red" ? "600 " : "400 ") + "31px " + SANS; g.fillStyle = NC[n[1]] || INK; fitText(g, n[0], W / 2, Y, W - 2 * M); Y += nh; });
+  // Monday's homework classes, online
+  function schHomework() {
+    var out = [];
+    P2.timetable.groups.forEach(function (gr, gi) { gr.classes.forEach(function (c, ci) { if (!/^Mon /.test(c.hw)) return; var sp = schSpan(c.hw); out.push({ s: sp[0], e: sp[1], name: c.name, room: 0, group: gr.name, o: gi * 100 + ci }); }); });
+    return out.sort(function (p, q) { return p.s - q.s || p.o - q.o; });
+  }
+  // a day's classes in k columns, never splitting a start time, the longest column as short as can be
+  function schSplit(rows, k) {
+    var groups = []; rows.forEach(function (r) { var g = groups[groups.length - 1]; if (g && g[0].s === r.s) g.push(r); else groups.push([r]); });
+    if (groups.length <= k) return groups;
+    var best = null, n = groups.length;
+    (function rec(start, left, acc) {
+      if (left === 1) { var cols = acc.concat([groups.slice(start)]); var mx = Math.max.apply(null, cols.map(function (c) { return c.reduce(function (t, g) { return t + g.length; }, 0); })); if (!best || mx < best.mx) best = { mx: mx, cols: cols }; return; }
+      for (var e = start + 1; e <= n - left + 1; e++) rec(e, left - 1, acc.concat([groups.slice(start, e)]));
+    })(0, k, []);
+    return best.cols.map(function (c) { return [].concat.apply([], c); });
+  }
+  // the room at the right of a row: its number on an amber plate; "Online"; or the plate and "+ online"
+  function schRoom(g, xr, cy, room, rh) {
+    var h = Math.round(rh * 0.66), f = Math.round(h * 0.68);
+    g.textAlign = "right";
+    if (room === 0) { g.fillStyle = RED; g.font = "600 " + Math.round(rh * 0.42) + "px " + SANS; g.fillText("Online", xr, cy); g.textAlign = "left"; return; }
+    var x = xr;
+    if (room < 0) { g.fillStyle = RED; g.font = "600 " + Math.round(rh * 0.32) + "px " + SANS; g.fillText("+ online", x, cy); x -= g.measureText("+ online").width + 16; }
+    g.font = "700 " + f + "px " + SANS; var txt = String(Math.abs(room)), w = g.measureText(txt).width + h * 0.62;
+    g.fillStyle = AMB; roundRect(g, x - w, cy - h / 2, w, h, h * 0.18); g.fill(); g.fillStyle = "#14181d"; g.textAlign = "center"; g.fillText(txt, x - w / 2, cy + h * 0.04);
     g.textAlign = "left";
   }
+  // a class's name in one size on every row: the class ("L2 Basic") large, what it is ("Gr 9–10 Algebra") smaller after it
+  function schName(g, nm, x, cy, avail, F) {
+    var i = nm.indexOf(" · "), main = i < 0 ? nm : nm.slice(0, i), sub = i < 0 ? "" : nm.slice(i + 3);
+    g.fillStyle = INK; g.font = "600 " + F + "px " + SANS; var mw = g.measureText(main).width;
+    if (mw > avail || !sub) { fitText(g, main, x, cy, avail); return; }
+    g.fillText(main, x, cy); var left = avail - mw - F * 0.36, f2 = Math.round(F * 0.74);
+    g.font = "400 " + f2 + "px " + SANS; while (g.measureText(sub).width > left && f2 > F * 0.6) { f2--; g.font = "400 " + f2 + "px " + SANS; }
+    if (g.measureText(sub).width <= left) { g.fillStyle = "#aab2bb"; g.fillText(sub, x + mw + F * 0.36, cy + F * 0.04); }   // what does not fit is left out, never shrunk to a speck
+  }
+  // a column of classes: the start time big at the left of the first class to start then, its end under it; a thin bar
+  // in the class's group colour, its name, its room at the right
+  function schColumn(g, x0, y0, CW, rows, rh) {
+    var gut = Math.min(330, CW * 0.25), roomW = Math.min(360, CW * 0.27), y = y0, lastS = -1, lastE = -1;
+    rows.forEach(function (r) {
+      var cy = y + rh / 2, first = r.s !== lastS;
+      if (first && lastS >= 0) { g.fillStyle = "#28313b"; g.fillRect(x0, y - 1, CW, 3); }
+      if (first || r.e !== lastE) {
+        if (first) { g.fillStyle = INK; g.font = "700 " + Math.round(rh * 0.44) + "px " + SANS; g.fillText(schHM(r.s, true), x0, cy - rh * 0.13); }
+        g.fillStyle = DIM; g.font = "400 " + Math.round(rh * 0.27) + "px " + SANS; g.fillText("to " + schHM(r.e, false), x0, first ? cy + rh * 0.27 : cy);
+      }
+      g.fillStyle = GROUP_COL[r.group] || DIM; g.fillRect(x0 + gut, y + rh * 0.2, 9, rh * 0.6);
+      schName(g, r.name, x0 + gut + 30, cy, CW - gut - roomW - 30, Math.round(rh * 0.46));
+      schRoom(g, x0 + CW, cy, r.room, rh);
+      lastS = r.s; lastE = r.e; y += rh;
+    });
+  }
+  // the head: the term, and the pages as tabs with this one lit
+  function screenHead(g, W, title, sub, tabs, page) {
+    var M = 72; g.fillStyle = "#121a23"; g.fillRect(0, 0, W, 214); g.fillStyle = AMB; g.fillRect(0, 210, W, 6);
+    g.textAlign = "left"; g.fillStyle = INK; g.font = "700 104px " + SANS; g.fillText(title, M, 88);
+    g.fillStyle = DIM; g.font = "400 52px " + SANS; fitText(g, sub, M, 166, W * 0.5);
+    var x = W - M; g.font = "700 52px " + SANS;
+    for (var i = tabs.length - 1; i >= 0; i--) {
+      var tw = g.measureText(tabs[i]).width + 70; x -= tw;
+      if (i === page) { g.fillStyle = AMB; roundRect(g, x, 66, tw, 92, 16); g.fill(); g.fillStyle = "#14181d"; }
+      else { g.strokeStyle = "#3b4652"; g.lineWidth = 4; roundRect(g, x, 66, tw, 92, 16); g.stroke(); g.fillStyle = DIM; }
+      g.textAlign = "center"; g.fillText(tabs[i], x + tw / 2, 113); g.textAlign = "left"; x -= 26;
+    }
+  }
+  function drawSchedulePage(g, W, H, page) {
+    var T2 = P2.timetable, P = SCH_PAGES[page], M = 72, gap = 80, foot = H - 104;
+    screenHead(g, W, T2.term.title, T2.term.dates + "  ·  " + T2.term.weeks + " weeks", SCH_PAGES.map(function (q) { return q.tab; }), page);
+    var cols = [], top = 262;
+    if (P.days && P.days.length > 1) P.days.forEach(function (di) { cols.push({ head: DAY_NAME[T2.days[di]], rows: schDay(di) }); });
+    else {
+      var rows = P.hw ? schHomework() : schDay(P.days[0]);
+      g.fillStyle = AMB; g.font = "700 76px " + SANS; g.fillText(P.hw ? "Monday" : DAY_NAME[T2.days[P.days[0]]], M, top + 44);
+      var hw = g.measureText(P.hw ? "Monday" : DAY_NAME[T2.days[P.days[0]]]).width; g.fillStyle = DIM; g.font = "400 50px " + SANS;
+      g.fillText(P.hw ? "homework classes, all online" : rows.length + " classes", M + hw + 36, top + 48); top += 118;
+      schSplit(rows, 3).forEach(function (r) { cols.push({ rows: r }); });
+    }
+    var CW = (W - 2 * M - gap * (cols.length - 1)) / cols.length, nmax = 0;
+    cols.forEach(function (c) { nmax = Math.max(nmax, c.rows.length + (c.head ? 1.25 : 0)); });
+    var rh = Math.min(168, (foot - 24 - top) / nmax);
+    cols.forEach(function (c, ci) {
+      var x0 = M + ci * (CW + gap), y = top;
+      if (c.head) { g.fillStyle = AMB; g.font = "700 " + Math.round(rh * 0.56) + "px " + SANS; g.fillText(c.head, x0, y + rh * 0.42); g.fillStyle = "#3b4652"; g.fillRect(x0, y + rh * 0.92, CW, 4); y += rh * 1.25; }
+      schColumn(g, x0, y, CW, c.rows, rh);
+    });
+    // the foot: the groups' colours; where the rooms are
+    g.fillStyle = "#121a23"; g.fillRect(0, foot, W, H - foot); var x = M, fy = foot + (H - foot) / 2; g.font = "500 42px " + SANS;
+    T2.groups.forEach(function (gr) { g.fillStyle = GROUP_COL[gr.name] || DIM; g.fillRect(x, fy - 22, 10, 44); g.fillStyle = "#c9ced4"; g.fillText(GROUP_NAME[gr.name] || gr.name, x + 26, fy + 2); x += g.measureText(GROUP_NAME[gr.name] || gr.name).width + 80; });
+    g.textAlign = "right"; g.fillStyle = "#c9ced4"; g.fillText("Rooms 1xx downstairs, 2xx upstairs", W - M, fy + 2); g.textAlign = "left";
+  }
+  // ---- the contests: a card each in date order; then what to read before paying ----
+  var CON_TABS = ["CONTESTS", "BEFORE YOU PAY"], MON3 = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"], WD3 = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  var ORG_COL = { CMS: "#ff8a7a", MAA: "#86b6ff", Waterloo: "#5fd0c0", "": "#5fd0c0" };
+  function conItems() {
+    var C2 = P2.contests, out = [];
+    C2.contests.forEach(function (c) { out.push({ c: c, sc: c.screen, team: false }); });
+    C2.teams.forEach(function (t) { out.push({ c: t, sc: t.screen, team: true }); });
+    return out.sort(function (p, q) { return p.sc.iso < q.sc.iso ? -1 : 1; });
+  }
+  function conCard(g, x, y, w, h, it) {
+    var c = it.c, sc = it.sc, d = sc.iso.split("-").map(Number), wd = new Date(Date.UTC(d[0], d[1] - 1, d[2])).getUTCDay(), full = c.deadline === "FULL", bw = 220;
+    g.fillStyle = it.team ? "#1d1a26" : "#151c25"; roundRect(g, x, y, w, h, 22); g.fill();
+    g.fillStyle = it.team ? "#2a2238" : "#1d2733"; roundRect(g, x, y, bw, h, 22); g.fill(); g.fillRect(x + bw - 30, y, 30, h);
+    // the date, and the last day to register under it
+    var bx = x + bw / 2; g.textAlign = "center"; g.fillStyle = AMB; g.font = "700 48px " + SANS; g.fillText(MON3[d[1] - 1] + (d[0] > 2026 ? " " + d[0] : ""), bx, y + 64);
+    g.fillStyle = INK; g.font = "700 " + (sc.until ? 100 : 124) + "px " + SANS; g.fillText(String(d[2]), bx, y + 168);
+    g.fillStyle = DIM; g.font = "500 42px " + SANS; g.fillText(sc.until ? "to " + sc.until : WD3[wd], bx, y + 252);
+    if (!it.team) {
+      g.fillStyle = "#2c3846"; g.fillRect(x + 24, y + h - 150, bw - 48, 3);
+      if (full) { g.fillStyle = RED; g.font = "800 50px " + SANS; g.fillText("FULL", bx, y + h - 82); }
+      else { g.fillStyle = DIM; g.font = "600 30px " + SANS; g.fillText("REGISTER BY", bx, y + h - 106); g.fillStyle = AMB; g.font = "700 46px " + SANS; fitText(g, c.deadline.replace(/\.$/, "").replace(".", ""), bx, y + h - 56, bw - 30); }
+    }
+    // the contest
+    var tx = x + bw + 36, tw = w - bw - 60, ty = y + 58; g.textAlign = "left";
+    g.fillStyle = it.team ? "#c3a3f0" : (ORG_COL[c.org] || "#7cc36e"); g.font = "700 38px " + SANS; g.fillText(it.team ? "TEAM · TTMATH STUDENTS ONLY" : (c.org === "Waterloo" ? "CEMC · WATERLOO" : (c.org || "CEMC · WATERLOO")).toUpperCase(), tx, ty);
+    g.fillStyle = INK; g.font = "700 64px " + SANS; fitText(g, sc.short, tx, ty + 76, tw); ty += 76;
+    if (sc.at) { g.fillStyle = BLUE; g.font = "600 46px " + SANS; g.fillText(sc.at, tx, ty + 66); var aw = g.measureText(sc.at).width;
+      if (c.note) { g.fillStyle = RED; g.font = "600 38px " + SANS; fitText(g, "·  " + c.note.toLowerCase(), tx + aw + 20, ty + 68, tw - aw - 20); } ty += 66; }
+    g.fillStyle = "#aab2bb"; g.font = "400 38px " + SANS; fitText(g, sc.form, tx, ty + 58, tw); ty += 58;
+    g.fillStyle = "#d5d9de"; g.font = "500 40px " + SANS; fitText(g, it.team ? c.grades : "Grades " + c.grades.map(function (q) { return q.replace(/^Gr(ade)?\s?/, ""); }).join(" · "), tx, ty + 60, tw); ty += 60;
+    g.fillStyle = "#aab2bb"; g.font = "400 36px " + SANS; fitText(g, it.team ? c.level : "Best after " + c.level.map(function (q) { return q.replace(" completed", ""); }).join(", "), tx, ty + 54, tw); ty += 54;
+    if (it.team) { g.fillStyle = INK; g.font = "700 50px " + SANS; g.fillText(c.price === "N/A" ? "Free" : "Price " + c.price, tx, ty + 72); }
+    else { g.fillStyle = INK; g.font = "700 50px " + SANS; g.fillText(c.price[0] + " TTmath", tx, ty + 72); var pw = g.measureText(c.price[0] + " TTmath").width; g.fillStyle = DIM; g.font = "500 42px " + SANS; g.fillText("·  " + c.price[1] + " others", tx + pw + 20, ty + 74); }
+  }
+  // the last card: where the contests are written
+  function conWhere(g, x, y, w, h) {
+    g.fillStyle = "#151c25"; roundRect(g, x, y, w, h, 22); g.fill(); g.strokeStyle = AMB; g.lineWidth = 4; roundRect(g, x + 2, y + 2, w - 4, h - 4, 20); g.stroke();
+    g.textAlign = "left"; g.fillStyle = AMB; g.font = "700 38px " + SANS; g.fillText("WHERE YOU WRITE", x + 44, y + 64);
+    g.font = "700 150px " + SANS; var nw = g.measureText("139").width + 70; g.fillStyle = AMB; roundRect(g, x + 44, y + 110, nw, 170, 22); g.fill(); g.fillStyle = "#14181d"; g.fillText("139", x + 79, y + 198);
+    g.fillStyle = INK; g.font = "700 58px " + SANS; g.fillText("Ramanujan", x + 44 + nw + 36, y + 160); g.fillStyle = "#aab2bb"; g.font = "400 40px " + SANS; g.fillText("the competition room", x + 44 + nw + 36, y + 222);
+    g.fillStyle = "#d5d9de"; g.font = "500 40px " + SANS; fitText(g, "Downstairs, on the lower corridor: follow the signs", x + 44, y + h - 120, w - 88);
+    g.fillStyle = "#aab2bb"; g.font = "400 38px " + SANS; fitText(g, "The team contests meet with their clubs", x + 44, y + h - 60, w - 88);
+  }
+  function drawContestPage(g, W, H, page) {
+    var C2 = P2.contests, M = 72;
+    screenHead(g, W, "Math Contests", "Sept – Dec 2026  ·  written here, in Ramanujan, room 139", CON_TABS, page);
+    var foot = H - 104;
+    if (page === 0) {
+      var items = conItems(), cols = 4, rows = Math.ceil(items.length / cols), gx = 36, gy = 34, top = 252;
+      var cw = (W - 2 * M - gx * (cols - 1)) / cols, ch = (foot - 30 - top - gy * (rows - 1)) / rows;
+      items.forEach(function (it, k) { conCard(g, M + (k % cols) * (cw + gx), top + Math.floor(k / cols) * (ch + gy), cw, ch, it); });
+      if (items.length < cols * rows) { var kk = items.length; conWhere(g, M + (kk % cols) * (cw + gx), top + Math.floor(kk / cols) * (ch + gy), cw, ch); }
+    } else {
+      var y = 316; g.fillStyle = AMB; g.font = "700 80px " + SANS; g.fillText("Please read before you pay", M, y); y += 86;
+      var NC = { maroon: "#f0a0b8", blue: BLUE, red: RED, ink: "#d5d9de" };
+      C2.notes.forEach(function (n) {
+        g.font = "500 64px " + SANS; var lines = wrapText(g, n[0], W - 2 * M - 80);
+        g.fillStyle = NC[n[1]] || INK; g.beginPath(); g.arc(M + 18, y + 70, 13, 0, 2 * Math.PI); g.fill();
+        lines.forEach(function (t, li) { g.fillText(t, M + 70, y + 70 + li * 80); });
+        y += 70 + lines.length * 80 + 18;
+      });
+    }
+    g.fillStyle = "#121a23"; g.fillRect(0, foot, W, H - foot); var fy = foot + (H - foot) / 2;
+    g.fillStyle = "#c9ced4"; g.font = "500 42px " + SANS; g.fillText("Register at your day school or at TTmath  ·  e-transfer to payment@ttmath.ca", M, fy + 2);
+    g.textAlign = "right"; g.fillStyle = BLUE; g.fillText(C2.contact[2] + "   " + C2.contact[0].replace("Tel ", "") + "   " + C2.contact[1].replace("Tel ", ""), W - M, fy + 2); g.textAlign = "left";
+  }
+  // a screen that turns its pages: its canvas, its texture, how long each page stays
+  var SCREENS = [], SCR_FORCE = null;
+  function pagedScreen(draw, n, secs, first) {
+    var cv = screenCanvas(function (g, W, H) { draw(g, W, H, first); }), S = { cv: cv, draw: draw, n: n, secs: secs, page: first, t0: -1, tex: null };
+    SCREENS.push(S); return S;
+  }
+  function screenRedraw(S) {
+    var s = MOBILE ? 0.375 : 0.75, g = S.cv.getContext("2d");
+    g.setTransform(s, 0, 0, s, 0, 0); var bg = g.createLinearGradient(0, 0, 0, SCR.H); bg.addColorStop(0, "#0d1116"); bg.addColorStop(1, "#080a0d"); g.fillStyle = bg; g.fillRect(0, 0, SCR.W, SCR.H);
+    g.textBaseline = "middle"; g.textAlign = "left"; S.draw(g, SCR.W, SCR.H, S.page); if (S.tex) S.tex.needsUpdate = true;
+  }
+  // each frame: turn a screen's page when its time is up (or as SCR_FORCE says)
+  function screensUpdate(time) {
+    SCREENS.forEach(function (S, i) {
+      if (S.t0 < 0) S.t0 = time;
+      var want = SCR_FORCE ? SCR_FORCE[i] : S.page;
+      if (!SCR_FORCE && time - S.t0 > S.secs[S.page]) { want = (S.page + 1) % S.n; }
+      if (want !== S.page) { S.page = want; S.t0 = time; screenRedraw(S); }
+      else if (SCR_FORCE) S.t0 = time;
+    });
+  }
+  // today's page: Wednesday to Friday, Saturday, Sunday; on Monday and Tuesday the homework classes, then on
+  function schToday() { var d = new Date().getDay(); return d === 6 ? 1 : (d === 0 ? 2 : (d === 1 || d === 2 ? 3 : 0)); }
   function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r); g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h); g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r); g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y); g.closePath(); }
   function fitText(g, t, x, y, w) { var f = g.font, px = parseFloat(f.match(/(\d+)px/)[1]); while (g.measureText(t).width > w && px > 12) { px -= 1; g.font = f.replace(/\d+px/, px + "px"); } g.fillText(t, x, y); g.font = f; }
   var BOARD_VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
@@ -118,8 +235,9 @@
   // them, the contests on the right; a dark aluminium bezel round each, a soft light in front
   function timetableBoards(W) {
     var C = CRS, a = 164 * D2R + (C.wall / 2 + 0.07) / 55.8, y0 = C.yU + 1.0, h = 2.15, w = 4.3, spans = [[51.5, 51.5 + w], [56.1, 56.1 + w]];
-    screenQuad(screenCanvas(drawSchedule), a, spans[0][0], spans[0][1], y0, h);
-    screenQuad(screenCanvas(drawContests), a, spans[1][0], spans[1][1], y0, h);
+    var S1 = pagedScreen(drawSchedulePage, SCH_PAGES.length, [12, 12, 12, 9], schToday()), S2 = pagedScreen(drawContestPage, 2, [16, 9], 0);
+    S1.tex = screenQuad(S1.cv, a, spans[0][0], spans[0][1], y0, h).material.uniforms.map.value;
+    S2.tex = screenQuad(S2.cv, a, spans[1][0], spans[1][1], y0, h).material.uniforms.map.value;
     spans.forEach(function (sp) {
       var bz = new Builder(), Mb = crsFrame((sp[0] + sp[1]) / 2, 164 * D2R + C.wall / 2 / 55.8, y0 + h / 2);
       bz.box(0.0, -h / 2 - 0.06, -w / 2 - 0.06, 0.06, h / 2 + 0.06, w / 2 + 0.06, MT.ANOD); bz.tag(0, 3, null); W.add(bz, Mb);

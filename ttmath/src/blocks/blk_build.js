@@ -53,7 +53,7 @@
     podInit();                                                          // the pod waiting at the dock
   }
   // doors open as you come near; reflections refresh as the sky changes
-  function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); }
+  function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); screensUpdate(time); }
   // a door with a partner (d.lock: the airlock's other doors) opens only once its partner has closed, and when both are
   // wanted the one nearer to you goes first, so the airlock's two pairs are never open together
   function doorsUpdate(dt) {

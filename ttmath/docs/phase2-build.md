@@ -108,6 +108,11 @@ each pushed when it is checked:
    `blk_pod.js`: the pod starts docked (`podInit`), boarding runs the collar in, LAND within 18 m of the spot docks
    (`podDockStep`) and you step out into the collar; the pad by the airlock (`podStop`) is gone. The door in the outer
    glass is a `glassFront` door; `crescentGallery` leaves a framed opening in the gallery's roof for the bridge.
+   ~~The Gate Hall's screens easy to read~~ (v0.21): `blk_board.js` draws each page on the screen's canvas
+   (`drawSchedulePage`: `schDay`, `schHomework`, `schSplit` into columns without splitting a start time, `schColumn`,
+   `schName`, `schRoom`; `drawContestPage`: `conCard`, `conWhere`, the notes), `pagedScreen` keeps the canvas and its
+   texture and `screensUpdate` (from `campusUpdate`) turns the page when its time is up; `SCR_FORCE = [i, j]` holds
+   given pages (for shots). The contests' dates, times and short names for the cards are `SCREEN` in `campus_contests.py`.
 9. Details and realism everywhere (CP-30). ~~Comfort, and no cartoon (CP-38)~~ (v0.20): `blk_soft.js` (after `blk_wings.js`) has `softBox`
    (a box with rounded edges and corners whose faces may bulge like a cushion: `puff`; the stuffed faces are sampled finer),
    the pieces (`sofa`, `armchair`, `ottoman`, `pillow`, `tableLamp`, `lampTable`, `walnutTable`, `readingTable`, `banquette`),

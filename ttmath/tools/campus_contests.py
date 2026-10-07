@@ -36,6 +36,21 @@ CONTESTS = [
          grades=("Gr8 & under",), level=("L2 completed",), price=("$20", "$40"), early="Sept 29", deadline="Dec. 20"),
 ]
 REGISTER = ("Your day school", "or TTmath")
+# for the screen (v0.21): each contest's date (ISO; a range's end as printed), its time, and a short form of its name
+# and its form, so the cards can be set in large type
+SCREEN = {
+    "Canada Lynx": dict(iso="2026-10-01", at="5 PM or 7 PM", short="Canada Lynx", form="15 multiple-choice questions, 1.5 hr"),
+    "COMC": dict(iso="2026-10-29", at="1:30 PM", short="COMC", form="12 questions, work shown, 2.5 hr"),
+    "Canada Jay": dict(iso="2026-11-19", at="5 PM or 7 PM", short="Canada Jay", form="15 multiple-choice questions, 1.5 hr"),
+    "AMC10/12A": dict(iso="2026-11-05", at="5 PM or 7 PM", short="AMC 10/12 A", form="25 multiple-choice questions, 75 min"),
+    "AMC10/12B": dict(iso="2026-11-13", at="5 PM or 7 PM", short="AMC 10/12 B", form="25 multiple-choice questions, 75 min"),
+    "Beaver Computing Challenge": dict(iso="2026-11-15", at="5 PM or 7:30 PM", short="Beaver Computing Challenge", form="12–15 multiple-choice questions, 45 min"),
+    "Canadian Intermediate (CIMC)": dict(iso="2026-11-18", at="6:45 PM", short="Canadian Intermediate (CIMC)", form="9 questions, answers and solutions, 2 hr"),
+    "AMC8": dict(iso="2027-01-24", at="5 PM or 7:30 PM", short="AMC 8", form="25 multiple-choice questions, 40 min"),
+    "HMMT Team Contest": dict(iso="2026-11-07", at="", short="HMMT", form="Team contest"),
+    "HiMCM Team Contest": dict(iso="2026-11-04", until="Nov 17", at="", short="HiMCM", form="Team modelling contest, over two weeks"),
+    "ACSL Team Contest": dict(iso="2026-10-19", until="May 23", at="", short="ACSL", form="Team computer science contest, all year"),
+}
 # the team contests, TTmath students only
 TEAMS = [
     dict(name="HMMT Team Contest", when="Nov. 7, 2026", grades="Gr7 and above", level="L5 and MO class", price="TBD"),
@@ -58,8 +73,8 @@ NOTES = [
 def data():
     """the sheet for the demo (P2.contests)"""
     return dict(title=TITLE, venue=VENUE, contact=list(CONTACT), columns=list(COLUMNS), register=list(REGISTER),
-                contests=[dict(c, info=list(c["info"]), grades=list(c["grades"]), level=list(c["level"]), price=list(c["price"]), note=c.get("note", "")) for c in CONTESTS],
-                teams=TEAMS, notes_head=NOTES_HEAD, notes=[list(n) for n in NOTES])
+                contests=[dict(c, info=list(c["info"]), grades=list(c["grades"]), level=list(c["level"]), price=list(c["price"]), note=c.get("note", ""), screen=SCREEN[c["name"]]) for c in CONTESTS],
+                teams=[dict(t, screen=SCREEN[t["name"]]) for t in TEAMS], notes_head=NOTES_HEAD, notes=[list(n) for n in NOTES])
 
 
 if __name__ == "__main__":

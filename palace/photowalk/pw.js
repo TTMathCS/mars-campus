@@ -1,15 +1,17 @@
 // The Crown photo walk: a path-traced 360 at every point of the plan (palace/tools/photowalk_plan.py, rendered by
 // palace/tools/render/photowalk_render.py). Drag to look round; a click on the floor, or the arrow keys, walk to
-// the next point: the camera glides there through the rooms' shapes (each point's depth map), the 360 left behind
-// fading into the one ahead. Only one 360 is loaded at a time, a small one first, then the sharp one.
+// the next point: the camera glides there through the rooms' shapes (each point's depth map), each surface taking
+// its colour from the 360s that see it (pano.js). Only one 360 is loaded at a time, a small one first, then the
+// sharp one.
 import * as THREE from 'three';
-import { Pano, EYE, fromThree } from './pano.js';
+import { Pano, EYE, fromThree, stepping } from './pano.js';
 import { RingMap } from '../walk/ringmap.js';
 
 const $ = id => document.getElementById(id);
 const D = Math.PI / 180;
 const REACH = 11.5;              // the furthest point one steps to, metres
 const START = 'C-04.2';          // the Arrival hall, where everyone arrives
+const SLOW = /[?&]slow/.test(location.search) ? 8 : 1;     // (to look at a step frame by frame)
 
 const plan = await (await fetch('plan.json')).json();
 // the points rendered so far: each of the two machines that render them keeps its own list
@@ -23,15 +25,7 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPrefere
 renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
 const world = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(72, 1, 0.05, 2000); camera.rotation.order = 'YXZ';
-const rtA = new THREE.WebGLRenderTarget(1, 1), rtB = new THREE.WebGLRenderTarget(1, 1);
-const blend = new THREE.ShaderMaterial({
-  uniforms: { a: { value: rtA.texture }, b: { value: rtB.texture }, t: { value: 0 } },
-  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
-  fragmentShader: 'uniform sampler2D a, b; uniform float t; varying vec2 vUv; void main() { gl_FragColor = mix(texture2D(a, vUv), texture2D(b, vUv), t); }',
-  depthTest: false, depthWrite: false,
-});
-const blendScene = new THREE.Scene(), flat = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-blendScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), blend));
+renderer.setClearColor(0x2a2420);      // what neither 360 saw, for an instant while stepping
 
 // the spots one can step to, as rings on the floor; and the ring under the pointer
 const ringGeo = new THREE.RingGeometry(0.26, 0.36, 48).rotateX(-Math.PI / 2);
@@ -49,7 +43,6 @@ cursor.renderOrder = 3; cursor.visible = false; world.add(cursor);
 
 function resize() {
   const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-  const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rtA.setSize(s.x, s.y); rtB.setSize(s.x, s.y);
 }
 addEventListener('resize', resize); resize();
 
@@ -88,8 +81,9 @@ function named(P) {
 }
 
 async function arrive(P) {
-  if (here && here !== P && here.mesh) world.remove(here.mesh);
-  here = P; world.add(P.mesh); P.mesh.visible = true;
+  if (here && here !== P && here.mesh) { world.remove(here.mesh); world.remove(here.torn); }
+  if (P.torn) world.remove(P.torn);
+  here = P; world.add(P.mesh);
   near = neighbours(P);
   near.forEach((n, i) => { const m = mark(i); m.position.set(n.Q.floor.x, n.Q.floor.y + 0.02, n.Q.floor.z); m.userData.n = n; });
   marks.forEach((m, i) => (m.visible = i < near.length && near[i].floor));
@@ -125,8 +119,9 @@ async function go(n) {
   if (!n || move) return;
   const Q = n.Q;
   try { await Promise.all([Q.loadDepth(), Q.full ? null : Q.loadSmall()]); } catch (e) { return; }
-  Q.build(); Q.show(); world.add(Q.mesh);
-  move = { A: here, B: Q, t0: performance.now(), ms: Math.min(1500, 650 + 85 * n.dist) };
+  Q.build(); Q.show();
+  world.remove(here.mesh); world.add(here.torn); world.add(Q.torn);       // both shapes, torn at near things' edges
+  move = { A: here, B: Q, t0: performance.now(), ms: SLOW * Math.min(1400, 600 + 75 * n.dist) };
   marks.forEach(m => (m.visible = false)); cursor.visible = false;
   if (hint) { hint = false; $('hint').classList.remove('on'); }
   Q.loadFull().then(() => Q.show()).catch(() => {});
@@ -215,11 +210,9 @@ function frame(now) {
   if (move) {
     const t = Math.min(1, (now - move.t0) / move.ms), e = ease(t);
     camera.position.lerpVectors(move.A.eye, move.B.eye, e);
-    // each 360 on its room's shape, seen from where one is on the way; the two mixed, the one ahead coming in
-    move.B.mesh.visible = false; move.A.mesh.visible = true; renderer.setRenderTarget(rtA); renderer.render(world, camera);
-    move.A.mesh.visible = false; move.B.mesh.visible = true; renderer.setRenderTarget(rtB); renderer.render(world, camera);
-    renderer.setRenderTarget(null); blend.uniforms.t.value = Math.min(1, Math.max(0, (t - 0.12) / 0.7));
-    renderer.render(blendScene, flat);
+    // both points' shapes, each surface coloured by the 360s that see it, the one ahead coming in
+    stepping(move.A, move.B, Math.min(1, Math.max(0, (t - 0.1) / 0.75)));
+    renderer.render(world, camera);
     if (t >= 1) { const B = move.B; move = null; arrive(B); }
   } else if (here) {
     camera.position.copy(here.eye);

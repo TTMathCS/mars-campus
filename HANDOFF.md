@@ -5,7 +5,19 @@ Everything needed to continue is in this repo. Last updated 7 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## Where the work stopped: 7 Oct 2026, 02:15 UTC (read this first)
+## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
+
+**Jim, 7 Oct:** "Go ahead to finish crown first. I need walkable in crown. I feel progress too slow"; "all the rooms
+should have the window same as master room" (the old 360s and photos showed the revision G windows high on the walls:
+the old 360s are hidden until their new ones are in, `tour_crown.py`); "webpage nothing changed" (the Crown's page now
+opens with six of the new room pictures, `crown.html#inside`); **"don't wait to publish. as long as new rendering finish
+just publish"**: `autopub.py` runs on this machine (from the scratchpad: `python3 blend/autopub.py <scratchpad>`,
+restart it after a container restart, with the runner): every 90 s it grades and publishes each new final or 360 of
+either machine and pushes, and joins the walk's parts. **The walk first:** both machines bake the walk's ten parts
+(`walk_part.sh <rooms> <tag>`, five parts each), then the 360s. Outside views of revision H render in seconds
+(`overall.py`): publish them over `palace/design/img/crown-*.jpg` and `site-aerial.jpg`.
+
+### 7 Oct 2026, 02:15 UTC
 
 Jim's newest ask (7 Oct): **"painting should not be on the windows"**, kept as a global rule (CLAUDE.md): nothing hangs
 on, stands across or is fixed over a window. `palace/tools/render/audit_windows.py [room ...]` builds each Crown scene

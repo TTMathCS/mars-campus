@@ -746,9 +746,9 @@ def atrium(M, rnd):
 # and the windows lit from inside (at sunset)
 OUTSIDE = {
     "crown-day": dict(cam=(135.0, 560.0, 70.0), target=(0.0, 0.0, 30.0), lens=45, level=False, sun=(212.0, 38.0, 4.5, (1.0, 0.88, 0.72))),
-    "crown-sunset": dict(cam=(250.0, 720.0, 46.0), target=(0.0, 0.0, 58.0), lens=50, level=True, sun=(285.0, 5.0, 2.6, (1.0, 0.68, 0.42)), sky=0.5, lit=True),
+    "crown-sunset": dict(cam=(250.0, 640.0, 46.0), target=(0.0, 0.0, 56.0), lens=75, level=True, sun=(285.0, 5.0, 2.6, (1.0, 0.68, 0.42)), sky=0.5, lit=True),
     "crown-garden": dict(cam=(242.0, 122.0, 1.7), target=(0.0, 0.0, 62.0), lens=18, level=False, sun=(150.0, 48.0, 4.5, (1.0, 0.88, 0.72))),
-    "site-aerial": dict(cam=(200.0, 1500.0, 700.0), target=(0.0, 0.0, 0.0), lens=55, level=False, sun=(255.0, 30.0, 4.5, (1.0, 0.88, 0.72))),
+    "site-aerial": dict(cam=(200.0, 1250.0, 560.0), target=(0.0, 0.0, 10.0), lens=85, level=False, sun=(255.0, 30.0, 4.5, (1.0, 0.88, 0.72))),
 }
 
 

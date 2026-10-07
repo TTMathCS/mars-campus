@@ -22,7 +22,7 @@
     PLAZA.c = palXZ(0, 91.5);
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(), W = new Builder(), D = new Builder();
-    campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); podStop(B); drapeGeometry(D);   // all the lights exist once these are built
+    campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings);
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
@@ -50,7 +50,7 @@
     envIn.pos.set(PAL.c.x, PALY.B + 2.0, PAL.c.z);
     var wp = crsPt(55.8, 16 * D2R); envW.pos.set(wp.x, CRS.yU + 1.6, wp.z);                         // in Euclid
     var cp = palXZ(0, 92); envOut.pos.set(cp.x, cgH(cp.x, cp.z) + 2.0, cp.z);
-    podInit();                                                          // the pod waiting at the pod stop
+    podInit();                                                          // the pod waiting at the dock
   }
   // doors open as you come near; reflections refresh as the sky changes
   function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); }
@@ -70,7 +70,7 @@
   function blockedByBuilding(x, z) {
     for (var i = 0; i < COLL.posts.length; i++) { var p = COLL.posts[i], dx = x - p.x, dz = z - p.z; if (dx * dx + dz * dz < p.r * p.r) return true; }
     for (var r = 0; r < COLL.rovers.length; r++) { var dx2 = x - COLL.rovers[r].x, dz2 = z - COLL.rovers[r].z; if (dx2 * dx2 + dz2 * dz2 < 7.5) return true; }
-    for (var q = 0; q < POD.list.length; q++) { var pd = POD.list[q]; if (pd !== POD.cur && Math.hypot(x - pd.x, z - pd.z) < 2.2) return true; }   // a parked pod
+    for (var q = 0; q < POD.list.length; q++) { var pd = POD.list[q]; if (pd !== POD.cur && !(PDK && PDK.pod === pd) && Math.hypot(x - pd.x, z - pd.z) < 2.2) return true; }   // a parked pod (at the dock the collar's floor ends at its canopy)
     if (SIGNP.n) {
       var lx = x - SIGNP.c.x, lz = z - SIGNP.c.z, s = lx * SIGNP.t.x + lz * SIGNP.t.z, o = lx * SIGNP.n.x + lz * SIGNP.n.z + s * s / 24;
       if (Math.abs(s) < SIGNP.W / 2 + 0.35 && Math.abs(o) < SIGNP.T / 2 + 0.35) return true;
@@ -80,7 +80,8 @@
   // where you can stand: each part answers for its own ground (undefined: not mine, NaN: blocked); the garden ring takes
   // what is left between the dome and the Ring
   function campusSupport(x, z, yf) {
-    var v = podStopSupport(x, z); if (v !== undefined) return v;
+    if (podDockBlocked(x, z, yf)) return NaN;                         // the dock's columns
+    var v = podDockSupport(x, z, yf); if (v !== undefined) return v;   // its bridge and collar
     v = entranceSupport(x, z, yf); if (v !== undefined) return v;
     v = crescentSupport(x, z, yf); if (v !== undefined) return v;
     v = backSupport(x, z, yf); if (v !== undefined) return v;

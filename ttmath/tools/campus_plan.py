@@ -161,7 +161,7 @@ def entrance_top(lat, rad):
 
 def pod_dock_top(lat, rad):
     D = R.POD_DOCK; sp = (D["spot_r"] * math.sin(math.radians(D["a"])), -D["spot_r"] * math.cos(math.radians(D["a"])))
-    return 0.134 + (R.POD["hover"] + R.POD["height"] if math.hypot(lat - sp[0], rad - sp[1]) < 3.4 else 0.2)
+    return 0.134 + D["deck_y"] + (R.POD["hover"] + R.POD["height"] if math.hypot(lat - sp[0], rad - sp[1]) < 3.4 else 0.2)
 
 
 def link_shape(L):
@@ -176,8 +176,8 @@ NEW = [
          look="A low dome of glass on a steel lattice, the campus's name on a stone wall inside, young trees in planters."),
     dict(code="T04-02", name="Entrance airlock", short="Airlock", shape=rect(0, (R.ENTRANCE["airlock"]["s0"] + R.ENTRANCE["airlock"]["s1"]) / 2, R.ENTRANCE["airlock"]["w"], R.ENTRANCE["airlock"]["s1"] - R.ENTRANCE["airlock"]["s0"], 0), h=R.ENTRANCE["airlock"]["h"] + 0.25, area=30, nolabel=True,
          use="Outer and inner sliding glass doors with a chamber between them, never open together.", look="A glass box under a glass roof."),
-    dict(code="T04-03", name="Pod dock", short="Pod dock", shape=circle(R.POD_DOCK["r"] * math.sin(math.radians(R.POD_DOCK["a"])), -R.POD_DOCK["r"] * math.cos(math.radians(R.POD_DOCK["a"])), R.POD_DOCK["deck_r"]), h=2.6, hprof=rel(pod_dock_top), h_note="a pod floating at its docking spot, 2.4 m", area=0, ground=True, label_dy=4,
-         use="A round deck at the upper floor's level off the Ring's right side: a pod settles onto its docking spot, the collar runs out from the glass bridge to its door, and you walk straight into the Ring.", look="A dark deck with a ring of lights on slender columns; the glass bridge."),
+    dict(code="T04-03", name="Pod dock", short="Pod dock", shape=circle(R.POD_DOCK["r"] * math.sin(math.radians(R.POD_DOCK["a"])), -R.POD_DOCK["r"] * math.cos(math.radians(R.POD_DOCK["a"])), R.POD_DOCK["deck_r"]), h=1.2, hprof=rel(pod_dock_top), h_note="the deck 1.35 m below the upper floor; a pod floating at its docking spot, 1.1 m above the upper floor", area=0, ground=True, label_dy=4,
+         use="A round deck off the Ring's right side, 1.35 m below the upper floor: a pod settles side-on onto its docking spot with its canopy's sill level with the glass bridge, the collar runs out over its halo to the canopy, and you walk straight into the Ring.", look="A dark deck of basalt slabs with a ring of lights, just clear of the ground on short steel legs; the glass bridge on dark steel frames."),
     dict(code="T-06", name="The Ring", shapes=[ring_band(sc["a"][0], sc["a"][1]) for sc in R.RING["sections"]], shape=ring_band(-57, 120), h=6.0, hprof=rel(ring_top), h_note="two storeys behind and beside the dome, one at the front right, sunk into the slope on the left front", area=8300, floors=2, label_at=(54.0 * math.sin(math.radians(75)), -54.0 * math.cos(math.radians(75))),
          use="The whole school in one ring round the Math Palace, like Apple Park but sealed and set into the slope: 13 classrooms and labs named after mathematicians, the library, the café, the dining hall, the assembly hall, the Gate Hall, the art and music rooms, life support; the corridor on the lower floor goes all the way round.",
          look="White fibre-composite and glass, a thin white roof edge round the whole ring, glass onto the garden ring inside and the plain outside."),

@@ -24,7 +24,7 @@ SEALED = dict(
 # with the line of sight from 10.6 m by the palace to 6.2 m at the gateway (s: the distance along the palace's axis, as
 # rad). The gateway arch stands in front of a glass end wall with the entrance airlock; a pod stop by the airlock.
 COURTYARD = dict(s0=33.3, s1=77.7, crown=[(33.3, 10.6), (56.0, 8.6), (77.7, 6.2)], ribs=1.5,
-                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=3.2), podstop=dict(lat=-18.5, rad=74.5, r=4.0, heading=180.0))       # left of the avenue (the rover stands on the right), nose to the start: its door faces the airlock
+                 airlock=dict(s0=77.7, s1=84.0, w=7.0, h=3.2), podstop=dict(lat=-18.5, rad=74.5, r=4.0, heading=180.0))       # left of the avenue, nose to the start (the old design; since v0.19 the pod docks at POD_DOCK)
 COURTYARD_ROOMS = [
     dict(code="T04-01", name="Courtyard hall", kind="move", use="The courtyard under a glass vault on slender steel ribs: the paving, the bollards and young trees, the wings' doors on both sides and the palace's door at the end, warm and in air.", also="Assemblies, the graduation reception, stargazing evenings in shirt sleeves."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="Under the gateway: outer and inner sliding glass doors with a chamber 6 m long between them; the inner doors open once the outer ones have closed and the air is in. Suit lockers and a bench along the side.", also=""),
@@ -94,7 +94,7 @@ CRESCENT_PLANTS = {
 RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-19": [("olive", "window0"), ("croton", "window1"), ("orchid", "desk"), ("snake", "door")],
     "T06-20": [("strelitzia", "window0"), ("fig", "windowmid"), ("anthurium", "desk"), ("fern", "corner1")],
-    "T06-21": [("kentia", "window0"), ("monstera", "window1"), ("bromeliad", "corner0")],
+    "T06-21": [("kentia", "side0"), ("bromeliad", "door")],
     "T06-22": [("snake", "window0"), ("pothos", "shelf")],
     "T06-23": [("ficus", "window0"), ("agave", "window1"), ("orchid", "desk"), ("pothos", "shelf")],
     "T06-24": [("maple", "window0"), ("kentia", "window1"), ("anthurium", "desk")],
@@ -201,7 +201,7 @@ RING_ROOMS = [
     dict(code="T06-18", name="East stair and lift", floor="both", a=(52, 58), kind="move", short="Stair", use="A stair and a lift between the floors in the room band, behind fire doors; the corridors pass by.", also=""),
     dict(code="T06-19", name="Archimedes", floor="upper", a=(58, 76), kind="class", use="Classroom for mechanics: 30 seats, a demonstration bench with levers, pulleys and a balance.", also="Science fair."),
     dict(code="T06-20", name="Pythagoras", floor="upper", a=(76, 93), kind="class", use="The wing's M1 Mathematics moves here: 30 seats, a long whiteboard, the proof of Pythagoras in tiles on the wall.", also="Exams."),
-    dict(code="T06-21", name="Pod lounge", floor="upper", a=(93, 100), kind="lounge", short="Pods", use="The glass bridge to the pod dock starts here: benches, a screen with the pods' places and charge, a coat rack.", also=""),
+    dict(code="T06-21", name="Pod lounge", floor="upper", a=(93, 100), kind="lounge", short="Pods", use="The glass bridge to the pod dock starts here, through a sliding door in the outer glass: long benches by the glass either side of it, a screen with the pods' places and charge on the wall by the corridor's door, a coat rack.", also=""),
     dict(code="T06-22", name="Washrooms", floor="upper", a=(100, 106), kind="service", short="WC", use="Washrooms for the right side of the upper floor.", also=""),
     dict(code="T06-23", name="Lovelace", floor="upper", a=(106, 120), kind="lab", use="The wing's coding lab moves here: 20 workstations with two screens each, a big screen for the teacher.", also="Robotics club."),
     dict(code="T06-24", name="Socrates", floor="upper", a=(120, 134), kind="seminar", use="The wing's seminar room: one long table for 20, a screen and a whiteboard, under the roof that slopes down toward the hill (ceiling 4.9 to 3.7 m).", also="Parents' evenings."),
@@ -385,11 +385,13 @@ TERMINAL_ROOMS = [
 POD = dict(length=5.6, width=2.3, height=1.95, halo=dict(rx=3.2, rz=1.9, w=0.34, t=0.11, y=0.8), hover=0.45,
            top_speed=40.0, climb=8.0, ceiling=400.0, min_clear=1.2)
 # The pod dock (Jim: "the parking is too close to the building. need special parking so that when parked, there is
-# connection so people can go directly into the building"): a round deck at the upper floor's level off the Ring's right
-# side, clear of everything for the approach; LAND near it and the pod settles onto the docking spot with its door to
-# the bridge, the collar runs out and seals, and you walk through the glass bridge (T17-02) into the pod lounge (T06-21).
-POD_DOCK = dict(a=96.5, r=75.0, deck_r=6.5, spot_r=71.6, bridge=(62.0, 68.5), w=2.6, h=2.7)
-POD_DOCK_ROOMS = [dict(code="T04-03", name="Pod dock", kind="pad", use="A round deck 13 m across at the upper floor's level off the Ring's right side, on slender columns: a pod settles onto its docking spot, the collar runs out from the glass bridge to its door, and you walk straight into the Ring's pod lounge.", also="")]
+# connection so people can go directly into the building"): a round deck off the Ring's right side, clear of everything
+# for the approach; LAND near it and the pod settles onto the docking spot side-on, its canopy toward the bridge, the
+# collar runs out and seals, and you walk through the glass bridge (T17-02) into the pod lounge (T06-21). The deck lies
+# deck_y below the upper floor (v0.19), so that a pod floating over it has its canopy's sill level with the bridge's floor
+# and the collar (up to collar m long) runs out over the pod's halo to the canopy. It replaces the pod stop by the airlock.
+POD_DOCK = dict(a=96.5, r=75.0, deck_r=6.5, spot_r=71.6, bridge=(62.0, 68.5), w=2.6, h=2.7, deck_y=-1.35, collar=1.25)
+POD_DOCK_ROOMS = [dict(code="T04-03", name="Pod dock", kind="pad", use="A round deck 13 m across off the Ring's right side, 1.35 m below the upper floor and just clear of the ground on short steel legs, a ring of lights round its edge: a pod settles side-on onto its docking spot with its canopy's sill level with the glass bridge, the collar runs out over its halo to the canopy, and you walk straight into the Ring's pod lounge.", also="")]
 
 # ------------------------------------------------------------------------------------------------- T-16 Sun court
 # Where the solar field stood, behind the classroom wing. The campus has no power plant of its own: it is on the grid of

@@ -347,6 +347,7 @@
     B.zone = ZONE.OUT;
     ringOutside(B);
     crescentGallery(B);
+    podDockBuild(B);
     crescentFurnish(W);
   }
 
@@ -399,7 +400,7 @@
         var g0 = Math.max(s.a0, G.d0) * D, g1 = Math.min(s.a1, G.d1) * D, gd = [0];
         C.rooms.forEach(function (rm) { if (rm.floor === "lower" && !rm.band && rm.kind !== "service" && rm.kind !== "move" && rm.a[0] >= G.d0 && rm.a[1] <= G.d1) gd.push((rm.a[0] + rm.a[1]) / 2 * D); });
         glassFront(B, r1, g0, g1, yL, yL + C.hR, 1, gd);
-        glassFront(B, r1, g0, g1, yU, yU + C.hR, 1, []);
+        glassFront(B, r1, g0, g1, yU, yU + C.hR, 1, [P2.pod_dock.a * D].filter(function (d) { return d > g0 + 0.03 && d < g1 - 0.03; }));   // the door to the pod dock's bridge
         band(r1 + 0.06, g0, g1, yL + C.hR, function () { return yU; }, 1, MT.COMPOSITE);                     // the floor band
         band(r1 + 0.06, g0, g1, yU + C.hR, eaveOut, 1, MT.DKGLASS);                                          // dark glass up to the eave
         if (g0 > a0) solidOut(a0, g0);
@@ -580,11 +581,23 @@
     B.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), p = crsPt(gr1 - 0.3, a), d = crsPt(1, a), y = j ? tops[i] : yL - 0.05; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [PAL.c.x - d.x, 0, PAL.c.z - d.z]; q.f[0] = a * gr1; q.f[1] = y; q.f2[0] = y - yL; q.m = MT.CONCRETE; });
     B.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), p = crsPt(j ? gr1 + 0.12 : gr1 - 0.34, a); q.p[0] = p.x; q.p[1] = tops[i] + 0.05; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = a * gr1; q.f[1] = j * 0.45; q.m = MT.CONCRETE; });
     B.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), p = crsPt(gr1 + 0.12, a), d = crsPt(1, a), g = groundAt(p.x, p.z, yL), y = j ? tops[i] + 0.05 : Math.min(g, tops[i]) - 0.6; q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [d.x - PAL.c.x, 0, d.z - PAL.c.z]; q.f[0] = a * gr1; q.f[1] = y; q.f2[0] = y - g; q.m = MT.CONCRETE; });
-    // the glass roof from under the Ring's eave down to the wall, on bronze rafters every 1.5 m, a gutter on the wall
-    CRS_GLASS.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), r = j ? gr1 - 0.15 : rT, p = crsPt(r, a), d = crsPt(1, a), y = j ? tops[i] + 0.16 : yE, dr = gr1 - 0.15 - rT, dy = tops[i] + 0.16 - yE, L = Math.hypot(dr, dy);
-      q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -dy / L, dr / L, (d.z - PAL.c.z) * -dy / L]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = 3; q.f2[1] = 4; q.m = 0; });
+    // the glass roof from under the Ring's eave down to the wall, on bronze rafters every 1.5 m, a gutter on the wall; an
+    // opening framed in bronze where the pod dock's glass bridge passes through it (the bridge's own glass seals it)
+    var rW = gr1 - 0.15, P = pdkInit(), ha0 = P.a - (P.hw + 0.18) / rT, ha1 = P.a + (P.hw + 0.18) / rT;
+    function roofY(r, a) { return lerp(yE, topAt(a) + 0.16, (r - rT) / (rW - rT)); }
+    function roofAt(r, a) { return rT + (yE - r) / (yE - topAt(a) - 0.16) * (rW - rT); }          // the radius where the roof is at height r
+    function roofPiece(a0, a1, ra, rb) {
+      var m = Math.max(1, Math.ceil((a1 - a0) * rT / 0.5));
+      CRS_GLASS.surf(m, 1, function (i, j, q) { var a = lerp(a0, a1, i / m), r = j ? rb : ra, p = crsPt(r, a), d = crsPt(1, a), y = roofY(r, a), dr = rW - rT, dy = topAt(a) + 0.16 - yE, L = Math.hypot(dr, dy);
+        q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = [(d.x - PAL.c.x) * -dy / L, dr / L, (d.z - PAL.c.z) * -dy / L]; q.f[0] = a * r; q.f[1] = y; q.f2[0] = 3; q.f2[1] = 4; q.m = 0; });
+    }
+    var hr0 = roofAt(P.yB + P.h + 0.3, P.a), hr1 = roofAt(P.yB - 0.45, P.a);
+    roofPiece(A0, ha0, rT, rW); roofPiece(ha1, A1, rT, rW); roofPiece(ha0, ha1, rT, hr0); roofPiece(ha0, ha1, hr1, rW);
     var nrf = Math.round((A1 - A0) * (rT + gr1) / 2 / 1.5);
-    for (var k = 0; k <= nrf; k++) { var a = lerp(A0 + 0.002, A1 - 0.002, k / nrf), pa = crsPt(rT, a), pb = crsPt(gr1 - 0.15, a), yb = topAt(a) + 0.1; tubeAlong(B, [new THREE.Vector3(pa.x, yE - 0.07, pa.z), new THREE.Vector3(pb.x, yb, pb.z)], 0.045, 6, MT.RIB); }
+    for (var k = 0; k <= nrf; k++) { var a = lerp(A0 + 0.002, A1 - 0.002, k / nrf); if (a > ha0 - 0.012 && a < ha1 + 0.012) continue;
+      var pa = crsPt(rT, a), pb = crsPt(rW, a), yb = topAt(a) + 0.1; tubeAlong(B, [new THREE.Vector3(pa.x, yE - 0.07, pa.z), new THREE.Vector3(pb.x, yb, pb.z)], 0.045, 6, MT.RIB); }
+    [ha0, ha1].forEach(function (a) { var pa = crsPt(rT, a), pb = crsPt(rW, a); tubeAlong(B, [new THREE.Vector3(pa.x, yE - 0.07, pa.z), new THREE.Vector3(pb.x, topAt(a) + 0.1, pb.z)], 0.06, 6, MT.RIB); });
+    [hr0, hr1].forEach(function (r) { var pa = crsPt(r, ha0), pb = crsPt(r, ha1), y = roofY(r, P.a) - 0.04; tubeAlong(B, [new THREE.Vector3(pa.x, y, pa.z), new THREE.Vector3(pb.x, y, pb.z)], 0.06, 6, MT.RIB); });
     arcWall(B, rT - 0.05, A0, A1, yE - 0.2, yE + 0.02, MT.RIB, 0, -1, 3);                                                // the beam under the eave
     B.surf(n, 1, function (i, j, q) { var a = lerp(A0, A1, i / n), p = crsPt(gr1 - 0.3 + j * 0.2, a); q.p[0] = p.x; q.p[1] = tops[i] + 0.06 + (j ? 0.12 : 0); q.p[2] = p.z; q.nn = [0, 1, 0]; q.m = MT.ANOD; });
     // the end walls: stone, up to the roof's line, both faces

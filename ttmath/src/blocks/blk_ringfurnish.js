@@ -101,12 +101,20 @@
     shelvesOnCorridor(B, F, 6, 1.0);
     roomPlants(B, rm, F, null);
   }
-  function podLounge(B, rm, F) {                                                      // benches to wait on, the pods' screen, coats
-    var C = CRS, a = F.at(F.span / 2, false);
-    crsPlace(B, sofa(2, 3.0), C.r1 - 0.7, a, F.y, ROT["in"]); crsObst(C.r1 - 1.3, C.r1 - 0.1, a - 1.6 / 61, a + 1.6 / 61, F.floor);
-    crsPlace(B, scoreboard(), C.rc + 0.12, a, F.y + 1.75, Math.PI); crsPic(B, C.rc + 0.12, a, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
+  function podLounge(B, rm, F) {          // the bridge's door in the middle of the outer glass: long sofas by the glass either side, the pods' screen, a coat rack
+    var C = CRS, ad = P2.pod_dock.a * D2R, rb = C.r1 - 0.75, d = rm.doors[0];
+    [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(2, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor); });
+    var as = d - Math.sign(d - ad || 1) * 2.6 / C.rc;                                          // the screen on the corridor wall, clear of its door
+    crsPlace(B, scoreboard(), C.rc + 0.12, as, F.y + 1.75, Math.PI); crsPic(B, C.rc + 0.12, as, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
+    var ac = d + Math.sign(d - ad || 1) * 1.25 / C.rc, rr = C.rc + 0.45;                       // the coat rack in the corner by the door
+    crsPlace(B, coatRack(), rr, ac, F.y, 0); crsObst(rr - 0.35, rr + 0.35, ac - 0.35 / rr, ac + 0.35 / rr, F.floor);
     roomPlants(B, rm, F, null);
   }
+  function coatRack() { return furn("coatrack", function (b) {                         // a turned oak stand on a cast base, hooks round its top
+    latheOn(b, 0, 0, 0, [[0.0, 0.0], [0.27, 0.0], [0.27, 0.03], [0.05, 0.05], [0.03, 0.12], [0.022, 1.7], [0.04, 1.74], [0.0, 1.78]], 16, MT.WOOD, undefined, 1);
+    for (var k = 0; k < 6; k++) { var t = k / 6 * 2 * Math.PI; leg(b, 0.02 * Math.cos(t), 1.58, 0.02 * Math.sin(t), 0.16 * Math.cos(t), 1.66, 0.16 * Math.sin(t), 0.012, MT.BRASS); }
+  }); }
+
   function physicsLab(B, rm, F) {                                                     // Newton: six benches, a long pendulum, the board
     var C = CRS;
     [3.2, 6.6, 10.0].forEach(function (d) { var a = F.at(d, true); [53.4, 58.0].forEach(function (r) {

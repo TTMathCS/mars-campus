@@ -100,7 +100,14 @@ each pushed when it is checked:
    `blk_mat.js`, faded to their mean far off, so they never shimmer as real thin slats would); `blk_notices.js` draws the boards in
    `P2.ring.boards` (`RING_BOARDS`: `drawContestBoard` from `P2.contests`, `drawClubBoard` from the rooms' `also`) and
    `noticeBoards` hangs them; `bottleFiller` (`blk_crsfurnish.js`) stands by the washrooms in `P2.ring.fountains`.
-8. The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21).
+8. ~~The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21)~~ (v0.19):
+   `blk_poddock.js` builds the deck, its legs and lights, the docking spot's marks and the bridge (`podDockBuild`, called
+   from `crescentBuild`), and the collar (`podDockCollar`: built run out, squeezed along the dock's radius by
+   `pdkCollarSet`, animated by `pdkUpdate`). `podDockSupport` gives the bridge's and the collar's floor to the walker
+   (before `crescentSupport`); `podDockGround` and `podDockTop` give the pod its deck and the bridge as no-fly space.
+   `blk_pod.js`: the pod starts docked (`podInit`), boarding runs the collar in, LAND within 18 m of the spot docks
+   (`podDockStep`) and you step out into the collar; the pad by the airlock (`podStop`) is gone. The door in the outer
+   glass is a `glassFront` door; `crescentGallery` leaves a framed opening in the gallery's roof for the bridge.
 9. Details and realism everywhere (CP-30).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,

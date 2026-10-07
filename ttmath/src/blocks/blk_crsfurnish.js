@@ -153,6 +153,7 @@
       if (spot === "window0") { r = C.r1 - 0.75; a = F.a0 + 0.85 / r; } else if (spot === "window1") { r = C.r1 - 0.75; a = F.a1 - 0.85 / r; }
       else if (spot === "windowmid") { r = C.r1 - 0.75; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + 0.7; a = F.a0 + 0.75 / r; } else if (spot === "corner1") { r = C.rc + 0.7; a = F.a1 - 0.75 / r; }
       else if (spot === "door") { var d = (rm.doors && rm.doors[0]) || F.mid; r = C.rc + 0.6; a = d + (d > F.mid ? -1 : 1) * 1.05 / r; }
+      else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + 0.6 / r : F.a1 - 0.6 / r; }   // by a side wall, halfway out
       else if (spot === "desk" && deskAt) { r = deskAt[0]; a = deskAt[1]; y = F.y + deskAt[2]; }
       else if (spot === "shelf") { r = C.rc + 0.3; a = F.back + F.sgn * 0.5 / (C.rc + 0.3); y = F.y + 1.8; }
       else { r = C.r1 - 0.75; a = F.mid; }

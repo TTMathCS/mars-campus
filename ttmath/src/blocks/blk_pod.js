@@ -7,7 +7,9 @@
   // the ground like the Crown's drives at Arcadia. Walk up and board it (F, or BOARD); fly where you look with the walking
   // keys or the joystick, Space and Shift (or the arrows on screen) to climb and descend, V for the view from behind; F
   // (LAND) sets it down on open ground anywhere: it floats level P2.pod.hover over the highest ground under it, whatever
-  // the slope, and you step out on its right. It never lands on a roof. The pod stays where you leave it.
+  // the slope, and you step out on its right. It never lands on a roof. The pod stays where you leave it. Its home is the
+  // pod dock off the Ring's right side (blk_poddock.js): land near it and it settles onto the docking spot, the collar runs
+  // out to its canopy, and you step out into the glass bridge to the pod lounge.
   var POD = { list: [], cur: null, flying: false, view: 0, landing: false, near: null, up: false, down: false, eye: new THREE.Vector3() };
   var POD_GEO = null, POD_BELLY = 0.1;
   // ---- the craft, in its own frame: x to the left as you sit (the pod is turned half round onto the walker's yaw), y up,
@@ -128,41 +130,10 @@
       g.fillStyle = gr; g.fillRect(0, 0, 128, 128); POD_GLOW = new THREE.CanvasTexture(c); }
     return new THREE.MeshBasicMaterial({ map: POD_GLOW, transparent: true, depthWrite: false, opacity: 0.4, blending: THREE.AdditiveBlending });
   }
-  // the pod stop by the airlock: a level concrete pad cut into the slope (the ground falls about 13 % across it), with a kerb
-  // that holds the ground back on the uphill side and runs flush round the rest, a dark landing surface, a painted ring and
-  // lights; built into the campus and baked with it. The ground is cut away under the pad; you stand on the pad and its kerb
-  // (podStopSupport), and the pod lands on it.
-  function podStop(B) {
-    var S = P2.courtyard.podstop, c = palXZ(S.lat, S.rad), R = S.r, L = groundAt(c.x, c.z, 0) + 0.06, RK = R + 0.12, RW = R + 0.35, NA = 96, KT = [];
-    p2Sector(S.lat, S.rad, 0, RK, -4, 4); p2CutApply();
-    for (var i = 0; i <= NA; i++) { var a0 = i / NA * 2 * Math.PI; KT.push(Math.max(L + 0.02, groundAt(c.x + (RW + 0.15) * Math.cos(a0), c.z + (RW + 0.15) * Math.sin(a0), L) + 0.06)); }
-    POD.stop = { x: c.x, z: c.z, y: L, rk: RK, rw: RW, kt: KT };
-    latheOn(B, c.x, L - 1.2, c.z, [[RK, 0.0], [RK, 1.17], [R + 0.08, 1.2], [0.0, 1.2]], 48, MT.CONCRETE, 0.5);
-    function kerb(r0, r1, y0, y1, up) {                              // one face of the kerb all the way round: y0, y1 are functions of the step
-      B.surf(NA, 1, function (i, j, q) { var a = i / NA * 2 * Math.PI, cs = Math.cos(a), sn = Math.sin(a), r = j ? r1 : r0; q.p[0] = c.x + r * cs; q.p[1] = j ? y1(i) : y0(i); q.p[2] = c.z + r * sn;
-        q.nn = up ? [0, 1, 0] : [(r0 < RW ? -1 : 1) * cs, 0, (r0 < RW ? -1 : 1) * sn]; q.f[0] = a * r; q.f[1] = q.p[1]; q.f2[0] = 0.5; q.m = MT.CONCRETE; });
-    }
-    function top(i) { return KT[i]; }
-    kerb(RK, RK, function () { return L - 0.03; }, top, false);       // its face to the pad
-    kerb(RK, RW, top, top, true);                                      // its top
-    kerb(RW, RW, function () { return L - 1.0; }, top, false);        // its back, down into the ground
-    B.geo(addF2(new THREE.CylinderGeometry(R - 0.2, R - 0.2, 0.006, 48), 0, 4), T(c.x, L + 0.003, c.z), MT.ANOD, 1);                    // the landing surface
-    latheOn(B, c.x, L + 0.0065, c.z, [[R - 0.55, 0.0], [R - 0.35, 0.0], [R - 0.35, 0.002], [R - 0.55, 0.002]], 48, MT.PLASTIC, 4);      // the painted ring
-    for (var k = 0; k < 16; k++) { var a = k / 16 * 2 * Math.PI, p = { x: c.x + (R - 0.08) * Math.cos(a), z: c.z + (R - 0.08) * Math.sin(a) };
-      B.geo(addF2(new THREE.CylinderGeometry(0.06, 0.06, 0.03, 10), 2.2, 0), T(p.x, L + 0.015, p.z), MT.LIGHT, 1); }
-    extLight(c.x, L + 2.4, c.z, WARMC, 1.2, 9, [0, -1, 0], 1);
-  }
-  function podStopSupport(x, z) {                                       // the height you stand at on the pad and its kerb
-    var S = POD.stop; if (!S) return undefined;
-    var dx = x - S.x, dz = z - S.z, d = Math.hypot(dx, dz); if (d >= S.rw) return undefined;
-    if (d < S.rk) return S.y + 0.006;
-    var a = Math.atan2(dz, dx); if (a < 0) a += 2 * Math.PI; var f = a / (2 * Math.PI) * (S.kt.length - 1), i = Math.floor(f);
-    return lerp(S.kt[i], S.kt[Math.min(i + 1, S.kt.length - 1)], f - i);
-  }
-  function podGround(x, z, y) { var s = podStopSupport(x, z); return s !== undefined ? s : groundAt(x, z, y === undefined ? 0 : y); }   // the ground under the pod
-  function podInit() {
-    var S = P2.courtyard.podstop, c = palXZ(S.lat, S.rad), h = Math.atan2(PAL.F.x, PAL.F.z) + S.heading * D2R;   // the nose toward the gateway
-    podMake(c.x, c.z, h);
+  function podGround(x, z, y) { var s = podDockGround(x, z); return s !== undefined ? s : groundAt(x, z, y === undefined ? 0 : y); }   // the ground under the pod: the dock's deck, or the ground
+  function podInit() {                                                       // the pod waits at the dock, the collar run out to it
+    var P = pdkInit(); if (!P) return;
+    podDockCollar(); P.pod = podMake(P.sp.x, P.sp.z, P.hd); P.ext = P.want = 1; pdkCollarSet();
   }
 
   // ---- how high the pod must stay: the ground, or the roof of whatever stands there ----
@@ -178,7 +149,7 @@
     }
     if (ENT) { var qe = Math.hypot(o.lat - ENT.c.lat, o.rad - ENT.c.rad); if (qe < ENT.a + 1.0) top = Math.max(top, entTop(Math.min(qe, ENT.a)) + 0.6); if (inAirlockBox(o.lat, o.rad, 1.0)) top = Math.max(top, ENT.yA + ENT.ah + 0.6); }
     COLL.rovers.forEach(function (rv) { if (Math.hypot(x - rv.x, z - rv.z) < 4.5) top = Math.max(top, g + 3.4); });
-    return top;
+    return Math.max(top, podDockTop(x, z));
   }
   // it may set down wherever no roof or wall is under its halo: it floats level, so the slope does not matter
   function podCanLand(x, z) {
@@ -193,17 +164,23 @@
     if (POD.near) podBoard(POD.near);
   }
   function podBoard(p) {
-    POD.cur = p; POD.flying = true; POD.landing = false; POD.view = 0; p.vx = p.vz = 0; p.vy = 2.5; p.ck.visible = true;
+    if (PDK && PDK.pod === p) { PDK.pod = null; PDK.want = 0; }
+    POD.cur = p; POD.flying = true; POD.landing = false; POD.docking = false; POD.view = 0; p.vx = p.vz = 0; p.vy = 2.5; p.ck.visible = true;
     yaw = p.h; pitch = -4 * D2R; setAuto(false); tween = null;
     podHud();
   }
   function podLand() {
     var p = POD.cur; if (!p || POD.landing) return;
+    if (PDK && !PDK.pod && Math.hypot(p.x - PDK.sp.x, p.z - PDK.sp.z) < 18) { POD.landing = true; POD.docking = true; return; }   // near the dock: it docks
     if (!podCanLand(p.x, p.z)) { showToast("Pod", "Not on a roof", "Fly clear of the buildings and press F again: it sets down on any open ground.", 3400); return; }
     POD.landing = true;
   }
   function podExit() {
-    var p = POD.cur; POD.flying = false; POD.landing = false; POD.cur = null; p.ck.visible = false; p.vx = p.vz = p.vy = 0;
+    var p = POD.cur, dk = PDK && PDK.pod === p; POD.flying = false; POD.landing = false; POD.docking = false; POD.cur = null; p.ck.visible = false; p.vx = p.vz = p.vy = 0;
+    if (dk) {                                                                 // docked: out through the canopy into the collar, facing the bridge
+      var q = pdkAt(PDK.u1 + PDK.cmax - 0.5, 0); px = q.x; pz = q.z; ground = PDK.yB; py = ground + EYE; vx = vz = vy = 0; onGround = true;
+      yaw = Math.atan2(PDK.O.x, PDK.O.z); pitch = -4 * D2R; camera.near = 0.1; camera.updateProjectionMatrix(); podHud(); return;
+    }
     var ex = p.x + Math.cos(p.h) * 3.6, ez = p.z - Math.sin(p.h) * 3.6;     // step out on the right, clear of the halo
     var ps = campusSupport(ex, ez, p.y); px = ex; pz = ez; ground = ps === undefined || ps !== ps ? groundAt(ex, ez, p.y) : ps; py = ground + EYE; vx = vz = vy = 0; onGround = true;
     yaw = Math.atan2(-(p.x - ex), -(p.z - ez)) + 0.6; pitch = -6 * D2R;
@@ -221,6 +198,7 @@
     var climb = (keys[" "] || POD.up ? 1 : 0) - (keys["shift"] || POD.down ? 1 : 0);
     var gnd = podGround(p.x, p.z, p.y), alt = p.y + POD_BELLY - gnd, vmax = clamp(9 + alt * 0.2, 9, P.top_speed), park = podPark(p);
     var tx = 0, tz = 0;
+    if (POD.docking) { podDockStep(p, dt, park); return; }
     if (!POD.landing && (fwd || side)) { var fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw), len = Math.hypot(fwd, side); tx = (fx * fwd + rx * side) / len * vmax * Math.min(1, jm); tz = (fz * fwd + rz * side) / len * vmax * Math.min(1, jm); }
     var vyT = POD.landing ? -clamp((p.y - park) * 0.7, 0.5, 12.0) : climb * P.climb;
     p.vx += (tx - p.vx) * Math.min(1, dt * 0.9); p.vz += (tz - p.vz) * Math.min(1, dt * 0.9); p.vy += (vyT - p.vy) * Math.min(1, dt * 2.2);
@@ -254,8 +232,27 @@
     px = p.x; pz = p.z; ground = gnd; py = camera.position.y;
     camera.rotation.set(pitch, yaw, 0);
   }
+  // docking: glide over the spot at a safe height, turn side-on with the canopy to the bridge, settle, then wait for the
+  // collar to run out and seal before stepping out
+  function podDockStep(p, dt, park) {
+    var P = PDK, dx = P.sp.x - p.x, dz = P.sp.z - p.z, dist = Math.hypot(dx, dz), dh = Math.atan2(Math.sin(P.hd - p.h), Math.cos(P.hd - p.h));
+    if (P.pod === p) {                                                        // down: the collar runs out, then out you step
+      pdkUpdate(dt); if (P.ext >= 0.999) { podExit(); return; }
+    } else {
+      var sp = Math.min(7, dist * 0.9), safe = Math.max(park, P.yB + P.h + 1.2);
+      var tx = dist > 1e-3 ? dx / dist * sp : 0, tz = dist > 1e-3 ? dz / dist * sp : 0, vyT = dist > 0.5 || Math.abs(dh) > 0.06 ? clamp((safe - p.y) * 1.2, -4, 6) : -clamp((p.y - park) * 0.8, 0.4, 5);
+      p.vx += (tx - p.vx) * Math.min(1, dt * 2.0); p.vz += (tz - p.vz) * Math.min(1, dt * 2.0); p.vy += (vyT - p.vy) * Math.min(1, dt * 2.5);
+      p.x += p.vx * dt; p.z += p.vz * dt; p.y += p.vy * dt; p.h += dh * Math.min(1, dt * 1.4); p.bank *= 0.9; p.tilt *= 0.9;
+      if (p.y <= park + 0.01 && dist < 0.35) { p.x = P.sp.x; p.z = P.sp.z; p.y = park; p.h = P.hd; p.vx = p.vz = p.vy = 0; p.bank = p.tilt = 0; P.pod = p; P.want = 1; }
+    }
+    podPose(p, podGround(p.x, p.z, p.y)); p.grp.updateMatrixWorld(true);
+    if (POD.view === 0) { POD.eye.set(-0.32, 1.3, 0.62).applyMatrix4(p.grp.matrixWorld); camera.position.copy(POD.eye); }
+    else { var cp = Math.cos(pitch), dd = 13; camera.position.set(p.x + Math.sin(yaw) * cp * dd, p.y + 2.2 - Math.sin(pitch) * dd, p.z + Math.cos(yaw) * cp * dd); }
+    px = p.x; pz = p.z; ground = podGround(p.x, p.z, p.y); py = camera.position.y; camera.rotation.set(pitch, yaw, 0);
+  }
   // each frame while walking: the parked pods float and breathe a little; is one near enough to board?
   function podIdle(dt) {
+    pdkUpdate(dt);
     var near = null;
     POD.list.forEach(function (p) { if (p === POD.cur) return; p.t += dt; p.grp.position.y = p.y + 0.015 * Math.sin(p.t * 1.1); if (Math.hypot(px - p.x, pz - p.z) < 5.0 && Math.abs(py - EYE - p.y) < 2.5) near = p; });
     if (near !== POD.near) { POD.near = near; podHud(); }
@@ -264,6 +261,6 @@
     var bar = $("podbar"); if (!bar) return;
     bar.hidden = !(POD.flying || POD.near);
     $("podBoard").hidden = !!POD.flying; $("podFly").hidden = !POD.flying;
-    $("podHint").innerHTML = POD.flying ? "<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> fly · <kbd>Space</kbd> up · <kbd>Shift</kbd> down · <kbd>V</kbd> view · <kbd>F</kbd> land anywhere open" : "<kbd>F</kbd> board the pod";
+    $("podHint").innerHTML = POD.flying ? "<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> fly · <kbd>Space</kbd> up · <kbd>Shift</kbd> down · <kbd>V</kbd> view · <kbd>F</kbd> land anywhere open, or at the dock" : "<kbd>F</kbd> board the pod";
     document.body.classList.toggle("in-pod", !!POD.flying);
   }

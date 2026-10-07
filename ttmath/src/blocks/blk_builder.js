@@ -31,11 +31,14 @@
   };
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
-    var base = this.p.length / 3, v = new THREE.Vector3(), nm = new THREE.Matrix3().getNormalMatrix(matrix), e = matrix.elements;
-    for (var k = 0; k < o.p.length / 3; k++) {
-      v.set(o.p[k * 3], o.p[k * 3 + 1], o.p[k * 3 + 2]).applyMatrix4(matrix); this.p.push(v.x, v.y, v.z);
-      v.set(o.n[k * 3], o.n[k * 3 + 1], o.n[k * 3 + 2]).applyMatrix3(nm).normalize(); this.n.push(v.x, v.y, v.z);
-      this.f.push(o.f[k * 2], o.f[k * 2 + 1]); this.f2.push(o.f2[k * 2], o.f2[k * 2 + 1]); this.m.push(o.m[k]); this.z.push(this.zone);
+    var base = this.p.length / 3, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements, n = o.p.length / 3, k;
+    var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
+    var q0 = q[0], q1 = q[1], q2 = q[2], q3 = q[3], q4 = q[4], q5 = q[5], q6 = q[6], q7 = q[7], q8 = q[8], P = this.p, NN = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, zn = this.zone, op = o.p, on = o.n, of = o.f, of2 = o.f2, om = o.m;
+    for (k = 0; k < n; k++) {
+      var x = op[k * 3], y = op[k * 3 + 1], z = op[k * 3 + 2], a = on[k * 3], b = on[k * 3 + 1], c = on[k * 3 + 2];
+      P.push(e0 * x + e4 * y + e8 * z + e12, e1 * x + e5 * y + e9 * z + e13, e2 * x + e6 * y + e10 * z + e14);
+      var nx = q0 * a + q3 * b + q6 * c, ny = q1 * a + q4 * b + q7 * c, nz = q2 * a + q5 * b + q8 * c, l = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+      NN.push(nx / l, ny / l, nz / l); F.push(of[k * 2], of[k * 2 + 1]); F2.push(of2[k * 2], of2[k * 2 + 1]); M.push(om[k]); Z.push(zn);
     }
     var flip = (e[0] * (e[5] * e[10] - e[6] * e[9]) - e[4] * (e[1] * e[10] - e[2] * e[9]) + e[8] * (e[1] * e[6] - e[2] * e[5])) < 0;
     for (k = 0; k < o.i.length; k += 3) { if (flip) this.i.push(base + o.i[k], base + o.i[k + 2], base + o.i[k + 1]); else this.i.push(base + o.i[k], base + o.i[k + 1], base + o.i[k + 2]); }

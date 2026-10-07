@@ -826,11 +826,14 @@
   };
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
-    var base = this.p.length / 3, v = new THREE.Vector3(), nm = new THREE.Matrix3().getNormalMatrix(matrix), e = matrix.elements;
-    for (var k = 0; k < o.p.length / 3; k++) {
-      v.set(o.p[k * 3], o.p[k * 3 + 1], o.p[k * 3 + 2]).applyMatrix4(matrix); this.p.push(v.x, v.y, v.z);
-      v.set(o.n[k * 3], o.n[k * 3 + 1], o.n[k * 3 + 2]).applyMatrix3(nm).normalize(); this.n.push(v.x, v.y, v.z);
-      this.f.push(o.f[k * 2], o.f[k * 2 + 1]); this.f2.push(o.f2[k * 2], o.f2[k * 2 + 1]); this.m.push(o.m[k]); this.z.push(this.zone);
+    var base = this.p.length / 3, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements, n = o.p.length / 3, k;
+    var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
+    var q0 = q[0], q1 = q[1], q2 = q[2], q3 = q[3], q4 = q[4], q5 = q[5], q6 = q[6], q7 = q[7], q8 = q[8], P = this.p, NN = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, zn = this.zone, op = o.p, on = o.n, of = o.f, of2 = o.f2, om = o.m;
+    for (k = 0; k < n; k++) {
+      var x = op[k * 3], y = op[k * 3 + 1], z = op[k * 3 + 2], a = on[k * 3], b = on[k * 3 + 1], c = on[k * 3 + 2];
+      P.push(e0 * x + e4 * y + e8 * z + e12, e1 * x + e5 * y + e9 * z + e13, e2 * x + e6 * y + e10 * z + e14);
+      var nx = q0 * a + q3 * b + q6 * c, ny = q1 * a + q4 * b + q7 * c, nz = q2 * a + q5 * b + q8 * c, l = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+      NN.push(nx / l, ny / l, nz / l); F.push(of[k * 2], of[k * 2 + 1]); F2.push(of2[k * 2], of2[k * 2 + 1]); M.push(om[k]); Z.push(zn);
     }
     var flip = (e[0] * (e[5] * e[10] - e[6] * e[9]) - e[4] * (e[1] * e[10] - e[2] * e[9]) + e[8] * (e[1] * e[6] - e[2] * e[5])) < 0;
     for (k = 0; k < o.i.length; k += 3) { if (flip) this.i.push(base + o.i[k], base + o.i[k + 2], base + o.i[k + 1]); else this.i.push(base + o.i[k], base + o.i[k + 1], base + o.i[k + 2]); }
@@ -2370,7 +2373,7 @@
                      maple: [0, 2], croton: [1, 2], anthurium: [2, 2], spathe: [3, 2], orchid: [0, 3], bloom: [1, 3], strelitzia: [2, 3], agave: [3, 3] };
   function leafTexture() {
     var N = 1024, C = 256, cv = document.createElement("canvas"); cv.width = cv.height = N;
-    var g = cv.getContext("2d"), rnd = mulberry(77);
+    var g = cv.getContext("2d", { willReadFrequently: true }), rnd = mulberry(77);   // on the CPU: its thousands of small marks took seconds through the GPU
     function rgb(c, k) { return "rgb(" + Math.round(c[0] * k) + "," + Math.round(c[1] * k) + "," + Math.round(c[2] * k) + ")"; }
     // a leaf along the cell's middle, base at the bottom, tip at the top: w(t) is the half width (0..1 of the cell's half)
     function leaf(cx, cy, w, opt) {
@@ -7479,12 +7482,25 @@
   // voxelizes the whole campus (20 cm) and traces, per vertex, ambient occlusion, how much sky it sees through the glass,
   // and shadow rays toward its two strongest lights; the result replaces the quick values a few seconds after loading.
   function zoneLights(z) { return z === 1 ? palLights : z === 2 ? wingLights : campusLights; }
+  // the lights a point can reach, from a grid of 8 m cells over the plan: each light is listed in every cell its range
+  // touches (one reaching over 40 m in all of them), so a vertex visits a few lights, not the whole zone's hundreds
+  function lightGrid(L) {
+    if (L._grid && L._grid.n === L.length) return L._grid;
+    var S = 8, m = new Map(), wide = [];
+    L.forEach(function (l) {
+      if (l.r > 40) { wide.push(l); return; }
+      var x0 = Math.floor((l.x - l.r) / S), x1 = Math.floor((l.x + l.r) / S), z0 = Math.floor((l.z - l.r) / S), z1 = Math.floor((l.z + l.r) / S);
+      for (var i = x0; i <= x1; i++) for (var j = z0; j <= z1; j++) { var key = i * 65536 + j, a = m.get(key); if (!a) m.set(key, a = []); a.push(l); }
+    });
+    if (wide.length) m.forEach(function (a) { Array.prototype.push.apply(a, wide); });
+    return (L._grid = { n: L.length, S: S, m: m, wide: wide });
+  }
   function bakeQuick(g, lightsOverride, off) {
     var P = g.attributes.position.array, N = g.attributes.normal.array, Z = g.userData.zone, n = P.length / 3, out = g.attributes.aLight.array;
-    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0;
+    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0, G0 = lightsOverride ? lightGrid(lightsOverride) : null, GZ = {};
     for (var k = 0; k < n; k++) {
       var x = P[k * 3] + ox, y = P[k * 3 + 1] + oy, z = P[k * 3 + 2] + oz, nx = N[k * 3], ny = N[k * 3 + 1], nz = N[k * 3 + 2], r = 0, gg = 0, b = 0;
-      var L = lightsOverride || zoneLights(Z[k]);
+      var G = G0 || GZ[Z[k]] || (GZ[Z[k]] = lightGrid(zoneLights(Z[k]))), L = G.m.get(Math.floor(x / G.S) * 65536 + Math.floor(z / G.S)) || G.wide;
       for (var i = 0; i < L.length; i++) {
         var l = L[i], lx = l.x - x, ly = l.y - y, lz = l.z - z, d2 = lx * lx + ly * ly + lz * lz;
         if (d2 > l.r * l.r) continue;
@@ -8160,31 +8176,34 @@
     }
     return cv;
   }
-  function meanRGB(src) {
-    var c = document.createElement("canvas"); c.width = c.height = 16; var g = c.getContext("2d"); g.drawImage(src, 0, 0, 16, 16);
-    var d = g.getImageData(0, 0, 16, 16).data, s = [0, 0, 0];
-    for (var i = 0; i < 256; i++) { s[0] += d[i * 4]; s[1] += d[i * 4 + 1]; s[2] += d[i * 4 + 2]; }
-    return [s[0] / 256 / 255, s[1] / 256 / 255, s[2] / 256 / 255];
+  // the mean colour of each picture, each drawn 16 px square on one canvas that is read back once (a read back per picture
+  // stalled the page for seconds while it loaded)
+  function meanRGBs(srcs) {
+    var n = srcs.length, cols = Math.max(1, Math.min(n, 32)), rows = Math.max(1, Math.ceil(n / cols)), c = document.createElement("canvas"); c.width = cols * 16; c.height = rows * 16;
+    var g = c.getContext("2d"), out = []; srcs.forEach(function (s, i) { g.drawImage(s, (i % cols) * 16, Math.floor(i / cols) * 16, 16, 16); });
+    var d = n ? g.getImageData(0, 0, c.width, c.height).data : null;
+    for (var i = 0; i < n; i++) { var s = [0, 0, 0], x0 = (i % cols) * 16, y0 = Math.floor(i / cols) * 16;
+      for (var y = 0; y < 16; y++) for (var x = 0; x < 16; x++) { var p = ((y0 + y) * c.width + x0 + x) * 4; s[0] += d[p]; s[1] += d[p + 1]; s[2] += d[p + 2]; }
+      out.push([s[0] / 256 / 255, s[1] / 256 / 255, s[2] / 256 / 255]); }
+    return out;
   }
   function canvasTex(cv) { var t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = maxAniso; t.needsUpdate = true; return t; }
   function buildWorld() {
     var coarse = tileImgs.filter(function (t) { return t.lvl <= 5; }), fine = tileImgs.filter(function (t) { return t.lvl >= 8; });
     if (!coarse.length) coarse = tileImgs; if (!fine.length) fine = tileImgs;
-    var m = [0, 0, 0]; coarse.slice(0, 40).forEach(function (t) { var c = meanRGB(t.img); m[0] += c[0]; m[1] += c[1]; m[2] += c[2]; });
+    var m = [0, 0, 0]; meanRGBs(coarse.slice(0, 40).map(function (t) { return t.img; })).forEach(function (c) { m[0] += c[0]; m[1] += c[1]; m[2] += c[2]; });
     var nc = Math.min(40, coarse.length); C0 = [m[0] / nc, m[1] / nc, m[2] / nc];
     // the real map is darker and greyer than the land made up round it: the made-up land takes the colour of the map's
     // edge where they meet and its own colour 260 m out (FAR_FS), so no square shows from the air. KF: how much brighter
     // the made-up land renders than its base colour C0 (measured from the pod, 100 to 400 m up, against the map's edge)
     var em = [0, 0, 0], ew = 0, KF = [1.26, 1.23, 1.17];
-    tileImgs.forEach(function (t) {
-      var b = t.box; if (!b || Math.min(b.min.x - realBox.min.x, realBox.max.x - b.max.x, b.min.z - realBox.min.z, realBox.max.z - b.max.z) > 6) return;
-      var c = meanRGB(t.img), w = (b.max.x - b.min.x) * (b.max.z - b.min.z); em[0] += c[0] * w; em[1] += c[1] * w; em[2] += c[2] * w; ew += w;
-    });
+    var edge = tileImgs.filter(function (t) { var b = t.box; return b && Math.min(b.min.x - realBox.min.x, realBox.max.x - b.max.x, b.min.z - realBox.min.z, realBox.max.z - b.max.z) <= 6; });
+    meanRGBs(edge.map(function (t) { return t.img; })).forEach(function (c, i) { var b = edge[i].box, w = (b.max.x - b.min.x) * (b.max.z - b.min.z); em[0] += c[0] * w; em[1] += c[1] * w; em[2] += c[2] * w; ew += w; });
     if (ew > 0) U.uRealTint.value.set(clamp(Math.pow(em[0] / ew / (C0[0] * KF[0]), 2.2), 0.4, 1.3), clamp(Math.pow(em[1] / ew / (C0[1] * KF[1]), 2.2), 0.4, 1.3), clamp(Math.pow(em[2] / ew / (C0[2] * KF[2]), 2.2), 0.4, 1.3));
     TERR_INFO = { C0: C0, edge: ew > 0 ? [em[0] / ew, em[1] / ew, em[2] / ew] : null, tint: U.uRealTint.value.toArray(), box: [realBox.min.x, realBox.max.x, realBox.min.z, realBox.max.z],
       lv: tileImgs.reduce(function (o, t) { var k = "l" + t.lvl; o[k] = (o[k] || 0) + 1; return o; }, {}) };
     var synthC = buildSynth(coarse, 1024, 340, 0.85, 120, 7), synthF = buildSynth(fine, 1024, 300, 0.7, 150, 11);
-    var mc = meanRGB(synthC), mf = meanRGB(synthF);
+    var ms = meanRGBs([synthC, synthF]), mc = ms[0], mf = ms[1];
     U.uSynthC.value = canvasTex(synthC); U.uSynthMeanC.value.fromArray(mc);
     U.uSynthF.value = canvasTex(synthF); U.uSynthMeanF.value = 0.3 * mf[0] + 0.59 * mf[1] + 0.11 * mf[2];
     buildGrids();

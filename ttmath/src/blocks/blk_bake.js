@@ -3,12 +3,25 @@
   // voxelizes the whole campus (20 cm) and traces, per vertex, ambient occlusion, how much sky it sees through the glass,
   // and shadow rays toward its two strongest lights; the result replaces the quick values a few seconds after loading.
   function zoneLights(z) { return z === 1 ? palLights : z === 2 ? wingLights : campusLights; }
+  // the lights a point can reach, from a grid of 8 m cells over the plan: each light is listed in every cell its range
+  // touches (one reaching over 40 m in all of them), so a vertex visits a few lights, not the whole zone's hundreds
+  function lightGrid(L) {
+    if (L._grid && L._grid.n === L.length) return L._grid;
+    var S = 8, m = new Map(), wide = [];
+    L.forEach(function (l) {
+      if (l.r > 40) { wide.push(l); return; }
+      var x0 = Math.floor((l.x - l.r) / S), x1 = Math.floor((l.x + l.r) / S), z0 = Math.floor((l.z - l.r) / S), z1 = Math.floor((l.z + l.r) / S);
+      for (var i = x0; i <= x1; i++) for (var j = z0; j <= z1; j++) { var key = i * 65536 + j, a = m.get(key); if (!a) m.set(key, a = []); a.push(l); }
+    });
+    if (wide.length) m.forEach(function (a) { Array.prototype.push.apply(a, wide); });
+    return (L._grid = { n: L.length, S: S, m: m, wide: wide });
+  }
   function bakeQuick(g, lightsOverride, off) {
     var P = g.attributes.position.array, N = g.attributes.normal.array, Z = g.userData.zone, n = P.length / 3, out = g.attributes.aLight.array;
-    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0;
+    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0, G0 = lightsOverride ? lightGrid(lightsOverride) : null, GZ = {};
     for (var k = 0; k < n; k++) {
       var x = P[k * 3] + ox, y = P[k * 3 + 1] + oy, z = P[k * 3 + 2] + oz, nx = N[k * 3], ny = N[k * 3 + 1], nz = N[k * 3 + 2], r = 0, gg = 0, b = 0;
-      var L = lightsOverride || zoneLights(Z[k]);
+      var G = G0 || GZ[Z[k]] || (GZ[Z[k]] = lightGrid(zoneLights(Z[k]))), L = G.m.get(Math.floor(x / G.S) * 65536 + Math.floor(z / G.S)) || G.wide;
       for (var i = 0; i < L.length; i++) {
         var l = L[i], lx = l.x - x, ly = l.y - y, lz = l.z - z, d2 = lx * lx + ly * ly + lz * lz;
         if (d2 > l.r * l.r) continue;

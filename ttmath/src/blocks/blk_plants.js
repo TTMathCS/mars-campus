@@ -8,7 +8,7 @@
                      maple: [0, 2], croton: [1, 2], anthurium: [2, 2], spathe: [3, 2], orchid: [0, 3], bloom: [1, 3], strelitzia: [2, 3], agave: [3, 3] };
   function leafTexture() {
     var N = 1024, C = 256, cv = document.createElement("canvas"); cv.width = cv.height = N;
-    var g = cv.getContext("2d"), rnd = mulberry(77);
+    var g = cv.getContext("2d", { willReadFrequently: true }), rnd = mulberry(77);   // on the CPU: its thousands of small marks took seconds through the GPU
     function rgb(c, k) { return "rgb(" + Math.round(c[0] * k) + "," + Math.round(c[1] * k) + "," + Math.round(c[2] * k) + ")"; }
     // a leaf along the cell's middle, base at the bottom, tip at the top: w(t) is the half width (0..1 of the cell's half)
     function leaf(cx, cy, w, opt) {

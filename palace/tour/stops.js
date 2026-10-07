@@ -219,5 +219,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_bath_up.jpg", caption: "The bath up: a bathing pool of black basalt in the middle, the stone tub between two windows, chaises and kentia palms." },
   { img: "photos/crown_bath_up2.jpg", caption: "The bath up from the pool: the tub between the windows, alabaster lamps over it." },
   { img: "photos/crown_day_room.jpg", caption: "The guests' lounge: desks on the wall between the windows, a games table under a halo, a red maple." },
-  { img: "photos/crown_suit.jpg", caption: "The suit room: steel lockers between the windows, the airlock at the end, club chairs and agaves." }
+  { img: "photos/crown_suit.jpg", caption: "The suit room: steel lockers between the windows, the airlock at the end, club chairs and agaves." },
+  { img: "photos/crown_hangar.jpg", caption: "The pod hangar: both pods home on their pads, lines of light in the ceiling, palms by the way to the Door." }
 ];

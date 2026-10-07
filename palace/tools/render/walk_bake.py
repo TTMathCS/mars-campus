@@ -395,6 +395,13 @@ def floor_map(b0, b1, path, objs, cell=0.05):
             # the first face below, facing down: the ray began inside a solid (a wall thicker than a cell: it found
             # the wall's underside at the floor), so this is no floor
             ok = loc is not None and -0.2 < loc.z < 0.15 and not wet[idx] and nrm.z > -0.5
+            if ok:      # (where a wall's underside lies on the floor the ray may find either first:) inside a solid,
+                        # the first face any way along the floor, 1 m up, is one seen from behind
+                bb = b0 + (i + 0.5) * db; pt = P(r, bb, 1.0)
+                for d in ((math.cos(bb * D), -math.sin(bb * D), 0.0), (-math.cos(bb * D), math.sin(bb * D), 0.0),
+                          (math.sin(bb * D), math.cos(bb * D), 0.0), (-math.sin(bb * D), -math.cos(bb * D), 0.0)):
+                    hit, hn, _, _ = tree.ray_cast(pt, Vector(d), 0.6)
+                    if hit is not None and hn.dot(Vector(d)) > 0.2: ok = False; break
             if not ok: block(j, i)
     # thin upright things the rays slip past (a wall of glass is 1.6 cm thick, the cells 5 cm): each blocks the cells
     # its foot covers, a little widened

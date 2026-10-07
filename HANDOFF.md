@@ -7,6 +7,14 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
 
+**19:05 UTC: the photo walk is linked** ("Walk the Crown" in every chapter's bar, the Crown's card and page; the
+free walk stays as "Walk freely"). The Arrival hall, the Door's room, the pod hangar and the suit room are in, all
+reachable from the Arrival hall's stop (`photowalk_check.py`). Two fixes on the way: no point stands in the plane of
+a wall or door (one rendered from inside the round Door; plan.json keeps dropped numbers as `retired`, and
+`photowalk_sync.py` takes their pictures out), and the Arrival hall's stills close their scene with a "hangar end"
+wall that `photowalk_render.py` now leaves out when the hangar is built beside it (it stood in the opening between
+the hangar and the Door's room).
+
 **18:00 UTC.** The container restarted at about 15:40 and nothing rendered until 17:28: after any restart, start the
 runner and `autopub.py` again (and tell machine B to restart its queue and `photowalk_sync.py` loop). The photo walk
 renders at **768 px faces and 8 samples** (193 s a point in the Arrival hall; 1024 px and 16 samples took 512 s and

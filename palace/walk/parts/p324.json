@@ -1,0 +1,100 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  324.0,
+  360.0
+ ],
+ "parts": [
+  "studio"
+ ],
+ "rooms": [
+  {
+   "code": "C-27",
+   "name": "Art studio",
+   "b0": 324.0,
+   "b1": 339.0
+  },
+  {
+   "code": "C-28",
+   "name": "Photo and print room",
+   "b0": 339.0,
+   "b1": 349.0
+  },
+  {
+   "code": "C-29",
+   "name": "Craft room",
+   "b0": 349.0,
+   "b1": 360.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c3240.glb",
+   "light": "c3240_l.jpg",
+   "b0": 324.0,
+   "b1": 330.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c3300.glb",
+   "light": "c3300_l.jpg",
+   "b0": 330.0,
+   "b1": 336.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3360.glb",
+   "light": "c3360_l.jpg",
+   "b0": 336.0,
+   "b1": 342.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3420.glb",
+   "light": "c3420_l.jpg",
+   "b0": 342.0,
+   "b1": 348.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c3480.glb",
+   "light": "c3480_l.jpg",
+   "b0": 348.0,
+   "b1": 354.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3540.glb",
+   "light": "c3540_l.jpg",
+   "b0": 354.0,
+   "b1": 360.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 325.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 324.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

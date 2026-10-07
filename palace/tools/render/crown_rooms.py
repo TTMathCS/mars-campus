@@ -891,8 +891,11 @@ def studio(M, rnd):
     for i in range(5):
         q = at(RM + rnd.uniform(-0.3, 0.3), lt + tang(rnd.uniform(-0.55, 0.55)), 0.845)
         lib.box("slide", (0.05, 0.05, 0.003), q, lib.principled("slide", (0.2, 0.12, 0.08), 0.3), rot_z=rnd.uniform(0, 1))
-    crown.curved_box("counter", R_OUT - 0.65, R_OUT - 0.05, 340.0, 348.2, 0.0, 0.88, M["walnut"])
-    crown.curved_box("counter top", R_OUT - 0.7, R_OUT - 0.05, 340.0, 348.2, 0.88, 0.915, M["marble"])
+    # the counter stands on the solid wall between the windows, one stretch for each screen (Jim, 7 Oct: "painting
+    # should not be on the windows")
+    for (c0, c1) in crown.solid_runs(R_OUT, 340.0, 348.2, b0, b1, gap=0.1, least=1.5):
+        crown.curved_box("counter", R_OUT - 0.65, R_OUT - 0.05, c0, c1, 0.0, 0.88, M["walnut"])
+        crown.curved_box("counter top", R_OUT - 0.7, R_OUT - 0.05, c0, c1, 0.88, 0.915, M["marble"])
     for (bb, img) in ((342.6, "crown-sunset.jpg"), (345.6, "flight-crater.jpg")):
         screen("screen", repo_file("palace", "design", "img", img), 0.72, 0.42, at(R_OUT - 0.42, bb, 0.915), face_in(bb), M)
         seating.desk_chair("screen chair", at(R_OUT - 1.25, bb, 0.0), face_out(bb), fabric_mat=cognac, seed=505 + int(bb))
@@ -924,7 +927,7 @@ def studio(M, rnd):
     furn.lathe("pot on the wheel", [(0.0, 0.0), (0.09, 0.0), (0.12, 0.06), (0.11, 0.16), (0.075, 0.24), (0.08, 0.27), (0.07, 0.27), (0.065, 0.24), (0.1, 0.16), (0.11, 0.06), (0.0, 0.01)], M["clay_wet"], 48, at(RM, wb, 0.47))
     seating.ottoman("wheel seat", at(RM - 0.85, wb, 0.0), d=0.56, h=0.5, fabric_mat=cognac, seed=508)
     seating.sofa("craft banquette", at(R_GL + 1.75, 358.0, 0.0), face_out(358.0), length=3.4, depth=1.0, fabric_mat=cognac, arms=False, seed=509)
-    kb = 357.6
+    kb = 359.2                              # on the solid wall past the last window
     lib.cyl("kiln", 0.42, 0.82, at(R_OUT - 0.8, kb, 0.0), M["steel"], verts=64)
     lib.cyl("kiln lid", 0.44, 0.07, at(R_OUT - 0.8, kb, 0.82), M["steel"], verts=64, bevel=0.01)
     lib.box("kiln control", (0.26, 0.1, 0.32), at(R_OUT - 1.27, kb, 0.5), M["graphite"], bevel=0.006, rot_z=face_in(kb))
@@ -938,7 +941,7 @@ def studio(M, rnd):
             bb = s0 + tang(0.25, R_OUT)
             while bb < s1 - tang(0.2, R_OUT):
                 q = at(R_OUT - 0.25, bb); furn.ornament("pot", q[0], q[1], z, rnd.uniform(0.14, 0.3), rnd, M["ceramics"] + [M["greenware"]])
-            bb += tang(rnd.uniform(0.24, 0.42), R_OUT)
+                bb += tang(rnd.uniform(0.24, 0.42), R_OUT)
     crown.curved_box("bench top", R_GL + 0.45, R_GL + 1.3, 352.6, 356.4, 0.86, 0.91, M["oak_top"])
     for bb in (352.8, 356.2):
         crown.curved_box("bench leg", R_GL + 0.5, R_GL + 1.25, bb - tang(0.03, R_GL + 1), bb + tang(0.03, R_GL + 1), 0.0, 0.86, M["walnut"])

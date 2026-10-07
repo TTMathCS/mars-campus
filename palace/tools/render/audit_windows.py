@@ -5,6 +5,7 @@ Plants, seats, rugs, lights and the wall itself are left out: things that stand 
 fixed over it are not.
   bvenv/bin/python blend/audit_windows.py [room ...]        (default: every room of crown_rooms.ROOMS)"""
 import math, os, sys
+import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bpy
 import crown_rooms as CR, crown
@@ -20,34 +21,49 @@ SKIP = ("wall", "window", "lining", "glass", "floor", "ceiling", "cove", "slat",
 def bearing(x, y): return math.degrees(math.atan2(x, y)) % 360.0
 
 
+def world_points(o):
+    """The object's vertices in world space, as an n x 3 array."""
+    n = len(o.data.vertices)
+    co = np.empty(n * 3, dtype=np.float64); o.data.vertices.foreach_get("co", co)
+    m = np.array(o.matrix_world, dtype=np.float64)
+    return co.reshape(n, 3) @ m[:3, :3].T + m[:3, 3]
+
+
+def span(xs, ys):
+    """The bearings an object covers, as (lo, hi) in degrees (hi may pass 360 when it straddles north)."""
+    bs = np.degrees(np.arctan2(xs, ys)) % 360.0
+    lo, hi = float(bs.min()), float(bs.max())
+    if hi - lo > 180: bs = np.where(bs > 180, bs, bs + 360); lo, hi = float(bs.min()), float(bs.max())
+    return lo, hi
+
+
 def audit(room):
     sc, R = CR.build(room, False)
     # the windows the outer wall really has: its panes, in the middle of the wall (a window that a cross wall would cut,
     # or one behind a door, is left out of the wall, so it is not in the scene)
     wins = []
     for o in bpy.data.objects:
-        if o.type != "MESH" or not o.name.startswith("window glass"): continue
-        pts = [o.matrix_world @ v.co for v in o.data.vertices]
-        if not pts or abs(math.hypot(pts[0].x, pts[0].y) - (R_OUT + crown.WT / 2)) > 0.2: continue
-        bs = [bearing(p.x, p.y) for p in pts]; lo_, hi_ = min(bs), max(bs)
-        if hi_ - lo_ > 180: bs = [b if b > 180 else b + 360 for b in bs]; lo_, hi_ = min(bs), max(bs)
-        wins.append((lo_, hi_))
+        if o.type != "MESH" or not o.name.startswith("window glass") or not len(o.data.vertices): continue
+        p = world_points(o)
+        if abs(math.hypot(p[0, 0], p[0, 1]) - (R_OUT + crown.WT / 2)) > 0.2: continue
+        wins.append(span(p[:, 0], p[:, 1]))
     hits = []
     for o in bpy.data.objects:
-        if o.type != "MESH" or o.hide_render: continue
+        if o.type != "MESH" or o.hide_render or not len(o.data.vertices): continue
         nm = o.name.lower()
         if any(k in nm for k in SKIP): continue
-        pts = [o.matrix_world @ v.co for v in o.data.vertices] if len(o.data.vertices) < 20000 else [o.matrix_world @ __import__("mathutils").Vector(c) for c in o.bound_box]
-        if not pts: continue
-        rs = [math.hypot(p.x, p.y) for p in pts]; zs = [p.z for p in pts]
-        if max(rs) < R_OUT - 0.8 or min(rs) > R_OUT + 0.05: continue              # not against the outer wall
-        if max(zs) < 0.6 or min(zs) > 2.9: continue                                  # below the sill or above the head
-        bs = [bearing(p.x, p.y) for p in pts]
-        lo, hi = min(bs), max(bs)
-        if hi - lo > 180: bs = [b if b > 180 else b + 360 for b in bs]; lo, hi = min(bs), max(bs)
+        # a quick look at the bounding box first: a disc is convex, so if every corner lies inside R_OUT - 0.8 the
+        # whole object does; and the corners' heights bound the vertices' heights
+        bb = np.array([o.matrix_world @ __import__("mathutils").Vector(c) for c in o.bound_box])
+        if np.hypot(bb[:, 0], bb[:, 1]).max() < R_OUT - 0.8 or bb[:, 2].max() < 0.6 or bb[:, 2].min() > 2.9: continue
+        p = world_points(o)
+        rs = np.hypot(p[:, 0], p[:, 1]); zs = p[:, 2]
+        if rs.max() < R_OUT - 0.8 or rs.min() > R_OUT + 0.05: continue              # not against the outer wall
+        if zs.max() < 0.6 or zs.min() > 2.9: continue                                  # below the sill or above the head
+        lo, hi = span(p[:, 0], p[:, 1])
         for (a, b) in wins:
-            if lo < b - 0.02 and hi > a + 0.02:
-                hits.append((o.name, round(lo, 2), round(hi, 2), round(min(zs), 2), round(max(zs), 2), (round(a, 2), round(b, 2)))); break
+            if any(lo < b + k - 0.02 and hi > a + k + 0.02 for k in (-360.0, 0.0, 360.0)):
+                hits.append((o.name, round(lo, 2), round(hi, 2), round(float(zs.min()), 2), round(float(zs.max()), 2), (round(a, 2), round(b, 2)))); break
     return hits
 
 

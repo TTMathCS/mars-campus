@@ -5,7 +5,9 @@ them with AgX, the curve of the pictures, so the rooms look as they do in the ph
 the ceiling's oak slats and the lamp shades carry all their light in their vertices. What changes as one moves is left
 to the browser: the reflections in the floor, the glass and the metal, the Orb, the Glide.
   bvenv/bin/python blend/walk_bake.py <rooms> <out dir> [spp=48] [texel=0.0125] [chunk=6] [stage=all|uv|bake|map] [b0:b1]
-(b0:b1 bakes only the chunks between those bearings, the rest of the rooms still lighting them: a test)
+  bvenv/bin/python blend/walk_bake.py far <out dir>       (the whole ring baked in parts: far.glb, band.glb, sky.jpg)
+(b0:b1 bakes only the chunks between those bearings, the rest of the rooms still lighting them: a test). The whole
+ring is baked a part at a time (36 degrees of rooms in one scene), then walk_merge.py joins the parts.
 rooms: Crown rooms in ring order from crown_rooms.ROOMS, e.g. salon,wellness. Writes into <out>:
   c<NNNN>.glb    a chunk of the ring, <chunk> degrees from bearing NNN.N: geometry and its colour texture
   c<NNNN>_l.jpg  the light on it, sRGB-encoded light / EMAX (half the colour texture's size)
@@ -19,8 +21,10 @@ bearing SUN_AZ, SUN_EL above the horizon."""
 import bpy, bmesh, json, math, os, random, sys, time
 from mathutils import Vector, Matrix
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import lib, crown, crown_rooms
+import lib, crown, crown_rooms, plants
 from crown import P, R_IN, R_OUT, R_GL, D, WT
+plants.DETAIL = float(os.environ.get("WALK_DETAIL", "0.35"))     # lighter plants for the browser: fewer, plainer leaves
+crown.DOORS_OPEN = True                                          # the doors onto the Glide stand open, to walk through
 
 SUN_AZ, SUN_EL, SUN_STRENGTH = 195.0, 32.0, 6.0
 EXPOSURE = 1.0                  # as the Crown's stills: the browser's tone-mapping exposure is 2 ** EXPOSURE
@@ -147,6 +151,8 @@ def emission_of(m):
 
 def kind_of(m):
     n = (m.name if m else "").lower()
+    if "frosted" in n: return "frosted"         # the switchable glass with its privacy layer on: milky
+    if "smart glass dark" in n: return "dark"   # tinted almost black
     if any(k in n for k in GLASS): return "water" if "water" in n else "glass"
     if emission_of(m): return "glow"
     if any(k in n for k in METAL): return "metal"
@@ -354,12 +360,28 @@ def floor_map(b0, b1, path, objs, cell=0.05):
     tree = BVHTree.FromPolygons(vs, ps, all_triangles=False)
     db = cell / 130.0 / D; w = int(math.ceil((b1 - b0) / db)); h = int(math.ceil((R_OUT - R_IN) / cell))
     px = [1.0] * (w * h * 4); down = Vector((0, 0, -1))
+    def block(j, i):
+        if 0 <= j < h and 0 <= i < w: k = 4 * ((h - 1 - j) * w + i); px[k] = px[k + 1] = px[k + 2] = 0.0
     for j in range(h):
         r = R_IN + (j + 0.5) * cell
         for i in range(w):
             loc, nrm, idx, dist = tree.ray_cast(P(r, b0 + (i + 0.5) * db, 1.85), down, 2.5)
             ok = loc is not None and -0.2 < loc.z < 0.15 and not wet[idx]
-            if not ok: k = 4 * ((h - 1 - j) * w + i); px[k] = px[k + 1] = px[k + 2] = 0.0
+            if not ok: block(j, i)
+    # thin upright things the rays slip past (a wall of glass is 1.6 cm thick, the cells 5 cm): each blocks the cells
+    # its foot covers, a little widened
+    n = 0
+    for o in objs:
+        cs = corners(o); zs = [c.z for c in cs]
+        if min(zs) > 0.3 or max(zs) < 1.6 or len(o.data.vertices) > 20000: continue
+        mw = o.matrix_world; vv = [mw @ v.co for v in o.data.vertices]      # its own vertices: a curved panel's box is not thin
+        rs = [v.xy.length for v in vv]; bs = [ub(v) for v in vv]
+        if max(bs) - min(bs) > 180 or (max(rs) - min(rs) > 0.3 and (max(bs) - min(bs)) * D * max(rs) > 0.3): continue
+        lo_b, hi_b = min(bs) - 0.03 / 130.0 / D, max(bs) + 0.03 / 130.0 / D; lo_r, hi_r = min(rs) - 0.03, max(rs) + 0.03
+        for j in range(max(0, int((lo_r - R_IN) / cell)), min(h, int((hi_r - R_IN) / cell) + 1)):
+            for i in range(max(0, int((lo_b - b0) / db)), min(w, int((hi_b - b0) / db) + 1)): block(j, i)
+        n += 1
+    log("floor map: %d thin upright things blocked" % n)
     im = bpy.data.images.new("floor map", w, h); im.pixels.foreach_set(px); im.filepath_raw = path; im.file_format = "PNG"; im.save()
     log("floor map %d x %d" % (w, h))
     return dict(file=os.path.basename(path), b0=b0, db=db, r0=R_IN, dr=cell, w=w, h=h)
@@ -456,8 +478,24 @@ def band():
     o.data.materials[0] = simple_material("far white ceramic", "far", o.data.materials[0]); return o
 
 
+def far_only(out):
+    """for the whole ring baked in parts (each part's own far.glb holds the rest of the ring, which the whole walk
+    shows as band.glb instead): the Stone Garden and the Orb, the band, the sky"""
+    lib.reset(); M = crown_rooms.materials()
+    crown.outside(M, SUN_AZ, SUN_EL, sun_strength=SUN_STRENGTH, roof=True)
+    bpy.data.objects.remove(bpy.data.objects["ring outside"])
+    sky(os.path.join(out, "sky.jpg"), 100.0)
+    far = [o for o in bpy.data.objects if o.type == "MESH" and any(o.name.startswith(f) for f in FAR) and not o.name.startswith("plain")]
+    for o in far:
+        for i, m in enumerate(o.data.materials): o.data.materials[i] = simple_material("far " + (m.name if m else "x"), "far", m)
+    export(far, os.path.join(out, "far.glb")); export([band()], os.path.join(out, "band.glb")); log("far, band and sky in", out)
+
+
 def main():
-    a = sys.argv[1:]; rooms = a[0].split(","); out = os.path.abspath(a[1]); os.makedirs(out, exist_ok=True)
+    a = sys.argv[1:]
+    if a[0] == "far":
+        out = os.path.abspath(a[1]); os.makedirs(out, exist_ok=True); far_only(out); return
+    rooms = a[0].split(","); out = os.path.abspath(a[1]); os.makedirs(out, exist_ok=True)
     spp = int(a[2]) if len(a) > 2 else 48; texel = float(a[3]) if len(a) > 3 else 0.0125
     step = float(a[4]) if len(a) > 4 else 6.0; stage = a[5] if len(a) > 5 else "all"
     only = tuple(float(x) for x in a[6].split(":")) if len(a) > 6 else (-1.0, 999.0)
@@ -538,3 +576,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    sys.stdout.flush(); sys.stderr.flush(); os._exit(0)      # everything is written: skip Blender's teardown (it can crash)

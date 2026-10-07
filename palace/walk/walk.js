@@ -64,6 +64,9 @@ function material(m, light) {
     metals.add(mm); mm.addEventListener('dispose', () => metals.delete(mm)); return mm;
   }
   if (kind === 'glass') return new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false });
+  // the switchable glass onto the Glide: frosted (milky, the light through it soft), or tinted almost black
+  if (kind === 'frosted') return new THREE.MeshBasicMaterial({ color: new THREE.Color(0.62, 0.60, 0.57), transparent: true, opacity: 0.88, depthWrite: false, side: THREE.DoubleSide });
+  if (kind === 'dark') return new THREE.MeshBasicMaterial({ color: new THREE.Color(0.02, 0.022, 0.025), transparent: true, opacity: 0.9, depthWrite: false, side: THREE.DoubleSide });
   if (kind === 'water') return mirror.material(new THREE.MeshBasicMaterial({ color: new THREE.Color(0.10, 0.24, 0.25), transparent: true, depthWrite: false }), 0.02, true);
   return m;
 }

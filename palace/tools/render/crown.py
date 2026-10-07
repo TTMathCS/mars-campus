@@ -296,13 +296,22 @@ def smart_glass(state="clear"):
     return m
 
 
+DOORS_OPEN = False          # the walk (walk_bake.py): every pair of pivot doors stands open, so one can walk through
+
+
 def pivot_doors(name, r, b, width, height, M, leaf_mat=None, open_deg=0.0):
     """a pair of tall pivot doors filling an opening width x height at radius r, bearing b: walnut leaves 8 cm thick
-    in a bronze frame, long bronze pulls"""
+    in a bronze frame, long bronze pulls. With DOORS_OPEN both leaves stand swung open into the room, against the
+    jambs, and the opening is clear"""
     W = leaf_mat or M.get("walnut_v") or M["walnut"]; out = []; t = 0.08; half = width / 2 / r / D
     out.append(curved_box(name + " frame", r - 0.06, r + 0.06, b - half - 0.06 / r / D, b - half, 0, height + 0.06, M["bronze_dark"]))
     out.append(curved_box(name + " frame", r - 0.06, r + 0.06, b + half, b + half + 0.06 / r / D, 0, height + 0.06, M["bronze_dark"]))
     out.append(curved_box(name + " frame", r - 0.06, r + 0.06, b - half, b + half, height, height + 0.06, M["bronze_dark"]))
+    if DOORS_OPEN:
+        tt = t / r / D
+        for (a0, a1) in ((b - half, b - half + tt), (b + half - tt, b + half)):
+            out.append(curved_box(name + " leaf", r + 0.07, r + 0.07 + width / 2 - 0.03, a0, a1, 0.01, height - 0.006, W))
+        return out
     gap = 0.006 / r / D
     for (a0, a1) in ((b - half + gap, b - gap), (b + gap, b + half - gap)):
         out.append(curved_box(name + " leaf", r - t / 2, r + t / 2, a0, a1, 0.01, height - 0.006, W))

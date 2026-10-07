@@ -589,7 +589,10 @@ def bath_up(M, rnd):
     crown.partition(b0, M, M["oak_panel"], opening=CR.SUITE_DOOR, head=3.6); crown.partition(b1, M, M["bath_trav"])
     crown.glass_wall("suite glass", R_GL + 0.2, b0, b1, M, state="frosted")
     # the tub, hollowed, filled; a bronze filler; a stool with towels; candles
-    tb = bc + tang(2.0); tq = at(R_OUT - 1.25, tb, 0.0); pz = 0.18
+    # the tub stands against the solid wall between two windows, the one nearest its place in the plan (Jim, 7 Oct:
+    # nothing on the windows)
+    tb = min(((a + b) / 2 for (a, b) in crown.solid_runs(R_OUT, b0, b1, b0, b1, gap=0.0, least=2.4)), key=lambda m: abs(m - bc - tang(2.0)))
+    tq = at(R_OUT - 1.25, tb, 0.0); pz = 0.18
     crown.curved_box("tub platform", R_OUT - 2.6, R_OUT - 0.05, tb - tang(2.0, R_OUT - 1.2), tb + tang(2.0, R_OUT - 1.2), 0.0, pz, M["bath_trav"])
     tub = lib.box("tub", (1.9, 0.95, 0.6), (tq[0], tq[1], pz + 0.3), M["tub"], bevel=0.22, rot_z=face_in(tb), segs=6)
     cut = lib.box("tub hollow", (1.7, 0.75, 0.6), (tq[0], tq[1], pz + 0.66), None, bevel=0.2, rot_z=face_in(tb), segs=6); cut.hide_render = True; cut.hide_viewport = True

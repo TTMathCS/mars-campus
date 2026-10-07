@@ -1088,11 +1088,14 @@ def observatory(M, rnd):
             crown.curved_box("glass foot light", r - 0.02, r + 0.02, b0, w1 - 0.3, 0.0, 0.015, glow)
     # the telescope room: a long desk of screens on the outer wall, leather chairs, the portal up to the dome
     S = imports(M)
-    crown.curved_box("desk", R_OUT - 1.2, R_OUT - 0.4, 25.0, 34.6, 0.72, 0.76, M["walnut"])
-    for bb in (25.3, 29.8, 34.3):
-        crown.curved_box("desk pedestal", R_OUT - 1.1, R_OUT - 0.5, bb - tang(0.25, R_OUT), bb + tang(0.25, R_OUT), 0.0, 0.72, M["walnut"])
-    # the screens stand on the desk in front of the solid wall between the windows, never in front of a window (Jim, 7 Oct)
-    spots_ = [(a + b) / 2 for (a, b) in crown.solid_runs(R_OUT, 25.0, 34.6, 0.0, 36.0, gap=0.15, least=1.3)][:3]
+    # three desks, each with its screen, on the solid wall between the windows, never across one (Jim, 7 Oct: "painting
+    # should not be on the windows")
+    runs_ = crown.solid_runs(R_OUT, 25.0, 34.6, 0.0, 36.0, gap=0.15, least=1.3)[:3]
+    for (a_, b_) in runs_:
+        crown.curved_box("desk", R_OUT - 1.2, R_OUT - 0.4, a_, b_, 0.72, 0.76, M["walnut"])
+        for bb in (a_ + tang(0.35, R_OUT), b_ - tang(0.35, R_OUT)):
+            crown.curved_box("desk pedestal", R_OUT - 1.1, R_OUT - 0.5, bb - tang(0.22, R_OUT), bb + tang(0.22, R_OUT), 0.0, 0.72, M["walnut"])
+    spots_ = [(a + b) / 2 for (a, b) in runs_]
     for (bb, img, crop) in zip(spots_, ("mars-earth.jpg", "orb-universe.jpg", "atlas-teaser.jpg"), ((0.0, 0.0, 1.0, 1.0), (0.22, 0.18, 0.78, 0.92), (0.0, 0.0, 1.0, 1.0))):
         screen("telescope screen", repo_file("palace", "design", "img", img), 1.2, 0.68, at(R_OUT - 0.7, bb, 0.76), face_in(bb), M, crop, emit=1.4)
         seating.desk_chair("telescope chair", at(R_OUT - 1.8, bb, 0.0), face_out(bb), seed=60 + int(bb))

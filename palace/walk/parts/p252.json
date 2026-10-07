@@ -1,0 +1,102 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  252.0,
+  288.0
+ ],
+ "parts": [
+  "day_room",
+  "sunset",
+  "gallery"
+ ],
+ "rooms": [
+  {
+   "code": "C-20",
+   "name": "Guests' lounge",
+   "b0": 252.0,
+   "b1": 261.0
+  },
+  {
+   "code": "C-21",
+   "name": "Sunset lounge",
+   "b0": 261.0,
+   "b1": 279.0
+  },
+  {
+   "code": "C-22",
+   "name": "Gallery",
+   "b0": 279.0,
+   "b1": 288.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c2520.glb",
+   "light": "c2520_l.jpg",
+   "b0": 252.0,
+   "b1": 258.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2580.glb",
+   "light": "c2580_l.jpg",
+   "b0": 258.0,
+   "b1": 264.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2640.glb",
+   "light": "c2640_l.jpg",
+   "b0": 264.0,
+   "b1": 270.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c2700.glb",
+   "light": "c2700_l.jpg",
+   "b0": 270.0,
+   "b1": 276.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2760.glb",
+   "light": "c2760_l.jpg",
+   "b0": 276.0,
+   "b1": 282.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c2820.glb",
+   "light": "c2820_l.jpg",
+   "b0": 282.0,
+   "b1": 288.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 253.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 252.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

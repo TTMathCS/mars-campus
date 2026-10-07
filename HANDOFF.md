@@ -7,6 +7,16 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
 
+**18:00 UTC.** The container restarted at about 15:40 and nothing rendered until 17:28: after any restart, start the
+runner and `autopub.py` again (and tell machine B to restart its queue and `photowalk_sync.py` loop). The photo walk
+renders at **768 px faces and 8 samples** (193 s a point in the Arrival hall; 1024 px and 16 samples took 512 s and
+look nearly the same once denoised), both machines: A arrival, dressing, bedroom, bath_up, salon, wellness, wine,
+dining, kitchen_up (then the Arrival again for its moved doorway point); B hangar, suit, garden, observatory, studio,
+library, gallery, sunset, day_room (each job after a `git pull`, so it reads the latest plan). The tour's 360s come
+from the photo walk's stops now (the Arrival hall's is in). Jim, of the free walk: "after few steps I cannot control
+and it keeps moving forward by itself": the Glide carried everyone on it at 3.2 m/s; now it carries one only while
+one stands still on it, and a key stops it (`walk/walker.js`).
+
 **15:10 UTC: the photo walk.** Jim tried the free walk: "the loading is very slow, and the experience is not as good
 as I thought. is there anyway to improve the speed while improve the quality to real life?" He chose **both, the photo
 walk first**: a walk of path-traced 360s, Matterport-like (`palace/photowalk/`, not linked until its first rooms are

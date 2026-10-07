@@ -8,7 +8,8 @@ The rooms in the section are the rooms of floor plans Rev G (approved by Jim on 
 (palace/tools/room_program.py): each room where the plan puts it, furnished for what it is. The Orb is 48 m across (Rev F).
   bvenv/bin/python blend/overall.py <job[,job...]> <out with %s> [w h spp]
 Jobs: hero (the picture), whole (the same view, the ground left whole), turn<i>of<n> (frame i of a turntable of n
-frames), spots (where the parts are on each picture, as JSON, for the labels you can click)."""
+frames), spots (where the parts are on each picture, as JSON, for the labels you can click), and the views from
+outside: crown-day, crown-sunset, crown-garden, site-aerial (OUTSIDE)."""
 import bpy, bmesh, json, math, os, random, sys, time
 from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -376,8 +377,23 @@ def ground(M):
         lib.box("pavilion glass", (7.0, 7.0, 4.0), (p.x, p.y, 2.1), M["glass"], rot_z=-b * D)
         lib.box("pavilion roof", (7.6, 7.6, 0.35), (p.x, p.y, 4.25), M["ceramic"], rot_z=-b * D)
         lib.box("pavilion floor", (7.6, 7.6, 0.2), (p.x, p.y, 0.1), M["paving"], rot_z=-b * D)
-    place(lib.cyl("sun well lens", 17.0, 0.3, (0, 0, 0.0), M["glass"], verts=128))
-    place(ring("sun well rim", 17.0, 18.4, -0.2, 0.6, M["bronze"]))
+    # the Sun Well's sky lens, 20 m across, in the Orb's dock: a ring of dark basalt 31 m across and 5.5 m high with a
+    # bronze band and five bronze pads on top, for the Orb to come down onto (palace/docs/design/02-crown.md); paving
+    # closes the shaft round it
+    basalt = lib.principled("dock basalt", (0.055, 0.05, 0.047), 0.42)
+    place(lib.cyl("sun well lens", 10.0, 0.3, (0, 0, 0.0), M["glass"], verts=128))
+    place(ring("sun well rim", 10.0, 10.6, -0.2, 0.5, M["bronze"]))
+    place(ring("orb dock", 10.6, 15.5, 0.0, 5.5, basalt))
+    place(ring("orb dock band", 15.5, 15.58, 4.4, 4.9, M["bronze"]))
+    for k in range(5):
+        q = BP(13.05, 18 + 72 * k); place(lib.cyl("orb dock pad", 1.3, 0.35, (q.x, q.y, 5.5), M["bronze"], verts=48))
+    place(ring("shaft cover", 15.5, 17.8, -0.05, 0.13, M["paving"]))
+    # under each spire, the pad the Crown would come down onto if every drive failed: a basalt disc 14 m across with a
+    # bronze rim, directly under the drive in the spire's tip
+    for k in range(5):
+        q = BP(125.0, 18 + 72 * k); circ = lambda r: [(q.x + r * math.cos(2 * math.pi * i / 96), q.y + r * math.sin(2 * math.pi * i / 96)) for i in range(96)]
+        place(lib.cyl("spire pad", 7.0, 0.32, (q.x, q.y, 0.0), basalt, verts=96))
+        import furn; place(furn.ring_prism("spire pad rim", circ(7.4), circ(7.0), 0.0, 0.36, M["bronze"]))
 
 
 def ring(name, r0, r1, z0, z1, mat, n=128):
@@ -724,20 +740,35 @@ def atrium(M, rnd):
 
 
 # ---------------------------------------------------------------- the scene, the camera, the labels
-def build(az, cut=True):
+# the Crown from outside (revision H), the whole house on its plain: the pictures on the Crown's pages
+# (palace/design/img/<job>.jpg). Each: the camera (its bearing from the middle, distance and height; the point it looks
+# at; the lens; level, or tilted to look up or down), the sun (bearing, height, strength, colour), the sky's strength,
+# and the windows lit from inside (at sunset)
+OUTSIDE = {
+    "crown-day": dict(cam=(135.0, 560.0, 70.0), target=(0.0, 0.0, 30.0), lens=45, level=False, sun=(212.0, 38.0, 4.5, (1.0, 0.88, 0.72))),
+    "crown-sunset": dict(cam=(250.0, 720.0, 46.0), target=(0.0, 0.0, 58.0), lens=50, level=True, sun=(285.0, 5.0, 2.6, (1.0, 0.68, 0.42)), sky=0.5, lit=True),
+    "crown-garden": dict(cam=(242.0, 122.0, 1.7), target=(0.0, 0.0, 62.0), lens=18, level=False, sun=(150.0, 48.0, 4.5, (1.0, 0.88, 0.72))),
+    "site-aerial": dict(cam=(200.0, 1500.0, 700.0), target=(0.0, 0.0, 0.0), lens=55, level=False, sun=(255.0, 30.0, 4.5, (1.0, 0.88, 0.72))),
+}
+
+
+def build(az, cut=True, sun=None, sky=1.0, lit=False):
     global VIEW, CUTTER
     sc = lib.reset(); M = materials(); rnd = random.Random(11)
     VIEW, CUTTER = (bdir(az), section_cutter(az)) if cut else (None, None)
+    if lit:                                     # the rooms' light in the windows, at dusk
+        b = M["slot"].node_tree.nodes["Principled BSDF"]
+        b.inputs["Emission Color"].default_value = (1.0, 0.72, 0.45, 1); b.inputs["Emission Strength"].default_value = 3.0
     ground(M); crown_ring(M)
     if cut:
         atrium(M, rnd)
         for lv in LEVELS: level(M, lv, rnd)
-    sun_az = az + SUN_OFF
-    crown.mars_sky(sun_az, SUN_EL, 1.0)
+    sun_az, sun_el, sun_e, sun_c = sun or (az + SUN_OFF, SUN_EL, 4.5, (1.0, 0.88, 0.72))
+    crown.mars_sky(sun_az, sun_el, sky)
     for n in sc.world.node_tree.nodes:          # under the horizon, the haze's colour (no dark line past the plain's edge)
         if n.bl_idname == "ShaderNodeMix" and n.data_type == "RGBA" and tuple(round(c, 2) for c in n.inputs[7].default_value[:3]) == (0.14, 0.08, 0.05):
             n.inputs[7].default_value = (0.62, 0.40, 0.24, 1)
-    lib.sun(SUN_EL, sun_az, 4.5, angle_deg=0.4, color=(1.0, 0.88, 0.72))
+    lib.sun(sun_el, sun_az, sun_e, angle_deg=0.4, color=sun_c)
     sc.cycles.max_bounces = 6; sc.cycles.diffuse_bounces = 3; sc.cycles.glossy_bounces = 3
     return sc
 
@@ -780,6 +811,13 @@ if __name__ == "__main__":
             for i in range(n):
                 az = HERO_AZ + 360.0 * i / n; data["frames"].append(spots_for(cam_at(az), az))
             open(out.replace("%s", "spots").replace(".jpg", ".json"), "w").write(json.dumps(data)); print("wrote spots", flush=True); continue
+        if j in OUTSIDE:                        # a view of the whole house from outside
+            V = OUTSIDE[j]; t = time.time(); build(V["cam"][0], cut=False, sun=V["sun"], sky=V.get("sky", 1.0), lit=V.get("lit", False))
+            print("built in %.1f s" % (time.time() - t), flush=True); lib.photo_finish(0.2, 0.12)
+            c = lib.camera(j, tuple(BP(V["cam"][1], V["cam"][0], V["cam"][2])), V["target"], lens=V["lens"], level=V["level"]); c.data.clip_end = 300000
+            path = os.path.abspath(out.replace("%s", j)); tmp = path.replace(".jpg", ".part.jpg")
+            t = time.time(); lib.render(tmp, (w, h), spp, exposure=0.0); os.replace(tmp, path); print("rendered", j, "in %.0f s" % (time.time() - t), flush=True)
+            continue
         if j in ("hero", "whole"): az = HERO_AZ
         elif j.startswith("turn"):
             i, n = (int(x) for x in j[4:].split("of")); az = HERO_AZ + 360.0 * i / n

@@ -134,8 +134,23 @@ def publish(state):
     return done
 
 
+def walk_parts(state):
+    """the walk's parts baked so far (walk_part.sh, on either machine): joined into the whole ring when one is new"""
+    pd = os.path.join(REPO, "palace", "walk", "parts")
+    if not os.path.isdir(pd): return None
+    sig = sha_str(sorted((f, os.path.getsize(os.path.join(pd, f))) for f in os.listdir(pd)))
+    if state.get("walk") == sig: return None
+    r = sh(sys.executable, os.path.join(REPO, "palace", "tools", "render", "walk_merge.py"), os.path.join(REPO, "palace", "walk"))
+    if r.returncode: raise RuntimeError("walk_merge failed: " + r.stderr[-300:])
+    state["walk"] = sig; return r.stdout.strip()
+
+
+def sha_str(x): return hashlib.sha1(repr(x).encode()).hexdigest()
+
+
 def push(msg):
-    sh("git", "add", "palace/blender/renders/crown_h", "palace/blender/renders/crown_pano", "palace/tour", "palace/design", "palace/tools/gen_plan.py", "palace/tools/tour_crown.py")
+    sh("git", "add", "palace/blender/renders/crown_h", "palace/blender/renders/crown_pano", "palace/tour", "palace/design", "palace/tools/gen_plan.py", "palace/tools/tour_crown.py",
+       "palace/walk/data", "palace/walk/parts")
     if sh("git", "diff", "--cached", "--quiet").returncode == 0: return
     sh("git", "commit", "-q", "-m", msg + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01U4NrzcFVFwFYPq6dhgJtP1")
     for w in (2, 4, 8, 16, 32):
@@ -151,11 +166,13 @@ def main():
         try:
             n = collect()
             sh("git", "pull", "-q", "--rebase", "--autostash", "origin", "main")
-            done = publish(state)
+            done = publish(state); walk = walk_parts(state)
             json.dump(state, open(STATE, "w"), indent=1)
             if done:
                 sh(sys.executable, GEN); sh(sys.executable, TOURC)
-                push("Published: " + ", ".join(done))
+                push("Published: " + ", ".join(done) + ("\n\n" + walk if walk else ""))
+            elif walk:
+                push("Walk: the parts baked so far joined into the whole ring\n\n" + walk)
             elif n:
                 push("Raw renders of the Crown (first machine): %d new" % n)
         except Exception as e:

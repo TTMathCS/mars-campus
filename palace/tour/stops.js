@@ -181,8 +181,8 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown from the drinks lounge: the basalt table for 22 in claret velvet chairs under four halos of light, lemon trees along the windows, Van Gogh's Wheat Field with Cypresses at the far end." },
   { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." },
   { img: "photos/crown_wellness.jpg", caption: "The sky pool, 25 m along the ring: a line of chosen plants on the inner side, kentias, a red and an orange maple and a fiddle-leaf fig; halos over the water." },
-  { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." },
-  { img: "photos/crown_craft.jpg", caption: "The craft room in the Crown: shelves of pots along the outer wall, the potter's wheel, the bench for models and repairs, the sun on the Glide." },
+  { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: a red maple by the glass onto the Glide, sculptures on white plinths, Jim's canvases on the easels and walls, globes of light over the sitting corner." },
+  { img: "photos/crown_craft.jpg", caption: "The craft room: shelves of pots on the wall between the windows, the work tables, an olive and a lemon tree, under a halo of light." },
   { img: "photos/crown_stars.jpg", caption: "The star lounge in the Crown's Observatory at night: reclining chairs under the slots full of stars, candles on the side tables, a floor of polished basalt." },
   { img: "photos/crown_telescope.jpg", caption: "The telescope room in the Crown's Observatory at night: screens showing what the telescope sees, the Milky Way in the slots, and the portal up to the dome." },
   { img: "photos/crown_breakfast.jpg", caption: "The breakfast room in the Crown at sunrise: a round oak table for eight in upholstered chairs under a cluster of opal globes, an orchid on the table, and the first sun laid across the floor." },
@@ -210,5 +210,9 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." },
   { img: "photos/crown_kitchen_up.jpg", caption: "The chef's kitchen in the Crown: two islands of steel under a halo of light and the long hood, the chef's table in green leather under opal globes, a wall of walnut cupboards." },
   { img: "photos/crown_kitchen_up2.jpg", caption: "The chef's kitchen: the cooking line and its open shelves under the long hood, the steel island, copper pendants, and frosted glass onto the Glide." },
-  { img: "photos/crown_dining2.jpg", caption: "The dining hall from the kitchen end: the long table under its halos, Van Gogh's Olive Trees on the far wall, the gold ginkgo by the glass onto the Glide." }
+  { img: "photos/crown_dining2.jpg", caption: "The dining hall from the kitchen end: the long table under its halos, Van Gogh's Olive Trees on the far wall, the gold ginkgo by the glass onto the Glide." },
+  { img: "photos/crown_sunset.jpg", caption: "The sunset lounge in the Crown: long low sofas and a rust velvet crescent face the west windows, the sun low in them laying bars of light across the floor." },
+  { img: "photos/crown_sunset2.jpg", caption: "The sunset lounge from the windows: the long sofa under two halos of light, the orange and red maples by the glass onto the Glide, agaves along the windows." },
+  { img: "photos/crown_prints.jpg", caption: "The print room: Jim's photographs of Mars on the cross wall, the plan chest with prints laid out to choose from, a desk with its screen between the windows, a golden ginkgo by the glass." },
+  { img: "photos/crown_gallery.jpg", caption: "The gallery: Van Gogh's Night Caf\u00e9 on the cross wall, Jim's photographs of Mars on the wall that stands down the middle, sculptures on plinths, the late sun across the oak floor." }
 ];

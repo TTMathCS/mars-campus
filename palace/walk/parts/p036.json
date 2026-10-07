@@ -1,0 +1,94 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  36.0,
+  72.0
+ ],
+ "parts": [
+  "garden"
+ ],
+ "rooms": [
+  {
+   "code": "C-33",
+   "name": "Breakfast room",
+   "b0": 36.0,
+   "b1": 48.0
+  },
+  {
+   "code": "C-34",
+   "name": "Sky garden",
+   "b0": 48.0,
+   "b1": 72.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c0360.glb",
+   "light": "c0360_l.jpg",
+   "b0": 36.0,
+   "b1": 42.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0420.glb",
+   "light": "c0420_l.jpg",
+   "b0": 42.0,
+   "b1": 48.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0480.glb",
+   "light": "c0480_l.jpg",
+   "b0": 48.0,
+   "b1": 54.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0540.glb",
+   "light": "c0540_l.jpg",
+   "b0": 54.0,
+   "b1": 60.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0600.glb",
+   "light": "c0600_l.jpg",
+   "b0": 60.0,
+   "b1": 66.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0660.glb",
+   "light": "c0660_l.jpg",
+   "b0": 66.0,
+   "b1": 72.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 37.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 36.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

@@ -24,7 +24,7 @@
     var B = new Builder(), W = new Builder(), D = new Builder();
     campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
-    wings = bakedMesh(W, matMat); scene.add(wings);
+    wings = bakedMesh(W, matMat); scene.add(wings); pendulumBuild();
     drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
     // glass: the dome first, then the wing facades and the links
     var gg = domeGlassGeometry(); var pd = glassPair(gg, 6); palGlassB = pd[0]; palGlassF = pd[1];
@@ -53,7 +53,7 @@
     podInit();                                                          // the pod waiting at the dock
   }
   // doors open as you come near; reflections refresh as the sky changes
-  function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); screensUpdate(time); clocksUpdate(); }
+  function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); screensUpdate(time); clocksUpdate(); pendulumUpdate(); }
   // a door with a partner (d.lock: the airlock's other doors) opens only once its partner has closed, and when both are
   // wanted the one nearer to you goes first, so the airlock's two pairs are never open together
   function doorsUpdate(dt) {

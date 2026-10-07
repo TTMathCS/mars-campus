@@ -40,7 +40,7 @@
     b.box(-len / 2, 0.82, -0.28, len / 2, 0.86, 0.28, MT.TERRAZZO); b.box(-len / 2, 0.6, 0.22, len / 2, 0.82, 0.28, MT.TERRAZZO);
     for (var k = 0; k < Math.round(len / 0.9); k++) { var x = -len / 2 + 0.45 + k * 0.9; latheOn(b, x, 0.74, 0, [[0.0, 0], [0.14, 0.02], [0.2, 0.12], [0.21, 0.13]], 18, MT.CERAMIC, 0);
       latheOn(b, x, 0.86, 0.2, [[0.02, 0], [0.02, 0.22]], 8, MT.STEEL, 0); b.box(x - 0.012, 1.06, 0.06, x + 0.012, 1.08, 0.22, MT.STEEL); }
-    b.box(-len / 2, 1.05, 0.27, len / 2, 2.0, 0.28, MT.DKGLASS);
+    var nm = b.count(); b.box(-len / 2, 1.05, 0.27, len / 2, 2.0, 0.28, MT.STEEL); b.tag(nm, 9, null);   // the mirror: polished (STEEL g.x 9)
   }); }
   function kitchenette() { return furn("kitchen", function (b) {         // 2.4 m of counter with cupboards and a sink (back at +z)
     b.box(-1.2, 0.1, -0.3, 1.2, 0.88, 0.3, MT.PLASTIC); b.tag(b.count() - 24, 0, null); b.box(-1.21, 0.88, -0.31, 1.21, 0.92, 0.31, MT.TERRAZZO);
@@ -307,7 +307,12 @@
   function washrooms(B, rm, F, store) {
     var C = CRS;
     crsPlace(B, wcRow(store ? 4 : 5), C.r1 - 0.25, F.mid, F.y, ROT["in"]); crsObst(C.r1 - 1.85, C.r1, F.a0, F.a1, F.floor);
-    crsPlace(B, basinCounter(3.6), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor);
+    // the basins on the corridor wall, in the middle, if that leaves the door and its open leaf clear; in a narrow washroom
+    // along the side wall away from the door instead (they stood across the doorway in 207, 222 and 269)
+    var lw = 3.6, d0 = (rm.doors || [])[0];
+    if (!(rm.doors || []).some(function (d) { return Math.abs(d - F.mid) * C.rc < lw / 2 + 1.1; })) { crsPlace(B, basinCounter(lw), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor); }
+    else { var far0 = Math.abs(d0 - F.a0) > Math.abs(d0 - F.a1), rb = C.rc + 2.0 + lw / 2, ab = far0 ? F.a0 + 0.36 / rb : F.a1 - 0.36 / rb;
+      crsPlace(B, basinCounter(lw), rb, ab, F.y, far0 ? ROT.plusA : ROT.minusA); crsObst(rb - lw / 2 - 0.05, rb + lw / 2 + 0.05, far0 ? F.a0 : ab - 0.38 / rb, far0 ? ab + 0.38 / rb : F.a1, F.floor); }
     if (store) { var sa = F.at(0.6, false); for (var k = 0; k < 3; k++) crsPlace(B, bookshelf(), 54.0 + k * 0.95, sa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(53.4, 56.8, sa - 0.3 / 55, sa + 0.3 / 55, F.floor); }
     if ((P2.ring.fountains || []).indexOf(rm.code) >= 0 && rm.doors && rm.doors.length) {   // a bottle filler on the corridor wall beside the door
       var d = rm.doors[0], sd = F.mid > d ? 1 : -1, rf = C.rc - C.wall / 2, af = d + sd * 1.15 / rf;

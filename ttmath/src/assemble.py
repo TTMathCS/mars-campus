@@ -5,7 +5,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKS = ["blk_builder.js", "blk_p2data.js", "blk_mat.js", "blk_env.js", "blk_ground.js", "blk_rover.js", "blk_campus2.js",
           "blk_art2.js", "blk_palace2.js", "blk_plants.js", "blk_wings.js", "blk_soft.js", "blk_backdoor.js", "blk_ring.js", "blk_gardenring.js", "blk_entrance.js",
-          "blk_crsfurnish.js", "blk_ringfurnish.js", "blk_artcare.js", "blk_board.js", "blk_signs.js", "blk_prints.js", "blk_notices.js", "blk_classdetail.js", "blk_poddock.js", "blk_pod.js", "blk_bake.js", "blk_build.js"]
+          "blk_crsfurnish.js", "blk_ringfurnish.js", "blk_artcare.js", "blk_labs.js", "blk_board.js", "blk_signs.js", "blk_prints.js", "blk_notices.js", "blk_classdetail.js", "blk_poddock.js", "blk_pod.js", "blk_bake.js", "blk_build.js"]
 path = os.path.join(HERE, "page.html")
 src = open(path, encoding="utf-8").read()
 A, Z = "/*@@CAMPUS_BEGIN@@*/", "/*@@CAMPUS_END@@*/"

@@ -61,6 +61,9 @@ PIECES = dict(
     hung_instruments="Instruments hung on solid wall from oak hangers by their necks: guitars (spruce, dark, black, with their strings), a violin with "
                      "its bow on a peg, a viola, a ukulele; a cello and a double bass stand leaning back on their floor stands.",
     slat_wall="Oak slats 4.5 cm wide every 9 cm on dark felt, 4 cm proud of the wall, with oak edges, top and bottom (as the halls' walls).",
+    lab_bench="An island lab bench 2.4 by 1.2 m: oak cupboards both sides on a dark plinth, a black resin top, a grey spine of sockets and gas taps with yellow handles, a sink and a swan-neck tap.",
+    lab_stool="A lab stool: a padded seat 0.66 m high and a low padded back on a gas column, a steel foot ring, five feet.",
+    foucault_pendulum="A brass bob on a long wire from the ceiling, swinging at the period its length and Mars's gravity give, over a black disc with a brass ring, hour marks and pegs to knock down.",
 )
 
 # room by room: seating, tables, lights, finishes; "next" is what the following step adds
@@ -89,6 +92,20 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-29": dict(name="Newton, the physics lab", seating=["24 lab stools with padded charcoal seats and low backs on gas columns, two along each side of each bench",
+                   "the teacher's task chair behind the demonstration bench"],
+                   tables=["six island benches 2.4 by 1.2 m: oak cupboards both sides, a black resin top, a grey spine of sockets and gas taps with yellow handles, a sink with a swan-neck tap",
+                           "the demonstration bench 3.6 m across the front under the board, its drawers toward the teacher", "a side counter of black resin 6 m on the corridor wall, oak drawers under it"],
+                   lights=["linear pendants in three rows", "a light over the board", "the glass onto the garden gallery"],
+                   finishes="off-white plaster; the glass onto the garden gallery kept clear; on the demonstration bench Newton's cradle, a bell jar on its plate with a bell under it "
+                            "(its pump on the floor) and an air track with two gliders; on the side counter power supplies and meters, a screen logging an orbit, "
+                            "red and black patch leads coiled on a board over it; on the back wall apparatus in four glass-fronted oak cabinets (meters, coils, brass masses, lenses, boxes), "
+                            "a Van de Graaff generator and a print of the electromagnetic spectrum; before them a Foucault pendulum, a brass bob on a 4 m wire that swings once every "
+                            "6.7 s (Mars's gravity) over a black disc ringed in brass with hour marks and 24 white pegs, those the swing has passed lying knocked down",
+                   layout="d along the room from the front wall (0) to the back (17.5 m), r from the corridor wall (49.6) to the glass (62); the doors at d 2.15 and 15.35; "
+                          "the benches' long sides along the room in two columns (r 53.2 and 58.4) and three rows (d 4.8, 8.0, 11.2), the aisle between them at r 55.8; "
+                          "the pendulum at r 55.8, 3.3 m from the back wall; the side counter from d 4.2 to 10.2",
+                   next=""),
     "T06-42": dict(name="Clinic and counsellor", seating=["the nurse's task chair and a chair for whoever comes in", "in the counsellor's lounge a sage sofa 2.4 m by the outer wall facing two cognac club chairs across a walnut table on a rug"],
                    tables=["the nurse's desk", "the walnut table", "a lamp table"], lights=["a table lamp and a floor lamp in the lounge"],
                    finishes="linen plaster (the sage walls went dark under the skylights); the examination bay at the back: a padded couch on a steel frame with its paper roll, a sage curtain drawn back on a ceiling track round it, "

@@ -29,7 +29,9 @@ Publishing is a push to `main` (GitHub Pages).
   science has its own section and pages.
 - **Only the `main` branch, no other branches** (Jim, 3 Oct 2026: "actually I only need main branch and no other
   branches"), and **push each step as soon as it is checked**, not all at the end ("merge in the middle as well so I
-  can view the changes and steer the direction").
+  can view the changes and steer the direction"; 7 Oct 2026: "publish update more frequently, not wait until the batch
+  finishes ... I can check and test manually, and steering the direction"): a room, a fix, a piece, each pushed once its
+  shots and the walk check pass, never held back for the rest of a batch.
 - It must **look real**, never cartoon. Push to `main` only.
 - **Keep every original design file**, so any picture can be made again or improved later: the scene scripts in
   `palace/tools/render/`, a Blender file (`.blend`) of every scene with its cameras and render settings, and the

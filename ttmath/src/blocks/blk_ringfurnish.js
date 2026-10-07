@@ -125,17 +125,6 @@
     for (var k = 0; k < 6; k++) { var t = k / 6 * 2 * Math.PI; leg(b, 0.02 * Math.cos(t), 1.58, 0.02 * Math.sin(t), 0.16 * Math.cos(t), 1.66, 0.16 * Math.sin(t), 0.012, MT.BRASS); }
   }); }
 
-  function physicsLab(B, rm, F) {                                                     // Newton: six benches, a long pendulum, the board
-    var C = CRS;
-    [3.2, 6.6, 10.0].forEach(function (d) { var a = F.at(d, true); [53.4, 58.0].forEach(function (r) {
-      crsPlace(B, workbench(), r, a, F.y, 0); crsObst(r - 0.6, r + 0.6, a - 1.25 / r, a + 1.25 / r, F.floor);
-      [-0.7, 0.7].forEach(function (x) { crsPlace(B, stool(), r - 0.7, a + x / r, F.y, 0); });
-    }); });
-    var pa = F.at(F.span - 2.6, true), pp = crsPt(55.8, pa); tubeAlong(B, [new THREE.Vector3(pp.x, F.y + C.hR, pp.z), new THREE.Vector3(pp.x, F.y + 0.9, pp.z)], 0.004, 3, MT.STEEL);
-    B.geo(new THREE.SphereGeometry(0.15, 18, 12), T(pp.x, F.y + 0.75, pp.z), MT.BRASS, 1); crsObst(55.2, 56.4, pa - 0.6 / 55.8, pa + 0.6 / 55.8, F.floor);
-    boardOn(B, F, 4.2, ATL.wb, MT.ATLAS, [0, 2]);
-    roomPlants(B, rm, F, null);
-  }
   function makerSpace(B, rm, F) {                                                     // workbenches, 3D printers on a long counter, racks
     var C = CRS;
     [3.4, 7.0, 10.6].forEach(function (d) { var a = F.at(d, true); [53.6, 57.6].forEach(function (r) { crsPlace(B, workbench(), r, a, F.y, 0); crsObst(r - 0.6, r + 0.6, a - 1.25 / r, a + 1.25 / r, F.floor); crsPlace(B, stool(), r - 0.75, a, F.y, 0); }); });

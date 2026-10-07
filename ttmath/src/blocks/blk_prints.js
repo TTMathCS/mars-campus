@@ -282,6 +282,25 @@
       g.fillStyle = PRC.ink; for (k = 0; k < N; k++) { var pp = P(k); dot(g, pp[0], pp[1], 1.3); }
       serif(g, 13, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; g.fillText("k  →  2k  (mod 200)", b.x + b.w - 8, b.y + b.h - 8);
     },
+    spectrum: function (g, b) {                                       // radio to gamma: a wave shortening across, the band's names, the visible slice opened out below
+      var x0 = b.x + 8, w = b.w - 16, yb = b.y + b.h * 0.3, cuts = [0, 0.24, 0.4, 0.55, 0.585, 0.72, 0.86, 1.0], i;
+      var names = ["Radio", "Microwave", "Infrared", "", "Ultraviolet", "X-ray", "Gamma"], tone = ["#ddd5c4", "#d3cab7", "#d9c2b0", "", "#cbc4d8", "#c2cad6", "#bccbc6"];
+      for (i = 0; i < 7; i++) { var xa = x0 + w * cuts[i], xb = x0 + w * cuts[i + 1];
+        if (i === 3) { var gv = g.createLinearGradient(xa, 0, xb, 0); ["#c0392b", "#e67e22", "#f1c40f", "#27ae60", "#2980b9", "#6c3483"].forEach(function (c, k) { gv.addColorStop(k / 5, c); }); g.fillStyle = gv; }
+        else g.fillStyle = tone[i];
+        g.fillRect(xa, yb - 26, xb - xa, 52);
+        if (names[i]) { serif(g, 13, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(names[i], (xa + xb) / 2, yb - 34); } }
+      g.strokeStyle = "rgba(31,36,48,0.85)"; g.lineWidth = 1.1; g.beginPath();                    // the wave, its wavelength falling a hundredfold and more across
+      for (i = 0; i <= 1600; i++) { var u = i / 1600, ph = 2 * Math.PI / (0.11 * 4.6) * (Math.exp(4.6 * u) - 1), yy = yb - 18 * Math.sin(ph); if (i) g.lineTo(x0 + w * u, yy); else g.moveTo(x0 + w * u, yy); }
+      g.stroke();
+      serif(g, 11); g.fillStyle = PRC.ink; g.textAlign = "center";                                     // the wavelengths
+      [["1 km", 0.02], ["1 m", 0.2], ["1 mm", 0.4], ["1 \u00b5m", 0.55], ["1 nm", 0.72], ["1 pm", 0.93]].forEach(function (m) { var x = x0 + w * m[1]; g.fillRect(x - 0.5, yb + 26, 1, 6); g.fillText(m[0], x, yb + 44); });
+      var vx0 = b.x + b.w * 0.16, vw = b.w * 0.68, vy = b.y + b.h * 0.66, gv2 = g.createLinearGradient(vx0, 0, vx0 + vw, 0);   // the visible band, 700 to 400 nm
+      [[0, "#8e1b12"], [0.12, "#d7301f"], [0.3, "#f28c28"], [0.42, "#f5d327"], [0.55, "#3aa655"], [0.7, "#1f77b4"], [0.86, "#3f2a8c"], [1, "#2a1450"]].forEach(function (c) { gv2.addColorStop(c[0], c[1]); });
+      g.fillStyle = gv2; g.fillRect(vx0, vy - 18, vw, 36);
+      g.strokeStyle = "rgba(31,36,48,0.5)"; g.lineWidth = 1; g.beginPath(); g.moveTo(x0 + w * cuts[3], yb + 26); g.lineTo(vx0, vy - 18); g.moveTo(x0 + w * cuts[4], yb + 26); g.lineTo(vx0 + vw, vy - 18); g.stroke();
+      g.fillStyle = PRC.ink; [700, 600, 500, 400].forEach(function (nm, k) { var x = vx0 + vw * k / 3; g.fillRect(x - 0.5, vy + 18, 1, 5); g.fillText(nm + " nm", x, vy + 36); });
+    },
     lissajous: function (g, b) {                                      // x = sin(p t + pi/4), y = sin(q t) for six ratios p:q, quiet blues and greens
       var R = [[1, 2], [2, 3], [3, 4], [1, 3], [3, 5], [4, 5]], cols = [PRC.navy, PRC.teal, PRC.olive, PRC.teal, PRC.navy, PRC.olive], cw = b.w / 3, ch = b.h / 2;
       R.forEach(function (f, k) {

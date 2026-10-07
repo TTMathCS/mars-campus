@@ -10,7 +10,10 @@
  "parts": [
   "suit",
   "hangar",
-  "arrival"
+  "arrival",
+  "day_room",
+  "sunset",
+  "gallery"
  ],
  "rooms": [
   {
@@ -36,6 +39,24 @@
    "name": "Arrival hall",
    "b0": 95.76,
    "b1": 108.0
+  },
+  {
+   "code": "C-20",
+   "name": "Guests' lounge",
+   "b0": 252.0,
+   "b1": 261.0
+  },
+  {
+   "code": "C-21",
+   "name": "Sunset lounge",
+   "b0": 261.0,
+   "b1": 279.0
+  },
+  {
+   "code": "C-22",
+   "name": "Gallery",
+   "b0": 279.0,
+   "b1": 288.0
   }
  ],
  "exposure": 1.0,
@@ -87,6 +108,54 @@
    "light": "c1020_l.jpg",
    "b0": 102.0,
    "b1": 108.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2520.glb",
+   "light": "c2520_l.jpg",
+   "b0": 252.0,
+   "b1": 258.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2580.glb",
+   "light": "c2580_l.jpg",
+   "b0": 258.0,
+   "b1": 264.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2640.glb",
+   "light": "c2640_l.jpg",
+   "b0": 264.0,
+   "b1": 270.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c2700.glb",
+   "light": "c2700_l.jpg",
+   "b0": 270.0,
+   "b1": 276.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2760.glb",
+   "light": "c2760_l.jpg",
+   "b0": 276.0,
+   "b1": 282.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c2820.glb",
+   "light": "c2820_l.jpg",
+   "b0": 282.0,
+   "b1": 288.0,
    "size": 4096,
    "light_size": 2048
   }

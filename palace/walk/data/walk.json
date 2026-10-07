@@ -1,0 +1,108 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  0.0,
+  360.0
+ ],
+ "parts": [
+  "suit",
+  "hangar",
+  "arrival"
+ ],
+ "rooms": [
+  {
+   "code": "C-01",
+   "name": "Suit room",
+   "b0": 72.0,
+   "b1": 78.0
+  },
+  {
+   "code": "C-02",
+   "name": "Pod hangar",
+   "b0": 78.0,
+   "b1": 91.44
+  },
+  {
+   "code": "C-03",
+   "name": "The Door",
+   "b0": 91.44,
+   "b1": 95.76
+  },
+  {
+   "code": "C-04",
+   "name": "Arrival hall",
+   "b0": 95.76,
+   "b1": 108.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c0720.glb",
+   "light": "c0720_l.jpg",
+   "b0": 72.0,
+   "b1": 78.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0780.glb",
+   "light": "c0780_l.jpg",
+   "b0": 78.0,
+   "b1": 84.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0840.glb",
+   "light": "c0840_l.jpg",
+   "b0": 84.0,
+   "b1": 90.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0900.glb",
+   "light": "c0900_l.jpg",
+   "b0": 90.0,
+   "b1": 96.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c0960.glb",
+   "light": "c0960_l.jpg",
+   "b0": 96.0,
+   "b1": 102.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1020.glb",
+   "light": "c1020_l.jpg",
+   "b0": 102.0,
+   "b1": 108.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 98.6,
+  "r": 131.15
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 0.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 16337,
+  "h": 400
+ }
+}

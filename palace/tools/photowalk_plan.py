@@ -36,7 +36,8 @@ R_IN, R_GL, R_OUT = 115.0, 118.5, 135.0
 RM, GLIDE = (R_GL + R_OUT) / 2, (R_IN + R_GL) / 2
 ROWS = (RM,)                   # one row down the middle of the rooms, 8.25 m from the windows and from the glass
 SPACING = 6.5                  # at most this far apart along the row, metres
-CLEAR = 0.7                    # free floor round a point, metres: no chair or table right under the tripod
+CLEAR = 1.1                    # free floor round a point, metres: nothing right by the tripod (a point 0.7 m from the
+                               # great maple's banquette opened on its trunk)
 SNAP = 2.5                     # how far a point may move to find free floor, metres (round a table in the middle)
 EYE = 1.55                     # the camera above the floor, metres (as the tour's 360s)
 LINK = 9.5                     # the longest straight step between two points, metres

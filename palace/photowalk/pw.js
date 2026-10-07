@@ -264,11 +264,14 @@ function frame(now) {
 // the most open way from a point, at eye level: where the room runs furthest (over 30 degrees, so not a doorway's
 // slot), as a bearing
 function openWay(P) {
-  const n = 72, far = [];
-  for (let k = 0; k < n; k++) { const a = k / n * 2 * Math.PI; far.push(Math.min(60, P.depth([Math.sin(a), Math.cos(a), 0]))); }
+  const n = 144, far = [], low = Math.cos(12 * D), dz = -Math.sin(12 * D);
+  for (let k = 0; k < n; k++) {          // at eye height and a little below (a banquette, a table), every 2.5 degrees
+    const a = k / n * 2 * Math.PI, x = Math.sin(a), y = Math.cos(a);
+    far.push(Math.min(60, P.depth([x, y, 0]), P.depth([x * low, y * low, dz]) * low));
+  }
   let best = 0, score = -1;
-  for (let k = 0; k < n; k++) {
-    let m = Infinity; for (let d = -3; d <= 3; d++) m = Math.min(m, far[(k + d + n) % n]);
+  for (let k = 0; k < n; k++) {          // the least open within 20 degrees either side: a trunk in the middle counts
+    let m = Infinity; for (let d = -8; d <= 8; d++) m = Math.min(m, far[(k + d + n) % n]);
     if (m > score) { score = m; best = k; }
   }
   return best / n * 360;

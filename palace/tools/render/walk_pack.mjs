@@ -31,6 +31,8 @@ for (const f of fs.readdirSync(src).sort()) {
   await io.write(path.join(dst, f), doc);
   console.log(f, (fs.statSync(path.join(src, f)).size / 1e6).toFixed(1), '->', (fs.statSync(path.join(dst, f)).size / 1e6).toFixed(1), 'MB');
 }
+// (a far-only run, walk_bake.py far, has no walk.json: its pieces are packed and that is all)
+if (!fs.existsSync(path.join(src, 'walk.json'))) process.exit(0);
 // chunks baked in several runs (on two machines, b0:b1 each) end up in one walk: walk.json lists every chunk there
 const info = JSON.parse(fs.readFileSync(path.join(src, 'walk.json'), 'utf8')), step = info.step || 6, known = {};
 const before = path.join(dst, 'walk.json.chunks');                       // what earlier runs packed here

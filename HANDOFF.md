@@ -7,6 +7,22 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
 
+**15:10 UTC: the photo walk.** Jim tried the free walk: "the loading is very slow, and the experience is not as good
+as I thought. is there anyway to improve the speed while improve the quality to real life?" He chose **both, the photo
+walk first**: a walk of path-traced 360s, Matterport-like (`palace/photowalk/`, not linked until its first rooms are
+in). `palace/tools/photowalk_plan.py` designs it first (321 points: each room's tour stop, two staggered rows about
+5 m apart on free floor from the walk's floor map, and points in the openings, doorways and the Glide where rooms
+would not otherwise join; a re-run keeps the numbers of points already planned) into `palace/photowalk/plan.json`.
+`render/photowalk_render.py <scene> plan.json final/photowalk 1024 16` renders a scene's points with its neighbours
+built as far as 6 degrees each side: six cube faces of 1024 px a point (16 px rendered past each edge and cut, so the
+denoiser leaves no seams), a depth map (256 x 128, 16 bits), graded as the scene's first point (its tour stop);
+`<id>.webp`, `<id>_s.webp` (a quarter size) and `<id>_d.png`, and for a tour stop the tour's 360 (4096 x 2048) into
+`final/crown_pano/`, so the tour gets it through autopub. `photowalk_sync.py` (inside autopub on machine A; a loop on
+machine B: `python3 blend/photowalk_sync.py <render dir> b loop`) copies finished points into `palace/photowalk/v/` and
+lists them in `index_a.json` / `index_b.json` (one list per machine, so their pushes never collide). The page
+(`pw.js`, `pano.js`) draws each 360 on its depth map's shape, so a step glides between points with parallax; it
+loads one small picture first, then the sharp one, and steps only to points it can see (the depth map decides).
+
 **Jim, 7 Oct:** "Go ahead to finish crown first. I need walkable in crown. I feel progress too slow"; "all the rooms
 should have the window same as master room" (the old 360s and photos showed the revision G windows high on the walls:
 the old 360s are hidden until their new ones are in, `tour_crown.py`); "webpage nothing changed" (the Crown's page now

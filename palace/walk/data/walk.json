@@ -123,33 +123,25 @@
    "file": "c2580.glb",
    "light": "c2580_l.jpg",
    "b0": 258.0,
-   "b1": 264.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 264.0
   },
   {
    "file": "c2640.glb",
    "light": "c2640_l.jpg",
    "b0": 264.0,
-   "b1": 270.0,
-   "size": 3840,
-   "light_size": 1920
+   "b1": 270.0
   },
   {
    "file": "c2700.glb",
    "light": "c2700_l.jpg",
    "b0": 270.0,
-   "b1": 276.0,
-   "size": 4096,
-   "light_size": 2048
+   "b1": 276.0
   },
   {
    "file": "c2760.glb",
    "light": "c2760_l.jpg",
    "b0": 276.0,
-   "b1": 282.0,
-   "size": 3840,
-   "light_size": 1920
+   "b1": 282.0
   },
   {
    "file": "c2820.glb",

@@ -1,0 +1,100 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  144.0,
+  180.0
+ ],
+ "parts": [
+  "salon"
+ ],
+ "rooms": [
+  {
+   "code": "C-09",
+   "name": "Hearth room",
+   "b0": 144.0,
+   "b1": 151.92
+  },
+  {
+   "code": "C-10",
+   "name": "Great salon",
+   "b0": 151.92,
+   "b1": 172.08
+  },
+  {
+   "code": "C-11",
+   "name": "Recital room",
+   "b0": 172.08,
+   "b1": 180.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c1440.glb",
+   "light": "c1440_l.jpg",
+   "b0": 144.0,
+   "b1": 150.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1500.glb",
+   "light": "c1500_l.jpg",
+   "b0": 150.0,
+   "b1": 156.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1560.glb",
+   "light": "c1560_l.jpg",
+   "b0": 156.0,
+   "b1": 162.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1620.glb",
+   "light": "c1620_l.jpg",
+   "b0": 162.0,
+   "b1": 168.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1680.glb",
+   "light": "c1680_l.jpg",
+   "b0": 168.0,
+   "b1": 174.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1740.glb",
+   "light": "c1740_l.jpg",
+   "b0": 174.0,
+   "b1": 180.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 145.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 144.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

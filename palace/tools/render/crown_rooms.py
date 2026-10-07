@@ -350,8 +350,11 @@ def dining(M, rnd):
         bb = bc + tang(-5.25 + 3.5 * k, rt)
         lights.halo("dining halo", at(rt, bb), d=2.8, z=3.6, ceiling=ceil_at(bb), watts=520)
     # sideboards at both ends, alabaster lamps on them; lemons along the windows, olives at the ends
-    for k, bb in enumerate((b0 + tang(2.6, R_OUT - 0.5), b1 - tang(2.6, R_OUT - 0.5))):
-        tables.console("sideboard", at(R_OUT - 0.55, bb, 0.0), face_in(bb), length=3.4, depth=0.55, h=0.86)
+    # (each on the solid wall between the last window and the cross wall, never across a window: Jim, 7 Oct)
+    runs_ = crown.solid_runs(R_OUT, b0 + tang(0.2, R_OUT), b1 - tang(0.2, R_OUT), b0, b1, gap=0.15, least=1.6)
+    for (s0, s1) in (runs_[0], runs_[-1]):
+        bb = (s0 + s1) / 2; ln = min(3.0, (s1 - s0) * R_OUT * D - 0.1)
+        tables.console("sideboard", at(R_OUT - 0.55, bb, 0.0), face_in(bb), length=ln, depth=0.55, h=0.86)
         lights.alabaster_pendant("sideboard pendant", at(R_OUT - 0.9, bb), z=2.0, ceiling=ceil_at(bb), watts=50)
     for k, bb in enumerate((227.4, 230.9, 234.4, 237.9)):
         plants.make("lemon", at(R_OUT - 1.5, bb, 0.0), seed=260 + k, pot=(0.95, 0.75, "terracotta"), height=2.6)

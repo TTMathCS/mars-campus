@@ -77,7 +77,9 @@ def push(msg):
 
 
 def message(new):
-    return "Photo walk: %s rendered" % (", ".join(new) if len(new) <= 6 else "%d points (%s ... %s)" % (len(new), new[0], new[-1]))
+    done = [x for x in new if not x.endswith(" (taken out)")]; out = [x[:-12] for x in new if x.endswith(" (taken out)")]
+    say = lambda xs: ", ".join(xs) if len(xs) <= 6 else "%d points (%s ... %s)" % (len(xs), xs[0], xs[-1])
+    return "Photo walk: " + "; ".join(([say(done) + " rendered"] if done else []) + (["taken out: " + say(out)] if out else []))
 
 
 if __name__ == "__main__":

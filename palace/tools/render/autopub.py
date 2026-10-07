@@ -23,7 +23,7 @@ ROOM = {"arrival": "arrival", "arrival2": "arrival", "suit": "arrival", "hangar"
         "day_room": "sunset", "sunset": "sunset", "sunset2": "sunset", "gallery": "sunset",
         "library": "library_up", "library_up": "library_up", "maproom": "library_up", "study": "library_up",
         "studio": "studio", "prints": "studio", "craft": "studio",
-        "stars": "observatory", "telescope": "observatory",
+        "stars": "observatory", "stars_day": "observatory", "telescope": "observatory",
         "garden": "garden_room", "breakfast": "garden_room"}
 CAPTION = {
     "stars": "The star lounge at night, its glass walls clear: deep recliners under the stars, the Orb beyond the garden.",

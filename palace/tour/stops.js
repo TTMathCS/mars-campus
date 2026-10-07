@@ -81,7 +81,7 @@ window.TOUR_STOPS = [
   { id: "crown_breakfast", place: "crown", name: "The breakfast room", short: "Breakfast room", k: "The Crown · Garden room", p: [86.74, 88.26], az0: 22, img: "pano/crown_breakfast.jpg",
     d: "A round oak table for eight in upholstered chairs under a cluster of opal globes, an orchid on the table and lemon trees in pairs: late suppers under the stars, and breakfast at sunrise on a day off.",
     links: [{ id: "crown_telescope", at: [77.36, 87.44, 0], label: "The Glide: to the telescope room" }, { id: "crown_garden", at: [99.68, 78.3, 0], label: "Through to the sky garden" }] },
-  { id: "crown_garden", place: "crown", ready: false, name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [108.62, 64.75], az0: -96, img: "pano/crown_garden.jpg",
+  { id: "crown_garden", place: "crown", name: "The sky garden", short: "Sky garden", k: "The Crown · Garden room", p: [108.62, 64.75], az0: -96, img: "pano/crown_garden.jpg",
     d: "A conservatory in the ring: red and orange maples, a golden ginkgo, olive and lemon trees, tree ferns, beds of lavender and herbs, and daybeds under the trees, with grow lights overhead and the plain through the windows.",
     links: [{ id: "crown_breakfast", at: [99.68, 78.3, 0], label: "Through to the breakfast room" }, { id: "crown_suit", at: [103.27, 54.45, 0], label: "The Glide: to the suit room" }] },
   { id: "crown_suit", place: "crown", name: "The suit room", short: "Suit room", k: "The Crown · Arrival", p: [122.77, 31.52], az0: -43, img: "pano/crown_suit.jpg",

@@ -38,6 +38,15 @@ def main():
                chunks=sorted(chunks.values(), key=lambda c: c["b0"]), step=first["step"],
                start=start or first["start"], floor=dict(file="floor.png", b0=0.0, db=db, r0=F0["r0"], dr=dr, w=W, h=h))
     floor.save(os.path.join(DATA, "floor.png"), optimize=True)
+    # what stands in the way of the eye, joined the same way where every part has its map (for the photo walk's plan)
+    talls = [info["_floor"].replace("_floor.png", "_tall.png") for info in parts]
+    if all(os.path.exists(t) for t in talls):
+        tall = Image.new("L", (W, h), 0)
+        for info, t in zip(parts, talls):
+            im = Image.open(t).convert("L"); i0 = int(round((info["floor"]["b0"] % 360.0) / db))
+            if i0 + im.width <= W: tall.paste(im, (i0, 0))
+            else: cut = W - i0; tall.paste(im.crop((0, 0, cut, h)), (i0, 0)); tall.paste(im.crop((cut, 0, im.width, h)), (0, 0))
+        tall.save(os.path.join(DATA, "tall.png"), optimize=True)
     json.dump(out, open(os.path.join(DATA, "walk.json"), "w"), indent=1)
     done = sum(c["b1"] - c["b0"] for c in out["chunks"])
     print("walk.json: %d parts, %d chunks (%.0f of 360 degrees), %d rooms; floor map %d x %d" % (len(parts), len(out["chunks"]), done, len(out["rooms"]), W, h))

@@ -385,24 +385,27 @@ def floor_map(b0, b1, path, objs, cell=0.05):
             ps.append([base + i for i in p.vertices]); wet.append(water[min(p.material_index, len(water) - 1)])
     tree = BVHTree.FromPolygons(vs, ps, all_triangles=False)
     db = cell / 130.0 / D; w = int(math.ceil((b1 - b0) / db)); h = int(math.ceil((R_OUT - R_IN) / cell))
-    px = [1.0] * (w * h * 4); down = Vector((0, 0, -1))
-    def block(j, i):
-        if 0 <= j < h and 0 <= i < w: k = 4 * ((h - 1 - j) * w + i); px[k] = px[k + 1] = px[k + 2] = 0.0
+    px = [1.0] * (w * h * 4); tx = [1.0] * (w * h * 4); down = Vector((0, 0, -1))
+    def block(j, i, im=px):
+        if 0 <= j < h and 0 <= i < w: k = 4 * ((h - 1 - j) * w + i); im[k] = im[k + 1] = im[k + 2] = 0.0
     for j in range(h):
         r = R_IN + (j + 0.5) * cell
         for i in range(w):
             loc, nrm, idx, dist = tree.ray_cast(P(r, b0 + (i + 0.5) * db, 1.85), down, 2.5)
             # the first face below, facing down: the ray began inside a solid (a wall thicker than a cell: it found
             # the wall's underside at the floor), so this is no floor
-            ok = loc is not None and -0.2 < loc.z < 0.15 and not wet[idx] and nrm.z > -0.5
-            if ok:      # (where a wall's underside lies on the floor the ray may find either first:) inside a solid,
-                        # the first face any way along the floor, 1 m up, is one seen from behind
+            low = loc is not None and -0.2 < loc.z < 0.15
+            inside = loc is not None and nrm.z < -0.5
+            if low and not inside:      # (where a wall's underside lies on the floor the ray may find either first:)
+                                        # inside a solid, the first face any way along the floor, 1 m up, is one seen
+                                        # from behind
                 bb = b0 + (i + 0.5) * db; pt = P(r, bb, 1.0)
                 for d in ((math.cos(bb * D), -math.sin(bb * D), 0.0), (-math.cos(bb * D), math.sin(bb * D), 0.0),
                           (math.sin(bb * D), math.cos(bb * D), 0.0), (-math.sin(bb * D), -math.cos(bb * D), 0.0)):
                     hit, hn, _, _ = tree.ray_cast(pt, Vector(d), 0.6)
-                    if hit is not None and hn.dot(Vector(d)) > 0.2: ok = False; break
-            if not ok: block(j, i)
+                    if hit is not None and hn.dot(Vector(d)) > 0.2: inside = True; break
+            if not (low and not inside and not wet[idx]): block(j, i)
+            if inside or (loc is not None and loc.z > 1.3): block(j, i, tx)      # in the way of the eye, too
     # thin upright things the rays slip past (a wall of glass is 1.6 cm thick, the cells 5 cm): each blocks the cells
     # its foot covers, a little widened
     n = 0
@@ -414,10 +417,13 @@ def floor_map(b0, b1, path, objs, cell=0.05):
         if max(bs) - min(bs) > 180 or (max(rs) - min(rs) > 0.3 and (max(bs) - min(bs)) * D * max(rs) > 0.3): continue
         lo_b, hi_b = min(bs) - 0.03 / 130.0 / D, max(bs) + 0.03 / 130.0 / D; lo_r, hi_r = min(rs) - 0.03, max(rs) + 0.03
         for j in range(max(0, int((lo_r - R_IN) / cell)), min(h, int((hi_r - R_IN) / cell) + 1)):
-            for i in range(max(0, int((lo_b - b0) / db)), min(w, int((hi_b - b0) / db) + 1)): block(j, i)
+            for i in range(max(0, int((lo_b - b0) / db)), min(w, int((hi_b - b0) / db) + 1)): block(j, i); block(j, i, tx)
         n += 1
     log("floor map: %d thin upright things blocked" % n)
     im = bpy.data.images.new("floor map", w, h); im.pixels.foreach_set(px); im.filepath_raw = path; im.file_format = "PNG"; im.save()
+    # and the same map of what stands in the way of the eye (walls, shelves, trees: anything from 1.3 m up), for
+    # where the photo walk's points see each other (photowalk_plan.py)
+    im = bpy.data.images.new("tall map", w, h); im.pixels.foreach_set(tx); im.filepath_raw = path.replace("floor.png", "tall.png"); im.file_format = "PNG"; im.save()
     log("floor map %d x %d" % (w, h))
     return dict(file=os.path.basename(path), b0=b0, db=db, r0=R_IN, dr=cell, w=w, h=h)
 

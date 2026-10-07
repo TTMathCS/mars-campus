@@ -736,6 +736,7 @@ def ring_corridors():
     """the corridors' signs and prints, from the program (RING_SIGNS, RING_ART)"""
     names = {r["code"]: r for r in R.RING_ROOMS}
     def where(x):
+        if x.get("room"): return "in the %s (%s), on its %s wall" % (E(names[x["room"]]["name"]), x["room"], x["wall"])
         if x.get("end"): return "upper corridor, its %s end (%g°)" % ("west" if x["end"] > 0 else "east", x["a"])
         rm = names[x["faces"]]
         return "lower corridor at %g°, facing %s%s" % (x["a"], E(rm["name"]), (" (%s)" % rm["no"]) if rm.get("no") else "")

@@ -282,6 +282,49 @@
       g.fillStyle = PRC.ink; for (k = 0; k < N; k++) { var pp = P(k); dot(g, pp[0], pp[1], 1.3); }
       serif(g, 13, "italic"); g.textAlign = "right"; g.textBaseline = "bottom"; g.fillText("k  →  2k  (mod 200)", b.x + b.w - 8, b.y + b.h - 8);
     },
+    harmonograph: function (g, b) {                                   // a pen moved by two swinging pendulums, dying away
+      var cx = b.x + b.w / 2, cy = b.y + b.h / 2, A = b.h * 0.46;
+      g.lineWidth = 0.7; g.strokeStyle = "rgba(44,74,115,0.72)"; g.beginPath();
+      for (var k = 0; k <= 9000; k++) {
+        var t = k * 0.012, d1 = Math.exp(-0.0042 * t), d2 = Math.exp(-0.0031 * t);
+        var x = cx + A * 1.3 * (0.62 * Math.sin(2.0 * t + 0.6) * d1 + 0.38 * Math.sin(3.004 * t + 1.1) * d2), y = cy + A * (0.6 * Math.sin(3.0 * t) * d2 + 0.4 * Math.sin(2.003 * t + 0.4) * d1);
+        if (k) g.lineTo(x, y); else g.moveTo(x, y);
+      }
+      g.stroke();
+    },
+    ford: function (g, b) {                                           // on every fraction p/q a circle 1/q squared across, standing on the line; neighbours only touch
+      var x0 = b.x + 14, S = b.w - 28, yb = b.y + b.h - 24, cols = [PRC.red, PRC.navy, PRC.ochre, PRC.teal, PRC.rose, PRC.olive];
+      function gcd(a, c) { return c ? gcd(c, a % c) : a; }
+      for (var q = 1; q <= 44; q++) for (var p = 0; p <= q; p++) {
+        if (gcd(p, q) !== 1) continue; var r = S / (2 * q * q); if (r < 0.6) continue; var cx = x0 + S * p / q;
+        g.globalAlpha = 0.82; g.fillStyle = cols[(q - 1) % cols.length]; g.beginPath(); g.arc(cx, yb - r, r, 0, 2 * Math.PI); g.fill(); g.globalAlpha = 1;
+        g.strokeStyle = PRC.ink; g.lineWidth = Math.min(1.3, 0.35 + r * 0.03); g.stroke();
+        if (r > 10 && r < 200) { serif(g, Math.min(17, r * 0.5), "italic"); g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(p + "/" + q, cx, yb - r); }
+      }
+      g.strokeStyle = PRC.ink; g.lineWidth = 1.4; g.beginPath(); g.moveTo(b.x, yb); g.lineTo(b.x + b.w, yb); g.stroke();
+    },
+    roses: function (g, b) {                                          // r = cos(k theta) for six values of k
+      var ks = [[2, 1], [3, 1], [5, 1], [3, 2], [5, 3], [7, 4]], cw = b.w / 3, ch = b.h / 2, cols = [PRC.red, PRC.navy, PRC.teal, PRC.rose, PRC.olive, PRC.ochre];
+      ks.forEach(function (k, i) {
+        var cx = b.x + cw * (i % 3 + 0.5), cy = b.y + ch * (Math.floor(i / 3) + 0.5) - 9, R = Math.min(cw, ch) * 0.37, n = k[0], d = k[1], T = Math.PI * d * ((n * d) % 2 ? 1 : 2);
+        g.strokeStyle = cols[i]; g.lineWidth = 1.7; g.beginPath();
+        for (var st = 0; st <= 900; st++) { var t = T * st / 900, r = R * Math.cos(n / d * t), x = cx + r * Math.cos(t), y = cy - r * Math.sin(t); if (st) g.lineTo(x, y); else g.moveTo(x, y); }
+        g.stroke(); serif(g, 14, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "top"; g.fillText("k = " + (d === 1 ? n : n + "/" + d), cx, cy + R + 5);
+      });
+    },
+    voronoi: function (g, b, s, ox, oy) {                             // every point coloured by the seed nearest to it
+      var X0 = Math.round(ox + b.x * s), Y0 = Math.round(oy + b.y * s), W = Math.round(b.w * s), H = Math.round(b.h * s), img = g.createImageData(W, H), d = img.data, R = mulberry(31), seeds = [];
+      var pal = [[196, 80, 47], [217, 162, 58], [43, 122, 120], [44, 74, 115], [181, 84, 106], [111, 130, 72], [227, 213, 184]];
+      for (var k = 0; k < 34; k++) seeds.push([R() * W, R() * H, pal[k % pal.length]]);
+      for (var j = 0; j < H; j++) for (var i = 0; i < W; i++) {
+        var b1 = 1e9, b2 = 1e9, c = null;
+        for (var q = 0; q < seeds.length; q++) { var dx = i - seeds[q][0], dy = j - seeds[q][1], dd = dx * dx + dy * dy; if (dd < b1) { b2 = b1; b1 = dd; c = seeds[q][2]; } else if (dd < b2) b2 = dd; }
+        var edge = Math.sqrt(b2) - Math.sqrt(b1) < 1.7 * s, o = (j * W + i) * 4;
+        d[o] = edge ? 31 : c[0]; d[o + 1] = edge ? 36 : c[1]; d[o + 2] = edge ? 48 : c[2]; d[o + 3] = 255;
+      }
+      g.putImageData(img, X0, Y0);
+      g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = PRC.ink; seeds.forEach(function (q) { g.beginPath(); g.arc(X0 + q[0], Y0 + q[1], 2.4 * s, 0, 2 * Math.PI); g.fill(); }); g.restore();
+    },
     mandel: function (g, b, s, ox, oy) {
       var X0 = Math.round(ox + b.x * s), Y0 = Math.round(oy + b.y * s), W = Math.round(b.w * s), H = Math.round(b.h * s), img = g.createImageData(W, H), d = img.data;
       var sc = Math.max(3.0 / W, 2.2 / H), x0 = -0.72 - sc * W / 2, y0 = -sc * H / 2;
@@ -332,8 +375,13 @@
     var pos = [], uvs = [], idx = [], brt = [];
     function unit(a) { var p = crsPt(1, a); return new THREE.Vector3(p.x - PAL.c.x, 0, p.z - PAL.c.z).normalize(); }
     art.forEach(function (x, k) {
-      var up = x.floor === "upper", y = up ? C.yU : C.yL, yc = y + PRINT.yc, a, P, Rv, Nv, rw;
-      if (x.end) {                                                  // a blind end of the upper corridor: the wall along a radius, facing along the corridor
+      var up = x.floor === "upper", y = up ? C.yU : C.yL, yc = y + PRINT.yc, a, P, Rv, Nv, rw, pw = x.w || PRINT.w, ph = pw * PRINT.h / PRINT.w;
+      if (x.room) {                                                 // in a room, on its back or front wall (along a radius), facing into the room
+        var rmx = C.rooms.filter(function (q) { return q.code === x.room; })[0], Fr = roomFrame(rmx), fw = x.wall === "front", wa = fw ? Fr.front : Fr.back, sd = fw ? -Fr.sgn : Fr.sgn, rr = x.r;
+        y = Fr.y; yc = y + (x.y || PRINT.yc); a = wa + sd * 0.12 / rr; var cq = crsPt(rr, a);
+        P = new THREE.Vector3(cq.x, yc, cq.z); Nv = unit(wa + Math.PI / 2).multiplyScalar(sd); Rv = unit(wa).multiplyScalar(sd);
+        var Mr = crsFrame(rr, wa + sd * 0.095 / rr, yc), br = new Builder(); br.box(-0.018, -ph / 2 - 0.05, -pw / 2 - 0.05, 0.018, ph / 2 + 0.05, pw / 2 + 0.05, MT.WOOD); br.tag(0, null, 2); W.add(br, Mr);
+      } else if (x.end) {                                                  // a blind end of the upper corridor: the wall along a radius, facing along the corridor
         var aw = x.a * D + x.end * 0.06 / 48; a = aw + x.end * 0.045 / rM; var cp = crsPt(rM, a);
         P = new THREE.Vector3(cp.x, yc, cp.z); Nv = unit(aw + Math.PI / 2).multiplyScalar(x.end); Rv = unit(aw).multiplyScalar(x.end);
         var Mf = crsFrame(rM, aw + x.end * 0.022 / rM, yc), bz = new Builder(); bz.box(-0.018, -ph / 2 - 0.05, -pw / 2 - 0.05, 0.018, ph / 2 + 0.05, pw / 2 + 0.05, MT.WOOD); bz.tag(0, null, 2); W.add(bz, Mf);

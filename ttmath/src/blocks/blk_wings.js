@@ -98,6 +98,7 @@
       latheOn(b, x1, 0, z1, [[0.012, 0], [0.012, 0.012], [0.0, 0.012]], 10, MT.RUBBER);
     });
     [-1, 1].forEach(function (sx) { tubeAlong(b, [new THREE.Vector3(sx * 0.17, 0.44, -0.13), new THREE.Vector3(sx * 0.17, 0.44, 0.1)], 0.008, 6, MT.STEEL, 0.3); });
+    softBox(b, -0.19, 0.448, -0.19, 0.19, 0.476, 0.1, 0.012, MT.FABRIC, col === 7 ? 6 : (col === 1 ? 0 : 10), { py: 0.008 }, 0);   // an upholstered seat pad
   }); }
   function backpack(col) { return furn("pack" + col, function (b) {
     var n0 = b.count(); roundSlab(b, 0.3, 0.17, 0.4, 0.06, 0, MT.FABRIC); b.tag(n0, col, null);
@@ -107,7 +108,7 @@
   function officeChair() { return furn("office", function (b) {
     for (var k = 0; k < 5; k++) { var a = k / 5 * Math.PI * 2, cx = Math.cos(a), cz = Math.sin(a); leg(b, 0, 0.1, 0, cx * 0.3, 0.07, cz * 0.3, 0.018, MT.PLASTIC); b.geo(addF2(new THREE.SphereGeometry(0.03, 8, 6), 1, 0), T(cx * 0.3, 0.035, cz * 0.3), MT.PLASTIC, 1); }
     latheOn(b, 0, 0.08, 0, [[0.03, 0], [0.03, 0.3], [0.022, 0.32], [0.022, 0.38]], 10, MT.STEEL, 0.4);
-    var n0 = b.count(); b.box(-0.24, 0.44, -0.24, 0.24, 0.52, 0.24, MT.FABRIC); b.box(-0.3, 0.6, -0.22, -0.24, 1.08, 0.22, MT.FABRIC); b.tag(n0, 0, null);
+    var n0 = b.count(); softBox(b, -0.25, 0.44, -0.25, 0.25, 0.525, 0.25, 0.045, MT.FABRIC, 10, { py: 0.014 }, 0); softBox(b, -0.32, 0.6, -0.22, -0.235, 1.07, 0.22, 0.035, MT.FABRIC, 10, { px: 0.012 }, 0);
     b.box(-0.28, 0.5, -0.03, -0.24, 0.62, 0.03, MT.PLASTIC);
     [-0.25, 0.25].forEach(function (z) { b.box(-0.12, 0.6, z - 0.025, 0.14, 0.63, z + 0.025, MT.PLASTIC); leg(b, 0.0, 0.5, z, 0.0, 0.6, z, 0.012, MT.PLASTIC); });
     for (k = n0; k < b.count(); k++) if (b.m[k] === MT.PLASTIC) b.f2[k * 2] = 1;
@@ -157,17 +158,6 @@
   }); }
   function linearPendant() { return furn("lin", function (b) {
     b.box(-0.7, 0, -0.04, 0.7, 0.06, 0.04, MT.ANOD); var n0 = b.count(); b.box(-0.68, -0.004, -0.03, 0.68, 0.0, 0.03, MT.LIGHT); b.tag(n0, 1.6, 0.25);
-  }); }
-  function sofa(col, len) { return furn("sofa" + col + "_" + len, function (b) {
-    var n0 = b.count(), L = len / 2;
-    b.box(-L, 0.12, -0.45, L, 0.42, 0.45, MT.FABRIC); b.box(-L, 0.42, 0.22, L, 0.85, 0.45, MT.FABRIC); b.box(-L - 0.02, 0.12, -0.45, -L + 0.16, 0.62, 0.45, MT.FABRIC); b.box(L - 0.16, 0.12, -0.45, L + 0.02, 0.62, 0.45, MT.FABRIC);
-    for (var x = -L + 0.18; x < L - 0.3; x += (len - 0.36) / Math.round((len - 0.36) / 0.65)) b.box(x + 0.01, 0.42, -0.42, x + (len - 0.36) / Math.round((len - 0.36) / 0.65) - 0.01, 0.52, 0.2, MT.FABRIC);
-    b.tag(n0, col, null);
-    [[-L + 0.08, -0.38], [L - 0.08, -0.38], [-L + 0.08, 0.38], [L - 0.08, 0.38]].forEach(function (c) { var m = b.count(); b.box(c[0] - 0.025, 0, c[1] - 0.025, c[0] + 0.025, 0.12, c[1] + 0.025, MT.WOOD); kindTag(b, m, 2); });
-  }); }
-  function armchair() { return furn("arm", function (b) {
-    var n0 = b.count(); b.box(-0.4, 0.14, -0.42, 0.4, 0.44, 0.42, MT.LEATHER); b.box(-0.4, 0.44, 0.24, 0.4, 0.95, 0.42, MT.LEATHER); b.box(-0.42, 0.14, -0.42, -0.3, 0.66, 0.42, MT.LEATHER); b.box(0.3, 0.14, -0.42, 0.42, 0.66, 0.42, MT.LEATHER); b.tag(n0, 2, null);
-    [[-0.34, -0.36], [0.34, -0.36], [-0.34, 0.36], [0.34, 0.36]].forEach(function (c) { var m = b.count(); b.box(c[0] - 0.02, 0, c[1] - 0.02, c[0] + 0.02, 0.14, c[1] + 0.02, MT.WOOD); kindTag(b, m, 2); });
   }); }
   function bookshelf() { return furn("shelf", function (b) {   // 0.9 wide (x), 0.34 deep (z, back at +z), 2.2 tall; books added as pictures
     var n0 = b.count(); b.box(-0.45, 0, -0.17, -0.43, 2.2, 0.17, MT.WOOD); b.box(0.43, 0, -0.17, 0.45, 2.2, 0.17, MT.WOOD); b.box(-0.45, 2.18, -0.17, 0.45, 2.2, 0.17, MT.WOOD);

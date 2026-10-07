@@ -147,6 +147,10 @@ RING_ART = [
     dict(a=300.5, floor="lower", faces="T06-42", subject="cardioid", title="Times two round a circle", note="join each of 200 points to its double and a heart appears", bench=1.8, plant=("monstera", -1)),
     dict(a=-57.0, floor="upper", end=1, subject="mandel", title="The Mandelbrot set", note="the points that stay near home under z to z squared plus c", bench=1.8, plant=("fig", 1)),
     dict(a=197.0, floor="upper", end=-1, subject="golden", title="The golden rectangle", note="squares of the Fibonacci numbers and the spiral through them", bench=1.8, plant=("strelitzia", 1)),
+    # in the rooms (v0.20): on a room's back or front wall (a radius), r the picture's middle, w its width, y its middle's height
+    dict(room="T06-26", wall="back", r=54.45, y=1.75, w=1.2, floor="upper", subject="harmonograph", title="Two pendulums", note="a pen hung from two swinging pendulums draws a figure that dies away"),
+    dict(room="T06-26", wall="back", r=55.95, y=1.75, w=1.2, floor="upper", subject="ford", title="Ford circles", note="a circle on every fraction, 1/q squared across: neighbours only ever touch"),
+    dict(room="T06-26", wall="front", r=55.2, y=1.85, w=1.8, floor="upper", subject="roses", title="Rose curves", note="r = cos(k theta): petals for every fraction k"),
 ]
 # Notice boards (v0.18): cork in an aluminium frame on the lower corridor's back wall, 2.4 by 1.2 m, flyers pinned on
 # them. By the competition room, the contests (from campus_contests.py: each contest, when, its grades, the deadlines,

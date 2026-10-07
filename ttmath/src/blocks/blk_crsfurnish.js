@@ -3,15 +3,16 @@
   // (P2 rooms' plants). Rooms are laid out in their polar frame: the board on the radial wall away from the door, the
   // students facing it, daylight from the garden glass at their side. Furniture comes from the wings' builders where
   // they fit, new pieces below; obstacles for walking go to CRS.obst.
-  function crsPlace(B, fb, r, a, y, rot) { B.add(fb, crsFrame(r, a, y, rot)); }
+  function crsPlace(B, fb, r, a, y, rot) { var M = crsFrame(r, a, y, rot); B.add(fb, M); contactShadow(fb, M); }
   function crsObst(rA, rB, aA, aB, floor) { (CRS.obst = CRS.obst || []).push([Math.min(rA, rB), Math.max(rA, rB), Math.min(aA, aB), Math.max(aA, aB), floor]); }
   function crsPic(B, r, a, y, off, n, w, h, uv, mat, g2) { wpic(B, crsFrame(r, a, y), off, "z", n, w, h, uv, mat, g2); }
   // ---- new pieces ----
-  function carrel() { return furn("carrel", function (b) {                // a study carrel: desk, side and back panels, a lamp
-    b.box(-0.45, 0.72, -0.4, 0.45, 0.75, 0.4, MT.WOOD); b.tag(b.count() - 24, null, 1);
-    [-0.45, 0.42].forEach(function (x) { b.box(x, 0, -0.4, x + 0.03, 1.2, 0.4, MT.FABRIC); b.tag(b.count() - 24, 3, null); });
-    b.box(-0.45, 0.75, 0.37, 0.45, 1.2, 0.4, MT.FABRIC); b.tag(b.count() - 24, 3, null);
-    b.box(-0.42, 0, -0.38, -0.4, 0.72, 0.38, MT.STEEL); b.box(0.4, 0, -0.38, 0.42, 0.72, 0.38, MT.STEEL);
+  function carrel() { return furn("carrel", function (b) {                // a study carrel: an oak desk between oak sides, a felt back with a shelf, a lamp
+    var n0 = b.count(); b.box(-0.43, 0.72, -0.4, 0.43, 0.75, 0.37, MT.WOOD);
+    [-0.455, 0.43].forEach(function (x) { b.box(x, 0, -0.4, x + 0.025, 1.2, 0.4, MT.WOOD); });
+    b.box(-0.43, 1.18, 0.34, 0.43, 1.2, 0.4, MT.WOOD); b.box(-0.43, 0.95, 0.22, 0.08, 0.97, 0.37, MT.WOOD); b.tag(n0, null, 1);
+    var n1 = b.count(); b.box(-0.43, 0.75, 0.37, 0.43, 1.18, 0.4, MT.FABRIC); [-0.43, 0.42].forEach(function (x) { b.box(x, 0.76, -0.36, x + 0.01, 1.16, 0.36, MT.FABRIC); }); b.tag(n1, 10, 0);
+    [[0.034, 4, 0.0], [0.028, 9, 0.04], [0.03, 6, 0.075], [0.026, 0, 0.11]].forEach(function (bk) { var nb = b.count(); b.box(-0.38 + bk[2], 0.97, 0.23, -0.38 + bk[2] + bk[0], 1.13 + bk[0], 0.35, MT.FABRIC); b.tag(nb, bk[1], 0); });
     latheOn(b, 0.28, 0.75, 0.25, [[0.06, 0], [0.06, 0.01], [0.01, 0.02], [0.01, 0.38]], 10, MT.ANOD, 0);
     b.box(0.18, 1.12, 0.12, 0.32, 1.16, 0.28, MT.ANOD); b.box(0.19, 1.115, 0.13, 0.31, 1.12, 0.27, MT.LIGHT); b.tag(b.count() - 24, 1.4, 0.2);
   }); }
@@ -113,8 +114,13 @@
     for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
     [-len / 2 + 0.35, len / 2 - 0.35].forEach(function (x) { b.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
   }); }
-  function rugAt(B, r, a, y, lw, ld, g2) {                                  // a flat rug lw along the arc, ld across, at (r, a)
-    var M = crsFrame(r, a, y + 0.008), rb = new Builder(); rb.box(-lw / 2, 0, -ld / 2, lw / 2, 0.012, ld / 2, MT.FABRIC); rb.tag(0, g2, null); B.add(rb, M);
+  var RUG_FIELD = { 1: 6, 2: 6, 3: 9, 4: 6, 5: 5 }, RUG_BORDER = { 0: 6, 1: 10, 5: 10, 6: 10, 7: 10, 8: 6, 9: 10, 10: 6, 11: 6 };
+  function rugAt(B, r, a, y, lw, ld, g2) {                                  // a wool rug lw along the arc, ld across, at (r, a): a border round a field, a soft pile
+    var fld = RUG_FIELD[g2] !== undefined ? RUG_FIELD[g2] : g2, bd = RUG_BORDER[fld] !== undefined ? RUG_BORDER[fld] : 10, e = Math.min(0.22, Math.min(lw, ld) * 0.08);
+    var M = crsFrame(r, a, y + 0.006), rb = new Builder();
+    softBox(rb, -lw / 2, 0, -ld / 2, lw / 2, 0.014, ld / 2, 0.006, MT.FABRIC, bd, null, 2);
+    softBox(rb, -lw / 2 + e, 0.002, -ld / 2 + e, lw / 2 - e, 0.0165, ld / 2 - e, 0.004, MT.FABRIC, fld, null, 2);
+    B.add(rb, M);
   }
 
   // ---- a room's frame: its angles, the front (board) side, the floor's height ----
@@ -143,7 +149,7 @@
   }
   function shelvesOnCorridor(B, F, n, fromDist) {                           // bookshelves along the corridor wall, from a distance from the back wall
     var C = CRS, r = C.rc + 0.27, half = 0.45 / r;
-    for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
+    for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); shelfBooks(B, crsFrame(r, a, F.y, ROT.out), k + Math.round(F.mid * 40)); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
   }
   // the plants chosen for the room, at their spots
   function roomPlants(B, rm, F, deskAt) {
@@ -171,7 +177,7 @@
       if (theme === "gauss") crsPlace(B, labDesk(), r, a, F.y, faceRot); else crsPlace(B, studentDesk(k), r, a, F.y, faceRot);
       crsObst(r - 0.72, r + 0.72, a - 0.33 / r, a + 0.33 / r, F.floor);
       [-0.35, 0.35].forEach(function (dz) { var out = CR() * 0.12, turn = (CR() - 0.5) * 0.35, ac = a - F.sgn * (0.6 + out) / r;
-        crsPlace(B, theme === "gauss" ? officeChair() : schoolChair(CR() < 0.7 ? 5 : [0, 3, 2][Math.floor(CR() * 3)]), r + dz, ac, F.y, faceRot + turn);
+        crsPlace(B, theme === "gauss" ? officeChair() : schoolChair([5, 5, 7, 1][Math.floor(CR() * 4)]), r + dz, ac, F.y, faceRot + turn);
         if (CR() < 0.25) crsPlace(B, backpack(CR() < 0.5 ? 1 : 3), r + dz + (dz > 0 ? 0.42 : -0.42), a - F.sgn * 0.3 / r, F.y, CR() * 3); });
     }); });
     var td = F.at(1.7, true), rt = 59.2;                                     // the teacher's desk by the window, facing the class
@@ -184,7 +190,7 @@
     // the back of the big rooms: a reading corner by the window (a long sofa facing in, a rug, a low table)
     if (big && theme !== "hypatia") {
       var ra = F.at(F.span - 14.2 > 0 ? 2.6 : 2.2, false), rs = C.r1 - 1.0;
-      rugAt(B, rs - 1.25, ra, F.y, 3.6, 2.6, 3); crsPlace(B, sofa(3, 3.0), rs, ra, F.y, ROT["in"]); crsPlace(B, coffeeTable(1.4), rs - 1.35, ra, F.y, 0);
+      rugAt(B, rs - 1.25, ra, F.y, 3.6, 2.6, 3); crsPlace(B, sofa(6, 3.0), rs, ra, F.y, ROT["in"]); crsPlace(B, coffeeTable(1.4), rs - 1.35, ra, F.y, 0);
       crsObst(rs - 1.9, rs + 0.55, ra - 1.6 / rs, ra + 1.6 / rs, F.floor);
     }
     // the room's own thing, on the back wall or by it
@@ -223,7 +229,7 @@
     // the lounge by the glass: two long sofas facing each other over a low table and a rug
     var la = F.at(F.span * 0.66, false), rA = C.r1 - 1.0, rB = C.r1 - 4.0;
     rugAt(B, (rA + rB) / 2, la, F.y, 3.8, 2.6, 2);
-    crsPlace(B, sofa(1, 3.0), rA, la, F.y, ROT["in"]); crsPlace(B, sofa(0, 3.0), rB, la, F.y, ROT.out);
+    crsPlace(B, sofa(10, 3.0), rA, la, F.y, ROT["in"]); crsPlace(B, sofa(8, 3.0), rB, la, F.y, ROT.out);
     crsPlace(B, coffeeTable(1.6), (rA + rB) / 2, la, F.y, 0); crsObst(rB - 0.55, rA + 0.55, la - 1.6 / 58, la + 1.6 / 58, F.floor);
     var ea = F.at(F.span * 0.9, false); crsPlace(B, kitchenette(), C.rc + 0.42, ea, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ea - 1.25 / 50, ea + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, ea, F.y + 0.92, ROT.out);
@@ -237,7 +243,7 @@
     var ka = F.at(4.8, false); crsPlace(B, kitchenette(), C.rc + 0.42, ka, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ka - 1.25 / 50, ka + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, F.at(4.0, false), F.y + 0.92, ROT.out);
     crsPlace(B, lockerBank(4), C.rc + 0.36, F.at(1.5, false), F.y, ROT.out);
-    var sa = F.at(F.span - 1.6, false); crsPlace(B, sofa(2, 2.8), 53.0, sa, F.y, F.sgn > 0 ? ROT.minusA : ROT.plusA); crsObst(51.5, 54.5, sa - 0.5 / 53, sa + 0.5 / 53, F.floor);
+    var sa = F.at(F.span - 1.6, false); crsPlace(B, sofa(8, 2.8), 53.0, sa, F.y, F.sgn > 0 ? ROT.minusA : ROT.plusA); crsObst(51.5, 54.5, sa - 0.5 / 53, sa + 0.5 / 53, F.floor);
     roomPlants(B, rm, F, [55.4, ma, 0.77]);
   }
   function computerRoom(B, rm, F) {
@@ -272,8 +278,8 @@
     // two long sofas facing each other over a low table and a rug, an armchair at each end; tall plants by the side wall
     var ba = -3.8 * D2R, rS = C.r1 - 1.0, rT = 59.1, rB = 57.2;
     rugAt(B, rT, ba, F.y, 5.4, 4.6, 3);
-    crsPlace(B, sofa(1, 3.8), rS, ba, F.y, ROT["in"]); crsObst(rS - 0.55, rS + 0.55, ba - 2.0 / rS, ba + 2.0 / rS, F.floor);
-    crsPlace(B, sofa(1, 3.8), rB, ba, F.y, ROT.out); crsObst(rB - 0.55, rB + 0.55, ba - 2.0 / rB, ba + 2.0 / rB, F.floor);
+    crsPlace(B, sofa(7, 3.8), rS, ba, F.y, ROT["in"]); crsObst(rS - 0.55, rS + 0.55, ba - 2.0 / rS, ba + 2.0 / rS, F.floor);
+    crsPlace(B, sofa(7, 3.8), rB, ba, F.y, ROT.out); crsObst(rB - 0.55, rB + 0.55, ba - 2.0 / rB, ba + 2.0 / rB, F.floor);
     crsPlace(B, coffeeTable(2.0), rT, ba, F.y, 0); crsObst(rT - 0.4, rT + 0.4, ba - 1.1 / rT, ba + 1.1 / rT, F.floor);
     [[-2.75, ROT.plusA], [2.75, ROT.minusA]].forEach(function (e) { var aa = ba + e[0] / rT; crsPlace(B, armchair(), rT, aa, F.y, e[1]); crsObst(rT - 0.5, rT + 0.5, aa - 0.5 / rT, aa + 0.5 / rT, F.floor); });
     [["fig", 52.6], ["kentia", 55.2]].forEach(function (t, i) { var aa = -6.25 * D2R; crsPlace(B, plantBuilder(t[0], 911 + i), t[1], aa, F.y, i * 2.1); crsObst(t[1] - 0.45, t[1] + 0.45, aa - 0.45 / t[1], aa + 0.45 / t[1], F.floor); });
@@ -297,6 +303,7 @@
       else if (rm.kind === "lab") computerRoom(W, rm, F);
       else if (rm.kind === "service") washrooms(W, rm, F, rm.code === "T06-14" || rm.code === "T06-31");
     });
+    softShadowsBuild();
     W.zone = ZONE.OUT;
   }
   // the garden gallery: long planters along the stone wall with plants of every kind, oak benches between them facing the glass

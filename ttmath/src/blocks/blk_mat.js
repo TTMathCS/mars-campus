@@ -118,8 +118,8 @@
     "    vec2 k = step(vec2(0.0), f) * step(f, vec2(1.0)); float lg = texture2D(uLogo, clamp(f, 0.0, 1.0)).a * k.x * k.y;",
     "    alb = mix(vec3(0.05, 0.07, 0.1), vec3(0.95), lg); emi = vec3(1.0, 0.97, 0.92) * 0.85 * lg; rough = mix(0.25, 0.1, lg); metal = 0.5 * (1.0 - lg);",
     "  } else if (m < 13.5) { alb = vec3(0.16, 0.15, 0.14) * (0.94 + 0.08 * vnoise(vW.xz * 4.0 + vW.y * 4.0)); metal = 0.65; rough = 0.34; }",   // RIB: dark bronze-anodised steel, like real glass-dome lattices
-    "  else if (m < 14.5) {",                                             // PLASTER: g.y 0 off-white, 1 warm grey, 2 terracotta, 3 slate blue, 6 ceiling tiles
-    "    vec3 c = g.y < 0.5 ? vec3(0.86, 0.85, 0.82) : (g.y < 1.5 ? vec3(0.60, 0.58, 0.55) : (g.y < 2.5 ? vec3(0.58, 0.33, 0.24) : vec3(0.22, 0.28, 0.36)));",
+    "  else if (m < 14.5) {",                                             // PLASTER: g.y 0 off-white, 1 warm grey, 2 terracotta, 3 slate blue, 4 linen, 5 soft sage, 6 ceiling tiles
+    "    vec3 c = g.y < 0.5 ? vec3(0.86, 0.85, 0.82) : (g.y < 1.5 ? vec3(0.60, 0.58, 0.55) : (g.y < 2.5 ? vec3(0.58, 0.33, 0.24) : (g.y < 3.5 ? vec3(0.22, 0.28, 0.36) : (g.y < 4.5 ? vec3(0.80, 0.76, 0.68) : (g.y < 5.5 ? vec3(0.67, 0.70, 0.63) : vec3(0.86, 0.85, 0.82))))));",   // 4 linen, 5 soft sage
     "    alb = c * (0.96 + 0.05 * vnoise(pc * 3.0) + 0.03 * (vnoise(pc * 45.0) - 0.5)); rough = 0.88;",
     "    if (g.y > 5.5 && g.y < 6.5) {",                                     // g.y 6: acoustic ceiling tiles, 60 cm, in a white steel grid
     "      float gl = max(aline(f.x, 0.6, 0.007), aline(f.y, 0.6, 0.007)), fis = vnoise(f * 55.0) * 0.6 + vnoise(f * 160.0) * 0.4;",
@@ -140,10 +140,12 @@
     "      alb = mix(vec3(0.045, 0.043, 0.042), alb * (1.0 - 0.35 * edge), on); rough = mix(0.95, rough, on);",
     "    }",
     "  } else if (m < 16.5) {",                                           // FABRIC: g.x colour
-    "    float c = g.x; vec3 fc = c < 0.5 ? vec3(0.17, 0.17, 0.19) : (c < 1.5 ? vec3(0.23, 0.30, 0.40) : (c < 2.5 ? vec3(0.62, 0.47, 0.18) : (c < 3.5 ? vec3(0.55, 0.27, 0.17) : (c < 4.5 ? vec3(0.40, 0.46, 0.36) : vec3(0.72, 0.66, 0.56)))));",
+    "    float c = g.x; vec3 fc = c < 0.5 ? vec3(0.17, 0.17, 0.19) : (c < 1.5 ? vec3(0.23, 0.30, 0.40) : (c < 2.5 ? vec3(0.62, 0.47, 0.18) : (c < 3.5 ? vec3(0.55, 0.27, 0.17) : (c < 4.5 ? vec3(0.40, 0.46, 0.36) : (c < 5.5 ? vec3(0.72, 0.66, 0.56) : (c < 6.5 ? vec3(0.76, 0.70, 0.60) : (c < 7.5 ? vec3(0.86, 0.83, 0.76) : (c < 8.5 ? vec3(0.36, 0.37, 0.24) : (c < 9.5 ? vec3(0.50, 0.24, 0.13) : (c < 10.5 ? vec3(0.44, 0.42, 0.40) : (c < 11.5 ? vec3(0.14, 0.25, 0.20) : vec3(0.66, 0.47, 0.44))))))))))));",   // 6 linen, 7 cream, 8 olive, 9 rust, 10 warm grey, 11 forest velvet, 12 dusty rose
     "    vec2 wc = pc * 520.0; float fwv = fwidth(wc.x) + fwidth(wc.y);",
     "    float weave = mix(0.5 + 0.25 * (sin(wc.x) + sin(wc.y)), 0.5, smoothstep(0.6, 2.0, fwv));",
     "    alb = fc * (0.86 + 0.18 * weave) * (0.92 + 0.12 * vnoise(pc * 30.0)); rough = 0.95;",
+    "    if (g.y > 0.5 && g.y < 1.5) { float bl = vnoise(pc * 140.0) * 0.6 + vnoise(pc * 330.0) * 0.4, fb = smoothstep(0.5, 1.5, fwidth(pc.x * 330.0)); alb *= mix(0.78 + 0.36 * bl, 0.96, fb); }",   // boucle: little loops
+    "    if (g.y > 1.5 && g.y < 2.5) { float pl = vnoise(pc * 9.0) * 0.5 + vnoise(pc * 60.0) * 0.5; alb *= 0.86 + 0.24 * pl; }",                                                         // a rug's pile, mottled
     "  } else if (m < 17.5) {",                                           // PLASTIC: g.x colour
     "    float c = g.x; vec3 pcol = c < 0.5 ? vec3(0.86, 0.86, 0.84) : (c < 1.5 ? vec3(0.07, 0.07, 0.075) : (c < 2.5 ? vec3(0.78, 0.30, 0.13) : (c < 3.5 ? vec3(0.13, 0.31, 0.58) : (c < 4.5 ? vec3(0.86, 0.66, 0.14) : (c < 5.5 ? vec3(0.47, 0.48, 0.49) : (c < 6.5 ? vec3(0.07, 0.25, 0.15) : vec3(0.84, 0.80, 0.70)))))));",
     "    alb = pcol * (0.97 + 0.04 * vnoise(pc * 20.0)); rough = 0.36;",

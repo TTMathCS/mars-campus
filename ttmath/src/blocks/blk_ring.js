@@ -111,7 +111,7 @@
   var CRS_FLOOR = { "class": [MT.WOOD, 0], study: [MT.WOOD, 0], lab: [MT.TERRAZZO, 0], compete: [MT.WOOD, 0], games: [MT.WOOD, 0], lounge: [MT.WOOD, 0], staff: [MT.WOOD, 0], service: [MT.TERRAZZO, 0], move: [MT.TERRAZZO, 0],
                     seminar: [MT.WOOD, 3], library: [MT.WOOD, 3], reading: [MT.WOOD, 3], gate: [MT.TERRAZZO, 0], physics: [MT.TERRAZZO, 0], maker: [MT.TERRAZZO, 0], astro: [MT.WOOD, 0],
                     plant: [MT.TERRAZZO, 0], store: [MT.TERRAZZO, 0], kitchen: [MT.TERRAZZO, 0], dining: [MT.WOOD, 0], cafe: [MT.TERRAZZO, 0], assembly: [MT.WOOD, 3], art: [MT.WOOD, 0], music: [MT.WOOD, 3], clinic: [MT.TERRAZZO, 0] };
-  var CRS_WALL = { "class": 0, study: 0, lab: 0, compete: 1, games: 2, lounge: 3, staff: 1, service: 0, move: 0, seminar: 1, library: 3, reading: 2, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 2, cafe: 0, assembly: 1, art: 0, music: 3, clinic: 0 };
+  var CRS_WALL = { "class": 0, study: 4, lab: 0, compete: 1, games: 4, lounge: 4, staff: 4, service: 0, move: 0, seminar: 1, library: 4, reading: 4, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 5, cafe: 0, assembly: 1, art: 0, music: 5, clinic: 5 };   // plaster: 0 off-white, 1 warm grey, 4 linen, 5 soft sage
   var CRS_GLAZED = { cafe: 1, art: 1 };                                 // rooms with glass to the corridor (and the sunken grove beyond)
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1, seminar: 1, library: 1, physics: 1, maker: 1, astro: 1, art: 1, music: 1, clinic: 1 };
 

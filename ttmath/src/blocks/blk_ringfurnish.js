@@ -53,12 +53,14 @@
   }); }
   function stool() { return furn("stool", function (b) { latheOn(b, 0, 0, 0, [[0.2, 0], [0.2, 0.02], [0.03, 0.04], [0.03, 0.62], [0.19, 0.64], [0.19, 0.68], [0.0, 0.68]], 18, MT.ANOD, 0.3); }); }
   // an upholstered dining chair with arms, 0.62 wide, the seat at 0.47: for the café, the dining hall, the library's tables
-  function diningChair(col) { return furn("dchair" + col, function (b) {             // facing +x
-    var n0 = b.count();
-    b.box(-0.27, 0.38, -0.29, 0.29, 0.47, 0.29, MT.FABRIC); b.box(-0.31, 0.4, -0.31, -0.19, 0.9, 0.31, MT.FABRIC);
-    b.box(-0.26, 0.4, -0.31, 0.24, 0.65, -0.22, MT.FABRIC); b.box(-0.26, 0.4, 0.22, 0.24, 0.65, 0.31, MT.FABRIC);
-    b.tag(n0, col, null);
-    [[-0.26, -0.27], [0.26, -0.27], [-0.26, 0.27], [0.26, 0.27]].forEach(function (c) { var m = b.count(); leg(b, c[0], 0.39, c[1], c[0] * 1.07, 0, c[1] * 1.07, 0.019, MT.WOOD); kindTag(b, m, 2); });
+  var DCHAIR_COL = { 2: 8, 3: 9 };                                                    // the old mustard and terracotta: olive and rust
+  function diningChair(col) { return furn("dchair" + col, function (b) {             // facing +x: an upholstered chair with arms on walnut legs, its back leaning back
+    var c = DCHAIR_COL[col] !== undefined ? DCHAIR_COL[col] : col;
+    softBox(b, -0.27, 0.36, -0.29, 0.29, 0.47, 0.29, 0.045, MT.FABRIC, c, { py: 0.016 }, 0);
+    var t = new Builder(); softBox(t, -0.06, -0.25, -0.31, 0.06, 0.25, 0.31, 0.05, MT.FABRIC, c, { px: 0.016 }, 0);
+    b.add(t, new THREE.Matrix4().makeTranslation(-0.25, 0.66, 0).multiply(new THREE.Matrix4().makeRotationZ(0.12)));
+    [-1, 1].forEach(function (s2) { softBox(b, -0.26, 0.42, s2 > 0 ? 0.21 : -0.31, 0.22, 0.64, s2 > 0 ? 0.31 : -0.21, 0.035, MT.FABRIC, c, { py: 0.008 }, 0); });
+    [[-0.26, -0.27], [0.26, -0.27], [-0.26, 0.27], [0.26, 0.27]].forEach(function (cc) { var m = b.count(); leg(b, cc[0], 0.37, cc[1], cc[0] * 1.07, 0, cc[1] * 1.07, 0.019, MT.WOOD); kindTag(b, m, 2); });
   }); }
   function squareTable(w, d) { return furn("sqtable" + w + "x" + d, function (b) {    // an oak top w along x by d, on a dark steel pedestal
     var n0 = b.count(); b.box(-w / 2, 0.72, -d / 2, w / 2, 0.755, d / 2, MT.WOOD); b.tag(n0, null, 2);
@@ -82,7 +84,7 @@
   }
   function libraryRoom(B, rm, F) {                                                    // the library: shelves along the outer wall, tables, the desk
     var C = CRS, rs = C.r1 - 0.35;
-    for (var d = 0.9; d < F.span - 0.6; d += 0.92) { var a = F.at(d, false); crsPlace(B, bookshelf(), rs, a, F.y, 0); crsObst(rs - 0.25, rs + 0.25, a - 0.46 / rs, a + 0.46 / rs, F.floor); }
+    for (var d = 0.9; d < F.span - 0.6; d += 0.92) { var a = F.at(d, false); crsPlace(B, bookshelf(), rs, a, F.y, 0); shelfBooks(B, crsFrame(rs, a, F.y, 0), Math.round(d * 3)); crsObst(rs - 0.25, rs + 0.25, a - 0.46 / rs, a + 0.46 / rs, F.floor); }
     [[53.6, 3.6], [53.6, 8.2], [57.2, 3.6], [57.2, 8.2], [53.6, 12.8], [57.2, 12.8]].forEach(function (t) {
       if (t[1] > F.span - 2.2) return; var a = F.at(t[1], false); crsPlace(B, longTable(2.4), t[0], a, F.y, 0); crsObst(t[0] - 0.95, t[0] + 0.95, a - 1.3 / t[0], a + 1.3 / t[0], F.floor);
       [-0.6, 0.6].forEach(function (x) { crsPlace(B, diningChair(1), t[0] + 0.82, a + x / t[0], F.y, IN); crsPlace(B, diningChair(1), t[0] - 0.82, a + x / t[0], F.y, OUT); });
@@ -91,19 +93,36 @@
     var da = F.at(1.6, true); crsPlace(B, teacherDesk(), C.rc + 1.5, da, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(C.rc + 0.65, C.rc + 2.35, da - 0.45 / 51, da + 0.45 / 51, F.floor);
     roomPlants(B, rm, F, [C.rc + 1.5, da, 0.77]);
   }
-  function readingRoom(B, rm, F) {                                                    // deep armchairs and long sofas, lamps, rugs
-    var C = CRS, ra = C.r1 - 0.7;
-    [F.span * 0.3, F.span * 0.72].forEach(function (d, i) {
-      var a = F.at(d, false); rugAt(B, ra - 2.0, a, F.y, 4.2, 3.4, i ? 2 : 3); crsPlace(B, sofa(i ? 1 : 3, 3.4), ra, a, F.y, ROT["in"]); crsPlace(B, coffeeTable(1.6), ra - 1.5, a, F.y, 0);
-      [-1.3, 1.3].forEach(function (x) { crsPlace(B, armchair(), ra - 3.0, a + x / ra, F.y, ROT.out); crsPlace(B, floorLamp(), ra - 0.2, a + (x * 1.5) / ra, F.y, 0); });
-      crsObst(ra - 3.6, ra + 0.5, a - 2.2 / ra, a + 2.2 / ra, F.floor);
+  function readingRoom(B, rm, F) {          // furnished in groups (campus_furnishing.py): by the windows two sofas facing club chairs, a reading table
+    var C = CRS, ra = C.r1 - 0.7, rc = C.rc;  // in the middle, a banquette between bookcases on the back wall, two club chairs on the front wall, shelves on the corridor's
+    var faceIn = F.sgn > 0 ? ROT.plusA : ROT.minusA, faceBack = F.sgn > 0 ? ROT.minusA : ROT.plusA;
+    // the window groups: a long sofa on the outer wall, a walnut table with books, two club chairs across, a rug; lamps between
+    [3.7, 8.2].forEach(function (d, i) {
+      var a = F.at(d, false), rr = ra - 2.75; rugAt(B, ra - 1.45, a, F.y, 4.4, 3.4, i ? 2 : 3);
+      crsPlace(B, sofa(i ? 11 : 6, 3.4), ra, a, F.y, ROT["in"]); crsPlace(B, walnutTable(1.4, 0.7), ra - 1.4, a, F.y, 0);
+      [-1, 1].forEach(function (x) { crsPlace(B, armchair(), rr, a + x * 1.0 / rr, F.y, ROT.out); });
+      crsObst(ra - 3.25, ra + 0.5, a - 1.95 / ra, a + 1.95 / ra, F.floor);
     });
+    [1.72, 5.95, 10.18].forEach(function (d) { var a = F.at(d, false); crsPlace(B, lampTable(), ra + 0.05, a, F.y, 0); lampLight(ra + 0.05, a, F.y, 0.95, 0.55, 3.2); crsObst(ra - 0.25, ra + 0.35, a - 0.28 / ra, a + 0.28 / ra, F.floor); });
+    [1.85, 5.95, 10.05].forEach(function (d) { var a = F.at(d, false), rl = ra - 2.9; crsPlace(B, floorLamp(), rl, a, F.y, 0); lampLight(rl, a, F.y, 1.4, 0.7, 3.6); crsObst(rl - 0.2, rl + 0.2, a - 0.2 / rl, a + 0.2 / rl, F.floor); });
+    // the reading table in the middle: walnut, eight upholstered chairs, two green-shaded lamps, on a rug
+    var tr = 54.6, ta = F.at(5.95, false); rugAt(B, tr, ta, F.y, 4.6, 3.3, 5);
+    crsPlace(B, readingTable(3.2), tr, ta, F.y, 0); crsObst(tr - 1.35, tr + 1.35, ta - 1.9 / tr, ta + 1.9 / tr, F.floor);
+    [-1.2, -0.4, 0.4, 1.2].forEach(function (x) { crsPlace(B, diningChair(10), tr + 0.8, ta + x / tr, F.y, IN); crsPlace(B, diningChair(10), tr - 0.8, ta + x / tr, F.y, OUT); });
+    [-0.8, 0.8].forEach(function (x) { crsPlace(B, bankerLamp(), tr, ta + x / tr, F.y + 0.75, 0); lampLight(tr, ta + x / tr, F.y, 1.05, 0.4, 2.6); });
+    // the back wall: a banquette between bookcases, two prints over it (RING_ART)
+    var ab = F.at(0.41, false); crsPlace(B, banquette(3.0, 8), 55.2, ab, F.y, faceIn); crsObst(53.65, 56.75, F.back, F.at(0.74, false), F.floor);
+    [52.35, 53.25, 57.15, 58.05].forEach(function (r, k) { var a = F.at(0.26, false); crsPlace(B, bookshelf(), r, a, F.y, faceIn); shelfBooks(B, crsFrame(r, a, F.y, faceIn), 11 + k); crsObst(r - 0.45, r + 0.45, F.back, F.at(0.44, false), F.floor); });
+    // the front wall: two club chairs with a lamp table between them, bookcases either side, a print over them
+    var af = F.at(F.span - 0.58, false); [54.35, 56.05].forEach(function (r) { crsPlace(B, armchair(), r, af, F.y, faceBack); crsObst(r - 0.45, r + 0.45, F.at(F.span - 1.03, false), F.front, F.floor); });
+    var al = F.at(F.span - 0.42, false); crsPlace(B, lampTable(), 55.2, al, F.y, 0); lampLight(55.2, al, F.y, 0.95, 0.55, 3.2); crsObst(54.9, 55.5, F.at(F.span - 0.7, false), F.front, F.floor);
+    [52.4, 53.3, 57.1, 58.0].forEach(function (r, k) { var a = F.at(F.span - 0.26, false); crsPlace(B, bookshelf(), r, a, F.y, faceBack); shelfBooks(B, crsFrame(r, a, F.y, faceBack), 23 + k); crsObst(r - 0.45, r + 0.45, F.at(F.span - 0.44, false), F.front, F.floor); });
     shelvesOnCorridor(B, F, 6, 1.0);
     roomPlants(B, rm, F, null);
   }
   function podLounge(B, rm, F) {          // the bridge's door in the middle of the outer glass: long sofas by the glass either side, the pods' screen, a coat rack
     var C = CRS, ad = P2.pod_dock.a * D2R, rb = C.r1 - 0.75, d = rm.doors[0];
-    [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(2, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor); });
+    [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(10, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor); });
     var as = d - Math.sign(d - ad || 1) * 2.6 / C.rc;                                          // the screen on the corridor wall, clear of its door
     crsPlace(B, scoreboard(), C.rc + 0.12, as, F.y + 1.75, Math.PI); crsPic(B, C.rc + 0.12, as, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
     var ac = d + Math.sign(d - ad || 1) * 1.25 / C.rc, rr = C.rc + 0.45;                       // the coat rack in the corner by the door
@@ -173,7 +192,7 @@
     var ml = crsPt(rbar + 1.4, ba); wLight(ml.x, F.y + 3.4, ml.z, LAMPC, 0.9, 4, [0, -0.3, 0], 1);
     // the banquette: three long sofas end to end, a table for two in front of each pair of seats, an armchair across
     var d0 = 1.4, d1 = F.span - 1.4, ns = 3, Ls = +((d1 - d0) / ns - 0.06).toFixed(2);
-    for (var k = 0; k < ns; k++) crsPlace(B, sofa(3, Ls), rb, F.at(d0 + (k + 0.5) * (d1 - d0) / ns, true), F.y, ROT["in"]);
+    for (var k = 0; k < ns; k++) crsPlace(B, sofa(9, Ls), rb, F.at(d0 + (k + 0.5) * (d1 - d0) / ns, true), F.y, ROT["in"]);
     crsObst(rb - 0.5, C.r1, Math.min(F.at(d0, true), F.at(d1, true)), Math.max(F.at(d0, true), F.at(d1, true)), F.floor);
     for (var d = d0 + 0.85; d < d1 - 0.4; d += 1.75) { var a = F.at(d, true);
       crsPlace(B, squareTable(0.8, 0.8), rt, a, F.y, 0); crsObst(rt - 0.45, rt + 0.45, a - 0.45 / rt, a + 0.45 / rt, F.floor);

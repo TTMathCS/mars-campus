@@ -108,7 +108,14 @@ each pushed when it is checked:
    `blk_pod.js`: the pod starts docked (`podInit`), boarding runs the collar in, LAND within 18 m of the spot docks
    (`podDockStep`) and you step out into the collar; the pad by the airlock (`podStop`) is gone. The door in the outer
    glass is a `glassFront` door; `crescentGallery` leaves a framed opening in the gallery's roof for the bridge.
-9. Details and realism everywhere (CP-30).
+9. Details and realism everywhere (CP-30). ~~Comfort, and no cartoon (CP-38)~~ (v0.20): `blk_soft.js` (after `blk_wings.js`) has `softBox`
+   (a box with rounded edges and corners whose faces may bulge like a cushion: `puff`; the stuffed faces are sampled finer),
+   the pieces (`sofa`, `armchair`, `ottoman`, `pillow`, `tableLamp`, `lampTable`, `walnutTable`, `readingTable`, `banquette`),
+   `shelfBooks` (books on a bookcase placed with a frame), `lampLight` (a lamp's warm light for the bake) and the contact
+   shadows (`contactShadow` from `crsPlace`, one mesh built by `softShadowsBuild` at the end of `crescentFurnish`). The fabric
+   colours, bouclé and a rug's pile are in `blk_mat.js` (FABRIC `g.x` 0 to 12, `g.y` 1 bouclé, 2 pile; PLASTER `g.y` 4 linen,
+   5 sage). `readingRoom` (`blk_ringfurnish.js`) follows the program's layout; prints in rooms are `RING_ART` entries with a
+   `room` and a `wall` (`corridorArt` hangs them on the room's back or front wall). The program: `tools/campus_furnishing.py`.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

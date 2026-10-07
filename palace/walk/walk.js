@@ -172,7 +172,7 @@ addEventListener('keydown', e => { if (e.code === 'KeyM') sound.toggle(); });
 let walking = false;
 goEl.disabled = false; goEl.textContent = 'Walk'; barEl.style.width = '100%';
 const touchy = matchMedia('(pointer: coarse)').matches;
-if (touchy) { walker.touch(canvas); document.querySelector('.keys').innerHTML = '<span><b>Left thumb</b> walk</span><span><b>Right thumb</b> look</span>'; }
+if (touchy) { walker.touch(canvas); document.querySelector('.keys').innerHTML = '<span><b>Left thumb</b> walk</span><span><b>Right thumb</b> look</span><span><b>Stand on the Glide</b> ride</span>'; }
 goEl.addEventListener('click', () => {
   sound.start();
   if (touchy) { walking = true; startEl.classList.add('hidden'); document.body.classList.add('walking'); canvas.requestFullscreen?.().catch(() => {}); }

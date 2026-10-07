@@ -1,0 +1,102 @@
+{
+ "sun": {
+  "az": 195.0,
+  "el": 32.0
+ },
+ "span": [
+  108.0,
+  144.0
+ ],
+ "parts": [
+  "dressing",
+  "bedroom",
+  "bath_up"
+ ],
+ "rooms": [
+  {
+   "code": "C-06",
+   "name": "Dressing room",
+   "b0": 108.0,
+   "b1": 116.64
+  },
+  {
+   "code": "C-07",
+   "name": "Bedroom up",
+   "b0": 116.64,
+   "b1": 130.32
+  },
+  {
+   "code": "C-08",
+   "name": "Bath up",
+   "b0": 130.32,
+   "b1": 144.0
+  }
+ ],
+ "exposure": 1.0,
+ "emax": 4.0,
+ "vmax": 4.0,
+ "chunks": [
+  {
+   "file": "c1080.glb",
+   "light": "c1080_l.jpg",
+   "b0": 108.0,
+   "b1": 114.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1140.glb",
+   "light": "c1140_l.jpg",
+   "b0": 114.0,
+   "b1": 120.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1200.glb",
+   "light": "c1200_l.jpg",
+   "b0": 120.0,
+   "b1": 126.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c1260.glb",
+   "light": "c1260_l.jpg",
+   "b0": 126.0,
+   "b1": 132.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1320.glb",
+   "light": "c1320_l.jpg",
+   "b0": 132.0,
+   "b1": 138.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1380.glb",
+   "light": "c1380_l.jpg",
+   "b0": 138.0,
+   "b1": 144.0,
+   "size": 4096,
+   "light_size": 2048
+  }
+ ],
+ "step": 6.0,
+ "start": {
+  "b": 109.6,
+  "r": 131.0
+ },
+ "floor": {
+  "file": "floor.png",
+  "b0": 108.0,
+  "db": 0.022036838274262432,
+  "r0": 115.0,
+  "dr": 0.05,
+  "w": 1634,
+  "h": 400
+ }
+}

@@ -11,6 +11,9 @@
   "suit",
   "hangar",
   "arrival",
+  "dressing",
+  "bedroom",
+  "bath_up",
   "day_room",
   "sunset",
   "gallery"
@@ -39,6 +42,24 @@
    "name": "Arrival hall",
    "b0": 95.76,
    "b1": 108.0
+  },
+  {
+   "code": "C-06",
+   "name": "Dressing room",
+   "b0": 108.0,
+   "b1": 116.64
+  },
+  {
+   "code": "C-07",
+   "name": "Bedroom up",
+   "b0": 116.64,
+   "b1": 130.32
+  },
+  {
+   "code": "C-08",
+   "name": "Bath up",
+   "b0": 130.32,
+   "b1": 144.0
   },
   {
    "code": "C-20",
@@ -108,6 +129,54 @@
    "light": "c1020_l.jpg",
    "b0": 102.0,
    "b1": 108.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1080.glb",
+   "light": "c1080_l.jpg",
+   "b0": 108.0,
+   "b1": 114.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1140.glb",
+   "light": "c1140_l.jpg",
+   "b0": 114.0,
+   "b1": 120.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1200.glb",
+   "light": "c1200_l.jpg",
+   "b0": 120.0,
+   "b1": 126.0,
+   "size": 3840,
+   "light_size": 1920
+  },
+  {
+   "file": "c1260.glb",
+   "light": "c1260_l.jpg",
+   "b0": 126.0,
+   "b1": 132.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1320.glb",
+   "light": "c1320_l.jpg",
+   "b0": 132.0,
+   "b1": 138.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c1380.glb",
+   "light": "c1380_l.jpg",
+   "b0": 138.0,
+   "b1": 144.0,
    "size": 4096,
    "light_size": 2048
   },

@@ -4,8 +4,9 @@ crown_more.py and crown_wellness.py: keep the two in step), looks first at the r
 stops either side of it round the ring.
   python3 palace/tools/tour_crown.py            write the Crown's stops into palace/tour/stops.js
   python3 palace/tools/tour_crown.py jobs       print the render jobs for the 360s, one line per scene
-A stop whose new 360 is not published yet (not in CURRENT) keeps its old entry and 360 if it had one, or is written
-hidden (ready: false); add its id to CURRENT when its 360 is published."""
+A stop whose new 360 is not published yet (not in CURRENT) is written hidden (ready: false): the 360s from before
+show the old windows high on the walls, which Jim does not want seen (7 Oct 2026: "all the rooms should have the
+window same as master room"); add its id to CURRENT when its 360 is published."""
 import math, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -125,9 +126,7 @@ def write():
     orb = re.findall(r'  \{ id: "orb_[a-z]+".*?\] \}', s[a:b], flags=re.S)       # the Orb's stops, kept as they are
     olds = {m.group(1): m.group(0) for m in re.finditer(r'  \{ id: "(crown_[a-z_]+)".*?\] \}', s[a:b], flags=re.S)}
     def one(i):
-        # a 360 from before is shown, with what was written for it, until the room's new one is published
         sid = STOPS[i][0]
-        if sid not in CURRENT and sid in olds and 'ready: false' not in olds[sid] and os.path.exists(os.path.join(PANO, sid + ".jpg")): return olds[sid]
         return stop_js(i, sid in CURRENT)
     head = ("  /* The Crown, above ground, one stop in every room of the main floor (written by palace/tools/tour_crown.py):\n"
             "     positions in metres from the ring's centre, x east, y north (the rooms lie between 118.5 and 135 m out, the\n"
@@ -135,8 +134,7 @@ def write():
     body = ",\n".join([one(i) for i in range(len(STOPS))] + orb)
     s = s[:a] + head + body + s[b:]
     open(STOPS_JS, "w", encoding="utf-8").write(s)
-    kept = [t[0] for t in STOPS if t[0] not in CURRENT and t[0] in olds and 'ready: false' not in olds[t[0]] and os.path.exists(os.path.join(PANO, t[0] + ".jpg"))]
-    print("stops.js: %d Crown stops: %d with their new 360, %d old 360s kept for now, %d hidden; %d of the Orb kept" % (len(STOPS), len(CURRENT), len(kept), len(STOPS) - len(CURRENT) - len(kept), len(orb)))
+    print("stops.js: %d Crown stops: %d with their new 360, %d hidden until theirs is published; %d of the Orb kept" % (len(STOPS), len(CURRENT), len(STOPS) - len(CURRENT), len(orb)))
 
 
 def jobs(out="final/crown_pano/%s.jpg"):

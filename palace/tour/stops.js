@@ -172,7 +172,7 @@ window.TOUR_STOPS = [
 window.TOUR_PHOTOS = [
   { img: "photos/hero.jpg", caption: "The family room on L1, from the fireplace end, looking out through the glass to the atrium and the portal column." },
   { img: "photos/living.jpg", caption: "The family room: the fire, the books and a skylight. The sofa, the chairs, the pouf, the plant and the flowers are 3D scans of real things." },
-  { img: "photos/crown_salon.jpg", caption: "The great salon in the Crown, 41 m above the plain: boucle sofas round a travertine table under a cluster of opal globes, red and orange Japanese maples, the velvet crescent under a halo of light 8 m across, the windows at eye level and the Glide on the right." },
+  { img: "photos/crown_salon.jpg", caption: "The great salon in the Crown, 20 m tall under its spire: boucle sofas round a travertine table under a cluster of opal globes, red and orange Japanese maples, the velvet crescent under a halo of light, the windows at eye level on the left and the wall of bronze and glass onto the Glide on the right." },
   { img: "photos/crown_bedroom.jpg", caption: "The master suite up in the Crown, 16.5 m deep and 12.5 m tall: the grand bed against its channelled headboard wall, lit from behind, alabaster pendants either side and a halo of light overhead; red Japanese maples; the morning sun through the south-east windows; behind, the suite's wall of bronze and frosted glass onto the Glide." },
   { img: "photos/library.jpg", caption: "The great library on L1: two storeys of books, a gallery reached by a spiral stair, reading tables under lamps, and daylight from the skylights." },
   { img: "photos/crown_library.jpg", caption: "The Crown's library, 20 m tall under its spire: two floors of walnut shelves round a spiral stair, a long reading table under lamps, leather sofas by the windows, a kentia by the glass wall onto the Glide." },
@@ -202,7 +202,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/guests2.jpg", caption: "The guest lounge from the gallery: the sitting room below and the atrium through the glass." },
   { img: "photos/crown_suite_door.jpg", caption: "The master suite's doors on the Glide: a pair of walnut pivot doors 4 m tall with long bronze pulls, set in the suite's wall of bronze and frosted glass, lit by alabaster pendants." },
   { img: "photos/crown_salon2.jpg", caption: "Across the great salon from the recital room: the orange maple, the crescent groups round their tables, and at the far end Turner's sea over the hearth." },
-  { img: "photos/crown_hearth.jpg", caption: "The hearth room in the Crown: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent and a gold ginkgo." },
+  { img: "photos/crown_hearth.jpg", caption: "The hearth room in the Crown: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent, a gold ginkgo, and the walnut doors in the glass onto the Glide." },
   { img: "photos/crown_wellness2.jpg", caption: "The sky pool from the gym end: daybeds in pairs along the windows, and the wall of bronze and glass onto the Glide." },
   { img: "photos/crown_spa.jpg", caption: "The spa: the round hot pool lit under its rim, opal globes over it, tree ferns by the glass, chaises at the windows." },
   { img: "photos/crown_gym.jpg", caption: "The gym: treadmills, bikes and rowers facing the windows, a floor for free training, the weights before the mirror wall." },

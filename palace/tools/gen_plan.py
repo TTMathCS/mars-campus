@@ -180,7 +180,7 @@ CROWN = dict(
                     ("Paintings", "Kandinsky's Composition VII and Robert Delaunay's Landscape with Disc on the olive-wood screen walls; Turner's Wreck of a Transport Ship over the hearth"),
                     ("Light", "A halo 8 m across hung 11.5 m up, clusters of opal globes over the sofas, the hearth of lit mist, washers on the walls, the sun through the windows"),
                     ("Made of", "Linen-coloured travertine, regolith plaster, screen walls of olive wood 4.2 m tall, an oak-slat ceiling lit from its coves, a wall of basalt behind the hearth")],
-             photos=[("../tour/photos/crown_salon.jpg", "The great salon: boucle sofas round a travertine table, red and orange maples, the crescent under the halo and the windows at eye level."),
+             photos=[("../tour/photos/crown_salon.jpg", "The great salon: boucle sofas round a travertine table, red and orange maples, the crescent under the halo, the windows at eye level and the glass wall onto the Glide."),
                      ("../tour/photos/crown_salon2.jpg", "Across the salon from the recital room: the maples, the crescent groups, Turner's sea over the hearth at the far end."),
                      ("../tour/photos/crown_hearth.jpg", "The hearth room: a long hearth of lit mist at the foot of a basalt wall, Turner's Wreck of a Transport Ship over it, a rust velvet crescent, the gold ginkgo.")],
              views=[("crown_salon", "The great salon")], plan=("img/plan/crown-salon.jpg", "Part 3, south."),

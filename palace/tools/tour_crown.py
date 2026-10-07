@@ -85,7 +85,7 @@ STOPS = [
     ("crown_craft", "C-29", "studio", "craft", (RM - 1.0, 354.0), (R_OUT - 1.0, 356.0), "The craft room", "Craft room", "Studio",
      "The potter's wheel under a halo, workbenches, a board of drying pots, an olive and a lemon in terracotta; heavy work goes down to the workshops on L3."),
 ]
-CURRENT = {"crown_arrival", "crown_bedroom", "crown_hangar"}   # stops whose 360 in palace/tour/pano/ is of the rooms as they are now (glass onto the Glide)
+CURRENT = {"crown_arrival", "crown_bedroom", "crown_door", "crown_hangar"}   # stops whose 360 in palace/tour/pano/ is of the rooms as they are now (glass onto the Glide)
 OTHER_LINKS = {   # links that are not to the next room round the ring
     "crown_arrival": [("bridge", (125.72, -39.40, 1.6), "Portal: down to the Pentagon")],
     "crown_stars": [("orb_earth", None, "Portal: up to the Orb")],

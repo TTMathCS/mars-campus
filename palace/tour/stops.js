@@ -90,7 +90,7 @@ window.TOUR_STOPS = [
   { id: "crown_hangar", place: "crown", name: "The pod hangar", short: "Pod hangar", k: "The Crown · Arrival", p: [125.21, 11.62], az0: -4, img: "pano/crown_hangar.jpg",
     d: "Arcadia's airlock: the pods fly in through the door in the outer wall, and the hangar fills with air in about 90 seconds while the dust is blown off them.",
     links: [{ id: "crown_suit", at: [124.88, 21.68, 0], label: "Through to the suit room" }, { id: "crown_door", at: [126.74, 1.88, 0], label: "Through to the Door" }] },
-  { id: "crown_door", place: "crown", ready: false, name: "The Door", short: "The Door", k: "The Crown · Arrival", p: [126.5, -7.96], az0: 175, img: "pano/crown_door.jpg",
+  { id: "crown_door", place: "crown", name: "The Door", short: "The Door", k: "The Crown · Arrival", p: [126.5, -7.96], az0: 175, img: "pano/crown_door.jpg",
     d: "Arcadia's front door, a round opening 5 m across closed by an iris of light that knows Jim by face, eyes and walk; orange maples flank it and curved leather benches line the walls.",
     links: [{ id: "crown_hangar", at: [126.74, 1.88, 0], label: "Through to the pod hangar" }, { id: "crown_arrival", at: [126.03, -13.47, 0], label: "Through to the Arrival hall" }] },
   { id: "crown_arrival", place: "crown", name: "The Arrival hall", short: "Arrival", k: "The Crown · Arrival", p: [129.68, -19.61], az0: 145, img: "pano/crown_arrival.jpg",

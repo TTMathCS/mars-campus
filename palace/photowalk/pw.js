@@ -90,17 +90,30 @@ async function arrive(P) {
   named(P); history.replaceState(null, '', '#' + P.p.id);
   ringMap.draw(bearingOf(P), yaw);
   // the sharp picture here, then what is round about: small pictures and depth maps of every point in reach
-  P.loadFull().then(() => { P.show(); renderer.initTexture(P.full); }).catch(() => {});
+  P.loadFull().then(() => {
+    if (here !== P) return;
+    P.show(); renderer.initTexture(P.full); prefetch();
+  }).catch(() => {});
   for (const n of near) { n.Q.loadDepth().catch(() => {}); n.Q.loadSmall().catch(() => {}); }
   // keep the GPU's memory small: no sharp pictures but here's and the next one ahead, and only the 40 points
   // nearest loaded at all
   const next = ahead()?.Q;
   for (const Q of panos.values()) if (Q !== P && Q.full && Q !== next) Q.drop(false);
+  prefetched = next && next.full ? next : null;
   const loaded = [...panos.values()].filter(Q => Q.small || Q.mesh);
   if (loaded.length > 40) {
     const far = Q => Math.hypot(Q.p.x - P.p.x, Q.p.y - P.p.y);
     loaded.sort((a, b) => far(b) - far(a)).slice(0, loaded.length - 40).forEach(Q => { if (Q !== P) Q.drop(true); });
   }
+}
+
+// the sharp picture of the point straight ahead, loaded while one looks round, so the next step lands sharp (one
+// at a time: the one before is let go)
+let prefetched = null;
+function prefetch() {
+  const n = ahead(); if (!n || n.Q === prefetched || move) return;
+  if (prefetched && prefetched !== here && prefetched.full) prefetched.drop(false);
+  prefetched = n.Q; n.Q.loadFull().then(() => n.Q.full && renderer.initTexture(n.Q.full)).catch(() => {});
 }
 
 function ahead(back = false) {
@@ -201,7 +214,7 @@ addEventListener('keydown', e => {
 
 // ---------------------------------------------------------------- each frame
 const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-let last = performance.now();
+let last = performance.now(), lookT = 0;
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
   if (turn) { const s = Math.sign(turn) * Math.min(Math.abs(turn), dt * 4.0); yaw += s; turn -= s; }
@@ -216,6 +229,7 @@ function frame(now) {
     if (t >= 1) { const B = move.B; move = null; arrive(B); }
   } else if (here) {
     camera.position.copy(here.eye);
+    if ((lookT += dt) > 0.6) { lookT = 0; if (here.full) prefetch(); }
     const tt = now / 1000;
     marks.forEach((m, i) => { if (m.visible) m.material.opacity = Math.max(0.35, 0.85 - near[i].dist * 0.04) * (0.85 + 0.15 * Math.sin(tt * 2.4)); });
     renderer.render(world, camera);

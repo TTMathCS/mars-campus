@@ -121,6 +121,11 @@ each pushed when it is checked:
    colours, bouclé and a rug's pile are in `blk_mat.js` (FABRIC `g.x` 0 to 12, `g.y` 1 bouclé, 2 pile; PLASTER `g.y` 4 linen,
    5 sage). `readingRoom` (`blk_ringfurnish.js`) follows the program's layout; prints in rooms are `RING_ART` entries with a
    `room` and a `wall` (`corridorArt` hangs them on the room's back or front wall). The program: `tools/campus_furnishing.py`.
+   (v0.22) The teachers' room, the games room (`giantChess`, `chessPiece` in `blk_crsfurnish.js`), the café, the pod
+   lounge and the lower hall in groups; `roomPlants` keeps every plant its own reach (`plantReach`) from the walls. The
+   reflections are read at the blur the surface's roughness asks for (`ENVTEX`, `ENV_LOD` in `blk_mat.js`: an explicit
+   level with WebGL 2 or the shader-texture-lod extension, at least the level the pixel's footprint needs); `enc` in
+   `page.html` scales its dither by the square root of the encoded value, so near-black pixels are no longer dithered.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

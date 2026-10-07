@@ -44,11 +44,11 @@
     "}"
   ].join("\n");
   var matUniforms = Object.assign({}, U, matU);
-  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true } });
+  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD } });
   // same shading for paving laid on the ground, pulled forward so it never flickers with the terrain
-  var matDrape = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true }, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
+  var matDrape = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD }, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
   function glassMat(side) {
-    return new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: GLASS_VS, fragmentShader: GLASS_FS, side: side, transparent: true, depthWrite: false, extensions: { derivatives: true },
+    return new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: GLASS_VS, fragmentShader: GLASS_FS, side: side, transparent: true, depthWrite: false, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD },
       blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor });
   }
   // terrain depth for the shadow map, with the campus hole cut out

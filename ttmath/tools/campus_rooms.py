@@ -100,7 +100,7 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-24": [("maple", "window0"), ("kentia", "window1"), ("anthurium", "desk")],
     "T06-25": [("fig", "window0"), ("monstera", "windowmid"), ("fern", "corner0"), ("pothos", "shelf")],
     "T06-26": [("strelitzia", "window0"), ("olive", "window1"), ("croton", "corner1")],
-    "T06-27": [("maple", "window0"), ("maple", "window1"), ("kentia", "corner0"), ("strelitzia", "corner1")],
+    "T06-27": [("maple", "window0"), ("maple", "window1"), ("agave", "corner0"), ("strelitzia", "corner1"), ("kentia", "windowmid")],   # low by the screens' wall
     "T06-28": [("snake", "window1")],
     "T06-29": [("ficus", "window0"), ("agave", "window1")],
     "T06-30": [("kentia", "window0"), ("bromeliad", "corner1")],
@@ -151,6 +151,7 @@ RING_ART = [
     dict(room="T06-26", wall="back", r=54.45, y=1.75, w=1.2, floor="upper", subject="harmonograph", title="Two pendulums", note="a pen hung from two swinging pendulums draws a figure that dies away"),
     dict(room="T06-26", wall="back", r=55.95, y=1.75, w=1.2, floor="upper", subject="ford", title="Ford circles", note="a circle on every fraction, 1/q squared across: neighbours only ever touch"),
     dict(room="T06-26", wall="front", r=55.2, y=1.85, w=1.8, floor="upper", subject="roses", title="Rose curves", note="r = cos(k theta): petals for every fraction k"),
+    dict(room="T06-04", wall="front", r=57.0, y=1.8, w=1.5, floor="upper", subject="voronoi", title="Voronoi cells", note="every point of the plane belongs to the seed nearest to it"),
 ]
 # Notice boards (v0.18): cork in an aluminium frame on the lower corridor's back wall, 2.4 by 1.2 m, flyers pinned on
 # them. By the competition room, the contests (from campus_contests.py: each contest, when, its grades, the deadlines,

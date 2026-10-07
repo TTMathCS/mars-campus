@@ -122,7 +122,8 @@
   }
   function podLounge(B, rm, F) {          // the bridge's door in the middle of the outer glass: long sofas by the glass either side, the pods' screen, a coat rack
     var C = CRS, ad = P2.pod_dock.a * D2R, rb = C.r1 - 0.75, d = rm.doors[0];
-    [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(10, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor); });
+    [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(10, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor);
+      crsPlace(B, walnutTable(1.1, 0.55), rb - 1.25, ab, F.y, 0); crsObst(rb - 1.55, rb - 0.95, ab - 0.6 / rb, ab + 0.6 / rb, F.floor); });
     var as = d - Math.sign(d - ad || 1) * 2.6 / C.rc;                                          // the screen on the corridor wall, clear of its door
     crsPlace(B, scoreboard(), C.rc + 0.12, as, F.y + 1.75, Math.PI); crsPic(B, C.rc + 0.12, as, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
     var ac = d + Math.sign(d - ad || 1) * 1.25 / C.rc, rr = C.rc + 0.45;                       // the coat rack in the corner by the door
@@ -198,6 +199,17 @@
       crsPlace(B, squareTable(0.8, 0.8), rt, a, F.y, 0); crsObst(rt - 0.45, rt + 0.45, a - 0.45 / rt, a + 0.45 / rt, F.floor);
       crsPlace(B, diningChair(5), rt - 0.72, a, F.y, OUT); crsPlace(B, cup(), rt - 0.18, a, F.y + 0.755, 0); }
     [3.0, 9.6, 13.2].forEach(function (d) { if (d < F.span - 1.8) { tableForFour(B, 55.4, F.at(d, true), F.y, 1.0, d > 9 ? 4 : 2, F.floor); tableLamp(55.4, F.at(d, true)); } });
+    // the communal table in front of the bar: oak for eight, two lamps over it
+    var ca = F.at(6.3, true), cr = 55.6; crsPlace(B, longTable(3.2), cr, ca, F.y, 0); crsObst(cr - 1.35, cr + 1.35, ca - 1.9 / cr, ca + 1.9 / cr, F.floor);
+    [-1.2, -0.4, 0.4, 1.2].forEach(function (x, k) { crsPlace(B, diningChair(k % 2 ? 5 : 8), cr + 0.8, ca + x / cr, F.y, IN); crsPlace(B, diningChair(k % 2 ? 8 : 5), cr - 0.8, ca + x / cr, F.y, OUT); });
+    [-0.8, 0.8].forEach(function (x) { tableLamp(cr, ca + x / cr); });
+    // the lounge by the corridor's glass, past the bar: a sofa backed onto the glass, a walnut table, two club chairs, a rug, lamps
+    var la = F.at(11.6, true), rs = C.rc + 0.6; rugAt(B, rs + 1.3, la, F.y, 3.6, 3.0, 2);
+    crsPlace(B, sofa(10, 2.6), rs, la, F.y, ROT.out); crsObst(rs - 0.5, rs + 0.5, la - 1.35 / rs, la + 1.35 / rs, F.floor);
+    crsPlace(B, walnutTable(1.2, 0.6), rs + 1.3, la, F.y, 0); crsObst(rs + 0.95, rs + 1.65, la - 0.65 / rs, la + 0.65 / rs, F.floor);
+    [-0.65, 0.65].forEach(function (x) { var aa = la + x / (rs + 2.65); crsPlace(B, armchair(), rs + 2.65, aa, F.y, ROT["in"]); crsObst(rs + 2.2, rs + 3.1, aa - 0.45 / (rs + 2.65), aa + 0.45 / (rs + 2.65), F.floor); });
+    var lt = F.at(13.35, true); crsPlace(B, lampTable(), rs, lt, F.y, 0); lampLight(rs, lt, F.y, 0.95, 0.55, 3.2); crsObst(rs - 0.28, rs + 0.28, lt - 0.28 / rs, lt + 0.28 / rs, F.floor);
+    var lf = F.at(9.9, true); crsPlace(B, floorLamp(), rs - 0.1, lf, F.y, 0); lampLight(rs - 0.1, lf, F.y, 1.4, 0.7, 3.6); crsObst(rs - 0.3, rs + 0.1, lf - 0.2 / rs, lf + 0.2 / rs, F.floor);
     for (var d2 = d0 + 0.85; d2 < d1 - 0.4; d2 += 1.75) tableLamp(rt, F.at(d2, true));
     [-1.5, 0, 1.5].forEach(function (x) { tableLamp(rbar + 0.03, ba + x / rbar, 1.8); });           // low over the bar, under the menu
     // a brass cone on a long cable over each table, warm, as low as a café's lights hang (none in a skylight's well)

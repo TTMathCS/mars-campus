@@ -19,7 +19,13 @@
     "varying vec3 vW; varying vec3 vN; varying vec2 vFac; varying vec2 vFac2; varying float vMat; varying vec3 vL; varying float vAO; varying float vSky;",
     "void main(){ vec4 wp = modelMatrix * vec4(position, 1.0); vW = wp.xyz; vN = normalize(mat3(modelMatrix) * normal); vFac = aFac; vFac2 = aFac2; vMat = aMat; vL = aLight; vAO = aAO; vSky = aSky; gl_Position = projectionMatrix * viewMatrix * wp; }"
   ].join("\n");
+  // the reflections are read at a level of blur set by the surface's roughness (an explicit level where the browser
+  // has it: WebGL 2, or WebGL 1's shader-texture-lod); left to the hardware, a nearly flat rough surface read the map
+  // sharp and mirrored the floor's chips and grain as speckle on dark pieces (v0.21)
+  var ENV_LOD = isGL2 || !!renderer.extensions.get("EXT_shader_texture_lod");
   var MAT_COMMON = [
+    ENV_LOD ? "#define ENVTEX(s, d, l) textureCubeLodEXT(s, d, l)" : "#define ENVTEX(s, d, l) textureCube(s, d, l)",
+    "float gEnvDL = -20.0;",                                                                  // the level the pixel's footprint needs (set by the campus material)
     "uniform samplerCube uEnvIn, uEnvOut, uEnvW; uniform float uEnvOn; uniform vec4 uEnvInP, uEnvOutP, uEnvWP; uniform vec4 uPalA, uPalB;",
     "const vec3 WARM = vec3(1.0, 0.8, 0.58);",
     "float hsh(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }",
@@ -28,15 +34,15 @@
     "vec3 decEnv(vec4 t){ vec3 e = min(t.rgb, vec3(0.996)); return e / (1.0 - e); }",
     // reflections: the rotunda uses an ellipsoid around its capture point so the floor mirrors the dome in the right place
     "vec3 envLook(float zone, vec3 p, vec3 R, float rough){",
-    "  float lod = rough * 7.0;",
+    "  float lod = max(rough * 7.0, gEnvDL);",
     "  if (uEnvOn < 0.5) return zone > 0.5 ? WARM * 0.08 + skyRad(normalize(vec3(R.x, max(R.y, 0.05), R.z))) * 0.2 : skyRad(normalize(vec3(R.x, max(R.y, 0.02), R.z)));",
-    "  if (zone > 1.5) return decEnv(textureCube(uEnvW, R, lod)) * uEnvWP.w;",
+    "  if (zone > 1.5) return decEnv(ENVTEX(uEnvW, R, lod)) * uEnvWP.w;",
     "  if (zone > 0.5) {",
     "    vec3 c = uEnvInP.xyz, rad = vec3(22.5, 13.0, 22.5), o = (p - c) / rad, d = R / rad;",
     "    float a = dot(d, d), b = dot(o, d), cc = dot(o, o) - 1.0, t = (-b + sqrt(max(b * b - a * cc, 0.0))) / a;",
-    "    return decEnv(textureCube(uEnvIn, normalize(p + R * max(t, 0.0) - c), lod)) * uEnvInP.w;",
+    "    return decEnv(ENVTEX(uEnvIn, normalize(p + R * max(t, 0.0) - c), lod)) * uEnvInP.w;",
     "  }",
-    "  return decEnv(textureCube(uEnvOut, R, lod)) * uEnvOutP.w;",
+    "  return decEnv(ENVTEX(uEnvOut, R, lod)) * uEnvOutP.w;",
     "}"
   ].join("\n");
   var MAT_FS = [
@@ -222,7 +228,7 @@
     "  vec3 col = albl * (1.0 - metal) * 0.6 * E;",
     "  float NdV = max(dot(n, -vd), 1e-3);",
     "  vec3 F0 = mix(vec3(0.04), albl, metal); vec3 Fr = F0 + (max(vec3(1.0 - rough), F0) - F0) * pow(1.0 - NdV, 5.0);",
-    "  vec3 R = reflect(vd, n);",
+    "  vec3 R = reflect(vd, n); gEnvDL = log2(max(length(fwidth(R)) * 163.0, 1e-4));",
     "  float so = clamp(pow(NdV + ao, exp2(-16.0 * rough - 1.0)) - 1.0 + ao, 0.0, 1.0);",
     // the Ring's rooms share one captured view (a classroom): blurred and, in rooms that see little sky, dimmed, so no
     // room mirrors another's lamps and windows

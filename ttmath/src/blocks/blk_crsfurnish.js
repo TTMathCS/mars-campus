@@ -114,6 +114,41 @@
     for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
     [-len / 2 + 0.35, len / 2 - 0.35].forEach(function (x) { b.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
   }); }
+  // ---- a giant chess set: pieces of oak and walnut 0.3 to 0.6 m tall on a board of 40 cm squares ----
+  var CHESS_PROF = {
+    p: [[0, 0], [0.12, 0], [0.12, 0.03], [0.09, 0.05], [0.07, 0.08], [0.045, 0.19], [0.075, 0.205], [0.04, 0.215], [0.07, 0.26], [0.065, 0.3], [0.035, 0.322], [0, 0.326]],
+    r: [[0, 0], [0.14, 0], [0.14, 0.035], [0.1, 0.06], [0.085, 0.3], [0.112, 0.312], [0.112, 0.4], [0.075, 0.4], [0.075, 0.37], [0, 0.37]],
+    b: [[0, 0], [0.14, 0], [0.14, 0.035], [0.1, 0.06], [0.065, 0.3], [0.095, 0.315], [0.05, 0.33], [0.076, 0.38], [0.062, 0.43], [0.022, 0.47], [0, 0.482]],
+    q: [[0, 0], [0.15, 0], [0.15, 0.04], [0.11, 0.07], [0.07, 0.36], [0.105, 0.38], [0.06, 0.4], [0.1, 0.5], [0.092, 0.53], [0.045, 0.54], [0.03, 0.565], [0, 0.575]],
+    k: [[0, 0], [0.15, 0], [0.15, 0.04], [0.11, 0.07], [0.072, 0.38], [0.108, 0.4], [0.062, 0.42], [0.095, 0.51], [0.075, 0.54], [0, 0.545]],
+    n: [[0, 0], [0.14, 0], [0.14, 0.035], [0.1, 0.06], [0.09, 0.14], [0, 0.14]]
+  };
+  function chessPiece(kind, dark) { return furn("chess" + kind + (dark ? "d" : "l"), function (b) {
+    var n0 = b.count(); latheOn(b, 0, 0, 0, CHESS_PROF[kind], 18, MT.WOOD);
+    if (kind === "k") { b.box(-0.016, 0.54, -0.016, 0.016, 0.66, 0.016, MT.WOOD); b.box(-0.055, 0.585, -0.016, 0.055, 0.615, 0.016, MT.WOOD); }
+    if (kind === "n") {                                                  // the knight: a neck leaning forward and a head with its muzzle
+      var hb = new Builder(); hb.box(-0.055, 0, -0.07, 0.055, 0.24, 0.07, MT.WOOD); b.add(hb, T(0, 0.12, 0.0, 0.28, 0, 0));
+      var mz = new Builder(); mz.box(-0.05, -0.045, 0, 0.05, 0.045, 0.16, MT.WOOD); b.add(mz, T(0, 0.33, 0.06, 0.5, 0, 0));
+      b.box(-0.06, 0.36, -0.06, -0.04, 0.42, -0.02, MT.WOOD); b.box(0.04, 0.36, -0.06, 0.06, 0.42, -0.02, MT.WOOD);
+    }
+    b.tag(n0, null, dark ? 2 : 1);
+  }); }
+  // the board at (r, a): x along the arc is the files a to h, z outward the ranks 1 to 8 (white nearest the room)
+  function giantChess(B, r, a, y, floor) {
+    var M = crsFrame(r, a, y), bd = new Builder(), S = 0.4;
+    var n0 = bd.count(); bd.box(-1.72, 0, -1.72, 1.72, 0.025, 1.72, MT.WOOD); bd.tag(n0, null, 2);
+    for (var i = 0; i < 8; i++) for (var j = 0; j < 8; j++) { var n1 = bd.count(); bd.box(-1.6 + i * S + 0.004, 0.025, -1.6 + j * S + 0.004, -1.6 + (i + 1) * S - 0.004, 0.032, -1.6 + (j + 1) * S - 0.004, MT.WOOD); bd.tag(n1, null, (i + j) % 2 ? 1 : 2); }
+    B.add(bd, M);
+    var back = ["r", "n", "b", "q", "k", "b", "n", "r"], put = function (k, dark, f, rk, turn) { crsPlace(B, chessPiece(k, dark), r + (-1.6 + (rk - 0.5) * S), a + (-1.6 + (f - 0.5) * S) / r, y + 0.032, turn); };
+    // after 1 e4 e5 2 Nf3 Nc6 3 Bb5: white's knight on f3 and bishop on b5, black's knight on c6, the e-pawns met
+    back.forEach(function (k, f) {
+      if (!(f === 6 || f === 5)) put(k, false, f + 1, 1, 0);                  // the knights look across the board at the other side
+      if (f !== 1) put(k, true, f + 1, 8, Math.PI);
+    });
+    for (var f = 1; f <= 8; f++) { put("p", false, f, f === 5 ? 4 : 2, 0); put("p", true, f, f === 5 ? 5 : 7, 0); }
+    put("n", false, 6, 3, 0.4); put("b", false, 2, 5, 0); put("n", true, 3, 6, Math.PI - 0.3);
+    crsObst(r - 1.75, r + 1.75, a - 1.75 / r, a + 1.75 / r, floor);
+  }
   var RUG_FIELD = { 1: 6, 2: 6, 3: 9, 4: 6, 5: 5 }, RUG_BORDER = { 0: 6, 1: 10, 5: 10, 6: 10, 7: 10, 8: 6, 9: 10, 10: 6, 11: 6 };
   function rugAt(B, r, a, y, lw, ld, g2) {                                  // a wool rug lw along the arc, ld across, at (r, a): a border round a field, a soft pile
     var fld = RUG_FIELD[g2] !== undefined ? RUG_FIELD[g2] : g2, bd = RUG_BORDER[fld] !== undefined ? RUG_BORDER[fld] : 10, e = Math.min(0.22, Math.min(lw, ld) * 0.08);
@@ -151,19 +186,22 @@
     var C = CRS, r = C.rc + 0.27, half = 0.45 / r;
     for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); shelfBooks(B, crsFrame(r, a, F.y, ROT.out), k + Math.round(F.mid * 40)); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
   }
-  // the plants chosen for the room, at their spots
+  // how far a plant reaches out from its stem, from its leaves (cached on its builder)
+  function plantReach(fb) { if (fb._reach) return fb._reach; var P = fb.p, m = 0.3; for (var k = 0; k < P.length; k += 3) m = Math.max(m, Math.hypot(P[k], P[k + 2])); return (fb._reach = m); }
+  // the plants chosen for the room, at their spots, each far enough from the walls that its leaves stay in the room
   function roomPlants(B, rm, F, deskAt) {
     var C = CRS, i = 0;
     (rm.plants || []).forEach(function (pl) {
-      var kind = pl[0], spot = pl[1], r, a, y = F.y, seed = 60 + Math.round(F.mid * 100) + i++;
-      if (spot === "window0") { r = C.r1 - 0.75; a = F.a0 + 0.85 / r; } else if (spot === "window1") { r = C.r1 - 0.75; a = F.a1 - 0.85 / r; }
-      else if (spot === "windowmid") { r = C.r1 - 0.75; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + 0.7; a = F.a0 + 0.75 / r; } else if (spot === "corner1") { r = C.rc + 0.7; a = F.a1 - 0.75 / r; }
+      var kind = pl[0], spot = pl[1], r, a, y = F.y, seed = 60 + Math.round(F.mid * 100) + i++, fb = plantBuilder(kind, seed), cl = plantReach(fb) + 0.12;
+      var wW = Math.max(0.75, cl), wS = Math.max(0.85, cl), wC = Math.max(0.7, cl), wE = Math.max(0.75, cl);
+      if (spot === "window0") { r = C.r1 - wW; a = F.a0 + wS / r; } else if (spot === "window1") { r = C.r1 - wW; a = F.a1 - wS / r; }
+      else if (spot === "windowmid") { r = C.r1 - wW; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + wC; a = F.a0 + wE / r; } else if (spot === "corner1") { r = C.rc + wC; a = F.a1 - wE / r; }
       else if (spot === "door") { var d = (rm.doors && rm.doors[0]) || F.mid; r = C.rc + 0.6; a = d + (d > F.mid ? -1 : 1) * 1.05 / r; }
-      else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + 0.6 / r : F.a1 - 0.6 / r; }   // by a side wall, halfway out
+      else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, halfway out
       else if (spot === "desk" && deskAt) { r = deskAt[0]; a = deskAt[1]; y = F.y + deskAt[2]; }
       else if (spot === "shelf") { r = C.rc + 0.3; a = F.back + F.sgn * 0.5 / (C.rc + 0.3); y = F.y + 1.8; }
       else { r = C.r1 - 0.75; a = F.mid; }
-      crsPlace(B, plantBuilder(kind, seed), r, a, y, seed * 0.7);
+      crsPlace(B, fb, r, a, y, seed * 0.7);
       if (y === F.y) crsObst(r - 0.4, r + 0.4, a - 0.4 / r, a + 0.4 / r, F.floor);
     });
   }
@@ -230,7 +268,10 @@
     var la = F.at(F.span * 0.66, false), rA = C.r1 - 1.0, rB = C.r1 - 4.0;
     rugAt(B, (rA + rB) / 2, la, F.y, 3.8, 2.6, 2);
     crsPlace(B, sofa(10, 3.0), rA, la, F.y, ROT["in"]); crsPlace(B, sofa(8, 3.0), rB, la, F.y, ROT.out);
-    crsPlace(B, coffeeTable(1.6), (rA + rB) / 2, la, F.y, 0); crsObst(rB - 0.55, rA + 0.55, la - 1.6 / 58, la + 1.6 / 58, F.floor);
+    crsPlace(B, walnutTable(1.4, 0.7), (rA + rB) / 2, la, F.y, 0); crsObst(rB - 0.55, rA + 0.55, la - 1.6 / 58, la + 1.6 / 58, F.floor);
+    var rm2 = (rA + rB) / 2; [[-2.15, ROT.plusA], [2.15, ROT.minusA]].forEach(function (e) { var aa = la + e[0] / rm2; crsPlace(B, armchair(), rm2, aa, F.y, e[1]); crsObst(rm2 - 0.5, rm2 + 0.5, aa - 0.5 / rm2, aa + 0.5 / rm2, F.floor); });
+    [-1.8, 1.8].forEach(function (x) { var aa = la + x / rA; crsPlace(B, lampTable(), rA + 0.05, aa, F.y, 0); lampLight(rA + 0.05, aa, F.y, 0.95, 0.55, 3.2); crsObst(rA - 0.25, rA + 0.35, aa - 0.28 / rA, aa + 0.28 / rA, F.floor); });
+    giantChess(B, 59.3, F.at(3.6, false), F.y, F.floor);
     var ea = F.at(F.span * 0.9, false); crsPlace(B, kitchenette(), C.rc + 0.42, ea, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ea - 1.25 / 50, ea + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, ea, F.y + 0.92, ROT.out);
     roomPlants(B, rm, F, [(rA + rB) / 2, la, 0.4]);
@@ -243,7 +284,14 @@
     var ka = F.at(4.8, false); crsPlace(B, kitchenette(), C.rc + 0.42, ka, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ka - 1.25 / 50, ka + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, F.at(4.0, false), F.y + 0.92, ROT.out);
     crsPlace(B, lockerBank(4), C.rc + 0.36, F.at(1.5, false), F.y, ROT.out);
-    var sa = F.at(F.span - 1.6, false); crsPlace(B, sofa(8, 2.8), 53.0, sa, F.y, F.sgn > 0 ? ROT.minusA : ROT.plusA); crsObst(51.5, 54.5, sa - 0.5 / 53, sa + 0.5 / 53, F.floor);
+    // the lounge on the front wall: a long sofa backed onto it, a walnut table, two club chairs across, a rug, lamps
+    var faceBack = F.sgn > 0 ? ROT.minusA : ROT.plusA, faceFront = F.sgn > 0 ? ROT.plusA : ROT.minusA, ls = F.at(F.span - 0.6, false), lt = F.at(F.span - 1.6, false), lc = F.at(F.span - 2.8, false);
+    rugAt(B, 57.0, F.at(F.span - 1.75, false), F.y, 3.0, 3.4, 4);
+    crsPlace(B, sofa(8, 2.8), 57.0, ls, F.y, faceBack); crsObst(55.55, 58.45, F.at(F.span - 1.1, false), F.front, F.floor);
+    crsPlace(B, walnutTable(1.2, 0.6), 57.0, lt, F.y, ROT.minusA); crsObst(56.35, 57.65, F.at(F.span - 1.95, false), F.at(F.span - 1.25, false), F.floor);
+    [56.3, 57.7].forEach(function (r) { crsPlace(B, armchair(), r, lc, F.y, faceFront); crsObst(r - 0.45, r + 0.45, F.at(F.span - 3.25, false), F.at(F.span - 2.35, false), F.floor); });
+    [55.25, 58.75].forEach(function (r) { var a = F.at(F.span - 0.45, false); crsPlace(B, lampTable(), r, a, F.y, 0); lampLight(r, a, F.y, 0.95, 0.55, 3.2); crsObst(r - 0.28, r + 0.28, F.at(F.span - 0.75, false), F.front, F.floor); });
+    var fl = F.at(F.span - 3.0, false); crsPlace(B, floorLamp(), 58.75, fl, F.y, 0); lampLight(58.75, fl, F.y, 1.4, 0.7, 3.6); crsObst(58.55, 58.95, fl - 0.2 / 58.75, fl + 0.2 / 58.75, F.floor);
     roomPlants(B, rm, F, [55.4, ma, 0.77]);
   }
   function computerRoom(B, rm, F) {
@@ -280,7 +328,9 @@
     rugAt(B, rT, ba, F.y, 5.4, 4.6, 3);
     crsPlace(B, sofa(7, 3.8), rS, ba, F.y, ROT["in"]); crsObst(rS - 0.55, rS + 0.55, ba - 2.0 / rS, ba + 2.0 / rS, F.floor);
     crsPlace(B, sofa(7, 3.8), rB, ba, F.y, ROT.out); crsObst(rB - 0.55, rB + 0.55, ba - 2.0 / rB, ba + 2.0 / rB, F.floor);
-    crsPlace(B, coffeeTable(2.0), rT, ba, F.y, 0); crsObst(rT - 0.4, rT + 0.4, ba - 1.1 / rT, ba + 1.1 / rT, F.floor);
+    crsPlace(B, walnutTable(1.8, 0.8), rT, ba, F.y, 0); crsObst(rT - 0.45, rT + 0.45, ba - 1.0 / rT, ba + 1.0 / rT, F.floor);
+    [-2.2, 2.2].forEach(function (x) { var aa = ba + x / rS; crsPlace(B, lampTable(), rS + 0.05, aa, F.y, 0); lampLight(rS + 0.05, aa, F.y, 0.95, 0.6, 3.4); crsObst(rS - 0.25, rS + 0.35, aa - 0.28 / rS, aa + 0.28 / rS, F.floor); });
+    [-2.3, 2.3].forEach(function (x) { var aa = ba + x / rB, rl = rB - 0.25; crsPlace(B, floorLamp(), rl, aa, F.y, 0); lampLight(rl, aa, F.y, 1.4, 0.7, 3.6); crsObst(rl - 0.2, rl + 0.2, aa - 0.2 / rl, aa + 0.2 / rl, F.floor); });
     [[-2.75, ROT.plusA], [2.75, ROT.minusA]].forEach(function (e) { var aa = ba + e[0] / rT; crsPlace(B, armchair(), rT, aa, F.y, e[1]); crsObst(rT - 0.5, rT + 0.5, aa - 0.5 / rT, aa + 0.5 / rT, F.floor); });
     [["fig", 52.6], ["kentia", 55.2]].forEach(function (t, i) { var aa = -6.25 * D2R; crsPlace(B, plantBuilder(t[0], 911 + i), t[1], aa, F.y, i * 2.1); crsObst(t[1] - 0.45, t[1] + 0.45, aa - 0.45 / t[1], aa + 0.45 / t[1], F.floor); });
     roomPlants(B, rm, F, null);

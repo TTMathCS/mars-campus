@@ -5,7 +5,8 @@ settings (Cycles, AgX, the glow and vignette of photo_finish) and every texture 
 scene: residence | pent:<room> | crown:<room> | orb:<room> | garden:<room> | club:<room> | sport:<room> |
        memory:<room> | overall:hero | overall:whole
 Writes <archive>/scenes/<scene>.blend (compressed), its textures into <archive>/assets/ (shared by all the scenes,
-paths relative), and the textures packed in the glTF models into <archive>/scenes/textures/."""
+paths relative), and the textures packed in the glTF models into <archive>/scenes/textures/. The plants' leaves are
+saved as instances of their leaf (a geometry-nodes modifier on a mesh of points, one per leaf): the same picture."""
 import bpy, hashlib, os, shutil, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib
@@ -60,7 +61,11 @@ def archive_textures(arch):
 
 if __name__ == "__main__":
     scene, arch = sys.argv[1], os.path.abspath(sys.argv[2])
+    # the plants' leaves as instances of their leaf (plants.INSTANCE): the same picture, and the file stays small enough
+    # for the repository (a room of maples is otherwise 150 to 250 MB, over GitHub's 100 MB a file)
+    import plants; plants.INSTANCE = True
     t = time.time(); stills, panos = build(scene); cameras(stills, panos)
+    plants.instance_materials(); plants._MADE.clear()
     sc = bpy.context.scene; sc.render.resolution_x, sc.render.resolution_y = 1600, 900; sc.cycles.samples = 128
     sc.render.image_settings.file_format = "JPEG"; sc.render.image_settings.quality = 92
     lib.photo_finish(0.3, 0.15)

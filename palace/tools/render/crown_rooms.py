@@ -284,13 +284,14 @@ def arrival(M, rnd):
     lib.box("arrival rug", (11.0, 11.0, 0.014), at(tr, tb, 0.007), M["rug2"], bevel=0.006, rot_z=face_in(tb), segs=2)
     # the portal to the Orb at the far end, palms either side; agaves along the windows; long leather benches by the Door
     portal(RM, b1 - 0.6, M, face_ccw(b1 - 0.6))
-    for s_ in (-1, 1): plants.make("kentia palm", at(RM + s_ * 3.4, b1 - tang(1.6), 0.0), seed=102 + s_, pot=(1.0, 0.75, "black"), height=3.8)
+    for s_ in (-1, 1): plants.make("kentia palm", at(RM + s_ * 2.5, b1 - tang(1.4), 0.0), seed=102 + s_, pot=(1.0, 0.75, "black"), height=3.8)
     for k, bb in enumerate((b0 + tang(5.0, R_OUT), b0 + tang(21.0, R_OUT))):
         plants.make("agave", at(R_OUT - 1.4, bb, 0.0), seed=105 + k, pot=(1.2, 0.45, "travertine"), size=0.9)
     for s_ in (-1, 1):
         seating.bench("door bench", at(RM + s_ * 4.6, b0 + tang(3.2), 0.0), face_cw(b0 + tang(3.2)) + math.pi / 2, length=2.8, depth=0.6,
                       fabric_mat=seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather"))
-    paint("arrival painting", "vangogh_starry_night", 4.2, at(RM + 3.2, b1 - tang(0.17, RM + 3.2), 0.0), face_ccw(b1), 2.6)
+    # Starry Night on its own stretch of the end wall, between the palms by the portal and the windows (not behind them)
+    paint("arrival painting", "vangogh_starry_night", 3.6, at(RM + 5.3, b1 - tang(0.17, RM + 5.3), 0.0), face_ccw(b1), 2.6)
     # C-03, the Door's own room (91.44 to 95.76, furnishing.py), between the pod hangar and the Door: a cross wall to
     # the hangar with a wide opening, a curved leather bench along each side wall (the windows and the glass), a pair
     # of orange maples flanking the Door, a halo, frosted glass onto the Glide

@@ -25,7 +25,7 @@ CROWN = {
                  tables=[], lights=["a halo 8 m across 12 m up, under the spire", "washers on both walls"],
                  plants=[("japanese maple", "red and orange, 5.5 m, the hall's great tree, multi-stemmed, in a round basalt planter 3.2 m across"),
                          ("kentia palm", "3.5 m, a pair by the portal"), ("agave", "blue, in travertine bowls along the windows")],
-                 art=["Van Gogh's The Starry Night, 4.2 m wide, on the cross wall facing the arrivals"], doors="a wall of bronze and glass onto the Glide from the floor to the ceiling, as in the master suite, clear; two pairs of pivot doors 3 m wide"),
+                 art=["Van Gogh's The Starry Night, 3.6 m wide, on the end wall facing the arrivals, on its own stretch between the palms by the portal and the windows"], doors="a wall of bronze and glass onto the Glide from the floor to the ceiling, as in the master suite, clear; two pairs of pivot doors 3 m wide"),
     "C-06": dict(name="Dressing room", seating=["a round velvet ottoman 1.6 m across in the middle", "a chaise by the window",
                                               "a sitting corner by the windows: a velvet sofa 3.2 m and two club chairs round a marble table, on its own rug"],
                  tables=["an island of walnut drawers with a marble top, 4 m", "walnut wardrobes 3.2 m tall along both cross walls", "a triple mirror in bronze, 2.3 m tall, facing the ottoman"],

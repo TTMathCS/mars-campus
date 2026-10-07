@@ -178,7 +178,7 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_library.jpg", caption: "The Crown's library, 20 m tall under its spire: two floors of walnut shelves round a spiral stair, a long reading table under lamps, leather sofas by the windows, a kentia by the glass wall onto the Glide." },
   { img: "photos/crown_maproom.jpg", caption: "The map room in the Crown's Library: a globe of Mars 3 m across in a bronze meridian, a long leather sofa facing it, Claude Lorrain's Harbour with the Large Tower under its light, the glass wall onto the Glide." },
   { img: "photos/baths.jpg", caption: "The thermal baths on L1: a warm pool of quartzite under slots of daylight from the sky ceiling, loungers, stone benches, and the atrium's olive trees through the glass." },
-  { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown: one long table of polished basalt for 22, linen chairs, glass globes on cords, an oak-slat ceiling, and the afternoon sun through the slots." },
+  { img: "photos/crown_dining.jpg", caption: "The dining hall in the Crown from the drinks lounge: the basalt table for 22 in claret velvet chairs under four halos of light, lemon trees along the windows, Van Gogh's Wheat Field with Cypresses at the far end." },
   { img: "photos/cinema.jpg", caption: "The cinema on L1: forty seats in claret velvet in four rising rows, walnut slats on the walls, sconces and lit steps, and a ceiling of 700 points of light, like stars." },
   { img: "photos/crown_wellness.jpg", caption: "The sky pool, 25 m along the ring: a line of chosen plants on the inner side, kentias, a red and an orange maple and a fiddle-leaf fig; halos over the water." },
   { img: "photos/crown_studio.jpg", caption: "The art studio in the Crown: easels in the steady north light of the slots, a work table of brushes and paints, the Glide along the left." },
@@ -209,5 +209,6 @@ window.TOUR_PHOTOS = [
   { img: "photos/crown_wine.jpg", caption: "The wine room: the wine wall lit from behind, a tasting group in oxblood leather, the serving island under its globes." },
   { img: "photos/crown_wine2.jpg", caption: "The wine room from the windows: the banquette and club chairs under a halo, Caravaggio's Basket of Fruit." },
   { img: "photos/crown_kitchen_up.jpg", caption: "The chef's kitchen in the Crown: two islands of steel under a halo of light and the long hood, the chef's table in green leather under opal globes, a wall of walnut cupboards." },
-  { img: "photos/crown_kitchen_up2.jpg", caption: "The chef's kitchen: the cooking line and its open shelves under the long hood, the steel island, copper pendants, and frosted glass onto the Glide." }
+  { img: "photos/crown_kitchen_up2.jpg", caption: "The chef's kitchen: the cooking line and its open shelves under the long hood, the steel island, copper pendants, and frosted glass onto the Glide." },
+  { img: "photos/crown_dining2.jpg", caption: "The dining hall from the kitchen end: the long table under its halos, Van Gogh's Olive Trees on the far wall, the gold ginkgo by the glass onto the Glide." }
 ];

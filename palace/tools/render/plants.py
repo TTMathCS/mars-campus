@@ -13,12 +13,21 @@ import lib
 
 DETAIL = 1.0
 TAU = 2 * math.pi
+# save_blend.py sets INSTANCE: each plant's leaves are then kept as copies (instances) of their leaf, one point per leaf
+# (where it is, how it is turned, its size, its random number) and a geometry-nodes modifier that puts the leaf on each,
+# the same picture as the joined mesh in a file a tenth the size. _MADE remembers, meanwhile, how place() and stack()
+# made each array of leaves: id(V) -> (V, [(template, points, turn x size)])
+INSTANCE = False
+_MADE = {}
 
 
 # ---------------------------------------------------------------- meshes from arrays
 def mesh_from(name, V, F, uv=None, face_val=None, mat=None, smooth=True, loc=(0, 0, 0)):
     """a mesh object from numpy arrays: V (n, 3) vertices, F (m, 3) triangles, uv (m * 3, 2) per corner, face_val
     (m,) a number per face (the 'leafrand' attribute the leaf materials read)"""
+    if INSTANCE and face_val is not None and len(F) > 2000:
+        rec = _MADE.get(id(V))
+        if rec is not None and rec[0] is V: return _instanced(name, rec[1], face_val, mat, smooth, loc)
     V = np.ascontiguousarray(V, np.float32); F = np.ascontiguousarray(F, np.int32); nf = len(F)
     me = bpy.data.meshes.new(name)
     me.vertices.add(len(V)); me.vertices.foreach_set("co", V.ravel())
@@ -37,6 +46,71 @@ def mesh_from(name, V, F, uv=None, face_val=None, mat=None, smooth=True, loc=(0,
     return o
 
 
+def _instanced(name, segs, face_val, mat, smooth, loc):
+    """the leaves as instances (INSTANCE): a mesh of points, one per leaf, carrying its turn ('rot', XYZ Euler), size
+    ('scale'), random number ('leafrand') and template ('tmpl'); a geometry-nodes modifier puts a copy of its template
+    on each point. The templates are hidden objects of their own; the point attributes become the copies' attributes,
+    which the leaf materials read (instance_materials)"""
+    from mathutils import Matrix
+    mats = list(mat) if isinstance(mat, (list, tuple)) else ([mat] if mat is not None else [])
+    tmpls, idx, Ps, Es, Ss, Ws, Ts, off = [], {}, [], [], [], [], [], 0
+    fv = np.asarray(face_val, np.float64)
+    for (tmpl, P, RS) in segs:
+        if id(tmpl) not in idx: idx[id(tmpl)] = len(tmpls); tmpls.append(tmpl)
+        k, nF = len(P), len(tmpl[1]); s = np.cbrt(np.linalg.det(RS))
+        Ps.append(P); Ss.append(s); Ws.append(fv[off:off + k * nF:nF]); Ts.append(np.full(k, idx[id(tmpl)], np.int32)); off += k * nF
+        Es.append(np.array([tuple(Matrix((r / sc).tolist()).to_euler("XYZ")) for r, sc in zip(RS, s)], np.float64).reshape(-1, 3))
+    P = np.concatenate(Ps); n = len(P)
+    me = bpy.data.meshes.new(name); me.vertices.add(n); me.vertices.foreach_set("co", np.ascontiguousarray(P, np.float32).ravel())
+    for (nm, typ, arr) in (("rot", "FLOAT_VECTOR", np.concatenate(Es)), ("scale", "FLOAT", np.concatenate(Ss)),
+                           ("leafrand", "FLOAT", np.concatenate(Ws)), ("tmpl", "INT", np.concatenate(Ts))):
+        a = me.attributes.new(nm, typ, "POINT")
+        a.data.foreach_set("vector" if typ == "FLOAT_VECTOR" else "value", np.ascontiguousarray(arr, np.int32 if typ == "INT" else np.float32).ravel())
+    for m in mats: me.materials.append(m)
+    o = lib.link(bpy.data.objects.new(name, me)); o.location = loc
+    tobs = []
+    for i, (V, F, uv) in enumerate(tmpls):
+        t = mesh_from(name + " leaf %d" % i, V, F, uv, None, mat=mats, smooth=smooth)
+        t.hide_render = True; t.hide_viewport = True; tobs.append(t)
+    o["leaf templates"] = [t.name for t in tobs]
+    ng = bpy.data.node_groups.new(name + " leaves", "GeometryNodeTree")
+    ng.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+    ng.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+    N, L = ng.nodes, ng.links; gi = N.new("NodeGroupInput"); go = N.new("NodeGroupOutput"); join = N.new("GeometryNodeJoinGeometry")
+    att = {}
+    for (nm, typ) in (("rot", "FLOAT_VECTOR"), ("scale", "FLOAT"), ("tmpl", "INT")):
+        a = N.new("GeometryNodeInputNamedAttribute"); a.data_type = typ; a.inputs["Name"].default_value = nm; att[nm] = a.outputs["Attribute"]
+    for i, t in enumerate(tobs):
+        oi = N.new("GeometryNodeObjectInfo"); oi.transform_space = "ORIGINAL"; oi.inputs["Object"].default_value = t; oi.inputs["As Instance"].default_value = True
+        ip = N.new("GeometryNodeInstanceOnPoints")
+        L.new(gi.outputs[0], ip.inputs["Points"]); L.new(oi.outputs["Geometry"], ip.inputs["Instance"])
+        L.new(att["rot"], ip.inputs["Rotation"]); L.new(att["scale"], ip.inputs["Scale"])
+        if len(tobs) > 1:
+            cmp = N.new("FunctionNodeCompare"); cmp.data_type = "INT"; cmp.operation = "EQUAL"
+            L.new(att["tmpl"], cmp.inputs[2]); cmp.inputs[3].default_value = i; L.new(cmp.outputs["Result"], ip.inputs["Selection"])
+        L.new(ip.outputs["Instances"], join.inputs["Geometry"])
+    L.new(join.outputs["Geometry"], go.inputs[0])
+    o.modifiers.new("leaves", "NODES").node_group = ng
+    return o
+
+
+def instance_materials():
+    """let every leaf material read its leaf's random number from an instance as well as from a mesh (INSTANCE): a
+    second attribute node of the instancer's kind, added to the first (a mesh's leaves read nothing there, copies
+    nothing in the first)"""
+    for m in bpy.data.materials:
+        if not m.use_nodes or m.get("reads instances"): continue
+        nt = m.node_tree
+        for at in [n for n in nt.nodes if n.type == "ATTRIBUTE" and n.attribute_name == "leafrand" and n.attribute_type == "GEOMETRY"]:
+            ai = nt.nodes.new("ShaderNodeAttribute"); ai.attribute_type = "INSTANCER"; ai.attribute_name = "leafrand"
+            add = nt.nodes.new("ShaderNodeMath"); add.operation = "ADD"
+            outs = [l.to_socket for l in nt.links if l.from_socket == at.outputs["Fac"]]
+            for l in [l for l in nt.links if l.from_socket == at.outputs["Fac"]]: nt.links.remove(l)
+            nt.links.new(at.outputs["Fac"], add.inputs[0]); nt.links.new(ai.outputs["Fac"], add.inputs[1])
+            for to in outs: nt.links.new(add.outputs[0], to)
+        m["reads instances"] = 1
+
+
 def stack(parts):
     """join (V, F, uv, val) pieces into one"""
     Vs, Fs, UVs, Ws, off = [], [], [], [], 0
@@ -44,7 +118,11 @@ def stack(parts):
         if len(F) == 0: continue
         Vs.append(V); Fs.append(F + off); UVs.append(uv); Ws.append(w); off += len(V)
     if not Vs: return np.zeros((0, 3)), np.zeros((0, 3), np.int32), np.zeros((0, 2)), np.zeros(0)
-    return np.concatenate(Vs), np.concatenate(Fs), np.concatenate(UVs), np.concatenate(Ws)
+    V = np.concatenate(Vs)
+    if INSTANCE:
+        recs = [_MADE.get(id(p[0])) for p in parts if len(p[1])]
+        if all(r is not None and r[0] is p[0] for r, p in zip(recs, [p for p in parts if len(p[1])])): _MADE[id(V)] = (V, [g for r in recs for g in r[1]])
+    return V, np.concatenate(Fs), np.concatenate(UVs), np.concatenate(Ws)
 
 
 # ---------------------------------------------------------------- leaf shapes (templates)
@@ -178,7 +256,9 @@ def place(tmpl, P, R, S, rnd):
     Vall = np.einsum("kij,mj->kmi", R, V) + P[:, None, :]
     Fall = (F[None, :, :] + (np.arange(k) * len(V))[:, None, None]).reshape(-1, 3)
     UV = np.tile(uv, (k, 1)); val = np.repeat(np.array([rnd.random() for _ in range(k)]), len(F))
-    return Vall.reshape(-1, 3), Fall, UV, val
+    out = Vall.reshape(-1, 3)
+    if INSTANCE: _MADE[id(out)] = (out, [(tmpl, P, R)])
+    return out, Fall, UV, val
 
 
 # ---------------------------------------------------------------- branches
@@ -728,6 +808,18 @@ def _ellipsoid(a, b, c, nu, nv):
 
 def _assign_by_value(o, value, index):
     """faces whose leafrand is value take material index"""
+    if "leaf templates" in o:                  # instanced leaves: the template whose copies all carry value takes it
+        me = o.data; n = len(me.vertices); vals = np.zeros(n, np.float32); tm = np.zeros(n, np.int32)
+        me.attributes["leafrand"].data.foreach_get("value", vals); me.attributes["tmpl"].data.foreach_get("value", tm)
+        hit = np.abs(vals - value) < 1e-3
+        for i, tn in enumerate(o["leaf templates"]):
+            sel = tm == i
+            if not sel.any() or not hit[sel].all(): continue
+            t = bpy.data.objects[tn]
+            for m in me.materials[len(t.data.materials):]: t.data.materials.append(m)
+            t.data.polygons.foreach_set("material_index", np.full(len(t.data.polygons), index, np.int32))
+        vals[hit] = 0.5; me.attributes["leafrand"].data.foreach_set("value", vals)
+        return
     me = o.data; vals = np.zeros(len(me.polygons), np.float32); me.attributes["leafrand"].data.foreach_get("value", vals)
     idx = np.where(np.abs(vals - value) < 1e-3, index, 0).astype(np.int32); me.polygons.foreach_set("material_index", idx)
     # lemons keep a random number of their own too

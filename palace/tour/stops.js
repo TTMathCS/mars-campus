@@ -87,7 +87,7 @@ window.TOUR_STOPS = [
   { id: "crown_suit", place: "crown", ready: false, name: "The suit room", short: "Suit room", k: "The Crown · Arrival", p: [122.77, 31.52], az0: -43, img: "pano/crown_suit.jpg",
     d: "The suits wait in their ports in the outer wall, so no dust comes in; a leather bench down the middle for the boots and a walnut counter for helmets and gloves.",
     links: [{ id: "crown_garden", at: [111.41, 34.91, 0], label: "The Glide: to the sky garden" }, { id: "crown_hangar", at: [124.88, 21.68, 0], label: "Through to the pod hangar" }] },
-  { id: "crown_hangar", place: "crown", ready: false, name: "The pod hangar", short: "Pod hangar", k: "The Crown · Arrival", p: [125.21, 11.62], az0: -4, img: "pano/crown_hangar.jpg",
+  { id: "crown_hangar", place: "crown", name: "The pod hangar", short: "Pod hangar", k: "The Crown · Arrival", p: [125.21, 11.62], az0: -4, img: "pano/crown_hangar.jpg",
     d: "Arcadia's airlock: the pods fly in through the door in the outer wall, and the hangar fills with air in about 90 seconds while the dust is blown off them.",
     links: [{ id: "crown_suit", at: [124.88, 21.68, 0], label: "Through to the suit room" }, { id: "crown_door", at: [126.74, 1.88, 0], label: "Through to the Door" }] },
   { id: "crown_door", place: "crown", ready: false, name: "The Door", short: "The Door", k: "The Crown · Arrival", p: [126.5, -7.96], az0: 175, img: "pano/crown_door.jpg",

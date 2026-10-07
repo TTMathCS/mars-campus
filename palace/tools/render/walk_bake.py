@@ -23,7 +23,7 @@ from mathutils import Vector, Matrix
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib, crown, crown_rooms, plants
 from crown import P, R_IN, R_OUT, R_GL, D, WT
-plants.DETAIL = float(os.environ.get("WALK_DETAIL", "0.35"))     # lighter plants for the browser: fewer, plainer leaves
+plants.DETAIL = float(os.environ.get("WALK_DETAIL", "0.25"))     # lighter plants for the browser: fewer, plainer leaves
 crown.DOORS_OPEN = True                                          # the doors onto the Glide stand open, to walk through
 
 SUN_AZ, SUN_EL, SUN_STRENGTH = 195.0, 32.0, 6.0
@@ -107,6 +107,9 @@ def lighten(max_faces=8000):
     n = 0
     for o in bpy.data.objects:
         if o.type != "MESH" or o.hide_render or any(m.type == "NODES" for m in o.modifiers): continue
+        # not the plants: a tree's thousands of separate leaves collapse into shards under a decimate, its trunk into a
+        # stick (they are made light enough by plants.DETAIL)
+        if any(k in o.name.lower() for k in VERTEX) or any(m and any(k in m.name.lower() for k in VERTEX) for m in o.data.materials): continue
         f = len(o.data.polygons)
         if f > max_faces and o.matrix_world != Matrix.Identity(4):
             d = o.modifiers.new("lighter", "DECIMATE"); d.ratio = max_faces / f; n += 1

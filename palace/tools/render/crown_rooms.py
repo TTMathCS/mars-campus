@@ -640,7 +640,7 @@ def library_up(M, rnd):
     plants.make("kentia palm", at(R_GL + 1.3, bs0 - tang(1.4, R_GL + 1.3), 0.0), seed=383, pot=(0.95, 0.72, "black"), height=3.4)
     # a reading corner by the frosted glass (furnishing.py): two leather wing chairs turned to each other, a round
     # side table, a floor lamp, on a rug of its own; an olive tree by the desk's far end
-    rq = Vector(at(R_GL + 3.1, bs0 - tang(3.2, R_GL + 3.1), 0.0)); rb_ = bs0 - tang(3.2, R_GL + 3.1)
+    rq = Vector(at(R_GL + 3.1, b0 + tang(3.6, R_GL + 3.1), 0.0)); rb_ = b0 + tang(3.6, R_GL + 3.1)        # at the far end by the glass, clear of the photo's camera
     lib.box("reading rug", (3.6, 3.0, 0.014), (rq.x, rq.y, 0.007), M["rug"], bevel=0.006, rot_z=face_in(rb_), segs=2)
     for s_ in (-1, 1):
         bb = rb_ + s_ * tang(0.85, R_GL + 3.1)
@@ -928,14 +928,16 @@ def studio(M, rnd):
     lib.cyl("kiln", 0.42, 0.82, at(R_OUT - 0.8, kb, 0.0), M["steel"], verts=64)
     lib.cyl("kiln lid", 0.44, 0.07, at(R_OUT - 0.8, kb, 0.82), M["steel"], verts=64, bevel=0.01)
     lib.box("kiln control", (0.26, 0.1, 0.32), at(R_OUT - 1.27, kb, 0.5), M["graphite"], bevel=0.006, rot_z=face_in(kb))
-    s0, s1 = 350.3, 356.0
-    for z in (0.45, 0.95, 1.45, 1.95): crown.curved_box("pot shelf", R_OUT - 0.45, R_OUT - 0.05, s0, s1, z - 0.03, z, M["walnut"])
-    for bb in crown.steps(s0, s1, 1.0 / tang(1.3, R_OUT - 0.25)):
-        crown.curved_box("shelf upright", R_OUT - 0.45, R_OUT - 0.05, bb - tang(0.02, R_OUT), bb + tang(0.02, R_OUT), 0.0, 2.0, M["walnut"])
-    for z in (0.45, 0.95, 1.45, 1.95):
-        bb = s0 + tang(0.25, R_OUT)
-        while bb < s1 - tang(0.2, R_OUT):
-            q = at(R_OUT - 0.25, bb); furn.ornament("pot", q[0], q[1], z, rnd.uniform(0.14, 0.3), rnd, M["ceramics"] + [M["greenware"]])
+    # the pots' shelves stand on the solid wall between the windows, never across one (Jim, 7 Oct: "painting should
+    # not be on the windows")
+    for (s0, s1) in crown.solid_runs(R_OUT, 349.9, 356.4, 324.0, 360.0):
+        for z in (0.45, 0.95, 1.45, 1.95): crown.curved_box("pot shelf", R_OUT - 0.45, R_OUT - 0.05, s0, s1, z - 0.03, z, M["walnut"])
+        for bb in crown.steps(s0, s1, 1.0 / tang(1.3, R_OUT - 0.25)):
+            crown.curved_box("shelf upright", R_OUT - 0.45, R_OUT - 0.05, bb - tang(0.02, R_OUT), bb + tang(0.02, R_OUT), 0.0, 2.0, M["walnut"])
+        for z in (0.45, 0.95, 1.45, 1.95):
+            bb = s0 + tang(0.25, R_OUT)
+            while bb < s1 - tang(0.2, R_OUT):
+                q = at(R_OUT - 0.25, bb); furn.ornament("pot", q[0], q[1], z, rnd.uniform(0.14, 0.3), rnd, M["ceramics"] + [M["greenware"]])
             bb += tang(rnd.uniform(0.24, 0.42), R_OUT)
     crown.curved_box("bench top", R_GL + 0.45, R_GL + 1.3, 352.6, 356.4, 0.86, 0.91, M["oak_top"])
     for bb in (352.8, 356.2):
@@ -1083,7 +1085,9 @@ def observatory(M, rnd):
     crown.curved_box("desk", R_OUT - 1.2, R_OUT - 0.4, 25.0, 34.6, 0.72, 0.76, M["walnut"])
     for bb in (25.3, 29.8, 34.3):
         crown.curved_box("desk pedestal", R_OUT - 1.1, R_OUT - 0.5, bb - tang(0.25, R_OUT), bb + tang(0.25, R_OUT), 0.0, 0.72, M["walnut"])
-    for (bb, img, crop) in ((27.0, "mars-earth.jpg", (0.0, 0.0, 1.0, 1.0)), (29.8, "orb-universe.jpg", (0.22, 0.18, 0.78, 0.92)), (32.6, "atlas-teaser.jpg", (0.0, 0.0, 1.0, 1.0))):
+    # the screens stand on the desk in front of the solid wall between the windows, never in front of a window (Jim, 7 Oct)
+    spots_ = [(a + b) / 2 for (a, b) in crown.solid_runs(R_OUT, 25.0, 34.6, 0.0, 36.0, gap=0.15, least=1.3)][:3]
+    for (bb, img, crop) in zip(spots_, ("mars-earth.jpg", "orb-universe.jpg", "atlas-teaser.jpg"), ((0.0, 0.0, 1.0, 1.0), (0.22, 0.18, 0.78, 0.92), (0.0, 0.0, 1.0, 1.0))):
         screen("telescope screen", repo_file("palace", "design", "img", img), 1.2, 0.68, at(R_OUT - 0.7, bb, 0.76), face_in(bb), M, crop, emit=1.4)
         seating.desk_chair("telescope chair", at(R_OUT - 1.8, bb, 0.0), face_out(bb), seed=60 + int(bb))
     portal(RM - 0.4, b1 - 0.7, M, face_ccw(b1 - 0.7))

@@ -71,7 +71,39 @@ def openings(r, b0, b1):
     return out
 
 
-def wall(name, r_face, side, b0, b1, M, wall_mat, glass=True):
+def kept_windows(r, b0, b1):
+    """the windows a room from b0 to b1 keeps in its ring wall at radius r, as wall() leaves them: whole, and 0.9 m or
+    more from the cross walls"""
+    lo, hi = b0 + 0.9 / r / D, b1 - 0.9 / r / D
+    return [(a, b) for (a, b) in openings(r, b0, b1) if a >= lo and b <= hi]
+
+
+def pier_spots(r, b0, b1, w, end=0.4, gap=0.3):
+    """where something w metres wide can hang on the solid wall at radius r between b0 and b1, never over a window
+    (Jim, 7 Oct 2026: "painting should not be on the windows"): the middles of the solid stretches between the kept
+    windows that are wide enough, keeping gap metres from each window and end metres from each cross wall"""
+    cuts = [(b0 * r * D, b0 * r * D + end)] + [(a * r * D - gap, b * r * D + gap) for (a, b) in kept_windows(r, b0, b1)] + [(b1 * r * D - end, b1 * r * D)]
+    out = []
+    for (c0, c1) in zip(cuts, cuts[1:]):
+        if c1[0] - c0[1] >= w: out.append((c0[1] + c1[0]) / 2 / r / D)
+    return out
+
+
+def solid_runs(r, b0, b1, wall_b0, wall_b1, gap=0.2, least=1.0):
+    """the stretches between b0 and b1 of the ring wall at radius r (built from wall_b0 to wall_b1) that have no window,
+    keeping gap metres clear of each window and dropping any shorter than least metres: where shelves and cases can
+    stand against the wall without covering a window"""
+    cuts = sorted((a - gap / r / D, b + gap / r / D) for (a, b) in kept_windows(r, wall_b0, wall_b1))
+    out, cur = [], b0
+    for (a, b) in cuts:
+        if b <= cur or a >= b1: continue
+        if a > cur: out.append((cur, min(a, b1)))
+        cur = max(cur, b)
+    if cur < b1: out.append((cur, b1))
+    return [(a, b) for (a, b) in out if (b - a) * r * D >= least]
+
+
+def wall(name, r_face, side, b0, b1, M, wall_mat, glass=True, blind=None):
     """a ring wall whose room face is at radius r_face; its body runs outwards from there (side = +1, the outer wall)
     or inwards (side = -1, the inner wall). Windows go through it at eye height, each lined in one piece of bronze
     (window_lining), glazed in the middle."""
@@ -81,7 +113,7 @@ def wall(name, r_face, side, b0, b1, M, wall_mat, glass=True):
     cur = b0; lo, hi = b0 + PAD + 0.9 / r_face / D, b1 - PAD - 0.9 / r_face / D
     # the windows keep the ring's 8 m rhythm; one that a room's end would cut through is left out (its wall solid),
     # so every window stands whole in its room, 0.9 m or more from the cross walls
-    for (a, b) in [(a_, b_) for (a_, b_) in openings(r_face, b0, b1) if a_ >= lo and b_ <= hi]:
+    for (a, b) in [(a_, b_) for (a_, b_) in openings(r_face, b0, b1) if a_ >= lo and b_ <= hi and not any(a_ < y and b_ > x for (x, y) in (blind or ()))]:
         if a > cur + 1e-4: o.append(curved_box(name + " pier", r0, r1, cur, a, Z0, Z1, wall_mat))
         o.append(window_lining("window lining", r0, r1, a, b, Z0, Z1, M["bronze"]))
         if glass:
@@ -185,9 +217,9 @@ def outside(M, sun_az, sun_el, sun_strength=6.0, orb_r=ORB_R, skip=None, roof=Fa
     return sd, ringo
 
 
-def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, ceiling=None, walls=True):
+def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, ceiling=None, walls=True, blind_out=None):
     """the shell of a stretch of the ring from bearing b0 to b1 (walls=False: no inner and outer walls, for a room
-    whose walls are glass)"""
+    whose walls are glass; blind_out: bearing ranges where the outer wall keeps no window, e.g. behind a door)"""
     wall_mat = wall_mat or M["regolith"]; o = []
     o.append(sector("floor", R_GL, R_OUT, b0 - PAD, b1 + PAD, 0.0, floor_mat))
     if glide:
@@ -201,7 +233,7 @@ def ring_room(b0, b1, M, floor_mat, wall_mat=None, glide=True, part_walls=True, 
     o.append(sector("ceiling", R_IN - 0.1, R_OUT + 0.1, b0 - PAD, b1 + PAD, 0.0, ceiling or M["ceiling"], flip=True, zf=lambda b: ceil_at(b)))
     if walls:
         o += wall("inner wall", R_IN, -1, b0 - PAD, b1 + PAD, M, wall_mat)
-        o += wall("outer wall", R_OUT, 1, b0 - PAD, b1 + PAD, M, wall_mat)
+        o += wall("outer wall", R_OUT, 1, b0 - PAD, b1 + PAD, M, wall_mat, blind=blind_out)
     # the coves: a plaster ledge 0.6 m under the ceiling along both walls, with a strip of light on top washing the ceiling
     glow = lib.emission("cove glow", (1.0, 0.79, 0.56), 26.0); bs = steps(b0 - PAD, b1 + PAD)
     for (r0, r1, l0, l1) in ((R_IN, R_IN + 0.3, R_IN + 0.05, R_IN + 0.12), (R_OUT - 0.3, R_OUT, R_OUT - 0.12, R_OUT - 0.05)) if walls else ():

@@ -294,15 +294,20 @@ def guests_day_room(M, rnd):
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
     S = CR.imports(M); bc = (b0 + b1) / 2
     cognac = seating.fabric("cognac leather", (0.30, 0.14, 0.06), "leather")
-    # desks at the windows: walnut desks, leather chairs, lamps, screens; an orchid
-    for i in range(3):
-        db = b0 + tang(5.0) + i * tang(2.5)
+    # desks along the outer wall, each against the solid wall between the windows so that nothing stands in front of a
+    # window (Jim, 7 Oct): walnut desks, leather chairs, lamps, screens; an orchid
+    dbs = []
+    for (a_, b_) in crown.solid_runs(R_OUT, b0 + FACE + tang(1.0, R_OUT), b1 - FACE - tang(0.5, R_OUT), b0, b1, gap=0.25, least=2.1):     # (the windows are in the wall at R_OUT)
+        n_ = int(((b_ - a_) * (R_OUT - 0.75) * D + 0.5) // 2.6)
+        dbs += [(a_ + b_) / 2 + (k - (n_ - 1) / 2) * tang(2.6, R_OUT - 0.75) for k in range(n_)]
+    dbs = dbs[:3]
+    for i, db in enumerate(dbs):
         tables.desk("guest desk", at(R_OUT - 0.75, db, 0.0), face_in(db), length=2.0, depth=0.85)
         seating.desk_chair("guest chair", at(R_OUT - 1.75, db, 0.0), face_out(db), fabric_mat=cognac, seed=310 + i)
         furn.table_lamp("desk lamp", at(R_OUT - 0.5, db + tang(0.7, R_OUT), 0.775), M, watts=30, shade_r=0.14)
         CR.screen("screen", CR.repo_file("palace", "design", "img", ("flight-dunes.jpg", "flight-crater.jpg", "mars-earth.jpg")[i]), 0.62, 0.36, at(R_OUT - 0.45, db - tang(0.25), 0.775), face_in(db), M)
         lib.box("notebook", (0.22, 0.3, 0.015), at(R_OUT - 0.95, db - tang(0.5), 0.783), M["leather"], bevel=0.003, rot_z=face_in(db) + 0.2)
-    plants.make("orchid", at(R_OUT - 0.55, b0 + tang(5.0) + tang(2.5) - tang(0.75), 0.775), seed=315, pot=(0.22, 0.11, "white"), colour="white")
+    plants.make("orchid", at(R_OUT - 0.55, dbs[min(1, len(dbs) - 1)] - tang(0.75), 0.775), seed=315, pot=(0.22, 0.11, "white"), colour="white")
     # the sitting group: a sectional 5 x 4 m and two club chairs round a travertine table, all facing it
     sb = b0 + tang(13.6)
     lib.box("rug", (6.6, 5.6, 0.014), at(RM - 0.2, sb, 0.007), M["rug"], bevel=0.006, rot_z=face_in(sb), segs=2)
@@ -392,9 +397,9 @@ def gallery(M, rnd):
               ((0.30, 0.10, 0.06), [(0.08, 0.92, 0.45, 0.92, (0.55, 0.18, 0.08)), (0.08, 0.92, 0.08, 0.40, (0.18, 0.05, 0.03))]),
               ((0.70, 0.62, 0.48), [(0.12, 0.88, 0.12, 0.88, (0.84, 0.74, 0.55))]),
               ((0.10, 0.12, 0.10), [(0.08, 0.92, 0.55, 0.92, (0.22, 0.30, 0.22)), (0.08, 0.92, 0.08, 0.5, (0.42, 0.36, 0.20))])]
-    # paintings along the outer wall, under the slots
-    for i, (g_, f_) in enumerate(fields[:4]):
-        bb = b0 + tang(2.6) + i * tang(4.6, R_OUT); w, h = (1.6, 1.3) if i % 2 == 0 else (1.2, 1.5)
+    # paintings on the outer wall, on its solid stretches between the windows, never over a window (Jim, 7 Oct)
+    for i, bb in enumerate(crown.pier_spots(R_OUT, b0, b1, 1.9, end=2.5)[:4]):
+        g_, f_ = fields[i]; w, h = (1.6, 1.3) if i % 2 == 0 else (1.2, 1.5)
         pm = furn.painting_material("jim painting %d" % i, g_, f_)
         furn.painting("painting", w, h, at(R_OUT - 0.06, bb, 1.62), face_in(bb), pm, M["frame"])
         works.append((at(R_OUT - 0.06, bb, 1.62), 1))
@@ -715,9 +720,17 @@ def suit_room(M, rnd):
     crown.ring_room(b0, b1, M, M["rubber"], wall_mat=M["pale_grey"])
     bc = (b0 + b1) / 2
     # suit lockers along the outer wall: a steel case for each suit, a frosted window in its door lit from inside
-    W = 1.05; a0 = b0 + tang(1.8, R_OUT); frost = lib.emission("locker window", (0.86, 0.90, 0.94), 2.0)
-    for i in range(6):
-        s0 = a0 + i * tang(W, R_OUT); s1 = s0 + tang(W, R_OUT); sm = (s0 + s1) / 2
+    # (on the solid wall either side of the window, never over it: Jim, 7 Oct, "painting should not be on the windows")
+    W = 1.05; frost = lib.emission("locker window", (0.86, 0.90, 0.94), 2.0)
+    wins_ = crown.kept_windows(R_OUT, b0, b1); runs = []; cur_ = b0 + FACE + tang(0.6, R_OUT)
+    for (wa, wb) in wins_ + [(b1 - FACE, b1)]:
+        n_ = int(((wa - cur_) * R_OUT * D - 0.2) // W)
+        if n_ > 0: runs.append((cur_, n_))
+        cur_ = wb + tang(0.2, R_OUT)
+    slots_ = [a_ + i * tang(W, R_OUT) for (a_, n_) in runs for i in range(n_)]
+    a0 = runs[0][0]
+    for s0 in slots_:
+        s1 = s0 + tang(W, R_OUT); sm = (s0 + s1) / 2
         crown.curved_box("locker", R_OUT - 0.75, R_OUT - 0.05, s0 + tang(0.008, R_OUT), s1 - tang(0.008, R_OUT), 0.08, 2.5, M["steel"])
         crown.curved_box("locker plinth", R_OUT - 0.7, R_OUT - 0.05, s0, s1, 0.0, 0.08, M["shadow"])
         crown.curved_box("locker window", R_OUT - 0.756, R_OUT - 0.75, sm - tang(0.15, R_OUT), sm + tang(0.15, R_OUT), 0.95, 2.15, frost)
@@ -761,7 +774,8 @@ def suit_room(M, rnd):
     # the bench, washers on the walls
     import seating, tables, lights, plants
     crown.slat_ceiling(b0 - crown.PAD, b1 + crown.PAD, M)
-    lights.strip("locker light", at(R_OUT - 0.8, a0, 2.56), at(R_OUT - 0.8, a0 + 6 * tang(W, R_OUT), 2.56), color=(0.95, 0.96, 1.0), strength=30.0, w=0.03)
+    for (a_, n_) in runs:
+        lights.strip("locker light", at(R_OUT - 0.8, a_, 2.56), at(R_OUT - 0.8, a_ + n_ * tang(W, R_OUT), 2.56), color=(0.95, 0.96, 1.0), strength=30.0, w=0.03)
     lights.halo("suit halo", at(RM, bc), d=4.0, z=4.4, ceiling=ceil_at(bc), watts=700)
     CR.washers(b0, b1, 160)
     # two leather club chairs by the airlock to wait in, a drum between; agaves in basalt bowls under the windows beyond
@@ -771,9 +785,10 @@ def suit_room(M, rnd):
         bb = b0 + tang(d_, RM + 3.2)
         seating.club_chair("airlock chair", at(RM + 3.2, bb, 0.0), face_ccw(bb) + (0.35 if k else -0.35), fabric_mat=cognac, seed=160 + k)
     tables.drum("airlock drum", at(RM + 3.5, b0 + tang(3.3, RM + 3.5), 0.0), d=0.42, h=0.45)
-    for k in range(3):
-        bb = a0 + 6 * tang(W, R_OUT) + tang(1.4 + 1.6 * k, R_OUT - 0.8)
-        plants.make("agave", at(R_OUT - 0.8, bb, 0.0), seed=163 + k, pot=(0.9, 0.36, "basalt"), size=0.8, colour="blue" if k != 1 else "green")
+    for (wa, wb) in wins_:                                    # agaves in a row under the window
+        for k in range(3):
+            bb = wa + (wb - wa) * (k + 0.5) / 3
+            plants.make("agave", at(R_OUT - 0.8, bb, 0.0), seed=163 + k, pot=(0.9, 0.36, "basalt"), size=0.8, colour="blue" if k != 1 else "green")
     plants.make("kentia palm", at(R_GL + 1.0, b0 + tang(5.0, R_GL + 1.0), 0.0), seed=166, pot=(0.9, 0.7, "black"), height=3.0, stems=3)     # by the glass, past the dust room
     CR.framed_print("suit print", CR.repo_file("palace", "design", "img", "port-liftoff.jpg"), 2.4, 1.35, at(RM + 2.6, b1 - FACE - tang(0.03, RM + 2.6), 1.95), face_ccw(b1), M)
     downlights(b0, b1, 90, (0.92, 0.95, 1.0), every=2.4)
@@ -808,7 +823,9 @@ def pod_hangar(M, rnd):
     into Arrival at the far end"""
     b0, b1 = 78.0, 91.44
     mats(M)
-    crown.ring_room(b0, b1, M, M["basalt"], part_walls=False)
+    bc = (b0 + b1) / 2; dw = tang(7.0, R_OUT)
+    # no windows behind the great door: the outer wall is solid from the window before it to the window after it
+    crown.ring_room(b0, b1, M, M["basalt"], part_walls=False, blind_out=[(bc - dw / 2 - tang(0.3, R_OUT), bc + dw / 2 + tang(0.3, R_OUT))])
     crown.partition(b0, M, M["regolith"]); crown.partition(b1, M, M["basalt_wall"], opening=(RM - 3.0, RM + 3.0), head=4.2)   # the way on to the Door
     bc = (b0 + b1) / 2
     # the great door in the outer wall, under the slots: steel leaves with their joints, a frame

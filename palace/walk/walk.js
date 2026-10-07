@@ -165,7 +165,7 @@ function bandClip(b) {
 
 // ------------------------------------------------------------------ walking
 const walker = new Walker(camera, canStand, info.start, view);
-const sound = new Sound(), ringMap = new RingMap(document.getElementById('map'), info.span);
+const sound = new Sound(), ringMap = new RingMap(document.getElementById('map'), info.chunks.map(c => [c.b0, c.b1]));
 walker.onStep = (loud, belt) => sound.step(loud, belt ? 1 : 0);
 addEventListener('keydown', e => { if (e.code === 'KeyM') sound.toggle(); });
 let walking = false;

@@ -200,7 +200,8 @@
     [-1, 1].forEach(function (s) { var ab = ad + s * 2.6 / rb; crsPlace(B, sofa(10, 2.0), rb, ab, F.y, ROT["in"]); crsObst(rb - 0.6, rb + 0.65, ab - 1.1 / rb, ab + 1.1 / rb, F.floor);
       crsPlace(B, walnutTable(1.1, 0.55), rb - 1.25, ab, F.y, 0); crsObst(rb - 1.55, rb - 0.95, ab - 0.6 / rb, ab + 0.6 / rb, F.floor); });
     var as = d - Math.sign(d - ad || 1) * 2.6 / C.rc;                                          // the screen on the corridor wall, clear of its door
-    crsPlace(B, scoreboard(), C.rc + 0.12, as, F.y + 1.75, Math.PI); crsPic(B, C.rc + 0.12, as, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
+    var Mq = crsFrame(C.rc + 0.135, as, F.y + 1.75, -Math.PI / 2);                              // flat on the wall, facing the room (it stood out edge-on into the corridor)
+    B.add(scoreboard(), Mq); wpic(B, Mq, [0.004, 0, 0], "z", [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
     var ac = d + Math.sign(d - ad || 1) * 1.25 / C.rc, rr = C.rc + 0.45;                       // the coat rack in the corner by the door
     crsPlace(B, coatRack(), rr, ac, F.y, 0); crsObst(rr - 0.35, rr + 0.35, ac - 0.35 / rr, ac + 0.35 / rr, F.floor);
     roomPlants(B, rm, F, null);
@@ -366,12 +367,12 @@
     var nl = b.count(); b.box(0.55, 0.755, -0.2, 0.78, 0.765, 0.0, MT.PLASTIC); b.geo(new THREE.BoxGeometry(0.23, 0.15, 0.008), T(0.665, 0.84, 0.03, -0.25, 0, 0), MT.PLASTIC); b.tag(nl, 5, null);
   }); }
   function assemblyHall(B, rm, F) {                                                   // the stage, curtains, the truss of lights; 160 chairs in rows; the sound desk at the back
-    var C = CRS, y = F.y, rf = F.sgn > 0 ? Math.PI / 2 : -Math.PI / 2, ceil = ceilY(rm, F.floor, 55.8), rs = 55.8;
-    var sa = F.at(0.075, true), Ms = crsFrame(rs, sa, y, rf); B.add(stageDeck(10.0, 3.6), Ms); B.add(stageCurtain(10.0, 0.6, 4.3, 9), Ms); crsObst(50.6, 61.0, F.front, F.at(4.6, true), F.floor);
-    B.add(lectern(), Ms.clone().multiply(T(-2.8, 0.6, -2.4)));   // its desk toward the speaker, at the stage's back
-    [-4.4, 4.4].forEach(function (x) { B.add(speakerStand(), Ms.clone().multiply(T(x, 0.6, -3.1))); });
-    B.add(lightTruss(10.0, 8), Ms.clone().multiply(T(0, ceil - y - 0.5, -4.6)));
-    [-4.5, 4.5].forEach(function (x) { var p0 = V3(x, ceil - y - 0.35, -4.6).applyMatrix4(Ms), p1 = V3(x, ceil - y, -4.6).applyMatrix4(Ms); tubeAlong(B, [p0, p1], 0.005, 3, MT.STEEL); });
+    var C = CRS, y = F.y, rf = F.sgn > 0 ? Math.PI / 2 : -Math.PI / 2, ceil = ceilY(rm, F.floor, 55.8), rs = 56.3;   // the stage 8.6 m, from 52.0 m out: the door by it stays clear
+    var sa = F.at(0.075, true), Ms = crsFrame(rs, sa, y, rf); B.add(stageDeck(8.6, 3.6), Ms); B.add(stageCurtain(8.6, 0.6, 4.3, 9), Ms); crsObst(51.9, 60.7, F.front, F.at(4.6, true), F.floor);
+    B.add(lectern(), Ms.clone().multiply(T(-2.6, 0.6, -2.4)));   // its desk toward the speaker, at the stage's back
+    [-3.9, 3.9].forEach(function (x) { B.add(speakerStand(), Ms.clone().multiply(T(x, 0.6, -3.1))); });
+    B.add(lightTruss(8.6, 7), Ms.clone().multiply(T(0, ceil - y - 0.5, -4.6)));
+    [-3.9, 3.9].forEach(function (x) { var p0 = V3(x, ceil - y - 0.35, -4.6).applyMatrix4(Ms), p1 = V3(x, ceil - y, -4.6).applyMatrix4(Ms); tubeAlong(B, [p0, p1], 0.005, 3, MT.STEEL); });
     [-3.6, -1.2, 1.2, 3.6].forEach(function (x) { var p = V3(x, 2.4, -1.8).applyMatrix4(Ms); wLight(p.x, p.y, p.z, LAMPC, 1.3, 5.5, null, 0); });
     // the chairs: ten rows, a centre aisle, eight to a side
     for (var row = 0; row < 10; row++) { var d = 6.0 + row * 1.0, a = F.at(d, true);

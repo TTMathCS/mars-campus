@@ -63,6 +63,21 @@ PIECES = dict(
     slat_wall="Oak slats 4.5 cm wide every 9 cm on dark felt, 4 cm proud of the wall, with oak edges, top and bottom (as the halls' walls).",
     lab_bench="An island lab bench 2.4 by 1.2 m: oak cupboards both sides on a dark plinth, a black resin top, a grey spine of sockets and gas taps with yellow handles, a sink and a swan-neck tap.",
     lab_stool="A lab stool: a padded seat 0.66 m high and a low padded back on a gas column, a steel foot ring, five feet.",
+    wc_suite="A private washroom of its own: walls 2.7 m high to a plaster bulkhead, a full-height walnut door with a brass pull and an occupancy "
+             "dot; a white wall-hung WC on a cistern panel with a brushed steel flush plate; the wide one with grab rails, a basin and a mirror.",
+    stone_vanity="A floating Carrara slab 0.55 deep and 12 cm thick, white vessel basins on it every 1.2 m, brass spouts from the wall, soap between; one "
+                 "long mirror on stand-offs with a warm light behind its edges; Nero Marquina slabs behind, from the floor to 2.7 m; a walnut shelf "
+                 "of rolled cream towels under it.",
+    tall_cupboard="Oak cupboards 2.4 m high and 0.6 deep, a pair of doors to each 1.2 m, brass handles.",
+    trophy_cabinet="A walnut cabinet 3.6 m long, 0.45 deep, 1.9 high: a closed base 0.75 high, above it four glass doors between thin walnut bars and two shelves; "
+                   "brass cups (the big ones with two handles) and walnut plaques with brass plates.",
+    team_kit="What lies on a team's table in a contest: four answer sheets with a yellow pencil by each, a ceramic cup of pencils, the team's number card folded "
+             "like a tent, four bottles of water.",
+    chess_clock="A wooden chess clock: two white faces and a brass button over each.",
+    contest_scoreboard="A screen 3.2 by 1.8 m in a black frame: the team round's standings, ten teams ranked with their answers problem by problem "
+                       "(green right, red wrong, grey not yet), the totals, the time left in amber.",
+    demo_board="A demonstration chess board 1.2 m square in a walnut frame on the wall: buff and green squares, flat black and white pieces, the files and ranks "
+               "lettered, the game's names under it.",
     foucault_pendulum="A brass bob on a long wire from the ceiling, swinging at the period its length and Mars's gravity give, over a black disc with a brass ring, hour marks and pegs to knock down.",
 )
 
@@ -167,6 +182,38 @@ ROOMS = {
                    layout="d along the room from the front wall (0) to the back (11.7 m), r from the corridor wall (49.6) to the outer wall (62); the door at d 2.1 on the corridor wall; "
                           "the piano's middle at r 60.0, d 5.2, its keys toward the front and its bentside toward the chairs; the arcs centred on r 59.6, d 5.85 at 3.6, 5.0 and 6.4 m; "
                           "the booths from the back wall to d 6.8 (r 49.7 to 52.0); the bookcases from there toward the door",
+                   next=""),
+    "T06-12": dict(name="Ramanujan, the competition room", seating=["40 task chairs in warm grey felt at ten team tables, two along each long side",
+                   "four ink-blue upholstered chairs at two chess tables"],
+                   tables=["ten oak team tables 1.6 by 0.9 m; on each four answer sheets with yellow pencils, a cup of pencils, the team's number card, four bottles of water",
+                           "two walnut chess tables with inlaid boards, a game set up on each and a chess clock"],
+                   lights=["linear pendants in three rows", "the scoreboard's glow over the stage"],
+                   finishes="linen plaster (was warm grey); on the front wall the problem reader's stage 6 by 1.8 m, 0.6 high, an oak floor, a black skirt, steps at both ends, "
+                            "a walnut lectern with a microphone; over the stage the scoreboard 3.2 by 1.8 m showing the team round under way (ten teams named for mathematicians, "
+                            "their answers right and wrong problem by problem, the totals, the time left); on the corridor wall between the doors a walnut trophy cabinet 3.6 m, "
+                            "glass doors over a closed base, cups and plaques on three shelves; on the back wall the demonstration chess board, the final position of Morphy's "
+                            "Opera game (Paris 1858, 17.Rd8 mate); olives by the windows, a croton and a bird of paradise in the corridor corners",
+                   layout="d along the room from the front wall (0, the stage) to the back (19.5 m), r from the corridor wall (49.6) to the outer wall (62); the doors at d 2.15 "
+                          "and 17.35 on the corridor wall stay clear; the stage at r 52.8 to 58.8; the team tables' long sides across the room at r 53.4 and 58.4, five rows from "
+                          "d 4.3 to 15.1 every 2.7 m, the aisle between them at r 55.9; the chess tables at d 18.0 (r 54.2 and 57.4) under the demonstration board; "
+                          "the trophy cabinet from d 8.0 to 11.6",
+                   next=""),
+    "washrooms": dict(name="Washrooms, one for everyone (T06-07, T06-14, T06-22, T06-31)",
+                   seating=["a cream boucle banquette 2.4 m with its cushions on the side wall by the door, under oak slats"],
+                   tables=[],
+                   lights=["linear pendants", "the long mirror lit from behind", "warm light over the vanity", "a light in each private room"],
+                   finishes="Jim, 7 Oct 2026: \"washroom not designed well. it should be modern luxury design and gender free\". One room for everyone, no "
+                            "men's and women's: along the outer wall a row of private rooms, each a room of its own 2 m deep and about 1.4 m wide, its "
+                            "walls 2.7 m high and a plaster bulkhead over them to the ceiling, its full-height walnut door with a brass pull and a green "
+                            "(free) or orange (taken) dot; inside, a wall-hung WC on its cistern panel, a light; the room at the door's end 2.2 m wide "
+                            "for a wheelchair, with grab rails and a basin, its door standing open. On the side wall away from the door a floating "
+                            "Carrara vanity up to 6 m with white vessel basins, brass spouts from the wall and soap between them, one long mirror lit from "
+                            "behind, all on a wall of Nero Marquina slabs; a walnut shelf of rolled towels under it. Linen plaster walls (were off-white); "
+                            "terrazzo floor; a cleaner's cupboard in the corner by the corridor wall (T06-14: a run of oak cupboards, its store for chairs "
+                            "and teaching kit); each room's own plant and a trailing pothos",
+                   layout="the private rooms from the outer wall in 2.05 m, between the side walls; the vanity on the side wall away from the door "
+                          "from 2.2 m out from the corridor wall, ending 1.9 m before the private rooms; the banquette on the door's side wall from "
+                          "3.0 to 5.4 m out; the doors' way in clear",
                    next=""),
     "class": dict(name="Classrooms", seating=["shell chairs with upholstered seat pads at the double desks", "in the big rooms, a linen sofa 3 m in a reading corner by the window"],
                   tables=["double desks", "the teacher's desk"], lights=["linear pendants in rows", "a light over the pinboard"], finishes="off-white plaster",

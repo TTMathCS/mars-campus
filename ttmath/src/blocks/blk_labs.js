@@ -197,8 +197,9 @@
   function texQuads(cv, quads) {
     var tex = new THREE.CanvasTexture(cv); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     var pos = [], uvs = [], idx = [], brt = [], v = V3(0, 0, 0);
-    quads.forEach(function (q) { var n = pos.length / 3;
-      [[q.x0, q.y0, q.u0, q.v0], [q.x1, q.y0, q.u1, q.v0], [q.x1, q.y1, q.u1, q.v1], [q.x0, q.y1, q.u0, q.v1]].forEach(function (c) { v.set(c[0], c[1], q.z).applyMatrix4(q.M); pos.push(v.x, v.y, v.z); uvs.push(c[2], c[3]); brt.push(q.b); });
+    quads.forEach(function (q) { var n = pos.length / 3, u0 = q.u0, u1 = q.u1;
+      if (q.M.determinant() < 0) { u0 = q.u1; u1 = q.u0; }                 // the Ring's frames are mirror-handed: keep the picture the right way round
+      [[q.x0, q.y0, u0, q.v0], [q.x1, q.y0, u1, q.v0], [q.x1, q.y1, u1, q.v1], [q.x0, q.y1, u0, q.v1]].forEach(function (c) { v.set(c[0], c[1], q.z).applyMatrix4(q.M); pos.push(v.x, v.y, v.z); uvs.push(c[2], c[3]); brt.push(q.b); });
       idx.push(n, n + 1, n + 2, n, n + 2, n + 3); });
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
@@ -350,3 +351,135 @@
     roomPlants(B, rm, F, null);
   }
   function S_U(px) { return px / MAKER.W; }
+  /* ---- Ramanujan, the competition room (T06-12): the stage and the scoreboard, team tables, chess, the trophies ---- */
+  // the room's canvas: the scoreboard (drawn at 1920 x 1080, laid on 1280 x 720) and the demonstration chess board (720 x 720)
+  var COMP = { W: 2048, H: 1024, sbW: 1280, sbH: 720, bx: 1300, bs: 720 };
+  function compScoreboard(g) {                               // the team round under way: the standings problem by problem, the time left
+    var W = 1920, R = mulberry(139), pts = [3, 3, 3, 4, 4, 4, 5, 5, 6, 6], odds = [0.92, 0.86, 0.8, 0.7, 0.62, 0.5];
+    g.fillStyle = "#0b0e13"; g.fillRect(0, 0, W, 1080);
+    var gr = g.createLinearGradient(0, 0, 0, 140); gr.addColorStop(0, "#1a2330"); gr.addColorStop(1, "#10161e"); g.fillStyle = gr; g.fillRect(0, 0, W, 140);
+    g.textBaseline = "middle"; g.textAlign = "left"; g.fillStyle = "#ece6d8"; g.font = "bold 62px " + SANS; g.fillText("TEAM ROUND", 60, 72);
+    g.fillStyle = "#97a2b0"; g.font = "44px " + SANS; g.fillText("problem 7 of 10", 510, 74);
+    g.textAlign = "right"; g.fillStyle = "#97a2b0"; g.font = "38px " + SANS; g.fillText("time left", W - 330, 76);
+    g.fillStyle = "#e3a83c"; g.font = "bold 90px " + MONO; g.fillText("24:37", W - 60, 74);
+    var teams = ["Euclid", "Gauss", "Hypatia", "Noether", "Fibonacci", "Archimedes", "Pythagoras", "Lovelace", "Turing", "Ramanujan"], rows = [];
+    teams.forEach(function (t) { var pr = [], tot = 0;               // 1 right, -1 wrong, 0 handed in and waiting to be marked, null not reached
+      for (var p = 0; p < 10; p++) { var st = p < 6 ? (R() < odds[p] ? 1 : -1) : p === 6 ? (R() < 0.6 ? (R() < 0.65 ? 1 : -1) : 0) : null; pr.push(st); if (st === 1) tot += pts[p]; }
+      rows.push({ t: t, pr: pr, tot: tot }); });
+    rows.sort(function (a, b) { return b.tot - a.tot; });
+    var y0 = 196, rh = 86, cx0 = 600, cw = 116;
+    g.textAlign = "center"; g.font = "36px " + SANS;
+    for (var p = 0; p < 10; p++) { g.fillStyle = p === 6 ? "#e3a83c" : "#6f7a88"; g.fillText(String(p + 1), cx0 + p * cw, y0 - 26); }
+    g.fillStyle = "#6f7a88"; g.fillText("total", 1790, y0 - 26);
+    rows.forEach(function (rw, i) { var y = y0 + i * rh + rh / 2, rank = 1 + rows.filter(function (o) { return o.tot > rw.tot; }).length;
+      g.fillStyle = i % 2 ? "#0f141b" : "#141a22"; g.fillRect(40, y - rh / 2 + 4, W - 80, rh - 8);
+      g.textAlign = "right"; g.fillStyle = rank <= 3 ? "#e3a83c" : "#8b95a3"; g.font = "bold 44px " + SANS; g.fillText(String(rank), 112, y + 2);
+      g.textAlign = "left"; g.fillStyle = "#ece6d8"; g.font = "50px " + SANS; g.fillText(rw.t, 150, y + 2);
+      g.textAlign = "center";
+      rw.pr.forEach(function (st, q) { var x = cx0 + q * cw;
+        g.fillStyle = st === null ? "#19202a" : st === 0 ? "#2c3542" : st > 0 ? "#2e7a4d" : "#7a2e35"; g.fillRect(x - 50, y - 29, 100, 58);
+        if (st === null) return; g.fillStyle = st === 0 ? "#9aa4b2" : "#f1ede4"; g.font = "bold 40px " + SANS; g.fillText(st === 0 ? "…" : st > 0 ? String(pts[q]) : "–", x, y + 2); });
+      g.fillStyle = "#f1ede4"; g.font = "bold 54px " + MONO; g.fillText(String(rw.tot), 1790, y + 2);
+    });
+  }
+  function compChessBoard(g) {                               // the demonstration board: the final position of Morphy's Opera game
+    var S = 75, x0 = 60, y0 = 16, f, k, FIG = "'DejaVu Sans', 'Segoe UI Symbol', 'Noto Sans Symbols 2', 'Apple Symbols', 'Arial Unicode MS', serif";
+    g.fillStyle = "#e6dcc6"; g.fillRect(0, 0, 720, 720);
+    for (f = 0; f < 8; f++) for (k = 0; k < 8; k++) { g.fillStyle = (f + k) % 2 ? "#eee5cf" : "#6b8a5b"; g.fillRect(x0 + f * S, y0 + (7 - k) * S, S, S); }
+    g.strokeStyle = "#3b3226"; g.lineWidth = 3; g.strokeRect(x0, y0, 8 * S, 8 * S);
+    g.fillStyle = "#3b3226"; g.font = "bold 26px " + SANS; g.textAlign = "center"; g.textBaseline = "middle";
+    for (f = 0; f < 8; f++) g.fillText("abcdefgh"[f], x0 + (f + 0.5) * S, y0 + 8 * S + 22);
+    for (k = 0; k < 8; k++) g.fillText(String(k + 1), x0 - 28, y0 + (7.5 - k) * S);
+    var OUT = { k: "♔", q: "♕", r: "♖", b: "♗", n: "♘", p: "♙" }, FILL = { k: "♚", q: "♛", r: "♜", b: "♝", n: "♞", p: "♟" };
+    g.font = "62px " + FIG; g.lineJoin = "round";
+    "Kc1 Rd8 Bg5 Pa2 Pb2 Pc2 Pe4 Pf2 Pg2 Ph2 ke8 qe6 rh8 bf8 nb8 pa7 pe5 pf7 pg7 ph7".split(" ").forEach(function (t) {
+      var white = t[0] !== t[0].toLowerCase(), p = t[0].toLowerCase(), cx = x0 + (t.charCodeAt(1) - 96.5) * S, cy = y0 + (8.5 - (+t[2])) * S + 4;
+      if (white) { g.fillStyle = "#f8f4ea"; g.fillText(FILL[p] + "︎", cx, cy); g.fillStyle = "#1c1915"; g.fillText(OUT[p] + "︎", cx, cy); }
+      else { g.strokeStyle = "#eee6d4"; g.lineWidth = 3; g.strokeText(FILL[p] + "︎", cx, cy); g.fillStyle = "#1c1915"; g.fillText(FILL[p] + "︎", cx, cy); }
+    });
+    g.fillStyle = "#2a241c"; g.font = "italic 24px " + SERIF; g.fillText("Paul Morphy v Duke Karl of Brunswick and Count Isouard", 360, y0 + 8 * S + 54);
+    g.font = "24px " + SERIF; g.fillText("Paris Opera, 1858  ·  17.Rd8 mate", 360, y0 + 8 * S + 84);
+  }
+  function compCanvas() {
+    var s = MOBILE ? 0.5 : 1, cv = mkCanvas(Math.round(COMP.W * s), Math.round(COMP.H * s)), g = cv.getContext("2d"), k = COMP.sbW / 1920;
+    g.setTransform(s * k, 0, 0, s * k, 0, 0); compScoreboard(g);
+    g.setTransform(s, 0, 0, s, s * COMP.bx, 0); compChessBoard(g);
+    return cv;
+  }
+  // a trophy cabinet len along x, 0.45 deep (its back at +z), 1.9 high: walnut, a closed base, glass doors above between thin
+  // walnut bars, two shelves; brass cups on walnut plinths (the big ones with two handles) and walnut plaques with brass plates
+  function trophyCabinet(len) { return furn("trophies" + len, function (b) {
+    var h = len / 2, n0 = b.count(), R = mulberry(77), nd = Math.round(len / 0.9), k;
+    b.box(-h, 0, 0.2, h, 1.9, 0.225, MT.WOOD); b.box(-h, 0, -0.225, -h + 0.03, 1.9, 0.225, MT.WOOD); b.box(h - 0.03, 0, -0.225, h, 1.9, 0.225, MT.WOOD);
+    b.box(-h, 1.87, -0.225, h, 1.9, 0.225, MT.WOOD); b.box(-h, 0.04, -0.225, h, 0.75, 0.2, MT.WOOD); [1.2, 1.55].forEach(function (y) { b.box(-h + 0.03, y, -0.2, h - 0.03, y + 0.015, 0.2, MT.WOOD); });
+    for (k = 1; k < nd; k++) { var xs = -h + len * k / nd; b.box(xs - 0.012, 0.75, -0.228, xs + 0.012, 1.87, -0.21, MT.WOOD); }
+    kindTag(b, n0, 2); var nb = b.count(); b.box(-h + 0.02, 0, -0.205, h - 0.02, 0.04, 0.19, MT.PLASTIC);
+    for (k = 0; k < nd; k++) { var xd = -h + len * (k + 0.5) / nd; b.box(xd - 0.002, 0.08, -0.2265, xd + 0.002, 0.71, -0.224, MT.PLASTIC); } b.tag(nb, 1, null);   // the plinth, the seams between the doors
+    for (k = 0; k < nd; k++) { var xh = -h + len * (k + 0.5) / nd; b.box(xh - 0.05, 0.62, -0.24, xh - 0.02, 0.64, -0.225, MT.BRASS); b.box(xh + 0.02, 0.62, -0.24, xh + 0.05, 0.64, -0.225, MT.BRASS); }
+    [0.75, 1.215, 1.565].forEach(function (y, row) { for (var x = -h + 0.2; x < h - 0.15; x += 0.3 + R() * 0.15) {
+      if (R() < 0.6) { var s = 0.7 + R() * (row ? 0.3 : 0.5), np = b.count(), z = -0.02; b.box(x - 0.055 * s, y, z - 0.055 * s, x + 0.055 * s, y + 0.045 * s, z + 0.055 * s, MT.WOOD); kindTag(b, np, 2);
+        var yc = y + 0.045 * s; latheOn(b, x, yc, z, [[0.0, 0.0], [0.045 * s, 0.0], [0.045 * s, 0.012 * s], [0.016 * s, 0.03 * s], [0.011 * s, 0.1 * s], [0.028 * s, 0.12 * s], [0.066 * s, 0.17 * s], [0.078 * s, 0.24 * s], [0.0, 0.24 * s]], 18, MT.BRASS, 0);
+        if (s > 0.95) [-1, 1].forEach(function (e) { tubeAlong(b, [V3(x + e * 0.07 * s, yc + 0.21 * s, z), V3(x + e * 0.12 * s, yc + 0.18 * s, z), V3(x + e * 0.038 * s, yc + 0.135 * s, z)], 0.006, 4, MT.BRASS); }); }
+      else { var pl = new Builder(), nq = pl.count(); pl.box(-0.085, 0, -0.012, 0.085, 0.24, 0.012, MT.WOOD); kindTag(pl, nq, 2); pl.box(-0.06, 0.07, -0.015, 0.06, 0.125, -0.012, MT.BRASS);
+        b.add(pl, T(x, y, 0.15, 0.12, 0, 0)); } } });
+  }); }
+  function chessClock() { return furn("chessclock", function (b) {        // a wooden case 0.2 along x, two white faces toward +z, a brass button over each
+    var n0 = b.count(); b.geo(new THREE.BoxGeometry(0.2, 0.08, 0.08), T(0, 0.04, 0, -0.25, 0, 0), MT.WOOD); kindTag(b, n0, 2);
+    [-0.05, 0.05].forEach(function (x) { var nf = b.count(); b.geo(new THREE.CircleGeometry(0.028, 16), T(x, 0.05, 0.04, -0.25, 0, 0), MT.PLASTIC); b.tag(nf, 0, null);
+      b.geo(new THREE.CylinderGeometry(0.012, 0.012, 0.02, 10), T(x, 0.09, -0.01), MT.BRASS); });
+  }); }
+  // a game on a chess table's inlaid board (as gameTable: squares 0.07, its top at 0.743), the pieces as the giant set's at a
+  // sixth of its size: White at +z, the files from a at +x, so that in the Ring's mirror-handed frames a1 is dark and on
+  // White's left; "Ke1 Pe4 ... ke8", upper case White
+  function chessGame(pos) { return furn("game" + pos, function (b) {
+    var s = 0.07 / 0.4; pos.split(" ").forEach(function (t) { var white = t[0] !== t[0].toLowerCase(), p = t[0].toLowerCase(), f = t.charCodeAt(1) - 97, k = +t[2] - 1;
+      b.add(chessPiece(p, !white), T(0.245 - 0.07 * f, 0.743, 0.245 - 0.07 * k, 0, p === "n" ? (white ? Math.PI : 0) : 0, 0, s, s, s)); });
+  }); }
+  // what lies on a team's table (its top at y = 0; x along the table, the team at +-z): four answer sheets with a pencil by
+  // each, a cup of pencils, the team's number card folded like a tent
+  function teamKit(k) { return furn("teamkit" + (k % 4), function (b) {
+    var R = mulberry(300 + k), ns = b.count();
+    [[-0.45, -0.25], [0.45, -0.25], [-0.45, 0.25], [0.45, 0.25]].forEach(function (c) { var tw = (R() - 0.5) * 0.3, M = T(c[0], 0, c[1], 0, tw, 0); var sh = new Builder();
+      sh.box(-0.105, 0, -0.15, 0.105, 0.003, 0.15, MT.PLASTIC); if (R() < 0.7) sh.box(-0.1, 0.003, -0.145, 0.11, 0.005, 0.14, MT.PLASTIC); b.add(sh, M); });
+    b.tag(ns, 0, null); var np = b.count();
+    [[-0.45, -0.25], [0.45, -0.25], [-0.45, 0.25], [0.45, 0.25]].forEach(function (c) { var pc = new Builder(); pc.box(-0.003, 0, -0.085, 0.003, 0.007, 0.085, MT.PLASTIC); b.add(pc, T(c[0] + 0.15, 0.003, c[1], 0, (R() - 0.5) * 0.6, 0)); });
+    b.tag(np, 4, null); var nc = b.count();
+    latheOn(b, 0.0, 0, 0.05, [[0.0, 0.0], [0.036, 0.0], [0.04, 0.1], [0.036, 0.1], [0.032, 0.006], [0.0, 0.006]], 16, MT.CERAMIC, 0);
+    for (var i = 0; i < 6; i++) tubeAlong(b, [V3(0.0, 0.01, 0.05), V3(Math.cos(i * 1.1) * 0.032, 0.18 + R() * 0.03, 0.05 + Math.sin(i * 1.1) * 0.032)], 0.0035, 4, MT.PLASTIC, 4);
+    var nt = b.count(); b.geo(new THREE.BoxGeometry(0.16, 0.1, 0.003), T(0.0, 0.047, -0.075, -0.33, 0, 0), MT.PLASTIC); b.geo(new THREE.BoxGeometry(0.16, 0.1, 0.003), T(0.0, 0.047, -0.11, 0.33, 0, 0), MT.PLASTIC); b.tag(nt, 0, null);
+  }); }
+  function competitionRoom(B, rm, F) {
+    var C = CRS, y = F.y, sg = F.sgn, rf = sg > 0 ? Math.PI / 2 : -Math.PI / 2, quads = [];
+    // the front: the problem reader's stage and lectern, the problems on it in a folder; the scoreboard over the stage
+    var Ms = crsFrame(55.8, F.at(0.075, true), y, rf), Ml = Ms.clone().multiply(T(-1.6, 0.6, -1.1)); B.add(stageDeck(6.0, 1.8), Ms); B.add(lectern(), Ml);
+    var fo = new Builder(), nf = fo.count(); fo.box(-0.12, 0, -0.16, 0.12, 0.006, 0.16, MT.PLASTIC); fo.tag(nf, 6, null); var nfp = fo.count(); fo.box(-0.105, 0.006, -0.148, 0.105, 0.01, 0.148, MT.PLASTIC); fo.tag(nfp, 0, null);
+    B.add(fo, Ml.clone().multiply(T(-0.05, 1.156, 0.055, 0.3, 0, 0))); crsObst(52.7, 58.9, F.front, F.at(2.75, true), F.floor);
+    var sw = 3.2, sh = 1.8, Mb = crsFrame(55.8, F.at(0.085, true), y + 3.1, -rf);    // on the wall's face, its +z into the room
+    var fb = new Builder(), nb = fb.count(); fb.box(-sw / 2 - 0.05, -sh / 2 - 0.05, 0.0, sw / 2 + 0.05, sh / 2 + 0.05, 0.05, MT.PLASTIC); fb.tag(nb, 1, null); B.add(fb, Mb);
+    quads.push({ M: Mb, x0: -sw / 2, x1: sw / 2, y0: -sh / 2, y1: sh / 2, z: 0.052, u0: 0, u1: COMP.sbW / COMP.W, v0: 1 - COMP.sbH / COMP.H, v1: 1, b: 1.0 });
+    var lp = V3(0, -0.6, 1.6).applyMatrix4(Mb); wLight(lp.x, lp.y, lp.z, [0.75, 0.82, 1.0], 0.5, 4, null, 0);
+    // ten team tables across the room, two task chairs along each long side; on each the team's papers, pencils, card, water
+    var k = 0; [4.3, 7.0, 9.7, 12.4, 15.1].forEach(function (d) { [53.4, 58.4].forEach(function (r) {
+      var a = F.at(d, true), Mt = crsFrame(r, a, y, Math.PI / 2); crsPlace(B, teamTable(), r, a, y, Math.PI / 2); crsObst(r - 0.9, r + 0.9, a - 0.95 / r, a + 0.95 / r, F.floor);
+      B.add(teamKit(k++), Mt.clone().multiply(T(0, 0.75, 0)));
+      [[-0.45, -0.62], [0.45, -0.62], [-0.45, 0.62], [0.45, 0.62]].forEach(function (c) { crsPlace(B, officeChair(), r + c[0], a + c[1] / r, y, c[1] > 0 ? Math.PI : 0);
+        var Mw = Mt.clone().multiply(T(-c[0] * 1.42, 0.75, c[1] > 0 ? 0.1 : -0.1)), cap = new Builder(), nc = cap.count();
+        glassLathe(Mw, [[0.03, 0.0], [0.033, 0.012], [0.033, 0.14], [0.027, 0.168], [0.013, 0.188], [0.013, 0.205], [0.0, 0.205]], 12);
+        cap.geo(new THREE.CylinderGeometry(0.015, 0.015, 0.02, 12), T(0, 0.212, 0), MT.PLASTIC); cap.tag(nc, 3, null); B.add(cap, Mw); });
+    }); });
+    // the back: two chess tables, a game on each and its clock, under the demonstration board
+    [[54.2, "Ke1 Qd1 Ra1 Rh1 Bc1 Bf1 Nc3 Nd4 Pa2 Pb2 Pc2 Pe4 Pf2 Pg2 Ph2 ke8 qd8 ra8 rh8 bc8 bf8 nb8 nf6 pa6 pb7 pd6 pe7 pf7 pg7 ph7"],
+     [57.4, "Kg2 Rc7 Pa4 Pf3 Pg3 Ph4 kg8 ra2 pf7 pg6 ph5 pe5"]].forEach(function (g) { var r = g[0], a = F.at(1.45, false), Mc = crsFrame(r, a, y, 0);   // White on the outer side
+      crsPlace(B, gameTable(), r, a, y, 0); B.add(chessGame(g[1]), Mc); B.add(chessClock(), Mc.clone().multiply(T(0.335, 0.74, 0, 0, Math.PI / 2, 0)));
+      crsObst(r - 1.05, r + 1.05, a - 0.45 / r, a + 0.45 / r, F.floor);
+      [-0.72, 0.72].forEach(function (dz) { crsPlace(B, diningChair(1), r + dz, a, y, dz > 0 ? Math.PI / 2 : -Math.PI / 2); }); });
+    var Mg = crsFrame(55.8, F.at(0.085, false), y + 1.95, rf), gs = 1.3, gf = new Builder(), ng = gf.count();     // its +z into the room
+    gf.box(-gs / 2 - 0.06, -gs / 2 - 0.06, 0.0, gs / 2 + 0.06, gs / 2 + 0.06, 0.035, MT.WOOD); kindTag(gf, ng, 2); B.add(gf, Mg);
+    quads.push({ M: Mg, x0: -gs / 2, x1: gs / 2, y0: -gs / 2, y1: gs / 2, z: 0.037, u0: COMP.bx / COMP.W, u1: (COMP.bx + COMP.bs) / COMP.W, v0: 1 - COMP.bs / COMP.H, v1: 1, b: 0.5 });
+    // the corridor wall between the doors: the trophy cabinet, its glass apart
+    var ta = F.at(9.8, true), tr = C.rc + 0.3, Mt2 = crsFrame(tr, ta, y, ROT.out), tc = trophyCabinet(3.6), ed = [-1.77, -0.9, 0, 0.9, 1.77];
+    if (!nearDoor(F, ta, 1.8)) { B.add(tc, Mt2); contactShadow(tc, Mt2); for (var e = 0; e < 4; e++) glassPane(Mt2, ed[e] + 0.014, 0.77, ed[e + 1] - 0.014, 1.86, -0.226, 1);
+      crsObst(C.rc + 0.05, C.rc + 0.6, ta - 1.85 / tr, ta + 1.85 / tr, F.floor); }
+    texQuads(compCanvas(), quads);
+    roomPlants(B, rm, F, null);
+  }

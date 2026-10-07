@@ -190,21 +190,88 @@
   }
   // how far a plant reaches out from its stem, from its leaves (cached on its builder)
   function plantReach(fb) { if (fb._reach) return fb._reach; var P = fb.p, m = 0.3; for (var k = 0; k < P.length; k += 3) m = Math.max(m, Math.hypot(P[k], P[k + 2])); return (fb._reach = m); }
-  // the plants chosen for the room, at their spots, each far enough from the walls that its leaves stay in the room
+  // where a floor plant may stand in a room: its leaves (reach R) inside the walls, clear of each door's way in and its open
+  // leaf, its pot clear of the furniture placed before it and of the room's other plants; the nearest such place to the
+  // one planned within 3 m, or none (Jim, 7 Oct 2026: "plants cannot block the door"; "plants get through door?")
+  function plantFits(F, r, a, R, rp, near, pots) {
+    var C = CRS, k;
+    if (r - R < C.rc + 0.13 || r + R > C.r1 - 0.17 || (a - F.a0) * r < R + 0.13 || (F.a1 - a) * r < R + 0.13) return false;   // the walls' faces are 0.075 in
+    for (k = 0; k < F.doors.length; k++) if (Math.abs(a - F.doors[k]) * C.rc < 0.65 + R && r - R < C.rc + 1.9) return false;
+    for (k = 0; k < near.length; k++) { var o = near[k], cr = clamp(r, o[0], o[1]), ca = clamp(a, o[2], o[3]); if (Math.hypot(r - cr, (a - ca) * r) < rp) return false; }
+    for (k = 0; k < pots.length; k++) if (Math.hypot(r - pots[k][0], (a - pots[k][1]) * r) < rp + pots[k][2]) return false;
+    return true;
+  }
+  // the nearest place to the one planned (within 3.5 m) that fits, preferring places by a wall to the middle of the floor
+  function plantSpot(F, r0, a0, R, near, pots) {
+    var C = CRS, rp = Math.max(0.25, 0.55 * R), best = null, bc = 1e9;
+    for (var i = -14; i <= 14; i++) for (var j = -14; j <= 14; j++) {
+      var d = Math.hypot(i, j) * 0.25; if (d > 3.5 || d >= bc) continue;
+      var r = r0 + i * 0.25, a = a0 + j * 0.25 / r0; if (!plantFits(F, r, a, R, rp, near, pots)) continue;
+      var gap = Math.min(r - R - C.rc - 0.13, C.r1 - 0.17 - r - R, (a - F.a0) * r - R - 0.13, (F.a1 - a) * r - R - 0.13), c = d + 1.5 * Math.max(0, gap - 0.25);
+      if (c < bc) { best = [r, a]; bc = c; }
+    }
+    return best;
+  }
+  // a plant at the place planned for it (pref(R) gives it for a reach R), moved as little as it must be; if it fits nowhere
+  // near, a smaller one of its kind (a plant left out is the last resort)
+  function placePlant(B, F, fb, pref, rot, near, pots, log) {
+    var R = plantReach(fb), sc = [1, 0.85, 0.7], p = null, s = 1, q;
+    for (var k = 0; k < sc.length && !p; k++) { s = sc[k]; q = pref(R * s); p = plantSpot(F, q[0], q[1], R * s, near, pots); }
+    log.R = R; log.s = s;
+    if (!p) { log.skipped = true; (CRS.plantLog = CRS.plantLog || []).push(log); return null; }
+    log.r = p[0]; log.a = p[1]; log.moved = Math.hypot(p[0] - q[0], (p[1] - q[1]) * p[0]); (CRS.plantLog = CRS.plantLog || []).push(log);
+    var M = crsFrame(p[0], p[1], F.y, rot); if (s < 1) M.multiply(new THREE.Matrix4().makeScale(s, s, s));
+    B.add(fb, M); contactShadow(fb, M); pots.push([p[0], p[1], Math.max(0.25, 0.55 * R * s)]);
+    crsObst(p[0] - 0.4 * s, p[0] + 0.4 * s, p[1] - 0.4 * s / p[0], p[1] + 0.4 * s / p[0], F.floor);
+    return p;
+  }
+  function roomObstacles(F) { var C = CRS; return (C.obst || []).filter(function (o) { return o[4] === F.floor && o[1] > C.rc - 0.5 && o[0] < C.r1 + 0.5 && o[3] > F.a0 - 0.1 && o[2] < F.a1 + 0.1; }); }
+  // a slim oak plant stand 1.25 m tall, its top 0.36 square, a shelf low between its legs
+  function plantStand() { return furn("pstand", function (b) {
+    var n0 = b.count(); b.box(-0.18, 1.22, -0.18, 0.18, 1.25, 0.18, MT.WOOD); b.box(-0.15, 0.25, -0.15, 0.15, 0.27, 0.15, MT.WOOD);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { b.box(c[0] * 0.15 - 0.018, 0, c[1] * 0.15 - 0.018, c[0] * 0.15 + 0.018, 1.22, c[1] * 0.15 + 0.018, MT.WOOD); }); kindTag(b, n0, 2);
+  }); }
+  // a trailing pothos, its vines down the wall's face and into the room (it hung in the air with half its vines through the
+  // wall: Jim, 7 Oct 2026, "is that plants on the wall? so strange"): on an oak shelf 1.85 m up over a free stretch of the
+  // corridor wall clear of the doors and the side walls; else on top of a bookcase on that wall; else on a plant stand
+  function shelfPothos(B, rm, F, seed, near, pots) {
+    var C = CRS, rw = C.rc + 0.075, log = { code: rm.code, kind: "pothos", spot: "shelf" }, x, a;
+    for (x = 1.0; x < F.span - 1.0; x += 0.2) {
+      a = F.at(x, false);
+      if ((a - F.a0) * rw < 0.95 || (F.a1 - a) * rw < 0.95) continue;
+      if (F.doors.some(function (d) { return Math.abs(a - d) * C.rc < 1.45; })) continue;
+      if (near.some(function (o) { return o[0] < rw + 0.95 && o[2] < a + 0.95 / rw && o[3] > a - 0.95 / rw; })) continue;
+      var M = crsFrame(rw, a, F.y + 1.85, ROT["in"]), sh = new Builder(), n0 = sh.count();
+      sh.box(-0.36, 0, 0.0, 0.36, 0.032, 0.25, MT.WOOD); kindTag(sh, n0, 1);
+      [-0.24, 0.24].forEach(function (bx) { sh.box(bx - 0.012, -0.16, 0.0, bx + 0.012, 0.0, 0.012, MT.ANOD); sh.box(bx - 0.012, -0.014, 0.0, bx + 0.012, 0.0, 0.2, MT.ANOD); });
+      B.add(sh, M); B.add(plantBuilder("pothoswall", seed), M.clone().multiply(T(0, 0.032, 0.13)));
+      log.on = "shelf"; log.a = a; (C.plantLog = C.plantLog || []).push(log); return;
+    }
+    var cases = near.filter(function (o) { return Math.abs(o[0] - (C.rc + 0.07)) < 0.02 && Math.abs(o[1] - (C.rc + 0.67)) < 0.02; })   // the corridor wall's bookcases
+                    .map(function (o) { return (o[2] + o[3]) / 2; }).filter(function (ac) { return !nearDoor(F, ac, 0.45); })
+                    .sort(function (p, q) { return Math.abs(p - F.back) - Math.abs(q - F.back); });
+    if (cases.length) { B.add(plantBuilder("pothoswall", seed), crsFrame(C.rc + 0.27, cases[0], F.y + 2.2, ROT["in"]).multiply(T(0, 0, -0.06))); log.on = "bookcase"; log.a = cases[0]; (C.plantLog = C.plantLog || []).push(log); return; }
+    var fb = plantBuilder("pothos", seed), st = new Builder(); st.add(plantStand(), T(0, 0, 0)); st.add(fb, T(0, 1.25, 0)); st._reach = Math.max(0.3, plantReach(fb));
+    log.on = "stand"; placePlant(B, F, st, function (R) { return [C.rc + 0.13 + R + 0.05, F.back + F.sgn * (R + 0.2) / (C.rc + 1)]; }, seed * 0.7, near, pots, log);
+  }
+  // the plants chosen for the room at their spots, each moved as little as it must be to stand clear (plantSpot)
   function roomPlants(B, rm, F, deskAt) {
-    var C = CRS, i = 0;
+    var C = CRS, i = 0, pots = [], near = roomObstacles(F);
     (rm.plants || []).forEach(function (pl) {
-      var kind = pl[0], spot = pl[1], r, a, y = F.y, seed = 60 + Math.round(F.mid * 100) + i++, fb = plantBuilder(kind, seed), cl = plantReach(fb) + 0.12;
-      var wW = Math.max(0.75, cl), wS = Math.max(0.85, cl), wC = Math.max(0.7, cl), wE = Math.max(0.75, cl);
-      if (spot === "window0") { r = C.r1 - wW; a = F.a0 + wS / r; } else if (spot === "window1") { r = C.r1 - wW; a = F.a1 - wS / r; }
-      else if (spot === "windowmid") { r = C.r1 - wW; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + wC; a = F.a0 + wE / r; } else if (spot === "corner1") { r = C.rc + wC; a = F.a1 - wE / r; }
-      else if (spot === "door") { var d = (rm.doors && rm.doors[0]) || F.mid; r = C.rc + 0.6; a = d + (d > F.mid ? -1 : 1) * 1.05 / r; }
-      else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, halfway out
-      else if (spot === "desk" && deskAt) { r = deskAt[0]; a = deskAt[1]; y = F.y + deskAt[2]; }
-      else if (spot === "shelf") { r = C.rc + 0.3; a = F.back + F.sgn * 0.5 / (C.rc + 0.3); y = F.y + 1.8; }
-      else { r = C.r1 - 0.75; a = F.mid; }
-      crsPlace(B, fb, r, a, y, seed * 0.7);
-      if (y === F.y) crsObst(r - 0.4, r + 0.4, a - 0.4 / r, a + 0.4 / r, F.floor);
+      var kind = pl[0], spot = pl[1], seed = 60 + Math.round(F.mid * 100) + i++;
+      if (spot === "shelf") { shelfPothos(B, rm, F, seed, near, pots); return; }
+      var fb = plantBuilder(kind, seed), log = { code: rm.code, kind: kind, spot: spot };
+      if (spot === "desk" && deskAt) { crsPlace(B, fb, deskAt[0], deskAt[1], F.y + deskAt[2], seed * 0.7); log.on = "desk"; (C.plantLog = C.plantLog || []).push(log); return; }
+      placePlant(B, F, fb, function (R) {
+        var cl = R + 0.13, r, a;
+        if (spot === "window0") { r = C.r1 - 0.17 - R; a = F.a0 + Math.max(0.85, cl) / r; } else if (spot === "window1") { r = C.r1 - 0.17 - R; a = F.a1 - Math.max(0.85, cl) / r; }
+        else if (spot === "windowmid") { r = C.r1 - 0.17 - R; a = F.at(F.span * 0.72, true); }
+        else if (spot === "corner0") { r = C.rc + Math.max(0.7, cl); a = F.a0 + Math.max(0.75, cl) / r; } else if (spot === "corner1") { r = C.rc + Math.max(0.7, cl); a = F.a1 - Math.max(0.75, cl) / r; }
+        else if (spot === "door") { var d = F.doors[0] || F.mid; r = C.rc + cl; a = d + (d > F.mid ? -1 : 1) * (0.85 + R) / r; }   // beside the door, past its open leaf
+        else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, halfway out
+        else { r = C.r1 - 0.17 - R; a = F.mid; }
+        return [r, a];
+      }, seed * 0.7, near, pots, log);
     });
   }
 
@@ -250,16 +317,6 @@
     shelvesOnCorridor(B, F, 12, 1.4);
     roomPlants(B, rm, F, [rd, la, 0.77]);
   }
-  function competitionRoom(B, rm, F) {
-    var C = CRS;
-    [3.8, 6.8, 9.8, 12.8, 15.8].forEach(function (d) { [53.4, 58.4].forEach(function (r) {
-      var a = F.at(d, true); crsPlace(B, teamTable(), r, a, F.y, Math.PI / 2); crsObst(r - 0.9, r + 0.9, a - 0.5 / r, a + 0.5 / r, F.floor);
-      [[-0.45, -0.62], [0.45, -0.62], [-0.45, 0.62], [0.45, 0.62]].forEach(function (c) { crsPlace(B, officeChair(), r + c[0], a + c[1] / r, F.y, c[1] > 0 ? Math.PI : 0); });
-    }); });
-    var st = F.at(1.3, true); crsPlace(B, stagePlatform(4.4, 1.8), 55.9, st, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(53.6, 58.2, st - 0.9 / 55.9, st + 0.9 / 55.9, F.floor);
-    screenOn(B, F, 2.4, 1.35, ATL.scrSem);
-    roomPlants(B, rm, F, null);
-  }
   function gamesLounge(B, rm, F) {
     var C = CRS;
     [[52.4, 2.4], [55.0, 2.4], [52.4, 5.0], [55.0, 5.0], [52.4, 7.6]].forEach(function (g) { var a = F.at(g[1], false); crsPlace(B, gameTable(), g[0], a, F.y, 0); crsObst(g[0] - 0.75, g[0] + 0.75, a - 0.75 / g[0], a + 0.75 / g[0], F.floor);
@@ -285,7 +342,7 @@
     [[-0.45, -0.62], [0.45, -0.62], [-0.45, 0.62], [0.45, 0.62]].forEach(function (c) { crsPlace(B, officeChair(), 55.4 + c[0], ma + c[1] / 55, F.y, c[1] > 0 ? Math.PI : 0); });
     var ka = F.at(4.8, false); crsPlace(B, kitchenette(), C.rc + 0.42, ka, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ka - 1.25 / 50, ka + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, F.at(4.0, false), F.y + 0.92, ROT.out);
-    crsPlace(B, lockerBank(4), C.rc + 0.36, F.at(1.5, false), F.y, ROT.out);
+    var la = F.at(F.span - 1.25, false); if (!nearDoor(F, la, 0.8)) { crsPlace(B, lockerBank(4), C.rc + 0.36, la, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.65, la - 0.85 / C.rc, la + 0.85 / C.rc, F.floor); }   // the lockers past the kitchenette (they stood in the doorway)
     // the lounge on the front wall: a long sofa backed onto it, a walnut table, two club chairs across, a rug, lamps
     var faceBack = F.sgn > 0 ? ROT.minusA : ROT.plusA, faceFront = F.sgn > 0 ? ROT.plusA : ROT.minusA, ls = F.at(F.span - 0.6, false), lt = F.at(F.span - 1.6, false), lc = F.at(F.span - 2.8, false);
     rugAt(B, 57.0, F.at(F.span - 1.75, false), F.y, 3.0, 3.4, 4);
@@ -342,7 +399,8 @@
     [-2.2, 2.2].forEach(function (x) { var aa = ba + x / rS; crsPlace(B, lampTable(), rS + 0.05, aa, F.y, 0); lampLight(rS + 0.05, aa, F.y, 0.95, 0.6, 3.4); crsObst(rS - 0.25, rS + 0.35, aa - 0.28 / rS, aa + 0.28 / rS, F.floor); });
     [-2.3, 2.3].forEach(function (x) { var aa = ba + x / rB, rl = rB - 0.25; crsPlace(B, floorLamp(), rl, aa, F.y, 0); lampLight(rl, aa, F.y, 1.4, 0.7, 3.6); crsObst(rl - 0.2, rl + 0.2, aa - 0.2 / rl, aa + 0.2 / rl, F.floor); });
     [[-2.75, ROT.plusA], [2.75, ROT.minusA]].forEach(function (e) { var aa = ba + e[0] / rT; crsPlace(B, armchair(), rT, aa, F.y, e[1]); crsObst(rT - 0.5, rT + 0.5, aa - 0.5 / rT, aa + 0.5 / rT, F.floor); });
-    [["fig", 52.6], ["kentia", 55.2]].forEach(function (t, i) { var aa = -6.25 * D2R; crsPlace(B, plantBuilder(t[0], 911 + i), t[1], aa, F.y, i * 2.1); crsObst(t[1] - 0.45, t[1] + 0.45, aa - 0.45 / t[1], aa + 0.45 / t[1], F.floor); });
+    var hn = roomObstacles(F), hp = [];                                      // tall plants by the side wall, their leaves on this side of it
+    [["fig", 52.6], ["kentia", 55.2]].forEach(function (t, i) { placePlant(B, F, plantBuilder(t[0], 911 + i), function (R) { return [t[1], F.a0 + (R + 0.15) / t[1]]; }, i * 2.1, hn, hp, { code: rm.code, kind: t[0], spot: "side wall" }); });
     roomPlants(B, rm, F, null);
   }
   function crescentFurnish(W) {

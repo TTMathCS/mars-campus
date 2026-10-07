@@ -234,6 +234,9 @@
   // the grand piano, 1.52 wide (x) and 2.0 long, its keys at -z and its middle at the origin: the case in black lacquer, the
   // lid open on its prop over the treble side (-x, the player's right), the gold plate and the strings under it, 88 keys,
   // a score on the desk, three legs on brass casters, the lyre and its pedals, the bench
+  // placed the right way round: the Ring's frames are mirror-handed, so a piece with a left and a right (a piano's bass to
+  // the player's left, a drum kit's hi-hat) is flipped back across its own x
+  function crsPlaceTrue(B, fb, r, a, y, rot) { var M = crsFrame(r, a, y, rot).multiply(new THREE.Matrix4().makeScale(-1, 1, 1)); B.add(fb, M); contactShadow(fb, M); }
   function grandPiano() { return furn("piano", function (b) {
     var g = new Builder(), PP = pianoPath(), P = PP.P, E = PP.E, yB = 0.62, yT = 0.99, th = 0.04, nE = E.length - 1, k;
     g.surf(nE, 1, function (i, j, q) { var e = E[i]; q.p[0] = e[0]; q.p[1] = j ? yT : yB; q.p[2] = e[1]; q.nn = [e[2], 0, e[3]]; q.f[0] = i * 0.03; q.f[1] = q.p[1]; q.m = MT.DKGLASS; });   // the rim
@@ -406,7 +409,7 @@
     fr.box(-w1 / 2, 2.08, -0.04, -w1 / 2 + 0.98, 2.15, 0.04, MT.WOOD); fr.tag(0, null, 1);
     fr.box(-w1 / 2 + 0.86, 0.9, 0.045, -w1 / 2 + 0.875, 1.2, 0.06, MT.STEEL); fr.box(-w1 / 2 + 0.86, 0.9, 0.04, -w1 / 2 + 0.875, 0.915, 0.06, MT.STEEL); fr.box(-w1 / 2 + 0.86, 1.185, 0.04, -w1 / 2 + 0.875, 1.2, 0.06, MT.STEEL);
     B.add(fr, crsFrame(r1, am, y));
-    var ua = am + (F.sgn > 0 ? 1 : -1) * 0.25 / rm; crsPlace(B, uprightPiano(), r0 + 0.34, ua, y, ROT.out); crsPlace(B, pianoBench(), r0 + 1.06, ua, y, 0);
+    var ua = am + (F.sgn > 0 ? 1 : -1) * 0.25 / rm; crsPlaceTrue(B, uprightPiano(), r0 + 0.34, ua, y, ROT.out); crsPlace(B, pianoBench(), r0 + 1.06, ua, y, 0);
     var pn = new Builder(); pn.box(0, 1.35, -wd / 2 + 0.15, 0.04, 2.3, wd / 2 - 0.15, MT.FABRIC); pn.tag(0, 1, null); B.add(pn, crsFrame(r0, am, y, -Math.PI / 2));
     var lp = crsPt(rm + 0.2, am); globeLamp(B, lp, y + 2.12, h - 2.12); wLight(lp.x, y + 2.05, lp.z, LAMPC, 0.75, 3.2, [0, -1, 0], 1);
     crsObst(r0 - 0.1, r1 + 0.1, lo - 0.06 / rm, hi + 0.06 / rm, F.floor);
@@ -422,7 +425,7 @@
     // the stage: oak slats along the outer wall, the grand piano before them on a forest rug, a lamp by the player, a wash of light
     var s0 = F.at(1.9, true), s1 = F.at(10.9, true); arcSlats(B, C.r1 - 0.1, Math.min(s0, s1), Math.max(s0, s1), y + 0.1, y + 3.6);
     var pa = F.at(5.2, true); rugAt(B, 59.4, pa, y, 4.6, 3.4, 11);
-    crsPlace(B, grandPiano(), 60.0, pa, y, ib); crsObst(59.2, 60.85, F.at(3.45, true), F.at(6.35, true), F.floor);
+    crsPlaceTrue(B, grandPiano(), 60.0, pa, y, ib); crsObst(59.2, 60.85, F.at(3.45, true), F.at(6.35, true), F.floor);
     var la = F.at(3.85, true); crsPlace(B, floorLamp(), 61.25, la, y, 0); lampLight(61.25, la, y, 1.4, 0.7, 3.6); crsObst(61.05, 61.45, la - 0.2 / 61.2, la + 0.2 / 61.2, F.floor);
     var wl = crsPt(60.4, F.at(7.6, true)); wLight(wl.x, y + 3.5, wl.z, LAMPC, 1.0, 6, [0, -0.5, 0], 1);
     var ka = F.at(4.6, true), kp = crsPt(59.8, ka); B.add(pendantCone(), crsFrame(59.8, ka, y + 2.65));            // a brass cone low over the keys and the score
@@ -447,7 +450,7 @@
     // the back wall: three guitars hung, the cello and the double bass on their stands, the drum kit in the corner on a rug
     [[52.8, 0], [53.55, 1], [54.3, 2]].forEach(function (gt) { onWall(B, F, true, gt[0], 2.08, hungGuitar(gt[1], 1)); });
     crsPlace(B, cello(), 55.4, F.at(0.55, false), y, ib); crsPlace(B, doubleBass(), 56.45, F.at(0.72, false), y, ib); crsObst(54.9, 57.0, F.back, F.at(1.25, false), F.floor);
-    var dk = F.at(1.45, false), rd = 59.4; rugAt(B, rd, dk, y, 2.6, 2.4, 0); crsPlace(B, drumKit(), rd, dk, y, ib); crsObst(rd - 1.0, rd + 1.0, F.back, F.at(2.5, false), F.floor);
+    var dk = F.at(1.45, false), rd = 59.4; rugAt(B, rd, dk, y, 2.6, 2.4, 0); crsPlaceTrue(B, drumKit(), rd, dk, y, ib); crsObst(rd - 1.0, rd + 1.0, F.back, F.at(2.5, false), F.floor);
     // the front wall: a violin, a viola and a ukulele by the door, four felt panels across the middle
     onWall(B, F, false, 51.4, 1.95, hungFiddle(1)); onWall(B, F, false, 52.0, 2.02, hungFiddle(1.17)); onWall(B, F, false, 52.65, 1.9, hungGuitar(0, 0.45));
     [54.8, 55.85, 56.9, 57.95].forEach(function (r) { onWall(B, F, false, r, 1.75, soundPanel(0.9, 1.9, 5)); });

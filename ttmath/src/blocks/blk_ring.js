@@ -97,21 +97,28 @@
     if (r < s.r1) return s.yM - (clamp(Math.floor((r - s.l1) / s.run2), 0, s.half - 1) + 1) * s.h;
     return CRS.yL;
   }
-  // the stair in a bay (T06-16, T06-18): landings at the corridor's door on both floors, a flight down along the bay's
-  // +a side to a half landing at its outer end, a flight back along the -a side. In the bay's frame: e metres out from the
-  // corridor wall (rc), x metres along the arc from the bay's middle. NaN at the wall between the flights.
+  // the stair in a bay (T06-16, T06-18), redesigned 7 Oct 2026 (Jim: "stairs are not designed well and have bugs"; its door
+  // opened onto a narrow landing facing the wall between the flights). In the bay's frame, e metres out from the corridor
+  // wall (rc) and x metres along the arc from the bay's middle: the landings inside the doors on both floors (e < L0);
+  // flight 1 down outward on the +a side to the half landing (L1 to L2), flight 2 back down on the -a side to the lower
+  // landing; the well between them behind glass; below, the way on under flight 1 and the half landing to the bay's
+  // outer end, two storeys tall. NaN where it is blocked.
+  function bayDims() { var C = CRS, B = C.bay, half = B.n / 2, h = (C.yU - C.yL) / B.n, L0 = B.landing, L1 = L0 + (half - 1) * B.run; return { half: half, h: h, run: B.run, L0: L0, L1: L1, L2: L1 + B.half, xg: B.gap / 2, yM: C.yU - half * h }; }
   function bayY(e, x, yf) {
-    var C = CRS, B = C.bay, half = B.n / 2, h = (C.yU - C.yL) / B.n, run = 0.28, L0 = B.landing, L1 = L0 + (half - 1) * run, yM = C.yU - half * h;
-    if (e < L0) return yf > (C.yU + C.yL) / 2 ? C.yU : C.yL;
-    if (e > L1) return e < L1 + B.landing ? yM : NaN;
-    if (x > 0.12) return C.yU - (clamp(Math.floor((e - L0) / run), 0, half - 1) + 1) * h;
-    if (x < -0.12) return yM - (clamp(Math.floor((L1 - e) / run), 0, half - 1) + 1) * h;
-    return NaN;
+    var C = CRS, D = bayDims(), low = yf < C.yL + 1.2;
+    if (e < D.L0) return yf > (C.yU + C.yL) / 2 ? C.yU : C.yL;
+    if (e < D.L1) {
+      if (x > D.xg + 0.06) { var f1 = C.yU - (clamp(Math.floor((e - D.L0) / D.run), 0, D.half - 1) + 1) * D.h; return Math.abs(f1 - yf) < 0.6 ? f1 : (low ? C.yL : NaN); }   // flight 1, the way on under it
+      if (x < -D.xg - 0.06) { var f2 = D.yM - (clamp(Math.floor((D.L1 - e) / D.run), 0, D.half - 1) + 1) * D.h; return Math.abs(f2 - yf) < 0.6 ? f2 : NaN; }        // flight 2
+      return low && x > -D.xg + 0.08 ? C.yL : NaN;                                                                                                         // the well's glass; below, the way on
+    }
+    if (e < D.L2) return Math.abs(D.yM - yf) < 0.6 ? D.yM : (low ? C.yL : NaN);                                                                             // the half landing, the way on under it
+    return low ? C.yL : NaN;                                                                                                                                  // the bay's outer end below, the void above
   }
   var CRS_FLOOR = { "class": [MT.WOOD, 0], study: [MT.WOOD, 0], lab: [MT.TERRAZZO, 0], compete: [MT.WOOD, 0], games: [MT.WOOD, 0], lounge: [MT.WOOD, 0], staff: [MT.WOOD, 0], service: [MT.TERRAZZO, 0], move: [MT.TERRAZZO, 0],
                     seminar: [MT.WOOD, 3], library: [MT.WOOD, 3], reading: [MT.WOOD, 3], gate: [MT.TERRAZZO, 0], physics: [MT.TERRAZZO, 0], maker: [MT.TERRAZZO, 0], astro: [MT.WOOD, 0],
                     plant: [MT.TERRAZZO, 0], store: [MT.TERRAZZO, 0], kitchen: [MT.TERRAZZO, 0], dining: [MT.WOOD, 0], cafe: [MT.TERRAZZO, 0], assembly: [MT.WOOD, 3], art: [MT.WOOD, 0], music: [MT.WOOD, 3], clinic: [MT.TERRAZZO, 0] };
-  var CRS_WALL = { "class": 0, study: 4, lab: 0, compete: 1, games: 4, lounge: 4, staff: 4, service: 0, move: 0, seminar: 4, library: 4, reading: 4, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 4, cafe: 0, assembly: 4, art: 0, music: 4, clinic: 4 };   // plaster: 0 off-white, 1 warm grey, 4 linen, 5 soft sage
+  var CRS_WALL = { "class": 0, study: 4, lab: 0, compete: 4, games: 4, lounge: 4, staff: 4, service: 0, move: 0, seminar: 4, library: 4, reading: 4, gate: 0, physics: 0, maker: 0, astro: 1, plant: 0, store: 0, kitchen: 0, dining: 4, cafe: 0, assembly: 4, art: 0, music: 4, clinic: 4 };   // plaster: 0 off-white, 1 warm grey, 4 linen, 5 soft sage
   var CRS_GLAZED = { cafe: 1, art: 1 };                                 // rooms with glass to the corridor (and the sunken grove beyond)
   var CRS_TILES = { "class": 1, study: 1, lab: 1, compete: 1, games: 1, staff: 1, seminar: 1, library: 1, physics: 1, maker: 1, astro: 1, art: 1, music: 1, clinic: 1 };
 
@@ -465,34 +472,61 @@
     [1 / 3, 2 / 3].forEach(function (t) { var rr = lerp(h.r0, h.r1, t), bb = new Builder(); bb.box(-(h.a1 - h.a0) * rr / 2, 0, -0.03, (h.a1 - h.a0) * rr / 2, 0.05, 0.03, MT.ANOD); bb.tag(0, 3, null); B.add(bb, crsFrame(rr, (h.a0 + h.a1) / 2, y1)); });
   }
 
-  // ---- a stair in a bay (T06-16, T06-18): two flights of Carrara treads with a half landing, a wall between them ----
+  // ---- a stair in a bay (T06-16, T06-18): two flights of Carrara treads with brass nosings side by side, wall to wall,
+  // an open well between them behind glass with oak rails, landings 1.8 m deep inside the doors, a half landing; below,
+  // the floor runs on under flight 1 and the half landing to the bay's outer end, two storeys tall, where a bench faces
+  // the glass (the east bay looks onto the gallery) and globe lamps hang in the stairwell ----
   function bayStair(W, rm) {
-    var C = CRS, Bs = C.bay, half = Bs.n / 2, h = (C.yU - C.yL) / Bs.n, run = 0.28, L0 = Bs.landing, L1 = L0 + (half - 1) * run, L2 = L1 + Bs.landing, yM = C.yU - half * h - C.yL, yT = C.yU - C.yL;
-    var am = (rm.a[0] + rm.a[1]) / 2 * D2R, b = new Builder(), xg = 0.1, X1 = xg + Bs.w, X0 = -X1;      // frame: x along +a, z out from rc, y up from the lower floor
-    function tread(x0, x1, z0, z1, y, nose) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(x0, x1, i); q.p[1] = y; q.p[2] = lerp(z0, z1, j); q.nn = [0, 1, 0]; q.f[0] = q.p[0]; q.f[1] = nose ? Math.abs(q.p[2] - nose) : 1; q.m = nose ? MT.STEP : MT.TERRAZZO; }); }
-    function riser(x0, x1, z, y0, y1, nz) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(x0, x1, i); q.p[1] = j ? y1 : y0; q.p[2] = z; q.nn = [0, 0, nz]; q.f[0] = q.p[0]; q.f[1] = 1; q.m = MT.MARBLE; }); }
-    function under(x0, x1, z0, y0, z1, y1) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(x0, x1, i); q.p[1] = j ? y1 : y0; q.p[2] = j ? z1 : z0; q.nn = [0, -1, 0]; q.m = MT.PLASTER; }); }
-    tread(X0, X1, 0.15, L0, yT, 0); tread(X0, X1, L1, L2, yM, 0);                                     // the landings: upstairs at the door, the half landing
-    under(X0, X1, 0.15, yT - 0.3, L0, yT - 0.3); under(X0, X1, L1, yM - 0.3, L2, yM - 0.3);
-    for (var k = 0; k < half - 1; k++) {                                                                  // down outward on the +a side, then back on the -a side
-      var z0 = L0 + k * run, y1 = yT - (k + 1) * h; tread(xg, X1, z0, z0 + run, y1, z0 + run); riser(xg, X1, z0, y1, y1 + h, 1);
-      var zb = L1 - k * run, y2 = yM - (k + 1) * h; tread(X0, -xg, zb - run, zb, y2, zb - run); riser(X0, -xg, zb, y2, y2 + h, -1);
+    var C = CRS, D = bayDims(), h = D.h, run = D.run, L0 = D.L0, L1 = D.L1, L2 = D.L2, xg = D.xg, yT = C.yU - C.yL, yM = D.yM - C.yL, top = yT + C.hR;
+    var am = (rm.a[0] + rm.a[1]) / 2 * D2R, td = Math.tan((rm.a[1] - rm.a[0]) / 2 * D2R), eE = C.r1 - 0.12 - C.rc, b = new Builder(), k;
+    function hw(z) { return (C.rc + z) * td - 0.08; }                                           // half the clear width, z out from the corridor wall
+    function X(v, z) { return typeof v === "function" ? v(z) : v; }
+    function nhw(z) { return -hw(z); }
+    function level(xa, xb, z0, z1, y, mat, nose, down) { b.surf(1, 1, function (i, j, q) { var z = lerp(z0, z1, j); q.p[0] = lerp(X(xa, z), X(xb, z), i); q.p[1] = y; q.p[2] = z; q.nn = [0, down ? -1 : 1, 0];
+      q.f[0] = q.p[0]; q.f[1] = nose !== undefined ? Math.abs(z - nose) : 1; q.m = mat; }); }
+    function face(xa, xb, z, y0, y1, nz, mat) { b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(X(xa, z), X(xb, z), i); q.p[1] = j ? y1 : y0; q.p[2] = z; q.nn = [0, 0, nz]; q.f[0] = q.p[0]; q.f[1] = mat === MT.STEP ? 1 : q.p[1]; q.m = mat; }); }
+    function side(x, z0, z1, yb, yt, nx, mat) { b.surf(1, 1, function (i, j, q) { var z = lerp(z0, z1, i); q.p[0] = x; q.p[1] = j ? yt(z) : yb(z); q.p[2] = z; q.nn = [nx, 0, 0]; q.f[0] = z; q.f[1] = q.p[1]; q.m = mat; }); }
+    function soffit(xa, xb, z0, y0, z1, y1) { b.surf(1, 1, function (i, j, q) { var z = j ? z1 : z0; q.p[0] = lerp(X(xa, z), X(xb, z), i); q.p[1] = j ? y1 : y0; q.p[2] = z; q.nn = [0, -1, 0]; q.f[0] = q.p[0]; q.f[1] = z; q.m = MT.PLASTER; }); }
+    function p1(z) { return yT - (z - L0) / run * h; }                                         // the line of flight 1's nosings
+    function p2(z) { return yM - (L1 - z) / run * h; }                                         // and of flight 2's
+    level(nhw, hw, 0.1, eE, 0, MT.TERRAZZO);                                                      // the floor below, out to the bay's end
+    level(nhw, hw, 0.1, L0, yT, MT.TERRAZZO); level(nhw, hw, 0.1, L0, yT - 0.3, MT.PLASTER, undefined, true);   // the landing upstairs, its underside
+    face(nhw, xg, L0, yT - 0.3, yT, 1, MT.PLASTER); face(xg, hw, L0, yT - 0.45, yT - h, 1, MT.PLASTER);
+    for (k = 0; k < D.half - 1; k++) {
+      var z0 = L0 + k * run, y1 = yT - (k + 1) * h; level(xg, hw, z0, z0 + run, y1, MT.STEP, z0 + run); face(xg, hw, z0, y1, y1 + h, 1, MT.STEP);              // flight 1
+      var zb = L1 - k * run, y2 = yM - (k + 1) * h; level(nhw, -xg, zb - run, zb, y2, MT.STEP, zb - run); face(nhw, -xg, zb, y2, y2 + h, -1, MT.STEP);       // flight 2
     }
-    riser(xg, X1, L1, yM, yM + h, 1); riser(X0, -xg, L0, 0, h, -1);
-    under(xg, X1, L0, yT - 0.45, L1, yM - 0.25); under(X0, -xg, L1, yM - 0.45, L0, 0.0);
-    // the wall between the flights, the end wall past the half landing, both from the floor to the ceiling upstairs
-    [[-xg, -1], [xg, 1]].forEach(function (e) { b.surf(1, 1, function (i, j, q) { q.p[0] = e[0]; q.p[1] = j ? yT + C.hR : 0; q.p[2] = i ? L1 : L0; q.nn = [e[1], 0, 0]; q.f[0] = q.p[2]; q.f[1] = q.p[1]; q.m = MT.PLASTER; }); });
-    b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(X0 - 0.2, X1 + 0.2, i); q.p[1] = j ? yT + C.hR : 0; q.p[2] = L2; q.nn = [0, 0, -1]; q.f[0] = q.p[0]; q.f[1] = q.p[1]; q.m = MT.PLASTER; });
-    b.surf(1, 1, function (i, j, q) { q.p[0] = lerp(X0 - 0.2, X1 + 0.2, i); q.p[1] = yT + C.hR; q.p[2] = lerp(0.1, L2, j); q.nn = [0, -1, 0]; q.m = MT.PLASTER; });
-    tread(X0 - 0.2, X1 + 0.2, 0.1, L2, 0, 0);                                                              // the floor at the bottom
+    face(xg, hw, L1, yM, yM + h, 1, MT.STEP); face(nhw, -xg, L0, 0, h, -1, MT.STEP);
+    level(nhw, hw, L1, L2, yM, MT.STEP, L2 + 1); level(nhw, hw, L1, L2, yM - 0.3, MT.PLASTER, undefined, true); face(nhw, hw, L2, yM - 0.3, yM, 1, MT.PLASTER);   // the half landing
+    face(-xg, xg, L1, yM - 0.3, yM, -1, MT.PLASTER);
+    soffit(xg, hw, L0, yT - 0.45, L1, yM - 0.25);                                               // under flight 1, over the way on
+    side(xg, L0, L1, function (z) { return lerp(yT - 0.45, yM - 0.25, (z - L0) / (L1 - L0)); }, function (z) { return p1(z) + 0.06; }, -1, MT.PLASTER);   // flight 1's string over the well
+    side(-xg, L0, L1, function () { return 0; }, function (z) { return p2(z) + 0.06; }, 1, MT.PLASTER);                                                   // under flight 2, closed
+    face(nhw, -xg, L1, 0, yM - 0.3, 1, MT.PLASTER);
+    level(nhw, hw, 0.1, eE, top, MT.PLASTER, undefined, true);                                     // the ceiling, two storeys up
     b.tag(0, null, null);
     var M = crsFrame(C.rc, am, C.yL); W.add(b, M);
-    // handrails: on both sides of each flight, 0.9 m over the nosings
-    [[xg + 0.06, L0, yT, L1, yM], [X1 - 0.06, L0, yT, L1, yM], [-xg - 0.06, L1, yM, L0, 0], [X0 + 0.06, L1, yM, L0, 0]].forEach(function (f) {
-      var p0 = new THREE.Vector3(f[0], f[2] + 0.9, f[1]).applyMatrix4(M), p1 = new THREE.Vector3(f[0], f[4] + 0.9 + h, f[3]).applyMatrix4(M);
-      tubeAlong(W, [p0, p1], 0.022, 8, MT.STEEL);
-    });
-    [[0.6, yT], [L1 + 0.6, yM], [0.6, 0]].forEach(function (l) { var p = new THREE.Vector3(0, l[1] + 2.7, l[0]).applyMatrix4(M); wLight(p.x, p.y, p.z, LAMPC, 0.9, 5); });
+    // glass: along the well on both flights, at the upper landing's edge over flight 2 and the well, at the half landing's
+    // outer edge; oak rails on them, and on the walls along both flights
+    function pane(pts) { var P = pts.map(function (p) { return V3(p[0], p[1], p[2]).applyMatrix4(M); }), n = V3(0, 0, 0).subVectors(P[1], P[0]).cross(V3(0, 0, 0).subVectors(P[3], P[0])).normalize();
+      CRS_GLASS.surf(1, 1, function (i, j, q) { var p = P[i + 2 * j]; q.p[0] = p.x; q.p[1] = p.y; q.p[2] = p.z; q.nn = [n.x, n.y, n.z]; q.f2[0] = 1; q.f2[1] = 1; q.m = 0; }); }
+    function rail(a, c, rad, mat) { tubeAlong(W, [V3(a[0], a[1], a[2]).applyMatrix4(M), V3(c[0], c[1], c[2]).applyMatrix4(M)], rad || 0.024, 8, mat || MT.WOOD); }
+    [[xg + 0.02, p1], [-xg - 0.02, p2]].forEach(function (g) { var x = g[0], pf = g[1];
+      pane([[x, pf(L0) + 0.06, L0], [x, pf(L1) + 0.06, L1], [x, pf(L0) + 1.0, L0], [x, pf(L1) + 1.0, L1]]); rail([x, pf(L0) + 1.02, L0], [x, pf(L1) + 1.02, L1]); });
+    pane([[-hw(L0), yT + 0.02, L0 + 0.02], [xg + 0.02, yT + 0.02, L0 + 0.02], [-hw(L0), yT + 1.0, L0 + 0.02], [xg + 0.02, yT + 1.0, L0 + 0.02]]); rail([-hw(L0), yT + 1.02, L0 + 0.02], [xg + 0.02, yT + 1.02, L0 + 0.02]);
+    pane([[-xg - 0.02, yM + 0.02, L1 - 0.02], [xg + 0.02, yM + 0.02, L1 - 0.02], [-xg - 0.02, yM + 1.0, L1 - 0.02], [xg + 0.02, yM + 1.0, L1 - 0.02]]);
+    pane([[-hw(L2), yM + 0.02, L2 - 0.02], [hw(L2), yM + 0.02, L2 - 0.02], [-hw(L2), yM + 1.0, L2 - 0.02], [hw(L2), yM + 1.0, L2 - 0.02]]); rail([-hw(L2), yM + 1.02, L2 - 0.02], [hw(L2), yM + 1.02, L2 - 0.02]);
+    rail([hw(L0) - 0.06, p1(L0) + 0.9, L0], [hw(L1) - 0.06, p1(L1) + 0.9, L1], 0.022); rail([-hw(L0) + 0.06, p2(L0) + 0.9, L0], [-hw(L1) + 0.06, p2(L1) + 0.9, L1], 0.022);
+    // at the bay's outer end below: an oak bench facing out, a plant in each corner, globe lamps hanging in the stairwell
+    var zB = eE - 1.6, inGal = rm.a[0] >= C.gal.d0 - 0.01 && rm.a[1] <= C.gal.d1 + 0.01;
+    W.add(gardenBench(2.4), M.clone().multiply(T(0, 0, zB))); crsObst(C.rc + zB - 0.35, C.rc + zB + 0.35, am - 1.3 / (C.rc + zB), am + 1.3 / (C.rc + zB), "lower");
+    (inGal ? ["olive", "fern"] : ["kentia", "snake"]).forEach(function (kind, i) { var fb = plantBuilder(kind, 870 + i + (inGal ? 2 : 0)), R = Math.min(plantReach(fb), 0.9), s = Math.min(1, 0.9 / plantReach(fb)), zp = eE - R - 0.15, xp = (i ? -1 : 1) * (hw(zp) - R - 0.12);
+      var Mp = M.clone().multiply(T(xp, 0, zp, 0, i * 2.3, 0, s, s, s)); W.add(fb, Mp); contactShadow(fb, Mp); var rp = C.rc + zp, ap = am + xp / rp; crsObst(rp - 0.4, rp + 0.4, ap - 0.4 / rp, ap + 0.4 / rp, "lower"); });
+    [[0.0, 1.2, (L2 + eE) / 2], [-0.9, 2.1, (L2 + eE) / 2 + 1.0], [0.8, 2.8, (L2 + eE) / 2 - 0.8], [-0.4, 3.4, L2 + 0.8], [0.5, 3.9, eE - 0.9]].forEach(function (g) {
+      var yb = top - 1.0 - g[1] * 1.0, pg = V3(g[0], yb, g[2]).applyMatrix4(M), pc = V3(g[0], top, g[2]).applyMatrix4(M);
+      W.geo(addF2(new THREE.SphereGeometry(0.2, 20, 14), 1.6, 0), T(pg.x, pg.y, pg.z), MT.LIGHT, 1); tubeAlong(W, [V3(pg.x, pg.y + 0.2, pg.z), pc], 0.004, 3, MT.ANOD);
+      wLight(pg.x, pg.y - 0.1, pg.z, LAMPC, 0.9, 7, null, 0); });
+    [[0.9, yT + 2.7], [0.9, 2.9], [(L1 + L2) / 2, yM + 2.6]].forEach(function (l) { var p = V3(0, l[1], l[0]).applyMatrix4(M); wLight(p.x, p.y, p.z, LAMPC, 0.9, 5, [0, -1, 0], 1); });
   }
 
   // ---- a grand stair (the hall's, the Gate Hall's): two flights of Carrara treads with brass nosings and a landing, on
@@ -636,10 +670,10 @@
     // a stair's bay
     var rm = crsRoomAt(a, fl);
     if (rm && isBay(rm) && r > rc - 0.2) {
-      var am = (rm.a[0] + rm.a[1]) / 2, xx = (deg - am) * D2R * (rc + 3), e = r - rc;
+      var am = (rm.a[0] + rm.a[1]) / 2, xx = (deg - am) * D2R * r, e = r - rc;
       if (e < 0.2) return Math.abs(xx) < 0.45 ? y : NaN;                   // the partition, a door on each floor
       if (Math.abs(deg - rm.a[0]) * D2R * r < 0.2 || Math.abs(deg - rm.a[1]) * D2R * r < 0.2) return NaN;
-      var hy = bayY(e, xx, yf); return (hy !== hy || Math.abs(hy - yf) > 0.6) ? NaN : hy;
+      var hy = bayY(e, xx, yf); return (hy !== hy || Math.abs(hy - yf) > 0.6 || (hy < C.yL + 0.05 && obst("lower"))) ? NaN : hy;   // the bench and plants at its end
     }
     // the lifts' shafts
     if ([C.lift, C.glift].some(function (L) { return Math.abs(r - L.r) < L.w / 2 + 0.25 && Math.abs(a - L.a) * r < L.w / 2 + 0.25; })) return NaN;
@@ -658,7 +692,7 @@
       if ((Math.abs(deg - 164) * D2R * r < 0.2 || Math.abs(deg - 191) * D2R * r < 0.2) && r > rc) return NaN;
       var Sg = C.gst, sg2 = (a - Sg.a) * r, O = gateOpening();
       if (Math.abs(sg2) < Sg.w / 2 - 0.05 && r > Sg.r0 - 0.45 && r < Sg.r1 + 0.1) { var hy3 = stairY(r, Sg); return Math.abs(hy3 - yf) < 0.6 ? hy3 : NaN; }
-      if (a > O.a0 - 0.15 / r && a < O.a1 + 0.15 / r && r > O.r0 - 0.15 && r < O.r1 + 0.15) return NaN;   // the opening's balustrade, the space under the stair
+      if (a > O.a0 - 0.15 / r && a < O.a1 + 0.15 / r && r > O.r0 - 0.15 && r < (lower ? Sg.r1 + 0.1 : O.r1 + 0.15)) return NaN;   // the opening's balustrade upstairs; below, the space under the stair but not its foot (it barred the way up)
       return obst(fl) ? NaN : y;
     }
     if (Math.abs(r - rc) < 0.2) {                                           // the corridor partition, open at the doorways

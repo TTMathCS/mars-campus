@@ -146,6 +146,17 @@ each pushed when it is checked:
    (v0.26) `makerSpace` in `blk_labs.js`: `makerBench`, `powerDrop`, `printerBox` (glass from `glassPane`), `laserCutter`,
    `arenaTable`, `rover`, `sheetRack`, `spoolShelf`; the tool wall and the arena's mat are drawn on one canvas
    (`makerCanvas`, `MAKER`) and laid by `texQuads`, unlit quads of fixed brightness as the art studio's paintings.
+   (v0.34) `competitionRoom` in `blk_labs.js`: `compCanvas` draws the scoreboard (`compScoreboard`) and the demonstration
+   board (`compChessBoard`) on one canvas laid by `texQuads`; `trophyCabinet`, `chessClock`, `chessGame` (the giant set's
+   pieces at a sixth), `teamKit`. The Ring's frames (`crsFrame`) are mirror-handed: `texQuads` flips u where a frame's
+   determinant is negative, pieces with a left and a right go in with `crsPlaceTrue` (the grand piano, the uprights, the
+   drum kit), and at a `gameTable` the players sit at its +-z (so a1 is dark, on White's left). Plants (`blk_crsfurnish.js`):
+   `plantFits`, `plantSpot` and `placePlant` keep a plant's reach inside its room's walls and clear of the doors' way in and
+   their open leaves, its pot clear of the furniture placed before it and of the other plants, as near its spot as fits and
+   by a wall, smaller (0.85, 0.7) if it fits nowhere near; `CRS.plantLog` lists where each went. The 'shelf' pothos
+   (`pothoswall`: its vines only forward) goes on an oak wall shelf, else on a bookcase, else on a `plantStand`. The stair
+   bays: `bayDims`, `bayY` (walking) and `bayStair` (blk_ring.js) from `bay_stair` in campus_rooms.py. `walk_check.py` goes
+   up both grand stairs and through the east bay (down flight 1, up flight 2, under them to the bay's end).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

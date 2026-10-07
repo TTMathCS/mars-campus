@@ -422,16 +422,17 @@
         P = new THREE.Vector3(cp.x, yc, cp.z); Nv = unit(aw + Math.PI / 2).multiplyScalar(x.end); Rv = unit(aw).multiplyScalar(x.end);
         var Mf = crsFrame(rM, aw + x.end * 0.022 / rM, yc), bz = new Builder(); bz.box(-0.018, -ph / 2 - 0.05, -pw / 2 - 0.05, 0.018, ph / 2 + 0.05, pw / 2 + 0.05, MT.WOOD); bz.tag(0, null, 2); W.add(bz, Mf);
         var ab = aw + x.end * 0.5 / rM; crsPlace(W, gardenBench(x.bench || 1.8), rM, ab, y, Math.PI / 2); crsObst(rM - 1.0, rM + 1.0, ab - 0.35 / rM, ab + 0.35 / rM, x.floor);
-        if (x.plant) { var rp = C.rc - 0.42, ap = aw + x.end * 0.55 / rp; crsPlace(W, plantBuilder(x.plant[0], 960 + k), rp, ap, y, k); crsObst(rp - 0.4, rp + 0.4, ap - 0.4 / rp, ap + 0.4 / rp, x.floor); }
+        if (x.plant) { var fbp = plantBuilder(x.plant[0], 960 + k), Rp = plantReach(fbp), rp = C.rc - 0.13 - Math.max(0.29, Rp), ap = aw + x.end * Math.max(0.55, Rp + 0.13) / rp;   // its leaves this side of the walls
+          crsPlace(W, fbp, rp, ap, y, k); crsObst(rp - 0.4, rp + 0.4, ap - 0.4 / rp, ap + 0.4 / rp, x.floor); }
       } else {                                                      // the lower corridor's back wall at r0, facing out across the corridor
         rw = C.r0 + 0.02; a = x.a * D; var cp2 = crsPt(rw + 0.041, a);
         P = new THREE.Vector3(cp2.x, yc, cp2.z); Nv = unit(a); Rv = unit(a + Math.PI / 2).multiplyScalar(-1);
         var Mb = crsFrame(rw, a, yc), bx = new Builder(); bx.box(-pw / 2 - 0.05, -ph / 2 - 0.05, 0.004, pw / 2 + 0.05, ph / 2 + 0.05, 0.039, MT.WOOD); bx.tag(0, null, 2); W.add(bx, Mb);
         if (x.bench) { var rb = rw + 0.31; crsPlace(W, gardenBench(x.bench), rb, a, y, 0); crsObst(rw, rw + 0.62, a - (x.bench / 2 + 0.05) / rb, a + (x.bench / 2 + 0.05) / rb, x.floor); }
         if (x.plant) {
-          var rq = rw + 0.36, aq = a + x.plant[1] * ((x.bench || 0) / 2 + 0.55) / rq, py = y;
+          var fbq = plantBuilder(x.plant[0], 960 + k), Rq = plantReach(fbq), rq = rw + Math.max(0.36, Rq + 0.1), aq = a + x.plant[1] * ((x.bench || 0) / 2 + Math.max(0.55, 0.7 * Rq)) / rq, py = y;
           if (PRINT_PLINTH[x.plant[0]]) { var pl = new Builder(); pl.box(-0.21, 0, -0.21, 0.21, 0.56, 0.21, MT.WOOD); pl.tag(0, null, 2); crsPlace(W, pl, rq, aq, y, 0); py = y + 0.56; }
-          crsPlace(W, plantBuilder(x.plant[0], 960 + k), rq, aq, py, k * 1.7); crsObst(rq - 0.38, rq + 0.38, aq - 0.38 / rq, aq + 0.38 / rq, x.floor);
+          crsPlace(W, fbq, rq, aq, py, k * 1.7); crsObst(rq - 0.38, rq + 0.38, aq - 0.38 / rq, aq + 0.38 / rq, x.floor);
         }
       }
       // the picture, upright and the right way round for whoever faces it

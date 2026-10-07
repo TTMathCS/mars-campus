@@ -218,7 +218,12 @@ RING = dict(r0=46.0, r1=62.0, rc=49.6, floor_h=5.6, upper=0.0, lower=-5.6, ceil=
             # risers and a half landing along the bay, the lift at its outer end; in the sunk quarter the lower corridor
             # runs along the outer wall from cw outward, with crossings at both ends; the Gate Hall's doors
             stair=dict(a=3.6, r0=51.0, r1=60.6, w=3.0, n=32, landing=(55.2, 56.4)), lift=(49.8, -4.6),
-            bay_stair=dict(n=32, w=1.4, landing=1.3, lift=2.2), cw=58.4, skylight=dict(every=10.0, w=2.0, l=6.0),
+            # the stair bays, redesigned (Jim, 7 Oct 2026: "stairs are not designed well and have bugs": the door opened onto a
+            # 1.3 m landing facing the wall between the flights): a landing 1.8 m deep inside the doors on both floors, two
+            # flights side by side wall to wall (16 risers each, treads 0.28) with an open well 0.3 m wide between them behind
+            # glass, out to a half landing 1.5 m deep; past it, the floor below runs on under the half landing to the bay's
+            # outer end, two storeys tall (the gallery's glass at the east bay), a bench there
+            bay_stair=dict(n=32, run=0.28, landing=1.8, half=1.5, gap=0.3), cw=58.4, skylight=dict(every=10.0, w=2.0, l=6.0),
             gate=dict(inner_doors=(173.0, 180.0, 187.0), outer_doors=(180.0,)))
 RING_ROOMS = [
     # upper floor, level with the palace's balcony and the garden ring (the Crescent's rooms stay where they are)

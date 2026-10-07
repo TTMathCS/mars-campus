@@ -1,7 +1,7 @@
 """Walking regression test: run before every push. Walks the routes a visitor takes, with the page's own walker, and
 fails if any of them stops short: from the start over the ridge, in through the entrance airlock (its two pairs of doors
 open in turn), into the Gate Hall and through it into the garden ring, into the palace, out of its back door, into the
-Ring's hall, down its stair, out into the garden gallery, into a classroom, down the Gate Hall's stair, into the sunken
+Ring's hall, down its stair and up again, out into the garden gallery, into a classroom, down the Gate Hall's stair, into the sunken
 grove, through the pod lounge and the glass bridge to the docked pod; then boards the pod at the dock, flies it up and
 lands it again (it docks again and you step out into the collar).
 usage: python3 ttmath/tools/walk_check.py [--built]   (--built: the published ttmath/index.html, else the source page)
@@ -21,9 +21,14 @@ WALKS = [
     ("out of the back door", "__mars.palGo(0, -24.6, 'B')", (0, -40), 9, "o.rad < -38"),
     ("into the Ring's hall", "__mars.palGo(0, -40)", (0, -52), 7, "o.rad < -50"),
     ("down the hall's stair", "__mars._eval('(function(){var p=crsPt(CRS.stairR0-0.3, CRS.stairA);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "stair", 10, "y < CRS.yL + 0.05"),
+    ("up the hall's stair", "__mars._eval('(function(){var p=crsPt(CRS.st.r1+0.6, CRS.st.a);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "stairup", 14, "y > CRS.yU - 0.05"),
     ("out into the garden gallery", "__mars._eval('(function(){var p=crsPt(57.0, 0);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", (0, -70), 7, "o.r > 66 && y < CRS.yL + 0.05"),
     ("into a classroom (Euclid)", "__mars._eval('(function(){var d=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-02\\\";})[0].doors[0],p=crsPt(47.8, d);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "room", 6, "o.r > CRS.rc + 1.0"),
     ("down the Gate Hall's stair", "__mars._eval('(function(){var p=crsPt(CRS.gst.r0-0.3, CRS.gst.a);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "gstair", 10, "y < CRS.yL + 0.05"),
+    ("up the Gate Hall's stair", "__mars._eval('(function(){var p=crsPt(CRS.gst.r1+0.6, CRS.gst.a);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "gstairup", 14, "y > CRS.yU - 0.05"),
+    ("down the east bay's stair", "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,p=crsPt(rr, am+0.9/rr);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "bay+", 7, "Math.abs(y - (CRS.yU + CRS.yL) / 2) < 0.1"),
+    ("up the east bay's stair", "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,p=crsPt(rr, am-0.9/rr);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "bay-", 7, "Math.abs(y - (CRS.yU + CRS.yL) / 2) < 0.1"),
+    ("under it to the bay's end", "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,p=crsPt(rr, am+0.9/rr);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "bay+", 8, "o.r > CRS.rc + 9 && y < CRS.yL + 0.05"),
     ("into the sunken grove", "__mars._eval('(function(){var p=crsPt(47.8, 252*D2R);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "grove", 6, "o.r < 44 && y < CRS.yL + 0.05"),
     ("over the bridge to the pod", "__mars._eval('(function(){var p=crsPt(57.0, P2.pod_dock.a*D2R);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "dock", 9, "o.r > 69.5 && Math.abs(y - CRS.yU) < 0.05"),
 ]
@@ -48,6 +53,9 @@ async def main():
                 if to == "stair": brg = "__mars._eval('(function(){var p=crsPt(CRS.stairR0-0.3, CRS.stairA),q=crsPt(62, CRS.stairA);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif to == "room": brg = "__mars._eval('(function(){var d=P2.ring.rooms.filter(function(r){return r.code===\"T06-02\";})[0].doors[0],p=crsPt(47.8, d),q=crsPt(56, d);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif to == "gstair": brg = "__mars._eval('(function(){var p=crsPt(CRS.gst.r0-0.3, CRS.gst.a),q=crsPt(62, CRS.gst.a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                elif to == "stairup": brg = "__mars._eval('(function(){var p=crsPt(CRS.st.r1+0.6, CRS.st.a),q=crsPt(30, CRS.st.a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                elif to == "gstairup": brg = "__mars._eval('(function(){var p=crsPt(CRS.gst.r1+0.6, CRS.gst.a),q=crsPt(30, CRS.gst.a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                elif to in ("bay+", "bay-"): brg = "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,a=am%s0.9/rr,p=crsPt(rr, a),q=crsPt(62, a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')" % (to[-1],)
                 elif to == "dock": brg = "__mars._eval('(function(){var a=P2.pod_dock.a*D2R,p=crsPt(57.0, a),q=crsPt(75, a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif to == "grove": brg = "__mars._eval('(function(){var p=crsPt(47.8, 252*D2R),q=crsPt(38, 252*D2R);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 else: brg = "__mars.palBrg(%f, %f)" % to

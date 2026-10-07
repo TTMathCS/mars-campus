@@ -16,6 +16,13 @@ wall were moved onto the solid wall between windows; `crown.pier_spots` and `cro
 it after any change to a Crown scene. **Published 7 Oct:** the Arrival hall (revision H). The studio scene had an
 endless loop from 01:13 to 01:50 (fixed, 5dbf476): a job that sits building a scene for more than 2 minutes is stuck.
 
+**Also 7 Oct:** the dining hall published (two views). **Blender files** of the new scenes were 140 to 230 MB (a
+room of maples), over GitHub's 100 MB a file: `save_blend.py` now keeps each plant's leaves as instances of its leaf
+(`plants.INSTANCE`, a geometry-nodes modifier on a mesh of points; checked equal to the joined meshes, wellness 231 to
+14 MB); save each scene once all its finals are published. **Outside views:** `overall.py crown-day,crown-sunset,
+crown-garden,site-aerial` renders the Crown from outside (to replace the Rev G real-time pictures of those names in
+`palace/design/img/`); its middle now has the Orb's dock and the spire pads of chapter 02.
+
 ### 6 Oct 2026, 20:40 UTC
 
 Jim's newest asks (6 Oct): every Crown room glazed onto the Glide like the master bedroom (done, his choice A);

@@ -4,8 +4,11 @@ rendering finish just publish"). Every 90 s: this machine's finals and 360s are 
 graded to the earlier pictures' tones (grade.py: night for the star lounge's night views, else pale or day by its own
 brightness) and published: a photo into palace/tour/photos/ and its room's entry in gen_plan.py, a 360 into
 palace/tour/pano/ and its stop shown (tour_crown.py's CURRENT). Then the pages are made again and pushed.
+The photo walk's points go into palace/photowalk/v/ as they are rendered (photowalk_sync.py).
   python3 autopub.py <scratchpad>          (blend/grade.py, blend/pub.py and bvenv/ under it; the repo at $MARS_REPO)"""
 import hashlib, json, os, re, shutil, subprocess, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import photowalk_sync                # the photo walk's points, each as soon as it is rendered
 
 S = os.path.abspath(sys.argv[1]); REPO = os.environ.get("MARS_REPO", "/home/user/mars-campus")
 RAW = os.path.join(REPO, "palace", "blender", "renders"); STATE = os.path.join(S, "autopub.json")
@@ -150,7 +153,7 @@ def sha_str(x): return hashlib.sha1(repr(x).encode()).hexdigest()
 
 def push(msg):
     sh("git", "add", "palace/blender/renders/crown_h", "palace/blender/renders/crown_pano", "palace/tour", "palace/design", "palace/tools/gen_plan.py", "palace/tools/tour_crown.py",
-       "palace/walk/data", "palace/walk/parts")
+       "palace/walk/data", "palace/walk/parts", "palace/photowalk/v")
     if sh("git", "diff", "--cached", "--quiet").returncode == 0: return
     sh("git", "commit", "-q", "-m", msg + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01U4NrzcFVFwFYPq6dhgJtP1")
     for w in (2, 4, 8, 16, 32):
@@ -166,11 +169,13 @@ def main():
         try:
             n = collect()
             sh("git", "pull", "-q", "--rebase", "--autostash", "origin", "main")
-            done = publish(state); walk = walk_parts(state)
+            done = publish(state); walk = walk_parts(state); pw = photowalk_sync.sync(S, "a")
             json.dump(state, open(STATE, "w"), indent=1)
             if done:
                 sh(sys.executable, GEN); sh(sys.executable, TOURC)
-                push("Published: " + ", ".join(done) + ("\n\n" + walk if walk else ""))
+                push("Published: " + ", ".join(done) + ("\n\n" + walk if walk else "") + ("\n\n" + photowalk_sync.message(pw) if pw else ""))
+            elif pw:
+                push(photowalk_sync.message(pw) + ("\n\n" + walk if walk else ""))
             elif walk:
                 push("Walk: the parts baked so far joined into the whole ring\n\n" + walk)
             elif n:

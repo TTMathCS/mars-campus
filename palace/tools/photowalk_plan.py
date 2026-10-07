@@ -148,14 +148,19 @@ def openings(F, b, lo, hi, least=0.9):
 
 
 def way_points(F):
-    """where the walk may go between rooms: a point in every opening of a partition between two rooms, one in
-    every doorway onto the Glide, and the Glide's own points every GLIDE_STEP metres"""
+    """where the walk may go between rooms: a point by every opening of a partition between two rooms, one inside
+    every doorway onto the Glide, and the Glide's own points every GLIDE_STEP metres. None stands in the plane of a
+    wall or a door (a camera there is inside the wall, or the round Door's iris): the opening's point is 0.7 m into
+    the room after it (or before it), the doorway's 0.9 m into the room"""
     rs = rooms(); out = []
     for a, b in zip(rs, rs[1:] + rs[:1]):
         bb = a["at"][1] % 360.0
         if abs(bb - b["at"][0] % 360.0) > 1e-6: continue
         for (r0, r1) in openings(F, bb, R_GL + 0.3, R_OUT - 0.3):
-            out.append(dict(r=(r0 + r1) / 2, b=bb, room=b["code"]))
+            r = (r0 + r1) / 2
+            for side, room in ((1, b), (-1, a)):
+                b_ = bb + side * 0.7 / (r * D)
+                if F.clear(r, b_, 0.35): out.append(dict(r=r, b=b_ % 360.0, room=room["code"])); break
     j = int((R_GL - F.r0) / F.dr); row = F.free[j - 3:j + 4, :].all(axis=0)
     i = 0
     while i < F.w:
@@ -164,7 +169,7 @@ def way_points(F):
             while k < F.w and row[k]: k += 1
             if (k - i) * F.db * D * R_GL > 0.9:
                 bb = F.b0 + (i + k) / 2 * F.db; rm = next((r for r in rs if r["at"][0] <= bb < r["at"][1]), None)
-                if rm: out.append(dict(r=R_GL, b=bb, room=rm["code"]))
+                if rm and F.clear(R_GL + 0.9, bb, 0.35): out.append(dict(r=R_GL + 0.9, b=bb, room=rm["code"]))
             i = k
         else: i += 1
     n = int(2 * math.pi * GLIDE // GLIDE_STEP)
@@ -218,17 +223,23 @@ def build():
     return F, finish(pts + [allp[i] for i in sorted(used)]), (groups0, groups)
 
 
+RETIRED = set()                # numbers of points the plan had and no longer has (never given again)
+
+
 def finish(pts):
     """number the points room by room round the ring; the scene that renders each; where each looks first. A point
     already in the plan keeps its number (its pictures may be rendered); a new one takes the room's next number"""
-    old = json.load(open(OUT))["points"] if os.path.exists(OUT) else []
+    prev = json.load(open(OUT)) if os.path.exists(OUT) else {}
+    old = prev.get("points", []); retired = set(prev.get("retired", []))
     pts.sort(key=lambda p: (p["b"] % 360.0, p["r"])); used = set()
     for p in pts:
         x, y = xy(p["r"], p["b"])
         k = next((q["id"] for q in old if abs(q["x"] - x) < 0.05 and abs(q["y"] - y) < 0.05), None)
         if k and k.split(".")[0] == p["room"] and k not in used: p["id"] = k; used.add(k)
+    # a number once given is never given again: a point that has gone may have its pictures rendered already
+    RETIRED.update(retired | {q["id"] for q in old} - used)
     count = {}
-    for k in used: room, n = k.rsplit(".", 1); count[room] = max(count.get(room, 0), int(n))
+    for k in used | RETIRED: room, n = k.rsplit(".", 1); count[room] = max(count.get(room, 0), int(n))
     for p in pts:
         if "id" not in p:
             count[p["room"]] = count.get(p["room"], 0) + 1; p["id"] = "%s.%d" % (p["room"], count[p["room"]])
@@ -256,7 +267,7 @@ def main():
     F, pts, (g0, g1) = build()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     names = {r["code"]: r["name"] for r in rooms()}; names["GL"] = "The Glide"
-    json.dump(dict(eye=EYE, link=LINK, rooms=names, scenes=SCENES, points=pts), open(OUT, "w"), indent=1)
+    json.dump(dict(eye=EYE, link=LINK, rooms=names, scenes=SCENES, points=pts, retired=sorted(RETIRED)), open(OUT, "w"), indent=1)
     by = {}
     for p in pts: by[p["scene"]] = by.get(p["scene"], 0) + 1
     print("%d points by scene: %s" % (len(pts), ", ".join("%s %d" % kv for kv in by.items())))

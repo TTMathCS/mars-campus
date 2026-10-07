@@ -39,8 +39,16 @@ def sync(scratch, machine):
     """copy this machine's finished points into the site; returns the ids that are new or changed"""
     src = os.path.join(scratch, "final", "photowalk"); dst = os.path.join(SITE, "v"); os.makedirs(dst, exist_ok=True)
     if not os.path.isdir(src) or not os.path.exists(os.path.join(SITE, "plan.json")): return []
-    ids = {p["id"].lower().replace("-", "").replace(".", "_"): p["id"] for p in json.load(open(os.path.join(SITE, "plan.json")))["points"]}
+    plan = json.load(open(os.path.join(SITE, "plan.json")))
+    ids = {p["id"].lower().replace("-", "").replace(".", "_"): p["id"] for p in plan["points"]}
     new, mine = [], []
+    # points the plan no longer has (moved off a wall, say): their pictures out of the site
+    for rid in plan.get("retired", []):
+        f = rid.lower().replace("-", "").replace(".", "_"); gone = False
+        for x in PARTS:
+            y = os.path.join(dst, f + x)
+            if os.path.exists(y): os.remove(y); gone = True
+        if gone: new.append(rid + " (taken out)")
     for f, pid in sorted(ids.items()):
         files = [os.path.join(src, f + s) for s in PARTS]
         if not all(os.path.exists(x) for x in files): continue
@@ -51,8 +59,9 @@ def sync(scratch, machine):
         if changed: new.append(pid)
     lst = os.path.join(dst, "index_%s.json" % machine)
     old = json.load(open(lst))["ready"] if os.path.exists(lst) else []
-    if sorted(set(old) | set(mine)) != sorted(old):
-        json.dump(dict(ready=sorted(set(old) | set(mine))), open(lst, "w"), indent=0)
+    ready = sorted((set(old) | set(mine)) & set(ids.values()))
+    if ready != sorted(old):
+        json.dump(dict(ready=ready), open(lst, "w"), indent=0)
     return new
 
 

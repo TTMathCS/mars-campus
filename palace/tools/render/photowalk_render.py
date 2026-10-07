@@ -9,7 +9,7 @@ Writes into <out dir>, for a point C-04.3 (files c04_3...):
   c04_3.webp     the six faces 3 across and 2 down: +x -x +y / -y +z -z (z up; each face as its camera saw it, the
                  side faces upright, +z and -z with +y up), graded as the scene's first point is (grade.py)
   c04_3_s.webp   the same a quarter the size: shown at once, and while moving
-  c04_3_d.png    how far everything is: equirectangular 256 x 128 (+y in the middle, east to the right), in metres
+  c04_3_d.png    how far everything is: equirectangular 512 x 256 (+y in the middle, east to the right), in metres
                  as 0.25 * 65535 / value, the value in 16 bits (red the high byte, green the low); 0 is the sky
   and, for a tour stop, the 360 as the tour shows it (equirectangular 4096 x 2048) as <out dir>/../crown_pano/
   pano_<stop>.jpg, where the tour's 360s are published from (autopub.py)
@@ -25,8 +25,8 @@ crown.DOORS_OPEN = True
 NEAR = 6.0                     # degrees of the ring built either side of the scene's own rooms (about 13 m)
 NEIGHBOUR_DETAIL = 0.6         # the rooms either side: plants a little plainer (they are seen through openings)
 EXPOSURE = {"observatory": 2.0}            # as the stills (crown_rooms.py jobs); -0.2 for the rest
-OVER = 16                      # pixels rendered past each edge of a face and cut off: the denoiser works less well at
-                               # a picture's edges, which would show as seams where the faces meet
+OVER = 16                      # pixels rendered past each edge of a face and cut off (a 32nd of the face, at least
+                               # 16): the denoiser works less well at a picture's edges, which would show as seams
 # the cube's faces: where each camera looks and which way is up on it (Blender's world: z up)
 FACES = [((1, 0, 0), (0, 0, 1)), ((-1, 0, 0), (0, 0, 1)), ((0, 1, 0), (0, 0, 1)),
          ((0, -1, 0), (0, 0, 1)), ((0, 0, 1), (0, 1, 0)), ((0, 0, -1), (0, 1, 0))]
@@ -117,6 +117,8 @@ def read_exr(path):
 
 def render_point(p, out, tmp, fo, size, spp, ex):
     """the six faces of one point, each kept as soon as it is done"""
+    global OVER
+    OVER = max(16, size // 32)
     loc = (p["x"], p["y"], p["z"] + 1.55); f = fname(p["id"]); faces, depths = [], []
     sc = bpy.context.scene; sc.render.image_settings.file_format = "PNG"; sc.render.image_settings.color_depth = "8"
     for k in range(6):
@@ -161,7 +163,7 @@ def equirect_dirs(w, h):
     return np.stack([np.cos(lat) * np.sin(lon), np.cos(lat) * np.cos(lon), np.sin(lat)], -1)
 
 
-def depth_map(depths, w=256, h=128):
+def depth_map(depths, w=512, h=256):
     """the depth faces (distance along each camera's axis) to an equirectangular map of distances"""
     D_ = np.stack([read_exr(x)[OVER:-OVER, OVER:-OVER] for x in depths]); n = D_.shape[1]
     face, col, row, x, y = cube_lookup(equirect_dirs(w, h), n)

@@ -6,13 +6,14 @@ he chose this photo walk first, then the free walk polished.
 
 Where the points go:
   - the room's tour stop (tour_crown.py), so the tour's 360 there is this walk's;
-  - two rows along each room (ROWS: 4.5 m in from the glass onto the Glide and from the windows), a point every
-    SPACING metres or a little less, the rows staggered so the points zig-zag down the room;
+  - one row down the middle of each room (ROWS: 8 m from the windows and from the glass onto the Glide, so one sees
+    the room whole: Jim, 7 Oct 2026, of a first walk with two rows nearer the walls: "the view is so close view. i
+    need to bit far and zoom out"), a point every SPACING metres or a little less;
   - each point on free floor with CLEAR metres round it (the walk's floor map, palace/walk/data/floor.png: nothing
     in the way from 0.15 to 1.85 m up), moved up to SNAP metres to find it, or left out;
-  - then the walk is made whole: where two rooms' points do not join by straight steps (at most LINK metres, on
-    free floor), the shortest way between them is added: points in the openings of the partitions, in the doorways
-    onto the Glide, and along the Glide.
+  - then the walk is made whole: where two rooms' points do not see each other (at most LINK metres apart, nothing
+    1.3 m up or more between them: walk_bake.py's map of what stands in the way of the eye), the shortest way between
+    them is added: points by the openings of the partitions, in the doorways onto the Glide, and along the Glide.
 
 Each point: its code (the room's code and a number round the ring: C-04.3; GL for the Glide), the scene that
 renders it (render/crown_rooms.py ROOMS), where it stands (radius r and bearing b; x, y in metres, the floor at 0),
@@ -33,13 +34,14 @@ OUT = os.path.join(HERE, "..", "photowalk", "plan.json")
 D = math.pi / 180
 R_IN, R_GL, R_OUT = 115.0, 118.5, 135.0
 RM, GLIDE = (R_GL + R_OUT) / 2, (R_IN + R_GL) / 2
-ROWS = (123.0, 130.6)          # the two rows: 4.5 m in from the glass onto the Glide, 4.4 m in from the windows
-SPACING = 5.6                  # at most this far apart along a row, metres; the rows are staggered by half a step
+ROWS = (RM,)                   # one row down the middle of the rooms, 8.25 m from the windows and from the glass
+SPACING = 6.5                  # at most this far apart along the row, metres
 CLEAR = 0.7                    # free floor round a point, metres: no chair or table right under the tripod
-SNAP = 1.6                     # how far a point may move to find free floor, metres
+SNAP = 2.5                     # how far a point may move to find free floor, metres (round a table in the middle)
 EYE = 1.55                     # the camera above the floor, metres (as the tour's 360s)
 LINK = 9.5                     # the longest straight step between two points, metres
 GLIDE_STEP = 8.0               # points along the Glide, where one is needed: this far apart
+WAY_STEP = 2.5                 # spots on free floor in the rooms that a way between parts of the walk may take
 
 # the scenes that render the Crown (crown_rooms.py ROOMS: a room or a run of rooms each), round the ring
 SCENES = [("observatory", 0.0, 36.0), ("garden", 36.0, 72.0), ("suit", 72.0, 78.0), ("hangar", 78.0, 91.44),
@@ -72,6 +74,8 @@ class Floor:
         self.b0, self.db, self.r0, self.dr = info["b0"], info["db"], info["r0"], info["dr"]
         self.free = np.asarray(Image.open(os.path.join(WALK, info["file"])).convert("L")) > 127
         self.h, self.w = self.free.shape
+        tall = os.path.join(WALK, "tall.png")             # what stands in the way of the eye (walk_bake.py, 1.3 m up)
+        self.clear_eye = np.asarray(Image.open(tall).convert("L")) > 127 if os.path.exists(tall) else self.free
         blocked = (~self.free).astype(np.int32)           # a summed-area table: is a square round a cell clear?
         self.sat = np.zeros((self.h + 1, self.w + 1), np.int32); self.sat[1:, 1:] = blocked.cumsum(0).cumsum(1)
 
@@ -87,6 +91,15 @@ class Floor:
         j0, j1, i0, i1 = j - cj, j + cj + 1, i - ci, i + ci + 1
         if j0 < 0 or j1 > self.h or i0 < 0 or i1 > self.w: return False
         return self.sat[j1, i1] - self.sat[j0, i1] - self.sat[j1, i0] + self.sat[j0, i0] == 0
+
+    def seen(self, p, q, step=0.05):
+        """nothing in the way of the eye on the straight line from p to q (a sofa or a table is not; a wall, a shelf,
+        a tree is): the page steps between points that see each other"""
+        n = max(1, int(math.dist(p, q) / step))
+        for k in range(n + 1):
+            r, b = rb(p[0] + (q[0] - p[0]) * k / n, p[1] + (q[1] - p[1]) * k / n); i, j = self.ij(r, b)
+            if not (0 <= j < self.h and self.clear_eye[j, i % self.w]): return False
+        return True
 
     def walkable(self, p, q, step=0.05):
         """a straight line on free floor from p to q (each (x, y))"""
@@ -107,7 +120,7 @@ def snap(F, r, b, box, clear=CLEAR, reach=SNAP):
 
 
 def room_points(F):
-    """the tour stop and two staggered rows in every room"""
+    """the tour stop and the row down the middle of every room"""
     stops = {s[1]: s for s in tour_crown.STOPS}; out = []
     for room in rooms():
         b0, b1 = room["at"]; code = room["code"]; here = []
@@ -120,7 +133,7 @@ def room_points(F):
         for n, rr in enumerate(ROWS):
             L = (hi - lo) * D * rr; cnt = max(1, int(L // SPACING) + 1); step = L / cnt
             for c in range(cnt):
-                b = lo + (c + (0.25 if n == 0 else 0.75)) * step / (rr * D)
+                b = lo + (c + 0.5) * step / (rr * D)
                 if any(math.dist(xy(rr, b), xy(p["r"], p["b"])) < SPACING * 0.6 for p in here): continue
                 s = snap(F, rr, b, box)
                 if s and not any(math.dist(xy(*s), xy(p["r"], p["b"])) < SPACING * 0.5 for p in here): here.append(dict(r=s[0], b=s[1]))
@@ -176,6 +189,18 @@ def way_points(F):
     for k in range(n):
         bb = (k + 0.5) * 360.0 / n
         if F.ok(GLIDE, bb): out.append(dict(r=GLIDE, b=bb, room="GL"))
+    # and spots every WAY_STEP metres on free floor in every room, for a way round a bed, a tree or a screen between
+    # two parts of a room, or through a narrow door (only those the shortest ways need are kept)
+    for room in rs:
+        b0, b1 = room["at"]
+        r = R_GL + 1.0
+        while r <= R_OUT - 1.0:
+            m = b0 * D * r + 0.6
+            while m <= b1 * D * r - 0.6:
+                bb = m / (r * D)
+                if F.clear(r, bb, 0.45): out.append(dict(r=r, b=bb, room=room["code"]))
+                m += WAY_STEP
+            r += WAY_STEP
     return out
 
 
@@ -187,7 +212,7 @@ def build():
     for i in range(len(allp)):
         for j in range(i + 1, len(allp)):
             d = math.dist(P[i], P[j])
-            if d <= LINK and F.walkable(P[i], P[j]): nbr[i].append((j, d)); nbr[j].append((i, d))
+            if d <= LINK and F.seen(P[i], P[j]): nbr[i].append((j, d)); nbr[j].append((i, d))
     parent = list(range(len(allp)))
     def root(i):
         while parent[i] != i: parent[i] = parent[parent[i]]; i = parent[i]

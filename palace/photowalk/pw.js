@@ -32,7 +32,8 @@ const ringGeo = new THREE.RingGeometry(0.26, 0.36, 48).rotateX(-Math.PI / 2);
 const marks = [];
 function mark(i) {
   while (marks.length <= i) {
-    const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, depthWrite: false }));
+    // drawn over the room (the room's shape is too coarse for a ring on the floor), only for spots one sees
+    const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, depthWrite: false, depthTest: false }));
     m.renderOrder = 2; world.add(m); marks.push(m);
   }
   return marks[i];
@@ -47,7 +48,13 @@ function resize() {
 addEventListener('resize', resize); resize();
 
 // ---------------------------------------------------------------- where one is
-let here = null, near = [], move = null, yaw = 0, pitch = 0, turn = 0, fov = 72, hint = true;
+let here = null, near = [], move = null, yaw = 0, pitch = 0, turn = 0, fov = 72, hint = true, zoomed = false;
+// the view spans 105 degrees across the screen to begin with, as wide on a phone held upright as it can without
+// bending the room (Jim, 7 Oct 2026: "the view is so close view. i need to bit far and zoom out"); one zooms from
+// 25 to 115 degrees up and down
+const WIDE = 105 * D, FOV_MIN = 25, FOV_MAX = 115;
+const fovFit = () => Math.max(55, Math.min(108, 2 * Math.atan(Math.tan(WIDE / 2) / camera.aspect) / D));
+addEventListener('resize', () => { if (!zoomed) fov = fovFit(); });
 const ringMap = new RingMap($('map'), spans());
 
 function spans() {        // the stretches of the ring with points ready, for the map
@@ -182,7 +189,8 @@ canvas.addEventListener('pointermove', e => {
   const p = pointers.get(e.pointerId);
   if (p) { p.x = e.clientX; p.y = e.clientY; }
   if (pinch && pointers.size === 2) {
-    const [a, b] = [...pointers.values()]; fov = Math.max(30, Math.min(90, pinch.fov * pinch.d / Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)))); return;
+    const [a, b] = [...pointers.values()]; zoomed = true;
+    fov = Math.max(FOV_MIN, Math.min(FOV_MAX, pinch.fov * pinch.d / Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)))); return;
   }
   if (drag && p) {
     const k = (fov * D) / canvas.clientHeight, dx = e.clientX - drag.x, dy = e.clientY - drag.y;
@@ -202,7 +210,7 @@ function up(e) {
   if (!pointers.size) { drag = null; canvas.classList.remove('drag'); }
 }
 canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
-canvas.addEventListener('wheel', e => { e.preventDefault(); fov = Math.max(30, Math.min(90, fov * Math.exp(e.deltaY * 0.001))); }, { passive: false });
+canvas.addEventListener('wheel', e => { e.preventDefault(); zoomed = true; fov = Math.max(FOV_MIN, Math.min(FOV_MAX, fov * Math.exp(e.deltaY * 0.001))); }, { passive: false });
 addEventListener('keydown', e => {
   if (e.key === 'ArrowUp' || e.code === 'KeyW') go(ahead());
   else if (e.key === 'ArrowDown' || e.code === 'KeyS') go(ahead(true));
@@ -238,14 +246,30 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
+// the most open way from a point, at eye level: where the room runs furthest (over 30 degrees, so not a doorway's
+// slot), as a bearing
+function openWay(P) {
+  const n = 72, far = [];
+  for (let k = 0; k < n; k++) { const a = k / n * 2 * Math.PI; far.push(Math.min(60, P.depth([Math.sin(a), Math.cos(a), 0]))); }
+  let best = 0, score = -1;
+  for (let k = 0; k < n; k++) {
+    let m = Infinity; for (let d = -3; d <= 3; d++) m = Math.min(m, far[(k + d + n) % n]);
+    if (m > score) { score = m; best = k; }
+  }
+  return best / n * 360;
+}
+
 // ---------------------------------------------------------------- the start: the small 360 at once, then the sharp one
 async function start() {
   const want = decodeURIComponent(location.hash.slice(1));
   const P = panos.get(want) || panos.get(START) || panos.values().next().value;
   if (!P) return;
-  yaw = -P.p.look * D;
+  fov = fovFit(); camera.fov = fov; camera.updateProjectionMatrix();
+  await P.loadDepth();
+  yaw = -(P.p.stop ? P.p.look : openWay(P)) * D;     // a tour stop looks at its room's view; any other point into the room
   await Promise.all([P.loadDepth(), P.loadSmall()]);
   P.build(); await arrive(P);
+  if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Drag to look round \u00b7 pinch to zoom \u00b7 tap the floor to walk';
   document.body.classList.add('on'); $('hint').classList.add('on');
   setTimeout(() => { if (hint) { hint = false; $('hint').classList.remove('on'); } }, 9000);
 }

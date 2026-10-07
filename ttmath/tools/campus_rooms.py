@@ -113,7 +113,7 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-38": [("monstera", "window0"), ("maple", "window1"), ("anthurium", "desk"), ("croton", "corner0")],
     "T06-39": [("kentia", "window0"), ("kentia", "window1"), ("croton", "corner0")],
     "T06-40": [("bromeliad", "window0"), ("agave", "window1"), ("orchid", "desk")],
-    "T06-41": [("fig", "window1"), ("fern", "corner1")],
+    "T06-41": [("fig", "window1"), ("fern", "side1")],
     "T06-42": [("orchid", "desk"), ("snake", "window1")],
 })
 

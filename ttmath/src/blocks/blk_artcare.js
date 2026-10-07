@@ -181,7 +181,7 @@
       var a = ta + x / 55.8, rot = c[1] - Math.PI / 2; crsPlace(B, easel(), c[0], a, F.y, rot); crsPlace(B, stool(), c[0] + (c[1] === IN ? 0.6 : -0.6), a, F.y, 0);
       paintQuad(crsFrame(c[0], a, F.y, rot), -0.31, 0.31, 0.82, 1.54, 0.0915, k++ % PAINT.n, 0.3);
     }); }
-    var sa = F.at(1.0, false); crsPlace(B, counter(3.0), C.rc + 0.45, sa, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, sa - 1.6 / 50, sa + 1.6 / 50, F.floor);
+    var sa = F.at(4.6, false); crsPlace(B, counter(3.0), C.rc + 0.45, sa, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, sa - 1.6 / 50, sa + 1.6 / 50, F.floor);   // the sink, clear of the door
     // the back wall: finished work hung close together, an oak strip of light over it
     var s = -F.sgn, wa = F.back, hang = [[1.2, 0.9, 53.3, 1.85], [0.8, 1.0, 54.75, 1.7], [0.6, 0.5, 54.75, 2.6], [1.4, 1.0, 56.4, 1.95], [0.7, 0.7, 57.95, 1.55], [0.8, 0.6, 57.95, 2.45], [0.9, 1.2, 59.25, 1.9]];
     hang.forEach(function (h, i) {

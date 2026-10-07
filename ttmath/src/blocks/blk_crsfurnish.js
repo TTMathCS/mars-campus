@@ -166,7 +166,7 @@
     var C = CRS, a0 = rmA0(rm), a1 = rmA1(rm), y = rm.floor === "lower" ? C.yL : C.yU, mid = (a0 + a1) / 2, eastSide = mid >= 0;
     // the hall is at the room's inner end: the board goes on the wall at the far end, the students face it
     var front = eastSide ? a1 : a0, back = eastSide ? a0 : a1, sgn = eastSide ? 1 : -1, rM = (C.rc + C.r1) / 2;
-    return { a0: a0, a1: a1, y: y, mid: mid, front: front, back: back, sgn: sgn, rM: rM, span: (a1 - a0) * rM, floor: rm.floor,
+    return { a0: a0, a1: a1, y: y, mid: mid, front: front, back: back, sgn: sgn, rM: rM, span: (a1 - a0) * rM, floor: rm.floor, doors: rm.doors || [],
              at: function (dist, fromFront) { return fromFront ? front - sgn * dist / rM : back + sgn * dist / rM; } };
   }
   function boardOn(B, F, w, uv, mat, g2, onBack) {                          // a board on the front (or the back) wall, centred
@@ -182,9 +182,11 @@
     crsPic(B, rM, wa, F.y + 1.75, [-0.064 * F.sgn, 0, 0], [-F.sgn, 0], w, h, uv, MT.SCREEN, [1.0, 0]);
     var sl = crsPt(rM, F.front - F.sgn * 1.0 / rM); wLight(sl.x, F.y + 1.7, sl.z, [0.75, 0.85, 1.0], 0.7, 5);
   }
+  // whether something on the corridor wall at angle a, half as wide as hw (m), would stand in a door (1 m) or against its open leaf
+  function nearDoor(F, a, hw) { return (F.doors || []).some(function (d) { return Math.abs(a - d) * CRS.rc < hw + 0.5 + 0.25; }); }
   function shelvesOnCorridor(B, F, n, fromDist) {                           // bookshelves along the corridor wall, from a distance from the back wall
     var C = CRS, r = C.rc + 0.27, half = 0.45 / r;
-    for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); shelfBooks(B, crsFrame(r, a, F.y, ROT.out), k + Math.round(F.mid * 40)); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
+    for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; if (nearDoor(F, a, 0.45)) continue; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); shelfBooks(B, crsFrame(r, a, F.y, ROT.out), k + Math.round(F.mid * 40)); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
   }
   // how far a plant reaches out from its stem, from its leaves (cached on its builder)
   function plantReach(fb) { if (fb._reach) return fb._reach; var P = fb.p, m = 0.3; for (var k = 0; k < P.length; k += 3) m = Math.max(m, Math.hypot(P[k], P[k + 2])); return (fb._reach = m); }
@@ -197,6 +199,7 @@
       if (spot === "window0") { r = C.r1 - wW; a = F.a0 + wS / r; } else if (spot === "window1") { r = C.r1 - wW; a = F.a1 - wS / r; }
       else if (spot === "windowmid") { r = C.r1 - wW; a = F.at(F.span * 0.72, true); } else if (spot === "corner0") { r = C.rc + wC; a = F.a0 + wE / r; } else if (spot === "corner1") { r = C.rc + wC; a = F.a1 - wE / r; }
       else if (spot === "door") { var d = (rm.doors && rm.doors[0]) || F.mid; r = C.rc + 0.6; a = d + (d > F.mid ? -1 : 1) * 1.05 / r; }
+      if ((spot === "corner0" || spot === "corner1") && nearDoor(F, a, cl - 0.3)) r += 1.2;          // a corner by a door: a step into the room, clear of the door and its leaf
       else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, halfway out
       else if (spot === "desk" && deskAt) { r = deskAt[0]; a = deskAt[1]; y = F.y + deskAt[2]; }
       else if (spot === "shelf") { r = C.rc + 0.3; a = F.back + F.sgn * 0.5 / (C.rc + 0.3); y = F.y + 1.8; }
@@ -243,10 +246,10 @@
     for (var d = 2.2; d < F.span - 1.8 && n < 40; d += 1.45) cols.forEach(function (r) {
       if (n >= 40) return; var a = F.at(d, false);
       crsPlace(B, carrel(), r, a, F.y, F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2);                 // the reader faces away from the back wall
-      crsPlace(B, schoolChair(5), r, a - F.sgn * 0.62 / r, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(r - 0.48, r + 0.48, a - 0.45 / r, a + 0.45 / r, F.floor); n++; });
-    var la = F.at(1.2, true); crsPlace(B, teacherDesk(), C.rc + 1.5, la, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(C.rc + 0.65, C.rc + 2.35, la - 0.42 / 51, la + 0.42 / 51, F.floor);
+      crsPlace(B, officeChair(), r, a - F.sgn * 0.62 / r, F.y, F.sgn > 0 ? 0 : Math.PI); crsObst(r - 0.48, r + 0.48, a - 0.45 / r, a + 0.45 / r, F.floor); n++; });   // padded task chairs (the program's), not shell chairs
+    var la = F.at(1.2, true), rd = C.rc + 2.1; crsPlace(B, teacherDesk(), rd, la, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(rd - 0.85, rd + 0.85, la - 0.42 / 51, la + 0.42 / 51, F.floor);   // clear of the door's open leaf
     shelvesOnCorridor(B, F, 12, 1.4);
-    roomPlants(B, rm, F, [C.rc + 1.5, la, 0.77]);
+    roomPlants(B, rm, F, [rd, la, 0.77]);
   }
   function competitionRoom(B, rm, F) {
     var C = CRS;
@@ -272,7 +275,7 @@
     var rm2 = (rA + rB) / 2; [[-2.15, ROT.plusA], [2.15, ROT.minusA]].forEach(function (e) { var aa = la + e[0] / rm2; crsPlace(B, armchair(), rm2, aa, F.y, e[1]); crsObst(rm2 - 0.5, rm2 + 0.5, aa - 0.5 / rm2, aa + 0.5 / rm2, F.floor); });
     [-1.8, 1.8].forEach(function (x) { var aa = la + x / rA; crsPlace(B, lampTable(), rA + 0.05, aa, F.y, 0); lampLight(rA + 0.05, aa, F.y, 0.95, 0.55, 3.2); crsObst(rA - 0.25, rA + 0.35, aa - 0.28 / rA, aa + 0.28 / rA, F.floor); });
     giantChess(B, 59.3, F.at(3.6, false), F.y, F.floor);
-    var ea = F.at(F.span * 0.9, false); crsPlace(B, kitchenette(), C.rc + 0.42, ea, F.y, ROT.out); crsObst(C.rc + 0.1, C.rc + 0.8, ea - 1.25 / 50, ea + 1.25 / 50, F.floor);
+    var ea = F.at(F.span * 0.62, false); crsPlace(B, kitchenette(), C.rc + 0.42, ea, F.y, ROT.out);   // between the doors crsObst(C.rc + 0.1, C.rc + 0.8, ea - 1.25 / 50, ea + 1.25 / 50, F.floor);
     crsPlace(B, espressoMachine(), C.rc + 0.36, ea, F.y + 0.92, ROT.out);
     roomPlants(B, rm, F, [(rA + rB) / 2, la, 0.4]);
   }
@@ -304,15 +307,18 @@
     screenOn(B, F, 2.4, 1.35, ATL.scrLab);
     roomPlants(B, rm, F, [57.8, F.at(1.8, true), 0.77]);
   }
+  // the basins on the corridor wall, in the middle, if that leaves the door and its open leaf clear; in a narrow room along
+  // the side wall away from the door instead (they stood across the doorway in 207, 222 and 269)
+  function basinsClearOfDoor(B, rm, F) {
+    var C = CRS, lw = 3.6, d0 = (rm.doors || [])[0];
+    if (!(rm.doors || []).some(function (d) { return Math.abs(d - F.mid) * C.rc < lw / 2 + 1.1; })) { crsPlace(B, basinCounter(lw), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor); return; }
+    var far0 = Math.abs(d0 - F.a0) > Math.abs(d0 - F.a1), rb = C.rc + 2.0 + lw / 2, ab = far0 ? F.a0 + 0.36 / rb : F.a1 - 0.36 / rb;
+    crsPlace(B, basinCounter(lw), rb, ab, F.y, far0 ? ROT.plusA : ROT.minusA); crsObst(rb - lw / 2 - 0.05, rb + lw / 2 + 0.05, far0 ? F.a0 : ab - 0.38 / rb, far0 ? ab + 0.38 / rb : F.a1, F.floor);
+  }
   function washrooms(B, rm, F, store) {
     var C = CRS;
     crsPlace(B, wcRow(store ? 4 : 5), C.r1 - 0.25, F.mid, F.y, ROT["in"]); crsObst(C.r1 - 1.85, C.r1, F.a0, F.a1, F.floor);
-    // the basins on the corridor wall, in the middle, if that leaves the door and its open leaf clear; in a narrow washroom
-    // along the side wall away from the door instead (they stood across the doorway in 207, 222 and 269)
-    var lw = 3.6, d0 = (rm.doors || [])[0];
-    if (!(rm.doors || []).some(function (d) { return Math.abs(d - F.mid) * C.rc < lw / 2 + 1.1; })) { crsPlace(B, basinCounter(lw), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor); }
-    else { var far0 = Math.abs(d0 - F.a0) > Math.abs(d0 - F.a1), rb = C.rc + 2.0 + lw / 2, ab = far0 ? F.a0 + 0.36 / rb : F.a1 - 0.36 / rb;
-      crsPlace(B, basinCounter(lw), rb, ab, F.y, far0 ? ROT.plusA : ROT.minusA); crsObst(rb - lw / 2 - 0.05, rb + lw / 2 + 0.05, far0 ? F.a0 : ab - 0.38 / rb, far0 ? ab + 0.38 / rb : F.a1, F.floor); }
+    basinsClearOfDoor(B, rm, F);
     if (store) { var sa = F.at(0.6, false); for (var k = 0; k < 3; k++) crsPlace(B, bookshelf(), 54.0 + k * 0.95, sa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(53.4, 56.8, sa - 0.3 / 55, sa + 0.3 / 55, F.floor); }
     if ((P2.ring.fountains || []).indexOf(rm.code) >= 0 && rm.doors && rm.doors.length) {   // a bottle filler on the corridor wall beside the door
       var d = rm.doors[0], sd = F.mid > d ? 1 : -1, rf = C.rc - C.wall / 2, af = d + sd * 1.15 / rf;

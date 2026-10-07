@@ -227,7 +227,8 @@
   }
   function kitchenRoom(B, rm, F) {                                                    // steel counters along the walls, an island
     var C = CRS;
-    [[C.r1 - 0.45, 0], [C.rc + 0.45, Math.PI]].forEach(function (w) { for (var d = 1.4; d < F.span - 1.2; d += 2.5) { var a = F.at(d, false); crsPlace(B, counter(2.4, 1), w[0], a, F.y, w[1]); } crsObst(w[0] - 0.4, w[0] + 0.4, F.a0, F.a1, F.floor); });
+    [[C.r1 - 0.45, 0], [C.rc + 0.45, Math.PI]].forEach(function (w, wi) { for (var d = 1.4; d < F.span - 1.2; d += 2.5) { var a = F.at(d, false); if (wi && nearDoor(F, a, 1.2)) continue;   // the corridor's side leaves its door clear
+      crsPlace(B, counter(2.4, 1), w[0], a, F.y, w[1]); crsObst(w[0] - 0.4, w[0] + 0.4, a - 1.25 / w[0], a + 1.25 / w[0], F.floor); } });
     var ia = F.at(F.span / 2, false); crsPlace(B, counter(4.0, 1), 55.8, ia, F.y, 0); crsObst(55.3, 56.3, ia - 2.1 / 56, ia + 2.1 / 56, F.floor);
     roomPlants(B, rm, F, null);
   }
@@ -323,7 +324,7 @@
   }
   function lockerRoom(B, rm, F) {
     var C = CRS; for (var d = 0.6; d < F.span - 0.6; d += 3.4) { var a = F.at(d + 1.6, false); crsPlace(B, lockerBank(8), C.r1 - 0.3, a, F.y, 0); }
-    crsObst(C.r1 - 0.8, C.r1, F.a0, F.a1, F.floor); crsPlace(B, basinCounter(3.6), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor);
+    crsObst(C.r1 - 0.8, C.r1, F.a0, F.a1, F.floor); basinsClearOfDoor(B, rm, F);
     roomPlants(B, rm, F, null);
   }
   function gateHall(B, rm, F) {                                                       // the reception desk by the garden glass, benches, tall plants

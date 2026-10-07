@@ -98,7 +98,7 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-22": [("snake", "window0"), ("pothos", "shelf")],
     "T06-23": [("ficus", "window0"), ("agave", "window1"), ("orchid", "desk"), ("pothos", "shelf")],
     "T06-24": [("maple", "window0"), ("kentia", "window1"), ("anthurium", "desk")],
-    "T06-25": [("fig", "window0"), ("monstera", "windowmid"), ("fern", "corner0"), ("pothos", "shelf")],
+    "T06-25": [("fig", "window0"), ("monstera", "side1"), ("fern", "corner0"), ("pothos", "desk")],
     "T06-26": [("strelitzia", "window0"), ("olive", "window1"), ("croton", "corner1")],
     "T06-27": [("maple", "window0"), ("maple", "window1"), ("agave", "corner0"), ("strelitzia", "corner1"), ("kentia", "windowmid")],   # low by the screens' wall
     "T06-28": [("snake", "window1")],

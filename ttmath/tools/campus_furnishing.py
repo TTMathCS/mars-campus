@@ -92,6 +92,14 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-25": dict(name="Library", seating=["24 upholstered ink-blue chairs at six walnut reading tables", "two cognac club chairs in a reading corner by the corridor wall"],
+                   tables=["six walnut reading tables 2.4 m, two green-shaded brass lamps on each", "a lamp table between the club chairs"],
+                   lights=["linear pendants", "the green lamps", "a table lamp and a floor lamp in the corner", "the clerestory under the sloping roof"],
+                   finishes="a wall of books along the outer wall under the clerestory, two rolling oak ladders on brass rails; five double-sided stacks in bays from the aisle toward it; "
+                            "the circulation desk in walnut by the front door, a stone ledge for visitors, a screen, returned books, the slot for returns; a trolley of books; "
+                            "a globe of Mars on a walnut stand; a fig, a monstera, a fern, a pothos trailing from the desk",
+                   layout="d from the back wall (0) to the front (17.5 m); the stacks at r 58.6 to 60.4 every 2.8 m from d 2.2; the tables at r 53.0 and 56.4, d 3.0 to 10.2; "
+                          "the desk at r 52.2, 4.4 m from the front wall", next=""),
     "T06-37": dict(name="Dining hall", seating=["72 upholstered chairs in olive and oatmeal at six long oak tables across the room, twelve at each",
                    "a rust banquette along the outer wall in two runs with tables for four, two oatmeal chairs across each"],
                    tables=["six long oak tables 6 m across the room, an orchid on each", "nine tables 1.2 by 0.75 m along the banquette"],

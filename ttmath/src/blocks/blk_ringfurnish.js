@@ -115,16 +115,58 @@
     shelvesOnCorridor(B, F, 5, 1.0);
     roomPlants(B, rm, F, [r, a + F.sgn * 1.2 / r, 0.819]);
   }
-  function libraryRoom(B, rm, F) {                                                    // the library: shelves along the outer wall, tables, the desk
-    var C = CRS, rs = C.r1 - 0.35;
-    for (var d = 0.9; d < F.span - 0.6; d += 0.92) { var a = F.at(d, false); crsPlace(B, bookshelf(), rs, a, F.y, 0); shelfBooks(B, crsFrame(rs, a, F.y, 0), Math.round(d * 3)); crsObst(rs - 0.25, rs + 0.25, a - 0.46 / rs, a + 0.46 / rs, F.floor); }
-    [[53.6, 3.6], [53.6, 8.2], [57.2, 3.6], [57.2, 8.2], [53.6, 12.8], [57.2, 12.8]].forEach(function (t) {
-      if (t[1] > F.span - 2.2) return; var a = F.at(t[1], false); crsPlace(B, longTable(2.4), t[0], a, F.y, 0); crsObst(t[0] - 0.95, t[0] + 0.95, a - 1.3 / t[0], a + 1.3 / t[0], F.floor);
-      [-0.6, 0.6].forEach(function (x) { crsPlace(B, diningChair(1), t[0] + 0.82, a + x / t[0], F.y, IN); crsPlace(B, diningChair(1), t[0] - 0.82, a + x / t[0], F.y, OUT); });
-      crsPlace(B, bankerLamp(), t[0], a, F.y + 0.75, 0);
+  // ---- the library ----
+  // the circulation desk: walnut, len along x, the librarian's side at +z, a raised ledge in stone on the visitors' side (-z),
+  // a screen, a stack of returned books, the slot for returns
+  function circulationDesk(len) { return furn("circ" + len, function (b) {
+    var h = len / 2, n0 = b.count(), k, R = mulberry(17); b.box(-h, 0.08, -0.3, h, 0.76, 0.35, MT.WOOD); b.box(-h, 0.76, -0.38, h, 1.06, -0.24, MT.WOOD); kindTag(b, n0, 2);
+    b.box(-h - 0.02, 0.73, -0.25, h + 0.02, 0.76, 0.38, MT.WOOD); b.box(-h - 0.03, 1.06, -0.46, h + 0.03, 1.09, -0.2, MT.MARBLE); b.box(-h + 0.05, 0, -0.25, h - 0.05, 0.08, 0.3, MT.RUBBER);
+    var ns = b.count(); b.box(-h + 0.4, 0.8, -0.385, -h + 0.75, 0.84, -0.38, MT.PLASTIC); b.tag(ns, 1, null);
+    var nm = b.count(); b.box(0.15, 0.76, 0.05, 0.75, 1.13, 0.08, MT.PLASTIC); b.box(0.42, 0.76, 0.08, 0.48, 0.79, 0.2, MT.PLASTIC); b.tag(nm, 1, null);
+    for (k = 0; k < 7; k++) { var nb = b.count(), t = 0.025 + R() * 0.03; b.box(-0.9, 0.76 + k * 0.04, 0.05, -0.62 + R() * 0.05, 0.76 + k * 0.04 + t, 0.25 + R() * 0.04, MT.PLASTIC); b.tag(nb, [3, 2, 6, 1, 7, 0, 4][k], null); }
+  }); }
+  // a rolling ladder for the wall of books: two oak rails, rungs, wheels below, hooked over a brass rail at the top (leaning
+  // back toward +z, the shelves)
+  function libraryLadder() { return furn("ladder", function (b) {
+    var n0 = b.count(), top = 2.18, lean = 0.42; [-0.24, 0.24].forEach(function (x) { leg(b, x, 0.06, 0, x, top, lean, 0.025, MT.WOOD); });
+    for (var y = 0.3; y < top - 0.1; y += 0.28) { var z = lean * (y - 0.06) / (top - 0.06); b.box(-0.24, y - 0.015, z - 0.04, 0.24, y + 0.015, z + 0.04, MT.WOOD); }
+    kindTag(b, n0, 1); [-0.24, 0.24].forEach(function (x) { b.geo(new THREE.CylinderGeometry(0.035, 0.035, 0.025, 14), T(x, 0.035, 0, 0, 0, Math.PI / 2), MT.BRASS); b.box(x - 0.012, top - 0.02, lean - 0.02, x + 0.012, top + 0.06, lean + 0.06, MT.BRASS); });
+  }); }
+  // a globe of Mars on a turned walnut stand, its brass meridian
+  function marsGlobe() { return furn("marsglobe", function (b) {
+    var n0 = b.count(); latheOn(b, 0, 0, 0, [[0.0, 0.0], [0.24, 0.0], [0.24, 0.03], [0.05, 0.06], [0.035, 0.5], [0.06, 0.62], [0.0, 0.62]], 20, MT.WOOD, 0, 2); b.tag(n0, null, 2);
+    var ng = b.count(); b.geo(new THREE.SphereGeometry(0.3, 32, 22), T(0, 0.95, 0, 0, 0, 0.44), MT.PLASTER); b.tag(ng, 99, 2);
+    b.geo(new THREE.TorusGeometry(0.33, 0.008, 6, 48), T(0, 0.95, 0, 0, Math.PI / 2, 0.44), MT.BRASS); tubeAlong(b, [V3(0, 0.62, 0), V3(-0.14, 0.66, 0)], 0.01, 5, MT.BRASS);
+  }); }
+  // a book trolley: walnut, two sloping shelves of books, castors (len 0.9 along x)
+  function bookTrolley() { return furn("trolley", function (b) {
+    var n0 = b.count(), R = mulberry(5); b.box(-0.45, 0.08, -0.22, -0.43, 0.95, 0.22, MT.WOOD); b.box(0.43, 0.08, -0.22, 0.45, 0.95, 0.22, MT.WOOD); b.box(-0.45, 0.08, -0.02, 0.45, 0.95, 0.02, MT.WOOD);
+    [0.12, 0.55].forEach(function (y) { b.box(-0.43, y, -0.22, 0.43, y + 0.02, 0.22, MT.WOOD); }); kindTag(b, n0, 2);
+    [0.14, 0.57].forEach(function (y) { [-1, 1].forEach(function (s) { for (var x = -0.4; x < 0.38; x += 0.035 + R() * 0.02) { var nb = b.count(), hh = 0.2 + R() * 0.08; b.box(x, y, s > 0 ? 0.03 : -0.2, x + 0.03, y + hh, s > 0 ? 0.2 : -0.03, MT.PLASTIC); b.tag(nb, [3, 2, 6, 1, 7, 0, 4, 5][Math.floor(R() * 8)], null); } }); });
+    [[-0.38, -0.18], [0.38, -0.18], [-0.38, 0.18], [0.38, 0.18]].forEach(function (c) { b.geo(new THREE.SphereGeometry(0.04, 10, 8), T(c[0], 0.04, c[1]), MT.RUBBER); });
+  }); }
+  function libraryRoom(B, rm, F) {                                                    // the library: a wall of books with ladders, stacks in bays, reading tables, the desk, a corner to read in
+    var C = CRS, rs = C.r1 - 0.35, y = F.y, along = F.sgn > 0 ? 0 : Math.PI;
+    for (var d = 0.9; d < F.span - 0.6; d += 0.92) { var a = F.at(d, false); crsPlace(B, bookshelf(), rs, a, y, 0); shelfBooks(B, crsFrame(rs, a, y, 0), Math.round(d * 3)); crsObst(rs - 0.25, rs + 0.25, a - 0.46 / rs, a + 0.46 / rs, F.floor); }
+    [3.7, 11.9].forEach(function (d) { crsPlace(B, libraryLadder(), rs - 0.6, F.at(d, false), y, 0); });   // its top on the shelves (+z outward)
+    // stacks in bays: double-sided bookcases from the aisle toward the wall of books
+    [2.2, 5.0, 7.8, 10.6, 13.4].forEach(function (d, k) { var a = F.at(d, false);
+      [59.05, 59.95].forEach(function (r, j) { [[0.17, 0], [-0.17, Math.PI]].forEach(function (sd, i2) { var ro = F.sgn > 0 ? -Math.PI / 2 : Math.PI / 2, ab = a + sd[0] / r * F.sgn;
+        crsPlace(B, bookshelf(), r, ab, y, ro + sd[1]); shelfBooks(B, crsFrame(r, ab, y, ro + sd[1]), k * 7 + j * 3 + i2); }); });
+      crsObst(58.55, 60.45, a - 0.36 / 59.5, a + 0.36 / 59.5, F.floor); });
+    // reading tables in walnut with green lamps and upholstered chairs
+    [[53.0, 3.0], [56.4, 3.0], [53.0, 6.6], [56.4, 6.6], [53.0, 10.2], [56.4, 10.2]].forEach(function (t) { var a = F.at(t[1], false);
+      crsPlace(B, readingTable(2.4), t[0], a, y, along); crsObst(t[0] - 0.55, t[0] + 0.55, a - 1.25 / t[0], a + 1.25 / t[0], F.floor);
+      [-0.6, 0.6].forEach(function (x) { crsPlace(B, diningChair(1), t[0] + 0.85, a + x / t[0], y, IN); crsPlace(B, diningChair(1), t[0] - 0.85, a + x / t[0], y, OUT); crsPlace(B, bankerLamp(), t[0], a + x / t[0], y + 0.75, 0); });
     });
-    var da = F.at(1.6, true); crsPlace(B, teacherDesk(), C.rc + 1.5, da, F.y, F.sgn > 0 ? Math.PI : 0); crsObst(C.rc + 0.65, C.rc + 2.35, da - 0.45 / 51, da + 0.45 / 51, F.floor);
-    roomPlants(B, rm, F, [C.rc + 1.5, da, 0.77]);
+    // a corner to read in by the corridor wall: two club chairs, a lamp table, a floor lamp
+    var ca = F.at(5.6, false); [-0.75, 0.75].forEach(function (x, k) { var aa = ca + x / 51; crsPlace(B, armchair(), 51.0, aa, y, k ? ROT.minusA : ROT.plusA); crsObst(50.5, 51.5, aa - 0.45 / 51, aa + 0.45 / 51, F.floor); });
+    crsPlace(B, lampTable(), 50.45, ca, y, 0); lampLight(50.45, ca, y, 0.95, 0.6, 3.2); var fla = F.at(7.0, false); crsPlace(B, floorLamp(), 50.4, fla, y, 0); lampLight(50.4, fla, y, 1.4, 0.65, 3.4);
+    // the desk by the front door, a trolley of returns, the globe of Mars
+    var da = F.at(4.4, true), dr = C.rc + 2.6; crsPlace(B, circulationDesk(3.0), dr, da, y, along); crsObst(dr - 0.5, dr + 0.5, da - 1.6 / dr, da + 1.6 / dr, F.floor);
+    crsPlace(B, officeChair(), dr + 0.75, da, y, Math.PI / 2);
+    crsPlace(B, bookTrolley(), 53.6, F.at(1.6, true), y, along); crsObst(53.1, 54.1, F.at(1.9, true), F.at(1.3, true), F.floor); crsPlace(B, marsGlobe(), 56.6, F.at(4.0, true), y, 0.6); crsObst(56.2, 57.0, F.at(4.4, true), F.at(3.6, true), F.floor);
+    roomPlants(B, rm, F, [dr + 0.15, da - F.sgn * 1.15 / dr, 0.76]);
   }
   function readingRoom(B, rm, F) {          // furnished in groups (campus_furnishing.py): by the windows two sofas facing club chairs, a reading table
     var C = CRS, ra = C.r1 - 0.7, rc = C.rc;  // in the middle, a banquette between bookcases on the back wall, two club chairs on the front wall, shelves on the corridor's

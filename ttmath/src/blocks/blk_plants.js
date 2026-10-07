@@ -309,12 +309,17 @@
       pot(b, 0, 0.12, 0.17);
       for (var lb = 0; lb < 14; lb++) { var ab2 = lb * 2.4, db = v3(Math.cos(ab2), 0.6 + 0.3 * R(), Math.sin(ab2)).normalize(); leafCard(b, v3(0, 0.17, 0), db, v3(-db.x * 0.5, 1, -db.z * 0.5).normalize(), 0.3 + 0.06 * R(), 0.06, 0.5, 0.2, LEAF_CELLS.orchid, R(), 0.85); }
       for (var rb = 0; rb < 7; rb++) { var ar = rb / 7 * Math.PI * 2, dr = v3(Math.cos(ar), 1.6, Math.sin(ar)).normalize(); leafCard(b, v3(0, 0.22, 0), dr, v3(-dr.x, 0.6, -dr.z).normalize(), 0.16, 0.06, 0.15, 0.2, LEAF_CELLS.spathe, R(), 0.9); }
-    } else {                                                 // pothos trailing from a small pot
-      var top8 = pot(b, 0, 0.12, 0.16);
-      for (k = 0; k < 5; k++) { a = R() * Math.PI * 2; if (kind === "pothoswall") a = Math.PI / 2 + (a / Math.PI / 2 - 0.5) * 2.6;   // on a wall shelf: its vines forward and to the sides (+z), none into the wall
-        var pp = v3(Math.cos(a) * 0.08, top8, Math.sin(a) * 0.08), dd = v3(Math.cos(a), -0.2, Math.sin(a)).normalize(), chain = [pp.clone()];
-        for (var j = 0; j < 7; j++) { pp = pp.clone().add(dd.clone().multiplyScalar(0.09)); pp.y -= 0.06 * j * (0.8 + 0.4 * R()); chain.push(pp.clone());
-          leafCard(b, pp, v3(Math.cos(a + (j % 2 ? 1 : -1)), 0.2, Math.sin(a + (j % 2 ? 1 : -1))).normalize(), UP, 0.1 + 0.03 * R(), 0.09, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
+    } else {                                                 // pothos: a crown of heart-shaped leaves over a small pot and a dozen vines trailing
+      // from it, long on a wall shelf (pothoswall: forward only, never into the wall), shorter on a stand, short on a desk
+      var top8 = pot(b, 0, 0.12, 0.16), wallOnly = kind === "pothoswall", nMin = wallOnly ? 6 : kind === "pothosstand" ? 5 : 4, nVar = wallOnly ? 4 : 3, fall = wallOnly ? 0.04 : 0.035;
+      for (k = 0; k < 14; k++) { var tc = R() * Math.PI * 2; if (wallOnly) tc = Math.PI / 2 + (tc / Math.PI / 2 - 0.5) * 2.4;
+        var dc = v3(Math.cos(tc) * 0.75, 0.55 + 0.35 * R(), Math.sin(tc) * 0.75).normalize();
+        leafCard(b, v3(Math.cos(tc) * 0.03, top8 + 0.01, Math.sin(tc) * 0.03), dc, UP, 0.12 + 0.04 * R(), 0.09, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
+      for (k = 0; k < 12; k++) { a = R() * Math.PI * 2; if (wallOnly) a = Math.PI / 2 + (a / Math.PI / 2 - 0.5) * 2.6;
+        var nseg = nMin + Math.floor(R() * nVar), pp = v3(Math.cos(a) * 0.09, top8, Math.sin(a) * 0.09), dd = v3(Math.cos(a), -0.15, Math.sin(a)).normalize(), chain = [pp.clone()];
+        for (var j = 0; j < nseg; j++) { pp = pp.clone().add(dd.clone().multiplyScalar(0.08)); pp.y -= fall * j * (0.8 + 0.4 * R()); chain.push(pp.clone());
+          var sl = j % 2 ? 1 : -1, ov = v3(Math.cos(a), 0, Math.sin(a)), dl = v3(ov.x * 0.35 - ov.z * sl * 0.45, -0.8, ov.z * 0.35 + ov.x * sl * 0.45).normalize();   // each leaf hangs from the vine, its face outward
+          leafCard(b, pp, dl, ov, 0.14 - 0.04 * j / nseg + 0.02 * R(), 0.1, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
         stem(b, chain, 0.003, 1); }
     }
   }); POT_SKIP = false; return out; }

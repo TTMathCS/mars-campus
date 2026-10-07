@@ -251,7 +251,7 @@
                     .map(function (o) { return (o[2] + o[3]) / 2; }).filter(function (ac) { return !nearDoor(F, ac, 0.45); })
                     .sort(function (p, q) { return Math.abs(p - F.back) - Math.abs(q - F.back); });
     if (cases.length) { B.add(plantBuilder("pothoswall", seed), crsFrame(C.rc + 0.27, cases[0], F.y + 2.2, ROT["in"]).multiply(T(0, 0, -0.06))); log.on = "bookcase"; log.a = cases[0]; (C.plantLog = C.plantLog || []).push(log); return; }
-    var fb = plantBuilder("pothos", seed), st = new Builder(); st.add(plantStand(), T(0, 0, 0)); st.add(fb, T(0, 1.25, 0)); st._reach = Math.max(0.3, plantReach(fb));
+    var fb = plantBuilder("pothosstand", seed), st = new Builder(); st.add(plantStand(), T(0, 0, 0)); st.add(fb, T(0, 1.25, 0)); st._reach = Math.max(0.3, plantReach(fb));
     log.on = "stand"; placePlant(B, F, st, function (R) { return [C.rc + 0.13 + R + 0.05, F.back + F.sgn * (R + 0.2) / (C.rc + 1)]; }, seed * 0.7, near, pots, log);
   }
   // the plants chosen for the room at their spots, each moved as little as it must be to stand clear (plantSpot)
@@ -370,17 +370,6 @@
     if (!(rm.doors || []).some(function (d) { return Math.abs(d - F.mid) * C.rc < lw / 2 + 1.1; })) { crsPlace(B, basinCounter(lw), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor); return; }
     var far0 = Math.abs(d0 - F.a0) > Math.abs(d0 - F.a1), rb = C.rc + 2.0 + lw / 2, ab = far0 ? F.a0 + 0.36 / rb : F.a1 - 0.36 / rb;
     crsPlace(B, basinCounter(lw), rb, ab, F.y, far0 ? ROT.plusA : ROT.minusA); crsObst(rb - lw / 2 - 0.05, rb + lw / 2 + 0.05, far0 ? F.a0 : ab - 0.38 / rb, far0 ? ab + 0.38 / rb : F.a1, F.floor);
-  }
-  function washrooms(B, rm, F, store) {
-    var C = CRS;
-    crsPlace(B, wcRow(store ? 4 : 5), C.r1 - 0.25, F.mid, F.y, ROT["in"]); crsObst(C.r1 - 1.85, C.r1, F.a0, F.a1, F.floor);
-    basinsClearOfDoor(B, rm, F);
-    if (store) { var sa = F.at(0.6, false); for (var k = 0; k < 3; k++) crsPlace(B, bookshelf(), 54.0 + k * 0.95, sa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(53.4, 56.8, sa - 0.3 / 55, sa + 0.3 / 55, F.floor); }
-    if ((P2.ring.fountains || []).indexOf(rm.code) >= 0 && rm.doors && rm.doors.length) {   // a bottle filler on the corridor wall beside the door
-      var d = rm.doors[0], sd = F.mid > d ? 1 : -1, rf = C.rc - C.wall / 2, af = d + sd * 1.15 / rf;
-      crsPlace(B, bottleFiller(), rf, af, F.y, ROT["in"]); crsObst(rf - 0.5, rf, af - 0.3 / rf, af + 0.3 / rf, F.floor);
-    }
-    roomPlants(B, rm, F, null);
   }
   function hallRoom(B, rm, F) {
     var C = CRS;

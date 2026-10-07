@@ -157,6 +157,9 @@ each pushed when it is checked:
    (`pothoswall`: its vines only forward) goes on an oak wall shelf, else on a bookcase, else on a `plantStand`. The stair
    bays: `bayDims`, `bayY` (walking) and `bayStair` (blk_ring.js) from `bay_stair` in campus_rooms.py. `walk_check.py` goes
    up both grand stairs and through the east bay (down flight 1, up flight 2, under them to the bay's end).
+   (v0.35) `blk_service.js` (after `blk_labs.js`): `washrooms` (`wcSuites` with `wallWC`, `stoneVanity`, `tallCupboard`; the
+   banquette and `slatWall` on the door's side). The pothos variants: `pothos` (on a desk, short vines), `pothoswall` (on a
+   shelf or a bookcase, its vines forward only), `pothosstand` (on a `plantStand`).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -1,11 +1,22 @@
 # Handoff: where Mars Campus stands and how to continue
 
 Read this first if you are picking the project up in a new session, on another account or with another AI.
-Everything needed to continue is in this repo. Last updated 6 Oct 2026.
+Everything needed to continue is in this repo. Last updated 7 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
-## Where the work stopped: 6 Oct 2026, 20:40 UTC (read this first)
+## Where the work stopped: 7 Oct 2026, 02:15 UTC (read this first)
+
+Jim's newest ask (7 Oct): **"painting should not be on the windows"**, kept as a global rule (CLAUDE.md): nothing hangs
+on, stands across or is fixed over a window. `palace/tools/render/audit_windows.py [room ...]` builds each Crown scene
+and lists anything against the outer wall that covers a real window pane (seats, plants, lamps and low things are
+allowed in front); **every Crown room audits clear** since 7 Oct 02:10 (gallery paintings, suit lockers, craft shelves
+and kiln, print counter, telescope desks, guests' lounge desks, dining sideboards, the bath's tub and the hangar's door
+wall were moved onto the solid wall between windows; `crown.pier_spots` and `crown.solid_runs` give the places). Run
+it after any change to a Crown scene. **Published 7 Oct:** the Arrival hall (revision H). The studio scene had an
+endless loop from 01:13 to 01:50 (fixed, 5dbf476): a job that sits building a scene for more than 2 minutes is stuck.
+
+### 6 Oct 2026, 20:40 UTC
 
 Jim's newest asks (6 Oct): every Crown room glazed onto the Glide like the master bedroom (done, his choice A);
 **"no nuclear reactor is needed since it is provided by city"** (done everywhere, the spaceport's picture too); and

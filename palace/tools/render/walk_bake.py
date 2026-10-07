@@ -77,10 +77,8 @@ def build(rooms):
     whole = abs(b1 - b0 - 360) < 1e-6
     crown.outside(M, SUN_AZ, SUN_EL, sun_strength=SUN_STRENGTH, skip=(b0, b1), roof=True)   # the far side up to its spires
     if whole: bpy.data.objects.remove(bpy.data.objects["ring outside"])        # all of the ring is here
-    for o in list(bpy.data.objects):         # the Glide runs on from room to room: close it only at the stretch's ends
-        if o.name.startswith("glide end"):
-            bb = ub(sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8.0)
-            if whole or min(abs(bb - b0), abs(bb - b1)) > 0.05: bpy.data.objects.remove(o)
+    for o in list(bpy.data.objects):         # the Glide runs on from room to room, and on from part to part of the ring
+        if o.name.startswith("glide end"): bpy.data.objects.remove(o)
     seen = {}                                # where two rooms meet, both built the partition between them: keep one
     for o in list(bpy.data.objects):
         if o.name.startswith("partition") and o.type == "MESH":

@@ -126,6 +126,11 @@ each pushed when it is checked:
    reflections are read at the blur the surface's roughness asks for (`ENVTEX`, `ENV_LOD` in `blk_mat.js`: an explicit
    level with WebGL 2 or the shader-texture-lod extension, at least the level the pixel's footprint needs); `enc` in
    `page.html` scales its dither by the square root of the encoded value, so near-black pixels are no longer dithered.
+   (v0.23) `blk_classdetail.js` (after `blk_notices.js`; `classDetails` from `crescentFurnish`): `wallClock` over each
+   classroom's board, its hands (`clockAt`, `handMesh`) turned by `clocksUpdate` from `campusUpdate` at the visitor's time
+   (`CLOCK_T` holds a time for shots); the pinboards drawn on one canvas (`pinAtlas`, `drawPinboard`: `roomWeek` from the
+   timetable, `nextContest`, `diagramSheet` with a print's drawing, `quizSheet`, the notice boards' `flyer`) and hung as one
+   mesh on the back walls, from `P2.ring.pins` (`RING_PINS`).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

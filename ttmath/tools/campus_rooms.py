@@ -153,6 +153,26 @@ RING_ART = [
     dict(room="T06-26", wall="front", r=55.2, y=1.85, w=1.8, floor="upper", subject="roses", title="Rose curves", note="r = cos(k theta): petals for every fraction k"),
     dict(room="T06-04", wall="front", r=57.0, y=1.8, w=1.5, floor="upper", subject="voronoi", title="Voronoi cells", note="every point of the plane belongs to the seed nearest to it"),
 ]
+# The classrooms' pinboards (v0.23): a cork board 2.8 by 1.4 m in an oak frame on each classroom's back wall (solid wall,
+# never a window): the room's classes this week (from the timetable), a problem of the week for its mathematician, a
+# pupil's copy of a diagram (subject: the prints' drawings), the next contest's flyer and a marked quiz. Over each board a
+# wall clock whose hands keep the visitor's own time.
+RING_PINS = [
+    dict(room="T06-02", subject="solids", caption="The five Platonic solids, by Grade 8",
+         problem="Construct a regular hexagon with only a compass and a straightedge. Why does the compass, opened to the radius, step round the circle exactly six times?"),
+    dict(room="T06-03", subject="cardioid", caption="Times two round a circle, by Grade 10",
+         problem="The parabola y = x² − 5x + 6 crosses the x-axis twice. Where? And where is its lowest point?"),
+    dict(room="T06-19", subject="cannon", caption="Newton's cannon, by Grade 11",
+         problem="A plank 3 m long balances on a pivot 1 m from one end, where a 60 kg student sits. How heavy is the friend on the long end?"),
+    dict(room="T06-20", subject="harmonics", caption="A string's harmonics, by Grade 7",
+         problem="Find every right triangle with whole-number sides that has a side of length 12."),
+    dict(room="T06-06", subject="penrose", caption="A Penrose tiling, by Grade 12",
+         problem="In how many ways can you colour the six faces of a cube black or white, if two colourings that differ only by a turn count as one?"),
+    dict(room="T06-05", subject="sunflower", caption="The golden angle, by Grade 6",
+         problem="Show that every third Fibonacci number is even: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 …"),
+    dict(room="T06-10", subject="galton", caption="The Galton board, by Grade 11",
+         problem="Add 1 + 2 + 3 + … + 200 in your head, the way Gauss did when he was nine."),
+]
 # Notice boards (v0.18): cork in an aluminium frame on the lower corridor's back wall, 2.4 by 1.2 m, flyers pinned on
 # them. By the competition room, the contests (from campus_contests.py: each contest, when, its grades, the deadlines,
 # room 139); under the Gate Hall, by the stair everyone takes, the clubs and events the rooms are planned for (each

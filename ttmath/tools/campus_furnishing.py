@@ -47,6 +47,8 @@ PIECES = dict(
     carrel="A study carrel: an oak desk between oak sides, a warm grey felt back and inner sides, a shelf of books, a lamp.",
     giant_chess="A giant chess set: pieces of oak and walnut 0.3 to 0.6 m tall, turned, the knights carved, on a board of 40 cm oak and walnut squares on a walnut plinth.",
     shadow="Every piece that stands on a floor sits in its own soft shadow (contact shadows, one mesh for all).",
+    wall_clock="A round clock 42 cm across, an aluminium rim, a white face with black marks, black hands and a red second hand that keep the visitor's own time.",
+    pinboard="Cork 2.8 by 1.4 m in an oak frame, the sheets pinned on it with coloured pins, a light over it.",
 )
 
 # room by room: seating, tables, lights, finishes; "next" is what the following step adds
@@ -76,8 +78,11 @@ ROOMS = {
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
     "class": dict(name="Classrooms", seating=["shell chairs with upholstered seat pads at the double desks", "in the big rooms, a linen sofa 3 m in a reading corner by the window"],
-                  tables=["double desks", "the teacher's desk"], lights=["linear pendants in rows"], finishes="off-white plaster",
-                  next="pinboards and posters of each room's mathematics, a clock over the door, blinds"),
+                  tables=["double desks", "the teacher's desk"], lights=["linear pendants in rows", "a light over the pinboard"], finishes="off-white plaster",
+                  details=["a wall clock over the board, its hands keeping the visitor's own time",
+                           "on the back wall a cork pinboard 2.8 by 1.4 m in an oak frame (RING_PINS in campus_rooms.py): the room's classes this week from the timetable, "
+                           "a problem of the week for the room's mathematician, a pupil's copy of a diagram, the next contest's flyer, a marked quiz"],
+                  next="blinds on the outer glass; each room's mathematician on a poster"),
 }
 
 

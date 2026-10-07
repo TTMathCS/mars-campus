@@ -787,7 +787,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

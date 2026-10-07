@@ -92,6 +92,13 @@ ROOMS = {
                    "past the bar, by the corridor's glass, a warm grey sofa 2.6 m facing two cognac club chairs across a walnut table on a rug"],
                    tables=["tables for two and for four", "the communal table 3.2 m"], lights=["brass cone lamps over every table and low over the bar", "a lamp table and a floor lamp in the lounge"],
                    finishes="off-white plaster", next=""),
+    "T06-24": dict(name="Socrates, the seminar room", seating=["twenty high-backed conference chairs in cognac leather with padded arms on five-star bases, nine along each side of the table and one at each end"],
+                   tables=["a walnut boardroom table 9 by 1.5 m with rounded ends on three plinths, power ports along its middle; at each place a leather pad, a notebook and pen, a glass; two glass carafes",
+                           "a walnut credenza 2.8 m under the screen: cupboards, a coffee machine, cups, a table lamp"],
+                   lights=["linear pendants", "the lamp on the credenza"],
+                   finishes="linen plaster; a warm grey wool rug under the table; the screen on the front wall; a whiteboard on the back wall; five bookcases on the corridor wall; "
+                            "a red maple and a kentia by the windows (a clerestory band under the sloping roof: nothing hangs there), an anthurium on the table",
+                   layout="d along the room from the front wall (0) to the back (13.6 m); the table's middle at r 55.6, 0.3 m behind the room's middle", next=""),
     "T06-29": dict(name="Newton, the physics lab", seating=["24 lab stools with padded charcoal seats and low backs on gas columns, two along each side of each bench",
                    "the teacher's task chair behind the demonstration bench"],
                    tables=["six island benches 2.4 by 1.2 m: oak cupboards both sides, a black resin top, a grey spine of sockets and gas taps with yellow handles, a sink with a swan-neck tap",

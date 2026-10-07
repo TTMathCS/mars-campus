@@ -65,12 +65,55 @@
   }
 
   // ---- the rooms ----
-  function seminarRoom(B, rm, F) {                                                    // Socrates: one long table for 20, the screen, shelves
-    var len = Math.min(9.6, F.span - 4.4), r = 55.9, a = F.at(F.span / 2 + 0.6, true), n = Math.round(len / 1.0);
-    crsPlace(B, longTable(len), r, a, F.y, 0); crsObst(r - 1.4, r + 1.4, a - (len / 2 + 0.3) / r, a + (len / 2 + 0.3) / r, F.floor);
-    for (var k = 0; k < n; k++) { var x = (k - (n - 1) / 2) * len / n; [[r + 0.85, IN], [r - 0.85, OUT]].forEach(function (c) { crsPlace(B, officeChair(), c[0], a + x / r, F.y, c[1]); }); }
-    screenOn(B, F, 2.4, 1.35, ATL.scrSem); shelvesOnCorridor(B, F, 5, 1.0);
-    roomPlants(B, rm, F, [r, a, 0.75]);
+  // ---- Socrates: a boardroom table for twenty ----
+  // a walnut table len along x, w across, its ends rounded, on three plinths; power ports along its middle
+  function boardTable(len, w) { return furn("board" + len + "_" + w, function (b) {
+    var h = len / 2, r = w / 2, sh = new THREE.Shape(); sh.moveTo(-h + r, -r); sh.lineTo(h - r, -r); sh.absarc(h - r, 0, r, -Math.PI / 2, Math.PI / 2, false); sh.lineTo(-h + r, r); sh.absarc(-h + r, 0, r, Math.PI / 2, 3 * Math.PI / 2, false);
+    var n0 = b.count(); b.geo(new THREE.ExtrudeGeometry(sh, { depth: 0.045, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.008, bevelSegments: 2, curveSegments: 16 }), T(0, 0.765, 0, -Math.PI / 2, 0, 0), MT.WOOD); b.tag(n0, null, 2);
+    var n1 = b.count(); [-len / 3, 0, len / 3].forEach(function (x) { b.box(x - 0.3, 0, -0.32, x + 0.3, 0.73, 0.32, MT.WOOD); }); b.tag(n1, null, 2);
+    var np = b.count(); for (var x = -h + 1.2; x < h - 1.0; x += 1.8) b.box(x - 0.13, 0.81, -0.045, x + 0.13, 0.814, 0.045, MT.PLASTIC); b.tag(np, 1, null);
+  }); }
+  // a high-backed conference chair facing +x: a stuffed seat and back in cognac leather, padded arms, a five-star base on castors
+  function conferenceChair() { return furn("confchair", function (b) {
+    for (var k = 0; k < 5; k++) { var a = k / 5 * Math.PI * 2, cx = Math.cos(a), cz = Math.sin(a); leg(b, 0, 0.1, 0, cx * 0.32, 0.06, cz * 0.32, 0.017, MT.STEEL); b.geo(new THREE.SphereGeometry(0.028, 10, 8), T(cx * 0.32, 0.028, cz * 0.32), MT.RUBBER); }
+    latheOn(b, 0, 0.08, 0, [[0.03, 0], [0.03, 0.28], [0.022, 0.3], [0.022, 0.36]], 12, MT.STEEL, 0);
+    softBox(b, -0.25, 0.42, -0.26, 0.27, 0.5, 0.26, 0.04, MT.LEATHER, 2, { py: 0.018 }, 0);
+    var t = new Builder(); softBox(t, -0.05, -0.33, -0.25, 0.05, 0.33, 0.25, 0.045, MT.LEATHER, 2, { px: 0.016 }, 0);
+    b.add(t, new THREE.Matrix4().makeTranslation(-0.28, 0.86, 0).multiply(new THREE.Matrix4().makeRotationZ(0.14)));
+    [-1, 1].forEach(function (s) { softBox(b, -0.18, 0.64, s * 0.27 - 0.04, 0.16, 0.68, s * 0.27 + 0.04, 0.015, MT.LEATHER, 1, null, 0);
+      tubeAlong(b, [V3(0.1, 0.48, s * 0.25), V3(0.1, 0.64, s * 0.27)], 0.01, 5, MT.STEEL); tubeAlong(b, [V3(-0.14, 0.48, s * 0.25), V3(-0.14, 0.64, s * 0.27)], 0.01, 5, MT.STEEL); });
+  }); }
+  // a place at the table, in the chair's frame (the table's edge toward +x): a leather pad, a notebook and pen, a glass
+  function placeSetting(k) { return furn("place" + (k % 3), function (b) {
+    var n0 = b.count(); b.box(0.02, 0.0, -0.22, 0.34, 0.004, 0.22, MT.LEATHER); b.tag(n0, 1, null);
+    var nn = b.count(); b.box(0.08, 0.004, -0.12 + 0.03 * (k % 3), 0.29, 0.014, 0.04 + 0.03 * (k % 3), MT.PLASTIC); b.tag(nn, 0, null);
+    var npn = b.count(); b.box(0.1, 0.014, 0.08, 0.25, 0.022, 0.09, MT.PLASTIC); b.tag(npn, 1, null);
+    latheOn(b, 0.33, 0.0, 0.3, [[0.0, 0.0], [0.03, 0.0], [0.034, 0.1], [0.031, 0.1], [0.027, 0.006], [0.0, 0.006]], 16, MT.CERAMIC, 0);
+  }); }
+  // a walnut credenza len along x, 0.45 deep (its back at +z), on a plinth set back; a coffee machine, cups, a lamp on it
+  function credenza(len) { return furn("credenza" + len, function (b) {
+    var h = len / 2, n0 = b.count(), k; b.box(-h, 0.1, -0.22, h, 0.74, 0.22, MT.WOOD); b.box(-h - 0.01, 0.74, -0.23, h + 0.01, 0.77, 0.23, MT.WOOD); kindTag(b, n0, 2); b.box(-h + 0.06, 0, -0.16, h - 0.06, 0.1, 0.2, MT.RUBBER);
+    var nd = b.count(); for (k = 1; k < 4; k++) b.box(-h + len * k / 4 - 0.003, 0.12, -0.224, -h + len * k / 4 + 0.003, 0.72, -0.221, MT.PLASTIC); b.tag(nd, 1, null);
+    for (k = 0; k < 4; k++) { var x = -h + len * (k + 0.5) / 4 + (k % 2 ? -0.24 : 0.24) * len / 4 / 0.7; b.box(x - 0.006, 0.36, -0.235, x + 0.006, 0.56, -0.224, MT.BRASS); }
+    var nm = b.count(); b.box(h - 0.62, 0.77, -0.16, h - 0.3, 1.18, 0.16, MT.PLASTIC); b.tag(nm, 1, null); b.box(h - 0.58, 0.82, -0.165, h - 0.34, 0.86, -0.16, MT.STEEL);
+    for (k = 0; k < 6; k++) latheOn(b, -0.2 + (k % 3) * 0.1, 0.77, -0.06 + Math.floor(k / 3) * 0.1, [[0.0, 0.0], [0.03, 0.0], [0.038, 0.08], [0.0, 0.08]], 14, MT.CERAMIC, 0);
+    b.add(tableLamp(), T(-h + 0.35, 0.77, 0));
+  }); }
+  function seminarRoom(B, rm, F) {                                                    // Socrates: the boardroom table for twenty on a rug, the screen over a credenza, a whiteboard, books
+    var C = CRS, len = 9.0, w = 1.5, r = 55.6, a = F.at(F.span / 2 + 0.3, true), n = 9, along = F.sgn > 0 ? 0 : Math.PI;
+    rugAt(B, r, a, F.y, len + 2.6, 4.6, 10);
+    crsPlace(B, boardTable(len, w), r, a, F.y, along); crsObst(r - w / 2 - 0.1, r + w / 2 + 0.1, a - (len / 2 + 0.1) / r, a + (len / 2 + 0.1) / r, F.floor);
+    for (var k = 0; k < n; k++) { var x = (k - (n - 1) / 2) * (len - 1.6) / (n - 1);
+      [[r + w / 2 + 0.42, IN], [r - w / 2 - 0.42, OUT]].forEach(function (c, ci) { var ac = a + x / r; crsPlace(B, conferenceChair(), c[0], ac, F.y, c[1] + (k % 3 - 1) * 0.06);
+        B.add(placeSetting(k + ci), crsFrame(r + (ci ? -1 : 1) * w / 2, ac, F.y + 0.819, c[1])); }); }
+    [[len / 2 + 0.42, Math.PI], [-len / 2 - 0.42, 0]].forEach(function (e, ei) { var ae = a + F.sgn * e[0] / r; crsPlace(B, conferenceChair(), r, ae, F.y, F.sgn > 0 ? e[1] : e[1] + Math.PI);
+      B.add(placeSetting(ei), crsFrame(r, a + F.sgn * (e[0] > 0 ? len / 2 : -len / 2) / r, F.y + 0.819, F.sgn > 0 ? e[1] : e[1] + Math.PI)); });
+    [-len / 4, len / 4].forEach(function (x) { var Mc = crsFrame(r, a + x / r, F.y + 0.819); glassLathe(Mc, [[0.05, 0.0], [0.055, 0.12], [0.03, 0.2], [0.022, 0.26], [0.024, 0.28], [0.0, 0.28]], 20); });   // carafes
+    screenOn(B, F, 2.4, 1.35, ATL.scrSem);
+    var ca = F.at(0.3, true); crsPlace(B, credenza(2.8), 55.8, ca, F.y, F.sgn > 0 ? ROT.minusA : ROT.plusA); crsObst(54.3, 57.3, F.at(0.55, true), F.front, F.floor);
+    boardOn(B, F, 3.6, ATL.wb, MT.ATLAS, [0, 2], true);
+    shelvesOnCorridor(B, F, 5, 1.0);
+    roomPlants(B, rm, F, [r, a + F.sgn * 1.2 / r, 0.819]);
   }
   function libraryRoom(B, rm, F) {                                                    // the library: shelves along the outer wall, tables, the desk
     var C = CRS, rs = C.r1 - 0.35;

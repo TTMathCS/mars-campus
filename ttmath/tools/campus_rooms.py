@@ -148,6 +148,17 @@ RING_ART = [
     dict(a=-57.0, floor="upper", end=1, subject="mandel", title="The Mandelbrot set", note="the points that stay near home under z to z squared plus c", bench=1.8, plant=("fig", 1)),
     dict(a=197.0, floor="upper", end=-1, subject="golden", title="The golden rectangle", note="squares of the Fibonacci numbers and the spiral through them", bench=1.8, plant=("strelitzia", 1)),
 ]
+# Notice boards (v0.18): cork in an aluminium frame on the lower corridor's back wall, 2.4 by 1.2 m, flyers pinned on
+# them. By the competition room, the contests (from campus_contests.py: each contest, when, its grades, the deadlines,
+# room 139); under the Gate Hall, by the stair everyone takes, the clubs and events the rooms are planned for (each
+# room's "also" above, with its number). a: the angle (degrees).
+RING_BOARDS = [
+    dict(a=-29.0, floor="lower", topic="contests", title="Contests this term"),
+    dict(a=177.5, floor="lower", topic="clubs", title="Clubs and events",
+         rooms=("T06-23", "T06-38", "T06-12", "T06-41", "T06-32", "T06-19", "T06-33", "T06-30", "T06-02", "T06-24", "T06-13", "T06-01", "T06-27")),
+]
+# Bottle fillers (v0.18): a stainless steel filler and fountain on the corridor wall beside each washroom's door.
+RING_FOUNTAINS = ["T06-14", "T06-31", "T06-22"]
 
 # ------------------------------------------------------------------------------------------------- T-06 the Ring
 # Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter
@@ -183,7 +194,7 @@ RING = dict(r0=46.0, r1=62.0, rc=49.6, floor_h=5.6, upper=0.0, lower=-5.6, ceil=
             gate=dict(inner_doors=(173.0, 180.0, 187.0), outer_doors=(180.0,)))
 RING_ROOMS = [
     # upper floor, level with the palace's balcony and the garden ring (the Crescent's rooms stay where they are)
-    dict(code="T06-01", name="Hall and stair", floor="upper", a=(-7, 7), kind="move", double=True, use="The way in from the garden ring and down to the garden gallery: a hall two storeys tall with a wide stair and a lift, the timetable on a screen, long benches.", also="Exhibitions of students' work."),
+    dict(code="T06-01", name="Hall and stair", floor="upper", a=(-7, 7), kind="move", double=True, use="The way in from the garden ring and down to the garden gallery: a hall two storeys tall with a wide stair and a lift, the timetable on a screen, two long benches by the garden glass; its two tall side walls lined from the lower floor to the ceiling with oak slats on dark felt, warm to look at and quiet to hear.", also="Exhibitions of students' work."),
     dict(code="T06-02", name="Euclid", floor="upper", a=(7, 25), kind="class", use="Classroom for geometry: 30 seats at double desks, a whiteboard wall, compasses and models of the solids.", also="Evening classes for adults."),
     dict(code="T06-03", name="Hypatia", floor="upper", a=(25, 43), kind="class", use="Classroom for algebra and measurement: 30 seats, two whiteboards, a demonstration bench.", also=""),
     dict(code="T06-04", name="Teachers' room", floor="upper", a=(43, 52), kind="staff", short="Teachers", use="Desks for the teachers, a meeting table, a kitchenette, lockers and a long sofa.", also="Marking and lesson planning."),

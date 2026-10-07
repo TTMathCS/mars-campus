@@ -101,6 +101,14 @@
     b.box(x0, 0, -0.45, x1, 0.55, -0.45 + t, MT.CONCRETE); b.box(x0, 0, 0.45 - t, x1, 0.55, 0.45, MT.CONCRETE); b.box(x0, 0, -0.45 + t, x0 + t, 0.55, 0.45 - t, MT.CONCRETE); b.box(x1 - t, 0, -0.45 + t, x1, 0.55, 0.45 - t, MT.CONCRETE);
     b.box(x0 + t, 0, -0.45 + t, x1 - t, 0.5, 0.45 - t, MT.RUBBER);
   }); }
+  function bottleFiller() { return furn("filler", function (b) {           // a stainless bottle filler over a drinking fountain, on a wall (back at z = 0, facing -z)
+    b.box(-0.24, 1.0, -0.13, 0.24, 1.98, 0, MT.STEEL);                      // the filler
+    b.box(-0.17, 1.14, -0.135, 0.17, 1.6, -0.125, MT.ANOD);                 // its dark recess
+    b.box(-0.03, 1.55, -0.2, 0.03, 1.6, -0.12, MT.STEEL);                   // the spout
+    b.box(-0.26, 0.8, -0.46, 0.26, 1.0, 0, MT.STEEL);                       // the fountain
+    b.box(-0.2, 0.995, -0.41, 0.2, 1.006, -0.06, MT.ANOD);                  // its basin
+    b.box(-0.02, 1.0, -0.13, 0.02, 1.08, -0.09, MT.STEEL);                  // the bubbler
+  }); }
   function gardenBench(len) { return furn("gbench" + len, function (b) {  // oak slats on two stone blocks (along x)
     for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
     [-len / 2 + 0.35, len / 2 - 0.35].forEach(function (x) { b.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
@@ -246,12 +254,17 @@
     crsPlace(B, wcRow(store ? 4 : 5), C.r1 - 0.25, F.mid, F.y, ROT["in"]); crsObst(C.r1 - 1.85, C.r1, F.a0, F.a1, F.floor);
     crsPlace(B, basinCounter(3.6), C.rc + 0.45, F.mid, F.y, ROT.out); crsObst(C.rc, C.rc + 0.8, F.mid - 1.85 / 50, F.mid + 1.85 / 50, F.floor);
     if (store) { var sa = F.at(0.6, false); for (var k = 0; k < 3; k++) crsPlace(B, bookshelf(), 54.0 + k * 0.95, sa, F.y, F.sgn > 0 ? ROT.plusA : ROT.minusA); crsObst(53.4, 56.8, sa - 0.3 / 55, sa + 0.3 / 55, F.floor); }
+    if ((P2.ring.fountains || []).indexOf(rm.code) >= 0 && rm.doors && rm.doors.length) {   // a bottle filler on the corridor wall beside the door
+      var d = rm.doors[0], sd = F.mid > d ? 1 : -1, rf = C.rc - C.wall / 2, af = d + sd * 1.15 / rf;
+      crsPlace(B, bottleFiller(), rf, af, F.y, ROT["in"]); crsObst(rf - 0.5, rf, af - 0.3 / rf, af + 0.3 / rf, F.floor);
+    }
     roomPlants(B, rm, F, null);
   }
   function hallRoom(B, rm, F) {
     var C = CRS;
     if (rm.floor === "upper") {                                             // the timetable on the hall's west wall by the landing
       var sa = -C.hallA + 0.1 / 50.4; crsPlace(B, scoreboard(), 50.4, sa, F.y + 1.75, Math.PI); crsPic(B, 50.4, sa, F.y + 1.75, [0.064, 0, 0], [1, 0], 2.4, 1.35, ATL.scrLobby, MT.SCREEN, [1.1, 0]);
+      [-4.3, 4.3].forEach(function (d) { var ab = d * D2R, rb = C.r0 + 0.5; crsPlace(B, gardenBench(2.4), rb, ab, F.y, 0); crsObst(rb - 0.3, rb + 0.3, ab - 1.25 / rb, ab + 1.25 / rb, F.floor); });   // two long benches by the garden glass
       roomPlants(B, rm, F, null); return;
     }
     // below, on the side away from the stair and clear of the door to the gallery: a seating group sized to the hall,

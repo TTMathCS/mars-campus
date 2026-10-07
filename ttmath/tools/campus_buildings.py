@@ -748,7 +748,11 @@ def ring_corridors():
             "at the upper corridor's two blind ends a print over a bench. Each print 1.8 by 1.2 m in a walnut frame under a brass picture light; benches where people wait, "
             "each with a plant chosen for its light: downstairs, with no daylight, ones that live in low light; at the upper ends, by the garden glass, a fig and a bird of paradise.</p>"
             '<div class="tw"><table><thead><tr><th>Print</th><th>What it shows</th><th>Where</th><th>Beside it</th></tr></thead><tbody>%s</tbody></table></div>'
-            % (", ".join("%g" % a for a in R.RING_SIGNS["upper"]), ", ".join("%g" % a for a in R.RING_SIGNS["lower"]), rows))
+            % (", ".join("%g" % a for a in R.RING_SIGNS["upper"]), ", ".join("%g" % a for a in R.RING_SIGNS["lower"]), rows)
+            + "<p>Notice boards of cork in aluminium frames on the lower corridor's back wall: %s. A stainless bottle filler over a drinking fountain on the corridor wall beside the door of %s.</p>"
+            % ("; ".join("<b>%s</b> at %g° (%s)" % (E(b["title"]), b["a"], "each of the term's contests on its own flyer, from the contest sheet" if b["topic"] == "contests"
+                         else "the clubs and events the rooms are planned for: " + ", ".join(E(names[c]["also"][:1].lower() + names[c]["also"][1:].rstrip(".")) for c in b.get("rooms", ()))) for b in R.RING_BOARDS),
+               ", ".join("%s (%s)" % (E(names[c]["name"]), names[c].get("no") or c) for c in R.RING_FOUNTAINS)))
 
 
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
@@ -777,12 +781,12 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(HERE, "data"), exist_ok=True)
     json.dump({k: round(v, 1) for k, v in sorted(AREAS.items())}, open(os.path.join(HERE, "data", "room_areas.json"), "w"), indent=0)
     # the data the demo builds from
-    keep = ("code", "name", "floor", "a", "kind", "double", "band", "short", "no")
+    keep = ("code", "name", "floor", "a", "kind", "double", "band", "short", "no", "also")
     data = {"crescent": dict(R.CRESCENT, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.CRESCENT_PLANTS.get(r["code"], [])) for r in R.CRESCENT_ROOMS]),
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

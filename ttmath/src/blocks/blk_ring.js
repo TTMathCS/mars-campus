@@ -126,6 +126,13 @@
     B.surf(n, m, function (i, j, q) { var r = lerp(r0, r1, i / n), p = crsPt(r, a), y = lerp(y0, y1, j / m);
       q.p[0] = p.x; q.p[1] = y; q.p[2] = p.z; q.nn = tn; q.f[0] = r; q.f[1] = y; q.f2[0] = f2x === undefined ? 99 : f2x; q.f2[1] = g2 || 0; q.m = mat; });
   }
+  // oak slats on dark felt over a flat wall along a radius (its face at angle aw, facing +a (s = 1) or -a (s = -1)), from
+  // radius rA to rB and height y0 to y1: one surface 4 cm proud of the wall, the slats drawn by the wood material (g.x 7)
+  function slatWall(B, aw, s, rA, rB, y0, y1) {
+    var t = crsPt(1, aw + Math.PI / 2), T = [(t.x - PAL.c.x) * s, (t.z - PAL.c.z) * s], ny = Math.max(2, Math.round((y1 - y0) / 1.2)), nr = Math.max(2, Math.ceil((rB - rA) / 0.5));
+    B.surf(nr, ny, function (i, j, q) { var r = lerp(rA, rB, i / nr), y = lerp(y0, y1, j / ny), p = crsPt(r, aw);
+      q.p[0] = p.x + T[0] * 0.04; q.p[1] = y; q.p[2] = p.z + T[1] * 0.04; q.nn = [T[0], 0, T[1]]; q.f[0] = y * 0.2; q.f[1] = r; q.f2[0] = 7; q.f2[1] = 1; q.m = MT.WOOD; });
+  }
   function flat(B, r0, r1, a0, a1, y, mat, g2, up) {                    // a level floor (up) or ceiling (down)
     var nr = Math.max(2, Math.ceil((r1 - r0) / 0.6)), na = Math.max(2, Math.ceil(Math.abs(a1 - a0) * r1 / 0.6));
     B.surf(na, nr, function (i, j, q) { var a = lerp(a0, a1, i / na), r = lerp(r0, r1, j / nr), p = crsPt(r, a);
@@ -265,6 +272,9 @@
       if (tall) [[ra0, 1], [ra1, -1]].forEach(function (e) { radWall(W, e[0] + e[1] * hw / ((rc + r1) / 2), rc, r1 - 0.06, yL, yU + C.hR + 0.1, MT.PLASTER, 0, e[1]); });
     });
     [[-hA, -1], [hA, 1]].forEach(function (e) { radWall(W, e[0] - e[1] * hw / 53, rc, r1 - 0.06, yL, yU + C.hR + 0.1, MT.PLASTER, 0, -e[1]); });   // the hall's side walls, two storeys
+    [[-hA, -1], [hA, 1]].forEach(function (e) {                                                   // lined with oak slats on felt, the timetable's screen on them
+      slatWall(W, e[0] - e[1] * hw / 53, -e[1], rc + 0.1, r1 - 0.3, yL, yU + C.hR);
+    });
     [[164, -1], [191, 1]].forEach(function (e) {                                                                                                   // the Gate Hall's, and below it
       var a = e[0] * D - e[1] * hw / 53; radWall(W, a, rc, r1 - 0.06, yU, yU + C.hGate + 0.1, MT.PLASTER, 0, -e[1], undefined, 8); radWall(W, a, rc, r1 - 0.06, yL, yL + C.hR + 0.1, MT.PLASTER, 0, -e[1]);
     });
@@ -293,6 +303,7 @@
     doorPlates(W);
     ringSigns(W);
     corridorArt(W);
+    noticeBoards(W);
     crescentStair(W, C.st, true);
     crescentStair(W, C.gst, false);
     C.rooms.forEach(function (rm) { if (isBay(rm)) bayStair(W, rm); });

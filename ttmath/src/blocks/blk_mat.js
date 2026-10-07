@@ -125,14 +125,20 @@
     "      float gl = max(aline(f.x, 0.6, 0.007), aline(f.y, 0.6, 0.007)), fis = vnoise(f * 55.0) * 0.6 + vnoise(f * 160.0) * 0.4;",
     "      alb = mix(vec3(0.83, 0.825, 0.80) * (0.93 + 0.09 * fis) * (0.97 + 0.04 * hsh(floor(f / 0.6))), vec3(0.88, 0.88, 0.87), gl); rough = mix(0.95, 0.4, gl);",
     "    }",
-    "  } else if (m < 15.5) {",                                           // WOOD: f = (along the grain, across) m; g.y 0 floor planks, 1 oak, 2 walnut
-    "    float pw = 0.19, pl = 2.2, row = floor(f.y / pw), sh = hsh(vec2(row, 3.0)) * pl, col = floor((f.x + sh) / pl), pr = hsh(vec2(row, col) + 7.0);",
+    "  } else if (m < 15.5) {",                                           // WOOD: f = (along the grain, across) m; g.y 0 floor planks, 1 oak, 2 walnut; g.x 7: slats on felt
+    "    bool slats = g.x > 6.5 && g.x < 7.5;",
+    "    float pw = slats ? 0.09 : 0.19, pl = slats ? 30.0 : 2.2, row = floor(f.y / pw), sh = hsh(vec2(row, 3.0)) * pl, col = floor((f.x + sh) / pl), pr = hsh(vec2(row, col) + 7.0);",
     "    float seam = (g.y < 0.5 || g.y > 2.5) ? max(aline(f.y, pw, 0.004), aline(f.x + sh, pl, 0.004)) : 0.0;",
     "    float ws = f.y * 55.0 + fbm4(vec2(f.x * 1.6 + pr * 9.0, f.y * 7.0)) * 8.0 + pr * 30.0, fw = fwidth(ws);",
     "    float rings = mix(0.5 + 0.5 * sin(ws), 0.5, smoothstep(0.8, 2.5, fw));",
     "    float streak = fbm4(vec2(f.x * 0.7 + pr * 13.0, f.y * 34.0));",
     "    vec3 wa = vec3(0.71, 0.53, 0.34), wb = vec3(0.50, 0.34, 0.20); if (g.y > 1.5) { wa = vec3(0.42, 0.28, 0.18); wb = vec3(0.24, 0.15, 0.09); }",
     "    alb = mix(wb, wa, clamp(0.35 + 0.35 * rings + 0.5 * (streak - 0.5), 0.0, 1.0)) * (0.88 + 0.22 * pr) * (1.0 - 0.55 * seam); rough = 0.34 + 0.18 * streak;",
+    "    if (slats) {",                                                   // slats 4.5 cm wide every 9 cm on dark felt, drawn here so they never shimmer: far off, their mean
+    "      float u = f.y / 0.09, fu = fwidth(u), d = abs(fract(u) - 0.5), far = smoothstep(0.08, 0.26, fu);",
+    "      float on = mix(1.0 - smoothstep(0.25 - fu, 0.25 + fu, d), 0.5, far), edge = smoothstep(0.16, 0.25, d) * (1.0 - far);",
+    "      alb = mix(vec3(0.045, 0.043, 0.042), alb * (1.0 - 0.35 * edge), on); rough = mix(0.95, rough, on);",
+    "    }",
     "  } else if (m < 16.5) {",                                           // FABRIC: g.x colour
     "    float c = g.x; vec3 fc = c < 0.5 ? vec3(0.17, 0.17, 0.19) : (c < 1.5 ? vec3(0.23, 0.30, 0.40) : (c < 2.5 ? vec3(0.62, 0.47, 0.18) : (c < 3.5 ? vec3(0.55, 0.27, 0.17) : (c < 4.5 ? vec3(0.40, 0.46, 0.36) : vec3(0.72, 0.66, 0.56)))));",
     "    vec2 wc = pc * 520.0; float fwv = fwidth(wc.x) + fwidth(wc.y);",

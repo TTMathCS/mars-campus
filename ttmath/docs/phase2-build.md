@@ -95,6 +95,11 @@ each pushed when it is checked:
    (`PRINT_DRAW`, `drawPrint`, `printAtlas`), and `corridorArt` hangs them (one mesh), with walnut frames,
    brass picture lights, benches and plants (small plants on a plinth, `PRINT_PLINTH`). `arcWall` takes rows up the wall (`ny`): the corridors' walls have 6, so the
    downlights show on them. Both are called from `crescentBuild` after `doorPlates`.
+   ~~The hall's slat walls, notice boards and bottle fillers~~ (v0.18): `slatWall` (`blk_ring.js`) lines a wall along a
+   radius with oak slats on felt: one surface 4 cm proud of the wall, the slats drawn by the wood material (`g.x` 7 in
+   `blk_mat.js`, faded to their mean far off, so they never shimmer as real thin slats would); `blk_notices.js` draws the boards in
+   `P2.ring.boards` (`RING_BOARDS`: `drawContestBoard` from `P2.contests`, `drawClubBoard` from the rooms' `also`) and
+   `noticeBoards` hangs them; `bottleFiller` (`blk_crsfurnish.js`) stands by the washrooms in `P2.ring.fountains`.
 8. The pod dock off the right side, its glass bridge and collar (T04-03, T17-02), and the pod lounge (T06-21).
 9. Details and realism everywhere (CP-30).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the

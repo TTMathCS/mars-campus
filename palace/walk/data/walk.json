@@ -16,7 +16,8 @@
   "bath_up",
   "day_room",
   "sunset",
-  "gallery"
+  "gallery",
+  "library"
  ],
  "rooms": [
   {
@@ -78,6 +79,24 @@
    "name": "Gallery",
    "b0": 279.0,
    "b1": 288.0
+  },
+  {
+   "code": "C-23",
+   "name": "Study",
+   "b0": 288.0,
+   "b1": 297.0
+  },
+  {
+   "code": "C-24",
+   "name": "Library",
+   "b0": 297.0,
+   "b1": 316.8
+  },
+  {
+   "code": "C-25",
+   "name": "Map room",
+   "b0": 316.8,
+   "b1": 324.0
   }
  ],
  "exposure": 1.0,
@@ -217,6 +236,54 @@
    "light": "c2820_l.jpg",
    "b0": 282.0,
    "b1": 288.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2880.glb",
+   "light": "c2880_l.jpg",
+   "b0": 288.0,
+   "b1": 294.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c2940.glb",
+   "light": "c2940_l.jpg",
+   "b0": 294.0,
+   "b1": 300.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3000.glb",
+   "light": "c3000_l.jpg",
+   "b0": 300.0,
+   "b1": 306.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3060.glb",
+   "light": "c3060_l.jpg",
+   "b0": 306.0,
+   "b1": 312.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3120.glb",
+   "light": "c3120_l.jpg",
+   "b0": 312.0,
+   "b1": 318.0,
+   "size": 4096,
+   "light_size": 2048
+  },
+  {
+   "file": "c3180.glb",
+   "light": "c3180_l.jpg",
+   "b0": 318.0,
+   "b1": 324.0,
    "size": 4096,
    "light_size": 2048
   }

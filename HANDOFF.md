@@ -1,11 +1,40 @@
 # Handoff: where Mars Campus stands and how to continue
 
 Read this first if you are picking the project up in a new session, on another account or with another AI.
-Everything needed to continue is in this repo. Last updated 7 Oct 2026.
+Everything needed to continue is in this repo. Last updated 8 Oct 2026.
 
 Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
+
+**8 Oct, 03:05 UTC: one walk, painted with the path-traced 360s.** Jim: "I don't need to walk. just walk freely is
+good enough. but walk freeely doesn't have the good quality as walk the crown, while walk teh crown doesn't walk well
+with w, and distorted. just merge them into one free walk and give best quality and real expereience with speed";
+"why 2 links still exist and separate? I said need to merge into one". So:
+- **One link, Walk the Crown → `palace/walk/`** (the free walk) on every page; `palace/photowalk/index.html` only
+  forwards there. The photo walk's viewer (`pw.js`, `pano.js`) is no longer linked; its plan and 360s are the walk's
+  pictures now.
+- **`palace/walk/photo.js`**: the free walk's rooms take their colours from the 360s in `palace/photowalk/v/`. The
+  three nearest 360s that see the walker (others behind a wall count 12 m further) are in use; for each, the walk's
+  opaque shapes (layer 1) are drawn from its eye into a half-float cube of distances (once, again when chunks load);
+  a surface takes a 360's colour if that cube says nothing of the walk hides it and the 360's own distance map
+  (`_d.png`) agrees (not far nearer than 0.3 x, not further than 1.08 x + 0.25 m: the picture's own leaves, missing
+  from the walk's thinner trees, are drawn onto what is behind them). Weights 1 / (d^2 + 1) by the walker's distance,
+  fading over ~0.7 s as 360s come and go; mixed in after the walk's tone-mapping and sRGB (the pictures are graded),
+  only when rendering to the screen (`#ifdef TONE_MAPPING`; not in the floor mirror's pass). Where no 360 sees a
+  surface, or the room has none rendered yet, the baked colour stays. Patched kinds: baked, floor, vertex, glow, metal.
+- **Keys** (Jim: "free walk should enable left right up down keys"; "don't use mouse since it is not easy to quit
+  mouse"): no pointer lock; W/S and up/down walk, A/D and left/right turn (80°/s), a drag looks round, Esc pauses.
+- **The 360 tour is not to be touched** (Jim: "DON'T touch 360 tour for each room, which i like very much"). The photo
+  walk had been writing its tour stops' 360s into the tour (Arrival, Door, Hangar, Dressing, Suit room, Breakfast,
+  Garden, Stars, Telescope, 7–8 Oct); that is switched off in `photowalk_render.py`, `photowalk_sync.py` and
+  `autopub.py` (it publishes no 360 at all now). Those nine stops show the walk renders; nothing was reverted.
+- Next: the walk's own shapes are what limit it now: thin trees (`plants.DETAIL` 0.25 in walk_bake.py) and furniture
+  decimated to 8000 faces (`lighten`) give "blurred or broken" edges (Jim). Re-bake with full plants and much less
+  decimation; finer distance maps for the 360s (C-04.2's is 256 x 128); the bark's vertex colours (purple/green
+  streaks where no 360 sees a trunk).
+- The planner now links points by ways on free floor 0.35 m clear (corners round furniture, `links` in plan.json)
+  and keeps every rendered point; 227 points, 56+ rendered.
 
 **8 Oct, 01:45 UTC.** The container was reclaimed again while the session sat idle (about 21:55 to 01:35: machine A
 rendered nothing; B went on). A check-in now comes every 45 minutes (`send_later`) to restart the runner and autopub

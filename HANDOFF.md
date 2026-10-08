@@ -7,6 +7,13 @@ Owner: Jim (TTMath). Live site: https://ttmathcs.github.io/mars-campus/
 
 ## Where the work stopped: 7 Oct 2026, 02:45 UTC (read this first)
 
+**8 Oct, 01:45 UTC.** The container was reclaimed again while the session sat idle (about 21:55 to 01:35: machine A
+rendered nothing; B went on). A check-in now comes every 45 minutes (`send_later`) to restart the runner and autopub
+if they are gone. Jim (to machine B): "w walk is not smooth. and while walking, the 3d angles looks really strange, and
+distorted": held, W now walks on from point to point (the next point loads during the step), the view narrows from 90
+degrees across to 72 while walking, A and D turn while held (`pw.js`). Every point keeps 1.1 m clear (one opened on
+the maple's trunk).
+
 **21:15 UTC: the photo walk planned again, and rendered at 1024 px.** Jim (Safari on a Mac): "it is not so good",
 "the view is so close view. i need to bit far and zoom out", then "when i walk, it moves too fast. and I can see the
 slow rendering of objects in slow motion. not good". So: one row of points down the middle of each room (8 m from the

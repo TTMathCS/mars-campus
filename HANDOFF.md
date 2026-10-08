@@ -35,6 +35,16 @@ with w, and distorted. just merge them into one free walk and give best quality 
   streaks where no 360 sees a trunk).
 - The planner now links points by ways on free floor 0.35 m clear (corners round furniture, `links` in plan.json)
   and keeps every rendered point; 227 points, 56+ rendered.
+- **04:00: a test bake of the Arrival part with the pictures' own plants** (`walk_pilot.sh suit,hangar,arrival
+  p072full 24`: `WALK_DETAIL=1.0`, no leaf cap, `WALK_MAX_FACES=60000`), queued on machine A after the Arrival 360s and
+  a re-render of C-04.2 (its 360 was the first test: 768 px faces, a 256 x 128 distance map; set aside in
+  `final/photowalk_old/`). It writes `walk/p072full.packed` only. Test it in the merged walk from a separate copy of
+  the site (never by changing `palace/walk/data` in the repo: autopub.py commits that folder), and publish it only if
+  the trees and the furniture's edges are clearly better and the chunks stay a reasonable size (c0960.glb is 4.5 MB
+  now). Why: the 360s' maple has about four times the walk's leaves; the extra ones are painted onto the wall behind
+  it as orange spots once one walks past the tree.
+- The container is reclaimed soon after the session goes idle (also ~01:58 and ~03:10 on 8 Oct): check-ins now every
+  20 minutes (`send_later`).
 
 **8 Oct, 01:45 UTC.** The container was reclaimed again while the session sat idle (about 21:55 to 01:35: machine A
 rendered nothing; B went on). A check-in now comes every 45 minutes (`send_later`) to restart the runner and autopub

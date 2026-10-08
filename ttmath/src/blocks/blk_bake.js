@@ -176,11 +176,36 @@
           else if (lat > c[0] && lat < c[2] && s > c[1] && s < c[3]) return true; }
         return false; }
       var gMax = -1e9; for (var q = 0; q < G.h.length; q++) if (G.h[q] > gMax) gMax = G.h[q];
+      // (v0.54) the ground test answered by cell (G.res square) where it can be proved: GTOP, the highest the ground can be
+      // anywhere in it (the 3 x 3 heights the bilinear reads there), and CUT1, the cells wholly inside one of the cuts (a
+      // convex cut holding the cell's corners, or a full ring holding it between its radii); the rest are tested exactly,
+      // so a point is solid exactly when it was
+      var GNX = G.nx, GNZ = G.nz, GX1 = G.x0 + G.nx * G.res, GZ1 = G.z0 + G.nz * G.res, GTOP = new Float32Array(GNX * GNZ), CUT1 = new Uint8Array(GNX * GNZ), EPS = 1e-6;
+      function corners(xa, za, xb, zb, f) { return f(xa, za) && f(xb, za) && f(xa, zb) && f(xb, zb); }
+      for (var cj = 0; cj < GNZ; cj++) for (var ci = 0; ci < GNX; ci++) {
+        var hmax = -1e9; for (var jj = Math.max(0, cj - 1); jj <= Math.min(GNZ - 1, cj + 1); jj++) for (var ii = Math.max(0, ci - 1); ii <= Math.min(GNX - 1, ci + 1); ii++) hmax = Math.max(hmax, G.h[jj * GNX + ii]);
+        GTOP[cj * GNX + ci] = hmax - 0.05 + 1e-4;
+        var xa = G.x0 + ci * G.res - EPS, xb = G.x0 + (ci + 1) * G.res + EPS, za = G.z0 + cj * G.res - EPS, zb = G.z0 + (cj + 1) * G.res + EPS, all = false;
+        all = corners(xa, za, xb, zb, function (x, z) { var dx = x - P.cx, dz = z - P.cz; return dx * dx + dz * dz < (P.R + 0.1) * (P.R + 0.1) - EPS; }) ||
+          corners(xa, za, xb, zb, function (x, z) { var dx = x - P.cx, dz = z - P.cz, s = dx * fx + dz * fz, al = Math.abs(dx * rx + dz * rz); return al < P.vW - EPS && s > EPS && s < P.vF + 0.1 - EPS; });
+        for (var n2 = 0; n2 < CUTS.length && !all; n2++) { var c2 = CUTS[n2];
+          if (c2[6] >= 0.5) all = corners(xa, za, xb, zb, function (x, z) { var dx = x - P.cx, dz = z - P.cz, lat = dx * rx + dz * rz, s = dx * fx + dz * fz; return lat > c2[0] + EPS && lat < c2[2] - EPS && s > c2[1] + EPS && s < c2[3] - EPS; });
+          else if (c2[4] < -Math.PI && c2[5] > Math.PI) {           // a full ring round (c0, c1): the cell between its radii
+            var ox = P.cx + c2[0] * rx + c2[1] * fx, oz = P.cz + c2[0] * rz + c2[1] * fz, nx2 = Math.max(xa - ox, 0, ox - xb), nz2 = Math.max(za - oz, 0, oz - zb);
+            var dmin = Math.sqrt(nx2 * nx2 + nz2 * nz2), dmax = Math.sqrt(Math.max((xa - ox) * (xa - ox), (xb - ox) * (xb - ox)) + Math.max((za - oz) * (za - oz), (zb - oz) * (zb - oz)));
+            all = dmin > c2[2] + EPS && dmax < c2[3] - EPS;
+          } }
+        CUT1[cj * GNX + ci] = all ? 1 : 0;
+      }
       var skipId = -1;                                                    // the voxel a ray starts in, when that one is solid
       function solid(x, y, z) {
         var id = vIndex(x, y, z);
         if (id >= 0 && id !== skipId && (vox[id >>> 5] & (1 << (id & 31))) !== 0) return true;
-        if (y < gMax && x > G.x0 && z > G.z0 && x < G.x0 + G.nx * G.res && z < G.z0 + G.nz * G.res && y < gH(x, z) - 0.05 && !inCut(x, z)) return true;
+        if (y < gMax && x > G.x0 && z > G.z0 && x < GX1 && z < GZ1) {
+          var c = Math.min(GNZ - 1, Math.floor((z - G.z0) / G.res)) * GNX + Math.min(GNX - 1, Math.floor((x - G.x0) / G.res));
+          if (y >= GTOP[c] || CUT1[c]) return false;
+          return y < gH(x, z) - 0.05 && !inCut(x, z);
+        }
         return false;
       }
       function startAt(x, y, z) { var id = vIndex(x, y, z); skipId = (id >= 0 && (vox[id >>> 5] & (1 << (id & 31))) !== 0) ? id : -1; }

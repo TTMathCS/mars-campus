@@ -307,9 +307,13 @@
   }
   function pot(b, kind, r, h) {
     POT_TOP = h * 0.94; if (POT_SKIP) { POT_END = b.count(); return h * 0.94; }
-    // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass
-    var prof = kind === 1 ? [[r * 0.72, 0], [r * 0.8, h * 0.08], [r, h * 0.88], [r * 1.06, h * 0.9], [r * 1.06, h], [r * 0.95, h]]
-      : kind === 2 ? [[r * 0.94, 0], [r, h * 0.04], [r, h], [r * 0.93, h]] : [[r * 0.7, 0], [r * 0.82, h * 0.06], [r, h * 0.55], [r * 0.98, h * 0.95], [r * 0.94, h], [r * 0.88, h]];
+    // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass. (v0.54) Their rims rolled round (radius e) instead of
+    // cut square, as real pots' are (Jim, 8 Oct 2026: "... the edge of furnitures/book shelves/sofa/plants")
+    var e = Math.min(0.012, r * 0.05);
+    function roll(cx, cy, a0, a1, rr) { var out = []; for (var k = 0; k <= 3; k++) { var a = a0 + (a1 - a0) * k / 3; out.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]); } return out; }
+    var prof = kind === 1 ? [[r * 0.72, 0], [r * 0.8, h * 0.08], [r, h * 0.88]].concat(roll(r * 1.06 - e, h * 0.9 + e, -Math.PI / 2, 0, e), roll(r * 1.06 - e, h - e, 0, Math.PI / 2, e), [[r * 0.95, h]])
+      : kind === 2 ? [[r * 0.94, 0], [r, h * 0.04]].concat(roll(r - e, h - e, 0, Math.PI / 2, e), [[r * 0.93, h]])
+      : [[r * 0.7, 0], [r * 0.82, h * 0.06], [r, h * 0.55], [r * 0.98, h * 0.95 - e]].concat(roll(r * 0.98 - e, h - e, 0, Math.PI / 2, e), [[r * 0.88, h]]);
     var n0 = b.count();
     latheOn(b, 0, 0, 0, prof, 32, kind === 1 ? MT.PLASTER : kind === 2 ? MT.PLASTIC : MT.CERAMIC, kind === 1 ? undefined : (kind === 2 ? 1 : 0), kind === 1 ? 2 : 0);
     if (kind === 1) b.tag(n0, null, 2);

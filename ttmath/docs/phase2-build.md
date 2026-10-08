@@ -224,6 +224,11 @@ each pushed when it is checked:
    covers are the campus atlas's book columns (`drawBooks`: BOOK_N = 48 spines, each over a swatch of its cloth).
    (v0.53) `piping(b, x0, x1, zf, zb, yTop, r, mat, col, gy)` (`blk_soft.js`): the seam cord round a softBox cushion's top
    (front and sides) where its edge of radius r meets it; on the sofas', banquettes' and club chairs' seats.
+   (v0.54) The bake worker's `solid(x, y, z)` answers the ground test by cell where it can: GTOP (the highest the ground
+   can be in a cell: its 3 x 3 heights, less 5 cm) clears a point above it, and CUT1 marks a cell wholly inside one cut
+   (the palace circle, the vestibule, a box cut, a full ring band), never solid; the rest are tested as before, so the
+   light is the same to the bit (checked on the whole bake) and a quarter quicker. `pot(b, kind, r, h)` rolls each rim
+   round (radius min(12 mm, r / 20)).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

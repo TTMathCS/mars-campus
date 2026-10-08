@@ -18,6 +18,7 @@ two minutes, so run them one after another, never several at once.
 | `walktest.py` | Walks legs toward points in the wings and prints where the walker ends up (doors, walls, steps) |
 | `walk_check.py` | **Run before every push.** Walks the visitor's routes (start over the ridge, courtyard, a wing, the palace, the back door, the Crescent, its stair and court, the Sun court) and fails if any stops short; `--built` tests the published page |
 | `evalpage.py` | Runs JavaScript in the page and prints the result, e.g. `evalpage.py "__mars._eval('PAL.R')"` |
+| `eagle_shot.py` | The homepage card's picture: the campus from the air at sunset, from a free camera (its numbers in the script), written to `ttmath/preview.jpg` (also the page's og:image) |
 | `site_check.py` | Opens the built `ttmath/index.html` as GitHub Pages serves it and takes one shot |
 | `flicker.py`, `flicker_score.py` | Shimmer test for the signs: three shots per view (still, still again, a 2 cm step) and the share of pixels that jump |
 | `envelope.py` | Samples how tall a building may be round the campus and stay hidden; writes `data/envelope.json` (slow) |

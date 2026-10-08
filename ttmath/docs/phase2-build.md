@@ -205,6 +205,11 @@ each pushed when it is checked:
    in their order, so a point meets the same lights in the same order. `lateTexture(f)` (`blk_palace2.js`) draws a
    canvas texture with the palace's, after the first frames (the prints' and the pinboards' atlases). Measure the load
    with `tools/load_profile.py` (`--cpu 4`, `--heap-limit 256`).
+   (v0.50) `bakedMesh(B, mat, null, null, { later: true })` (the campus, the Ring, the drapes, the palace) leaves the quick
+   light to the bake worker: its first step is `quickLight` (bakeQuick's sums on the packed lights, the same grid), sent back
+   as `{ quick, light }` before the voxels; `frame()` starts the worker once the campus has been drawn. If no worker can be
+   made, `bakeQuickLeft()` lights them on the page. The entrance dome's edge beam follows `entReach`/`entTop` where the cap
+   meets the Ring's front (`blk_entrance.js`).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

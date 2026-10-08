@@ -35,6 +35,8 @@ GL_SUM = """(function(){ var L = window.__GLLOG || [], by = {};
   tex.sort(function (a, b) { return b[5] - a[5]; });
   var buf = L.filter(function (e) { return e[0] === 'bufferData'; }).map(function (e) { return e[1].bytes; }).sort(function (a, b) { return b - a; });
   return { by: by, tex: tex.slice(0, 40), ntex: tex.length, buf: buf.slice(0, 12) }; })()"""
+# when the page itself set __marsReady (the probe can only look once the page is free, after its first frames)
+READY_HOOK = """(function(){ var v; Object.defineProperty(window, '__marsReady', { configurable: true, get: function () { return v; }, set: function (x) { v = x; if (x && !window.__marsReadyAt) window.__marsReadyAt = performance.now(); } }); })();"""
 PROBE = """(function(){ var m = performance.memory || {}; return { heap: Math.round((m.usedJSHeapSize || 0) / 1048576), ready: !!window.__marsReady,
   bake: (function(){ try { return __mars._eval('BAKE.done ? BAKE.ms : (BAKE.worker ? -1 : -2)'); } catch (e) { return null; } })(),
   load: (document.getElementById('loading') && !document.getElementById('loading').hidden) ? (document.querySelector('#loading') ? document.querySelector('#loading').innerText.slice(0, 80) : '') : 'hidden' }; })()"""
@@ -82,6 +84,7 @@ async def main():
             pg.on("crash", lambda: (crashed.append(1), print("PAGE CRASHED (out of memory?)", flush=True)))
             await prepare(pg)
             if GL: await pg.add_init_script(GL_HOOK)
+            await pg.add_init_script(READY_HOOK)
             cdp = await ctx.new_cdp_session(pg)
             await cdp.send("Emulation.setCPUThrottlingRate", {"rate": CPU})
             if HEAP:
@@ -108,7 +111,10 @@ async def main():
                     heap_report(hp, TOP)
                 if pr["ready"] and PROFILE and "prof" not in locals():
                     prof = (await cdp.send("Profiler.stop"))["profile"]
-                if pr["ready"] and pr["bake"] is not None and pr["bake"] >= 0: break
+                if pr["ready"] and pr["bake"] is not None and pr["bake"] >= 0:
+                    at = await pg.evaluate("[window.__marsReadyAt, __mars._eval('[BAKE.t0, BAKE.quickMs || 0, BAKE.ms]')]")
+                    print("the page: campus built at %.1f s; the bake started %.1f s later, its quick light after %.1f s, done after %.1f s" % (at[0] / 1000, (at[1][0] - at[0]) / 1000, at[1][1] / 1000, at[1][2] / 1000))
+                    break
                 if el > 1500: print("gave up after 25 min"); break
                 await asyncio.sleep(1.0)
             if GL:

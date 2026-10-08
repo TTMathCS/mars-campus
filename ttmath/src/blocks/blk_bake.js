@@ -42,17 +42,20 @@
   // and the traced light it sends back leaves the page once drawn, so the page keeps a fraction of the campus in memory
   function bakeDrawn() { this.userData.drawn = true; delete this.onAfterRender; }
   function bakeDrop() { var A = this.geometry.attributes; A.aLight.array = A.aAO.array = A.aSky.array = BLD_E; delete this.onAfterRender; }
-  // mesh from a builder, lit at once; static meshes also go to the worker
+  // mesh from a builder, lit at once; static meshes also go to the worker. opts.later (v0.50, the four big static meshes):
+  // the worker gives it the quick light first thing, the same numbers, so the page opens without waiting for it
   function bakedMesh(Bd, material, lightsOverride, off, opts) {
-    var g = Bd.build(); bakeQuick(g, lightsOverride, off);
+    var g = Bd.build(), later = !!(opts && opts.later) && !lightsOverride && !off && typeof Worker !== "undefined";
+    if (!later) bakeQuick(g, lightsOverride, off);
     var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;
-    if (!off) { BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude) }); m.onAfterRender = bakeDrawn; }
+    if (!off) { BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude), quick: later }); m.onAfterRender = bakeDrawn; }
     return m;
   }
+  function bakeQuickLeft() { BAKE.meshes.forEach(function (e) { if (e.quick) { bakeQuick(e.mesh.geometry); e.quick = false; } }); }   // no worker after all
   function startBakeWorker() {
     if (BAKE.worker || BAKE.started || typeof Worker === "undefined" || !CG.h) return;
     var src = "(" + bakeWorkerMain.toString() + ")()", w;
-    try { w = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" }))); } catch (e) { return; }
+    try { w = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" }))); } catch (e) { bakeQuickLeft(); return; }
     BAKE.worker = w; BAKE.started = true; BAKE.t0 = performance.now();
     var transfer = [], seen = new Set();
     function give(a, Ty, own) {                    // the array itself once it is on the card, else a copy; either way it moves to the worker
@@ -62,13 +65,18 @@
     }
     var meshes = BAKE.meshes.map(function (e) {
       var g = e.mesh.geometry, A = g.attributes, own = !!e.mesh.userData.drawn;
-      var m = { pos: give(A.position.array, Float32Array, own), nor: give(A.normal.array, Float32Array, own), idx: give(g.index.array, Uint32Array, own), zone: give(g.userData.zone, Uint8Array, own), occ: e.occluder };
+      var m = { pos: give(A.position.array, Float32Array, own), nor: give(A.normal.array, Float32Array, own), idx: give(g.index.array, Uint32Array, own), zone: give(g.userData.zone, Uint8Array, own), occ: e.occluder, quick: !!e.quick };
       if (own) { A.aFac.array = A.aFac2.array = A.aMat.array = BLD_E; g.userData.zone = null; e.own = true; }
       return m;
     });
     function packL(L) { return L.map(function (l) { return [l.x, l.y, l.z, l.c[0], l.c[1], l.c[2], l.r, l.d ? l.d[0] : 0, l.d ? l.d[1] : 0, l.d ? l.d[2] : 0, l.d ? l.lobe : -1]; }); }
     w.onmessage = function (ev) {
-      var r = ev.data; if (!r || !r.out) return;
+      var r = ev.data; if (!r) return;
+      if (r.quick) {                                                   // the quick light of the meshes left to the worker
+        r.quick.forEach(function (i, j) { var e = BAKE.meshes[i], A = e.mesh.geometry.attributes; if (e.own) A.aLight.array = r.light[j]; else A.aLight.array.set(r.light[j]); A.aLight.needsUpdate = true; e.quick = false; });
+        BAKE.quickMs = Math.round(performance.now() - BAKE.t0); if (typeof queueEnv === "function") queueEnv(true); return;
+      }
+      if (!r.out) return;
       r.out.forEach(function (o, i) {
         var e = BAKE.meshes[i], A = e.mesh.geometry.attributes;
         if (e.own) { A.aLight.array = o.light; A.aAO.array = o.ao; A.aSky.array = o.sky; e.mesh.onAfterRender = bakeDrop; }
@@ -90,6 +98,39 @@
   function bakeWorkerMain() {
     self.onmessage = function (ev) {
       var D = ev.data, P = D.pal, RES = 0.2, Y1 = P.yB + 17.5;
+      // (v0.50) first the quick light of the meshes the page left unlit, sent back at once: bakeQuick's sums exactly, on the
+      // lights by 4 m cell as lightGrid lists them (the wide ones, reaching over 40 m, after each cell's own)
+      var QG = D.lights.map(function (L) {
+        var m = new Map(), wide = [];
+        L.forEach(function (l) {
+          if (l[6] > 40) { wide.push(l); return; }
+          var x0 = Math.floor((l[0] - l[6]) / 4), x1 = Math.floor((l[0] + l[6]) / 4), z0 = Math.floor((l[2] - l[6]) / 4), z1 = Math.floor((l[2] + l[6]) / 4);
+          for (var i = x0; i <= x1; i++) for (var j = z0; j <= z1; j++) { var key = i * 65536 + j, a = m.get(key); if (!a) m.set(key, a = []); a.push(l); }
+        });
+        if (wide.length) m.forEach(function (a) { Array.prototype.push.apply(a, wide); });
+        return { m: m, wide: wide };
+      });
+      function quickLight(m) {
+        var Pq = m.pos, Nq = m.nor, Zq = m.zone, n = Pq.length / 3, out = new Float32Array(n * 3), lG = null, lK = NaN, L = null;
+        for (var k = 0; k < n; k++) {
+          var x = Pq[k * 3], y = Pq[k * 3 + 1], z = Pq[k * 3 + 2], nx = Nq[k * 3], ny = Nq[k * 3 + 1], nz = Nq[k * 3 + 2], r = 0, gg = 0, b = 0;
+          var G = QG[Zq[k] === 1 ? 1 : Zq[k] === 2 ? 2 : 0], key = Math.floor(x / 4) * 65536 + Math.floor(z / 4);
+          if (G !== lG || key !== lK) { L = G.m.get(key) || G.wide; lG = G; lK = key; }
+          for (var i = 0; i < L.length; i++) {
+            var l = L[i], lx = l[0] - x, ly = l[1] - y, lz = l[2] - z, d2 = lx * lx + ly * ly + lz * lz, lr = l[6];
+            if (d2 > lr * lr) continue;
+            var d = Math.sqrt(d2) + 1e-6, e0 = lr * 0.55, t = (d - e0) / (lr - e0), ndl = (nx * lx + ny * ly + nz * lz) / d, w = 0.12 / (d2 + 2);
+            t = t < 0 ? 0 : t > 1 ? 1 : t;
+            if (ndl > 0) { var dw = ndl / (d2 + 1); if (l[10] >= 0) { var sp = -(l[7] * lx + l[8] * ly + l[9] * lz) / d, lo = l[10]; dw = sp > 0 ? dw * (lo === 1 ? sp : lo === 2 ? sp * sp : Math.pow(sp, lo)) : 0; } w += dw; }
+            w *= 1 - t * t * (3 - 2 * t); r += l[3] * w; gg += l[4] * w; b += l[5] * w;
+          }
+          out[k * 3] = r; out[k * 3 + 1] = gg; out[k * 3 + 2] = b;
+        }
+        return out;
+      }
+      var QI = [], QL = [];
+      D.meshes.forEach(function (m, i) { if (m.quick) { QI.push(i); QL.push(quickLight(m)); } });
+      if (QI.length) self.postMessage({ quick: QI, light: QL }, QL.map(function (a) { return a.buffer; }));
       // voxel domains in the palace frame: today's campus, then the new quarter's buildings (the first that holds a point owns it)
       var DOM = [{ l0: -27, l1: 27, r0: -40, r1: 96, y0: P.yF - 1.0, y1: P.yB + 17.5 }].concat(D.domains || []), NV = 0;
       DOM.forEach(function (d) { d.NL = Math.ceil((d.l1 - d.l0) / RES); d.NR = Math.ceil((d.r1 - d.r0) / RES); d.NY = Math.ceil((d.y1 - d.y0) / RES); d.off = NV; NV += d.NL * d.NR * d.NY; });

@@ -267,7 +267,7 @@
     // ---- the dome's spiral lattice ----
     domeRibs(P);
 
-    palMesh = bakedMesh(P, matMat); scene.add(palMesh);
+    palMesh = bakedMesh(P, matMat, null, null, { later: true }); scene.add(palMesh);
 
     // ---- moving pieces: Foucault pendulum, golden Moebius strip, the five solids ----
     var PB = new Builder();

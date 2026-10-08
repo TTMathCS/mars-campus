@@ -125,6 +125,19 @@
       for (var k2 = 0; k2 <= 180; k2++) { var ph = k2 / 180 * 2 * Math.PI; if (qr > entReach(ph) - 0.05) { flush(); continue; } run.push(W(qr, ph, entTop(qr) - 0.04)); }
       flush();
     });
+    // where the cap meets the Gate Hall's front: a bronze edge beam along the line they meet on, standing on a post at each
+    // end where the drum stops, so the ribs and rings that come down to the facade land on it instead of stopping in the air
+    // (Jim, 8 Oct 2026: "the support sticks are sticking out and strange")
+    var edge = [], ends = [];
+    for (var k3 = 0; k3 <= 720; k3++) {
+      var pe = k3 / 720 * 2 * Math.PI, qe = entReach(pe);
+      if (qe < E.a - 0.005) { if (!edge.length) ends.push(k3 ? (k3 - 0.5) / 720 * 2 * Math.PI : pe); edge.push(W(qe - 0.06, pe, entTop(qe - 0.06) - 0.03)); }
+      else if (edge.length) { ends.push((k3 - 0.5) / 720 * 2 * Math.PI); break; }
+    }
+    if (edge.length > 1) {
+      tubeAlong(B, edge, 0.09, 8, MT.RIB);
+      ends.forEach(function (pe) { var qe = Math.min(E.a, entReach(pe)) - 0.06; tubeAlong(B, [W(qe, pe, yDb), W(qe, pe, entTop(qe) - 0.03)], 0.07, 8, MT.RIB); });
+    }
     // the airlock: a glass box on an aluminium frame, its floor, the two pairs of doors
     var hw = E.hw, s0 = E.s0, s1 = E.s1, ah = E.ah, ya = E.yA;
     B.surf(4, 8, function (u, v, q) { var lat = lerp(-hw, hw, u / 4), rad = lerp(s0, s1, v / 8), p = palXZ(lat, rad); q.p[0] = p.x; q.p[1] = ya + 0.004; q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = lat; q.f[1] = rad; q.m = MT.BALSTONE; });

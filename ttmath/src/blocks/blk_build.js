@@ -24,9 +24,9 @@
     buildPalace();                                                      // interior, dome glass and the moving pieces
     var B = new Builder(760000, 2300000), W = new Builder(2800000, 8400000), D = new Builder();   // room for what they hold (v0.49: 0.66 and 2.57 million points)
     campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
-    campus = bakedMesh(B, matMat); scene.add(campus);
-    wings = bakedMesh(W, matMat); scene.add(wings); pendulumBuild();
-    drape = bakedMesh(D, matDrape, null, null, { noOcclude: true }); drape.renderOrder = 1; scene.add(drape);
+    campus = bakedMesh(B, matMat, null, null, { later: true }); scene.add(campus);   // their quick light comes from the bake worker (v0.50)
+    wings = bakedMesh(W, matMat, null, null, { later: true }); scene.add(wings); pendulumBuild();
+    drape = bakedMesh(D, matDrape, null, null, { noOcclude: true, later: true }); drape.renderOrder = 1; scene.add(drape);
     // glass: the dome first, then the wing facades and the links
     var gg = domeGlassGeometry(); var pd = glassPair(gg, 6); palGlassB = pd[0]; palGlassF = pd[1];
     glassPair(BACK_GLASS.build(), 8); glassPair(CRS_GLASS.build(), 8); glassPair(hallGlass(GRD_GLASS).build(), 10); glassPair(hallGlass(ENT_GLASS).build(), 10);

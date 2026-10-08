@@ -98,6 +98,15 @@ ROOMS = {
     "T04-01": dict(name="Entrance dome, the arrivals hall and its pod gates", seating=["curved banquettes in navy wool against the drum's curb between the gates: two 1.6 m pieces either side between the airlock and the front gates, three either side between the front and the side gates"],
                    tables=[], lights=["uplights in the paving round the drum", "the trees lit from their planters"], plants=["olive, red maple, kentia, strelitzia, fig and ficus in round concrete planters between the paths"],
                    finishes="paving; the gates' doorways framed in bronze with their numbers over them", next="more pod lounges round the Ring"),
+    "T06-27": dict(name="Gate Hall", seating=["facing the two big screens on the left end wall, a deep sofa 3.4 m in warm grey wool with two cognac club chairs at the ends of its table, on a rug",
+                                             "two oak benches by the stair, on the entrance side and the garden side", "the reception's two chairs"],
+                   tables=["a walnut table 1.4 m before the sofa", "lamp tables with lamps at the sofa's ends"], lights=["downlights", "wall-washers on the end walls", "two table lamps"],
+                   plants=["red maples by the entrance glass, an agave and a bird of paradise in the corners, a kentia between the windows"],
+                   finishes="terrazzo; the timetable and the contests on the left end wall, the rooms' directory on the right; in the hall's left half, off the way through, the Borromean "
+                            "rings in polished stainless steel 2.4 m tall on a plinth of black Nero Marquina marble: three rings, no two of them linked, yet the three held together, "
+                            "the emblem of the world's mathematicians (v0.47)",
+                   layout="the way from the entrance's door (180 deg) straight through to the garden's doors kept clear; the lounge group at r 53.6 to 58.2, 166.4 to 171 deg, "
+                          "facing the screens; the sculpture at r 52.6, 175.2 deg; the bench that stood where the group is (r 57.6, 172.5 deg) gone", next=""),
     "T06-21": dict(name="Pod lounge", seating=["two warm grey sofas 2 m by the glass either side of the bridge's door"], tables=["a walnut table with books in front of each sofa"], lights=["linear pendants"],
                    finishes="linen plaster", next=""),
     "T06-26": dict(name="Reading room", seating=["by the outer wall a linen sofa 3.4 m and a forest-green velvet sofa 3.4 m, each facing two cognac club chairs across a walnut table on a rug",

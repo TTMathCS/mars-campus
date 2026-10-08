@@ -2467,7 +2467,7 @@
           leaflet(x0 + C / 2, y, sd * (1.05 - 0.35 * t) + (rnd() - 0.5) * 0.12, ln, 4.2 + 1.6 * rnd(), "rgb(" + Math.round(46 * gc) + "," + Math.round(74 * gc) + "," + Math.round(36 * gc) + ")", "rgba(150,170,110,0.55)"); }); }
       g.strokeStyle = "rgb(70,84,48)"; g.lineWidth = 2.2; g.beginPath(); g.moveTo(x0 + C / 2, C); g.lineTo(x0 + C / 2, C * 0.04); g.stroke();
     })();
-    // a sprig: a twig with small leaves either side (olive: narrow, grey-green, silvery below; ficus: small glossy ovals)
+    // a sprig: a twig with small leaves either side (the ficus: small glossy ovals)
     function sprig(cx, cy, n, lenA, widA, cTop, cUnder, tw) {
       var x0 = cx * C, y0 = cy * C; g.save(); g.lineCap = "round";
       g.strokeStyle = tw; g.lineWidth = 3; g.beginPath(); g.moveTo(x0 + C / 2, y0 + C); g.quadraticCurveTo(x0 + C * 0.44, y0 + C * 0.5, x0 + C / 2 + 6, y0 + C * 0.06); g.stroke();
@@ -2476,7 +2476,34 @@
         g.fillStyle = rnd() < 0.25 ? cUnder : cTop; g.fill(); g.strokeStyle = "rgba(220,226,190,0.35)"; g.lineWidth = 1; g.beginPath(); g.moveTo(0, -2); g.lineTo(0, -ln * 0.9); g.stroke(); g.restore(); }
       g.restore();
     }
-    sprig(0, 1, 16, 0.3, 0.045, "rgb(88,100,72)", "rgb(140,146,124)", "rgb(90,80,68)");
+    // olive: a spray of narrow leaves in pairs along a grey twig and its side shoots, dark grey-green above and silvery
+    // below, a third of them turned to show the silver; a pale midrib on each (v0.42)
+    (function () {
+      var x0 = 0, y0 = C, rnd = mulberry(5077), leaves = [], tw = []; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round"; g.lineJoin = "round";
+      function path(xa, ya, xb, yb, bend) { var p = []; for (var k = 0; k <= 12; k++) { var t = k / 12; p.push([xa + (xb - xa) * t + bend * Math.sin(Math.PI * t), ya + (yb - ya) * t]); } return p; }
+      function at(p, t) { var f = t * (p.length - 1), i = Math.min(p.length - 2, Math.floor(f)), k = f - i; return [p[i][0] + (p[i + 1][0] - p[i][0]) * k, p[i][1] + (p[i + 1][1] - p[i][1]) * k, Math.atan2(p[i + 1][0] - p[i][0], -(p[i + 1][1] - p[i][1]))]; }
+      function shoot(p, w0, n, L0, L1) {
+        tw.push([p, w0]);
+        for (var j = 0; j < n; j++) { var t = 0.14 + 0.8 * j / n, q = at(p, t), L = (L0 + (L1 - L0) * t) * (0.88 + 0.24 * rnd());
+          [-1, 1].forEach(function (sd) { leaves.push({ x: q[0], y: q[1], a: q[2] + sd * (0.45 + 0.35 * rnd()), L: L * (0.9 + 0.2 * rnd()), under: rnd() < 0.4, k: 0.82 + 0.3 * rnd() }); }); }
+        var e = at(p, 1); leaves.push({ x: e[0], y: e[1], a: e[2] + (rnd() - 0.5) * 0.3, L: L1 * 0.9, under: rnd() < 0.3, k: 0.9 + 0.2 * rnd() });
+      }
+      var main = path(x0 + C * 0.5, y0 + C, x0 + C * 0.51, y0 + C * 0.07, -C * 0.03);
+      shoot(main, 2.2, 9, C * 0.21, C * 0.17);
+      [[0.15, -1], [0.3, 1], [0.45, -1], [0.6, 1], [0.75, -1]].forEach(function (s) {
+        var q = at(main, s[0]), ang = q[2] + s[1] * (0.5 + 0.2 * rnd()), ln = C * (0.34 - 0.2 * s[0]);
+        shoot(path(q[0], q[1], q[0] + Math.sin(ang) * ln, q[1] - Math.cos(ang) * ln, s[1] * C * 0.015), 1.3, 5, C * 0.2, C * 0.16);
+      });
+      tw.forEach(function (t) { var p = t[0]; for (var k = 1; k < p.length; k++) { g.strokeStyle = "rgb(104,96,82)"; g.lineWidth = t[1] * (1 - 0.55 * k / p.length); g.beginPath(); g.moveTo(p[k - 1][0], p[k - 1][1]); g.lineTo(p[k][0], p[k][1]); g.stroke(); } });
+      leaves.sort(function (a, b) { return (a.under ? 0 : 1) + a.k * 0.5 - (b.under ? 0 : 1) - b.k * 0.5; });
+      leaves.forEach(function (l) {
+        var c = l.under ? [152, 160, 140] : [80, 90, 66], k = l.k, w = l.L * 0.2;
+        g.save(); g.translate(l.x, l.y); g.rotate(l.a); g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(w, -l.L * 0.45, 0, -l.L); g.quadraticCurveTo(-w, -l.L * 0.45, 0, 0);
+        g.fillStyle = "rgb(" + Math.round(c[0] * k) + "," + Math.round(c[1] * k) + "," + Math.round(c[2] * k) + ")"; g.fill();
+        g.strokeStyle = l.under ? "rgba(214,218,196,0.5)" : "rgba(170,180,140,0.35)"; g.lineWidth = 0.7; g.beginPath(); g.moveTo(0, -1.5); g.lineTo(0, -l.L * 0.9); g.stroke(); g.restore();
+      });
+      g.restore();
+    })();
     sprig(1, 1, 14, 0.2, 0.075, "rgb(44,76,34)", "rgb(62,96,46)", "rgb(86,76,58)");
     // fern frond: many small tapered pinnae on a thin rachis
     (function () {
@@ -2490,20 +2517,64 @@
     g.save(); g.beginPath(); g.rect(3 * C, C, C, C); g.clip(); g.globalCompositeOperation = "source-atop";
     for (k = 0; k < 18; k++) { g.strokeStyle = "rgba(214,204,110," + (0.25 + 0.3 * rnd()) + ")"; g.lineWidth = 2 + 4 * rnd(); var sx = 3 * C + C * (0.3 + 0.4 * rnd()); g.beginPath(); g.moveTo(sx, C * 1.95); g.lineTo(sx + (rnd() - 0.5) * 60, C * 1.1); g.stroke(); }
     g.restore();
-    // Japanese maple: a twig with small palmate leaves of seven pointed lobes, deep red
+    // Japanese maple (a red Acer palmatum): a spray of small leaves in pairs on long red stalks along a slender twig, each
+    // leaf of seven narrow lobes cut deep toward the stalk, drawn out to sharp tips and finely toothed; burgundy to wine to
+    // crimson, a few turning orange, darker at the heart; the leaves underneath in shadow, those on top in the light (v0.42)
     (function () {
-      var x0 = 0, y0 = 2 * C; g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round";
-      g.strokeStyle = "rgb(70,30,26)"; g.lineWidth = 2.6; g.beginPath(); g.moveTo(x0 + C / 2, y0 + C); g.quadraticCurveTo(x0 + C * 0.46, y0 + C * 0.55, x0 + C * 0.52, y0 + C * 0.08); g.stroke();
-      function palm(cx, cy, R, rot, col) {
-        g.save(); g.translate(cx, cy); g.rotate(rot); g.beginPath();
-        var lobes = 7;
-        for (var k = 0; k <= lobes * 2; k++) { var a = -Math.PI * 0.95 + Math.PI * 1.9 * k / (lobes * 2), rr = k % 2 ? R * 0.3 : R * (0.75 + 0.25 * Math.cos((k / (lobes * 2) - 0.5) * 2.2)); var px = Math.sin(a) * rr, py = -Math.cos(a) * rr; if (k) g.lineTo(px, py); else g.moveTo(px, py); }
-        g.closePath(); g.fillStyle = col; g.fill();
-        g.strokeStyle = "rgba(60,8,10,0.55)"; g.lineWidth = 0.9; for (k = 0; k < lobes; k++) { var a2 = -Math.PI * 0.95 + Math.PI * 1.9 * (k * 2) / (lobes * 2); g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.sin(a2) * R * 0.8, -Math.cos(a2) * R * 0.8); g.stroke(); }
-        g.restore();
+      var x0 = 0, y0 = 2 * C, rnd = mulberry(4021); g.save(); g.beginPath(); g.rect(x0, y0, C, C); g.clip(); g.lineCap = "round"; g.lineJoin = "round";
+      var LA = [0, 0.6, -0.6, 1.2, -1.2, 1.9, -1.9], LL = [1, 0.95, 0.95, 0.8, 0.8, 0.48, 0.48], WT = [0, 0.22, 0.5, 0.64, 0.82, 0.94, 1], WW = [0.1, 0.42, 0.9, 1.0, 0.62, 0.2, 0];
+      function wl(u) { for (var i = 1; i < WT.length; i++) if (u <= WT[i]) { var k = (u - WT[i - 1]) / (WT[i] - WT[i - 1]); k = k * k * (3 - 2 * k); return WW[i - 1] + (WW[i] - WW[i - 1]) * k; } return 0; }
+      function col(c, k) { return "rgb(" + Math.round(Math.min(255, c[0] * k)) + "," + Math.round(Math.min(255, c[1] * k)) + "," + Math.round(Math.min(255, c[2] * k)) + ")"; }
+      var PAL = [[92, 16, 30], [112, 20, 34], [128, 24, 36], [146, 30, 38], [166, 52, 36]];
+      function mapleLeaf(cx, cy, R, rot, c, sh) {
+        var lobes = [];
+        g.beginPath();
+        for (var i = 0; i < 7; i++) {
+          var L = R * LL[i] * (0.9 + 0.2 * rnd()), hw = 0.17 * L, a = rot + LA[i] + (rnd() - 0.5) * 0.1, sa = Math.sin(a), ca = Math.cos(a), n = 18;
+          lobes.push([a, L]);
+          for (var s = 0; s < 2; s++) for (var k = 0; k <= n; k++) {
+            var kk = s ? n - k : k, u = kk / n, w = hw * wl(u) * (1 + (kk % 2 && u > 0.3 && u < 0.92 ? 0.16 : 0)) * (s ? -1 : 1);
+            var px = cx + sa * u * L + ca * w, py = cy - ca * u * L + sa * w;
+            if (!s && !k) g.moveTo(px, py); else g.lineTo(px, py);
+          }
+          g.closePath();
+        }
+        var gr = g.createRadialGradient(cx, cy, 0, cx, cy, R);
+        gr.addColorStop(0, col(c, 0.55 * sh)); gr.addColorStop(0.35, col(c, 0.85 * sh)); gr.addColorStop(0.8, col(c, 1.0 * sh)); gr.addColorStop(1, col([c[0] * 1.05, c[1] * 1.25, c[2]], 1.04 * sh));
+        g.fillStyle = gr; g.fill("nonzero");
+        g.strokeStyle = "rgba(44,6,14," + (0.35 + 0.2 * (1 - sh)) + ")"; g.lineWidth = 0.7;
+        lobes.forEach(function (lb) { g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + Math.sin(lb[0]) * lb[1] * 0.82, cy - Math.cos(lb[0]) * lb[1] * 0.82); g.stroke(); });
       }
-      for (var k = 0; k < 14; k++) { var t = 0.08 + 0.86 * k / 14, sd = k % 2 ? 1 : -1, cx = x0 + C / 2 + sd * C * (0.2 + 0.1 * rnd()), cy = y0 + C - C * 0.92 * t, rr = C * (0.19 - 0.05 * t) * (0.9 + 0.2 * rnd()), sh = 0.8 + 0.35 * rnd();
-        palm(cx, cy, rr, sd * (0.5 + 0.3 * rnd()), "rgb(" + Math.round(138 * sh) + "," + Math.round(24 * sh) + "," + Math.round(26 * sh) + ")"); }
+      // the twig and its shoots, then the leaves on their stalks, the lowest layer first
+      var leaves = [], tw = [];
+      function twigPts(xa, ya, xb, yb, bend) { var p = []; for (var k = 0; k <= 16; k++) { var t = k / 16; p.push([xa + (xb - xa) * t + bend * Math.sin(Math.PI * t), ya + (yb - ya) * t]); } return p; }
+      function along(p, t) { var f = t * (p.length - 1), i = Math.min(p.length - 2, Math.floor(f)), k = f - i; return [p[i][0] + (p[i + 1][0] - p[i][0]) * k, p[i][1] + (p[i + 1][1] - p[i][1]) * k, Math.atan2(p[i + 1][0] - p[i][0], -(p[i + 1][1] - p[i][1]))]; }
+      function shoot(p, w0, nodes, R0, R1) {
+        tw.push([p, w0]);
+        nodes.forEach(function (t, ni) {
+          var q = along(p, t), r = R0 + (R1 - R0) * t;
+          [-1, 1].forEach(function (sd) {
+            var ang = q[2] + sd * (0.95 + 0.35 * rnd()), pl = r * (0.75 + 0.35 * rnd()), rr = r * (0.85 + 0.25 * rnd());
+            var ex = q[0] + Math.sin(ang) * pl, ey = q[1] - Math.cos(ang) * pl;
+            leaves.push({ x0: q[0], y0: q[1], x: ex + Math.sin(ang) * rr * 0.12, y: ey - Math.cos(ang) * rr * 0.12, R: rr, rot: ang + (rnd() - 0.5) * 0.3, layer: rnd() + (ni % 2 ? 0.3 : 0) });
+          });
+        });
+        var e = p[p.length - 1], q2 = along(p, 1);
+        leaves.push({ x0: e[0], y0: e[1], x: e[0] + Math.sin(q2[2]) * R1 * 0.7, y: e[1] - Math.cos(q2[2]) * R1 * 0.7, R: R1 * 0.95, rot: q2[2], layer: 1.4 });
+      }
+      var main = twigPts(x0 + C * 0.5, y0 + C, x0 + C * 0.52, y0 + C * 0.1, C * 0.04);
+      shoot(main, 2.4, [0.08, 0.2, 0.32, 0.44, 0.56, 0.68, 0.79, 0.89], C * 0.12, C * 0.09);
+      [[0.16, 1], [0.28, -1], [0.42, 1], [0.55, -1], [0.7, 1]].forEach(function (s) {
+        var q = along(main, s[0]), ang = q[2] + s[1] * (0.6 + 0.2 * rnd()), ln = C * (0.34 - 0.16 * s[0]);
+        shoot(twigPts(q[0], q[1], q[0] + Math.sin(ang) * ln, q[1] - Math.cos(ang) * ln, s[1] * C * 0.02), 1.4, [0.3, 0.6, 0.86], C * 0.1, C * 0.08);
+      });
+      tw.forEach(function (t) { var p = t[0]; for (var k = 1; k < p.length; k++) { g.strokeStyle = "rgb(96,42,36)"; g.lineWidth = t[1] * (1 - 0.55 * k / p.length); g.beginPath(); g.moveTo(p[k - 1][0], p[k - 1][1]); g.lineTo(p[k][0], p[k][1]); g.stroke(); } });
+      leaves.sort(function (a, b) { return a.layer - b.layer; });
+      leaves.forEach(function (l) {
+        var sh = 0.62 + 0.42 * Math.min(1, l.layer / 1.4), c = PAL[rnd() < 0.07 ? 4 : Math.floor(rnd() * 4)];
+        g.strokeStyle = "rgb(120,34,32)"; g.lineWidth = 0.9; g.beginPath(); g.moveTo(l.x0, l.y0); g.lineTo(l.x, l.y); g.stroke();
+        mapleLeaf(l.x, l.y, l.R, l.rot, c, sh);
+      });
       g.restore();
     })();
     // croton: a leathery leaf, dark green with yellow veins and red and orange patches
@@ -2561,17 +2632,35 @@
       own = nxt;
     }
     for (k = 0; k < N * N; k++) if (d[k * 4 + 3] <= 8) d[k * 4 + 3] = 0;
-    var t = new THREE.DataTexture(new Uint8Array(d.buffer.slice(0)), N, N, THREE.RGBAFormat);
-    t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; t.magFilter = THREE.LinearFilter; t.anisotropy = maxAniso; t.flipY = false; t.needsUpdate = true;
+    // the mipmaps made here rather than by the GPU, each cell's alpha scaled so its leaves cover as much of it at every
+    // size as at full size: a spray of small leaves stays leafy from across the garden instead of thinning to bare twigs
+    // as the averaged alpha falls under the cut (v0.42)
+    var base = new Uint8Array(d.buffer.slice(0)), mips = [{ data: base, width: N, height: N }], cov = new Float32Array(16), sPrev = new Float32Array(16).fill(1);
+    for (y = 0; y < N; y++) for (x = 0; x < N; x++) if (base[(y * N + x) * 4 + 3] > 127) cov[(y >> 8) * 4 + (x >> 8)] += 1 / (C * C);
+    for (var w = N >> 1, src = base, sw = N; w >= 1; src = lvl, sw = w, w >>= 1) {
+      var lvl = new Uint8Array(w * w * 4), out = new Uint8Array(w * w * 4), cs = w >> 2;
+      for (y = 0; y < w; y++) for (x = 0; x < w; x++) for (var ch = 0; ch < 4; ch++) { var i0 = (2 * y * sw + 2 * x) * 4 + ch; lvl[(y * w + x) * 4 + ch] = (src[i0] + src[i0 + 4] + src[i0 + sw * 4] + src[i0 + sw * 4 + 4] + 2) >> 2; }
+      out.set(lvl);
+      if (cs >= 1) for (var cl = 0; cl < 16; cl++) {     // in each cell, the scale that brings its coverage back to full size's
+        var hist = new Uint32Array(256), cx0 = (cl & 3) * cs, cy0 = (cl >> 2) * cs, want = cov[cl] * cs * cs, acc = 0, aT = 255;
+        for (y = cy0; y < cy0 + cs; y++) for (x = cx0; x < cx0 + cs; x++) hist[lvl[(y * w + x) * 4 + 3]]++;
+        for (var av = 255; av > 0; av--) { acc += hist[av]; if (acc >= want) { aT = av; break; } }
+        var sc = want < 0.5 ? 1 : Math.min(6, Math.max(0.6, 127.5 / Math.max(aT, 1))); sPrev[cl] = sc;
+        for (y = cy0; y < cy0 + cs; y++) for (x = cx0; x < cx0 + cs; x++) { var ia = (y * w + x) * 4 + 3; out[ia] = Math.min(255, Math.round(lvl[ia] * sc)); }
+      } else { var sm = 0; for (cl = 0; cl < 16; cl++) sm += sPrev[cl] / 16; for (var q2 = 0; q2 < w * w; q2++) out[q2 * 4 + 3] = Math.min(255, Math.round(lvl[q2 * 4 + 3] * sm)); }
+      mips.push({ data: out, width: w, height: w });
+    }
+    var t = new THREE.DataTexture(base, N, N, THREE.RGBAFormat); t.mipmaps = mips;
+    t.generateMipmaps = false; t.minFilter = THREE.LinearMipmapLinearFilter; t.magFilter = THREE.LinearFilter; t.anisotropy = maxAniso; t.flipY = false; t.needsUpdate = true;
     return t;
   }
   function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
   // one leaf card: base point, direction of the midrib, the up of its blade, length, width, droop and fold (a V along the
   // midrib); its picture is the cell of the leaf texture (texture v grows downward, like the canvas)
-  function leafCard(b, base, dir, up, len, wid, droop, fold, cell, tint, gloss) {
+  function leafCard(b, base, dir, up, len, wid, droop, fold, cell, tint, gloss, na) {
     var side = new THREE.Vector3().crossVectors(dir, up).normalize(), nrm = new THREE.Vector3().crossVectors(side, dir).normalize();
-    var u0 = cell[0] / 4, v0 = cell[1] / 4, NA = 4;
+    var u0 = cell[0] / 4, v0 = cell[1] / 4, NA = na || 4;
     b.surf(2, NA, function (i, j, q) {
       var t = j / NA, sx = i - 1, p = base.clone().addScaledVector(dir, len * t).addScaledVector(nrm, -droop * len * t * t)
         .addScaledVector(side, sx * wid / 2).addScaledVector(nrm, Math.abs(sx) * fold * wid / 2);
@@ -2584,14 +2673,14 @@
   // at 0.94 of it, which bedPlant puts on the bed's soil
   var POT_H = { fig: 0.46, monstera: 0.42, snake: 0.34, kentia: 0.5, olive: 0.55, ficus: 0.42, fern: 0.3, maple: 0.42, croton: 0.34, anthurium: 0.2, orchid: 0.16, strelitzia: 0.45, agave: 0.24, bromeliad: 0.17, pothos: 0.16 }, POT_SKIP = false;
   function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
-    B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+    B.add(plantBuilder(kind, seed, true, k), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
   }
   // a plant in a bed by a wall or the glass, or under a roof (F: the ring's frame at its spot, z out from the palace): its
   // crown kept inside, folded softly back near where it would reach through (zIn toward the palace, zOut away from it, yMax
   // up from the floor), the way a gardener trains and prunes a tree under glass (v0.41; 0 or undefined: no limit that way)
   function bedPlantKept(B, kind, seed, F, rot, soilY, k, zIn, zOut, yMax) {
     var t = new Builder();
-    t.add(plantBuilder(kind, seed, true), new THREE.Matrix4().makeRotationY(rot || 0).multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+    t.add(plantBuilder(kind, seed, true, k), new THREE.Matrix4().makeRotationY(rot || 0).multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
     function fold(v, m) { var kn = 0.7 * m; return v < kn ? v : kn + (m - kn) * Math.tanh((v - kn) / (m - kn)); }
     for (var q = 0; q < t.p.length / 3; q++) {
       var z = t.p[q * 3 + 2], y = t.p[q * 3 + 1];
@@ -2613,18 +2702,19 @@
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
   // the foliage's spread and height scaled toward a real indoor plant's (measured 7 Oct 2026: a kentia 3.4 m across, an olive 2.1 m, a monstera 2.4 m, a fern 2.1 m wide and 0.4 m high)
-  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], olive: [0.62, 0.9], maple: [0.55, 0.85], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
-  function plantBuilder(kind, seed, bed) { POT_SKIP = !!bed; var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" : ""), function (b) {
+  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
+  function plantBuilder(kind, seed, bed, lk) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : 1;
+    var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" + (LKm > 1 ? LKm.toFixed(2) : "") : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
       var top = pot(b, 0, 0.24, 0.46), H = 1.55 + 0.35 * R(), tr = [v3(0, top - 0.05, 0)];
       for (k = 1; k <= 6; k++) tr.push(v3(0.03 * Math.sin(k * 1.3 + seed), top + (H - top) * k / 6, 0.03 * Math.cos(k * 1.1)));
       stem(b, tr, function (t) { return 0.022 * (1 - 0.5 * t); }, 0);
-      for (k = 0; k < 46; k++) {
+      for (k = 0; k < Math.round(46 * LKm); k++) {          // in a bed, smaller leaves and more of them (fiddle leaves grow big, so half way)
         var t = 0.32 + 0.68 * Math.pow(R(), 0.8), ang = R() * Math.PI * 2, pt = tr[Math.min(6, Math.floor(t * 6))].clone().lerp(tr[Math.min(6, Math.ceil(t * 6))], (t * 6) % 1);
         var dir = v3(Math.cos(ang), 0.55 + 0.6 * R() - 0.5 * (1 - t), Math.sin(ang)).normalize(), up = v3(0, 1, 0).sub(dir.clone().multiplyScalar(dir.y)).normalize();
         if (up.lengthSq() < 0.1) up.set(1, 0, 0);
-        leafCard(b, pt, dir, up, 0.26 + 0.12 * R(), 0.19 + 0.06 * R(), 0.25 + 0.2 * R(), 0.22, LEAF_CELLS.fig, R(), 0.85);
+        leafCard(b, pt, dir, up, (0.26 + 0.12 * R()) / Math.sqrt(LKm), (0.19 + 0.06 * R()) / Math.sqrt(LKm), 0.25 + 0.2 * R(), 0.22, LEAF_CELLS.fig, R(), 0.85);
       }
     } else if (kind === "monstera") {                        // monstera: big split leaves on long arching stalks, about 1.1 m
       var top2 = pot(b, 2, 0.27, 0.42);
@@ -2641,6 +2731,20 @@
         a = R() * Math.PI * 2; var rr = 0.03 + 0.09 * R(), lean = 0.05 + 0.14 * R(), d3 = v3(Math.cos(a) * lean, 1, Math.sin(a) * lean).normalize(), u3 = v3(-Math.sin(a + R()), 0, Math.cos(a + R()));
         leafCard(b, v3(Math.cos(a) * rr, top3 - 0.02, Math.sin(a) * rr), d3, u3, 0.5 + 0.45 * R(), 0.07 + 0.025 * R(), -0.04 + 0.06 * R(), 0.35, LEAF_CELLS.snake, R(), 0.6);
       }
+    } else if (kind === "kentia" && LKm > 1.2) {            // kentia palm grown up, in a bed: three or four slender green trunks of different heights,
+      // each with a crownshaft and a crown of eight fronds arching out and down, the leaflets hanging from them (v0.42)
+      var top4b = pot(b, 2, 0.27, 0.5), nT4 = 3 + Math.floor(R() * 2);
+      for (k = 0; k < nT4; k++) {
+        a = k / nT4 * 6.283 + R() * 0.6; var c4 = Math.cos(a), s4 = Math.sin(a), ht = 0.75 + 0.55 * (k === 0 ? 1 : R()), lean4 = 0.06 + 0.1 * R();
+        var tk = [v3(c4 * 0.05, top4b - 0.02, s4 * 0.05), v3(c4 * (0.05 + lean4 * 0.4), top4b + ht * 0.5, s4 * (0.05 + lean4 * 0.4)), v3(c4 * (0.05 + lean4), top4b + ht, s4 * (0.05 + lean4))];
+        stem(b, tk, function (t) { return 0.022 * (1 - 0.25 * t); }, 1);
+        var hd = tk[2], cs4 = [hd, hd.clone().add(v3(0, 0.14, 0))]; stem(b, cs4, function (t) { return 0.02 * (1 - 0.3 * t); }, 1);
+        for (var fr = 0; fr < 8; fr++) {
+          var af = fr / 8 * 6.283 + R() * 0.5, ef = 0.25 + 0.7 * R(), df = v3(Math.cos(af) * Math.cos(ef), Math.sin(ef), Math.sin(af) * Math.cos(ef)).normalize();
+          var uf = v3(0, 1, 0).sub(df.clone().multiplyScalar(df.y)).normalize();
+          leafCard(b, cs4[1], df, uf, 0.62 + 0.18 * R(), 0.46 + 0.08 * R(), 0.75 + 0.3 * (1 - ef), -0.55, LEAF_CELLS.kentia, R(), 0.5);
+        }
+      }
     } else if (kind === "kentia") {                          // kentia palm: thin canes, arching fronds, about 2 m
       var top4 = pot(b, 2, 0.27, 0.5);
       for (k = 0; k < 8; k++) {
@@ -2651,17 +2755,28 @@
         leafCard(b, cane[2], d4, v3(-c4 * 0.5, 1, -s4 * 0.5).normalize(), 0.95 + 0.35 * R(), 0.62 + 0.15 * R(), 0.55 + 0.2 * R(), -0.1, LEAF_CELLS.kentia, R(), 0.5);
         leafCard(b, cane[2], d4, v3(-s4, 0.2, c4).normalize(), 0.9 + 0.3 * R(), 0.5, 0.6, 0.0, LEAF_CELLS.kentia, R(), 0.5);
       }
-    } else if (kind === "olive") {                           // olive tree in a big terracotta pot, about 2.1 m
-      var top5 = pot(b, 1, 0.33, 0.55), tr5 = [v3(0, top5 - 0.05, 0)];
-      for (k = 1; k <= 7; k++) tr5.push(v3(0.06 * Math.sin(k * 1.7 + seed), top5 + 0.9 * k / 7, 0.05 * Math.cos(k * 1.3 + seed)));
-      stem(b, tr5, function (t) { return 0.045 * (1 - 0.45 * t); }, 0);
-      var crown = tr5[7];
-      for (k = 0; k < 5; k++) { a = k / 5 * Math.PI * 2 + R(); stem(b, [crown, crown.clone().add(v3(Math.cos(a) * 0.3, 0.25 + 0.2 * R(), Math.sin(a) * 0.3))], 0.016, 0); }
-      for (k = 0; k < 150; k++) {
-        a = R() * Math.PI * 2; var el = (R() - 0.35) * 1.4, rad5 = 0.2 + 0.4 * Math.sqrt(R());
-        var c5 = crown.clone().add(v3(Math.cos(a) * rad5 * Math.cos(el), 0.35 + 0.45 * Math.sin(el), Math.sin(a) * rad5 * Math.cos(el)));
-        var d5 = v3(Math.cos(a), 0.3 + 0.6 * R(), Math.sin(a)).normalize(), u5 = v3(R() - 0.5, 1, R() - 0.5).normalize();
-        leafCard(b, c5, d5, u5, 0.32 + 0.1 * R(), 0.2, 0.3, 0.05, LEAF_CELLS.olive, R(), 0.2);
+    } else if (kind === "olive") {                           // olive tree in a big terracotta pot, about 2 m: a gnarled, leaning trunk; limbs leaving
+      // it at different heights and leaning out, each ending in two or three clumps of silvery sprays: a loose, broad crown
+      // with the light through it, broader still as a tree in a bed (v0.42)
+      var top5 = pot(b, 1, 0.33, 0.55), lean = R() * 6.28, tr5 = [], sf = LKm > 1 ? 1.35 : 0.8;
+      for (k = 0; k <= 6; k++) { var tt = k / 6; tr5.push(v3(0.07 * tt * Math.cos(lean) + 0.022 * Math.sin(k * 1.9 + seed), top5 - 0.05 + 0.66 * tt, 0.07 * tt * Math.sin(lean) + 0.022 * Math.cos(k * 1.4 + seed))); }
+      stem(b, tr5, function (t) { return 0.05 * (1 - 0.3 * t) * (1 + 0.1 * Math.sin(t * 17)); }, 0);
+      var nL = 4 + Math.floor(R() * 2), off5 = R() * 6.28;
+      for (var lb5 = 0; lb5 < nL; lb5++) {
+        var ph5 = off5 + lb5 / nL * 6.283 + (R() - 0.5) * 0.5, el5 = 0.55 + 0.35 * R(), L5 = (0.3 + 0.1 * R()) * sf, f5 = 0.62 + 0.38 * lb5 / nL;
+        var P5 = tr5[Math.round(f5 * 6)], dir5 = v3(Math.cos(ph5) * Math.cos(el5), Math.sin(el5), Math.sin(ph5) * Math.cos(el5));
+        var E5 = P5.clone().addScaledVector(dir5, L5), M5 = P5.clone().lerp(E5, 0.5).add(v3((R() - 0.5) * 0.05, 0.03, (R() - 0.5) * 0.05));
+        stem(b, [P5, M5, E5], function (t) { return 0.028 * (1 - 0.6 * t); }, 0);
+        for (var cq = 0; cq < 2 + Math.floor(R() * 2); cq++) {   // the clumps at the limb's end
+          var cph = ph5 + (R() - 0.5) * 1.6, cc = E5.clone().add(v3(Math.cos(cph) * (0.08 + 0.1 * R()) * sf, (0.02 + 0.12 * R()) * sf, Math.sin(cph) * (0.08 + 0.1 * R()) * sf)), cr = (0.12 + 0.05 * R()) * sf;
+          var out5 = cc.clone().sub(v3(tr5[6].x, tr5[6].y + 0.2, tr5[6].z)).normalize();
+          stem(b, [E5, E5.clone().lerp(cc, 0.6).add(v3(0, 0.02, 0)), cc], 0.008, 0);
+          for (var q5 = 0; q5 < Math.round(14 * LKm * LKm); q5++) {   // sprays over the clump's outer side, pointing every way out of it
+            var u5 = v3(R() - 0.5, R() - 0.5, R() - 0.5).normalize(); if (u5.dot(out5) < -0.2) u5.addScaledVector(out5, -1.6 * u5.dot(out5)).normalize();
+            var ln5 = (0.24 + 0.06 * R()) / LKm, d5 = u5.clone().add(v3(0, -0.15, 0)).normalize();
+            leafCard(b, cc.clone().addScaledVector(u5, cr * (0.55 + 0.45 * R())).addScaledVector(d5, -0.35 * ln5), d5, v3(R() - 0.5, 1, R() - 0.5).normalize(), ln5, ln5 * 0.95, 0.15, 0.05, LEAF_CELLS.olive, R(), 0.2, 2);
+          }
+        }
       }
     } else if (kind === "ficus") {                           // weeping fig: a bushy small tree, about 1.6 m
       var top6 = pot(b, 0, 0.22, 0.42), tr6 = [v3(0, top6 - 0.05, 0), v3(0.02, top6 + 0.5, 0.01), v3(-0.01, top6 + 0.75, 0.02)];
@@ -2677,13 +2792,40 @@
       if (b.count() > stand) b.tag(stand, null, 2);
       for (k = 0; k < 26; k++) { a = R() * Math.PI * 2; var d7 = v3(Math.cos(a), 0.5 + 0.6 * R(), Math.sin(a)).normalize();
         leafCard(b, v3(Math.cos(a) * 0.04, top7, Math.sin(a) * 0.04), d7, v3(-Math.cos(a) * 0.3, 1, -Math.sin(a) * 0.3).normalize(), 0.45 + 0.25 * R(), 0.22, 0.9 + 0.4 * R(), 0.05, LEAF_CELLS.fern, R(), 0.3); }
-    } else if (kind === "maple") {                          // Japanese maple: a slender tree with tiers of red sprays, about 1.7 m
+    } else if (kind === "maple") {                          // Japanese maple, about 1.5 m: a short trunk forking into three stems that lean out;
+      // branches from them to four tiers, each tier a flat plate of leaf sprays over the outer part of a dome-shaped crown,
+      // open between the tiers and inside, a cap of sprays on top (v0.42)
       pot(b, 2, 0.3, 0.42);
-      var tm = [v3(0, 0.38, 0), v3(0.03, 0.8, 0.01), v3(0.0, 1.15, -0.02)]; stem(b, tm, function (t) { return 0.03 * (1 - 0.5 * t); }, 0);
-      for (var br = 0; br < 5; br++) { var ab = br / 5 * Math.PI * 2 + R(), yb = 0.85 + 0.12 * br, ex = v3(Math.cos(ab) * 0.45, yb + 0.25, Math.sin(ab) * 0.45);
-        stem(b, [v3(0, yb, 0), v3(Math.cos(ab) * 0.22, yb + 0.15, Math.sin(ab) * 0.22), ex], function (t) { return 0.014 * (1 - 0.6 * t); }, 0);
-        for (var lm = 0; lm < 20; lm++) { var al = ab + (R() - 0.5) * 1.9, rl = 0.1 + 0.5 * R(), pl = v3(Math.cos(al) * rl, yb + 0.05 + 0.42 * R(), Math.sin(al) * rl), dl = v3(Math.cos(al), 0.05 + 0.25 * R(), Math.sin(al)).normalize();
-          leafCard(b, pl, dl, v3(-dl.x * 0.25, 1, -dl.z * 0.25).normalize(), 0.42 + 0.12 * R(), 0.36, 0.3, 0.0, LEAF_CELLS.maple, R(), 0.3); } }
+      var fk = v3(0.02, 0.58, -0.01), yc = 1.06, RH = 0.55, RV = 0.42, lead = [], KS = 73 * LKm * LKm;
+      stem(b, [v3(0, 0.37, 0), v3(0.012, 0.5, 0), fk], function (t) { return 0.032 * (1 - 0.2 * t); }, 0);
+      function onPath(P, t) { var f = t * (P.length - 1), i = Math.min(P.length - 2, Math.floor(f)); return P[i].clone().lerp(P[i + 1], f - i); }
+      function spray(pos, az, el, tl) {                     // one spray centred near pos, pointing out toward az, its face tilted by tl
+        var d9 = v3(Math.cos(az), el, Math.sin(az)).normalize(), ln = (0.22 + 0.07 * R()) / LKm;
+        var up = v3(-d9.x * 0.2 + (R() - 0.5) * tl, 1, -d9.z * 0.2 + (R() - 0.5) * tl).normalize();
+        leafCard(b, pos.clone().addScaledVector(d9, -0.4 * ln), d9, up, ln, ln * 0.95, 0.12, 0.04, LEAF_CELLS.maple, R(), 0.35, 2);
+      }
+      for (var ld = 0; ld < 3; ld++) {
+        var al = ld / 3 * Math.PI * 2 + R() * 0.8, spl = 0.2 + 0.08 * R(), hl = 0.67 + 0.13 * R(), cl = Math.cos(al), sl = Math.sin(al);
+        var lp = [fk, fk.clone().add(v3(cl * 0.06, 0.2, sl * 0.06)), v3(cl * spl * 0.6, 0.58 + hl * 0.6, sl * spl * 0.6), v3(cl * spl, 0.58 + hl, sl * spl)];
+        stem(b, lp, function (t) { return 0.02 * (1 - 0.6 * t); }, 0); lead.push({ a: al, p: lp, top: 0.58 + hl });
+      }
+      [0.82, 0.99, 1.16, 1.32].forEach(function (h0, ti) {
+        var h = h0 + (R() - 0.5) * 0.04, rT = RH * Math.sqrt(Math.max(0, 1 - Math.pow((h - yc) / RV, 2))), nb = ti < 3 ? 4 : 3, off = R() * 6.3;
+        for (var j = 0; j < nb; j++) {                    // the branches out to this tier, each from the stem nearest its side
+          var ab = off + j / nb * Math.PI * 2 + (R() - 0.5) * 0.7, L0 = lead[0], dm = 9;
+          lead.forEach(function (L) { var dd = Math.abs(((ab - L.a) % 6.283 + 9.425) % 6.283 - 3.1416); if (dd < dm) { dm = dd; L0 = L; } });
+          var P = onPath(L0.p, Math.min(0.97, Math.max(0.05, (h - 0.07 - 0.58) / (L0.top - 0.58)))), E = v3(Math.cos(ab) * rT * 0.8, h, Math.sin(ab) * rT * 0.8);
+          stem(b, [P, P.clone().lerp(E, 0.5).add(v3(0, 0.025, 0)), E], function (t) { return (0.011 - 0.002 * ti) * (1 - 0.6 * t); }, 0);
+        }
+        for (var q = 0; q < Math.round(KS * 0.65 * Math.PI * rT * rT); q++) {   // the plate: sprays over the tier's outer part
+          var ph = R() * 6.283, rho = rT * Math.sqrt(0.35 + 0.65 * R()), e = rho / rT;
+          spray(v3(Math.cos(ph) * rho, h + (R() - 0.5) * 0.07 - 0.05 * e * e, Math.sin(ph) * rho), ph + (R() - 0.5) * 1.2, -0.1 + 0.3 * R(), 0.6);
+        }
+      });
+      for (var qc = 0; qc < Math.round(KS * 0.28); qc++) {   // the cap
+        var phc = R() * 6.283, th = 0.8 * Math.sqrt(R()), rc = RH * Math.sin(th) * (0.85 + 0.15 * R());
+        spray(v3(Math.cos(phc) * rc, yc + RV * Math.cos(th) - 0.04 * R(), Math.sin(phc) * rc), phc + (R() - 0.5) * 1.5, 0.25 + 0.45 * R(), 0.5);
+      }
     } else if (kind === "croton") {                          // croton: a bush of leathery coloured leaves, about 0.9 m
       pot(b, 0, 0.24, 0.34);
       for (var cs = 0; cs < 5; cs++) { var ac = cs / 5 * Math.PI * 2 + R(), top = 0.7 + 0.3 * R(), cst = [v3(0, 0.3, 0), v3(Math.cos(ac) * 0.05, top * 0.7, Math.sin(ac) * 0.05), v3(Math.cos(ac) * 0.1, top, Math.sin(ac) * 0.1)];

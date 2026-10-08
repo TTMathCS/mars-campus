@@ -177,6 +177,13 @@ each pushed when it is checked:
    (v0.41) `bedPlantKept(B, kind, seed, F, rot, soilY, k, zIn, zOut, yMax)` in `blk_plants.js`: a bed plant in the ring's
    frame F whose crown is folded back (smoothly, from 70 % of the limit) where it would pass zIn toward the palace, zOut
    away from it or yMax over the floor; used for the gallery's troughs (its wall, its sloping roof: `roofAt`) and the grove.
+   (v0.42) The leaf atlas (`leafTexture`) makes its own mipmaps: each 256 px cell's alpha is scaled at every level so the
+   share of it over the alpha cut stays what it is at full size; draw a new cell as small leaves on twigs and it stays
+   leafy from afar (check a cell alone in the browser: draw it on a 1024 px canvas, count alpha > 127; the maple's and the
+   olive's sprays cover about a third). Bed plants pass their scale k to `plantBuilder(kind, seed, true, k)`: `LKm` =
+   k / 1.45 (1 to 2.2) divides a spray's size and multiplies the number of sprays by its square, so a 5 m maple has
+   leaves of a real maple's size; the maple, the olive and the fig use it, and a kentia with `LKm` over 1.2 is built
+   grown up (trunks with crowns). `leafCard`'s last argument, rows along the card (default 4), is 2 for small sprays.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

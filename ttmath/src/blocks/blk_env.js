@@ -44,7 +44,11 @@
     "}"
   ].join("\n");
   var matUniforms = Object.assign({}, U, matU);
-  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD } });
+  // (v0.55) the scene is drawn on a 4-sample target where WebGL 2 allows (MSAA); there the leaves' cut-out edges set the
+  // samples they cover (alpha to coverage) and are as smooth as the edges of everything else (Jim, 8 Oct 2026: "the edge of
+  // ... plants")
+  var MSAA = isGL2 && !!THREE.WebGLMultisampleRenderTarget;
+  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD }, alphaToCoverage: MSAA, defines: MSAA ? { A2C: 1 } : {} });
   // same shading for paving laid on the ground, pulled forward so it never flickers with the terrain
   var matDrape = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD }, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
   function glassMat(side) {

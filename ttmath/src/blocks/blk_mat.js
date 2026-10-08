@@ -74,7 +74,7 @@
     "  vec3 n = dot(n0, vd) > 0.0 ? -n0 : n0;",
     "  float m = vMat; vec2 f = vFac, g = vFac2;",
     "  float zone = floor(vAO * 0.5 + 0.01), ao = clamp(vAO - zone * 2.0, 0.0, 1.0);",
-    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x, isLeaf = 0.0;",
+    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x, isLeaf = 0.0, cov = 1.0;",
     "  vec2 q = vW.xz - uPalA.xy; float lat = q.x * uPalA.w - q.y * uPalA.z, rad = dot(q, uPalA.zw);",
     "  vec2 pc = planar(vW, n0);",
     "  if (m < 0.5) {",                                                   // SHELL: white fibre-composite cladding panels, f in metres
@@ -210,7 +210,12 @@
     "      float bn = vnoise(vec2(pc.x * 26.0, pc.y * 5.0)) * 0.7 + vnoise(pc * 90.0) * 0.3;",
     "      alb = g.x < 0.5 ? vec3(0.36, 0.31, 0.25) * (0.7 + 0.5 * bn) : vec3(0.30, 0.42, 0.20) * (0.88 + 0.24 * bn); rough = g.x < 0.5 ? 0.9 : 0.55;",
     "    } else {",
-    "      vec4 t = texture2D(uLeafTex, f); float a = (t.a - 0.5) / max(fwidth(t.a), 1e-3) + 0.5; if (a < 0.5) discard;",
+    "      vec4 t = texture2D(uLeafTex, f); float a = (t.a - 0.5) / max(fwidth(t.a), 1e-3) + 0.5;",
+    "#ifdef A2C",                                                      // (v0.55) the leaf's edge covers as many of the pixel's
+    "      if (a <= 0.0) discard; cov = min(a, 1.0);",                  // samples as it should: a soft outline, not a staircase
+    "#else",
+    "      if (a < 0.5) discard;",
+    "#endif",
     "      alb = t.rgb * mix(vec3(0.82, 0.86, 0.78), vec3(1.0, 1.0, 0.9), g.x); rough = mix(0.62, 0.3, g.y); isLeaf = 1.0;",
     "    }",
     "  }",
@@ -243,6 +248,6 @@
     "  }",
     "  col += emi;",
     "  col = mix(col, hazeCol(vd), hazeAmt(dist) * (1.0 - uPalB.w));",
-    "  gl_FragColor = vec4(enc(col * uExposure), 0.0);",
+    "  gl_FragColor = vec4(enc(col * uExposure), cov);",
     "}"
   ].join("\n");

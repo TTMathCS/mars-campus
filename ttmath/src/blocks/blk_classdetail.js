@@ -18,7 +18,7 @@
     var n3 = b.count(); b.geo(new THREE.CylinderGeometry(0.008, 0.008, 0.016, 12), T(-0.06, 0, 0, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(n3, 1, null);
   }); }
   var HAND_VS = "void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
-  var HAND_FS = "uniform vec3 uCol; uniform float uExposure; void main(){ vec3 c = uCol * uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+  var HAND_FS = "uniform vec3 uCol; uniform float uExposure; void main(){ vec3 c = uCol * uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
   function handMesh(len, wid, tail, x, col) {                              // a hand from its pivot up along +y, turned about x
     var g = new THREE.BoxGeometry(0.003, len + tail, wid); g.translate(x, (len - tail) / 2, 0);
     return new THREE.Mesh(g, new THREE.ShaderMaterial({ uniforms: { uCol: { value: new THREE.Vector3().fromArray(col) }, uExposure: U.uExposure }, vertexShader: HAND_VS, fragmentShader: HAND_FS }));
@@ -127,7 +127,7 @@
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
-      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
     var mat = new THREE.ShaderMaterial({ uniforms: { map: tex, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }

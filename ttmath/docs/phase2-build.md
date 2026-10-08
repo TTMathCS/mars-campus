@@ -229,6 +229,12 @@ each pushed when it is checked:
    (the palace circle, the vestibule, a box cut, a full ring band), never solid; the rest are tested as before, so the
    light is the same to the bit (checked on the whole bake) and a quarter quicker. `pot(b, kind, r, h)` rolls each rim
    round (radius min(12 mm, r / 20)).
+   (v0.55) The scene target's alpha is what stands in front of the sky: 1 on anything solid (matMat, the terrain, the
+   screens and prints), the cloud cover on the sky, 0 where nothing is drawn (cleared to 0); the rays' bright-sky mask is
+   1 - alpha. Glass, footprints and motes leave it as it is (blendSrcAlpha 0, blendDstAlpha 1). A new shader that draws
+   something solid into the scene must write alpha 1. Where the scene target has 4 samples (`MSAA`: WebGL 2), matMat has
+   alphaToCoverage and the A2C define: a leaf writes its sharpened alpha (its edge's share of the pixel) as alpha and
+   sets that share of the samples, so its outline is smooth; without MSAA a leaf is cut at 0.5 as before.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -712,7 +712,7 @@
         "  col += ph.rgb * (1.0 - c * 0.8);",
         "  if (c > 0.0) col = mix(col, cloudCol(d, c, col), c * 0.75);",
         "  col *= 0.12 + 0.88 * smoothstep(-0.03, 0.0, d.y);",
-        "  gl_FragColor = vec4(enc(col * uExposure), 1.0 - c * 0.85);",
+        "  gl_FragColor = vec4(enc(col * uExposure), c * 0.85);",
         "}"
       ].join("\n")
     })
@@ -752,7 +752,7 @@
     "  vec3 lit = alb * 0.6 * (uSunIrr * lam * sh * (0.6 + 0.4 * aoB) + ambientAt(n) * aoB + localLight(vW, n));",
     "  vec3 c = mix(lit, hazeCol(vd), hazeAmt(dist));",
     "  c = mix(alb, c, uRelight);",
-    "  gl_FragColor = vec4(enc(c * uExposure), 0.0);",
+    "  gl_FragColor = vec4(enc(c * uExposure), 1.0);",
     "}"
   ].join("\n");
 
@@ -788,7 +788,7 @@
     "  if (lam > 0.0) { sh = hfShadow(vW + n0 * 1.5); if (dist < 400.0) sh *= shadowAt(vW, n0); }",
     "  vec3 lit = alb * 0.6 * (uSunIrr * lam * sh + ambientAt(n) + localLight(vW, n));",
     "  vec3 c = mix(lit, hazeCol(vd), hazeAmt(dist));",
-    "  gl_FragColor = vec4(enc(c * uExposure), 0.0);",
+    "  gl_FragColor = vec4(enc(c * uExposure), 1.0);",
     "}"
   ].join("\n");
 
@@ -1096,7 +1096,7 @@
     "  vec3 n = dot(n0, vd) > 0.0 ? -n0 : n0;",
     "  float m = vMat; vec2 f = vFac, g = vFac2;",
     "  float zone = floor(vAO * 0.5 + 0.01), ao = clamp(vAO - zone * 2.0, 0.0, 1.0);",
-    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x, isLeaf = 0.0;",
+    "  vec3 alb = vec3(0.7); vec3 emi = vec3(0.0); float rough = 0.6, metal = 0.0, dustable = 0.0, hab = g.x, isLeaf = 0.0, cov = 1.0;",
     "  vec2 q = vW.xz - uPalA.xy; float lat = q.x * uPalA.w - q.y * uPalA.z, rad = dot(q, uPalA.zw);",
     "  vec2 pc = planar(vW, n0);",
     "  if (m < 0.5) {",                                                   // SHELL: white fibre-composite cladding panels, f in metres
@@ -1232,7 +1232,12 @@
     "      float bn = vnoise(vec2(pc.x * 26.0, pc.y * 5.0)) * 0.7 + vnoise(pc * 90.0) * 0.3;",
     "      alb = g.x < 0.5 ? vec3(0.36, 0.31, 0.25) * (0.7 + 0.5 * bn) : vec3(0.30, 0.42, 0.20) * (0.88 + 0.24 * bn); rough = g.x < 0.5 ? 0.9 : 0.55;",
     "    } else {",
-    "      vec4 t = texture2D(uLeafTex, f); float a = (t.a - 0.5) / max(fwidth(t.a), 1e-3) + 0.5; if (a < 0.5) discard;",
+    "      vec4 t = texture2D(uLeafTex, f); float a = (t.a - 0.5) / max(fwidth(t.a), 1e-3) + 0.5;",
+    "#ifdef A2C",                                                      // (v0.55) the leaf's edge covers as many of the pixel's
+    "      if (a <= 0.0) discard; cov = min(a, 1.0);",                  // samples as it should: a soft outline, not a staircase
+    "#else",
+    "      if (a < 0.5) discard;",
+    "#endif",
     "      alb = t.rgb * mix(vec3(0.82, 0.86, 0.78), vec3(1.0, 1.0, 0.9), g.x); rough = mix(0.62, 0.3, g.y); isLeaf = 1.0;",
     "    }",
     "  }",
@@ -1265,7 +1270,7 @@
     "  }",
     "  col += emi;",
     "  col = mix(col, hazeCol(vd), hazeAmt(dist) * (1.0 - uPalB.w));",
-    "  gl_FragColor = vec4(enc(col * uExposure), 0.0);",
+    "  gl_FragColor = vec4(enc(col * uExposure), cov);",
     "}"
   ].join("\n");
 
@@ -1315,7 +1320,11 @@
     "}"
   ].join("\n");
   var matUniforms = Object.assign({}, U, matU);
-  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD } });
+  // (v0.55) the scene is drawn on a 4-sample target where WebGL 2 allows (MSAA); there the leaves' cut-out edges set the
+  // samples they cover (alpha to coverage) and are as smooth as the edges of everything else (Jim, 8 Oct 2026: "the edge of
+  // ... plants")
+  var MSAA = isGL2 && !!THREE.WebGLMultisampleRenderTarget;
+  var matMat = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD }, alphaToCoverage: MSAA, defines: MSAA ? { A2C: 1 } : {} });
   // same shading for paving laid on the ground, pulled forward so it never flickers with the terrain
   var matDrape = new THREE.ShaderMaterial({ uniforms: matUniforms, vertexShader: MAT_VS, fragmentShader: MAT_FS, side: THREE.DoubleSide, extensions: { derivatives: true, shaderTextureLOD: ENV_LOD }, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
   function glassMat(side) {
@@ -6030,7 +6039,7 @@
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
-      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.002); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.002); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
     var m = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide })); m.matrixAutoUpdate = false; scene.add(m);
     PAINT_QUADS = [];
   }
@@ -6539,7 +6548,7 @@
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
-      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.002); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.002); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
     var m = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide })); m.matrixAutoUpdate = false; scene.add(m);
   }
   // the maker space's canvas: on top the tool wall (2048 x 600: pegboard with every tool on its painted outline), below it
@@ -7350,7 +7359,7 @@
   function fitText(g, t, x, y, w) { var f = g.font, px = parseFloat(f.match(/(\d+)px/)[1]); while (g.measureText(t).width > w && px > 12) { px -= 1; g.font = f.replace(/\d+px/, px + "px"); } g.fillText(t, x, y); g.font = f; }
   var BOARD_VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
   var BOARD_FS = "uniform sampler2D map; uniform float uExposure, uBright; varying vec2 vUv;\n" +
-    "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * uBright + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+    "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * uBright + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
   // a screen: the canvas on a quad along a radius at angle a, from r0 to r1 (the viewer's left to right), y0 to y0 + h
   function screenQuad(cv, a, r0, r1, y0, h) {
     var tex = new THREE.CanvasTexture(cv); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -8141,7 +8150,7 @@
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
-      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
     var mat = new THREE.ShaderMaterial({ uniforms: { map: tex, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }
@@ -8488,7 +8497,7 @@
     var n3 = b.count(); b.geo(new THREE.CylinderGeometry(0.008, 0.008, 0.016, 12), T(-0.06, 0, 0, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(n3, 1, null);
   }); }
   var HAND_VS = "void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
-  var HAND_FS = "uniform vec3 uCol; uniform float uExposure; void main(){ vec3 c = uCol * uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+  var HAND_FS = "uniform vec3 uCol; uniform float uExposure; void main(){ vec3 c = uCol * uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
   function handMesh(len, wid, tail, x, col) {                              // a hand from its pivot up along +y, turned about x
     var g = new THREE.BoxGeometry(0.003, len + tail, wid); g.translate(x, (len - tail) / 2, 0);
     return new THREE.Mesh(g, new THREE.ShaderMaterial({ uniforms: { uCol: { value: new THREE.Vector3().fromArray(col) }, uExposure: U.uExposure }, vertexShader: HAND_VS, fragmentShader: HAND_FS }));
@@ -8597,7 +8606,7 @@
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aBright", new THREE.Float32BufferAttribute(brt, 1)); geo.setIndex(idx);
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
-      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
+      "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 1.0); }";
     var mat = new THREE.ShaderMaterial({ uniforms: { map: tex, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }
@@ -10066,10 +10075,12 @@
   var quad = new THREE.Mesh(tri); quad.frustumCulled = false; postScene.add(quad);
   function postMat(fs, uniforms) { return new THREE.ShaderMaterial({ uniforms: uniforms, vertexShader: FS_VS, fragmentShader: fs, depthTest: false, depthWrite: false }); }
   var RAY_N = MOBILE ? 24 : 40;
-  // Bright-sky mask at quarter resolution, pre-blurred: a tiny, moving Sun no longer makes the rays shimmer.
+  // Bright-sky mask at quarter resolution, pre-blurred: a tiny, moving Sun no longer makes the rays shimmer. (v0.55) The
+  // scene's alpha is what stands in front of the sky: 1 on anything solid, 0 on open sky (more where clouds cover it), so
+  // a leaf's edge can give the samples it covers (alpha to coverage); the rays come from 1 - alpha.
   var raysPreMat = postMat([DEC,
     "uniform sampler2D scene; uniform vec2 texel; varying vec2 vUv;",
-    "vec3 bs(vec2 o){ vec4 s = texture2D(scene, vUv + o * texel); return min(max(dec(s.rgb) - 0.9, 0.0), vec3(24.0)) * s.a; }",
+    "vec3 bs(vec2 o){ vec4 s = texture2D(scene, vUv + o * texel); return min(max(dec(s.rgb) - 0.9, 0.0), vec3(24.0)) * (1.0 - s.a); }",
     "void main(){ vec3 c = bs(vec2(-1.0,-1.0)) + bs(vec2(1.0,-1.0)) + bs(vec2(-1.0,1.0)) + bs(vec2(1.0,1.0));",
     "  c = c * 0.75 + (bs(vec2(-3.0,-1.0)) + bs(vec2(3.0,1.0)) + bs(vec2(-1.0,3.0)) + bs(vec2(1.0,-3.0))) * 0.25;",
     "  gl_FragColor = vec4(enc(c * 0.25), 1.0); }"].join("\n"), { scene: { value: null }, texel: { value: new THREE.Vector2() } });
@@ -10113,7 +10124,7 @@
     // 16-bit depth buffer, too coarse for a view 40 km deep (signs and plates a centimetre off a wall flickered as you
     // walked); with one it is 24-bit
     var opts = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: THREE.UnsignedByteType, depthBuffer: !!msaa, stencilBuffer: !!msaa };
-    if (msaa && isGL2 && THREE.WebGLMultisampleRenderTarget) { var rt = new THREE.WebGLMultisampleRenderTarget(w, h, opts); rt.samples = 4; return rt; }
+    if (msaa && MSAA) { var rt = new THREE.WebGLMultisampleRenderTarget(w, h, opts); rt.samples = 4; return rt; }
     return new THREE.WebGLRenderTarget(w, h, opts);
   }
   function allocTargets(w, h) {
@@ -10128,7 +10139,7 @@
   function pass(mat, target) { quad.material = mat; renderer.setRenderTarget(target); renderer.render(postScene, postCam); }
   var sunNDC = new THREE.Vector3(), camFwd = new THREE.Vector3();
   function renderFrame(time, dt) {
-    renderer.setRenderTarget(sceneRT); renderer.setClearColor(0x000000, 1); renderer.clear();
+    renderer.setRenderTarget(sceneRT); renderer.setClearColor(0x000000, 0); renderer.clear();
     renderer.render(scene, camera);
     var raysAmt = 0; if (!(state.rays > 0.001)) raysWasOn = false;
     camera.getWorldDirection(camFwd);

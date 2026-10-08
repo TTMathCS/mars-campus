@@ -769,7 +769,12 @@ def ring_corridors():
             + "<p>Notice boards of cork in aluminium frames on the lower corridor's back wall: %s. A stainless bottle filler over a drinking fountain on the corridor wall beside the door of %s.</p>"
             % ("; ".join("<b>%s</b> at %g° (%s)" % (E(b["title"]), b["a"], "each of the term's contests on its own flyer, from the contest sheet" if b["topic"] == "contests"
                          else "the clubs and events the rooms are planned for: " + ", ".join(E(names[c]["also"][:1].lower() + names[c]["also"][1:].rstrip(".")) for c in b.get("rooms", ()))) for b in R.RING_BOARDS),
-               ", ".join("%s (%s)" % (E(names[c]["name"]), names[c].get("no") or c) for c in R.RING_FOUNTAINS)))
+               ", ".join("%s (%s)" % (E(names[c]["name"]), names[c].get("no") or c) for c in R.RING_FOUNTAINS))
+            + "<p>Between the prints, glazed oak cases of models the students made (v0.44), each 1.6 by 1.0 m, lit inside: %s.</p>"
+            % "; ".join("<b>%s</b> at %g° (%s, %s)" % (E(c["title"]), c["a"], E(c["by"]), E(c["note"])) for c in R.RING_CASES)
+            + "<p>Safety, as in every real corridor: a fire extinguisher in a stainless cabinet with a glass door and a red sign over it at boundaries between "
+              "rooms, never more than about %g m apart, on both floors, a red call point beside each stair door, and on the ceilings a smoke detector every %g m and a sprinkler head every %g m.</p>"
+            % (R.RING_SAFETY["extinguisher"]["spacing"], R.RING_SAFETY["smoke"], R.RING_SAFETY["sprinkler"]))
 
 
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
@@ -803,7 +808,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_gates": R.POD_GATES, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, cases=R.RING_CASES, safety=R.RING_SAFETY, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_gates": R.POD_GATES, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

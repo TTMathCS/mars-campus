@@ -155,7 +155,7 @@
     "    if (g.y > 0.5 && g.y < 1.5) { float bl = vnoise(pc * 140.0) * 0.6 + vnoise(pc * 330.0) * 0.4, fb = smoothstep(0.5, 1.5, fwidth(pc.x * 330.0)); alb *= mix(0.78 + 0.36 * bl, 0.96, fb); }",   // boucle: little loops
     "    if (g.y > 1.5 && g.y < 2.5) { float pl = vnoise(pc * 9.0) * 0.5 + vnoise(pc * 60.0) * 0.5; alb *= 0.86 + 0.24 * pl; }",                                                         // a rug's pile, mottled
     "  } else if (m < 17.5) {",                                           // PLASTIC: g.x colour
-    "    float c = g.x; vec3 pcol = c < 0.5 ? vec3(0.86, 0.86, 0.84) : (c < 1.5 ? vec3(0.07, 0.07, 0.075) : (c < 2.5 ? vec3(0.78, 0.30, 0.13) : (c < 3.5 ? vec3(0.13, 0.31, 0.58) : (c < 4.5 ? vec3(0.86, 0.66, 0.14) : (c < 5.5 ? vec3(0.47, 0.48, 0.49) : (c < 6.5 ? vec3(0.07, 0.25, 0.15) : vec3(0.84, 0.80, 0.70)))))));",
+    "    float c = g.x; vec3 pcol = c > 20.5 ? vec3(0.66, 0.08, 0.07) : c < 0.5 ? vec3(0.86, 0.86, 0.84) : (c < 1.5 ? vec3(0.07, 0.07, 0.075) : (c < 2.5 ? vec3(0.78, 0.30, 0.13) : (c < 3.5 ? vec3(0.13, 0.31, 0.58) : (c < 4.5 ? vec3(0.86, 0.66, 0.14) : (c < 5.5 ? vec3(0.47, 0.48, 0.49) : (c < 6.5 ? vec3(0.07, 0.25, 0.15) : vec3(0.84, 0.80, 0.70)))))));",
     "    alb = pcol * (0.97 + 0.04 * vnoise(pc * 20.0)); rough = 0.36;",
     "  } else if (m < 18.5) {",                                           // TERRAZZO: polished, with stone chips
     "    vec2 tc = pc * 42.0; float fz = fwidth(tc.x) + fwidth(tc.y), a = 1.0 - smoothstep(0.35, 1.2, fz);",

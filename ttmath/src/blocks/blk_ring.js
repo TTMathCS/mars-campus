@@ -311,6 +311,8 @@
     ringSigns(W);
     corridorArt(W);
     noticeBoards(W);
+    ringCases(W);                                                          // the students' models and the safety fittings (blk_cases.js)
+    ringSafety(W);
     crescentStair(W, C.st, true);
     crescentStair(W, C.gst, false);
     C.rooms.forEach(function (rm) { if (isBay(rm)) bayStair(W, rm); });

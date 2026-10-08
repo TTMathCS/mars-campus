@@ -199,6 +199,26 @@ RING_BOARDS = [
 ]
 # Bottle fillers (v0.18): a stainless steel filler and fountain on the corridor wall beside each washroom's door.
 RING_FOUNTAINS = ["T06-14", "T06-31", "T06-22"]
+# Display cases (v0.44; CP-30, "details for each classroom/area, also real feeling of the campus"): on the lower corridor's
+# back wall, in the stretches between the prints and the boards, glazed oak cases of models the students made, the way a
+# school shows its work: each 1.6 m wide, 1.0 m high and 0.32 m deep, hung with its bottom at 0.95 m, a charcoal felt back,
+# a glass shelf (none for the Galton board, which stands), lit inside along its top; a brass plate under it. a: the angle
+# (degrees); by: who made it.
+RING_CASES = [
+    dict(a=-46.0, theme="geodesic", title="A geodesic dome", by="Grade 8", note="straws and connectors: an icosahedron's faces split in four and pushed out to the sphere"),
+    dict(a=-21.0, theme="platonic", title="The five Platonic solids", by="Grade 7", note="folded card: the tetrahedron, cube and octahedron above, the dodecahedron and icosahedron below"),
+    dict(a=22.0, theme="knots", title="Knots and one-sided surfaces", by="Grade 10", note="a trefoil knot and a torus above, a Moebius strip below"),
+    dict(a=55.0, theme="fractal", title="Fractals in three dimensions", by="Grade 11", note="3D-printed: a Sierpinski tetrahedron and a Menger sponge"),
+    dict(a=98.0, theme="ruled", title="Straight lines, curved surfaces", by="Grade 12", note="string models in oak frames: a hyperboloid and a saddle, each surface made only of straight lines"),
+    dict(a=145.0, theme="soma", title="The Soma cube", by="Grade 5", note="seven pieces of unit cubes, above put together into one 3 by 3 by 3 cube, below laid out"),
+    dict(a=205.0, theme="galton", title="A Galton board", by="Grade 9", note="beads fall through rows of pins and pile up into the bell curve"),
+]
+# Safety fittings (v0.44): what every real corridor has. A fire extinguisher in a stainless cabinet with a glass door,
+# 0.55 by 0.85 m, its top at 1.75 m, on the corridor wall at boundaries between two rooms, on both floors, clear of the
+# doors: at the first such boundary, then at each one past which the next would be more than 30 m from the last cabinet
+# (across the halls a little more), with a red sign over it; a red call point beside each stair door; on the corridors'
+# ceilings a smoke detector every 9 m and a sprinkler head between each two downlights (4 m apart).
+RING_SAFETY = dict(extinguisher=dict(w=0.55, h=0.85, top=1.75, spacing=30.0), call_point=dict(h=1.4, by="each stair door"), smoke=9.0, sprinkler=4.0)
 
 # ------------------------------------------------------------------------------------------------- T-06 the Ring
 # Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter

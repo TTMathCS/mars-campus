@@ -184,6 +184,12 @@ each pushed when it is checked:
    k / 1.45 (1 to 2.2) divides a spray's size and multiplies the number of sprays by its square, so a 5 m maple has
    leaves of a real maple's size; the maple, the olive and the fig use it, and a kentia with `LKm` over 1.2 is built
    grown up (trunks with crowns). `leafCard`'s last argument, rows along the card (default 4), is 2 for small sprays.
+   (v0.44) `blk_cases.js`, after `blk_notices.js`: `ringCases` hangs RING_CASES on the lower corridor's back wall (r0), the
+   models per theme in `caseModels` (a case's frame: x along the wall, y up, z out; the shelf at 0.5), the glass in
+   CRS_GLASS; `ringSafety` puts the extinguisher cabinets at room boundaries with solid wall on the corridor side (not halls,
+   bays, glazed rooms or the Gate Hall), clear of that floor's doors, by the look-ahead rule in RING_SAFETY; call points by
+   the bays' doors; sprinklers between the corridor downlights and smoke detectors every 9 m. `CRS.safetyLog` lists the
+   cabinets. PLASTIC colour 21 is fire red (blk_mat.js).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

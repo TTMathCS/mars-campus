@@ -98,7 +98,7 @@ def mark_current(sid):
 def collect():
     """this machine's finished pictures into the archive"""
     n = 0
-    for sub, pat in (("crown_h", r"^c_[a-z0-9_]+\.jpg$"), ("crown_pano", r"^pano_[a-z0-9_]+\.jpg$")):
+    for sub, pat in (("crown_h", r"^c_[a-z0-9_]+\.jpg$"),):
         src = os.path.join(S, "final", sub); dst = os.path.join(RAW, sub); os.makedirs(dst, exist_ok=True)
         for f in sorted(os.listdir(src)) if os.path.isdir(src) else []:
             if not re.match(pat, f) or ".part." in f: continue
@@ -124,7 +124,9 @@ def publish(state):
             cap = json.loads(mm.group(1)) if mm else "The Crown: %s." % name.replace("_", " ")
         pub("photo", dst, "crown_" + name, cap); add_to_plan(name, cap)
         state["photo " + name] = h; done.append("%s (%s)" % (name, k))
-    ids = stop_ids(); pd = os.path.join(RAW, "crown_pano")
+    # the 360 tour keeps its 360s: none is published over them any more (Jim, 8 Oct 2026: "DON'T touch 360 tour for
+    # each room, which i like very much"; the photo walk's renders at the tour stops had been going in)
+    ids = {}; pd = os.path.join(RAW, "crown_pano")
     for f in sorted(os.listdir(pd)) if os.path.isdir(pd) else []:
         m = re.match(r"^pano_([a-z0-9_]+)\.jpg$", f)
         if not m or m.group(1) not in ids: continue

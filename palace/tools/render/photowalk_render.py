@@ -11,8 +11,7 @@ Writes into <out dir>, for a point C-04.3 (files c04_3...):
   c04_3_s.webp   the same a quarter the size: shown at once, and while moving
   c04_3_d.png    how far everything is: equirectangular 512 x 256 (+y in the middle, east to the right), in metres
                  as 0.25 * 65535 / value, the value in 16 bits (red the high byte, green the low); 0 is the sky
-  and, for a tour stop, the 360 as the tour shows it (equirectangular 4096 x 2048) as <out dir>/../crown_pano/
-  pano_<stop>.jpg, where the tour's 360s are published from (autopub.py)
+  (a tour stop is rendered like any other point: the 360 tour keeps its own 360s)
   grade.json     each scene's grade: its first point's brightness percentiles, so all its points are graded alike"""
 import bpy, json, math, os, random, sys, time
 import numpy as np
@@ -218,11 +217,8 @@ def finish(p, faces, depths, out, scene, night):
     f = fname(p["id"]); A = graded(atlas(faces), scene, out, night); n = A.width // 3
     A.save(os.path.join(out, f + ".part.webp"), "WEBP", quality=84, method=5); os.replace(os.path.join(out, f + ".part.webp"), os.path.join(out, f + ".webp"))
     A.resize((A.width // 4, A.height // 4), 1).save(os.path.join(out, f + "_s.webp"), "WEBP", quality=80, method=5)
-    if p.get("key"):                     # a tour stop: its 360 for the tour, where autopub.py publishes the tour's 360s
-        pano = os.path.join(out, "..", "crown_pano") if os.path.basename(out) == "photowalk" else out    # (a test: beside it)
-        os.makedirs(pano, exist_ok=True)
-        e = os.path.join(pano, "pano_%s.part.jpg" % p["key"]); equirect(A, n, 4096).save(e, "JPEG", quality=90)
-        os.replace(e, e.replace(".part.jpg", ".jpg"))
+    # (a tour stop's 360 stays the tour's own: nothing here goes into the 360 tour. Jim, 8 Oct 2026: "DON'T touch 360
+    # tour for each room, which i like very much")
     dm, dist = depth_map(depths); dm.save(os.path.join(out, f + "_d.png"), optimize=True)
     log("  %s: nearest %.2f m, %.0f%% sky" % (p["id"], float(np.min(dist)), 100.0 * float(np.mean(dist > 1e5))))
 

@@ -87,8 +87,8 @@ if __name__ == "__main__":
     while True:
         try:
             sh("git", "pull", "-q", "--rebase", "--autostash", "origin", "main")
-            new = sync(scratch, machine); tour = panos(scratch) if machine != "a" else []
-            if new or tour: push(message(new) if new else "Raw renders: the tour's 360 at %s, from the photo walk (second machine)" % ", ".join(tour))
+            new = sync(scratch, machine)          # (the tour's 360s are left alone: panos() is no longer called)
+            if new: push(message(new))
         except Exception as e:
             print(time.strftime("%H:%M"), "error:", e, flush=True)
         if sys.argv[3:] != ["loop"]: break

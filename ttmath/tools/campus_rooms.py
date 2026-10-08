@@ -155,7 +155,19 @@ RING_ART = [
     dict(room="T06-37", wall="front", r=55.2, y=1.95, w=2.6, floor="lower", subject="pidigits", title="The first thousand digits of pi", note="each digit its own colour: the pattern never repeats"),
     dict(room="T06-29", wall="back", r=57.2, y=1.85, w=1.8, floor="lower", subject="spectrum", title="The electromagnetic spectrum", note="light is one narrow band of a range that runs from radio waves to gamma rays"),
     dict(room="T06-42", wall="front", r=59.1, y=1.7, w=1.4, floor="lower", subject="lissajous", title="Lissajous figures", note="a point swinging two ways at once, in the ratio of two whole numbers"),
-]
+] + [
+    # each classroom's mathematician (v0.39; CP-30, "details for each classroom"): a poster on the back wall near the
+    # corridor, clear of the pinboard (r 57.5 to 60.4) and of the room's own piece (Euclid's solids, Fibonacci's spiral,
+    # Noether's tiling): the figure they are remembered for, their name, years and city, and one line
+    dict(room=rm, wall="back", r=r, y=1.6, w=w, floor=fl, subject="poster", title=name, note="a poster: " + years + "; " + line, poster=dict(fig=fig, name=name, years=years, line=line))
+    for rm, r, w, fl, fig, name, years, line in (
+        ("T06-02", 54.6, 1.5, "upper", "euclid", "Euclid", "c. 300 BC · Alexandria", "His Elements built all of geometry from five postulates, and was taught for two thousand years."),
+        ("T06-03", 54.0, 1.5, "upper", "conics", "Hypatia", "c. 360–415 · Alexandria", "Mathematician, astronomer and teacher; she wrote on the conic sections of Apollonius."),
+        ("T06-19", 54.0, 1.5, "upper", "sphere", "Archimedes", "c. 287–212 BC · Syracuse", "A sphere is two thirds of the cylinder that holds it: he asked for the two on his tomb."),
+        ("T06-20", 54.0, 1.5, "upper", "pythagoras", "Pythagoras", "c. 570–495 BC · Samos", "In a right triangle the squares on the two shorter sides add up to the square on the longest."),
+        ("T06-06", 50.9, 1.2, "upper", "roses", "Emmy Noether", "1882–1935 · Erlangen, Göttingen", "Every symmetry in the laws of nature carries a quantity that is conserved."),
+        ("T06-05", 51.2, 1.2, "upper", "golden", "Leonardo Fibonacci", "c. 1170–1250 · Pisa", "His Liber Abaci brought the Hindu–Arabic numerals to Europe: 1, 1, 2, 3, 5, 8, 13 …"),
+        ("T06-10", 54.0, 1.5, "lower", "bell", "Carl Friedrich Gauss", "1777–1855 · Göttingen", "The normal curve, least squares, and 1 + 2 + … + 100 = 5050 as a schoolboy."))]
 # The classrooms' pinboards (v0.23): a cork board 2.8 by 1.4 m in an oak frame on each classroom's back wall (solid wall,
 # never a window): the room's classes this week (from the timetable), a problem of the week for its mathematician, a
 # pupil's copy of a diagram (subject: the prints' drawings), the next contest's flyer and a marked quiz. Over each board a

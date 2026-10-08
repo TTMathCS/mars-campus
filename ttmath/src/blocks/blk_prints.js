@@ -385,14 +385,78 @@
       serif(g, 15, "italic"); g.fillStyle = "#fff"; g.textAlign = "center"; g.textBaseline = "middle"; [[0, 0, 21], [21, 0, 13], [26, 13, 8], [21, 16, 5]].forEach(function (q) { g.fillText(String(q[2]), ox + (q[0] + q[2] / 2) * u, oy + (q[1] + q[2] / 2) * u); });
     }
   };
+  // the figures of the classrooms' mathematicians (v0.39) that the prints did not have yet
+  function inkLine(g, w, col) { g.strokeStyle = col || PRC.ink; g.lineWidth = w; g.lineJoin = "round"; g.lineCap = "round"; }
+  PRINT_DRAW.euclid = function (g, b) {                                // Elements I.1: an equilateral triangle from two circles
+    var r = Math.min(b.w / 3.2, b.h / 2.3), cx = b.x + b.w / 2, cy = b.y + b.h * 0.56, A = [cx - r / 2, cy], B = [cx + r / 2, cy], C = [cx, cy - r * Math.sqrt(3) / 2];
+    g.fillStyle = "rgba(217,162,58,0.32)"; g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.lineTo(C[0], C[1]); g.closePath(); g.fill();
+    inkLine(g, 2, PRC.navy); [A, B].forEach(function (p) { g.beginPath(); g.arc(p[0], p[1], r, 0, 2 * Math.PI); g.stroke(); });
+    inkLine(g, 3); g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.lineTo(C[0], C[1]); g.closePath(); g.stroke();
+    g.fillStyle = PRC.ink; [A, B, C].forEach(function (p) { dot(g, p[0], p[1], 4); });
+    serif(g, b.h * 0.075, "italic"); g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("A", A[0] - 14, A[1] + 14); g.fillText("B", B[0] + 14, B[1] + 14); g.fillText("C", C[0], C[1] - 16);
+  };
+  PRINT_DRAW.conics = function (g, b) {                                // the three sections of a cone, on one pair of axes
+    var cx = b.x + b.w / 2, cy = b.y + b.h / 2, u = Math.min(b.w, b.h) / 9;
+    inkLine(g, 1, "rgba(31,36,48,0.45)"); g.beginPath(); g.moveTo(b.x + 6, cy); g.lineTo(b.x + b.w - 6, cy); g.moveTo(cx, b.y + 6); g.lineTo(cx, b.y + b.h - 6); g.stroke();
+    inkLine(g, 3, PRC.navy); g.beginPath(); g.ellipse(cx, cy, 2.6 * u, 1.6 * u, 0, 0, 2 * Math.PI); g.stroke();
+    inkLine(g, 3, PRC.red); g.beginPath(); for (var t = -2.2; t <= 2.2001; t += 0.05) { var x = cx + t * u * 1.5, y = cy - 3.6 * u + 0.62 * Math.pow(t * 1.5, 2) * u; if (t > -2.2) g.lineTo(x, y); else g.moveTo(x, y); } g.stroke();
+    inkLine(g, 3, PRC.teal); [-1, 1].forEach(function (sd) { g.beginPath(); for (var v = -1.6; v <= 1.6001; v += 0.05) { var x = cx + sd * 3.4 * u * Math.cosh(v) * 0.62, y = cy + 1.4 * u * Math.sinh(v) * 0.9; if (v > -1.6) g.lineTo(x, y); else g.moveTo(x, y); } g.stroke(); });
+    serif(g, b.h * 0.062, "italic"); g.textBaseline = "middle"; g.textAlign = "center"; g.fillStyle = PRC.navy; g.fillText("ellipse", cx, cy + 2.15 * u); g.fillStyle = PRC.red; g.fillText("parabola", cx, cy - 4.0 * u + 4); g.fillStyle = PRC.teal; g.fillText("hyperbola", cx + 3.0 * u, cy + 3.6 * u);
+  };
+  PRINT_DRAW.sphere = function (g, b) {                                // a sphere in the cylinder round it: two thirds
+    var R = Math.min(b.w / 3.4, b.h / 2.6), cx = b.x + b.w / 2, cy = b.y + b.h * 0.52, e = R * 0.28;
+    var gr = g.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R); gr.addColorStop(0, "#f6e7c4"); gr.addColorStop(1, "#c9a25c"); g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.fill();
+    inkLine(g, 2.5); g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.stroke();
+    inkLine(g, 1.5, "rgba(31,36,48,0.55)"); g.beginPath(); g.ellipse(cx, cy, R, e, 0, 0, Math.PI); g.stroke(); g.setLineDash([5, 5]); g.beginPath(); g.ellipse(cx, cy, R, e, 0, Math.PI, 2 * Math.PI); g.stroke(); g.setLineDash([]);
+    inkLine(g, 3, PRC.navy); g.beginPath(); g.moveTo(cx - R, cy - R); g.lineTo(cx - R, cy + R); g.moveTo(cx + R, cy - R); g.lineTo(cx + R, cy + R); g.stroke();
+    g.beginPath(); g.ellipse(cx, cy - R, R, e, 0, 0, 2 * Math.PI); g.stroke(); g.beginPath(); g.ellipse(cx, cy + R, R, e, 0, 0, Math.PI); g.stroke();
+    g.setLineDash([5, 5]); g.beginPath(); g.ellipse(cx, cy + R, R, e, 0, Math.PI, 2 * Math.PI); g.stroke(); g.setLineDash([]);
+    serif(g, b.h * 0.085, "italic"); g.fillStyle = PRC.ink; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("2 : 3", cx + R + 16, cy);
+  };
+  PRINT_DRAW.pythagoras = function (g, b) {                            // the 3, 4, 5 triangle with its squares cut in units
+    var u = Math.min(b.w / 12.5, b.h / 12.5), ox = b.x + b.w / 2 - 1.6 * u, oy = b.y + b.h / 2 + 0.8 * u;   // the right angle at (ox, oy); legs 3 up, 4 across
+    var A = [ox, oy], Bp = [ox + 4 * u, oy], Cp = [ox, oy - 3 * u];
+    function sq(p, q, col, n) {                                        // the square outward on side p-q, n by n units
+      var dx = q[0] - p[0], dy = q[1] - p[1], nx = dy, ny = -dx, pts = [p, q, [q[0] + nx, q[1] + ny], [p[0] + nx, p[1] + ny]];
+      g.fillStyle = col; g.beginPath(); pts.forEach(function (t, i) { if (i) g.lineTo(t[0], t[1]); else g.moveTo(t[0], t[1]); }); g.closePath(); g.fill();
+      inkLine(g, 1, "rgba(31,36,48,0.35)"); for (var i = 1; i < n; i++) { var f = i / n; g.beginPath(); g.moveTo(p[0] + dx * f, p[1] + dy * f); g.lineTo(p[0] + dx * f + nx, p[1] + dy * f + ny); g.stroke(); g.beginPath(); g.moveTo(p[0] + nx * f, p[1] + ny * f); g.lineTo(q[0] + nx * f, q[1] + ny * f); g.stroke(); }
+      inkLine(g, 2.2); g.beginPath(); pts.forEach(function (t, i) { if (i) g.lineTo(t[0], t[1]); else g.moveTo(t[0], t[1]); }); g.closePath(); g.stroke();
+      return [(p[0] + q[0] + nx) / 2, (p[1] + q[1] + ny) / 2];
+    }
+    var la = sq(A, Cp, "rgba(196,80,47,0.5)", 3), lb = sq(Bp, A, "rgba(43,122,120,0.45)", 4), lc = sq(Cp, Bp, "rgba(217,162,58,0.45)", 5);
+    serif(g, b.h * 0.08, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("9", la[0], la[1]); g.fillText("16", lb[0], lb[1]); g.fillText("25", lc[0], lc[1]);
+  };
+  PRINT_DRAW.bell = function (g, b) {                                  // the normal curve, its bands at one, two and three sigma
+    var x0 = b.x + b.w * 0.06, x1 = b.x + b.w * 0.94, yb = b.y + b.h * 0.84, H = b.h * 0.7, cx = (x0 + x1) / 2, sg = (x1 - x0) / 7.4;
+    function y(x) { var z = (x - cx) / sg; return yb - H * Math.exp(-z * z / 2); }
+    [[3, "rgba(43,122,120,0.16)"], [2, "rgba(43,122,120,0.3)"], [1, "rgba(43,122,120,0.5)"]].forEach(function (k) {
+      g.fillStyle = k[1]; g.beginPath(); g.moveTo(cx - k[0] * sg, yb); for (var x = cx - k[0] * sg; x <= cx + k[0] * sg + 0.01; x += 2) g.lineTo(x, y(x)); g.lineTo(cx + k[0] * sg, yb); g.closePath(); g.fill(); });
+    inkLine(g, 3, PRC.navy); g.beginPath(); for (var x2 = x0; x2 <= x1; x2 += 2) { if (x2 > x0) g.lineTo(x2, y(x2)); else g.moveTo(x2, y(x2)); } g.stroke();
+    inkLine(g, 1.5); g.beginPath(); g.moveTo(x0, yb); g.lineTo(x1, yb); g.stroke();
+    serif(g, b.h * 0.06, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "top";
+    [-3, -2, -1, 0, 1, 2, 3].forEach(function (k) { var xx = cx + k * sg; g.beginPath(); g.moveTo(xx, yb); g.lineTo(xx, yb + 5); g.stroke(); g.fillText(k ? (k > 0 ? k + "σ" : "−" + (-k) + "σ") : "μ", xx, yb + 8); });
+    g.textBaseline = "middle"; g.fillText("68 %", cx, yb - H * 0.32); g.fillText("95 %", cx + 1.5 * sg, yb - H * 0.1);
+  };
+  // a room's mathematician (v0.39): the figure on the left, the name, the years and the city, and one line on the right
+  function drawPoster(g, b, x) {
+    var P = x.poster, fw = b.w * 0.52, fb = { x: b.x + 8, y: b.y + 8, w: fw - 16, h: b.h - 16 };
+    g.save(); g.beginPath(); g.rect(fb.x, fb.y, fb.w, fb.h); g.clip(); (PRINT_DRAW[P.fig] || function () {})(g, fb, 1, 0, 0); g.restore();
+    inkLine(g, 1, "rgba(31,36,48,0.3)"); g.beginPath(); g.moveTo(b.x + fw, b.y + b.h * 0.1); g.lineTo(b.x + fw, b.y + b.h * 0.9); g.stroke();
+    var tx = b.x + fw + b.w * 0.05, tw = b.w - fw - b.w * 0.09; g.fillStyle = PRC.ink; g.textAlign = "left"; g.textBaseline = "alphabetic";
+    serif(g, b.h * 0.15); fitText(g, P.name, tx, b.y + b.h * 0.3, tw);
+    g.fillStyle = PRC.red; g.font = "600 " + Math.round(b.h * 0.06) + "px " + SANS; fitText(g, P.years.toUpperCase(), tx, b.y + b.h * 0.42, tw);
+    g.fillStyle = PRC.ink; serif(g, b.h * 0.072, "italic"); var words = P.line.split(" "), ln = "", ly = b.y + b.h * 0.58;
+    words.forEach(function (wd) { var t = ln ? ln + " " + wd : wd; if (g.measureText(t).width > tw && ln) { g.fillText(ln, tx, ly); ln = wd; ly += b.h * 0.095; } else ln = t; }); if (ln) g.fillText(ln, tx, ly);
+  }
   // one print on its cell: the paper, the picture clipped to its box, a fine line round it, the title under it
   function drawPrint(g, x, s, ox, oy) {
     var W = PRINT.W, H = PRINT.H, b = printBox(W, H);
     g.fillStyle = PRC.paper; g.fillRect(0, 0, W, H);
     var gr = g.createLinearGradient(0, 0, W, H); gr.addColorStop(0, "rgba(255,255,255,0.06)"); gr.addColorStop(1, "rgba(120,100,70,0.06)"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
-    g.save(); g.beginPath(); g.rect(b.x, b.y, b.w, b.h); g.clip(); (PRINT_DRAW[x.subject] || function () {})(g, b, s, ox, oy); g.restore();
+    if (x.poster) b = { x: b.x, y: b.y, w: b.w, h: H - 2 * b.y };                                  // a poster has no caption: its box runs down to the mat
+    g.save(); g.beginPath(); g.rect(b.x, b.y, b.w, b.h); g.clip(); if (x.poster) drawPoster(g, b, x); else (PRINT_DRAW[x.subject] || function () {})(g, b, s, ox, oy); g.restore();
     g.strokeStyle = "rgba(31,36,48,0.75)"; g.lineWidth = 1; g.strokeRect(b.x - 0.5, b.y - 0.5, b.w + 1, b.h + 1);
-    serif(g, H * 0.046, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(x.title, W / 2, b.y + b.h + (H - b.y - b.h) * 0.6);
+    if (x.title && !x.poster) { serif(g, H * 0.046, "italic"); g.fillStyle = PRC.ink; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText(x.title, W / 2, b.y + b.h + (H - b.y - b.h) * 0.6); }
   }
   function printAtlas(art) {
     var s = MOBILE ? 0.5 : 1, cols = PRINT.cols, rows = Math.ceil(art.length / cols), cv = mkCanvas(Math.round(cols * PRINT.W * s), Math.round(rows * PRINT.H * s)), g = cv.getContext("2d");

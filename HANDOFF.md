@@ -45,6 +45,15 @@ with w, and distorted. just merge them into one free walk and give best quality 
   it as orange spots once one walks past the tree.
 - The container is reclaimed soon after the session goes idle (also ~01:58 and ~03:10 on 8 Oct): check-ins now every
   20 minutes (`send_later`).
+- **05:40: the full-tree test bake is not used.** With the pictures' own plants the Arrival's two tree chunks went
+  from 0.56 to 7 million triangles each (c0900 30 MB, c0960 32 MB, against 4.6 and 4.5): too heavy to load or draw.
+  The old bakes had simplified at most one model a part (`simplified 0 models`), so simplification was not what made
+  the free walk's edges look broken: that was the baked textures, which the 360s now cover. The leaf test in photo.js
+  stays lenient (a surface behind something the picture saw is still painted unless that is nearer than 0.3 of its
+  distance): a strict test (0.85) also drops what the pictures saw through the glass partitions (their distance maps
+  record the glass) and leaves grey panels. The test bake is in the scratchpad (`walk/p072full*`), not the site.
+- **Keeping the container up**: a job Monitor (`tail -F blend/log_a.txt | grep ...`, 30 min, re-armed at each expiry)
+  keeps the session from being reclaimed while idle (up from 04:22 on with one); without one it went within ~20 min.
 
 **8 Oct, 01:45 UTC.** The container was reclaimed again while the session sat idle (about 21:55 to 01:35: machine A
 rendered nothing; B went on). A check-in now comes every 45 minutes (`send_later`) to restart the runner and autopub

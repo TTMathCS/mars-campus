@@ -6350,12 +6350,28 @@
     var nsp = b.count(); b.geo(new THREE.CylinderGeometry(0.1, 0.1, 0.065, 22), T(0.29, 0.42, 0.05, 0, 0, Math.PI / 2), MT.PLASTIC); b.tag(nsp, pc, null); b.box(0.25, 0.4, 0.04, 0.33, 0.44, 0.06, MT.ANOD);
     var nd = b.count(); b.box(-0.12, 0.58, -0.272, 0.04, 0.6, -0.27, MT.PLASTIC); b.tag(nd, 0, null);
   }); }
-  // the laser cutter 1.4 wide (x), 0.95 deep, back at +z: a white body, a hinged lid with a dark window, its panel, the duct
+  // the laser cutter 1.4 wide (x), 0.95 deep, back at +z, made like a real one (v0.43): a grey stand with two doors on
+  // levelling feet; the white machine on it, its lid hinged at the back and sloping down to the front, a big smoked window
+  // in it and a handle along its front edge; the control panel on the front at the right, a screen, two lamps and the
+  // stop button; the exhaust duct from the back to the ceiling
   function laserCutter(ceil) { return furn("laser" + ceil.toFixed(2), function (b) {
-    var n0 = b.count(); b.box(-0.7, 0.08, -0.47, 0.7, 0.92, 0.47, MT.PLASTIC); b.box(-0.7, 0.92, -0.47, 0.7, 1.06, 0.47, MT.PLASTIC); b.tag(n0, 0, null);
-    b.box(-0.55, 1.0, -0.42, 0.45, 1.065, 0.32, MT.DKGLASS); var np = b.count(); b.box(0.5, 0.92, -0.48, 0.68, 1.04, -0.46, MT.PLASTIC); b.tag(np, 1, null);
-    [0.54, 0.6].forEach(function (x) { b.geo(addF2(new THREE.CircleGeometry(0.008, 10), 1.6, 0.6), T(x, 1.0, -0.481, 0, Math.PI, 0), MT.LIGHT, 1); });
-    var nf = b.count(); b.box(-0.68, 0, -0.45, 0.68, 0.08, 0.45, MT.PLASTIC); b.tag(nf, 1, null); b.box(-0.6, 0.4, -0.472, 0.6, 0.41, -0.47, MT.ANOD);
+    var nst = b.count(); b.box(-0.68, 0.02, -0.45, 0.68, 0.62, 0.45, MT.PLASTIC); b.tag(nst, 5, null);
+    b.box(-0.004, 0.08, -0.453, 0.004, 0.58, -0.45, MT.ANOD); b.box(-0.64, 0.585, -0.453, 0.64, 0.59, -0.45, MT.ANOD);
+    [-0.07, 0.07].forEach(function (x) { b.box(x - 0.008, 0.44, -0.472, x + 0.008, 0.55, -0.453, MT.STEEL); });
+    [[-0.62, -0.4], [0.62, -0.4], [-0.62, 0.4], [0.62, 0.4]].forEach(function (c) { b.geo(new THREE.CylinderGeometry(0.03, 0.03, 0.02, 12), T(c[0], 0.01, c[1]), MT.RUBBER); });
+    var nb = b.count(); b.box(-0.7, 0.62, -0.47, 0.7, 0.98, 0.47, MT.PLASTIC);
+    var sh = new THREE.Shape(); sh.moveTo(-0.47, 0.98); sh.lineTo(0.47, 0.98); sh.lineTo(0.47, 1.2); sh.closePath();        // the wedge under the lid
+    b.geo(new THREE.ExtrudeGeometry(sh, { depth: 1.4, bevelEnabled: false }), T(0.7, 0, 0, 0, -Math.PI / 2, 0), MT.PLASTIC); b.tag(nb, 0, null);
+    var L = new Builder(), sl = Math.hypot(0.94, 0.22);
+    L.box(-0.7, 0, -sl, 0.7, 0.035, -sl + 0.1, MT.PLASTIC); L.box(-0.7, 0, -0.1, 0.7, 0.035, 0, MT.PLASTIC);
+    L.box(-0.7, 0, -sl + 0.1, -0.6, 0.035, -0.1, MT.PLASTIC); L.box(0.6, 0, -sl + 0.1, 0.7, 0.035, -0.1, MT.PLASTIC); L.tag(0, 0, null);
+    L.box(-0.6, 0.006, -sl + 0.1, 0.6, 0.03, -0.1, MT.DKGLASS);
+    tubeAlong(L, [V3(-0.42, 0.035, -sl + 0.05), V3(-0.42, 0.075, -sl + 0.05), V3(0.42, 0.075, -sl + 0.05), V3(0.42, 0.035, -sl + 0.05)], 0.011, 8, MT.STEEL);
+    b.add(L, T(0, 1.2, 0.47, -Math.atan2(0.22, 0.94), 0, 0));
+    var np = b.count(); b.box(0.4, 0.74, -0.478, 0.66, 0.94, -0.47, MT.PLASTIC); b.tag(np, 1, null);
+    b.box(0.43, 0.84, -0.481, 0.57, 0.92, -0.478, MT.DKGLASS);
+    [0.6, 0.63].forEach(function (x) { b.geo(addF2(new THREE.CircleGeometry(0.008, 10), 1.6, 0.6), T(x, 0.9, -0.482, 0, Math.PI, 0), MT.LIGHT, 1); });
+    var nk = b.count(); b.geo(new THREE.CylinderGeometry(0.02, 0.02, 0.014, 16), T(0.615, 0.79, -0.485, Math.PI / 2, 0, 0), MT.PLASTIC); b.tag(nk, 2, null);
     tubeAlong(b, [V3(0.4, 0.8, 0.47), V3(0.4, 0.8, 0.62), V3(0.4, 1.4, 0.68), V3(0.4, ceil, 0.68)], 0.075, 14, MT.STEEL);
   }); }
   // the robot arena 3.0 by 3.0: an oak rim round a plywood table 0.55 high, its mat drawn on the canvas (apart), cones, and

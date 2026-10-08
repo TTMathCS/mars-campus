@@ -171,10 +171,11 @@ ROOMS = {
                             "(hammers, screwdrivers, pliers, a set of spanners, a saw, a level, tape measures, clamps, a drill, safety glasses, ear defenders); the printers each with a glass door, "
                             "a print on its bed and a spool on its side, a shelf of filament over them; on the arena a mat of Mars ground (craters, rocks, a start box, a dashed track), cones "
                             "and four rovers the students built (six wheels on rocker arms, a solar panel, a mast with a camera head); racks of bins and a rack of plywood and acrylic sheets "
-                            "on the front wall, the laser cutter in the corner by the glass with its duct to the ceiling",
+                            "on the front wall, the laser cutter in the corner by the glass with its duct to the ceiling, made like the real machine (v0.43): a grey stand with two doors, "
+                            "the lid hinged at the back and sloping to the front with a big smoked window and a handle, the control panel with its screen, lamps and red stop button",
                    layout="d along the room from the front wall (0) to the back (17.5 m), r from the corridor wall (49.6) to the glass (62); the doors at d 2.15 and 15.35; "
                           "the workbenches at r 53.2 and 58.4, d 5.0 and 8.6; the arena at r 56.0, d 12.6; the printers from d 4 to 10 on the corridor wall",
-                   next="the laser cutter made more like the real machine: a sloping lid with a big tinted window"),
+                   next=""),
     "T06-42": dict(name="Clinic and counsellor", seating=["the nurse's task chair and a chair for whoever comes in", "in the counsellor's lounge a sage sofa 2.4 m by the outer wall facing two cognac club chairs across a walnut table on a rug"],
                    tables=["the nurse's desk", "the walnut table", "a lamp table"], lights=["a table lamp and a floor lamp in the lounge"],
                    finishes="linen plaster (the sage walls went dark under the skylights); the examination bay at the back: a padded couch on a steel frame with its paper roll, a sage curtain drawn back on a ceiling track round it, "

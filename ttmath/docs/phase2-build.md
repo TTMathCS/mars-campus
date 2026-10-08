@@ -164,6 +164,13 @@ each pushed when it is checked:
    `kitchenShelves`, `doubleSink`, `combiStack`, `walkIn`, `dishStation`, `passCounter`, `handBasin`, `speedRack`, `goodsLift`,
    `dryShelving`; the kitchen has no hanging lamps (blk_ring.js leaves it out; flush panels in its ceiling). Its steel is
    satin stainless (STEEL g.x 2 in blk_mat.js, set by `satin(b)` on each piece): brushed steel mirrored the warm room and read brown.
+   (v0.37) The pod gates: `blk_poddock.js` keeps every dock in `PDKS` (`PDK`, the Ring's, is `PDKS[0]`; the gates are
+   `PDKS[1..4]`, gate 1 to 4), each with its frame (`org`, `O`, `T`; `pdkAt(P, u, v)`, `pdkUV(P, x, z)`), its floors (`yB`
+   the bridge's or landing's, `yD` the deck's or well's), its spot `sp` and heading `hd`, its collar; `pdkOf(pod)` gives
+   the dock holding a pod. `pdkWell` builds a gate's well and cuts the ground over it (`p2Sector`, one of the 16 cuts);
+   `blk_entrance.js` leaves the gates' doorways out of the drum (`entDoorway`) and frames them (`gateSign` for the
+   numbers). A pod LANDed within 18 m of a free dock docks there (`POD.dock`); it climbs to the dock's `safe` height
+   first (over the dome's cap for a gate) and comes straight down. `__mars.pod('board', i)` boards `POD.list[i]`.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

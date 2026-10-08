@@ -16,8 +16,9 @@
     PALY.B = acc / 96 + 0.3; PALY.F = PALY.B - PAL.depth; PALY.front = PALY.B;   // the palace's door opens onto the garden ring, level with the balcony
     U.uCut.value.set(PAL.c.x, PAL.c.z, PAL.R + 0.1, 1); U.uCutV.value.set(PAL.F.x, PAL.F.z, 4.45, PAL.vFront + 0.1);
     var mc = U.uSynthMeanC.value; matU.uDustC.value.set(Math.pow(mc.x, 2.2), Math.pow(mc.y, 2.2), Math.pow(mc.z, 2.2)).multiplyScalar(0.95);
-    // rovers: by the avenue beside the airlock, facing it; behind the Ring's right side, where the ground falls, nose to it
-    var r1 = palXZ(9.8, 84.5), r2 = palXZ(71.5, -19.2);
+    // rovers: on the plaza beside the avenue, nose to it (gate 3's well stands where it parked by the airlock before v0.37);
+    // behind the Ring's right side, where the ground falls, nose to it
+    var r1 = palXZ(6.6, 93.4), r2 = palXZ(71.5, -19.2);
     ROVER_BAYS = [{ x: r1.x, z: r1.z, yaw: Math.atan2(-PAL.Rt.x, -PAL.Rt.z) }, { x: r2.x, z: r2.z, yaw: Math.atan2(PAL.c.x - r2.x, PAL.c.z - r2.z) }];
     PLAZA.c = palXZ(0, 91.5);
     buildPalace();                                                      // interior, dome glass and the moving pieces
@@ -43,7 +44,7 @@
     // light on the open ground: at the airlock, in the entrance dome, by the rover, on the logo wall
     var lg = palXZ(0, 89); LP[0].set(lg.x, cgH(lg.x, lg.z) + 2.4, lg.z, 16); LC[0].set(1.0, 0.86, 0.66).multiplyScalar(4);
     var ld = palXZ(0, 72); LP[1].set(ld.x, PALY.B + 3.2, ld.z, 20); LC[1].set(1.0, 0.86, 0.66).multiplyScalar(5);
-    var lr = palXZ(8, 82); LP[2].set(lr.x, cgH(lr.x, lr.z) + 3, lr.z, 12); LC[2].set(1.0, 0.86, 0.66).multiplyScalar(2);
+    var lr = palXZ(6.6, 90.2); LP[2].set(lr.x, cgH(lr.x, lr.z) + 3, lr.z, 12); LC[2].set(1.0, 0.86, 0.66).multiplyScalar(2);
     var spn = SIGNP.at(0, SIGNP.T / 2 + 1.3); LP[3].set(spn.x, cgH(spn.x, spn.z) + 0.3, spn.z, 9); LC[3].set(0.75, 0.85, 1.0).multiplyScalar(4);
     var ll = palXZ(-8, 82); LP[4].set(ll.x, cgH(ll.x, ll.z) + 3, ll.z, 12); LC[4].set(1.0, 0.86, 0.66).multiplyScalar(2);
     // reflections: captured in the rotunda, in the math classroom and out in the courtyard
@@ -70,7 +71,7 @@
   function blockedByBuilding(x, z) {
     for (var i = 0; i < COLL.posts.length; i++) { var p = COLL.posts[i], dx = x - p.x, dz = z - p.z; if (dx * dx + dz * dz < p.r * p.r) return true; }
     for (var r = 0; r < COLL.rovers.length; r++) { var dx2 = x - COLL.rovers[r].x, dz2 = z - COLL.rovers[r].z; if (dx2 * dx2 + dz2 * dz2 < 7.5) return true; }
-    for (var q = 0; q < POD.list.length; q++) { var pd = POD.list[q]; if (pd !== POD.cur && !(PDK && PDK.pod === pd) && Math.hypot(x - pd.x, z - pd.z) < 2.2) return true; }   // a parked pod (at the dock the collar's floor ends at its canopy)
+    for (var q = 0; q < POD.list.length; q++) { var pd = POD.list[q]; if (pd !== POD.cur && !pdkOf(pd) && Math.hypot(x - pd.x, z - pd.z) < 2.2) return true; }   // a parked pod (at the dock the collar's floor ends at its canopy)
     if (SIGNP.n) {
       var lx = x - SIGNP.c.x, lz = z - SIGNP.c.z, s = lx * SIGNP.t.x + lz * SIGNP.t.z, o = lx * SIGNP.n.x + lz * SIGNP.n.z + s * s / 24;
       if (Math.abs(s) < SIGNP.W / 2 + 0.35 && Math.abs(o) < SIGNP.T / 2 + 0.35) return true;

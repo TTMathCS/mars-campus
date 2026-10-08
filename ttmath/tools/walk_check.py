@@ -2,8 +2,9 @@
 fails if any of them stops short: from the start over the ridge, in through the entrance airlock (its two pairs of doors
 open in turn), into the Gate Hall and through it into the garden ring, into the palace, out of its back door, into the
 Ring's hall, down its stair and up again, out into the garden gallery, into a classroom, down the Gate Hall's stair, into the sunken
-grove, through the pod lounge and the glass bridge to the docked pod; then boards the pod at the dock, flies it up and
-lands it again (it docks again and you step out into the collar).
+grove, through the pod lounge and the glass bridge to the docked pod, and out of the entrance dome through gate 4 into its
+pod's collar; then boards the pod at the dock, flies it up and lands it again (it docks again and you step out into the
+collar), and the same with gate 4's pod.
 usage: python3 ttmath/tools/walk_check.py [--built]   (--built: the published ttmath/index.html, else the source page)
 Exit code 1 if a walk fails."""
 import asyncio, json, os, sys, time
@@ -31,6 +32,7 @@ WALKS = [
     ("under it to the bay's end", "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,p=crsPt(rr, am+0.9/rr);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "bay+", 8, "o.r > CRS.rc + 9 && y < CRS.yL + 0.05"),
     ("into the sunken grove", "__mars._eval('(function(){var p=crsPt(47.8, 252*D2R);__mars.go(p.x,p.z,CRS.yL+0.1);})()')", "grove", 6, "o.r < 44 && y < CRS.yL + 0.05"),
     ("over the bridge to the pod", "__mars._eval('(function(){var p=crsPt(57.0, P2.pod_dock.a*D2R);__mars.go(p.x,p.z,CRS.yU+0.1);})()')", "dock", 9, "o.r > 69.5 && Math.abs(y - CRS.yU) < 0.05"),
+    ("out through gate 4 to its pod", "__mars._eval('(function(){var p=pdkAt(PDKS[4],6,0);__mars.go(p.x,p.z);})()')", "gate4", 8, "pdkUV(PDKS[4],px,pz).u > ENT.a + 0.4 && Math.abs(y - PDKS[4].yB) < 0.05"),
 ]
 
 async def main():
@@ -57,6 +59,7 @@ async def main():
                 elif to == "gstairup": brg = "__mars._eval('(function(){var p=crsPt(CRS.gst.r1+0.6, CRS.gst.a),q=crsPt(30, CRS.gst.a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif to in ("bay+", "bay-"): brg = "__mars._eval('(function(){var m=P2.ring.rooms.filter(function(r){return r.code===\\\"T06-18\\\";})[0],am=(m.a[0]+m.a[1])/2*D2R,rr=CRS.rc+1.0,a=am%s0.9/rr,p=crsPt(rr, a),q=crsPt(62, a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')" % (to[-1],)
                 elif to == "dock": brg = "__mars._eval('(function(){var a=P2.pod_dock.a*D2R,p=crsPt(57.0, a),q=crsPt(75, a);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
+                elif to == "gate4": brg = "__mars._eval('(function(){var P=PDKS[4],p=pdkAt(P,6,0),q=pdkAt(P,P.u1+P.cmax,0);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 elif to == "grove": brg = "__mars._eval('(function(){var p=crsPt(47.8, 252*D2R),q=crsPt(38, 252*D2R);return Math.atan2(q.x-p.x,-(q.z-p.z))*180/Math.PI;})()')"
                 else: brg = "__mars.palBrg(%f, %f)" % to
                 path = await pg.evaluate("JSON.stringify(__mars.sim(%s, %f))" % (brg, secs))
@@ -68,6 +71,11 @@ async def main():
             st = await pg.evaluate("(function(){__mars.pod('board');__mars.pod('keys',[' ']);__mars.pod('run',3);__mars.pod('keys',[]);var up=__mars.pod('run',3);__mars.pod('land');var down=__mars.pod('run',20);return JSON.stringify([up,down]);})()")
             up, down = json.loads(st); ok = up["flying"] and up["alt"] > 15 and not down["flying"] and down.get("docked") and abs(down["px"] - down["x"]) + abs(down["pz"] - down["z"]) < 8
             print("%-30s %s   up %.1f m, landed at %.1f %.1f%s, out at %.1f %.1f" % ("fly the pod and land it", "PASS" if ok else "FAIL", up["alt"], down["x"], down["z"], " (docked)" if down.get("docked") else "", down["px"], down["pz"]))
+            failed += 0 if ok else 1
+            # a gate's pod: board gate 4's, climb, land: it docks at its gate again (or the next free one) and you step out
+            st = await pg.evaluate("(function(){__mars.pod('board',3);__mars.pod('keys',[' ']);__mars.pod('run',3);__mars.pod('keys',[]);var up=__mars.pod('run',3);__mars.pod('land');var down=__mars.pod('run',25);return JSON.stringify([up,down]);})()")
+            up, down = json.loads(st); ok = up["flying"] and up["alt"] > 15 and not down["flying"] and down.get("docked") and abs(down["px"] - down["x"]) + abs(down["pz"] - down["z"]) < 8
+            print("%-30s %s   up %.1f m, landed at %.1f %.1f%s, out at %.1f %.1f" % ("fly gate 4's pod and dock it", "PASS" if ok else "FAIL", up["alt"], down["x"], down["z"], " (docked)" if down.get("docked") else "", down["px"], down["pz"]))
             failed += 0 if ok else 1
             await b.close()
     finally:

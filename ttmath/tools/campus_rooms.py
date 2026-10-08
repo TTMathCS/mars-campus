@@ -16,7 +16,7 @@ each building's main floor."""
 # T15-05). Only the vehicles' ground stays outside: the rover test yard (T-13) and the pod pads (T-14).
 SEALED = dict(
     covers=["T04-01 Courtyard hall", "T09-01 Winter garden", "T06-15 Garden gallery", "T-09 Garden domes", "T-16 Sun court"],
-    airlocks=["T04-02 entrance", "T12-04 suit room", "T12-01 rover suitports", "T04-03 and T15-05 pod collars"],
+    airlocks=["T04-02 entrance", "T12-04 suit room", "T12-01 rover suitports", "T04-03 to T04-07 and T15-05 pod collars"],
     outside=["T-13 rover test yard", "T-14 pod pads"])
 
 # ------------------------------------------------------------------------------------------------- T-04 the courtyard, sealed
@@ -325,11 +325,40 @@ GARDEN_RING_AREAS = [
 # front; its height stays under the line of sight from the start
 # The dome stands 2.4 m into the Ring's front, so its glass lands on the Gate Hall's facade along an arch 13.7 m wide
 # (a dome only touching the Ring would leave the joint open); the airlock's inner end stands inside the dome's edge.
-ENTRANCE = dict(c=(0.0, 71.0), r=11.6, h=6.8, drum=3.0, airlock=dict(s0=81.6, s1=86.6, w=6.0, h=2.6))   # a glass drum 3 m tall, a cap to 6.8 m
+ENTRANCE = dict(c=(0.0, 71.0), r=11.6, h=6.8, drum=3.0, airlock=dict(s0=81.6, s1=86.6, w=6.0, h=2.6),   # a glass drum 3 m tall, a cap to 6.8 m
+                # inside (v0.37, with the pod gates): the paths from the airlock and the four gates meet in the middle; six
+                # young trees in planters between them (phi in degrees from the start's side toward the right, q from the
+                # centre); the campus's name on its stone wall at the back, facing the airlock, before the Gate Hall's door
+                trees=[(24.0, 7.0, "olive"), (-24.0, 7.0, "maple"), (74.0, 7.6, "kentia"), (-74.0, 7.6, "strelitzia"),
+                       (140.0, 8.2, "fig"), (-140.0, 8.2, "ficus")],
+                logo=dict(lat=0.0, rad=67.2),
+                # curved banquettes against the drum's curb, between the doorways, both sides: the middle of each run (phi)
+                # and its 1.6 m pieces; navy wool (seats while waiting for a pod or a ride)
+                benches=[(30.0, 2), (74.0, 3)])
 ENTRANCE_ROOMS = [
-    dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across: an upright glass drum 3 m tall on a stone curb, a shallow cap on a ring beam to 6.8 m, on a bronze lattice, its back on the Ring's front; the airlock comes in through a framed doorway in the drum: paving, the campus's name on a stone wall, planters with young trees, benches.", also="Arrivals and farewells, the graduation photo."),
+    dict(code="T04-01", name="Entrance dome", kind="move", use="The plaza in front of the Gate Hall under a glass dome 23 m across: an upright glass drum 3 m tall on a stone curb, a shallow cap on a ring beam to 6.8 m, on a bronze lattice, its back on the Ring's front; the airlock comes in through a framed doorway in the drum, and four pod gates open from it (T04-04 to T04-07): paving, the campus's name on a stone wall at the back facing the airlock, six young trees in planters between the paths.", also="Arrivals and farewells, by rover or by pod; the graduation photo."),
     dict(code="T04-02", name="Entrance airlock", kind="move", use="At the dome's front: outer and inner sliding glass doors with a chamber 5 m long between them, never open together; suit lockers and a bench.", also=""),
 ]
+
+# The pod gates (Jim, 8 Oct 2026: "I saw you moved the flying pod the pod lounge. it is OK to keep one over there. but we
+# need several pod lounge around the building, esp. several parking lots and connections at the entrance"). Four gates
+# round the entrance dome, like an airport's satellite: a doorway in the drum, framed in bronze like the airlock's, opens
+# onto a short glass landing over a round docking well 12 m across, sunk into the ground beside the dome so that a pod
+# floating in it has its canopy's sill level with the dome's floor (the well's floor `sill` m below the doorway). A pod
+# settles side-on into its well, canopy to the doorway; the collar runs out from the landing over its halo and seals,
+# and you step from the pod into the dome: no suit, never outside. Three pods wait at the gates; the fourth is kept free
+# for one coming in (LAND near a free gate and the pod docks there). The wells: basalt slabs with a ring of lights and the
+# halo's outline painted on them, a stone wall round them under a granite coping flush with the ground, amber marker lights
+# set in it (no rail: on the left it would show from the start), the dome's curb going down into them where they meet it. They stand clear of the way in (the front gates' wells 3.3 m either side of the airlock) and of the Ring's
+# front (the side gates' 2.6 m from it), 1 m apart. Numbered from the left: gate 1 on the left, 2 front left, 3 front
+# right, 4 on the right; gate 2 is the free one (a pod parked there would stand 0.1 m above the line of sight from the start). phi: the gate's direction from the dome's centre, in degrees from the
+# start's side toward the right (the dome's frame); q: the well's centre from the dome's centre.
+POD_GATES = dict(phi=[-98.0, -50.0, 50.0, 98.0], q=16.0, well_r=6.0, landing=0.5, spot=2.5, door_w=2.6, door_h=2.55,
+                 collar=1.25, sill=1.35, coping=0.0, parked=[0, 2, 3])
+POD_GATE_ROOMS = [dict(code="T04-%02d" % (4 + i), name="Pod gate %d" % (i + 1), kind="pad",
+                       use="%s: a doorway in the dome's drum onto a glass landing over a docking well 12 m across, its floor 1.35 m below the dome's floor; the collar runs out to the pod's canopy. %s"
+                           % (side, "A pod waits here." if i in POD_GATES["parked"] else "Kept free for a pod coming in."), also="")
+                  for i, side in enumerate(("On the dome's left, beside the Ring's front", "Front left, beside the airlock", "Front right, beside the airlock", "On the dome's right, beside the Ring's front"))]
 
 # ------------------------------------------------------------------------------------------------- T-07 Infinity Hall
 # A lecture theatre built into the slope like a Greek theatre: the stage at the low end, at the point of a fan, the rows
@@ -479,7 +508,7 @@ LINKS = [
 LINK_ROOMS = [dict(code=k["code"], name=k["name"], kind="move", use=k["use"], also="") for k in LINKS]
 
 BUILDINGS = [
-    dict(code="T-04", name="Entrance dome, airlock and pod dock", rooms=ENTRANCE_ROOMS + POD_DOCK_ROOMS, geo=ENTRANCE, page="ring.html"),
+    dict(code="T-04", name="Entrance dome, airlock, pod gates and pod dock", rooms=ENTRANCE_ROOMS + POD_GATE_ROOMS + POD_DOCK_ROOMS, geo=ENTRANCE, page="ring.html"),
     dict(code="T-06", name="The Ring", rooms=RING_ROOMS, geo=RING, page="ring.html"),
     dict(code="T-07", name="Infinity Hall", rooms=INFINITY_ROOMS, geo=INFINITY, page="infinity.html"),
     dict(code="T-08", name="Garden of Primes", rooms=GREENHOUSE_ROOMS, geo=GREENHOUSE, page="greenhouse.html"),

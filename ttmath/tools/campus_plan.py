@@ -164,6 +164,23 @@ def pod_dock_top(lat, rad):
     return 0.134 + D["deck_y"] + (R.POD["hover"] + R.POD["height"] if math.hypot(lat - sp[0], rad - sp[1]) < 3.4 else 0.2)
 
 
+def gate_c(gi):
+    PG, E = R.POD_GATES, R.ENTRANCE; ph = math.radians(PG["phi"][gi]); return (E["c"][0] + PG["q"] * math.sin(ph), E["c"][1] + PG["q"] * math.cos(ph))
+
+
+def pod_gate_top(lat, rad):
+    """a pod gate's well: its floor `sill` below the dome's floor at the doorway, a pod floating at its docking spot"""
+    PG, E = R.POD_GATES, R.ENTRANCE; A = E["airlock"]; yA = max(0.134, ground_at(0, A["s1"] + 0.6))
+    for gi, phd in enumerate(PG["phi"]):
+        c = gate_c(gi)
+        if math.hypot(lat - c[0], rad - c[1]) > PG["well_r"]: continue
+        ph = math.radians(phd); door_rad = E["c"][1] + E["r"] * math.cos(ph)
+        yB = 0.134 + (yA - 0.134) * min(1.0, max(0.0, (door_rad - 63.5) / (A["s0"] - 63.5))); yD = yB - PG["sill"]
+        qs = E["r"] + 0.18 + PG["landing"] + PG["spot"]; sp = (E["c"][0] + qs * math.sin(ph), E["c"][1] + qs * math.cos(ph))
+        return yD + R.POD["hover"] + R.POD["height"] if gi in PG["parked"] and math.hypot(lat - sp[0], rad - sp[1]) < 3.4 else 0.134 + ground_at(lat, rad) + PG["coping"]
+    return 0.134 + ground_at(lat, rad)
+
+
 def link_shape(L):
     (la, ra), (lb, rb) = L["a"], L["b"]; ux, uy = lb - la, rb - ra; n = math.hypot(ux, uy) or 1
     vx, vy = -uy / n * (L["w"] / 2 + 0.4), ux / n * (L["w"] / 2 + 0.4)                       # the clear width and the walls
@@ -178,6 +195,10 @@ NEW = [
          use="Outer and inner sliding glass doors with a chamber between them, never open together.", look="A glass box under a glass roof."),
     dict(code="T04-03", name="Pod dock", short="Pod dock", shape=circle(R.POD_DOCK["r"] * math.sin(math.radians(R.POD_DOCK["a"])), -R.POD_DOCK["r"] * math.cos(math.radians(R.POD_DOCK["a"])), R.POD_DOCK["deck_r"]), h=1.2, hprof=rel(pod_dock_top), h_note="the deck 1.35 m below the upper floor; a pod floating at its docking spot, 1.1 m above the upper floor", area=0, ground=True, label_dy=4,
          use="A round deck off the Ring's right side, 1.35 m below the upper floor: a pod settles side-on onto its docking spot with its canopy's sill level with the glass bridge, the collar runs out over its halo to the canopy, and you walk straight into the Ring.", look="A dark deck of basalt slabs with a ring of lights, just clear of the ground on short steel legs; the glass bridge on dark steel frames."),
+    *[dict(code="T04-%02d" % (4 + gi), name="Pod gate %d" % (gi + 1), short="Gate %d" % (gi + 1), shape=circle(*gate_c(gi), R.POD_GATES["well_r"]), h=1.2, hprof=rel(pod_gate_top),
+           h_note="a docking well 12 m across sunk into the ground beside the entrance dome; a pod floating in it stands about 1 m above the dome's floor", area=0, ground=True, flush=True, label_dy=0, nolabel=True,
+           use="One of four gates round the entrance dome: a doorway in its drum onto a glass landing over a round docking well; a pod settles side-on into the well with its canopy's sill level with the dome's floor, the collar runs out to its canopy, and you step into the dome." + (" A pod waits here." if gi in R.POD_GATES["parked"] else " Kept free for a pod coming in."),
+           look="A well of dark basalt slabs with a ring of lights and the halo's outline painted on its floor, a stone wall round it under a granite coping flush with the ground, amber marker lights in it; the landing glazed on dark steel frames.") for gi in range(4)],
     dict(code="T-06", name="The Ring", shapes=[ring_band(sc["a"][0], sc["a"][1]) for sc in R.RING["sections"]], shape=ring_band(-57, 120), h=6.0, hprof=rel(ring_top), h_note="two storeys behind and beside the dome, one at the front right, sunk into the slope on the left front", area=8300, floors=2, label_at=(54.0 * math.sin(math.radians(75)), -54.0 * math.cos(math.radians(75))),
          use="The whole school in one ring round the Math Palace, like Apple Park but sealed and set into the slope: 13 classrooms and labs named after mathematicians, the library, the café, the dining hall, the assembly hall, the Gate Hall, the art and music rooms, life support; the corridor on the lower floor goes all the way round.",
          look="White fibre-composite and glass, a thin white roof edge round the whole ring, glass onto the garden ring inside and the plain outside."),
@@ -247,7 +268,7 @@ def check(b):
     grid = [(x, y) for x in np.arange(min(lats), max(lats), step) for y in np.arange(min(rads), max(rads), step) if inside(pts, x, y)]
     for (lat, rad) in pts + grid:
         h, g = at(lat, rad)
-        if h is not None: res.append((h - hp(lat, rad), g))
+        if h is not None and not (b.get("flush") and hp(lat, rad) < 0.14): res.append((h - hp(lat, rad), g))   # flush with the ground: nothing to hide
     if not res: return None, None
     return min(m for m, g in res), sum(g for m, g in res) / len(res)
 

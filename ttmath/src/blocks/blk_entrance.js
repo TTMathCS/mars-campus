@@ -17,6 +17,7 @@
     var h2 = E.h - (yA - PALY.B), hd = E.drum, hc = h2 - hd;
     ENT = { c: { lat: E.c[0], rad: E.c[1] }, a: a, h: h2, hd: hd, rho: (a * a + hc * hc) / (2 * hc), y: PALY.B, yA: yA, yb: yA, s0: A.s0, s1: A.s1, hw: A.w / 2, ah: A.h, rLow: 63.5 };
     ENT.phiP = Math.asin((ENT.hw + 0.12) / a);                                          // the airlock's doorway in the drum: phi within this
+    ENT.phiG = P2.pod_gates ? Math.asin((P2.pod_gates.door_w / 2 + 0.12) / a) : 0;     // each pod gate's doorway, round its phi
     return ENT;
   }
   function entFloor(rad) { return ENT.y + (ENT.yA - ENT.y) * clamp((rad - ENT.rLow) / (ENT.s0 - ENT.rLow), 0, 1); }
@@ -27,6 +28,17 @@
     var R1 = CRS.r1 + 0.1, cu = ENT.c.lat * Math.sin(phi) + ENT.c.rad * Math.cos(phi), cc = ENT.c.lat * ENT.c.lat + ENT.c.rad * ENT.c.rad, disc = cu * cu - (cc - R1 * R1);
     if (cu >= 0 || disc <= 0) return ENT.a;
     var qh = -cu - Math.sqrt(disc); return qh > 0 ? Math.min(ENT.a, qh) : ENT.a;
+  }
+  // in a doorway through the drum (phi in radians, pad widens it): the airlock's, or one of the pod gates' (P2.pod_gates)
+  function entDoorway(phi, pad) {
+    var p = pad || 0, ph = Math.atan2(Math.sin(phi), Math.cos(phi)); if (Math.abs(ph) < ENT.phiP + p) return true;
+    var G = P2.pod_gates; if (!G) return false;
+    for (var i = 0; i < G.phi.length; i++) { var d = Math.atan2(Math.sin(phi - G.phi[i] * D2R), Math.cos(phi - G.phi[i] * D2R)); if (Math.abs(d) < ENT.phiG + p) return true; }
+    return false;
+  }
+  function entBenchAt(phi) {
+    var ph = Math.atan2(Math.sin(phi), Math.cos(phi)) * R2D;
+    return (P2.entrance.benches || []).some(function (bn) { var half = bn[1] * 1.64 / 2 / (ENT.a - 0.44) * R2D + 2; return Math.abs(Math.abs(ph) - bn[0]) < half; });
   }
   function inAirlockBox(lat, rad, pad) { return Math.abs(lat) < ENT.hw + (pad || 0) && rad > ENT.s0 - (pad || 0) && rad < ENT.s1 + (pad || 0); }
   // sliding glass doors across the axis at rad s, facing the start; opened by the frame loop
@@ -57,7 +69,7 @@
     B.surf(NP, NQ, function (i, j, q) { var phi = i / NP * 2 * Math.PI, qq = (entReach(phi) - 0.06) * j / NQ, o = entPt(qq, phi), p = palXZ(o.lat, o.rad); q.p[0] = p.x; q.p[1] = entFloor(o.rad); q.p[2] = p.z; q.nn = [0, 1, 0]; q.f[0] = o.lat; q.f[1] = o.rad; q.f2[0] = 0; q.f2[1] = 0; q.m = MT.PAVE; }, true);
     // the curb the glass stands on, out of the ground, where the dome stands clear of the Ring and the airlock
     var runs = [], cur = null, nc = 160;
-    for (var ic = 0; ic <= nc; ic++) { var phc = ic / nc * 2 * Math.PI, oc = entPt(E.a, phc), ok = entReach(phc) > E.a - 0.01 && Math.abs(Math.atan2(Math.sin(phc), Math.cos(phc))) > E.phiP; if (ok) { if (!cur) { cur = []; runs.push(cur); } cur.push(phc); } else cur = null; }
+    for (var ic = 0; ic <= nc; ic++) { var phc = ic / nc * 2 * Math.PI, oc = entPt(E.a, phc), ok = entReach(phc) > E.a - 0.01 && !entDoorway(phc); if (ok) { if (!cur) { cur = []; runs.push(cur); } cur.push(phc); } else cur = null; }
     runs.forEach(function (rn) {
       if (rn.length < 2) return; var n = rn.length - 1;
       B.surf(n, 1, function (i, j, q) { var phi = rn[i], o = entPt(E.a + 0.18, phi), p = palXZ(o.lat, o.rad), g = cgH(p.x, p.z), yy = j ? E.yb + 0.32 : Math.min(g, entFloor(o.rad)) - 0.4; q.p[0] = p.x; q.p[1] = yy; q.p[2] = p.z; q.nn = [Math.sin(phi) * PAL.Rt.x + Math.cos(phi) * PAL.F.x, 0, Math.sin(phi) * PAL.Rt.z + Math.cos(phi) * PAL.F.z]; q.f[0] = phi * E.a; q.f[1] = yy; q.f2[0] = yy - g; q.m = MT.CONCRETE; });
@@ -76,7 +88,7 @@
     })(i, j);
     // the drum's runs: every quarter degree, where the dome stands clear of the Ring's front, less the doorway
     var drum = [], run2 = null;
-    for (var k5 = 0; k5 <= 1440; k5++) { var ph5 = E.phiP + (2 * Math.PI - 2 * E.phiP) * k5 / 1440; if (entReach(ph5) > E.a - 0.01) { if (!run2) { run2 = []; drum.push(run2); } run2.push(ph5); } else run2 = null; }
+    for (var k5 = 0; k5 <= 1440; k5++) { var ph5 = E.phiP + (2 * Math.PI - 2 * E.phiP) * k5 / 1440; if (entReach(ph5) > E.a - 0.01 && !entDoorway(ph5)) { if (!run2) { run2 = []; drum.push(run2); } run2.push(ph5); } else run2 = null; }
     drum.forEach(function (rn) {
       if (rn.length < 2) return; var n = rn.length - 1;
       ENT_GLASS.surf(n, 1, function (u, v, q) { var phi = rn[u], P = W(E.a, phi, v ? yDt - 0.06 : yDb); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z; q.nn = out(phi); q.f[0] = phi * E.a; q.f[1] = P.y; q.f2[0] = P.y - yDb; q.f2[1] = 1; q.m = 0; });
@@ -88,13 +100,24 @@
     [1, -1].forEach(function (sd) { B.surf(16, 1, function (u, v, q) { var phi = pd[u], P = W(E.a + sd * 0.07, phi, v ? yDt : E.yA + E.ah - 0.06), nn = out(phi); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z; q.nn = [nn[0] * sd, 0, nn[2] * sd]; q.f[0] = phi * E.a; q.f[1] = P.y; q.f2[0] = 3; q.m = MT.ANOD; }); });
     [-E.phiP, E.phiP].forEach(function (pj) { var jb = new Builder(), Pj = W(E.a, pj, 0), nn = out(pj), M = new THREE.Matrix4().makeBasis(new THREE.Vector3(nn[2], 0, -nn[0]), new THREE.Vector3(0, 1, 0), new THREE.Vector3(nn[0], 0, nn[2])).setPosition(Pj.x, E.yA - 0.05, Pj.z);
       jb.box(-0.1, 0, -0.1, 0.1, yDt - E.yA + 0.05, 0.1, MT.ANOD); jb.tag(0, 3, null); B.add(jb, M); });
+    // the pod gates' doorways (blk_poddock.js builds their landings and wells): bronze jambs from the floor to the ring beam
+    // over the curb's cut ends, the beam across, a fascia down to the landing's glass roof, the gate's number on it inside
+    if (P2.pod_gates) P2.pod_gates.phi.forEach(function (phd, gi) {
+      var ph = phd * D, yF = entFloor(entPt(E.a, ph).rad), yTop = yF + P2.pod_gates.door_h + 0.06, pg = [];
+      for (var k7 = 0; k7 <= 8; k7++) pg.push(lerp(ph - E.phiG, ph + E.phiG, k7 / 8));
+      tubeAlong(B, pg.map(function (p) { return W(E.a, p, yDt); }), 0.09, 8, MT.RIB);
+      [1, -1].forEach(function (sd) { B.surf(8, 1, function (u, v, q) { var p = pg[u], P = W(E.a + sd * 0.07, p, v ? yDt : yTop), nn = out(p); q.p[0] = P.x; q.p[1] = P.y; q.p[2] = P.z; q.nn = [nn[0] * sd, 0, nn[2] * sd]; q.f[0] = p * E.a; q.f[1] = P.y; q.f2[0] = 3; q.m = MT.ANOD; }); });
+      [ph - E.phiG, ph + E.phiG].forEach(function (pj) { var jb = new Builder(), Pj = W(E.a, pj, 0), nn = out(pj), M = new THREE.Matrix4().makeBasis(new THREE.Vector3(nn[2], 0, -nn[0]), new THREE.Vector3(0, 1, 0), new THREE.Vector3(nn[0], 0, nn[2])).setPosition(Pj.x, yF - 0.05, Pj.z);
+        jb.box(-0.1, 0, -0.14, 0.1, yDt - yF + 0.05, 0.2, MT.ANOD); jb.tag(0, 3, null); B.add(jb, M); });
+      gateSign(gi, ph, yTop, yDt);
+    });
     // the lattice: meridian ribs every 10 degrees from the crown ring down to the ring beam (or to the Gate Hall's facade),
     // rings round the cap, mullions down the drum under each rib
     for (var m = 0; m < 36; m++) {
       var phi = m * 10 * D, qm = Math.min(E.a, entReach(phi)), pts = [];
       for (var k = 0; k <= 20; k++) { var qq = lerp(1.2, qm, k / 20); pts.push(W(qq, phi, entTop(qq) - 0.04)); }
       tubeAlong(B, pts, 0.055, 6, MT.RIB);
-      if (entReach(phi) > E.a - 0.01 && Math.abs(Math.atan2(Math.sin(phi), Math.cos(phi))) > E.phiP + 0.01) tubeAlong(B, [W(E.a, phi, yDb), W(E.a, phi, yDt)], 0.05, 6, MT.RIB);
+      if (entReach(phi) > E.a - 0.01 && !entDoorway(phi, 0.01)) tubeAlong(B, [W(E.a, phi, yDb), W(E.a, phi, yDt)], 0.05, 6, MT.RIB);
     }
     [1.2, 4.0, 6.6, 8.8, 10.5].forEach(function (qr) {
       var run = [];
@@ -116,16 +139,46 @@
     ENT.inner = entDoor(B, s0); ENT.outer = entDoor(B, s1, ENT.inner); ENT.inner.lock = ENT.outer;
     var lp = palXZ(0, (s0 + s1) / 2); extLight(lp.x, ya + ah - 0.15, lp.z, WARMC, 1.4, 6, [0, -1, 0], 1);
     // the campus's name on a curved stone wall by the path, young trees in planters, benches, light
-    var lc = palXZ(-5.6, 75.5); logoWall(B, lc, entFloor(75.5), Math.atan2(PAL.F.x, PAL.F.z) + 0.55);
-    ENT.posts = [{ x: lc.x, z: lc.z, r: 2.6 }];
+    // (v0.37, with the pod gates) the paths from the airlock and the four gates meet in the middle; the wall stands at the
+    // back facing the airlock, before the Gate Hall's door, and the six trees between the paths (P2.entrance)
+    var LG = P2.entrance.logo, lc = palXZ(LG.lat, LG.rad); logoWall(B, lc, entFloor(LG.rad), Math.atan2(PAL.F.x, PAL.F.z));
+    ENT.posts = [-1.6, 0, 1.6].map(function (s) { var p = palXZ(LG.lat + s, LG.rad); return { x: p.x, z: p.z, r: 0.95 }; });
     var R2 = mulberry(9090);
-    [[6.2, 69.0, "olive"], [-6.6, 68.6, "maple"], [7.4, 76.5, "kentia"], [5.4, 64.4, "strelitzia"], [-4.6, 64.0, "fig"]].forEach(function (t, n) {
+    P2.entrance.trees.map(function (t) { var o = entPt(t[1], t[0] * D); return [o.lat, o.rad, t[2]]; }).forEach(function (t, n) {
       var c = palXZ(t[0], t[1]), rr = 1.0, y = entFloor(t[1]); latheOn(B, c.x, y, c.z, [[rr, 0], [rr, 0.55], [rr + 0.05, 0.6], [rr - 0.08, 0.62], [rr - 0.08, 0.54], [0, 0.54]], 32, MT.CONCRETE, 0.4);
       B.geo(new THREE.CylinderGeometry(rr - 0.1, rr - 0.1, 0.02, 32), T(c.x, y + 0.54, c.z), MT.RUBBER, 1); bedPlant(B, t[2], 800 + n, T(c.x, y, c.z, 0, R2() * 6.28, 0), 0.55, 1.9);
       ENT.posts.push({ x: c.x, z: c.z, r: rr + 0.3 }); extLight(c.x, y + 0.7, c.z, WARMC, 0.9, 5, [0, 1, 0], 1.6);
     });
-    for (var k4 = 0; k4 < 12; k4++) { var ph4 = (k4 + 0.5) / 12 * 2 * Math.PI, q4 = entReach(ph4) - 0.5; if (q4 < E.a - 0.6) continue; var o4 = entPt(q4, ph4); if (inAirlockBox(o4.lat, o4.rad, 0.8)) continue; var p4 = palXZ(o4.lat, o4.rad);
+    // curved banquettes in navy wool against the drum's curb between the doorways (P2.entrance.benches), seats while
+    // waiting for a pod or a ride: straight 1.6 m pieces round the curve, their backs leaning on the curb
+    (P2.entrance.benches || []).forEach(function (bn) { [-1, 1].forEach(function (sd) {
+      for (var k6 = 0; k6 < bn[1]; k6++) {
+        var pB = sd * bn[0] * D + (k6 - (bn[1] - 1) / 2) * 1.64 / (E.a - 0.44) * sd;
+        var o6 = entPt(E.a - 0.44, pB), p6 = palXZ(o6.lat, o6.rad), nn = out(pB), M6 = new THREE.Matrix4().makeBasis(new THREE.Vector3(nn[2], 0, -nn[0]), new THREE.Vector3(0, 1, 0), new THREE.Vector3(nn[0], 0, nn[2])).setPosition(p6.x, entFloor(o6.rad), p6.z);
+        var fb6 = banquette(1.6, 1); B.add(fb6, M6); contactShadow(fb6, M6);
+        [-0.4, 0.4].forEach(function (s6) { var q6 = entPt(E.a - 0.5, pB + s6 / (E.a - 0.5)), c6 = palXZ(q6.lat, q6.rad); ENT.posts.push({ x: c6.x, z: c6.z, r: 0.5 }); });
+      }
+    }); });
+    for (var k4 = 0; k4 < 12; k4++) { var ph4 = (k4 + 0.5) / 12 * 2 * Math.PI, q4 = entReach(ph4) - 0.5; if (q4 < E.a - 0.6 || entDoorway(ph4, 0.2) || entBenchAt(ph4)) continue; var o4 = entPt(q4, ph4); if (inAirlockBox(o4.lat, o4.rad, 0.8)) continue; var p4 = palXZ(o4.lat, o4.rad);
       var y4 = entFloor(o4.rad); B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p4.x, y4 + 0.03, p4.z), MT.LIGHT, 1); extLight(p4.x, y4 + 0.2, p4.z, WARMC, 1.2, 8, [0, 0.9, 0], 2); }
+  }
+  // the gates' numbers over their doorways, inside: a dark plate with an amber edge and white letters, like the Ring's signs
+  var GATE_SIGN_MAT = null;
+  function gateSign(gi, ph, y0, y1) {
+    var G = P2.pod_gates, n = G.phi.length, E = ENT;
+    if (!GATE_SIGN_MAT) {
+      var cv = mkCanvas(512, 128 * n), g = cv.getContext("2d");
+      for (var i = 0; i < n; i++) { var y = i * 128; g.fillStyle = "#23272c"; g.fillRect(0, y, 512, 128); g.fillStyle = "#e8b04a"; g.fillRect(0, y, 10, 128);
+        g.fillStyle = "#ffffff"; g.font = "700 66px " + SANS; g.textBaseline = "middle"; g.textAlign = "left"; g.fillText("Gate " + (i + 1), 42, y + 66);
+        g.fillStyle = "#c9ced4"; g.font = "500 34px " + SANS; g.textAlign = "right"; g.fillText(G.parked.indexOf(i) >= 0 ? "Pod" : "Arrivals", 486, y + 68); }
+      GATE_SIGN_MAT = new THREE.ShaderMaterial({ uniforms: { map: { value: new THREE.CanvasTexture(cv) }, uExposure: U.uExposure, uBright: { value: 1.0 } }, vertexShader: BOARD_VS, fragmentShader: BOARD_FS });
+    }
+    // seen from inside, facing out through the doorway, increasing phi is on the left
+    var w = 1.2 / E.a, hh = Math.min(0.32, y1 - y0 - 0.12), yc = (y0 + y1) / 2, qs = E.a - 0.08, vA = 1 - (gi + 1) / n, vB = 1 - gi / n, pos = [], uvs = [];
+    [[ph + w / 2, yc - hh / 2, 0, vA], [ph - w / 2, yc - hh / 2, 1, vA], [ph - w / 2, yc + hh / 2, 1, vB], [ph + w / 2, yc + hh / 2, 0, vB]].forEach(function (c) {
+      var o = entPt(qs, c[0]), p = palXZ(o.lat, o.rad); pos.push(p.x, c[1], p.z); uvs.push(c[2], c[3]); });
+    var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setIndex([0, 1, 2, 0, 2, 3, 0, 2, 1, 0, 3, 2]);
+    var m = new THREE.Mesh(geo, GATE_SIGN_MAT); m.matrixAutoUpdate = false; scene.add(m);
   }
   // a curved stone wall with a brushed-steel face and the backlit logo, like the one by the path at the start
   function logoWall(B, c, g, yaw) {

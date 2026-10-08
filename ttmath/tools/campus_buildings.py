@@ -254,10 +254,26 @@ def ring():
                     d.poly(ring_band_pts(rS - SK["l"] / 2, rS + SK["l"] / 2, am - hw, am + hw), "#D6E6EF", "#7C9AAA", 0.6)
             d.note(*polar(54, 230), "the lower floor's roof at ground level, skylights", 9, 400, INK2, rot=upright(230))
             d.poly(ring_band_pts(GL["r0"], GL["r1"], GL["a"][0], GL["a"][1]), "none", "#8A847A", 0.8, "5 4"); d.note(*polar(65.3, 20), "garden gallery's glass roof, below", 8.5, 400, INK2, rot=upright(20))
+            # the pod gates round the entrance dome (drawn first: the dome's floor covers where a well meets its curb): the
+            # well, the landing from the doorway in the drum, a pod in its docking spot side-on, canopy to the dome
+            PG = R.POD_GATES
+            for gi, ph in enumerate(PG["phi"]):
+                dx, dy = math.sin(ph * D2R), math.cos(ph * D2R); tx, ty = dy, -dx
+                wc = (EN["c"][0] + dx * PG["q"], EN["c"][1] + dy * PG["q"])
+                d.room("T04-%02d" % (4 + gi), circle(wc, PG["well_r"]), "pad", None, at=(wc[0] + dx * 3.6, wc[1] + dy * 3.6), size=9)
+                d.circ(wc, PG["well_r"] - 0.5, "none", "#F2C14E", 1.0)
+                q0, q1 = EN["r"] - 0.2, EN["r"] + 0.18 + PG["landing"]; hw = PG["door_w"] / 2
+                d.poly([(EN["c"][0] + dx * q0 + tx * hw, EN["c"][1] + dy * q0 + ty * hw), (EN["c"][0] + dx * q1 + tx * hw, EN["c"][1] + dy * q1 + ty * hw),
+                        (EN["c"][0] + dx * q1 - tx * hw, EN["c"][1] + dy * q1 - ty * hw), (EN["c"][0] + dx * q0 - tx * hw, EN["c"][1] + dy * q0 - ty * hw)], "#E6F0F4", GLASS, 1.2)
+                if gi in PG["parked"]:
+                    qs = q1 + PG["spot"]; sc = (EN["c"][0] + dx * qs, EN["c"][1] + dy * qs)
+                    d.poly([(sc[0] + tx * 2.8 + dx * 1.15, sc[1] + ty * 2.8 + dy * 1.15), (sc[0] - tx * 2.8 + dx * 1.15, sc[1] - ty * 2.8 + dy * 1.15),
+                            (sc[0] - tx * 2.8 - dx * 1.15, sc[1] - ty * 2.8 - dy * 1.15), (sc[0] + tx * 2.8 - dx * 1.15, sc[1] + ty * 2.8 - dy * 1.15)], "#FFFFFF", "#2B2926", 1.0)
+                d.note(wc[0] + dx * 8.4, wc[1] + dy * 8.4, "gate %d" % (gi + 1), 9, 700, INK)
             # the entrance: the dome over the plaza, the airlock at its front, the Gate Hall behind
             d.circ(EN["c"], EN["r"], "#E6F0F4", "#3E86B8", 1.6); A = EN["airlock"]
             d.room("T04-02", box(-A["w"] / 2, A["s0"], A["w"] / 2, A["s1"]), "move", "airlock", room_w=A["w"], size=9)
-            d.note(EN["c"][0], EN["c"][1] + 3.5, "T04-01 entrance dome", 10.5, 700, "#2A6E8E"); d.note(EN["c"][0], EN["c"][1] + 6.0, "glass dome 23 m across, 6.8 m high on a 3 m glass drum", 8.5, 400, INK2)
+            d.note(EN["c"][0], EN["c"][1] + 0.6, "T04-01 entrance dome", 10.5, 700, "#2A6E8E"); d.note(EN["c"][0], EN["c"][1] + 3.0, "glass dome 23 m across,", 8.5, 400, INK2); d.note(EN["c"][0], EN["c"][1] + 4.9, "6.8 m high on a 3 m drum", 8.5, 400, INK2)
             d.arrow((0, A["s1"] + 6.0), (0, A["s1"] + 0.4), "in from the start", RED, 9.5)
             for yy in (A["s0"], A["s1"]): d.line([(-1.3, yy), (1.3, yy)], PAPER, 3.6)
             d.line([(-1.3, 62.0), (1.3, 62.0)], PAPER, 3.6); d.line([(-1.3, 46.0), (1.3, 46.0)], PAPER, 3.6)
@@ -758,7 +774,7 @@ def ring_corridors():
 
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
 SPECS = [
-    ("ring.html", "T-06 · The Ring", RING_LEDE, ring, R.RING_ROOMS + R.ENTRANCE_ROOMS + R.POD_DOCK_ROOMS, RING_MORE + ring_corridors()),
+    ("ring.html", "T-06 · The Ring", RING_LEDE, ring, R.RING_ROOMS + R.ENTRANCE_ROOMS + R.POD_GATE_ROOMS + R.POD_DOCK_ROOMS, RING_MORE + ring_corridors()),
     ("infinity.html", "T-07 · Infinity Hall", "A lecture theatre for 240 on the west side of the garden domes, built into the slope like a Greek theatre; in from the upper garden dome by a link.", infinity, R.INFINITY_ROOMS, ""),
     ("greenhouse.html", "T-08 · Garden of Primes", "Two glass vaults full of real plants on the east side of the garden domes, joined to them by a link.", greenhouse, R.GREENHOUSE_ROOMS, ""),
     ("garden.html", "T-09 · The garden ring and the garden domes", "The garden all under glass: the garden ring all the way round the dome (with the sunken grove on the left and the armillary sundial at the front right), the garden gallery along the Ring, three glass domes stepping down the hill to the observatory.", garden, R.GARDEN_RING_AREAS + [x for x in R.GARDEN_AREAS if x["code"] != "T09-01"] + R.SUNCOURT_ROOMS, SEALED_MORE),
@@ -777,7 +793,7 @@ if __name__ == "__main__":
     schedule_page()
     contests_page()
     missing = [r["code"] for b in SPECS for r in b[4] if r["code"] not in AREAS]
-    indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T14", "T04-03")) and c not in ("T07-05", "T11-03"))
+    indoor = sum(a for c, a in AREAS.items() if not c.startswith(("T14", "T04-03", "T04-04", "T04-05", "T04-06", "T04-07")) and c not in ("T07-05", "T11-03"))
     print("building pages written:", len(SPECS), "; rooms", sum(len(s[4]) for s in SPECS), "; indoor floor area about", round(indoor), "m2; no size for", missing)
     os.makedirs(os.path.join(HERE, "data"), exist_ok=True)
     json.dump({k: round(v, 1) for k, v in sorted(AREAS.items())}, open(os.path.join(HERE, "data", "room_areas.json"), "w"), indent=0)
@@ -787,7 +803,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_gates": R.POD_GATES, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

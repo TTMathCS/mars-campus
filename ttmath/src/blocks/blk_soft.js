@@ -33,6 +33,16 @@
     });
     if (col !== undefined && col !== null) b.tag(n0, col, gy === undefined ? null : gy);
   }
+  // (v0.53) piping: the corded seam round a cushion's top, along its front and down its sides to the back, where its
+  // rounded edge (radius r) meets the top; same cloth (Jim, 8 Oct 2026: "... like the edge of furnitures/book shelves/sofa")
+  function piping(b, x0, x1, zf, zb, yTop, r, mat, col, gy) {
+    var e = r * (1 - Math.SQRT1_2), rr = r - e, pts = [], y = yTop - e, k;
+    pts.push(new THREE.Vector3(x0 + e, y, zb));
+    for (k = 0; k <= 4; k++) { var a = Math.PI + k / 4 * Math.PI / 2; pts.push(new THREE.Vector3(x0 + r + Math.cos(a) * rr, y, zf + r + Math.sin(a) * rr)); }
+    for (k = 0; k <= 4; k++) { var a2 = 1.5 * Math.PI + k / 4 * Math.PI / 2; pts.push(new THREE.Vector3(x1 - r + Math.cos(a2) * rr, y, zf + r + Math.sin(a2) * rr)); }
+    pts.push(new THREE.Vector3(x1 - e, y, zb));
+    var n0 = b.count(); tubeAlong(b, pts, 0.0055, 6, mat); if (col !== undefined && col !== null) b.tag(n0, col, gy === undefined ? null : gy);
+  }
   function softM(x, y, z, rx, ry) { return new THREE.Matrix4().makeTranslation(x, y, z).multiply(new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(rx || 0, ry || 0, 0, "YXZ"))); }
   function taperLeg(b, x, z, h, rTop, rBot, mat, gy) { var n0 = b.count(); latheOn(b, x, 0, z, [[0.0, 0.0], [rBot, 0.0], [rTop, h], [0.0, h]], 12, mat); if (gy !== undefined) b.tag(n0, null, gy); }
   // a throw pillow: thin at its seams, plump in the middle (t), leaning back (rx) and turned (ry)
@@ -53,6 +63,7 @@
     for (var k = 0; k < n; k++) {
       var xa = -L + aw + k * cw + 0.008, xb = xa + cw - 0.016, t = new Builder();
       softBox(b, xa, H + 0.19, d0 + 0.02, xb, H + 0.34, d1 - 0.2, 0.06, MT.FABRIC, col, { py: 0.024 }, gy);
+      piping(b, xa, xb, d0 + 0.02, d1 - 0.26, H + 0.34, 0.06, MT.FABRIC, col, gy);
       softBox(t, xa - (xa + xb) / 2, -0.21, -0.1, xb - (xa + xb) / 2, 0.21, 0.1, 0.05, MT.FABRIC, col, { nz: 0.04, pz: 0.01 }, gy);
       b.add(t, softM((xa + xb) / 2, H + 0.6, d1 - 0.3, 0.16, 0));
     }
@@ -69,6 +80,7 @@
     [-1, 1].forEach(function (s) { softBox(b, s > 0 ? w - 0.14 : -w, H, -0.43, s > 0 ? w : -w + 0.14, 0.64, 0.43, 0.065, MT.LEATHER, 2, { py: 0.01 }); });
     var t = new Builder(); softBox(t, -w + 0.13, -0.28, -0.09, w - 0.13, 0.28, 0.09, 0.07, MT.LEATHER, 2, { nz: 0.025 }); b.add(t, softM(0, 0.64, 0.3, 0.14, 0));
     softBox(b, -w + 0.14, H + 0.18, -0.41, w - 0.14, H + 0.33, 0.2, 0.06, MT.LEATHER, 2, { py: 0.022 });
+    piping(b, -w + 0.14, w - 0.14, -0.41, 0.12, H + 0.33, 0.06, MT.LEATHER, 2);
   }); }
   // an ottoman to put your feet up: a stuffed drum-like box on short legs
   function ottoman(w, d, col) { return furn("otto" + w + "_" + d + "_" + col, function (b) {
@@ -141,6 +153,7 @@
     for (var k = 0; k < n; k++) {
       var xa = -L + k * cw + 0.006, xb = xa + cw - 0.012, t = new Builder();
       softBox(b, xa, 0.29, -0.32, xb, 0.45, 0.2, 0.05, MT.FABRIC, col, { py: 0.022 }, gy);
+      piping(b, xa, xb, -0.32, 0.14, 0.45, 0.05, MT.FABRIC, col, gy);
       softBox(t, -(xb - xa) / 2, -0.24, -0.08, (xb - xa) / 2, 0.24, 0.08, 0.05, MT.FABRIC, col, { nz: 0.035 }, gy); b.add(t, softM((xa + xb) / 2, 0.72, 0.23, 0.12, 0));
     }
     var ac = SOFA_ACCENT[col] || [6, 9];

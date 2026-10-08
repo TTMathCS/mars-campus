@@ -774,7 +774,9 @@ def ring_corridors():
             % "; ".join("<b>%s</b> at %g° (%s, %s)" % (E(c["title"]), c["a"], E(c["by"]), E(c["note"])) for c in R.RING_CASES)
             + "<p>Safety, as in every real corridor: a fire extinguisher in a stainless cabinet with a glass door and a red sign over it at boundaries between "
               "rooms, never more than about %g m apart, on both floors, a red call point beside each stair door, and on the ceilings a smoke detector every %g m and a sprinkler head every %g m.</p>"
-            % (R.RING_SAFETY["extinguisher"]["spacing"], R.RING_SAFETY["smoke"], R.RING_SAFETY["sprinkler"]))
+            % (R.RING_SAFETY["extinguisher"]["spacing"], R.RING_SAFETY["smoke"], R.RING_SAFETY["sprinkler"])
+            + "<p>Upstairs, along the garden glass, a long backless bench in cognac leather on an oak frame faces the garden between each two doors onto it (v0.46), at %s°, "
+              "a plant beside every other one.</p>" % ", ".join("%g" % x["a"] for x in R.RING_SEATS))
 
 
 CRESCENT_MORE = """<p>Big rooms with high ceilings (Jim, 5 Oct 2026: <i>"class rooms are all too small and roof are too low. feels depressed"</i>): each classroom about 17 m by 12 m under a ceiling 4.5 m high; the floors 5.6 m apart; the hall two storeys tall.</p>"""
@@ -808,7 +810,7 @@ if __name__ == "__main__":
             "infinity": R.INFINITY, "greenhouse": R.GREENHOUSE, "garden": R.GARDEN, "observatory": R.OBSERVATORY, "sports": R.SPORTS, "hangar": R.HANGAR,
             "podport": R.PODPORT, "terminal": R.TERMINAL, "suncourt": R.SUNCOURT, "courtyard": R.COURTYARD, "gallery": R.GALLERY, "winter": R.WINTER,
             "links": R.LINKS, "pod": R.POD,
-            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, cases=R.RING_CASES, safety=R.RING_SAFETY, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_gates": R.POD_GATES, "pod_dock": R.POD_DOCK,
+            "ring": dict(R.RING, rooms=[dict({k: v for k, v in r.items() if k in keep}, plants=R.RING_PLANTS.get(r["code"], [])) for r in R.RING_ROOMS], signs=R.RING_SIGNS, art=R.RING_ART, boards=R.RING_BOARDS, fountains=R.RING_FOUNTAINS, cases=R.RING_CASES, safety=R.RING_SAFETY, seats=R.RING_SEATS, pins=R.RING_PINS), "garden_ring": R.GARDEN_RING, "entrance": R.ENTRANCE, "pod_gates": R.POD_GATES, "pod_dock": R.POD_DOCK,
             "wing_nos": R.WING_NOS, "vault_lock": R.VAULT_LOCK, "link_stair": R.LINK_STAIR, "timetable": TTB.data(), "contests": CTS.data()}
     js = "  /* ===================== Phase 2 data: written by ttmath/tools/campus_buildings.py from campus_rooms.py; do not edit ===================== */\n  var P2 = " + json.dumps(data, separators=(",", ":"), ensure_ascii=False) + ";\n"
     open(os.path.join(TT, "src", "blocks", "blk_p2data.js"), "w").write(js)

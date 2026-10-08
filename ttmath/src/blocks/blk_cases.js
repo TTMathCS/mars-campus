@@ -194,3 +194,21 @@
       });
     });
   }
+  // ---- the seats by the garden glass (v0.46): gallery benches facing the garden from the upper corridor (P2.ring.seats) ----
+  function galleryBench(len) { return furn("gbench" + len, function (b) {   // len along x, 0.6 deep, backless; a stuffed cognac leather seat on an oak frame
+    var w = len, d = 0.6, n0 = b.count();
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { var x = c[0] * (w / 2 - 0.09), z = c[1] * (d / 2 - 0.09); b.box(x - 0.035, 0, z - 0.035, x + 0.035, 0.32, z + 0.035, MT.WOOD); });
+    b.box(-w / 2 + 0.05, 0.25, -d / 2 + 0.05, w / 2 - 0.05, 0.32, d / 2 - 0.05, MT.WOOD); b.box(-w / 2 + 0.09, 0.09, -0.02, w / 2 - 0.09, 0.12, 0.02, MT.WOOD); b.tag(n0, null, 1);
+    softBox(b, -w / 2, 0.32, -d / 2, w / 2, 0.47, d / 2, 0.05, MT.LEATHER, 2, { py: 0.018 });
+  }); }
+  function ringSeats(W) {
+    var C = CRS, D = D2R, r = C.r0 + 0.08 + 0.3;
+    (P2.ring.seats || []).forEach(function (s, k) {
+      var a = s.a * D; crsPlace(W, galleryBench(2.6), r, a, C.yU, 0); crsObst(r - 0.32, r + 0.32, a - 1.35 / r, a + 1.35 / r, "upper");
+      if (s.plant) {                                               // its leaves clear of the glass, past the bench's end
+        var pb = plantBuilder(s.plant, 940 + k), Rp = plantReach(pb), rp = C.r0 + 0.12 + Math.max(0.3, Rp), ap = a + (k % 4 ? 1 : -1) * (1.3 + 0.2 + Math.max(0.3, Rp)) / rp;
+        crsPlace(W, pb, rp, ap, C.yU, k * 1.3); crsObst(rp - 0.38, rp + 0.38, ap - 0.38 / rp, ap + 0.38 / rp, "upper");
+      }
+    });
+  }
+

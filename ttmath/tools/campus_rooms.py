@@ -219,6 +219,14 @@ RING_CASES = [
 # (across the halls a little more), with a red sign over it; a red call point beside each stair door; on the corridors'
 # ceilings a smoke detector every 9 m and a sprinkler head between each two downlights (4 m apart).
 RING_SAFETY = dict(extinguisher=dict(w=0.55, h=0.85, top=1.75, spacing=30.0), call_point=dict(h=1.4, by="each stair door"), smoke=9.0, sprinkler=4.0)
+# Seats by the garden glass (v0.46; Jim, 7 Oct 2026: "furnitures are not designed well to make the campus relaxing and
+# comfortable"): the upper corridor runs along the garden ring's glass most of the way round, and nowhere to sit. Between
+# each two of its doors onto the garden a long backless bench, gallery-style, faces the garden through the glass: a
+# stuffed cognac leather seat 2.6 by 0.6 m, its top at 0.47 m, on an oak frame, 8 cm from the glass; beside every other
+# one a plant that likes the light by glass (a fiddle-leaf fig, a bird of paradise, an olive in turn), its leaves clear of
+# the glass. a: the angle (degrees), midway between two doors.
+RING_SEATS = [dict(a=a, plant=p) for a, p in ((-37.5, "fig"), (-16.0, None), (16.0, "strelitzia"), (37.5, None), (62.5, "olive"), (87.5, None),
+                                               (112.5, "fig"), (137.5, None), (157.0, "strelitzia"))]
 
 # ------------------------------------------------------------------------------------------------- T-06 the Ring
 # Jim, 5 Oct 2026: "why classroom building are half? please build the circle around the dome, like apple headquarter

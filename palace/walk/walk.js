@@ -12,6 +12,7 @@ import { FloorMirror } from './mirror.js';
 import { Sound } from './sound.js';
 import { RingMap } from './ringmap.js';
 import { Chunks, centreOf, apart } from './chunks.js';
+import { Photos, PHOTO_LAYER } from './photo.js';
 
 const DATA = 'data/';
 const canvas = document.getElementById('view');
@@ -26,6 +27,9 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(62, 1, 0.05, 30000);
 camera.rotation.order = 'YXZ';
 const mirror = new FloorMirror(renderer, scene, 0.0);
+// the path-traced 360s, painted onto the rooms where they see them (photo.js)
+const photos = new Photos(renderer, scene);
+const photosIn = photos.init().catch(e => { console.warn('360s', e); return 0; });
 
 function resize() {
   const w = window.innerWidth, h = window.innerHeight;
@@ -52,7 +56,10 @@ const progress = () => { done++; barEl.style.width = (100 * Math.min(done, total
 const metals = new Set(), orbParts = [];
 let roomEnv = null;
 function material(m, light) {
-  const kind = (m.userData && m.userData.walk) || 'baked';
+  const kind = (m.userData && m.userData.walk) || 'baked', out = surface(m, light, kind);
+  return ['baked', 'floor', 'vertex', 'glow', 'metal'].includes(kind) ? photos.patch(out) : out;
+}
+function surface(m, light, kind) {
   if (kind === 'baked' || kind === 'floor') {
     if (m.map) { m.map.anisotropy = aniso; m.map.colorSpace = THREE.SRGBColorSpace; }
     const bm = new THREE.MeshBasicMaterial({ map: m.map, lightMap: light, lightMapIntensity: Math.PI * info.emax, side: THREE.DoubleSide });
@@ -76,8 +83,10 @@ function convert(root, light) {
     if (!o.isMesh) return;
     o.material = material(o.material, light);
     if (o.material.userData.mirror !== undefined) mirror.hide.push(o);         // a floor is not in its own reflection
+    if (!o.material.transparent) o.layers.enable(PHOTO_LAYER);                // a shape that hides what is behind it from a 360
     o.matrixAutoUpdate = false; o.updateMatrix();
   });
+  photos.changed();
 }
 
 const skyReady = texLoader.loadAsync(DATA + 'sky.jpg').then(t => {
@@ -203,11 +212,12 @@ function adapt(ms) {
 
 let last = performance.now();
 walker.update(0);
-window.walk = { walker, scene, camera, renderer, chunks, go: on => { walking = on; } };      // for looking in from the console
+window.walk = { walker, scene, camera, renderer, chunks, photos, go: on => { walking = on; } };      // for looking in from the console
 renderer.setAnimationLoop(() => {
   const now = performance.now(), ms = now - last, dt = Math.min(0.05, ms / 1000); last = now;
   if (walking) { walker.update(dt); named(dt); sound.glide(walker.onBelt ? 1 : 0); ringMap.draw(walker.bearing, walker.yaw); adapt(ms); }
   camera.updateMatrixWorld();
+  photos.update(camera.position, dt);
   chunks.update(walker.bearing); bandClip(walker.bearing); roomReflections(now);
   mirror.render(camera, now / 1000);
   renderer.render(scene, camera);

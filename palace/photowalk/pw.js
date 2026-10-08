@@ -49,12 +49,14 @@ function resize() {
 addEventListener('resize', resize); resize();
 
 // ---------------------------------------------------------------- where one is
-let here = null, near = [], move = null, yaw = 0, pitch = 0, turn = 0, fov = 72, hint = true, zoomed = false;
-// the view spans 105 degrees across the screen to begin with, as wide on a phone held upright as it can without
-// bending the room (Jim, 7 Oct 2026: "the view is so close view. i need to bit far and zoom out"); one zooms from
-// 25 to 115 degrees up and down
-const WIDE = 105 * D, FOV_MIN = 25, FOV_MAX = 115;
-const fovFit = () => Math.max(55, Math.min(108, 2 * Math.atan(Math.tan(WIDE / 2) / camera.aspect) / D));
+let here = null, near = [], move = null, yaw = 0, pitch = 0, fov = 72, hint = true, zoomed = false;
+// the view spans 90 degrees across the screen at rest, as wide on a phone held upright as it can without bending
+// the room (Jim, 7 Oct 2026: "the view is so close view. i need to bit far and zoom out"), and narrows to 72 while
+// one walks: a wide view stretches and swings what is at its edges as it moves ("while walking, the 3d angles looks
+// really strange, and distorted"); one zooms from 25 to 115 degrees up and down
+const WIDE = 90 * D, WALKING = 72 * D, FOV_MIN = 25, FOV_MAX = 115;
+const fovFor = h => Math.max(50, Math.min(100, 2 * Math.atan(Math.tan(h / 2) / camera.aspect) / D));
+const fovFit = () => fovFor(WIDE);
 addEventListener('resize', () => { if (!zoomed) fov = fovFit(); });
 const ringMap = new RingMap($('map'), spans());
 
@@ -136,26 +138,45 @@ function ahead(back = false) {
   return best;
 }
 
-// a step: once the next point's sharp picture is in (or after 2.5 s, its small one), the camera walks there, at
-// the pace of a walk (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow rendering of objects in
-// slow motion"): about 3 s for 6 m; the two 360s change over in the middle of the step, quickly
+// a step: once the next point's sharp picture is in (or after 2.5 s, its small one), the camera walks there at
+// the pace of a walk, 2 m/s once under way (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow
+// rendering of objects in slow motion"); the two 360s change over in the middle of the step, quickly. Held, W or the
+// up arrow walk on from point to point without stopping ("w walk is not smooth"): the next point ahead is loaded
+// while one walks to this one, and the step runs straight into the next
+const SPEED = 2.0 / SLOW, ACCEL = 2.4 / SLOW;                  // m/s, m/s/s
+const held = new Set();
+const walking = () => held.has('KeyW') || held.has('ArrowUp') ? 1 : held.has('KeyS') || held.has('ArrowDown') ? -1 : 0;
 let going = null;
-async function go(n) {
+const inHand = Q => Q.dist && (Q.full || Q.small);
+function loadFor(Q) {
+  return Promise.all([Q.loadDepth(), Q.loadSmall()]).then(() => Promise.race([Q.loadFull(), new Promise(r => setTimeout(r, 2500))]));
+}
+async function go(n, v0 = 0) {
   if (!n || move || going) return;
   const Q = n.Q; going = Q;
   cursor.position.set(Q.floor.x, Q.floor.y + 0.02, Q.floor.z); cursor.visible = true;      // where one is going, while it loads
-  try {
-    await Promise.all([Q.loadDepth(), Q.loadSmall()]);
-    await Promise.race([Q.loadFull(), new Promise(r => setTimeout(r, 2500))]);
-  } catch (e) { going = null; return; }
+  try { await loadFor(Q); } catch (e) { going = null; return; }
   going = null;
-  if (move) return;
+  if (!move) begin(Q, v0);
+}
+function begin(Q, v0) {
   Q.build(); Q.show();
   world.remove(here.mesh); world.add(here.torn); world.add(Q.torn);       // both shapes, torn at near things' edges
-  move = { A: here, B: Q, t0: performance.now(), ms: SLOW * Math.min(4500, 700 + 360 * n.dist) };
+  const L = here.eye.distanceTo(Q.eye);
+  move = { A: here, B: Q, L, s: 0, v: v0, next: null, way: walking() };
   marks.forEach(m => (m.visible = false)); cursor.visible = false;
   if (hint) { hint = false; $('hint').classList.remove('on'); }
   Q.loadFull().then(() => Q.show()).catch(() => {});
+  // where one would walk on to from there, loaded now
+  if (move.way) {
+    const fx = -Math.sin(yaw) * move.way, fy = Math.cos(yaw) * move.way; let best = null, score = Infinity;
+    for (const m of neighbours(Q)) {
+      if (m.Q === here) continue;
+      const a = Math.acos(Math.max(-1, Math.min(1, (m.dx * fx + m.dy * fy) / m.dist))), sc = m.dist * (1 + 3 * a);
+      if (a < 40 * D && sc < score) { score = sc; best = m; }
+    }
+    if (best) { move.next = best.Q; loadFor(best.Q).catch(() => {}); }
+  }
 }
 
 // ---------------------------------------------------------------- looking and walking
@@ -222,33 +243,44 @@ function up(e) {
 }
 canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
 canvas.addEventListener('wheel', e => { e.preventDefault(); zoomed = true; fov = Math.max(FOV_MIN, Math.min(FOV_MAX, fov * Math.exp(e.deltaY * 0.001))); }, { passive: false });
+const KEYS = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 addEventListener('keydown', e => {
-  if (e.key === 'ArrowUp' || e.code === 'KeyW') go(ahead());
-  else if (e.key === 'ArrowDown' || e.code === 'KeyS') go(ahead(true));
-  else if (e.key === 'ArrowLeft' || e.code === 'KeyA') turn += 30 * D;
-  else if (e.key === 'ArrowRight' || e.code === 'KeyD') turn -= 30 * D;
-  else return;
-  e.preventDefault();
+  const k = KEYS.includes(e.code) ? e.code : null; if (!k) return;
+  e.preventDefault(); held.add(k);
+  if (!move && (k === 'KeyW' || k === 'ArrowUp')) go(ahead());
+  else if (!move && (k === 'KeyS' || k === 'ArrowDown')) go(ahead(true));
 });
+addEventListener('keyup', e => held.delete(e.code));
+addEventListener('blur', () => held.clear());
 
 // ---------------------------------------------------------------- each frame
-const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * t);         // a walk: gently off, gently in
 let last = performance.now(), lookT = 0;
 function frame(now) {
-  const dt = Math.min(0.1, (now - last) / 1000); last = now;
-  if (turn) { const s = Math.sign(turn) * Math.min(Math.abs(turn), dt * 4.0); yaw += s; turn -= s; }
-  camera.fov += (fov - camera.fov) * Math.min(1, dt * 12); camera.updateProjectionMatrix();
+  const dt = Math.min(0.25, (now - last) / 1000); last = now;      // (a slow machine still walks at the pace of a walk)
+  const tl = (held.has('KeyA') || held.has('ArrowLeft') ? 1 : 0) - (held.has('KeyD') || held.has('ArrowRight') ? 1 : 0);
+  yaw += tl * dt * 1.4;                                        // A and D turn, 80 degrees a second
+  const want = move ? Math.min(fov, fovFor(WALKING)) : fov;
+  camera.fov += (want - camera.fov) * Math.min(1, dt * (move ? 3 : 4)); camera.updateProjectionMatrix();
   camera.rotation.set(pitch, yaw, 0);
   if (move) {
-    const t = Math.min(1, (now - move.t0) / move.ms), e = ease(t);
-    camera.position.lerpVectors(move.A.eye, move.B.eye, e);
+    // on at walking pace; slowing to a stop at the point, unless one walks on and the next point is in
+    const on = move.next && move.way && walking() === move.way && inHand(move.next);
+    const left = move.L - move.s;
+    if (!on && left <= move.v * move.v / (2 * ACCEL) + 0.02) move.v = Math.max(0.25 / SLOW, move.v - ACCEL * dt);
+    else move.v = Math.min(SPEED, move.v + ACCEL * dt);
+    move.s = Math.min(move.L, move.s + move.v * dt);
+    const t = move.s / move.L;
+    camera.position.lerpVectors(move.A.eye, move.B.eye, t);
     // both points' shapes, each surface coloured by the 360s that see it, the one ahead coming in
     const c = Math.min(1, Math.max(0, (t - 0.32) / 0.36)); stepping(move.A, move.B, c * c * (3 - 2 * c));
     const back = t < 0.5 ? move.A.back : move.B.back;
     if (back.parent !== behind) { behind.clear(); behind.add(back); }
     renderer.autoClear = false; renderer.clear(); renderer.render(behind, camera); renderer.clearDepth();
     renderer.render(world, camera); renderer.autoClear = true;
-    if (t >= 1) { const B = move.B; move = null; arrive(B); }
+    if (t >= 1) {
+      const B = move.B, N = on ? move.next : null, v = move.v; move = null; arrive(B);
+      if (N) begin(N, v);                                      // straight on into the next step
+    }
   } else if (here) {
     camera.position.copy(here.eye);
     if (going) cursor.material.opacity = 0.45 + 0.35 * Math.sin(now / 160); else cursor.material.opacity = 0.8;

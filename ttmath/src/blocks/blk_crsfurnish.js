@@ -411,6 +411,7 @@
       else if (rm.kind === "service") washrooms(W, rm, F, rm.code === "T06-14" || rm.code === "T06-31");
     });
     classDetails(W);                                                         // the classrooms' clocks and pinboards (blk_classdetail.js)
+    outerBlinds(W);                                                          // roller blinds on the outer glass (blk_classdetail.js)
     softShadowsBuild();
     W.zone = ZONE.OUT;
   }

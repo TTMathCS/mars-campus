@@ -130,3 +130,33 @@
     var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }
+  // ---- roller blinds on the outer glass (v0.40; CP-30): one in each bay between the mullions of the classrooms, the labs,
+  // the study hall and the staff and games rooms; oatmeal screen fabric from a slim cassette under the head rail, most rolled
+  // up, some let down a little, as the last class left them; none in the washrooms, the halls or the pod lounge ----
+  var BLIND_KINDS = { "class": 1, lab: 1, study: 1, physics: 1, maker: 1, astro: 1, staff: 1, compete: 1, games: 1 };
+  function outerBlinds(W) {
+    var C = CRS, G = C.gal, D = D2R, r1 = C.r1, rb = r1 - 0.13, H = C.hR, R = mulberry(4040), modes = {};
+    var sec = C.secs.filter(function (s) { return s.kind === "two"; })[0]; if (!sec) return;
+    var a0 = Math.max(sec.a0, G.d0) * D, a1 = Math.min(sec.a1, G.d1) * D, nm = Math.max(1, Math.round((a1 - a0) * r1 / 1.5));   // the mullions, as glassFront spaces them
+    var low = [0]; C.rooms.forEach(function (rm) { if (rm.floor === "lower" && !rm.band && rm.kind !== "service" && rm.kind !== "move" && rm.a[0] >= G.d0 && rm.a[1] <= G.d1) low.push((rm.a[0] + rm.a[1]) / 2 * D); });
+    function arc(r, b0, b1, ya, yb, s, mat, f2) {                                 // a curved strip at r facing in (s 1) or out (s -1)
+      var n = Math.max(2, Math.ceil((b1 - b0) * r / 0.5));
+      W.surf(n, 1, function (i, j, q) { var a = lerp(b0, b1, i / n), p = crsPt(r, a), d = crsPt(1, a); q.p[0] = p.x; q.p[1] = j ? yb : ya; q.p[2] = p.z; q.nn = [(PAL.c.x - d.x) * s, 0, (PAL.c.z - d.z) * s]; q.f[0] = a * r; q.f[1] = q.p[1]; q.f2[0] = f2[0]; q.f2[1] = f2[1]; q.m = mat; });
+    }
+    ["upper", "lower"].forEach(function (fl) {
+      var y = fl === "upper" ? C.yU : C.yL, doors = fl === "lower" ? low : [P2.pod_dock.a * D], yc = y + H - 0.1;
+      for (var k = 0; k < nm; k++) {
+        var b0 = lerp(a0, a1, k / nm) + 0.045 / r1, b1 = lerp(a0, a1, (k + 1) / nm) - 0.045 / r1, dm = (b0 + b1) / 2 / D;
+        if (doors.some(function (d) { return b1 > d - 1.4 / r1 && b0 < d + 1.4 / r1; })) continue;           // a door's bay: its glass stays clear
+        var rm = C.rooms.filter(function (q) { return !q.band && (q.floor === fl || q.floor === "both") && dm > q.a[0] && dm < q.a[1]; })[0];
+        if (!rm || !BLIND_KINDS[rm.kind]) continue;
+        var md = modes[rm.code]; if (md === undefined) { var t = R(); md = modes[rm.code] = t < 0.35 ? 0 : t < 0.8 ? 1 : 2; }
+        var u = R(), drop = md === 0 ? 0.06 : md === 1 ? (u < 0.3 ? 0.5 + 0.7 * R() : 0.06) : (u < 0.7 ? 0.9 + 0.6 * R() : 0.06);
+        var yt = yc - 0.11, yb = yt - drop;
+        var cb = new Builder(); cb.box(-0.5, -0.11, -0.055, 0.5, 0, 0.055, MT.ANOD); cb.tag(0, 3, null);    // the cassette, 11 cm, under the head rail
+        var half = (b1 - b0) / 2 * (r1 - 0.14), Mc = crsFrame(r1 - 0.14, (b0 + b1) / 2, yc).multiply(new THREE.Matrix4().makeScale(half / 0.5, 1, 1)); W.add(cb, Mc);
+        arc(rb, b0, b1, yb, yt, 1, MT.FABRIC, [5, 0]); arc(rb + 0.004, b0, b1, yb, yt, -1, MT.FABRIC, [5, 0]);   // the fabric, both faces
+        var bb = new Builder(); bb.box(-0.5, -0.03, -0.012, 0.5, 0, 0.012, MT.ANOD); W.add(bb, crsFrame(rb, (b0 + b1) / 2, yb).multiply(new THREE.Matrix4().makeScale(half / 0.5, 1, 1)));   // its bottom bar
+      }
+    });
+  }

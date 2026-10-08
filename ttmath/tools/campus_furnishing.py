@@ -246,8 +246,9 @@ ROOMS = {
                   details=["a wall clock over the board, its hands keeping the visitor's own time",
                            "on the back wall a cork pinboard 2.8 by 1.4 m in an oak frame (RING_PINS in campus_rooms.py): the room's classes this week from the timetable, "
                            "a problem of the week for the room's mathematician, a pupil's copy of a diagram, the next contest's flyer, a marked quiz",
-                           "each room's mathematician on a poster on the back wall near the corridor (v0.39): their figure, name, years, city and one line"],
-                  next="blinds on the outer glass"),
+                           "each room's mathematician on a poster on the back wall near the corridor (v0.39): their figure, name, years, city and one line",
+                           "roller blinds on the outer glass, one per bay between the mullions, oatmeal screen fabric, most up, some let down a little (v0.40)"],
+                  next=""),
 }
 
 

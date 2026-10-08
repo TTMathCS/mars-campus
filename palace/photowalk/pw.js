@@ -139,11 +139,11 @@ function ahead(back = false) {
 }
 
 // a step: once the next point's sharp picture is in (or after 2.5 s, its small one), the camera walks there at
-// the pace of a walk, 2 m/s once under way (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow
+// the pace of a walk, 1.4 m/s once under way (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow
 // rendering of objects in slow motion"); the two 360s change over in the middle of the step, quickly. Held, W or the
 // up arrow walk on from point to point without stopping ("w walk is not smooth"): the next point ahead is loaded
 // while one walks to this one, and the step runs straight into the next
-const SPEED = 2.0 / SLOW, ACCEL = 2.4 / SLOW;                  // m/s, m/s/s
+const SPEED = 1.4 / SLOW, ACCEL = 1.6 / SLOW;                  // m/s, m/s/s: the pace of a walk, so the next point is in
 const held = new Set();
 const walking = () => held.has('KeyW') || held.has('ArrowUp') ? 1 : held.has('KeyS') || held.has('ArrowDown') ? -1 : 0;
 let going = null;

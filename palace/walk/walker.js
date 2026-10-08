@@ -6,7 +6,10 @@
 import { D, R_IN, BELT, P, bearingOf, along, outward } from './ring.js';
 
 const EYE = 1.62, BODY = 0.26;                        // eye height, the walker's radius
-const WALK = 1.45, RUN = 3.9, GLIDE = 3.2;            // m/s; the Glide goes round in 4 minutes
+// m/s: an unhurried walk, and no running, so the rooms ahead are in before one gets there (Jim, 8 Oct 2026: "I can
+// walk slow and have run disabled, in order to give more time to render if needed"); the Glide no faster than the
+// rooms come in (RUN only sets how far the head bobs)
+const WALK = 1.2, RUN = 3.9, GLIDE = 2.2;
 const GRAVITY = 3.71, JUMP = 2.3;                     // Mars: a jump of 0.7 m that lasts 1.2 s
 const RIDE_AFTER = 0.7;                               // seconds standing still on the Glide before it carries one
 
@@ -55,7 +58,7 @@ export class Walker {
     const f = this.held('KeyW', 'ArrowUp') - this.held('KeyS', 'ArrowDown') + this.stick[1], s = this.held('KeyD', 'ArrowRight') - this.held('KeyA', 'ArrowLeft') + this.stick[0];
     const fx = -Math.sin(this.yaw), fz = -Math.cos(this.yaw), rx = Math.cos(this.yaw), rz = -Math.sin(this.yaw);
     let tx = fx * f + rx * s, tz = fz * f + rz * s; const tl = Math.hypot(tx, tz);
-    const speed = this.held('ShiftLeft', 'ShiftRight') || Math.hypot(...this.stick) > 0.95 ? RUN : WALK;
+    const speed = WALK;
     if (tl > 0) { const g = Math.min(1, tl); tx *= speed * g / tl; tz *= speed * g / tl; }
     const k = 1 - Math.exp(-dt * (this.grounded ? 9.0 : 1.2));          // little to push against in the air
     this.vx += (tx - this.vx) * k; this.vz += (tz - this.vz) * k;
@@ -104,7 +107,7 @@ export class Walker {
 
   get bearing() { return bearingOf(this.x, this.z); }
 
-  // on a touch screen: the left thumb walks (a stick where it lands; pushed right out, one runs), the right one looks
+  // on a touch screen: the left thumb walks (a stick where it lands), the right one looks
   touch(el) {
     const fingers = new Map();
     el.addEventListener('touchstart', e => {

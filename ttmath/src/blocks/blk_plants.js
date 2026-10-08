@@ -137,7 +137,7 @@
       var LA = [0, 0.6, -0.6, 1.2, -1.2, 1.9, -1.9], LL = [1, 0.95, 0.95, 0.8, 0.8, 0.48, 0.48], WT = [0, 0.22, 0.5, 0.64, 0.82, 0.94, 1], WW = [0.1, 0.42, 0.9, 1.0, 0.62, 0.2, 0];
       function wl(u) { for (var i = 1; i < WT.length; i++) if (u <= WT[i]) { var k = (u - WT[i - 1]) / (WT[i] - WT[i - 1]); k = k * k * (3 - 2 * k); return WW[i - 1] + (WW[i] - WW[i - 1]) * k; } return 0; }
       function col(c, k) { return "rgb(" + Math.round(Math.min(255, c[0] * k)) + "," + Math.round(Math.min(255, c[1] * k)) + "," + Math.round(Math.min(255, c[2] * k)) + ")"; }
-      var PAL = [[92, 16, 30], [112, 20, 34], [128, 24, 36], [146, 30, 38], [166, 52, 36]];
+      var PAL = [[148, 24, 30], [170, 30, 34], [190, 38, 36], [208, 50, 38], [224, 98, 40]];   // (v0.51) crimson to scarlet, brighter (Jim: "more shining")
       function mapleLeaf(cx, cy, R, rot, c, sh) {
         var lobes = [];
         g.beginPath();
@@ -318,8 +318,10 @@
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
   // the foliage's spread and height scaled toward a real indoor plant's (measured 7 Oct 2026: a kentia 3.4 m across, an olive 2.1 m, a monstera 2.4 m, a fern 2.1 m wide and 0.4 m high)
-  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
-  function plantBuilder(kind, seed, bed, lk, real) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : 1;
+  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0], maple: [1.32, 1.32] }, POT_END = 0, POT_TOP = 0;
+  // (v0.51) a potted maple is a third bigger (Jim, 8 Oct 2026: "maple leaf tree need to be bigger"): FOLIAGE scales its crown
+  // and LKm makes its sprays as much smaller and more, so its leaves keep their size
+  function plantBuilder(kind, seed, bed, lk, real) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : (kind === "maple" ? FOLIAGE.maple[0] : 1);
     var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" + (LKm > 1 ? LKm.toFixed(2) : "") + (real ? "r" : "") : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
@@ -418,7 +420,7 @@
       function spray(pos, az, el, tl) {                     // one spray centred near pos, pointing out toward az, its face tilted by tl
         var d9 = v3(Math.cos(az), el, Math.sin(az)).normalize(), ln = (0.22 + 0.07 * R()) / LKm;
         var up = v3(-d9.x * 0.2 + (R() - 0.5) * tl, 1, -d9.z * 0.2 + (R() - 0.5) * tl).normalize();
-        leafCard(b, pos.clone().addScaledVector(d9, -0.4 * ln), d9, up, ln, ln * 0.95, 0.12, 0.04, LEAF_CELLS.maple, R(), 0.35, 2);
+        leafCard(b, pos.clone().addScaledVector(d9, -0.4 * ln), d9, up, ln, ln * 0.95, 0.12, 0.04, LEAF_CELLS.maple, R(), 0.7, 2);
       }
       for (var ld = 0; ld < 3; ld++) {
         var al = ld / 3 * Math.PI * 2 + R() * 0.8, spl = 0.2 + 0.08 * R(), hl = 0.67 + 0.13 * R(), cl = Math.cos(al), sl = Math.sin(al);

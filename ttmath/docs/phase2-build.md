@@ -210,6 +210,13 @@ each pushed when it is checked:
    as `{ quick, light }` before the voxels; `frame()` starts the worker once the campus has been drawn. If no worker can be
    made, `bakeQuickLeft()` lights them on the page. The entrance dome's edge beam follows `entReach`/`entTop` where the cap
    meets the Ring's front (`blk_entrance.js`).
+   (v0.51) `Builder.track()` keeps the start of every piece (each `quad`, `geo`, `surf` or `add`); `buildChunks(S)` builds a
+   tracked builder as one geometry per S metre square (by each piece's middle; a piece wider than S goes to the first
+   chunk), and `bakedMesh` makes a group of them, each culled on its own and drawn in a fixed order (`renderOrder`). The
+   campus (B), the Ring (W) and the palace (P, 12 m) are tracked: `campus`, `wings` and `palMesh` are groups now (their
+   `children` are the chunks). No piece is cut, so the bake is the same (`window.MARS_ONE_MESH = true` before the page
+   loads builds them as one mesh, for tests). INT_KEY (the inside's exposure) is 0.22. A potted maple is FOLIAGE-scaled
+   1.32 with LKm 1.32 (the same leaf size).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

@@ -45,6 +45,16 @@
   // mesh from a builder, lit at once; static meshes also go to the worker. opts.later (v0.50, the four big static meshes):
   // the worker gives it the quick light first thing, the same numbers, so the page opens without waiting for it
   function bakedMesh(Bd, material, lightsOverride, off, opts) {
+    if (Bd.pc && !off) {                                             // (v0.52) a tracked builder: its chunks in a group, each culled on its own,
+      var grp = new THREE.Group(), lat = !!(opts && opts.later) && !lightsOverride && typeof Worker !== "undefined";   // drawn in a fixed order
+      grp.matrixAutoUpdate = false;
+      Bd.buildChunks((opts && opts.cell) || 16).forEach(function (gc, ci) {
+        if (!lat) bakeQuick(gc, lightsOverride);
+        var mc = new THREE.Mesh(gc, material); mc.matrixAutoUpdate = false; mc.frustumCulled = ci > 0; mc.renderOrder = ci;
+        BAKE.meshes.push({ mesh: mc, occluder: !(opts && opts.noOcclude), quick: lat }); mc.onAfterRender = bakeDrawn; grp.add(mc);
+      });
+      return grp;
+    }
     var g = Bd.build(), later = !!(opts && opts.later) && !lightsOverride && !off && typeof Worker !== "undefined";
     if (!later) bakeQuick(g, lightsOverride, off);
     var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;

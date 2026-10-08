@@ -28,7 +28,7 @@
     }, true);
   }
   function buildPalace() {
-    var yB = PALY.B, yF = PALY.F, P = new Builder(), lights = palLights, TAU = Math.PI * 2, WARM = [1.0, 0.8, 0.58], COOL = [1.0, 0.95, 0.88], WHITE = [1, 0.96, 0.9];
+    var yB = PALY.B, yF = PALY.F, P = new Builder().track(), lights = palLights, TAU = Math.PI * 2, WARM = [1.0, 0.8, 0.58], COOL = [1.0, 0.95, 0.88], WHITE = [1, 0.96, 0.9];
     P.zone = ZONE.ROT; palB = P;
     matU.uPalA.value.set(PAL.c.x, PAL.c.z, PAL.F.x, PAL.F.z); matU.uPalB.value.set(yB, yF, PAL.pitR, 0);
     matU.uPortal.value.set(vaultW(26) + PAL.vt + 0.03, vaultH(26) + 0.58, 0, 0);
@@ -267,7 +267,7 @@
     // ---- the dome's spiral lattice ----
     domeRibs(P);
 
-    palMesh = bakedMesh(P, matMat, null, null, { later: true }); scene.add(palMesh);
+    palMesh = bakedMesh(P, matMat, null, null, { later: true, cell: 12 }); scene.add(palMesh);   // in chunks by place (v0.52)
 
     // ---- moving pieces: Foucault pendulum, golden Moebius strip, the five solids ----
     var PB = new Builder();

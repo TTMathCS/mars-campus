@@ -425,7 +425,7 @@
     for (var a = G.a0 + 3.0 / rP; a < G.a1 - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
       for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP;      // big plants set into the troughs, their leaves this side of the wall and under the glass
-        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
+        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, kind === "maple" ? 2.2 : 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
       var ba = a + 4.0 / rP; if (ba < G.a1 - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }

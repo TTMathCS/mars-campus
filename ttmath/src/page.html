@@ -814,6 +814,7 @@
     if (need > cap) { var b = new Uint32Array(Math.max(need, cap * 2, 96)); b.set(this.i); this.i = b; }
   };
   Builder.prototype.quad = function (a, b, c, d, nrm, fa, fb, fc, fd, mat) {
+    if (this.pc) this.mark();
     this.grow(4, 6);
     var base = this.nv, P = this.p, N = this.n, F = this.f, F2 = this.f2, V = [a, b, c, d], FF = [fa, fb, fc, fd], t = this.ni, I = this.i;
     for (var k = 0; k < 4; k++) {
@@ -839,6 +840,7 @@
     g = g.index ? g.toNonIndexed() : g.clone(); g.applyMatrix4(matrix);
     var Pg = g.attributes.position.array, Ng = g.attributes.normal.array, UV = g.attributes.uv ? g.attributes.uv.array : null, s = facScale || 1, cnt = Pg.length / 3;
     var AM = g.attributes.aMat ? g.attributes.aMat.array : null, AF = g.attributes.aFac ? g.attributes.aFac.array : null, AF2 = g.attributes.aFac2 ? g.attributes.aFac2.array : null;
+    if (this.pc) this.mark();
     this.grow(cnt, cnt);
     var base = this.nv, P = this.p, N = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, I = this.i, t = this.ni, zn = this.zone;
     for (var k = 0; k < cnt; k++) {
@@ -853,6 +855,7 @@
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
     var n = o.nv !== undefined ? o.nv : o.p.length / 3, ni = o.nv !== undefined ? o.ni : o.i.length, k;
+    if (this.pc) this.mark();
     this.grow(n, ni);
     var base = this.nv, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements;
     var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
@@ -871,6 +874,7 @@
   // (fn may set q.nn to give the normal of a point explicitly)
   Builder.prototype.surf = function (nu, nv, fn, wrapU, wrapV) {
     var W = nu + 1, cnt = W * (nv + 1), P = new Float64Array(cnt * 3), NN = null, q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0, nn: null }, i, j, v;
+    if (this.pc) this.mark();
     this.grow(cnt, nu * nv * 6);
     var base = this.nv, BP = this.p, BN = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, zn = this.zone;
     for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
@@ -910,21 +914,57 @@
   var SKY0 = [1, 0.42, 0.2];                     // sky light before the bake: outside, rotunda, wings
   // the used part of a typed array: itself when full, a view when little of it is spare, else a copy that fits
   function bldFit(a, n) { return a.length === n ? a : (a.length - n > (n >> 3) + 64 ? a.slice(0, n) : a.subarray(0, n)); }
-  Builder.prototype.build = function () {
-    var g = new THREE.BufferGeometry(), N = this.nv, ao = new Float32Array(N), sk = new Float32Array(N), Z = bldFit(this.z, N);
+  function bldGeometry(Pa, Na, Fa, F2a, Ma, Z, I) {
+    var g = new THREE.BufferGeometry(), N = Z.length, ao = new Float32Array(N), sk = new Float32Array(N);
     for (var k = 0; k < N; k++) { ao[k] = 1 + 2 * Z[k]; sk[k] = SKY0[Z[k]] || 1; }
-    g.setAttribute("position", new THREE.BufferAttribute(bldFit(this.p, N * 3), 3));
-    g.setAttribute("normal", new THREE.BufferAttribute(bldFit(this.n, N * 3), 3));
-    g.setAttribute("aFac", new THREE.BufferAttribute(bldFit(this.f, N * 2), 2));
-    g.setAttribute("aFac2", new THREE.BufferAttribute(bldFit(this.f2, N * 2), 2));
-    g.setAttribute("aMat", new THREE.BufferAttribute(bldFit(this.m, N), 1));
+    g.setAttribute("position", new THREE.BufferAttribute(Pa, 3));
+    g.setAttribute("normal", new THREE.BufferAttribute(Na, 3));
+    g.setAttribute("aFac", new THREE.BufferAttribute(Fa, 2));
+    g.setAttribute("aFac2", new THREE.BufferAttribute(F2a, 2));
+    g.setAttribute("aMat", new THREE.BufferAttribute(Ma, 1));
     g.setAttribute("aAO", new THREE.BufferAttribute(ao, 1));
     g.setAttribute("aSky", new THREE.BufferAttribute(sk, 1));
     g.setAttribute("aLight", new THREE.BufferAttribute(new Float32Array(N * 3), 3));
-    var I = bldFit(this.i, this.ni), mx = 0; for (k = 0; k < I.length; k++) if (I[k] > mx) mx = I[k];
+    var mx = 0; for (k = 0; k < I.length; k++) if (I[k] > mx) mx = I[k];
     g.setIndex(new THREE.BufferAttribute(mx > 65535 ? I : new Uint16Array(I), 1)); g.computeBoundingSphere();   // 16-bit indices when they fit, as three.js picks them
     g.userData.zone = Z;
     return g;
+  }
+  Builder.prototype.build = function () {
+    var N = this.nv;
+    return bldGeometry(bldFit(this.p, N * 3), bldFit(this.n, N * 3), bldFit(this.f, N * 2), bldFit(this.f2, N * 2), bldFit(this.m, N), bldFit(this.z, N), bldFit(this.i, this.ni));
+  };
+  // (v0.52) a builder that keeps its pieces (track(): each quad, geometry, surface or builder added is one) is built as
+  // chunks by place (buildChunks(S)): a piece goes whole to the S metre square its middle stands in, or to the first chunk
+  // when it is wider than that; the camera then draws only the chunks it sees, and as no piece is cut, every point keeps
+  // the same neighbours for the bake, which lights it exactly as in one mesh
+  Builder.prototype.track = function () { if (window.MARS_ONE_MESH) return this; this.pc = new Uint32Array(4096); this.npc = 0; return this; };   // MARS_ONE_MESH: as before, for tests
+  Builder.prototype.mark = function () {
+    if (this.npc + 2 > this.pc.length) { var a = new Uint32Array(this.pc.length * 2); a.set(this.pc); this.pc = a; }
+    this.pc[this.npc++] = this.nv; this.pc[this.npc++] = this.ni;
+  };
+  Builder.prototype.buildChunks = function (S) {
+    var P = this.p, pc = this.pc, np = this.npc >> 1, nv = this.nv, ni = this.ni, ids = new Map(), ch = [{ nv: 0, ni: 0 }], pcs = new Int32Array(np), k, v, t;
+    for (k = 0; k < np; k++) {
+      var v0 = pc[k * 2], v1 = k + 1 < np ? pc[k * 2 + 2] : nv, i0 = pc[k * 2 + 1], i1 = k + 1 < np ? pc[k * 2 + 3] : ni;
+      if (v1 <= v0) { pcs[k] = -1; continue; }
+      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+      for (v = v0; v < v1; v++) { var x = P[v * 3], z = P[v * 3 + 2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; }
+      var c = 0;
+      if (x1 - x0 <= S && z1 - z0 <= S) { var key = Math.floor((x0 + x1) / 2 / S) * 65536 + Math.floor((z0 + z1) / 2 / S); c = ids.get(key); if (c === undefined) { c = ch.length; ids.set(key, c); ch.push({ nv: 0, ni: 0 }); } }
+      pcs[k] = c; ch[c].nv += v1 - v0; ch[c].ni += i1 - i0;
+    }
+    var self = this, out = ch.map(function (c) { return { p: new Float32Array(c.nv * 3), n: new Float32Array(c.nv * 3), f: new Float32Array(c.nv * 2), f2: new Float32Array(c.nv * 2), m: new Float32Array(c.nv), z: new Uint8Array(c.nv), i: new Uint32Array(c.ni), nv: 0, ni: 0 }; });
+    for (k = 0; k < np; k++) {
+      if (pcs[k] < 0) continue;
+      var o = out[pcs[k]], a0 = pc[k * 2], a1 = k + 1 < np ? pc[k * 2 + 2] : nv, j0 = pc[k * 2 + 1], j1 = k + 1 < np ? pc[k * 2 + 3] : ni, base = o.nv;
+      o.p.set(self.p.subarray(a0 * 3, a1 * 3), base * 3); o.n.set(self.n.subarray(a0 * 3, a1 * 3), base * 3);
+      o.f.set(self.f.subarray(a0 * 2, a1 * 2), base * 2); o.f2.set(self.f2.subarray(a0 * 2, a1 * 2), base * 2);
+      o.m.set(self.m.subarray(a0, a1), base); o.z.set(self.z.subarray(a0, a1), base);
+      for (t = j0; t < j1; t++) o.i[o.ni++] = self.i[t] - a0 + base;
+      o.nv += a1 - a0;
+    }
+    return out.filter(function (o) { return o.nv > 0; }).map(function (o) { return bldGeometry(o.p, o.n, o.f, o.f2, o.m, o.z, o.i); });
   };
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
@@ -1984,7 +2024,7 @@
     }, true);
   }
   function buildPalace() {
-    var yB = PALY.B, yF = PALY.F, P = new Builder(), lights = palLights, TAU = Math.PI * 2, WARM = [1.0, 0.8, 0.58], COOL = [1.0, 0.95, 0.88], WHITE = [1, 0.96, 0.9];
+    var yB = PALY.B, yF = PALY.F, P = new Builder().track(), lights = palLights, TAU = Math.PI * 2, WARM = [1.0, 0.8, 0.58], COOL = [1.0, 0.95, 0.88], WHITE = [1, 0.96, 0.9];
     P.zone = ZONE.ROT; palB = P;
     matU.uPalA.value.set(PAL.c.x, PAL.c.z, PAL.F.x, PAL.F.z); matU.uPalB.value.set(yB, yF, PAL.pitR, 0);
     matU.uPortal.value.set(vaultW(26) + PAL.vt + 0.03, vaultH(26) + 0.58, 0, 0);
@@ -2223,7 +2263,7 @@
     // ---- the dome's spiral lattice ----
     domeRibs(P);
 
-    palMesh = bakedMesh(P, matMat, null, null, { later: true }); scene.add(palMesh);
+    palMesh = bakedMesh(P, matMat, null, null, { later: true, cell: 12 }); scene.add(palMesh);   // in chunks by place (v0.52)
 
     // ---- moving pieces: Foucault pendulum, golden Moebius strip, the five solids ----
     var PB = new Builder();
@@ -2545,7 +2585,7 @@
       var LA = [0, 0.6, -0.6, 1.2, -1.2, 1.9, -1.9], LL = [1, 0.95, 0.95, 0.8, 0.8, 0.48, 0.48], WT = [0, 0.22, 0.5, 0.64, 0.82, 0.94, 1], WW = [0.1, 0.42, 0.9, 1.0, 0.62, 0.2, 0];
       function wl(u) { for (var i = 1; i < WT.length; i++) if (u <= WT[i]) { var k = (u - WT[i - 1]) / (WT[i] - WT[i - 1]); k = k * k * (3 - 2 * k); return WW[i - 1] + (WW[i] - WW[i - 1]) * k; } return 0; }
       function col(c, k) { return "rgb(" + Math.round(Math.min(255, c[0] * k)) + "," + Math.round(Math.min(255, c[1] * k)) + "," + Math.round(Math.min(255, c[2] * k)) + ")"; }
-      var PAL = [[92, 16, 30], [112, 20, 34], [128, 24, 36], [146, 30, 38], [166, 52, 36]];
+      var PAL = [[148, 24, 30], [170, 30, 34], [190, 38, 36], [208, 50, 38], [224, 98, 40]];   // (v0.51) crimson to scarlet, brighter (Jim: "more shining")
       function mapleLeaf(cx, cy, R, rot, c, sh) {
         var lobes = [];
         g.beginPath();
@@ -2726,8 +2766,10 @@
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
   // the foliage's spread and height scaled toward a real indoor plant's (measured 7 Oct 2026: a kentia 3.4 m across, an olive 2.1 m, a monstera 2.4 m, a fern 2.1 m wide and 0.4 m high)
-  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
-  function plantBuilder(kind, seed, bed, lk, real) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : 1;
+  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0], maple: [1.32, 1.32] }, POT_END = 0, POT_TOP = 0;
+  // (v0.51) a potted maple is a third bigger (Jim, 8 Oct 2026: "maple leaf tree need to be bigger"): FOLIAGE scales its crown
+  // and LKm makes its sprays as much smaller and more, so its leaves keep their size
+  function plantBuilder(kind, seed, bed, lk, real) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : (kind === "maple" ? FOLIAGE.maple[0] : 1);
     var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" + (LKm > 1 ? LKm.toFixed(2) : "") + (real ? "r" : "") : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
@@ -2826,7 +2868,7 @@
       function spray(pos, az, el, tl) {                     // one spray centred near pos, pointing out toward az, its face tilted by tl
         var d9 = v3(Math.cos(az), el, Math.sin(az)).normalize(), ln = (0.22 + 0.07 * R()) / LKm;
         var up = v3(-d9.x * 0.2 + (R() - 0.5) * tl, 1, -d9.z * 0.2 + (R() - 0.5) * tl).normalize();
-        leafCard(b, pos.clone().addScaledVector(d9, -0.4 * ln), d9, up, ln, ln * 0.95, 0.12, 0.04, LEAF_CELLS.maple, R(), 0.35, 2);
+        leafCard(b, pos.clone().addScaledVector(d9, -0.4 * ln), d9, up, ln, ln * 0.95, 0.12, 0.04, LEAF_CELLS.maple, R(), 0.7, 2);
       }
       for (var ld = 0; ld < 3; ld++) {
         var al = ld / 3 * Math.PI * 2 + R() * 0.8, spl = 0.2 + 0.08 * R(), hl = 0.67 + 0.13 * R(), cl = Math.cos(al), sl = Math.sin(al);
@@ -4512,7 +4554,7 @@
     [[230, 38.5, "fig"], [237, 31.0, "kentia"], [244, 39.8, "olive"], [256, 39.6, "maple"], [262, 31.2, "kentia"], [268, 38.2, "fig"], [275, 33.0, "strelitzia"]].forEach(function (t, n) {
       var c = crsPt(t[1], t[0] * D); latheOn(B, c.x, yL, c.z, [[1.5, 0], [1.5, 0.45], [1.56, 0.5], [1.42, 0.52], [1.42, 0.44], [0, 0.44]], 32, MT.CONCRETE, 0.4);
       B.geo(new THREE.CylinderGeometry(1.4, 1.4, 0.02, 32), T(c.x, yL + 0.44, c.z), MT.RUBBER, 1);
-      bedPlantKept(B, t[2], 700 + n, crsFrame(t[1], t[0] * D, yL), R2() * 6.28, 0.45, 3.2, t[1] - PAL.ringOut - 0.5, CRS.r0 - t[1] - 0.5, yU + GR.grove.roof - 0.35 - yL);   // under the grove's glass, clear of the palace's foot
+      bedPlantKept(B, t[2], 700 + n, crsFrame(t[1], t[0] * D, yL), R2() * 6.28, 0.45, t[2] === "maple" ? 3.7 : 3.2, t[1] - PAL.ringOut - 0.5, CRS.r0 - t[1] - 0.5, yU + GR.grove.roof - 0.35 - yL);   // under the grove's glass, clear of the palace's foot
       GRD.posts.push({ x: c.x, z: c.z, r: 1.8, low: 1 });
     });
     // the garden: trees in big round planters between the paths to the doors, ferns and flowering plants along the dome's foot
@@ -4524,7 +4566,7 @@
       var kind = trees[nT % trees.length], c2 = crsPt(37.4, dt * D), rr3 = 1.2; nT++;
       latheOn(B, c2.x, yU, c2.z, [[rr3, 0], [rr3, 0.62], [rr3 + 0.06, 0.66], [rr3 - 0.08, 0.68], [rr3 - 0.08, 0.6], [0.0, 0.6]], 32, MT.CONCRETE, 0.4);
       B.geo(new THREE.CylinderGeometry(rr3 - 0.1, rr3 - 0.1, 0.02, 32), T(c2.x, yU + 0.6, c2.z), MT.RUBBER, 1);
-      bedPlant(B, kind, 500 + nT, T(c2.x, yU, c2.z, 0, R2() * 6.28, 0), 0.61, 2.3);
+      bedPlant(B, kind, 500 + nT, T(c2.x, yU, c2.z, 0, R2() * 6.28, 0), 0.61, kind === "maple" ? 2.9 : 2.3);   // the maples bigger (v0.51)
       GRD.posts.push({ x: c2.x, z: c2.z, r: rr3 + 0.3 });
       extLight(c2.x, yU + 0.8, c2.z, WARMC, 1.0, 6, [0, 1, 0], 1.6);
     }
@@ -5286,7 +5328,7 @@
     for (var a = G.a0 + 3.0 / rP; a < G.a1 - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
       for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP;      // big plants set into the troughs, their leaves this side of the wall and under the glass
-        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
+        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, kind === "maple" ? 2.2 : 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
       var ba = a + 4.0 / rP; if (ba < G.a1 - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }
@@ -9012,6 +9054,16 @@
   // mesh from a builder, lit at once; static meshes also go to the worker. opts.later (v0.50, the four big static meshes):
   // the worker gives it the quick light first thing, the same numbers, so the page opens without waiting for it
   function bakedMesh(Bd, material, lightsOverride, off, opts) {
+    if (Bd.pc && !off) {                                             // (v0.52) a tracked builder: its chunks in a group, each culled on its own,
+      var grp = new THREE.Group(), lat = !!(opts && opts.later) && !lightsOverride && typeof Worker !== "undefined";   // drawn in a fixed order
+      grp.matrixAutoUpdate = false;
+      Bd.buildChunks((opts && opts.cell) || 16).forEach(function (gc, ci) {
+        if (!lat) bakeQuick(gc, lightsOverride);
+        var mc = new THREE.Mesh(gc, material); mc.matrixAutoUpdate = false; mc.frustumCulled = ci > 0; mc.renderOrder = ci;
+        BAKE.meshes.push({ mesh: mc, occluder: !(opts && opts.noOcclude), quick: lat }); mc.onAfterRender = bakeDrawn; grp.add(mc);
+      });
+      return grp;
+    }
     var g = Bd.build(), later = !!(opts && opts.later) && !lightsOverride && !off && typeof Worker !== "undefined";
     if (!later) bakeQuick(g, lightsOverride, off);
     var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;
@@ -9242,7 +9294,7 @@
     ROVER_BAYS = [{ x: r1.x, z: r1.z, yaw: Math.atan2(-PAL.Rt.x, -PAL.Rt.z) }, { x: r2.x, z: r2.z, yaw: Math.atan2(PAL.c.x - r2.x, PAL.c.z - r2.z) }];
     PLAZA.c = palXZ(0, 91.5);
     buildPalace();                                                      // interior, dome glass and the moving pieces
-    var B = new Builder(760000, 2300000), W = new Builder(2800000, 8400000), D = new Builder();   // room for what they hold (v0.49: 0.66 and 2.57 million points)
+    var B = new Builder(760000, 2300000).track(), W = new Builder(2800000, 8400000).track(), D = new Builder();   // in chunks by place (v0.52)   // room for what they hold (v0.49: 0.66 and 2.57 million points)
     campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat, null, null, { later: true }); scene.add(campus);   // their quick light comes from the bake worker (v0.50)
     wings = bakedMesh(W, matMat, null, null, { later: true }); scene.add(wings); pendulumBuild();
@@ -10304,7 +10356,7 @@
     var portrait = window.innerWidth / Math.max(1, window.innerHeight) < 0.8;
     if (portrait !== lastAspectPortrait) { lastAspectPortrait = portrait; setFov(baseFov()); }
   });
-  var last = performance.now(), cloudT = 0, palKs = 0, inKs = 0, palWelcomed = false, wingWelcomed = {}, INT_KEY = 0.18;
+  var last = performance.now(), cloudT = 0, palKs = 0, inKs = 0, palWelcomed = false, wingWelcomed = {}, INT_KEY = 0.22;   // (v0.51) the inside a little brighter (Jim, 8 Oct 2026: "overall the inside is bit dark")
   // inside the palace the eye adapts to the room light, plus whatever skylight comes through the glass
   function interiorExposure() { var a = U.uAmbUp.value, sk = 0.2126 * a.x + 0.7152 * a.y + 0.0722 * a.z; return INT_KEY / (0.045 + 0.35 * sk); }
   function frame(now) {
@@ -10397,7 +10449,8 @@
       if (Cv) { var c1 = palXZ(Cv[0], Cv[1]), c2 = palXZ(Cv[2], Cv[3]); this.go(c1.x, c1.z); this.look(Math.atan2(c2.x - c1.x, -(c2.z - c1.z)) * R2D, Cv[4]); }
     },
     campusSample: function (step) {
-      var out = [], st = step || 7, meshes = [campus, palGlassF, palMesh].concat(GLASS_MESHES).filter(Boolean), v = new THREE.Vector3();
+      var out = [], st = step || 7, meshes = [], v = new THREE.Vector3();
+      [campus, palGlassF, palMesh].concat(GLASS_MESHES).filter(Boolean).forEach(function (m) { if (m.isGroup) Array.prototype.push.apply(meshes, m.children); else meshes.push(m); });   // the campus and the palace are groups of chunks (v0.52)
       meshes.forEach(function (m) { var P = m.geometry.attributes.position; for (var i = 0; i < P.count; i += st) { v.fromBufferAttribute(P, i).applyMatrix4(m.matrixWorld); out.push([+v.x.toFixed(2), +v.y.toFixed(2), +v.z.toFixed(2)]); } });
       return out;
     },
@@ -10405,7 +10458,7 @@
     hideUI: function () { hideOnboard(); $("toast").classList.add("hide"); },
     state: function () { return { px: +px.toFixed(2), pz: +pz.toFixed(2), y: +(py - EYE).toFixed(2), walked: +walked.toFixed(1), discovered: discovered, q: qScale, touch: TOUCH, mobile: MOBILE, exp: +exposure.toFixed(2), expUsed: +U.uExposure.value.toFixed(2), inside: +palKs.toFixed(2), indoor: +inKs.toFixed(2), bake: BAKE.done ? BAKE.ms : (BAKE.failed ? -1 : 0), env: ENV.list.map(function (e) { return e.done; }) }; },
     info: function () { return { calls: renderer.info.render.calls, tris: renderer.info.render.triangles, geos: renderer.info.memory.geometries, tex: renderer.info.memory.textures, progs: renderer.info.programs ? renderer.info.programs.length : 0 }; },
-    palace: function () { return { B: PALY.B, F: PALY.F, front: PALY.front, c: PAL.c, dir: PAL.F, verts: palMesh ? palMesh.geometry.attributes.position.count : 0, glass: palGlassF ? palGlassF.geometry.attributes.position.count : 0, campus: campus ? campus.geometry.attributes.position.count : 0, wings: wings ? wings.geometry.attributes.position.count : 0, drape: drape ? drape.geometry.attributes.position.count : 0 }; },
+    palace: function () { return { B: PALY.B, F: PALY.F, front: PALY.front, c: PAL.c, dir: PAL.F, verts: palMesh ? palMesh.children.reduce(function (n, m) { return n + m.geometry.attributes.position.count; }, 0) : 0, glass: palGlassF ? palGlassF.geometry.attributes.position.count : 0, campus: campus ? campus.children.reduce(function (n, m) { return n + m.geometry.attributes.position.count; }, 0) : 0, wings: wings ? wings.geometry.attributes.position.count : 0, drape: drape ? drape.geometry.attributes.position.count : 0 }; },
     wingGo: function (sg, s, u) { var a = wingXZ(sg, u, s); this.go(a.x, a.z, 1e3); },
     wingBrg: function (sg, s, u) { var a = wingXZ(sg, u, s); return Math.atan2(a.x - px, -(a.z - pz)) * R2D; },
     wingLoc: function () { var o = palLoc(px, pz, {}); return { s: +o.rad.toFixed(2), uR: +(o.lat - latf(o.rad)).toFixed(2), uL: +(-o.lat - latf(o.rad)).toFixed(2), y: +ground.toFixed(2) }; },

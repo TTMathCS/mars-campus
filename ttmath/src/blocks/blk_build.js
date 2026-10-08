@@ -22,7 +22,7 @@
     ROVER_BAYS = [{ x: r1.x, z: r1.z, yaw: Math.atan2(-PAL.Rt.x, -PAL.Rt.z) }, { x: r2.x, z: r2.z, yaw: Math.atan2(PAL.c.x - r2.x, PAL.c.z - r2.z) }];
     PLAZA.c = palXZ(0, 91.5);
     buildPalace();                                                      // interior, dome glass and the moving pieces
-    var B = new Builder(760000, 2300000), W = new Builder(2800000, 8400000), D = new Builder();   // room for what they hold (v0.49: 0.66 and 2.57 million points)
+    var B = new Builder(760000, 2300000).track(), W = new Builder(2800000, 8400000).track(), D = new Builder();   // in chunks by place (v0.52)   // room for what they hold (v0.49: 0.66 and 2.57 million points)
     campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat, null, null, { later: true }); scene.add(campus);   // their quick light comes from the bake worker (v0.50)
     wings = bakedMesh(W, matMat, null, null, { later: true }); scene.add(wings); pendulumBuild();

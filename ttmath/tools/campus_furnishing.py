@@ -69,6 +69,15 @@ PIECES = dict(
                  "long mirror on stand-offs with a warm light behind its edges; Nero Marquina slabs behind, from the floor to 2.7 m; a walnut shelf "
                  "of rolled cream towels under it.",
     tall_cupboard="Oak cupboards 2.4 m high and 0.6 deep, a pair of doors to each 1.2 m, brass handles.",
+    cooking_island="The cooking island 4.8 by 2 m: two lines back to back on stainless cupboards, each with two ranges of six rings (black cast-iron grates), a flat griddle "
+                   "and two fryers with their baskets; black knobs along the fronts; pans on the rings.",
+    canopy_hood="A stainless canopy over the island, 5.2 by 2.4 m, its underside at 2.1 m: baffle filters along both sides, lights in its underside, its duct to the ceiling.",
+    steel_table="A stainless table: a top with a turned-down edge, an undershelf, four legs on rubber feet, a splash at the back on a wall.",
+    kitchen_shelves="Two stainless wall shelves on brackets at 1.45 and 1.85 m: stock pots, stacked pans, lidded boxes, chopping boards on edge in six colours.",
+    combi_ovens="Two combi ovens stacked on a stand: stainless, dark glass doors with handles, black control panels with a lit display.",
+    walk_in="A walk-in cold room 2.6 by 2.4 m and 2.5 high, stainless panels, a heavy door with its handle and hinges, its temperature lit over the door.",
+    dish_station="An inlet table with a sink and a spray arm on a spring, a hood dishwasher, an outlet table with racks of clean plates, shelves over it.",
+    pass_counter="A warmed stainless counter 5 m under a gantry of heat lamps glowing, the tickets on a rail, plates waiting.",
     trophy_cabinet="A walnut cabinet 3.6 m long, 0.45 deep, 1.9 high: a closed base 0.75 high, above it four glass doors between thin walnut bars and two shelves; "
                    "brass cups (the big ones with two handles) and walnut plaques with brass plates.",
     team_kit="What lies on a team's table in a contest: four answer sheets with a yellow pencil by each, a ceramic cup of pencils, the team's number card folded "
@@ -197,6 +206,20 @@ ROOMS = {
                           "and 17.35 on the corridor wall stay clear; the stage at r 52.8 to 58.8; the team tables' long sides across the room at r 53.4 and 58.4, five rows from "
                           "d 4.3 to 15.1 every 2.7 m, the aisle between them at r 55.9; the chess tables at d 18.0 (r 54.2 and 57.4) under the demonstration board; "
                           "the trophy cabinet from d 8.0 to 11.6",
+                   next=""),
+    "T06-36": dict(name="Kitchen", seating=[],
+                   tables=["the cooking island 4.8 by 2 m in the middle: two lines back to back, each with two ranges of six rings, a flat griddle and two fryers on stainless cupboards, black knobs, a stock pot, a sauce pan and a sauté pan on the rings",
+                           "a stainless prep island 3 by 1 m toward the back wall", "stainless prep tables 2.4 m on the outer wall, each under two wall shelves of pots, stacked pans, lidded boxes and chopping boards on edge",
+                           "the pass on the wall to the dining hall's servery: a warmed stainless counter 5 m under a gantry of heat lamps, the tickets on their rail, plates waiting"],
+                   lights=["flush light panels in two rows in the ceiling (no hanging lamps over a kitchen)", "the lights in the canopy's underside", "the heat lamps' glow over the pass"],
+                   finishes="Jim, 7 Oct 2026: \"kitchen is empty and has no furniture and design\". A working school kitchen for the dining hall: over the cooking island a stainless "
+                            "canopy 5.2 by 2.4 m hung at 2.1 m with baffle filters along both sides and its duct to the ceiling; on the outer wall two combi ovens stacked on a stand "
+                            "(dark glass doors, lit control panels), the prep tables, a double sink with its pre-rinse spray on a spring arm, two speed racks of sheet pans, a dry "
+                            "goods rack; on the corridor wall a hand basin with soap and towels by the door, the goods lift's stainless doors with their call panel, wire shelving of "
+                            "boxes, flour sacks, tins and tubs, and the walk-in cold room 2.6 by 2.4 m, its heavy door and its temperature over it; on the back wall the dish station "
+                            "(an inlet table with a sink and a spray arm, a hood dishwasher, an outlet table of clean plates, shelves over it); terrazzo floor, off-white walls",
+                   layout="d along the room from the back wall (0, the dish station) to the front (11.7 m, the wall to the dining hall and the pass); the cooking island at "
+                          "r 55.6, its middle 56% along; the prep island 2.8 m from the back wall; the door at d 2.1 on the corridor wall stays clear, the hand basin beside it",
                    next=""),
     "washrooms": dict(name="Washrooms, one for everyone (T06-07, T06-14, T06-22, T06-31)",
                    seating=["a cream boucle banquette 2.4 m with its cushions on the side wall by the door, under oak slats"],

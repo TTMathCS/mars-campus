@@ -226,13 +226,6 @@
   function storeRoom(B, rm, F) {
     for (var d = 1.5; d < F.span - 1.2; d += 2.3) { var a = F.at(d, false); [52.8, 56.0, 59.2].forEach(function (r) { crsPlace(B, rack(), r, a, F.y, Math.PI / 2); }); crsObst(52.2, 59.8, a - 0.4 / 56, a + 0.4 / 56, F.floor); }
   }
-  function kitchenRoom(B, rm, F) {                                                    // steel counters along the walls, an island
-    var C = CRS;
-    [[C.r1 - 0.45, 0], [C.rc + 0.45, Math.PI]].forEach(function (w, wi) { for (var d = 1.4; d < F.span - 1.2; d += 2.5) { var a = F.at(d, false); if (wi && nearDoor(F, a, 1.2)) continue;   // the corridor's side leaves its door clear
-      crsPlace(B, counter(2.4, 1), w[0], a, F.y, w[1]); crsObst(w[0] - 0.4, w[0] + 0.4, a - 1.25 / w[0], a + 1.25 / w[0], F.floor); } });
-    var ia = F.at(F.span / 2, false); crsPlace(B, counter(4.0, 1), 55.8, ia, F.y, 0); crsObst(55.3, 56.3, ia - 2.1 / 56, ia + 2.1 / 56, F.floor);
-    roomPlants(B, rm, F, null);
-  }
   // ---- the dining hall: lunch for a hundred and more ----
   // the servery, len along x, 0.8 deep, its back at +z: a steel counter, hot wells of food, a tray rail on the diners' side,
   // a heat lamp over the wells on two posts (the glass guard apart)

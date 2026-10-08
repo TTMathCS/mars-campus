@@ -108,7 +108,7 @@ RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-32": [("fern", "window0"), ("orchid", "desk")],
     "T06-33": [("monstera", "corner0")],
     "T06-35": [("kentia", "corner0"), ("monstera", "corner1")],
-    "T06-36": [("snake", "window0")],
+    "T06-36": [],   # a working kitchen: no pots on its floor
     "T06-37": [("olive", "window0"), ("fig", "windowmid"), ("olive", "window1"), ("strelitzia", "corner1")],
     "T06-38": [("monstera", "window0"), ("maple", "window1"), ("anthurium", "desk"), ("croton", "corner0")],
     "T06-39": [("kentia", "window0"), ("kentia", "window1"), ("croton", "corner0")],

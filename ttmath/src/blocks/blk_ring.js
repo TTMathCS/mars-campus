@@ -318,7 +318,7 @@
     C.sky.forEach(function (h) { skylightWell(W, h); });
     // lights: pendants in rows in the rooms (three rows in the big ones), downlights in the corridors and the halls
     C.rooms.forEach(function (rm) {
-      if (rm.band || isHall(rm) || isBay(rm) || rm.kind === "cafe" || rm.kind === "dining") return;   // the café and the dining hall have their own lamps over the tables
+      if (rm.band || isHall(rm) || isBay(rm) || rm.kind === "cafe" || rm.kind === "dining" || rm.kind === "kitchen") return;   // the café, the dining hall and the kitchen have their own lamps over the tables
       var ra0 = rmA0(rm), ra1 = rmA1(rm), span = (ra1 - ra0) * 55.8, nl = Math.max(1, Math.round((span - 1.6) / 3.4));
       var rows = ra1 - ra0 >= 13.5 * D2R ? [52.6, 55.9, 59.2] : [53.2, 58.4];
       rmFloors(rm).forEach(function (fl) {

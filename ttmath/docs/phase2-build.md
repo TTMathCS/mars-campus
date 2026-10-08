@@ -160,6 +160,10 @@ each pushed when it is checked:
    (v0.35) `blk_service.js` (after `blk_labs.js`): `washrooms` (`wcSuites` with `wallWC`, `stoneVanity`, `tallCupboard`; the
    banquette and `slatWall` on the door's side). The pothos variants: `pothos` (on a desk, short vines), `pothoswall` (on a
    shelf or a bookcase, its vines forward only), `pothosstand` (on a `plantStand`).
+   (v0.36) `blk_kitchen.js` (after `blk_service.js`): `kitchenRoom` with `cookingIsland`, `canopyHood`, `steelTable`,
+   `kitchenShelves`, `doubleSink`, `combiStack`, `walkIn`, `dishStation`, `passCounter`, `handBasin`, `speedRack`, `goodsLift`,
+   `dryShelving`; the kitchen has no hanging lamps (blk_ring.js leaves it out; flush panels in its ceiling). Its steel is
+   satin stainless (STEEL g.x 2 in blk_mat.js, set by `satin(b)` on each piece): brushed steel mirrored the warm room and read brown.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

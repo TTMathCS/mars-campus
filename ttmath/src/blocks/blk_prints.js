@@ -437,6 +437,37 @@
     [-3, -2, -1, 0, 1, 2, 3].forEach(function (k) { var xx = cx + k * sg; g.beginPath(); g.moveTo(xx, yb); g.lineTo(xx, yb + 5); g.stroke(); g.fillText(k ? (k > 0 ? k + "σ" : "−" + (-k) + "σ") : "μ", xx, yb + 8); });
     g.textBaseline = "middle"; g.fillText("68 %", cx, yb - H * 0.32); g.fillText("95 %", cx + 1.5 * sg, yb - H * 0.1);
   };
+  PRINT_DRAW.hohmann = function (g, b) {                               // Earth to Mars (v0.48): the Sun, the two orbits, half an ellipse between
+    var cx = b.x + b.w * 0.5, cy = b.y + b.h * 0.5, R2 = Math.min(b.w * 0.3, b.h * 0.46), R1 = R2 / 1.524, am = (R1 + R2) / 2, cf = (R2 - R1) / 2, bm = Math.sqrt(R1 * R2);
+    function P(r, th) { return [cx + r * Math.cos(th), cy - r * Math.sin(th)]; }
+    inkLine(g, 1.6, PRC.navy); g.beginPath(); g.arc(cx, cy, R1, 0, 2 * Math.PI); g.stroke();
+    inkLine(g, 1.6, PRC.red); g.beginPath(); g.arc(cx, cy, R2, 0, 2 * Math.PI); g.stroke();
+    g.setLineDash([5, 5]); inkLine(g, 1.2, "rgba(43,122,120,0.6)"); g.beginPath(); g.ellipse(cx + cf, cy, am, bm, 0, 0, Math.PI, true); g.stroke(); g.setLineDash([]);
+    inkLine(g, 3, PRC.teal); g.beginPath(); g.ellipse(cx + cf, cy, am, bm, 0, Math.PI, 2 * Math.PI, true); g.stroke();
+    var sg = g.createRadialGradient(cx, cy, 1, cx, cy, 15); sg.addColorStop(0, "#fff1c4"); sg.addColorStop(0.5, "#f2b33d"); sg.addColorStop(1, "rgba(217,130,40,0)"); g.fillStyle = sg; dot(g, cx, cy, 15);
+    var e0 = P(R1, Math.PI), m0 = P(R2, Math.PI - 136 * D2R + Math.PI), m1 = P(R2, 0);
+    g.fillStyle = PRC.navy; dot(g, e0[0], e0[1], 6); g.fillStyle = PRC.red; dot(g, m1[0], m1[1], 6);
+    g.fillStyle = "rgba(196,80,47,0.45)"; dot(g, m0[0], m0[1], 5);
+    serif(g, b.h * 0.055, "italic"); g.fillStyle = PRC.ink; g.textBaseline = "middle";
+    g.textAlign = "right"; g.fillText("Earth, at launch", e0[0] - 10, e0[1] - 12);
+    g.textAlign = "left"; g.fillText("Mars, 259 days later", m1[0] + 10, m1[1] - 12);
+    g.fillText("Mars at launch, 44° ahead", m0[0] + 10, m0[1] + 2);
+    g.textAlign = "center"; g.fillStyle = PRC.teal; var mp = P(bm * 1.04, -Math.PI / 2); g.fillText("half an ellipse round the Sun", mp[0] + cf, mp[1] + 14);
+  };
+  PRINT_DRAW.brachistochrone = function (g, b) {                       // the fastest way down (v0.48): beads on the cycloid and the straight line at equal times
+    var T = 2.4, R = Math.min(b.w * 0.86 / (T - Math.sin(T)), b.h * 0.78 / (1 - Math.cos(T))), x0 = b.x + b.w * 0.07, y0 = b.y + b.h * 0.1;
+    function C(t) { return [x0 + R * (t - Math.sin(t)), y0 + R * (1 - Math.cos(t))]; }
+    var B = C(T), L = Math.hypot(B[0] - x0, B[1] - y0), sn = (B[1] - y0) / L, tC = T * Math.sqrt(R), tL = Math.sqrt(2 * L / sn);   // times with g = 1
+    inkLine(g, 1.6, "rgba(31,36,48,0.55)"); g.setLineDash([6, 5]); g.beginPath(); g.moveTo(x0, y0); g.lineTo(B[0], B[1]); g.stroke(); g.setLineDash([]);
+    inkLine(g, 3, PRC.red); g.beginPath(); for (var k = 0; k <= 80; k++) { var q = C(T * k / 80); if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); } g.stroke();
+    for (var i = 1; i <= 6; i++) { var tt = tC * i / 6;
+      var q2 = C(tt / Math.sqrt(R)); g.fillStyle = PRC.red; dot(g, q2[0], q2[1], 5);
+      var s2 = Math.min(L, 0.5 * sn * tt * tt); g.fillStyle = "rgba(31,36,48,0.6)"; dot(g, x0 + (B[0] - x0) * s2 / L, y0 + (B[1] - y0) * s2 / L, 5); }
+    g.fillStyle = PRC.ink; dot(g, x0, y0, 4); dot(g, B[0], B[1], 4);
+    serif(g, b.h * 0.06, "italic"); g.textBaseline = "middle"; g.textAlign = "left"; g.fillText("A", x0 + 8, y0 - 4); g.fillText("B", B[0] - 22, B[1] + 2);
+    g.fillStyle = PRC.red; g.fillText("the cycloid: first to arrive", b.x + b.w * 0.36, b.y + b.h * 0.9);
+    g.fillStyle = "rgba(31,36,48,0.75)"; g.fillText("the straight line: shortest, yet slower", b.x + b.w * 0.42, b.y + b.h * 0.32);
+  };
   // a room's mathematician (v0.39): the figure on the left, the name, the years and the city, and one line on the right
   function drawPoster(g, b, x) {
     var P = x.poster, fw = b.w * 0.52, fb = { x: b.x + 8, y: b.y + 8, w: fw - 16, h: b.h - 16 };

@@ -71,7 +71,8 @@ GALLERY = dict(r0=62.0, r1=68.5, a=52.0, wall=1.2)
 
 # The plants of the Crescent, chosen room by room (Jim's rule: all kinds and colours, never one pot plant repeated):
 # kind and spot. Spots: window0/window1 (the garden glass, at the room's lower/higher-angle end), windowmid, corner0/
-# corner1 (the corridor wall's ends), door (beside the doorway), desk (on the teacher's or a table), shelf (on a shelf).
+# corner1 (the corridor wall's ends), door (beside the doorway), desk (on the teacher's or a table), shelf (on a shelf),
+# side0/side1 (by a side wall, halfway out), glass0/glass1 (by a side wall, 3 m in from the outer glass).
 CRESCENT_PLANTS = {
     "T06-01": [("strelitzia", "window0"), ("strelitzia", "window1"), ("maple", "corner0"), ("kentia", "corner1")],
     "T06-02": [("croton", "window0"), ("fig", "windowmid"), ("orchid", "desk"), ("snake", "door")],
@@ -94,7 +95,7 @@ CRESCENT_PLANTS = {
 RING_PLANTS = dict(CRESCENT_PLANTS, **{
     "T06-19": [("olive", "window0"), ("croton", "window1"), ("orchid", "desk"), ("snake", "door")],
     "T06-20": [("strelitzia", "window0"), ("fig", "windowmid"), ("anthurium", "desk"), ("fern", "corner1")],
-    "T06-21": [("kentia", "side0"), ("bromeliad", "door")],
+    "T06-21": [("kentia", "glass0"), ("strelitzia", "glass1"), ("bromeliad", "door")],   # (v0.48) the side walls are banquettes now: the palms flank the glass end
     "T06-22": [("monstera", "side1"), ("pothos", "shelf")],
     "T06-23": [("ficus", "window0"), ("agave", "window1"), ("orchid", "desk"), ("pothos", "shelf")],
     "T06-24": [("maple", "window0"), ("kentia", "window1"), ("anthurium", "desk")],
@@ -155,6 +156,9 @@ RING_ART = [
     dict(room="T06-37", wall="front", r=55.2, y=1.95, w=2.6, floor="lower", subject="pidigits", title="The first thousand digits of pi", note="each digit its own colour: the pattern never repeats"),
     dict(room="T06-29", wall="back", r=57.2, y=1.85, w=1.8, floor="lower", subject="spectrum", title="The electromagnetic spectrum", note="light is one narrow band of a range that runs from radio waves to gamma rays"),
     dict(room="T06-42", wall="front", r=59.1, y=1.7, w=1.4, floor="lower", subject="lissajous", title="Lissajous figures", note="a point swinging two ways at once, in the ratio of two whole numbers"),
+    # the pod lounge (v0.48): over the banquettes on its two side walls, the mathematics of getting from here to there
+    dict(room="T06-21", wall="back", r=54.6, y=1.75, w=1.8, floor="upper", subject="hohmann", title="Earth to Mars", note="the transfer orbit: half an ellipse round the Sun from Earth's orbit out to Mars's, 259 days, leaving when Mars is 44 degrees ahead"),
+    dict(room="T06-21", wall="front", r=54.6, y=1.75, w=1.8, floor="upper", subject="brachistochrone", title="The fastest way down", note="a bead sliding from A to B arrives first along the cycloid, not down the straight line"),
 ] + [
     # each classroom's mathematician (v0.39; CP-30, "details for each classroom"): a poster on the back wall near the
     # corridor, clear of the pinboard (r 57.5 to 60.4) and of the room's own piece (Euclid's solids, Fibonacci's spiral,

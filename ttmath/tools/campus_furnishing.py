@@ -107,8 +107,12 @@ ROOMS = {
                             "the emblem of the world's mathematicians (v0.47)",
                    layout="the way from the entrance's door (180 deg) straight through to the garden's doors kept clear; the lounge group at r 53.6 to 58.2, 166.4 to 171 deg, "
                           "facing the screens; the sculpture at r 52.6, 175.2 deg; the bench that stood where the group is (r 57.6, 172.5 deg) gone", next=""),
-    "T06-21": dict(name="Pod lounge", seating=["two warm grey sofas 2 m by the glass either side of the bridge's door"], tables=["a walnut table with books in front of each sofa"], lights=["linear pendants"],
-                   finishes="linen plaster", next=""),
+    "T06-21": dict(name="Pod lounge", seating=["two warm grey sofas 2 m by the glass either side of the bridge's door",
+                                              "a navy wool banquette 5.6 m along each side wall (v0.48), where people wait for their pod"],
+                   tables=["a walnut table with books in front of each sofa", "three round café tables of white marble on bronze stems before each banquette"], lights=["linear pendants"],
+                   finishes="linen plaster; the pods' screen on the corridor wall; over the banquettes two prints of the mathematics of travel (RING_ART): the Hohmann transfer "
+                            "from Earth to Mars, and the brachistochrone",
+                   layout="the way from the corridor's door straight out to the bridge's door kept clear down the middle; the banquettes from r 51.8 to 57.4", next=""),
     "T06-26": dict(name="Reading room", seating=["by the outer wall a linen sofa 3.4 m and a forest-green velvet sofa 3.4 m, each facing two cognac club chairs across a walnut table on a rug",
                    "eight warm grey upholstered chairs round the reading table", "an olive banquette 3 m on the back wall between four bookcases", "two cognac club chairs on the front wall, a lamp table between them, two bookcases each side"],
                    tables=["walnut tables with books and a bowl", "a walnut reading table 3.2 m in the middle on an oatmeal rug", "lamp tables at the sofas' ends"],

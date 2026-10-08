@@ -269,6 +269,7 @@
         else if (spot === "corner0") { r = C.rc + Math.max(0.7, cl); a = F.a0 + Math.max(0.75, cl) / r; } else if (spot === "corner1") { r = C.rc + Math.max(0.7, cl); a = F.a1 - Math.max(0.75, cl) / r; }
         else if (spot === "door") { var d = F.doors[0] || F.mid; r = C.rc + cl; a = d + (d > F.mid ? -1 : 1) * (0.85 + R) / r; }   // beside the door, past its open leaf
         else if (spot === "side0" || spot === "side1") { r = (C.rc + C.r1) / 2; a = spot === "side0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, halfway out
+        else if (spot === "glass0" || spot === "glass1") { r = C.r1 - 3.0; a = spot === "glass0" ? F.a0 + Math.max(0.6, cl) / r : F.a1 - Math.max(0.6, cl) / r; }   // by a side wall, 3 m in from the glass
         else { r = C.r1 - 0.17 - R; a = F.mid; }
         return [r, a];
       }, seed * 0.7, near, pots, log);

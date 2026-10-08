@@ -204,6 +204,11 @@
     B.add(scoreboard(), Mq); wpic(B, Mq, [0.004, 0, 0], "z", [1, 0], 2.4, 1.35, ATL.podMap, MT.SCREEN, [1.0, 0]);
     var ac = d + Math.sign(d - ad || 1) * 1.25 / C.rc, rr = C.rc + 0.45;                       // the coat rack in the corner by the door
     crsPlace(B, coatRack(), rr, ac, F.y, 0); crsObst(rr - 0.35, rr + 0.35, ac - 0.35 / rr, ac + 0.35 / rr, F.floor);
+    // where people wait for their pod (v0.48): a navy banquette along each side wall under its print, three café tables before it
+    [[F.a0, ROT.plusA, 1], [F.a1, ROT.minusA, -1]].forEach(function (w) {
+      var rq = 54.6, aq = w[0] + w[2] * 0.405 / rq; crsPlace(B, banquette(5.6, 1), rq, aq, F.y, w[1]); crsObst(rq - 2.85, rq + 2.85, Math.min(w[0], aq + w[2] * 0.36 / rq), Math.max(w[0], aq + w[2] * 0.36 / rq), F.floor);
+      [52.6, 54.6, 56.6].forEach(function (rt) { var at2 = w[0] + w[2] * 1.2 / rt; crsPlace(B, roundTable(), rt, at2, F.y, 0); crsObst(rt - 0.4, rt + 0.4, at2 - 0.4 / rt, at2 + 0.4 / rt, F.floor); });
+    });
     roomPlants(B, rm, F, null);
   }
   function coatRack() { return furn("coatrack", function (b) {                         // a turned oak stand on a cast base, hooks round its top

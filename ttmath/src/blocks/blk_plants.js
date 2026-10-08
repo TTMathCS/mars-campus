@@ -198,6 +198,20 @@
   function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
     B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
   }
+  // a plant in a bed by a wall or the glass, or under a roof (F: the ring's frame at its spot, z out from the palace): its
+  // crown kept inside, folded softly back near where it would reach through (zIn toward the palace, zOut away from it, yMax
+  // up from the floor), the way a gardener trains and prunes a tree under glass (v0.41; 0 or undefined: no limit that way)
+  function bedPlantKept(B, kind, seed, F, rot, soilY, k, zIn, zOut, yMax) {
+    var t = new Builder();
+    t.add(plantBuilder(kind, seed, true), new THREE.Matrix4().makeRotationY(rot || 0).multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+    function fold(v, m) { var kn = 0.7 * m; return v < kn ? v : kn + (m - kn) * Math.tanh((v - kn) / (m - kn)); }
+    for (var q = 0; q < t.p.length / 3; q++) {
+      var z = t.p[q * 3 + 2], y = t.p[q * 3 + 1];
+      if (zOut > 0 && z > 0) t.p[q * 3 + 2] = fold(z, zOut); else if (zIn > 0 && z < 0) t.p[q * 3 + 2] = -fold(-z, zIn);
+      if (yMax > 0 && y > 0) t.p[q * 3 + 1] = fold(y, yMax);
+    }
+    B.add(t, F);
+  }
   function pot(b, kind, r, h) {
     POT_TOP = h * 0.94; if (POT_SKIP) { POT_END = b.count(); return h * 0.94; }
     // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass

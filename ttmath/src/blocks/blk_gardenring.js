@@ -96,7 +96,7 @@
     [[230, 38.5, "fig"], [237, 31.0, "kentia"], [244, 39.8, "olive"], [256, 39.6, "maple"], [262, 31.2, "kentia"], [268, 38.2, "fig"], [275, 33.0, "strelitzia"]].forEach(function (t, n) {
       var c = crsPt(t[1], t[0] * D); latheOn(B, c.x, yL, c.z, [[1.5, 0], [1.5, 0.45], [1.56, 0.5], [1.42, 0.52], [1.42, 0.44], [0, 0.44]], 32, MT.CONCRETE, 0.4);
       B.geo(new THREE.CylinderGeometry(1.4, 1.4, 0.02, 32), T(c.x, yL + 0.44, c.z), MT.RUBBER, 1);
-      bedPlant(B, t[2], 700 + n, T(c.x, yL, c.z, 0, R2() * 6.28, 0), 0.45, 3.2);
+      bedPlantKept(B, t[2], 700 + n, crsFrame(t[1], t[0] * D, yL), R2() * 6.28, 0.45, 3.2, t[1] - PAL.ringOut - 0.5, CRS.r0 - t[1] - 0.5, yU + GR.grove.roof - 0.35 - yL);   // under the grove's glass, clear of the palace's foot
       GRD.posts.push({ x: c.x, z: c.z, r: 1.8, low: 1 });
     });
     // the garden: trees in big round planters between the paths to the doors, ferns and flowering plants along the dome's foot

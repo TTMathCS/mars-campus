@@ -2564,6 +2564,20 @@
   function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
     B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
   }
+  // a plant in a bed by a wall or the glass, or under a roof (F: the ring's frame at its spot, z out from the palace): its
+  // crown kept inside, folded softly back near where it would reach through (zIn toward the palace, zOut away from it, yMax
+  // up from the floor), the way a gardener trains and prunes a tree under glass (v0.41; 0 or undefined: no limit that way)
+  function bedPlantKept(B, kind, seed, F, rot, soilY, k, zIn, zOut, yMax) {
+    var t = new Builder();
+    t.add(plantBuilder(kind, seed, true), new THREE.Matrix4().makeRotationY(rot || 0).multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+    function fold(v, m) { var kn = 0.7 * m; return v < kn ? v : kn + (m - kn) * Math.tanh((v - kn) / (m - kn)); }
+    for (var q = 0; q < t.p.length / 3; q++) {
+      var z = t.p[q * 3 + 2], y = t.p[q * 3 + 1];
+      if (zOut > 0 && z > 0) t.p[q * 3 + 2] = fold(z, zOut); else if (zIn > 0 && z < 0) t.p[q * 3 + 2] = -fold(-z, zIn);
+      if (yMax > 0 && y > 0) t.p[q * 3 + 1] = fold(y, yMax);
+    }
+    B.add(t, F);
+  }
   function pot(b, kind, r, h) {
     POT_TOP = h * 0.94; if (POT_SKIP) { POT_END = b.count(); return h * 0.94; }
     // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass
@@ -4306,7 +4320,7 @@
     [[230, 38.5, "fig"], [237, 31.0, "kentia"], [244, 39.8, "olive"], [256, 39.6, "maple"], [262, 31.2, "kentia"], [268, 38.2, "fig"], [275, 33.0, "strelitzia"]].forEach(function (t, n) {
       var c = crsPt(t[1], t[0] * D); latheOn(B, c.x, yL, c.z, [[1.5, 0], [1.5, 0.45], [1.56, 0.5], [1.42, 0.52], [1.42, 0.44], [0, 0.44]], 32, MT.CONCRETE, 0.4);
       B.geo(new THREE.CylinderGeometry(1.4, 1.4, 0.02, 32), T(c.x, yL + 0.44, c.z), MT.RUBBER, 1);
-      bedPlant(B, t[2], 700 + n, T(c.x, yL, c.z, 0, R2() * 6.28, 0), 0.45, 3.2);
+      bedPlantKept(B, t[2], 700 + n, crsFrame(t[1], t[0] * D, yL), R2() * 6.28, 0.45, 3.2, t[1] - PAL.ringOut - 0.5, CRS.r0 - t[1] - 0.5, yU + GR.grove.roof - 0.35 - yL);   // under the grove's glass, clear of the palace's foot
       GRD.posts.push({ x: c.x, z: c.z, r: 1.8, low: 1 });
     });
     // the garden: trees in big round planters between the paths to the doors, ferns and flowering plants along the dome's foot
@@ -5032,9 +5046,12 @@
   function crescentGalleryFurnish(B) {
     var C = CRS, G = C.gal, rP = G.r1 - 0.85, rB = G.r1 - 1.9, kinds = ["kentia", "strelitzia", "fern", "monstera", "maple", "olive", "agave", "bromeliad", "croton", "fig", "anthurium", "ficus"], n = 0;
     var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
+    var yE = crsRoofY(C.roofOut) - C.roofT - 0.05, rT = C.r1 + 0.4, rW = G.r1 - 0.15;                            // the glass roof, as crescentGallery builds it
+    function roofAt(a, r) { var p = crsPt(G.r1 + 0.4, a), top = Math.max(groundAt(p.x, p.z, C.yL) + G.wall, C.yL + 2.8); return lerp(yE, top + 0.16, (r - rT) / (rW - rT)); }
     for (var a = G.a0 + 3.0 / rP; a < G.a1 - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
-      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; bedPlant(B, kind, 300 + n, crsFrame(rP, pa, C.yL, n * 1.3), 0.5, 1.7); }   // big plants set into the troughs
+      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP;      // big plants set into the troughs, their leaves this side of the wall and under the glass
+        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
       var ba = a + 4.0 / rP; if (ba < G.a1 - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }

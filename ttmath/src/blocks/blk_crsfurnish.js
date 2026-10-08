@@ -419,9 +419,12 @@
   function crescentGalleryFurnish(B) {
     var C = CRS, G = C.gal, rP = G.r1 - 0.85, rB = G.r1 - 1.9, kinds = ["kentia", "strelitzia", "fern", "monstera", "maple", "olive", "agave", "bromeliad", "croton", "fig", "anthurium", "ficus"], n = 0;
     var doorsA = (C.doors || []).filter(function (d) { return Math.abs(d.r - C.r1) < 0.01; }).map(function (d) { return d.a; });
+    var yE = crsRoofY(C.roofOut) - C.roofT - 0.05, rT = C.r1 + 0.4, rW = G.r1 - 0.15;                            // the glass roof, as crescentGallery builds it
+    function roofAt(a, r) { var p = crsPt(G.r1 + 0.4, a), top = Math.max(groundAt(p.x, p.z, C.yL) + G.wall, C.yL + 2.8); return lerp(yE, top + 0.16, (r - rT) / (rW - rT)); }
     for (var a = G.a0 + 3.0 / rP; a < G.a1 - 3.0 / rP; a += 8.0 / rP) {
       crsPlace(B, planter(5.0), rP, a, C.yL, 0); crsObst(rP - 0.5, rP + 0.5, a - 2.55 / rP, a + 2.55 / rP, "gallery");
-      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP; bedPlant(B, kind, 300 + n, crsFrame(rP, pa, C.yL, n * 1.3), 0.5, 1.7); }   // big plants set into the troughs
+      for (var k = 0; k < 3; k++) { var kind = kinds[n++ % kinds.length], pa = a + (-1.6 + 1.6 * k) / rP;      // big plants set into the troughs, their leaves this side of the wall and under the glass
+        bedPlantKept(B, kind, 300 + n, crsFrame(rP, pa, C.yL), n * 1.3, 0.5, 1.7, 0, G.r1 - 0.3 - rP - 0.12, roofAt(pa, rP) - 0.3 - C.yL); }
       var ba = a + 4.0 / rP; if (ba < G.a1 - 2.0 / rB && !doorsA.some(function (d) { return Math.abs(d - ba) * C.r1 < 2.2; })) { crsPlace(B, gardenBench(2.4), rB, ba, C.yL, ROT["in"]); crsObst(rB - 0.3, rB + 0.3, ba - 1.25 / rB, ba + 1.25 / rB, "gallery"); }
     }
   }

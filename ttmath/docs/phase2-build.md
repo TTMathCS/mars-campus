@@ -174,6 +174,9 @@ each pushed when it is checked:
    (v0.38) `FOLIAGE` in `blk_plants.js`: per kind, [spread, height] factors applied at the end of `plantBuilder` to a
    potted plant's foliage (every vertex after the pot's, `POT_END`; heights about the soil, `POT_TOP`), never to the pot
    or to plants in beds; `placePlant` measures the smaller reach (`plantReach`), so the plants stand nearer their spots.
+   (v0.41) `bedPlantKept(B, kind, seed, F, rot, soilY, k, zIn, zOut, yMax)` in `blk_plants.js`: a bed plant in the ring's
+   frame F whose crown is folded back (smoothly, from 70 % of the limit) where it would pass zIn toward the palace, zOut
+   away from it or yMax over the floor; used for the gallery's troughs (its wall, its sloping roof: `roofAt`) and the grove.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

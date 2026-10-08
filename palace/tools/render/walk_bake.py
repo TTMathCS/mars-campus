@@ -93,7 +93,10 @@ def build(rooms):
     return sc, M, b0, b1
 
 
-def lighten(max_faces=8000):
+MAX_FACES = int(os.environ.get("WALK_MAX_FACES", "8000"))      # a model with more faces is simplified to this many
+
+
+def lighten(max_faces=MAX_FACES):
     """lighter for the browser: every leaf two triangles instead of ten (a cupped diamond of the same size), and the
     scanned models with many thousands of faces simplified (the light is baked, so the detail lost is small)"""
     for o in bpy.data.objects:

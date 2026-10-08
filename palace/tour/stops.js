@@ -72,10 +72,10 @@ window.TOUR_STOPS = [
   /* The Crown, above ground, one stop in every room of the main floor (written by palace/tools/tour_crown.py):
      positions in metres from the ring's centre, x east, y north (the rooms lie between 118.5 and 135 m out, the
      Glide along the inner wall); z from the main floor, 41 m up. */
-  { id: "crown_stars", place: "crown", ready: false, name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [27.43, 124.77], az0: 18, img: "pano/crown_stars.jpg",
+  { id: "crown_stars", place: "crown", name: "The star lounge", short: "Star lounge", k: "The Crown · Observatory", p: [27.43, 124.77], az0: 18, img: "pano/crown_stars.jpg",
     d: "The Observatory at night: round daybeds for two laid back under the stars, a velvet crescent sofa, kentia palms in silhouette, and walls of glass that clear for the night sky. Across the ring the other rooms' windows glow.",
     links: [{ id: "crown_craft", at: [19.07, 115.18, 0], label: "The Glide: to the craft room" }, { id: "crown_telescope", at: [43.25, 119.14, 0], label: "Through to the telescope room" }, { id: "orb_earth", label: "Portal: up to the Orb" }] },
-  { id: "crown_telescope", place: "crown", ready: false, name: "The telescope room", short: "Telescope room", k: "The Crown · Observatory", p: [57.83, 111.1], az0: -72, img: "pano/crown_telescope.jpg",
+  { id: "crown_telescope", place: "crown", name: "The telescope room", short: "Telescope room", k: "The Crown · Observatory", p: [57.83, 111.1], az0: -72, img: "pano/crown_telescope.jpg",
     d: "The control desk of the telescope in the dome above, with leather chairs at it, and a sofa facing the screens of what the telescope sees.",
     links: [{ id: "crown_stars", at: [43.25, 119.14, 0], label: "Through to the star lounge" }, { id: "crown_breakfast", at: [59.26, 100.6, 0], label: "The Glide: to the breakfast room" }] },
   { id: "crown_breakfast", place: "crown", name: "The breakfast room", short: "Breakfast room", k: "The Crown · Garden room", p: [86.74, 88.26], az0: 22, img: "pano/crown_breakfast.jpg",

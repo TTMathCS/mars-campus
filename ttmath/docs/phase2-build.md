@@ -190,6 +190,10 @@ each pushed when it is checked:
    bays, glazed rooms or the Gate Hall), clear of that floor's doors, by the look-ahead rule in RING_SAFETY; call points by
    the bays' doors; sprinklers between the corridor downlights and smoke detectors every 9 m. `CRS.safetyLog` lists the
    cabinets. PLASTIC colour 21 is fire red (blk_mat.js).
+   (v0.45) The garden ring's beds (`bedRun` in `blk_gardenring.js`, from P2.garden_ring.beds): runs of angle clear of the
+   paths (`keep`, a path half-width in metres), the palace's vault and vestibule and the grove; each a curb, soil and rows
+   of plants by `bedPlantReal` (a bed plant with the potted plant's proportions, FOLIAGE, at scale k), six seeds a kind so
+   the builders are shared; the beds are posts ({bed, r0, r1, a0, a1}) that `gardenSupport` keeps you out of.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

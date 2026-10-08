@@ -121,15 +121,42 @@
       [-1.05, 1.05].forEach(function (x) { gb.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
       B.add(gb, T(c3.x, yU, c3.z, 0, yaw, 0)); GRD.posts.push({ x: c3.x, z: c3.z, r: 0.75 });
     }
-    var kinds = ["fern", "bromeliad", "anthurium", "croton", "agave", "orchid", "pothos", "snake"];
-    for (var k6 = 0; k6 < 64; k6++) {
-      var d6 = -57 + 360 * (k6 + 0.5) / 64; if (grInGrove(d6) || !clear(d6, 3) || grInPalace(30.3, d6)) continue;
-      var c6 = crsPt(30.3, d6 * D); B.add(plantBuilder(kinds[k6 % kinds.length], 520 + k6), T(c6.x, yU, c6.z, 0, k6 * 1.7, 0)); GRD.posts.push({ x: c6.x, z: c6.z, r: 0.45 });
+    // the beds (v0.45): planted like a tropical house under glass, in drifts, along the dome's foot and along the Ring's glass
+    // between its doors (P2.garden_ring.beds): a low concrete curb, dark soil, the plants at their real size set into it
+    var BD = GR.beds, bedRuns = [];
+    function bedSegs(rA, rB, path) {                   // the runs of angle clear of the paths, the palace's vault and vestibule, the grove
+      var out = [], cur = null, rm = (rA + rB) / 2;
+      for (var d = -50; d <= 310.001; d += 0.25) {
+        var ok = d < 309.9 && !grInGrove(d) && keep.every(function (k) { return Math.abs(((d - k) % 360 + 540) % 360 - 180) * D * rm > path; }) && !grInPalace(rA, d) && !grInPalace(rB, d) && !grInPalace(rm, d);
+        if (ok && cur === null) cur = d; else if (!ok && cur !== null) { if ((d - 0.25 - cur) * D * rm > 2.0) out.push([cur, d - 0.25]); cur = null; }
+      }
+      return out;
     }
+    function bedRun(rA, rB, s, rows, seed0) {
+      var a0 = s[0] * D, a1 = s[1] * D, hc = BD.curb, t = 0.12, ys = hc - 0.04;
+      arcWall(B, rA, a0, a1, yU, yU + hc, MT.CONCRETE, 0, -1, 0.4); arcWall(B, rB, a0, a1, yU, yU + hc, MT.CONCRETE, 0, 1, 0.4);
+      arcWall(B, rA + t, a0, a1, yU + ys, yU + hc, MT.CONCRETE, 0, 1, 0.4); arcWall(B, rB - t, a0, a1, yU + ys, yU + hc, MT.CONCRETE, 0, -1, 0.4);
+      flat(B, rA, rA + t, a0, a1, yU + hc, MT.CONCRETE, 0, true); flat(B, rB - t, rB, a0, a1, yU + hc, MT.CONCRETE, 0, true);
+      radWall(B, a0, rA, rB, yU, yU + hc, MT.CONCRETE, 0, -1, 0.4); radWall(B, a1, rA, rB, yU, yU + hc, MT.CONCRETE, 0, 1, 0.4);
+      flat(B, rA + t, rB - t, a0, a1, yU + ys, MT.RUBBER, 0, true);
+      rows.forEach(function (row, ri) {                 // each row in drifts of three of a kind
+        var r = rA + row[0], n = Math.max(1, Math.floor((a1 - a0) * r / row[1])), da = (a1 - a0) / n;
+        for (var i = 0; i < n; i++) {
+          var kind = row[3][(Math.floor(i / BD.drift) + seed0 + ri) % row[3].length], a = a0 + da * (i + 0.5) + (R2() - 0.5) * da * 0.3, rr = r + (R2() - 0.5) * 0.2, p = crsPt(rr, a);
+          bedPlantReal(B, kind, 900 + (seed0 * 5 + i * 3 + ri) % 6, T(p.x, yU, p.z, 0, R2() * 6.28, 0), ys, row[2] * (0.9 + 0.2 * R2()));
+        }
+      });
+      GRD.posts.push({ bed: 1, r0: rA - 0.05, r1: rB + 0.05, a0: a0 - 0.05 / rA, a1: a1 + 0.05 / rA }); bedRuns.push([rA, rB, a0, a1]);
+    }
+    var bi = BD.inner, rIa = r0 + bi.r, rIb = rIa + bi.depth, bo = BD.outer, rOb = r1 - bo.r, rOa = rOb - bo.depth;
+    bedSegs(rIa, rIb, bi.path).forEach(function (s, n) { bedRun(rIa, rIb, s, bi.rows, n); });
+    bedSegs(rOa, rOb, bo.path).forEach(function (s, n) { bedRun(rOa, rOb, s, bo.rows, n + 3); });
+    function inBed(r, a) { return bedRuns.some(function (b) { return r > b[0] && r < b[1] && a > b[2] && a < b[3]; }); }
     // uplights along the dome's foot washing the ribs
     for (var d7 = -55; d7 < 302; d7 += 10) { if (grInGrove(d7) || !clear(d7, 2) || grInPalace(PAL.ringOut + 0.4, d7)) continue; var p7 = crsPt(PAL.ringOut + 0.45, d7 * D), q7 = crsPt(1, d7 * D);
-      B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p7.x, yU + 0.03, p7.z), MT.LIGHT, 1);
-      extLight(p7.x, yU + 0.2, p7.z, WARMC, 1.4, 9, [(q7.x - PAL.c.x) * 0.55, 0.83, (q7.z - PAL.c.z) * 0.55], 2); }
+      var yb7 = inBed(PAL.ringOut + 0.45, d7 * D) ? BD.curb - 0.04 : 0;                  // in a bed: on its soil
+      B.geo(addF2(new THREE.CylinderGeometry(0.07, 0.08, 0.06, 12), 1.5, 0), T(p7.x, yU + yb7 + 0.03, p7.z), MT.LIGHT, 1);
+      extLight(p7.x, yU + yb7 + 0.2, p7.z, WARMC, 1.4, 9, [(q7.x - PAL.c.x) * 0.55, 0.83, (q7.z - PAL.c.z) * 0.55], 2); }
     // the armillary sundial from the Sun court
     var sd = GR.sundial, cs = crsPt(sd.r, sd.a * D); sundial(B, cs, yU); GRD.posts.push({ x: cs.x, z: cs.z, r: 1.35 });
   }
@@ -145,7 +172,9 @@
       return C.yL;
     }
     if (Math.abs(deg - gv[0]) * D2R * r < 0.3 || Math.abs(deg - gv[1]) * D2R * r < 0.3) return NaN;
-    for (var j = 0; j < GRD.posts.length; j++) { var p = GRD.posts[j]; if (!p.grove && !p.low && Math.hypot(x - p.x, z - p.z) < p.r) return NaN; }
+    for (var j = 0; j < GRD.posts.length; j++) { var p = GRD.posts[j];
+      if (p.bed) { var ab = o.a; if (r > p.r0 && r < p.r1 && ((ab > p.a0 && ab < p.a1) || (ab + 2 * Math.PI > p.a0 && ab + 2 * Math.PI < p.a1) || (ab - 2 * Math.PI > p.a0 && ab - 2 * Math.PI < p.a1))) return NaN; continue; }
+      if (!p.grove && !p.low && Math.hypot(x - p.x, z - p.z) < p.r) return NaN; }
     return yU;
   }
   function gardenInside(x, z) { if (!GRD) return 0; var o = crsLoc(x, z); return o.r > PAL.ringOut && o.r < CRS.r0 ? 1 : 0; }

@@ -287,6 +287,10 @@
   function bedPlant(B, kind, seed, M, soilY, k) {    // M: the bed's frame at the plant's spot (y = 0 there); soilY: the soil's height in it; k: the plant's scale
     B.add(plantBuilder(kind, seed, true, k), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
   }
+  // a garden bed's understory plant at its real size (v0.45): the potted plant's proportions (FOLIAGE), without its pot
+  function bedPlantReal(B, kind, seed, M, soilY, k) {
+    B.add(plantBuilder(kind, seed, true, 1, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
+  }
   // a plant in a bed by a wall or the glass, or under a roof (F: the ring's frame at its spot, z out from the palace): its
   // crown kept inside, folded softly back near where it would reach through (zIn toward the palace, zOut away from it, yMax
   // up from the floor), the way a gardener trains and prunes a tree under glass (v0.41; 0 or undefined: no limit that way)
@@ -315,8 +319,8 @@
   var UP = v3(0, 1, 0);
   // the foliage's spread and height scaled toward a real indoor plant's (measured 7 Oct 2026: a kentia 3.4 m across, an olive 2.1 m, a monstera 2.4 m, a fern 2.1 m wide and 0.4 m high)
   var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
-  function plantBuilder(kind, seed, bed, lk) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : 1;
-    var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" + (LKm > 1 ? LKm.toFixed(2) : "") : ""), function (b) {
+  function plantBuilder(kind, seed, bed, lk, real) { POT_SKIP = !!bed; var LKm = bed ? Math.min(2.2, Math.max(1, (lk || 1) / 1.45)) : 1;
+    var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" + (LKm > 1 ? LKm.toFixed(2) : "") + (real ? "r" : "") : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
       var top = pot(b, 0, 0.24, 0.46), H = 1.55 + 0.35 * R(), tr = [v3(0, top - 0.05, 0)];
@@ -480,7 +484,7 @@
           leafCard(b, pp, dl, ov, 0.14 - 0.04 * j / nseg + 0.02 * R(), 0.1, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
         stem(b, chain, 0.003, 1); }
     }
-    var fs = !bed && FOLIAGE[kind]; if (fs) {                           // real proportions: the foliage in toward a potted plant's spread
+    var fs = (!bed || real) && FOLIAGE[kind]; if (fs) {                           // real proportions: the foliage in toward a potted plant's spread
       for (var q = POT_END; q < b.p.length / 3; q++) { b.p[q * 3] *= fs[0]; b.p[q * 3 + 2] *= fs[0]; b.p[q * 3 + 1] = POT_TOP + (b.p[q * 3 + 1] - POT_TOP) * fs[1];
         var nx = b.n[q * 3] / fs[0], ny = b.n[q * 3 + 1] / fs[1], nz = b.n[q * 3 + 2] / fs[0], nl = Math.hypot(nx, ny, nz) || 1; b.n[q * 3] = nx / nl; b.n[q * 3 + 1] = ny / nl; b.n[q * 3 + 2] = nz / nl; } }
   }); POT_SKIP = false; return out; }

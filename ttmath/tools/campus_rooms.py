@@ -347,7 +347,20 @@ LINK_STAIR = dict(riser=0.16, tread=0.30, landing=1.2, rail=0.9)
 GARDEN_RING = dict(r0=28.6, r1=46.0, spring=8.2, crown=[(-80, 7.0), (-70, 7.5), (-60, 9.5), (-50, 12.5), (-40, 13.0), (55, 13.0), (65, 11.0), (75, 10.3), (85, 9.0),
                                            (95, 7.8), (105, 6.8), (115, 6.3), (125, 6.2), (135, 6.6), (145, 7.4), (155, 8.2), (165, 9.8), (195, 9.4),
                                            (200, 8.2), (207, 6.2), (214, 5.2), (224, 5.2)],
-                   grove=dict(a=(224.0, 280.0), floor=-5.6, roof=1.0), sundial=dict(a=150.0, r=38.0))
+                   grove=dict(a=(224.0, 280.0), floor=-5.6, roof=1.0), sundial=dict(a=150.0, r=38.0),
+                   # planted like a tropical house under glass (v0.45; CP-30, "real feeling of the campus"): along the dome's
+                   # foot a bed 2.2 m deep behind a low concrete curb, along the Ring's glass between its doors one 1.2 m deep,
+                   # both broken where the paths cross to the doors; dark soil, the plants in drifts of three of a kind: at
+                   # the back birds of paradise, kentias and monsteras, in the middle ferns, crotons, snake plants and
+                   # anthuriums, at the front bromeliads, ferns and anthuriums; along the glass ferns, bromeliads, anthuriums
+                   # and snake plants. r: from the dome's ring (inner) or back from the Ring's glass (outer); spacing along a row
+                   # (each row: its distance in, the spacing along it, the plants' scale over a potted one's (grown in the
+                   # ground they are bigger), the kinds in turn)
+                   beds=dict(curb=0.4, inner=dict(r=0.3, depth=2.2, path=1.8,
+                                                  rows=[(0.5, 1.4, 1.3, ("strelitzia", "monstera", "kentia")),
+                                                        (1.15, 1.0, 1.4, ("fern", "snake", "anthurium", "croton")),
+                                                        (1.75, 0.8, 1.4, ("bromeliad", "fern", "anthurium"))]),
+                             outer=dict(r=0.3, depth=1.2, path=2.0, rows=[(0.6, 0.9, 1.3, ("fern", "bromeliad", "snake", "anthurium"))]), drift=3))
 GARDEN_RING_AREAS = [
     dict(code="T09-01", name="Garden ring", kind="garden", use="The garden all the way round the dome at the palace's level, under a glass vault on bronze ribs from the dome's foot to the Ring's eave: olive trees, red maples, palms, ferns and flowering beds along a path round the dome, benches; the armillary sundial at the front right.", also="Walks between classes, open-air lessons."),
     dict(code="T09-06", name="Sunken grove", kind="garden", use="On the left, the garden steps down 5.6 m into a grove at the lower floor's level under flat glass at ground level: tall trees with room to grow, a pond, stairs down at both ends; the café, the dining hall, the assembly hall and the art studio open onto it.", also="Lunch outside, concerts."),

@@ -199,17 +199,19 @@
     B.add(plantBuilder(kind, seed, true), M.clone().multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
   }
   function pot(b, kind, r, h) {
-    if (POT_SKIP) return h * 0.94;
+    POT_TOP = h * 0.94; if (POT_SKIP) { POT_END = b.count(); return h * 0.94; }
     // kind: 0 glazed white ceramic, 1 terracotta, 2 dark fibreglass
     var prof = kind === 1 ? [[r * 0.72, 0], [r * 0.8, h * 0.08], [r, h * 0.88], [r * 1.06, h * 0.9], [r * 1.06, h], [r * 0.95, h]]
       : kind === 2 ? [[r * 0.94, 0], [r, h * 0.04], [r, h], [r * 0.93, h]] : [[r * 0.7, 0], [r * 0.82, h * 0.06], [r, h * 0.55], [r * 0.98, h * 0.95], [r * 0.94, h], [r * 0.88, h]];
     var n0 = b.count();
     latheOn(b, 0, 0, 0, prof, 32, kind === 1 ? MT.PLASTER : kind === 2 ? MT.PLASTIC : MT.CERAMIC, kind === 1 ? undefined : (kind === 2 ? 1 : 0), kind === 1 ? 2 : 0);
     if (kind === 1) b.tag(n0, null, 2);
-    var n1 = b.count(); latheOn(b, 0, 0, 0, [[0, h * 0.94], [prof[prof.length - 1][0], h * 0.94]], 24, MT.RUBBER); return h * 0.94;
+    var n1 = b.count(); latheOn(b, 0, 0, 0, [[0, h * 0.94], [prof[prof.length - 1][0], h * 0.94]], 24, MT.RUBBER); POT_END = b.count(); return h * 0.94;
   }
   function v3(x, y, z) { return new THREE.Vector3(x, y, z); }
   var UP = v3(0, 1, 0);
+  // the foliage's spread and height scaled toward a real indoor plant's (measured 7 Oct 2026: a kentia 3.4 m across, an olive 2.1 m, a monstera 2.4 m, a fern 2.1 m wide and 0.4 m high)
+  var FOLIAGE = { kentia: [0.55, 0.85], fern: [0.48, 1.15], olive: [0.62, 0.9], maple: [0.55, 0.85], monstera: [0.62, 0.9], strelitzia: [0.75, 1.0], ficus: [0.7, 0.95], orchid: [0.55, 1.0], bromeliad: [0.65, 1.0] }, POT_END = 0, POT_TOP = 0;
   function plantBuilder(kind, seed, bed) { POT_SKIP = !!bed; var out = furn("plant_" + kind + "_" + seed + (bed ? "_bed" : ""), function (b) {
     var R = mulberry(seed * 131 + kind.length * 7), k, a;
     if (kind === "fig") {                                    // fiddle-leaf fig, about 1.8 m
@@ -322,6 +324,9 @@
           leafCard(b, pp, dl, ov, 0.14 - 0.04 * j / nseg + 0.02 * R(), 0.1, 0.2, 0.15, LEAF_CELLS.pothos, R(), 0.6); }
         stem(b, chain, 0.003, 1); }
     }
+    var fs = !bed && FOLIAGE[kind]; if (fs) {                           // real proportions: the foliage in toward a potted plant's spread
+      for (var q = POT_END; q < b.p.length / 3; q++) { b.p[q * 3] *= fs[0]; b.p[q * 3 + 2] *= fs[0]; b.p[q * 3 + 1] = POT_TOP + (b.p[q * 3 + 1] - POT_TOP) * fs[1];
+        var nx = b.n[q * 3] / fs[0], ny = b.n[q * 3 + 1] / fs[1], nz = b.n[q * 3 + 2] / fs[0], nl = Math.hypot(nx, ny, nz) || 1; b.n[q * 3] = nx / nl; b.n[q * 3 + 1] = ny / nl; b.n[q * 3 + 2] = nz / nl; } }
   }); POT_SKIP = false; return out; }
   // a plant on the floor of a wing room: s along the wing, u in from the glass
   function wingPlant(B, sg, s, u, y, kind, seed, rot) { place(B, plantBuilder(kind, seed), sg, s, u, y, rot || 0); obst(sg, s - 0.3, s + 0.3, u - 0.3, u + 0.3); }

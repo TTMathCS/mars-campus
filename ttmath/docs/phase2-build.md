@@ -171,6 +171,9 @@ each pushed when it is checked:
    `blk_entrance.js` leaves the gates' doorways out of the drum (`entDoorway`) and frames them (`gateSign` for the
    numbers). A pod LANDed within 18 m of a free dock docks there (`POD.dock`); it climbs to the dock's `safe` height
    first (over the dome's cap for a gate) and comes straight down. `__mars.pod('board', i)` boards `POD.list[i]`.
+   (v0.38) `FOLIAGE` in `blk_plants.js`: per kind, [spread, height] factors applied at the end of `plantBuilder` to a
+   potted plant's foliage (every vertex after the pot's, `POT_END`; heights about the soil, `POT_TOP`), never to the pot
+   or to plants in beds; `placePlant` measures the smaller reach (`plantReach`), so the plants stand nearer their spots.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

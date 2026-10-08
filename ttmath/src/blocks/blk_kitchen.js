@@ -106,7 +106,7 @@
     b.box(-0.55, 0, -0.35, 0.25, 0.9, 0.35, MT.STEEL); b.box(-0.55, 0.9, -0.35, 0.25, 1.55, 0.35, MT.STEEL);   // the dishwasher and its hood
     b.box(-0.6, 1.2, -0.36, 0.3, 1.24, -0.33, MT.STEEL); var np = b.count(); b.box(0.08, 0.6, -0.36, 0.22, 0.8, -0.35, MT.PLASTIC); b.tag(np, 1, null);
     b.add(steelTable(1.4, 0.7, true), T(1.0, 0, 0));
-    for (var k = 0; k < 3; k++) { var xr = 0.6 + k * 0.42; b.box(xr - 0.2, 0.9, -0.2, xr + 0.2, 0.98, 0.2, MT.PLASTIC); b.tag(b.count() - 24, 5, null);
+    for (var k = 0; k < 3; k++) { var xr = 0.6 + k * 0.42; b.box(xr - 0.2, 0.9, -0.2, xr + 0.2, 0.98, 0.2, MT.PLASTIC); b.tag(b.lastBox, 5, null);
       for (var j = 0; j < 9; j++) b.geo(new THREE.CylinderGeometry(0.13, 0.13, 0.008, 18), T(xr, 0.92 + 0.02 * 0, -0.16 + j * 0.04, Math.PI / 2, 0, 0), MT.CERAMIC); }
     b.add(kitchenShelves(1.4, 2), T(1.0, 0, 0.35));
     satin(b);

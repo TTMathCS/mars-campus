@@ -217,6 +217,11 @@ each pushed when it is checked:
    `children` are the chunks). No piece is cut, so the bake is the same (`window.MARS_ONE_MESH = true` before the page
    loads builds them as one mesh, for tests). INT_KEY (the inside's exposure) is 0.22. A potted maple is FOLIAGE-scaled
    1.32 with LKm 1.32 (the same leaf size).
+   (v0.52) `b.bevel` (metres) rounds a builder's boxes (`bevelBox`: inset faces, edge strips with turning normals, corner
+   triangles, through `polyN`); `furn()` sets FURN_BEVEL (7 mm) on every piece of furniture; boxes under 25 cm or thinner
+   than 12 mm, and boxes without a bottom, stay sharp. `b.lastBox` is where the last box's points start (use it, not
+   `count() - 24`, to tag one). `shelfBooks(B, M, k)` (`blk_soft.js`) fills a bookshelf with real books whose spines and
+   covers are the campus atlas's book columns (`drawBooks`: BOOK_N = 48 spines, each over a swatch of its cloth).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

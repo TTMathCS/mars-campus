@@ -68,13 +68,13 @@
     b.box(-0.82, 0.28, -1.1, 0.82, 0.32, 0.55, MT.RUBBER);                                                                    // the floor, up to the chin windows
     [-0.32, 0.32].forEach(function (x) {
       b.box(x - 0.27, 0.32, -0.27, x + 0.27, 0.6, 0.3, MT.ANOD);                                                           // the seat's base
-      b.box(x - 0.26, 0.6, -0.25, x + 0.26, 0.72, 0.29, MT.FABRIC); b.tag(b.count() - 24, 5, null);                           // the cushion
+      b.box(x - 0.26, 0.6, -0.25, x + 0.26, 0.72, 0.29, MT.FABRIC); b.tag(b.lastBox, 5, null);                           // the cushion
       var bk = b.count(); b.box(x - 0.26, 0.7, -0.37, x + 0.26, 1.28, -0.23, MT.FABRIC); b.tag(bk, 5, null);                 // the back, leaning
       for (var v = bk; v < b.count(); v++) { var Y = b.p[v * 3 + 1]; b.p[v * 3 + 2] -= (Y - 0.7) * 0.22; }
       var hr = b.count(); b.box(x - 0.13, 1.32, -0.5, x + 0.13, 1.47, -0.39, MT.FABRIC); b.tag(hr, 5, null);
     });
     b.box(-0.07, 0.32, -0.25, 0.07, 0.66, 0.55, MT.ANOD);                                                                     // the console between them
-    b.box(-0.6, 0.72, 1.25, 0.6, 0.94, 1.55, MT.ANOD); b.box(-0.58, 0.94, 1.29, 0.58, 0.97, 1.5, MT.FABRIC); b.tag(b.count() - 24, 0, null);   // the dashboard
+    b.box(-0.6, 0.72, 1.25, 0.6, 0.94, 1.55, MT.ANOD); b.box(-0.58, 0.94, 1.29, 0.58, 0.97, 1.5, MT.FABRIC); b.tag(b.lastBox, 0, null);   // the dashboard
     [["podPfd", -0.34], ["podMap", 0.0], ["podSys", 0.34]].forEach(function (e) {                                              // three displays facing the seats
       var x = e[1], uv = ATL[e[0]]; b.box(x - 0.165, 0.73, 1.236, x + 0.165, 0.94, 1.25, MT.ANOD);
       quadB(b, new THREE.Vector3(x + 0.15, 0.745, 1.233), new THREE.Vector3(x - 0.15, 0.745, 1.233), new THREE.Vector3(x - 0.15, 0.925, 1.233), new THREE.Vector3(x + 0.15, 0.925, 1.233), [0, 0, -1], MT.SCREEN,

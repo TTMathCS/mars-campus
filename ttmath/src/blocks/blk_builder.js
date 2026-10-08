@@ -30,15 +30,64 @@
     I[t] = base; I[t + 1] = base + 1; I[t + 2] = base + 2; I[t + 3] = base; I[t + 4] = base + 2; I[t + 5] = base + 3;
     this.nv = base + 4; this.ni = t + 6;
   };
-  // axis-aligned box; mats = number or {px,nx,py,ny,pz,nz}; facade coords: u = metres along face, v = y (or z on top)
+  // axis-aligned box; mats = number or {px,nx,py,ny,pz,nz}; facade coords: u = metres along face, v = y (or z on top).
+  // b.lastBox is where its points start. (v0.52) A builder with a bevel (b.bevel metres; furn() gives every piece of
+  // furniture one) rounds its boxes' edges: boxes 25 cm or more long and 12 mm or more thick, by at most a third of their
+  // least side (Jim, 8 Oct 2026: "I still need to improve with details better, like the edge of furnitures/book shelves")
   Builder.prototype.box = function (x0, y0, z0, x1, y1, z1, mats, skipBottom) {
     function mt(k) { return typeof mats === "number" ? mats : (mats[k] !== undefined ? mats[k] : mats.all); }
+    this.lastBox = this.nv;
+    if (this.bevel && !skipBottom) {
+      var mn = Math.min(x1 - x0, y1 - y0, z1 - z0), mx = Math.max(x1 - x0, y1 - y0, z1 - z0);
+      if (mx >= 0.25 && mn >= 0.012) { this.bevelBox(x0, y0, z0, x1, y1, z1, Math.min(this.bevel, mn * 0.3), mt); return; }
+    }
     this.quad([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1], [0, 0, 1], [x0, y0], [x1, y0], [x1, y1], [x0, y1], mt("pz"));
     this.quad([x1, y0, z0], [x0, y0, z0], [x0, y1, z0], [x1, y1, z0], [0, 0, -1], [x1, y0], [x0, y0], [x0, y1], [x1, y1], mt("nz"));
     this.quad([x1, y0, z1], [x1, y0, z0], [x1, y1, z0], [x1, y1, z1], [1, 0, 0], [z1, y0], [z0, y0], [z0, y1], [z1, y1], mt("px"));
     this.quad([x0, y0, z0], [x0, y0, z1], [x0, y1, z1], [x0, y1, z0], [-1, 0, 0], [z0, y0], [z1, y0], [z1, y1], [z0, y1], mt("nx"));
     this.quad([x0, y1, z1], [x1, y1, z1], [x1, y1, z0], [x0, y1, z0], [0, 1, 0], [x0, z1], [x1, z1], [x1, z0], [x0, z0], mt("py"));
     if (!skipBottom) this.quad([x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [0, -1, 0], [x0, z0], [x1, z0], [x1, z1], [x0, z1], mt("ny"));
+  };
+  // a quad (or a triangle, with three corners) whose corners have their own normals, wound to face them
+  Builder.prototype.polyN = function (P, N, F, mat) {
+    if (this.pc) this.mark();
+    var k = P.length, ax = P[1][0] - P[0][0], ay = P[1][1] - P[0][1], az = P[1][2] - P[0][2], bx = P[2][0] - P[0][0], by = P[2][1] - P[0][1], bz = P[2][2] - P[0][2];
+    var sx = 0, sy = 0, sz = 0, j; for (j = 0; j < k; j++) { sx += N[j][0]; sy += N[j][1]; sz += N[j][2]; }
+    var flip = (ay * bz - az * by) * sx + (az * bx - ax * bz) * sy + (ax * by - ay * bx) * sz < 0;
+    this.grow(k, k === 4 ? 6 : 3);
+    var base = this.nv, Pp = this.p, Nn = this.n, Ff = this.f, F2 = this.f2, I = this.i, t = this.ni;
+    for (j = 0; j < k; j++) { var o = base + j; Pp[o * 3] = P[j][0]; Pp[o * 3 + 1] = P[j][1]; Pp[o * 3 + 2] = P[j][2]; Nn[o * 3] = N[j][0]; Nn[o * 3 + 1] = N[j][1]; Nn[o * 3 + 2] = N[j][2];
+      Ff[o * 2] = F[j][0]; Ff[o * 2 + 1] = F[j][1]; F2[o * 2] = 99; F2[o * 2 + 1] = 0; this.m[o] = mat; this.z[o] = this.zone; }
+    var tri = k === 4 ? [0, 1, 2, 0, 2, 3] : [0, 1, 2];
+    for (j = 0; j < tri.length; j += 3) { I[t++] = base + tri[j]; I[t++] = base + (flip ? tri[j + 2] : tri[j + 1]); I[t++] = base + (flip ? tri[j + 1] : tri[j + 2]); }
+    this.nv = base + k; this.ni = t;
+  };
+  // a box with its edges rounded by e: the six faces inset by e, a strip along each edge whose normals turn from one face
+  // to the other, a corner between each three; mt(name) gives each face's material (an edge takes its upright face's,
+  // the x face's where both are upright)
+  Builder.prototype.bevelBox = function (x0, y0, z0, x1, y1, z1, e, mt) {
+    var lo = [x0, y0, z0], hi = [x1, y1, z1], self = this, NAME = [["nx", "px"], ["ny", "py"], ["nz", "pz"]];
+    function uv(a, p) { return a === 2 ? [p[0], p[1]] : a === 0 ? [p[2], p[1]] : [p[0], p[2]]; }       // the face's metres, as box() gives them
+    function nrm(a, s) { var v = [0, 0, 0]; v[a] = s; return v; }
+    function at(a, s, b, sb, c, sc) {                     // the corner of face (a, s) toward sb on axis b and sc on axis c
+      var p = [0, 0, 0]; p[a] = s > 0 ? hi[a] : lo[a]; p[b] = sb > 0 ? hi[b] - e : lo[b] + e; p[c] = sc > 0 ? hi[c] - e : lo[c] + e; return p;
+    }
+    for (var a = 0; a < 3; a++) for (var s = -1; s <= 1; s += 2) {   // the faces
+      var b = (a + 1) % 3, c = (a + 2) % 3, Q = [at(a, s, b, -1, c, -1), at(a, s, b, 1, c, -1), at(a, s, b, 1, c, 1), at(a, s, b, -1, c, 1)], n = nrm(a, s);
+      self.polyN(Q, [n, n, n, n], Q.map(function (p) { return uv(a, p); }), mt(NAME[a][s > 0 ? 1 : 0]));
+    }
+    for (var a1 = 0; a1 < 3; a1++) for (var a2 = a1 + 1; a2 < 3; a2++) {   // the edges
+      var t3 = 3 - a1 - a2;
+      for (var s1 = -1; s1 <= 1; s1 += 2) for (var s2 = -1; s2 <= 1; s2 += 2) {
+        var Pa = [at(a1, s1, a2, s2, t3, -1), at(a1, s1, a2, s2, t3, 1)], Pb = [at(a2, s2, a1, s1, t3, 1), at(a2, s2, a1, s1, t3, -1)], na = nrm(a1, s1), nb = nrm(a2, s2);
+        var em = a1 === 1 ? mt(NAME[a2][s2 > 0 ? 1 : 0]) : mt(NAME[a1][s1 > 0 ? 1 : 0]);
+        self.polyN([Pa[0], Pa[1], Pb[0], Pb[1]], [na, na, nb, nb], [uv(a1, Pa[0]), uv(a1, Pa[1]), uv(a2, Pb[0]), uv(a2, Pb[1])], em);
+      }
+    }
+    for (var sx = -1; sx <= 1; sx += 2) for (var sy = -1; sy <= 1; sy += 2) for (var sz = -1; sz <= 1; sz += 2) {   // the corners
+      var S = [sx, sy, sz], C = [0, 1, 2].map(function (a3) { var b3 = (a3 + 1) % 3, c3 = (a3 + 2) % 3; return at(a3, S[a3], b3, S[b3], c3, S[c3]); });
+      self.polyN(C, [nrm(0, sx), nrm(1, sy), nrm(2, sz)], C.map(function (p, a3) { return uv(a3, p); }), mt(NAME[0][sx > 0 ? 1 : 0]));
+    }
   };
   // any three.js geometry with a transform (keeps aMat / aFac / aFac2 if the geometry has them)
   Builder.prototype.geo = function (g, matrix, mat, facScale) {

@@ -14,25 +14,25 @@
     var n1 = b.count(); b.box(-0.43, 0.75, 0.37, 0.43, 1.18, 0.4, MT.FABRIC); [-0.43, 0.42].forEach(function (x) { b.box(x, 0.76, -0.36, x + 0.01, 1.16, 0.36, MT.FABRIC); }); b.tag(n1, 10, 0);
     [[0.034, 4, 0.0], [0.028, 9, 0.04], [0.03, 6, 0.075], [0.026, 0, 0.11]].forEach(function (bk) { var nb = b.count(); b.box(-0.38 + bk[2], 0.97, 0.23, -0.38 + bk[2] + bk[0], 1.13 + bk[0], 0.35, MT.FABRIC); b.tag(nb, bk[1], 0); });
     latheOn(b, 0.28, 0.75, 0.25, [[0.06, 0], [0.06, 0.01], [0.01, 0.02], [0.01, 0.38]], 10, MT.ANOD, 0);
-    b.box(0.18, 1.12, 0.12, 0.32, 1.16, 0.28, MT.ANOD); b.box(0.19, 1.115, 0.13, 0.31, 1.12, 0.27, MT.LIGHT); b.tag(b.count() - 24, 1.4, 0.2);
+    b.box(0.18, 1.12, 0.12, 0.32, 1.16, 0.28, MT.ANOD); b.box(0.19, 1.115, 0.13, 0.31, 1.12, 0.27, MT.LIGHT); b.tag(b.lastBox, 1.4, 0.2);
   }); }
   function gameTable() { return furn("gtable", function (b) {             // a square table with an inlaid chessboard
-    b.box(-0.4, 0.71, -0.4, 0.4, 0.74, 0.4, MT.WOOD); b.tag(b.count() - 24, null, 2);
-    for (var i = 0; i < 8; i++) for (var j = 0; j < 8; j++) { b.box(-0.28 + i * 0.07, 0.74, -0.28 + j * 0.07, -0.21 + i * 0.07, 0.743, -0.21 + j * 0.07, MT.WOOD); b.tag(b.count() - 24, null, (i + j) % 2 ? 2 : 1); }
+    b.box(-0.4, 0.71, -0.4, 0.4, 0.74, 0.4, MT.WOOD); b.tag(b.lastBox, null, 2);
+    for (var i = 0; i < 8; i++) for (var j = 0; j < 8; j++) { b.box(-0.28 + i * 0.07, 0.74, -0.28 + j * 0.07, -0.21 + i * 0.07, 0.743, -0.21 + j * 0.07, MT.WOOD); b.tag(b.lastBox, null, (i + j) % 2 ? 2 : 1); }
     b.box(-0.05, 0, -0.05, 0.05, 0.71, 0.05, MT.ANOD); b.box(-0.3, 0, -0.3, 0.3, 0.03, 0.3, MT.ANOD);
   }); }
   function teamTable() { return furn("ttable", function (b) {             // a team table 1.6 x 0.9
-    b.box(-0.8, 0.72, -0.45, 0.8, 0.75, 0.45, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    b.box(-0.8, 0.72, -0.45, 0.8, 0.75, 0.45, MT.WOOD); b.tag(b.lastBox, null, 1);
     [[-0.72, -0.37], [0.72, -0.37], [-0.72, 0.37], [0.72, 0.37]].forEach(function (c) { b.box(c[0] - 0.025, 0, c[1] - 0.025, c[0] + 0.025, 0.72, c[1] + 0.025, MT.STEEL); });
   }); }
   function lockerBank(n) { return furn("lockers" + n, function (b) {      // n lockers 0.4 wide, 1.8 tall, 0.45 deep (back at +z)
-    for (var k = 0; k < n; k++) { var x0 = -n * 0.2 + k * 0.4; b.box(x0 + 0.005, 0.08, -0.22, x0 + 0.395, 1.8, 0.23, MT.PLASTIC); b.tag(b.count() - 24, [3, 5, 0][k % 3], null);
+    for (var k = 0; k < n; k++) { var x0 = -n * 0.2 + k * 0.4; b.box(x0 + 0.005, 0.08, -0.22, x0 + 0.395, 1.8, 0.23, MT.PLASTIC); b.tag(b.lastBox, [3, 5, 0][k % 3], null);
       b.box(x0 + 0.3, 1.0, -0.235, x0 + 0.33, 1.12, -0.22, MT.STEEL); b.box(x0 + 0.08, 1.6, -0.226, x0 + 0.32, 1.62, -0.22, MT.ANOD); }
     b.box(-n * 0.2, 0, -0.2, n * 0.2, 0.08, 0.23, MT.ANOD);
   }); }
   function wcRow(n) { return furn("wc" + n, function (b) {                 // n cubicles 1.0 wide, 1.5 deep (doors at -z), partitions and pans
-    for (var k = 0; k <= n; k++) { var x = -n * 0.5 + k; b.box(x - 0.012, 0.15, -1.5, x + 0.012, 2.1, 0, MT.PLASTIC); b.tag(b.count() - 24, 5, null); }
-    for (k = 0; k < n; k++) { var x0 = -n * 0.5 + k; b.box(x0 + 0.06, 0.15, -1.52, x0 + 0.94, 2.05, -1.5, MT.PLASTIC); b.tag(b.count() - 24, 5, null);
+    for (var k = 0; k <= n; k++) { var x = -n * 0.5 + k; b.box(x - 0.012, 0.15, -1.5, x + 0.012, 2.1, 0, MT.PLASTIC); b.tag(b.lastBox, 5, null); }
+    for (k = 0; k < n; k++) { var x0 = -n * 0.5 + k; b.box(x0 + 0.06, 0.15, -1.52, x0 + 0.94, 2.05, -1.5, MT.PLASTIC); b.tag(b.lastBox, 5, null);
       b.box(x0 + 0.82, 1.0, -1.545, x0 + 0.88, 1.04, -1.52, MT.STEEL);
       latheOn(b, x0 + 0.5, 0, -0.35, [[0.15, 0], [0.19, 0.25], [0.2, 0.4], [0.17, 0.42], [0.0, 0.42]], 16, MT.CERAMIC, 0); b.box(x0 + 0.3, 0.42, -0.08, x0 + 0.7, 0.85, 0, MT.CERAMIC); }
   }); }
@@ -43,13 +43,13 @@
     var nm = b.count(); b.box(-len / 2, 1.05, 0.27, len / 2, 2.0, 0.28, MT.STEEL); b.tag(nm, 9, null);   // the mirror: polished (STEEL g.x 9)
   }); }
   function kitchenette() { return furn("kitchen", function (b) {         // 2.4 m of counter with cupboards and a sink (back at +z)
-    b.box(-1.2, 0.1, -0.3, 1.2, 0.88, 0.3, MT.PLASTIC); b.tag(b.count() - 24, 0, null); b.box(-1.21, 0.88, -0.31, 1.21, 0.92, 0.31, MT.TERRAZZO);
-    b.box(-1.2, 1.45, -0.05, 1.2, 2.15, 0.3, MT.PLASTIC); b.tag(b.count() - 24, 0, null); b.box(-1.2, 0, -0.27, 1.2, 0.1, 0.3, MT.ANOD);
+    b.box(-1.2, 0.1, -0.3, 1.2, 0.88, 0.3, MT.PLASTIC); b.tag(b.lastBox, 0, null); b.box(-1.21, 0.88, -0.31, 1.21, 0.92, 0.31, MT.TERRAZZO);
+    b.box(-1.2, 1.45, -0.05, 1.2, 2.15, 0.3, MT.PLASTIC); b.tag(b.lastBox, 0, null); b.box(-1.2, 0, -0.27, 1.2, 0.1, 0.3, MT.ANOD);
     b.box(0.3, 0.86, -0.22, 0.75, 0.921, 0.12, MT.STEEL); latheOn(b, 0.52, 0.92, 0.2, [[0.015, 0], [0.015, 0.3]], 8, MT.STEEL, 0);
     for (var k = 0; k < 4; k++) b.box(-1.18 + k * 0.6, 0.45, -0.312, -0.62 + k * 0.6, 0.47, -0.3, MT.STEEL);
   }); }
   function platonicSet() { return furn("platonic", function (b) {         // the five solids on a low shelf (Euclid)
-    b.box(-0.9, 0, -0.18, 0.9, 0.9, 0.18, MT.WOOD); b.tag(b.count() - 24, null, 1);
+    b.box(-0.9, 0, -0.18, 0.9, 0.9, 0.18, MT.WOOD); b.tag(b.lastBox, null, 1);
     [new THREE.TetrahedronGeometry(0.11), new THREE.BoxGeometry(0.15, 0.15, 0.15), new THREE.OctahedronGeometry(0.11), new THREE.DodecahedronGeometry(0.1), new THREE.IcosahedronGeometry(0.11)].forEach(function (g, k) {
       b.geo(addF2(g, 0, 7), T(-0.68 + k * 0.34, 1.02, 0, 0.3 * k, 0.7 * k, 0.2), MT.BRASS); });
   }); }
@@ -82,18 +82,18 @@
     b.box(-0.06, -0.72, -1.25, 0, 0.72, 1.25, MT.ANOD);
   }); }
   function stagePlatform(w, d) { return furn("stage" + w, function (b) {  // a low timber platform with a lectern
-    b.box(-d / 2, 0, -w / 2, d / 2, 0.3, w / 2, MT.WOOD); b.tag(b.count() - 24, null, 1);
-    b.box(-0.25, 0.3, -0.3, 0.15, 1.42, 0.3, MT.WOOD); b.tag(b.count() - 24, null, 2); b.box(-0.3, 1.38, -0.34, 0.2, 1.42, 0.34, MT.WOOD);
+    b.box(-d / 2, 0, -w / 2, d / 2, 0.3, w / 2, MT.WOOD); b.tag(b.lastBox, null, 1);
+    b.box(-0.25, 0.3, -0.3, 0.15, 1.42, 0.3, MT.WOOD); b.tag(b.lastBox, null, 2); b.box(-0.3, 1.38, -0.34, 0.2, 1.42, 0.34, MT.WOOD);
   }); }
   function coffeeTable(len) { return furn("ctable" + len, function (b) {
-    b.box(-len / 2, 0.36, -0.3, len / 2, 0.4, 0.3, MT.WOOD); b.tag(b.count() - 24, null, 2);
+    b.box(-len / 2, 0.36, -0.3, len / 2, 0.4, 0.3, MT.WOOD); b.tag(b.lastBox, null, 2);
     [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { b.box(c[0] * (len / 2 - 0.06) - 0.02, 0, c[1] * 0.24 - 0.02, c[0] * (len / 2 - 0.06) + 0.02, 0.36, c[1] * 0.24 + 0.02, MT.STEEL); });
   }); }
 
   function cubeWall(w, h) { return furn("cubes" + w, function (b) {      // a wall of Rubik's cube faces: 3 x 3 stickers on black tiles (games room)
     var cols = [[0.86, 0.1, 0.08], [0.95, 0.5, 0.05], [0.95, 0.85, 0.1], [0.05, 0.55, 0.25], [0.06, 0.25, 0.75], [0.95, 0.95, 0.92]], R = mulberry(77);
     for (var i = 0; i < Math.floor(w / 0.36); i++) for (var j = 0; j < Math.floor(h / 0.36); j++) {
-      var cz = -w / 2 + 0.18 + i * 0.36, cy = 0.18 + j * 0.36; b.box(0, cy - 0.17, cz - 0.17, 0.015, cy + 0.17, cz + 0.17, MT.PLASTIC); b.tag(b.count() - 24, 1, null);
+      var cz = -w / 2 + 0.18 + i * 0.36, cy = 0.18 + j * 0.36; b.box(0, cy - 0.17, cz - 0.17, 0.015, cy + 0.17, cz + 0.17, MT.PLASTIC); b.tag(b.lastBox, 1, null);
       for (var u = -1; u <= 1; u++) for (var v = -1; v <= 1; v++) { var n0 = b.count(), c = Math.floor(R() * 6); b.box(0.015, cy + v * 0.105 - 0.048, cz + u * 0.105 - 0.048, 0.022, cy + v * 0.105 + 0.048, cz + u * 0.105 + 0.048, MT.PLASTIC); b.tag(n0, [0, 4, 2, 7, 3, 6][c], null); }
     }
   }); }
@@ -111,7 +111,7 @@
     b.box(-0.02, 1.0, -0.13, 0.02, 1.08, -0.09, MT.STEEL);                  // the bubbler
   }); }
   function gardenBench(len) { return furn("gbench" + len, function (b) {  // oak slats on two stone blocks (along x)
-    for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.count() - 24, null, 2); }
+    for (var k = 0; k < 5; k++) { b.box(-len / 2, 0.43, -0.25 + k * 0.1, len / 2, 0.47, -0.17 + k * 0.1, MT.WOOD); b.tag(b.lastBox, null, 2); }
     [-len / 2 + 0.35, len / 2 - 0.35].forEach(function (x) { b.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
   }); }
   // ---- a giant chess set: pieces of oak and walnut 0.3 to 0.6 m tall on a board of 40 cm squares ----

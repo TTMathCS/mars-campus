@@ -117,7 +117,7 @@
     for (var db = -38.75; db < 197; db += 25) {
       if (!clear(db, 3) || grInPalace(42.0, db)) continue;
       var c3 = crsPt(42.0, db * D), yaw = Math.atan2(PAL.c.x - c3.x, PAL.c.z - c3.z), gb = new Builder();
-      for (var k5 = 0; k5 < 5; k5++) { gb.box(-1.4, 0.43, -0.25 + k5 * 0.1, 1.4, 0.47, -0.17 + k5 * 0.1, MT.WOOD); gb.tag(gb.count() - 24, null, 2); }
+      for (var k5 = 0; k5 < 5; k5++) { gb.box(-1.4, 0.43, -0.25 + k5 * 0.1, 1.4, 0.47, -0.17 + k5 * 0.1, MT.WOOD); gb.tag(gb.lastBox, null, 2); }
       [-1.05, 1.05].forEach(function (x) { gb.box(x - 0.2, 0, -0.24, x + 0.2, 0.43, 0.24, MT.CONCRETE); });
       B.add(gb, T(c3.x, yU, c3.z, 0, yaw, 0)); GRD.posts.push({ x: c3.x, z: c3.z, r: 0.75 });
     }

@@ -336,17 +336,29 @@
     for (var k = 0; k < 9000; k++) { g.fillStyle = "rgba(0,0,0," + (0.2 + 0.5 * rnd()) + ")"; g.fillRect(rnd() * W, rnd() * H, 1.2, 1.2); }
     g.restore();
   }
+  // (v0.52) the book spines for the real books on the shelves (shelfBooks): one per column, BOOK_N of them, each the
+  // spine above (its cloth, bands, a title) and a plain swatch of its cloth below, for the covers
+  var BOOK_N = 48, BOOK_SPH = 0.76;
+  var BOOK_TITLES = ["Calculus", "Algebra", "Geometry", "Number Theory", "Euclid", "Topology", "Probability", "Analysis", "Combinatorics", "Linear Algebra", "Logic",
+    "Statistics", "Graph Theory", "Gauss", "Euler", "Fermat", "Riemann", "Fourier", "Groups", "Primes", "Conics", "Infinity", "Proofs", "Olympiad", "Vectors", "Matrices"];
   function drawBooks(g, x0, y0, W, H) {
-    var rnd = mulberry(123), x = 0, cols = ["#6b1f1f", "#1f3354", "#2c4a32", "#a8844f", "#1c1c1f", "#d8cfb8", "#5a2e4f", "#8a4b23", "#39505c", "#b9a57a"];
-    g.save(); g.translate(x0, y0); g.fillStyle = "#1a120c"; g.fillRect(0, 0, W, H);
-    while (x < W) {
-      var w = 14 + rnd() * 26, h = H * (0.72 + rnd() * 0.26), c = cols[Math.floor(rnd() * cols.length)];
-      if (x + w > W) w = W - x;
-      g.fillStyle = c; g.fillRect(x, H - h, w - 1, h);
-      var sh = g.createLinearGradient(x, 0, x + w, 0); sh.addColorStop(0, "rgba(0,0,0,0.35)"); sh.addColorStop(0.3, "rgba(255,255,255,0.08)"); sh.addColorStop(1, "rgba(0,0,0,0.3)"); g.fillStyle = sh; g.fillRect(x, H - h, w - 1, h);
-      g.fillStyle = rnd() < 0.5 ? "#d8b35a" : "#e9e2cf"; g.fillRect(x + 2, H - h + h * 0.12, w - 5, 2); g.fillRect(x + 2, H - h * 0.18, w - 5, 2);
-      if (w > 22) { g.save(); g.translate(x + w / 2 + 4, H - h * 0.5); g.rotate(-Math.PI / 2); g.fillStyle = "rgba(233,226,207,0.85)"; g.font = Math.round(w * 0.42) + "px " + SERIF; g.textAlign = "center"; g.fillText(["EUCLID", "GAUSS", "EULER", "NOETHER", "RAMANUJAN", "TURING", "KEPLER", "LOVELACE", "CALCULUS", "ALGEBRA", "TOPOLOGY", "PRIMES"][Math.floor(rnd() * 12)], 0, 0); g.restore(); }
-      x += w;
+    var rnd = mulberry(123), cw = W / BOOK_N, sh = Math.round(H * BOOK_SPH);
+    var cols = ["#6b1f1f", "#1f3354", "#2c4a32", "#a8844f", "#1c1c1f", "#d8cfb8", "#5a2e4f", "#8a4b23", "#39505c", "#b9a57a", "#7a2a22", "#24456b", "#41582f", "#c2a46a", "#5e5a52", "#8c6d3f", "#2f2a4a", "#9b3b2a"];
+    g.save(); g.translate(x0, y0);
+    for (var j = 0; j < BOOK_N; j++) {
+      var x = Math.round(j * cw), w = Math.round((j + 1) * cw) - x, c = cols[Math.floor(rnd() * cols.length)], light = c === "#d8cfb8" || c === "#b9a57a" || c === "#c2a46a";
+      g.fillStyle = c; g.fillRect(x, 0, w, H);                                   // the cloth: the spine and, below, the covers' swatch
+      g.globalAlpha = 0.07; for (var q = 0; q < 40; q++) { g.fillStyle = rnd() < 0.5 ? "#000" : "#fff"; g.fillRect(x + rnd() * w, rnd() * H, 1.5, 1.5); } g.globalAlpha = 1;
+      var gr = g.createLinearGradient(x, 0, x + w, 0); gr.addColorStop(0, "rgba(0,0,0,0.32)"); gr.addColorStop(0.38, "rgba(255,255,255,0.10)"); gr.addColorStop(1, "rgba(0,0,0,0.28)");
+      g.fillStyle = gr; g.fillRect(x, 0, w, sh);                                // the spine's round
+      var ink = light ? "#3a2c1c" : (rnd() < 0.6 ? "#d8b35a" : "#e9e2cf"), style = rnd();
+      g.fillStyle = ink;
+      if (style < 0.45) { g.fillRect(x + 3, sh * 0.07, w - 6, 2); g.fillRect(x + 3, sh * 0.1, w - 6, 1); g.fillRect(x + 3, sh * 0.9, w - 6, 1); g.fillRect(x + 3, sh * 0.93, w - 6, 2); }
+      else if (style < 0.75) { g.fillRect(x, sh * 0.1, w, sh * 0.06); g.fillRect(x, sh * 0.84, w, sh * 0.06); }
+      else { g.fillStyle = light ? "#f2ede0" : "#e9e2cf"; g.fillRect(x + 4, sh * 0.14, w - 8, sh * 0.16); g.fillStyle = "#3a2c1c"; g.fillRect(x + 7, sh * 0.2, w - 14, 2); g.fillStyle = ink; }
+      g.save(); g.translate(x + w / 2 + 4, sh * 0.52); g.rotate(-Math.PI / 2); g.fillStyle = ink; g.font = (rnd() < 0.5 ? "italic " : "") + Math.round(w * 0.38) + "px " + SERIF; g.textAlign = "center";
+      g.fillText(BOOK_TITLES[Math.floor(rnd() * BOOK_TITLES.length)], 0, 0); g.restore();
+      g.fillStyle = "rgba(0,0,0,0.25)"; g.fillRect(x, sh - 1, w, 2);
     }
     g.restore();
   }

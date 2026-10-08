@@ -28,7 +28,8 @@
 
   // ---- furniture, built once in local coordinates ----
   var FURN = {};
-  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); fn(b); FURN[name] = b; } return FURN[name]; }
+  var FURN_BEVEL = 0.007;                             // the rounding of furniture's box edges (v0.52)
+  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); b.bevel = FURN_BEVEL; fn(b); FURN[name] = b; } return FURN[name]; }
   function furnRelease() { FURN = {}; }               // once the campus is built: a piece asked for later is built again
   function leg(b, x0, y0, z0, x1, y1, z1, r, mat) { tubeAlong(b, [new THREE.Vector3(x0, y0, z0), new THREE.Vector3(x1, y1, z1)], r, 6, mat, 0.3); }
   function kindTag(b, n0, k) { b.tag(n0, null, k); }
@@ -160,7 +161,7 @@
   function linearPendant() { return furn("lin", function (b) {
     b.box(-0.7, 0, -0.04, 0.7, 0.06, 0.04, MT.ANOD); var n0 = b.count(); b.box(-0.68, -0.004, -0.03, 0.68, 0.0, 0.03, MT.LIGHT); b.tag(n0, 1.6, 0.25);
   }); }
-  function bookshelf() { return furn("shelf", function (b) {   // 0.9 wide (x), 0.34 deep (z, back at +z), 2.2 tall; books added as pictures
+  function bookshelf() { return furn("shelf", function (b) {   // 0.9 wide (x), 0.34 deep (z, back at +z), 2.2 tall; the books by shelfBooks
     var n0 = b.count(); b.box(-0.45, 0, -0.17, -0.43, 2.2, 0.17, MT.WOOD); b.box(0.43, 0, -0.17, 0.45, 2.2, 0.17, MT.WOOD); b.box(-0.45, 2.18, -0.17, 0.45, 2.2, 0.17, MT.WOOD);
     b.box(-0.43, 0, -0.16, 0.43, 0.08, 0.17, MT.WOOD); b.box(-0.43, 0.08, 0.15, 0.43, 2.18, 0.17, MT.WOOD);
     [0.5, 0.92, 1.34, 1.76].forEach(function (y) { b.box(-0.43, y, -0.16, 0.43, y + 0.022, 0.15, MT.WOOD); });
@@ -169,7 +170,7 @@
   function bankerLamp() { return furn("banker", function (b) {
     latheOn(b, 0, 0, 0, [[0.0, 0], [0.08, 0], [0.08, 0.02], [0.012, 0.03], [0.012, 0.3]], 14, MT.BRASS, 0);
     var n0 = b.count(); b.geo(new THREE.CylinderGeometry(0.07, 0.07, 0.36, 16, 1, true, 0, Math.PI), T(0, 0.33, -0.04, Math.PI / 2, 0, Math.PI / 2), MT.PLASTIC, 1); b.tag(n0, 6, null);
-    b.box(-0.15, 0.3, -0.035, 0.15, 0.302, 0.0, MT.LIGHT); b.tag(b.count() - 24, 1.3, 0);
+    b.box(-0.15, 0.3, -0.035, 0.15, 0.302, 0.0, MT.LIGHT); b.tag(b.lastBox, 1.3, 0);
   }); }
   function floorLamp() { return furn("flamp", function (b) {
     latheOn(b, 0, 0, 0, [[0.0, 0], [0.16, 0], [0.16, 0.02], [0.015, 0.03], [0.015, 1.45]], 16, MT.BRASS, 0);
@@ -414,7 +415,7 @@
       var bar = furn("backbar", function (b) {
         var n0 = b.count(); b.box(-0.3, 0, -1.5, 0.3, 0.88, 1.5, MT.WOOD); kindTag(b, n0, 2);
         var n1 = b.count(); b.box(-0.32, 0.88, -1.52, 0.32, 0.92, 1.52, MT.MARBLE); kindTag(b, n1, 3);
-        [-0.75, 0, 0.75].forEach(function (z) { b.box(-0.305, 0.08, z - 0.36, -0.3, 0.84, z + 0.36, MT.WOOD); b.tag(b.count() - 24, null, 2); b.box(-0.315, 0.62, z - 0.12, -0.305, 0.64, z + 0.12, MT.BRASS); });
+        [-0.75, 0, 0.75].forEach(function (z) { b.box(-0.305, 0.08, z - 0.36, -0.3, 0.84, z + 0.36, MT.WOOD); b.tag(b.lastBox, null, 2); b.box(-0.315, 0.62, z - 0.12, -0.305, 0.64, z + 0.12, MT.BRASS); });
         var n2 = b.count(); b.box(-0.02, 1.3, -1.5, 0.3, 1.33, 1.5, MT.WOOD); kindTag(b, n2, 2);
         for (var k = 0; k < 10; k++) { latheOn(b, 0.12, 1.33, -1.3 + k * 0.29, [[0.0, 0], [0.04, 0], [0.045, 0.1], [0.0, 0.1]], 12, MT.CERAMIC, 0); }
       });
@@ -429,7 +430,7 @@
         for (var z = -1.45; z < 1.45; z += 0.1) { var n0 = b.count(); b.box(0.24, 0, z, 0.3, 1.02, z + 0.085, MT.WOOD); kindTag(b, n0, 1); }
         var n1 = b.count(); b.box(-0.3, 0, -1.45, 0.24, 0.98, 1.45, MT.WOOD); kindTag(b, n1, 2);
         var n2 = b.count(); b.box(-0.34, 1.02, -1.5, 0.36, 1.06, 1.5, MT.MARBLE); kindTag(b, n2, 0);
-        b.box(-0.2, 1.06, 0.8, 0.05, 1.1, 1.1, MT.PLASTIC); b.tag(b.count() - 24, 1, null); b.box(-0.14, 1.1, 0.88, -0.1, 1.34, 1.02, MT.PLASTIC); b.tag(b.count() - 24, 1, null);
+        b.box(-0.2, 1.06, 0.8, 0.05, 1.1, 1.1, MT.PLASTIC); b.tag(b.lastBox, 1, null); b.box(-0.14, 1.1, 0.88, -0.1, 1.34, 1.02, MT.PLASTIC); b.tag(b.lastBox, 1, null);
         latheOn(b, 0.05, 1.06, -0.6, [[0.0, 0], [0.06, 0], [0.02, 0.1], [0.02, 0.2], [0.17, 0.21], [0.17, 0.23], [0.0, 0.23]], 20, MT.CERAMIC, 0);
       });
       place(B, ctr, sg, 38.95, 2.0, y, 0); obst(sg, 38.6, 39.3, 0.45, 3.55);
@@ -458,7 +459,7 @@
         b.surf(N, 1, function (i, j, q) { var a = lerp(a0 - 0.02, a1 + 0.02, i / N), r = j ? Rr + 0.07 : Rr - 0.62; q.p[0] = Math.sin(a) * r; q.p[1] = 1.02; q.p[2] = -Math.cos(a) * r; q.nn = [0, 1, 0]; q.f[0] = q.p[0]; q.f[1] = q.p[2]; q.m = MT.MARBLE; }); kindTag(b, n2, 0);
         b.surf(N, 1, function (i, j, q) { var a = lerp(a0 - 0.02, a1 + 0.02, i / N), r = Rr + 0.07; q.p[0] = Math.sin(a) * r; q.p[1] = 0.985 + 0.035 * j; q.p[2] = -Math.cos(a) * r; q.nn = [Math.sin(a), 0, -Math.cos(a)]; q.f[0] = q.p[0]; q.f[1] = q.p[1]; q.m = MT.MARBLE; }); kindTag(b, n2, 0);
         [a0, a1].forEach(function (a) { b.surf(1, 1, function (i, j, q) { var r = i ? Rr : Rr - 0.55; q.p[0] = Math.sin(a) * r; q.p[1] = j * 1.0; q.p[2] = -Math.cos(a) * r; q.m = MT.WOOD; q.f2[1] = 2; }); });
-        b.box(-0.9, 0.72, -Rr + 0.62, 0.9, 0.75, -Rr + 1.05, MT.WOOD); b.tag(b.count() - 24, null, 2);
+        b.box(-0.9, 0.72, -Rr + 0.62, 0.9, 0.75, -Rr + 1.05, MT.WOOD); b.tag(b.lastBox, null, 2);
       });
       place(B, desk, sg, sc, cu, y, 0); obst(sg, sc - 1.9, sc + 1.9, cu - Rr - 0.15, cu - Rr + 1.1);
       place(B, officeChair(), sg, sc, cu - Rr + 1.4, y, Math.PI / 2);

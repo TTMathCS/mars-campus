@@ -94,11 +94,43 @@
   // a lamp's pool of warm light at (r, a), h over the floor at y: k its strength, rg its reach
   function lampLight(r, a, y, h, k, rg) { var p = crsPt(r, a); wLight(p.x, y + h, p.z, LAMPC, k || 0.6, rg || 3.5); }
   // books on a bookshelf's five shelves (spines, as in the wings' shelves), the shelf placed with frame M; k varies them
+  // (v0.52) real books on a bookshelf (bookshelf(): 0.86 m inside, rows on the plinth and four shelves), not a picture of
+  // them (Jim, 8 Oct 2026: "... like the edge of furnitures/book shelves ..."): each row filled from one end with books of
+  // varied thickness, height and depth, their spines the atlas's (drawBooks), their covers its cloth, their tops the
+  // pages; a gap now and then, a book leaning at the end of a row, here and there a few lying flat
   function shelfBooks(B, M, k) {
-    [0.08, 0.522, 0.942, 1.362, 1.782].forEach(function (y, r) {
-      var h = r === 4 ? 0.36 : 0.4, o = ((k * 5 + r) * 0.137) % 0.55;
-      wpic(B, M, [0, y + 0.022 + (h - 0.03) / 2, -0.15], "x", [0, -1], 0.84, h - 0.03, atlasSub("books", o, 0.0, o + 0.45, 1.0), MT.ATLAS, [0, 4]);
+    var R = mulberry(9100 + k * 37), b = new Builder(), Ms = new THREE.Matrix4(), v = new THREE.Vector3(), nn = new THREE.Vector3();
+    function col(j, spine) { var u0 = (j + 0.06) / BOOK_N, u1 = (j + 0.94) / BOOK_N; return spine ? atlasSub("books", u0, 1 - BOOK_SPH + 0.012, u1, 0.995) : atlasSub("books", u0, 0.03, u1, 1 - BOOK_SPH - 0.03); }
+    function book(t, h, d, j, Mb) {                      // a book t thick (x), h tall (y), d deep (z, its spine at z = 0 toward -z), placed by Mb
+      var S = col(j, true), W = col(j, false);
+      function P(x, y, z) { return v.set(x, y, z).applyMatrix4(Mb).toArray(); }
+      function N(x, y, z) { return nn.set(x, y, z).transformDirection(Mb).toArray(); }
+      b.quad(P(t, 0, 0), P(0, 0, 0), P(0, h, 0), P(t, h, 0), N(0, 0, -1), [S[0], S[1]], [S[2], S[1]], [S[2], S[3]], [S[0], S[3]], MT.ATLAS);              // the spine
+      b.quad(P(0, 0, 0), P(0, 0, d), P(0, h, d), P(0, h, 0), N(-1, 0, 0), [W[0], W[1]], [W[2], W[1]], [W[2], W[3]], [W[0], W[3]], MT.ATLAS);              // the covers
+      b.quad(P(t, 0, d), P(t, 0, 0), P(t, h, 0), P(t, h, d), N(1, 0, 0), [W[0], W[1]], [W[2], W[1]], [W[2], W[3]], [W[0], W[3]], MT.ATLAS);
+      var n0 = b.count(); b.quad(P(0, h, 0), P(0, h, d), P(t, h, d), P(t, h, 0), N(0, 1, 0), [0, 0], [0, d], [t, d], [t, 0], MT.FABRIC); b.tag(n0, 7, 0);   // the pages
+    }
+    [[0.08, 0.42], [0.522, 0.398], [0.942, 0.398], [1.362, 0.398], [1.782, 0.398]].forEach(function (row) {
+      var y = row[0], room = row[1], x = -0.425, xe = 0.425, flat = R() < 0.3 ? (R() < 0.5 ? -1 : 1) : 0, series = 0, sh = 0, sd = 0;
+      if (flat) {                                        // a few lying flat at one end
+        var nf = 2 + Math.floor(R() * 3), fw = 0.2 + R() * 0.06, fx = flat < 0 ? x : xe - fw, fy = y, fd = 0.17 + R() * 0.05;
+        for (var q = 0; q < nf; q++) { var ft = 0.022 + R() * 0.025; book(ft, fw - R() * 0.03, fd, Math.floor(R() * BOOK_N), Ms.makeRotationZ(-Math.PI / 2).setPosition(fx, fy + ft, -0.135 - R() * 0.01)); fy += ft; }
+        if (flat < 0) x += fw + 0.01; else xe -= fw + 0.01;
+      }
+      while (x < xe - 0.02) {
+        if (series <= 0) { sh = Math.min(room - 0.03, 0.19 + R() * 0.13); sd = Math.min(0.27, 0.13 + sh * 0.35 + R() * 0.03); series = 1 + Math.floor(R() * 5); }
+        var t = 0.016 + R() * 0.03 + (R() < 0.15 ? 0.02 : 0), h = Math.min(room - 0.02, sh * (0.97 + R() * 0.06)), d = sd;
+        series--;
+        if (x + t > xe) break;
+        if (xe - x - t < 0.09 && R() < 0.6) {          // the last one leans on the others
+          var th = 0.12 + R() * 0.2, px = x + h * Math.sin(th) + 0.002;
+          if (px + t * Math.cos(th) < xe) book(t, h, d, Math.floor(R() * BOOK_N), Ms.makeRotationZ(th).setPosition(px, y, -0.13 - R() * 0.015));
+          break;
+        }
+        book(t, h, d, Math.floor(R() * BOOK_N), Ms.makeTranslation(x, y, -0.13 - R() * 0.015)); x += t + (R() < 0.08 ? 0.03 + R() * 0.04 : 0.0015);
+      }
     });
+    B.add(b, M);
   }
   // a built-in banquette against a wall, back at +z: an oak plinth set back, a stuffed seat, back cushions leaning on the
   // wall, pillows; seat 0.45 m high, 0.64 m deep

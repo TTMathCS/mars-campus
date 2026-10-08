@@ -298,7 +298,7 @@
     var t = new Builder();
     t.add(plantBuilder(kind, seed, true, k), new THREE.Matrix4().makeRotationY(rot || 0).multiply(new THREE.Matrix4().makeTranslation(0, soilY - (POT_H[kind] || 0.4) * 0.94 * k, 0)).multiply(new THREE.Matrix4().makeScale(k, k, k)));
     function fold(v, m) { var kn = 0.7 * m; return v < kn ? v : kn + (m - kn) * Math.tanh((v - kn) / (m - kn)); }
-    for (var q = 0; q < t.p.length / 3; q++) {
+    for (var q = 0, nq = t.count(); q < nq; q++) {
       var z = t.p[q * 3 + 2], y = t.p[q * 3 + 1];
       if (zOut > 0 && z > 0) t.p[q * 3 + 2] = fold(z, zOut); else if (zIn > 0 && z < 0) t.p[q * 3 + 2] = -fold(-z, zIn);
       if (yMax > 0 && y > 0) t.p[q * 3 + 1] = fold(y, yMax);
@@ -485,7 +485,7 @@
         stem(b, chain, 0.003, 1); }
     }
     var fs = (!bed || real) && FOLIAGE[kind]; if (fs) {                           // real proportions: the foliage in toward a potted plant's spread
-      for (var q = POT_END; q < b.p.length / 3; q++) { b.p[q * 3] *= fs[0]; b.p[q * 3 + 2] *= fs[0]; b.p[q * 3 + 1] = POT_TOP + (b.p[q * 3 + 1] - POT_TOP) * fs[1];
+      for (var q = POT_END, nq = b.count(); q < nq; q++) { b.p[q * 3] *= fs[0]; b.p[q * 3 + 2] *= fs[0]; b.p[q * 3 + 1] = POT_TOP + (b.p[q * 3 + 1] - POT_TOP) * fs[1];
         var nx = b.n[q * 3] / fs[0], ny = b.n[q * 3 + 1] / fs[1], nz = b.n[q * 3 + 2] / fs[0], nl = Math.hypot(nx, ny, nz) || 1; b.n[q * 3] = nx / nl; b.n[q * 3 + 1] = ny / nl; b.n[q * 3 + 2] = nz / nl; } }
   }); POT_SKIP = false; return out; }
   // a plant on the floor of a wing room: s along the wing, u in from the glass

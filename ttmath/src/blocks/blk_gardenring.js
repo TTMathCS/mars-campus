@@ -187,7 +187,7 @@
     function bronze(g) { return addF2(g, 0, 7); }
     var pl = new Builder();
     latheOn(pl, 0, 0, 0, [[0.0, 0], [0.5, 0], [0.5, 0.2], [0.44, 0.24], [0.36, 0.3], [0.33, plinth + 0.05], [0.4, plinth + 0.1], [0.4, plinth + 0.15], [0.0, plinth + 0.15]], 32, MT.CONCRETE);
-    for (var n = 0; n < pl.f.length; n++) pl.f[n] = 0.45 + 0.035 * pl.f[n];
+    for (var n = 0, nf = pl.count() * 2; n < nf; n++) pl.f[n] = 0.45 + 0.035 * pl.f[n];
     B.add(pl, T(c.x, g0 - 0.15, c.z));
     B.geo(bronze(new THREE.TorusGeometry(R, 0.03, 8, 128)), T(c.x, yc, c.z, 0, Math.PI / 2, 0), MT.BRASS);
     B.geo(bronze(new THREE.TorusGeometry(R * 0.985, 0.022, 8, 128)), T(c.x, yc, c.z, Math.PI / 2, 0, 0), MT.BRASS);

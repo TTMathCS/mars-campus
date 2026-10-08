@@ -126,7 +126,7 @@
   function furnBox(fb) {
     if (fb._bb) return fb._bb;
     var P = fb.p, bb = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9];
-    for (var k = 0; k < P.length; k += 3) { bb[0] = Math.min(bb[0], P[k]); bb[1] = Math.min(bb[1], P[k + 1]); bb[2] = Math.min(bb[2], P[k + 2]); bb[3] = Math.max(bb[3], P[k]); bb[4] = Math.max(bb[4], P[k + 1]); bb[5] = Math.max(bb[5], P[k + 2]); }
+    for (var k = 0, K = fb.count() * 3; k < K; k += 3) { bb[0] = Math.min(bb[0], P[k]); bb[1] = Math.min(bb[1], P[k + 1]); bb[2] = Math.min(bb[2], P[k + 2]); bb[3] = Math.max(bb[3], P[k]); bb[4] = Math.max(bb[4], P[k + 1]); bb[5] = Math.max(bb[5], P[k + 2]); }
     fb._bb = bb; return bb;
   }
   function contactShadow(fb, M) {

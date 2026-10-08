@@ -1,11 +1,33 @@
   /* Geometry builder: boxes, parametric surfaces and shapes, with facade coordinates, material ids and a light zone */
-  // zone: 0 outside, 1 rotunda, 2 wings (set B.zone before adding geometry); it picks the reflection map and sky light
-  function Builder() { this.p = []; this.n = []; this.f = []; this.f2 = []; this.m = []; this.i = []; this.z = []; this.zone = 0; }
+  // zone: 0 outside, 1 rotunda, 2 wings (set B.zone before adding geometry); it picks the reflection map and sky light.
+  // (v0.49) The arrays are typed and grow as they fill: nv points and ni indices are used of their room. Plain arrays held
+  // each number in 8 bytes of the page's own heap, and the campus's four million points crashed the page on PCs with
+  // little memory (Jim, 8 Oct 2026: "even not finish loading on some old pc"). Read b.count(), never b.p.length.
+  var BLD_E = new Float32Array(0);
+  // nv0, ni0: room to start with, for a builder that will hold a lot (the campus's), so it does not grow by copying itself
+  function Builder(nv0, ni0) { this.nv = 0; this.ni = 0; this.p = this.n = this.f = this.f2 = this.m = BLD_E; this.z = new Uint8Array(0); this.i = new Uint32Array(0); this.zone = 0; if (nv0) this.grow(nv0, ni0 || nv0 * 3); }
+  // room for k more points and j more indices (twice as much each time it runs out)
+  Builder.prototype.grow = function (k, j) {
+    var need = this.nv + k, cap = this.m.length;
+    if (need > cap) {
+      cap = Math.max(need, cap * 2, 64);
+      var re = function (a, w, Ty) { var b = new Ty(cap * w); b.set(a); return b; };
+      this.p = re(this.p, 3, Float32Array); this.n = re(this.n, 3, Float32Array); this.f = re(this.f, 2, Float32Array); this.f2 = re(this.f2, 2, Float32Array);
+      this.m = re(this.m, 1, Float32Array); this.z = re(this.z, 1, Uint8Array);
+    }
+    need = this.ni + j; cap = this.i.length;
+    if (need > cap) { var b = new Uint32Array(Math.max(need, cap * 2, 96)); b.set(this.i); this.i = b; }
+  };
   Builder.prototype.quad = function (a, b, c, d, nrm, fa, fb, fc, fd, mat) {
-    var base = this.p.length / 3, self = this;
-    [a, b, c, d].forEach(function (v) { self.p.push(v[0], v[1], v[2]); self.n.push(nrm[0], nrm[1], nrm[2]); self.m.push(mat); self.f2.push(99, 0); self.z.push(self.zone); });
-    [fa, fb, fc, fd].forEach(function (v) { self.f.push(v[0], v[1]); });
-    this.i.push(base, base + 1, base + 2, base, base + 2, base + 3);
+    this.grow(4, 6);
+    var base = this.nv, P = this.p, N = this.n, F = this.f, F2 = this.f2, V = [a, b, c, d], FF = [fa, fb, fc, fd], t = this.ni, I = this.i;
+    for (var k = 0; k < 4; k++) {
+      var o = base + k, v = V[k], u = FF[k];
+      P[o * 3] = v[0]; P[o * 3 + 1] = v[1]; P[o * 3 + 2] = v[2]; N[o * 3] = nrm[0]; N[o * 3 + 1] = nrm[1]; N[o * 3 + 2] = nrm[2];
+      F[o * 2] = u[0]; F[o * 2 + 1] = u[1]; F2[o * 2] = 99; F2[o * 2 + 1] = 0; this.m[o] = mat; this.z[o] = this.zone;
+    }
+    I[t] = base; I[t + 1] = base + 1; I[t + 2] = base + 2; I[t + 3] = base; I[t + 4] = base + 2; I[t + 5] = base + 3;
+    this.nv = base + 4; this.ni = t + 6;
   };
   // axis-aligned box; mats = number or {px,nx,py,ny,pz,nz}; facade coords: u = metres along face, v = y (or z on top)
   Builder.prototype.box = function (x0, y0, z0, x1, y1, z1, mats, skipBottom) {
@@ -20,41 +42,52 @@
   // any three.js geometry with a transform (keeps aMat / aFac / aFac2 if the geometry has them)
   Builder.prototype.geo = function (g, matrix, mat, facScale) {
     g = g.index ? g.toNonIndexed() : g.clone(); g.applyMatrix4(matrix);
-    var P = g.attributes.position.array, N = g.attributes.normal.array, UV = g.attributes.uv ? g.attributes.uv.array : null, base = this.p.length / 3, s = facScale || 1;
+    var Pg = g.attributes.position.array, Ng = g.attributes.normal.array, UV = g.attributes.uv ? g.attributes.uv.array : null, s = facScale || 1, cnt = Pg.length / 3;
     var AM = g.attributes.aMat ? g.attributes.aMat.array : null, AF = g.attributes.aFac ? g.attributes.aFac.array : null, AF2 = g.attributes.aFac2 ? g.attributes.aFac2.array : null;
-    for (var k = 0; k < P.length / 3; k++) {
-      this.p.push(P[k * 3], P[k * 3 + 1], P[k * 3 + 2]); this.n.push(N[k * 3], N[k * 3 + 1], N[k * 3 + 2]);
-      if (AF) this.f.push(AF[k * 2], AF[k * 2 + 1]); else this.f.push(UV ? UV[k * 2] * s : 0, UV ? UV[k * 2 + 1] * s : 0);
-      if (AF2) this.f2.push(AF2[k * 2], AF2[k * 2 + 1]); else this.f2.push(99, 0);
-      this.m.push(AM ? AM[k] : mat); this.z.push(this.zone); this.i.push(base + k);
+    this.grow(cnt, cnt);
+    var base = this.nv, P = this.p, N = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, I = this.i, t = this.ni, zn = this.zone;
+    for (var k = 0; k < cnt; k++) {
+      var o = base + k;
+      P[o * 3] = Pg[k * 3]; P[o * 3 + 1] = Pg[k * 3 + 1]; P[o * 3 + 2] = Pg[k * 3 + 2]; N[o * 3] = Ng[k * 3]; N[o * 3 + 1] = Ng[k * 3 + 1]; N[o * 3 + 2] = Ng[k * 3 + 2];
+      if (AF) { F[o * 2] = AF[k * 2]; F[o * 2 + 1] = AF[k * 2 + 1]; } else { F[o * 2] = UV ? UV[k * 2] * s : 0; F[o * 2 + 1] = UV ? UV[k * 2 + 1] * s : 0; }
+      if (AF2) { F2[o * 2] = AF2[k * 2]; F2[o * 2 + 1] = AF2[k * 2 + 1]; } else { F2[o * 2] = 99; F2[o * 2 + 1] = 0; }
+      M[o] = AM ? AM[k] : mat; Z[o] = zn; I[t + k] = o;
     }
+    this.nv = base + cnt; this.ni = t + cnt;
   };
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
-    var base = this.p.length / 3, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements, n = o.p.length / 3, k;
+    var n = o.nv !== undefined ? o.nv : o.p.length / 3, ni = o.nv !== undefined ? o.ni : o.i.length, k;
+    this.grow(n, ni);
+    var base = this.nv, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements;
     var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
     var q0 = q[0], q1 = q[1], q2 = q[2], q3 = q[3], q4 = q[4], q5 = q[5], q6 = q[6], q7 = q[7], q8 = q[8], P = this.p, NN = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, zn = this.zone, op = o.p, on = o.n, of = o.f, of2 = o.f2, om = o.m;
     for (k = 0; k < n; k++) {
-      var x = op[k * 3], y = op[k * 3 + 1], z = op[k * 3 + 2], a = on[k * 3], b = on[k * 3 + 1], c = on[k * 3 + 2];
-      P.push(e0 * x + e4 * y + e8 * z + e12, e1 * x + e5 * y + e9 * z + e13, e2 * x + e6 * y + e10 * z + e14);
+      var x = op[k * 3], y = op[k * 3 + 1], z = op[k * 3 + 2], a = on[k * 3], b = on[k * 3 + 1], c = on[k * 3 + 2], v = base + k;
+      P[v * 3] = e0 * x + e4 * y + e8 * z + e12; P[v * 3 + 1] = e1 * x + e5 * y + e9 * z + e13; P[v * 3 + 2] = e2 * x + e6 * y + e10 * z + e14;
       var nx = q0 * a + q3 * b + q6 * c, ny = q1 * a + q4 * b + q7 * c, nz = q2 * a + q5 * b + q8 * c, l = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
-      NN.push(nx / l, ny / l, nz / l); F.push(of[k * 2], of[k * 2 + 1]); F2.push(of2[k * 2], of2[k * 2 + 1]); M.push(om[k]); Z.push(zn);
+      NN[v * 3] = nx / l; NN[v * 3 + 1] = ny / l; NN[v * 3 + 2] = nz / l; F[v * 2] = of[k * 2]; F[v * 2 + 1] = of[k * 2 + 1]; F2[v * 2] = of2[k * 2]; F2[v * 2 + 1] = of2[k * 2 + 1]; M[v] = om[k]; Z[v] = zn;
     }
-    var flip = (e[0] * (e[5] * e[10] - e[6] * e[9]) - e[4] * (e[1] * e[10] - e[2] * e[9]) + e[8] * (e[1] * e[6] - e[2] * e[5])) < 0;
-    for (k = 0; k < o.i.length; k += 3) { if (flip) this.i.push(base + o.i[k], base + o.i[k + 2], base + o.i[k + 1]); else this.i.push(base + o.i[k], base + o.i[k + 1], base + o.i[k + 2]); }
+    var flip = (e[0] * (e[5] * e[10] - e[6] * e[9]) - e[4] * (e[1] * e[10] - e[2] * e[9]) + e[8] * (e[1] * e[6] - e[2] * e[5])) < 0, I = this.i, oi = o.i, t = this.ni;
+    for (k = 0; k < ni; k += 3) { I[t + k] = base + oi[k]; if (flip) { I[t + k + 1] = base + oi[k + 2]; I[t + k + 2] = base + oi[k + 1]; } else { I[t + k + 1] = base + oi[k + 1]; I[t + k + 2] = base + oi[k + 2]; } }
+    this.nv = base + n; this.ni = t + ni;
   };
   // parametric grid surface: fn(i, j, q) fills q.p (xyz), q.f, q.f2, q.m for grid point (i, j); smooth normals from the grid
   // (fn may set q.nn to give the normal of a point explicitly)
   Builder.prototype.surf = function (nu, nv, fn, wrapU, wrapV) {
-    var base = this.p.length / 3, W = nu + 1, P = [], NN = null, q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0, nn: null }, i, j;
+    var W = nu + 1, cnt = W * (nv + 1), P = new Float64Array(cnt * 3), NN = null, q = { p: [0, 0, 0], f: [0, 0], f2: [99, 0], m: 0, nn: null }, i, j, v;
+    this.grow(cnt, nu * nv * 6);
+    var base = this.nv, BP = this.p, BN = this.n, F = this.f, F2 = this.f2, M = this.m, Z = this.z, zn = this.zone;
     for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
       q.f[0] = 0; q.f[1] = 0; q.f2[0] = 99; q.f2[1] = 0; q.nn = null; fn(i, j, q);
-      P.push(q.p[0], q.p[1], q.p[2]); this.p.push(q.p[0], q.p[1], q.p[2]);
-      this.f.push(q.f[0], q.f[1]); this.f2.push(q.f2[0], q.f2[1]); this.m.push(q.m); this.z.push(this.zone);
-      if (q.nn) { if (!NN) NN = []; NN[j * W + i] = q.nn; }
+      var g = j * W + i; v = base + g;
+      P[g * 3] = q.p[0]; P[g * 3 + 1] = q.p[1]; P[g * 3 + 2] = q.p[2]; BP[v * 3] = q.p[0]; BP[v * 3 + 1] = q.p[1]; BP[v * 3 + 2] = q.p[2];
+      F[v * 2] = q.f[0]; F[v * 2 + 1] = q.f[1]; F2[v * 2] = q.f2[0]; F2[v * 2 + 1] = q.f2[1]; M[v] = q.m; Z[v] = zn;
+      if (q.nn) { if (!NN) NN = []; NN[g] = q.nn; }
     }
     for (j = 0; j <= nv; j++) for (i = 0; i <= nu; i++) {
-      if (NN && NN[j * W + i]) { var gn = NN[j * W + i], gl = Math.hypot(gn[0], gn[1], gn[2]) || 1; this.n.push(gn[0] / gl, gn[1] / gl, gn[2] / gl); continue; }
+      v = base + j * W + i;
+      if (NN && NN[j * W + i]) { var gn = NN[j * W + i], gl = Math.hypot(gn[0], gn[1], gn[2]) || 1; BN[v * 3] = gn[0] / gl; BN[v * 3 + 1] = gn[1] / gl; BN[v * 3 + 2] = gn[2] / gl; continue; }
       var i0 = i - 1, i1 = i + 1, j0 = j - 1, j1 = j + 1;
       if (i0 < 0) i0 = wrapU ? nu - 1 : 0; if (i1 > nu) i1 = wrapU ? 1 : nu;
       if (j0 < 0) j0 = wrapV ? nv - 1 : 0; if (j1 > nv) j1 = wrapV ? 1 : nv;
@@ -62,35 +95,40 @@
       var ux = P[a] - P[b], uy = P[a + 1] - P[b + 1], uz = P[a + 2] - P[b + 2], vx = P[c] - P[d], vy = P[c + 1] - P[d + 1], vz = P[c + 2] - P[d + 2];
       var nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx, l = Math.sqrt(nx * nx + ny * ny + nz * nz);
       if (l < 1e-9) { nx = 0; ny = 1; nz = 0; l = 1; }
-      this.n.push(nx / l, ny / l, nz / l);
+      BN[v * 3] = nx / l; BN[v * 3 + 1] = ny / l; BN[v * 3 + 2] = nz / l;
     }
-    for (j = 0; j < nv; j++) for (i = 0; i < nu; i++) { var k = base + j * W + i; this.i.push(k, k + 1, k + W + 1, k, k + W + 1, k + W); }
+    var I = this.i, t = this.ni;
+    for (j = 0; j < nv; j++) for (i = 0; i < nu; i++) { var k = base + j * W + i; I[t++] = k; I[t++] = k + 1; I[t++] = k + W + 1; I[t++] = k; I[t++] = k + W + 1; I[t++] = k + W; }
+    this.nv = base + cnt; this.ni = t;
   };
-  Builder.prototype.count = function () { return this.p.length / 3; };
+  Builder.prototype.count = function () { return this.nv; };
   // set facade values (aFac2) or the material of everything added since vertex `start`
-  Builder.prototype.tag = function (start, a, b) { for (var k = start, N = this.p.length / 3; k < N; k++) { if (a !== null) this.f2[k * 2] = a; if (b !== null && b !== undefined) this.f2[k * 2 + 1] = b; } };
-  Builder.prototype.mat = function (start, m) { for (var k = start, N = this.p.length / 3; k < N; k++) this.m[k] = m; };
+  Builder.prototype.tag = function (start, a, b) { for (var k = start, N = this.nv; k < N; k++) { if (a !== null) this.f2[k * 2] = a; if (b !== null && b !== undefined) this.f2[k * 2 + 1] = b; } };
+  Builder.prototype.mat = function (start, m) { for (var k = start, N = this.nv; k < N; k++) this.m[k] = m; };
   // flip normals from vertex `start` on so they point toward dirFn(x, y, z)
   Builder.prototype.orient = function (start, dirFn) {
-    for (var k = start, N = this.p.length / 3; k < N; k++) {
+    for (var k = start, N = this.nv; k < N; k++) {
       var d = dirFn(this.p[k * 3], this.p[k * 3 + 1], this.p[k * 3 + 2]);
       if (this.n[k * 3] * d[0] + this.n[k * 3 + 1] * d[1] + this.n[k * 3 + 2] * d[2] < 0) { this.n[k * 3] *= -1; this.n[k * 3 + 1] *= -1; this.n[k * 3 + 2] *= -1; }
     }
   };
   var SKY0 = [1, 0.42, 0.2];                     // sky light before the bake: outside, rotunda, wings
+  // the used part of a typed array: itself when full, a view when little of it is spare, else a copy that fits
+  function bldFit(a, n) { return a.length === n ? a : (a.length - n > (n >> 3) + 64 ? a.slice(0, n) : a.subarray(0, n)); }
   Builder.prototype.build = function () {
-    var g = new THREE.BufferGeometry(), N = this.p.length / 3, ao = new Float32Array(N), sk = new Float32Array(N);
-    for (var k = 0; k < N; k++) { ao[k] = 1 + 2 * this.z[k]; sk[k] = SKY0[this.z[k]] || 1; }
-    g.setAttribute("position", new THREE.Float32BufferAttribute(this.p, 3));
-    g.setAttribute("normal", new THREE.Float32BufferAttribute(this.n, 3));
-    g.setAttribute("aFac", new THREE.Float32BufferAttribute(this.f, 2));
-    g.setAttribute("aFac2", new THREE.Float32BufferAttribute(this.f2, 2));
-    g.setAttribute("aMat", new THREE.Float32BufferAttribute(this.m, 1));
+    var g = new THREE.BufferGeometry(), N = this.nv, ao = new Float32Array(N), sk = new Float32Array(N), Z = bldFit(this.z, N);
+    for (var k = 0; k < N; k++) { ao[k] = 1 + 2 * Z[k]; sk[k] = SKY0[Z[k]] || 1; }
+    g.setAttribute("position", new THREE.BufferAttribute(bldFit(this.p, N * 3), 3));
+    g.setAttribute("normal", new THREE.BufferAttribute(bldFit(this.n, N * 3), 3));
+    g.setAttribute("aFac", new THREE.BufferAttribute(bldFit(this.f, N * 2), 2));
+    g.setAttribute("aFac2", new THREE.BufferAttribute(bldFit(this.f2, N * 2), 2));
+    g.setAttribute("aMat", new THREE.BufferAttribute(bldFit(this.m, N), 1));
     g.setAttribute("aAO", new THREE.BufferAttribute(ao, 1));
     g.setAttribute("aSky", new THREE.BufferAttribute(sk, 1));
     g.setAttribute("aLight", new THREE.BufferAttribute(new Float32Array(N * 3), 3));
-    g.setIndex(this.i); g.computeBoundingSphere();
-    g.userData.zone = this.z;
+    var I = bldFit(this.i, this.ni), mx = 0; for (k = 0; k < I.length; k++) if (I[k] > mx) mx = I[k];
+    g.setIndex(new THREE.BufferAttribute(mx > 65535 ? I : new Uint16Array(I), 1)); g.computeBoundingSphere();   // 16-bit indices when they fit, as three.js picks them
+    g.userData.zone = Z;
     return g;
   };
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }

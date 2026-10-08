@@ -383,9 +383,13 @@
     g.setAttribute("aFac", new THREE.Float32BufferAttribute(fa, 2)); g.setAttribute("aFac2", new THREE.Float32BufferAttribute(fb, 2));
     g.setIndex(idx); g.computeBoundingSphere(); return g;
   }
-  // textures are drawn after the first frames, so the page opens as fast as before
+  // textures are drawn after the first frames, so the page opens as fast as before; lateTexture(f) adds one (v0.49: the
+  // corridors' prints and the classrooms' pinboards)
+  var LATE_TEX = [];
+  function lateTexture(f) { if (palTexReady) f(); else LATE_TEX.push(f); }
   function buildPalaceTextures() {
     if (palTexReady) return; palTexReady = true;
+    LATE_TEX.forEach(function (f) { f(); }); LATE_TEX.length = 0;
     function tex(cv, repeat) { var t = new THREE.CanvasTexture(cv); t.anisotropy = maxAniso; t.wrapS = t.wrapT = repeat ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping; t.needsUpdate = true; return t; }
     matU.uFloorTex.value = tex(palaceFloorTexture(PAL.pitR, MOBILE ? 1024 : 2048));
     matU.uPanelTex.value = tex(panelAtlas(MOBILE));

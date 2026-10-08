@@ -502,7 +502,8 @@
   function corridorArt(W) {
     var C = CRS, D = D2R, art = P2.ring.art || [], cols = PRINT.cols, rows = Math.ceil(art.length / cols), pw = PRINT.w, ph = PRINT.h, rM = (C.r0 + C.rc) / 2;
     if (!art.length) return;
-    var tex = new THREE.CanvasTexture(printAtlas(art)); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    var tex = { value: dummyTex };                                  // drawn after the first frames (v0.49)
+    lateTexture(function () { var t = new THREE.CanvasTexture(printAtlas(art)); t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); tex.value = t; });
     var pos = [], uvs = [], idx = [], brt = [];
     function unit(a) { var p = crsPt(1, a); return new THREE.Vector3(p.x - PAL.c.x, 0, p.z - PAL.c.z).normalize(); }
     art.forEach(function (x, k) {
@@ -544,6 +545,6 @@
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
       "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
-    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: tex, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }

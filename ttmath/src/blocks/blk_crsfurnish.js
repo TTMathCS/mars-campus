@@ -189,7 +189,7 @@
     for (var k = 0; k < n; k++) { var a = F.back + F.sgn * (fromDist + k * 0.9 + 0.45) / r; if (nearDoor(F, a, 0.45)) continue; crsPlace(B, bookshelf(), r, a, F.y, ROT.out); shelfBooks(B, crsFrame(r, a, F.y, ROT.out), k + Math.round(F.mid * 40)); crsObst(r - 0.2, r + 0.4, a - half, a + half, F.floor); }
   }
   // how far a plant reaches out from its stem, from its leaves (cached on its builder)
-  function plantReach(fb) { if (fb._reach) return fb._reach; var P = fb.p, m = 0.3; for (var k = 0; k < P.length; k += 3) m = Math.max(m, Math.hypot(P[k], P[k + 2])); return (fb._reach = m); }
+  function plantReach(fb) { if (fb._reach) return fb._reach; var P = fb.p, m = 0.3; for (var k = 0, K = fb.count() * 3; k < K; k += 3) m = Math.max(m, Math.hypot(P[k], P[k + 2])); return (fb._reach = m); }
   // where a floor plant may stand in a room: its leaves (reach R) inside the walls, clear of each door's way in and its open
   // leaf, its pot clear of the furniture placed before it and of the room's other plants; the nearest such place to the
   // one planned within 3 m, or none (Jim, 7 Oct 2026: "plants cannot block the door"; "plants get through door?")

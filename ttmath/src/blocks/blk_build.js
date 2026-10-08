@@ -8,7 +8,7 @@
     return out;
   }
   // glass of a hall open to the sky: from inside it mirrors the day outside, not a room (GLASS_FS, vK.y 4)
-  function hallGlass(G) { for (var k = 1; k < G.f2.length; k += 2) if (G.f2[k] > 0.5 && G.f2[k] < 2.5) G.f2[k] = 4; return G; }
+  function hallGlass(G) { for (var k = 1, K = G.count() * 2; k < K; k += 2) if (G.f2[k] > 0.5 && G.f2[k] < 2.5) G.f2[k] = 4; return G; }
   function buildCampus() {
     buildCampusGround();
     // palace levels from the ground around the dome ring
@@ -22,7 +22,7 @@
     ROVER_BAYS = [{ x: r1.x, z: r1.z, yaw: Math.atan2(-PAL.Rt.x, -PAL.Rt.z) }, { x: r2.x, z: r2.z, yaw: Math.atan2(PAL.c.x - r2.x, PAL.c.z - r2.z) }];
     PLAZA.c = palXZ(0, 91.5);
     buildPalace();                                                      // interior, dome glass and the moving pieces
-    var B = new Builder(), W = new Builder(), D = new Builder();
+    var B = new Builder(760000, 2300000), W = new Builder(2800000, 8400000), D = new Builder();   // room for what they hold (v0.49: 0.66 and 2.57 million points)
     campusExterior(B); backDoor(B); crescentBuild(B, W); gardenRing(B); entranceBuild(B); drapeGeometry(D);   // all the lights exist once these are built
     campus = bakedMesh(B, matMat); scene.add(campus);
     wings = bakedMesh(W, matMat); scene.add(wings); pendulumBuild();
@@ -52,6 +52,7 @@
     var wp = crsPt(55.8, 16 * D2R); envW.pos.set(wp.x, CRS.yU + 1.6, wp.z);                         // in Euclid
     var cp = palXZ(0, 92); envOut.pos.set(cp.x, cgH(cp.x, cp.z) + 2.0, cp.z);
     podInit();                                                          // the pod waiting at the dock
+    furnRelease();                                                      // the pieces' models, kept while the campus was built
   }
   // doors open as you come near; reflections refresh as the sky changes
   function campusUpdate(time, dt) { doorsUpdate(dt); stepEnv(); screensUpdate(time); clocksUpdate(); pendulumUpdate(); }

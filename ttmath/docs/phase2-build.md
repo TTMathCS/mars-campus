@@ -194,6 +194,17 @@ each pushed when it is checked:
    paths (`keep`, a path half-width in metres), the palace's vault and vestibule and the grove; each a curb, soil and rows
    of plants by `bedPlantReal` (a bed plant with the potted plant's proportions, FOLIAGE, at scale k), six seeds a kind so
    the builders are shared; the beds are posts ({bed, r0, r1, a0, a1}) that `gardenSupport` keeps you out of.
+   (v0.49) The Builder's arrays are typed (`blk_builder.js`): `nv` points and `ni` indices used of their room, which
+   `grow(k, j)` doubles; read `b.count()`, never `b.p.length` (that is the room). `build()` gives three.js the arrays
+   themselves (16-bit indices when they fit). `furnRelease()` empties the furniture cache (FURN) at the end of
+   `buildCampus`; a piece asked for later is built again. A baked mesh drawn once (`bakeDrawn`) gives its position,
+   normal and index arrays to the bake worker without a copy and drops its facade and material arrays; the traced light
+   takes the place of its light arrays and is dropped once drawn (`bakeDrop`): never read a baked mesh's arrays after
+   the bake has started (`__mars.campusSample` must run before it, as `shot.py --sample` does). The quick light and the
+   worker take no power for a lobe of 1 or 2 (exactly sp and sp * sp); the worker lists each zone's lights by 4 m cell,
+   in their order, so a point meets the same lights in the same order. `lateTexture(f)` (`blk_palace2.js`) draws a
+   canvas texture with the palace's, after the first frames (the prints' and the pinboards' atlases). Measure the load
+   with `tools/load_profile.py` (`--cpu 4`, `--heap-limit 256`).
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

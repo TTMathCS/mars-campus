@@ -7,7 +7,7 @@
   // touches (one reaching over 40 m in all of them), so a vertex visits a few lights, not the whole zone's hundreds
   function lightGrid(L) {
     if (L._grid && L._grid.n === L.length) return L._grid;
-    var S = 8, m = new Map(), wide = [];
+    var S = 4, m = new Map(), wide = [];
     L.forEach(function (l) {
       if (l.r > 40) { wide.push(l); return; }
       var x0 = Math.floor((l.x - l.r) / S), x1 = Math.floor((l.x + l.r) / S), z0 = Math.floor((l.z - l.r) / S), z1 = Math.floor((l.z + l.r) / S);
@@ -18,52 +18,67 @@
   }
   function bakeQuick(g, lightsOverride, off) {
     var P = g.attributes.position.array, N = g.attributes.normal.array, Z = g.userData.zone, n = P.length / 3, out = g.attributes.aLight.array;
-    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0, G0 = lightsOverride ? lightGrid(lightsOverride) : null, GZ = {};
+    var ox = off ? off.x : 0, oy = off ? off.y : 0, oz = off ? off.z : 0, G0 = lightsOverride ? lightGrid(lightsOverride) : null, GZ = {}, lG = null, lK = NaN, L = null;
+    // (v0.50) the same numbers, faster: a cell's list kept while the points stay in it, smoothstep written out, and no power
+    // taken for a lobe of 1 or 2 (Math.pow took most of the time and gives exactly sp and sp * sp there)
     for (var k = 0; k < n; k++) {
       var x = P[k * 3] + ox, y = P[k * 3 + 1] + oy, z = P[k * 3 + 2] + oz, nx = N[k * 3], ny = N[k * 3 + 1], nz = N[k * 3 + 2], r = 0, gg = 0, b = 0;
-      var G = G0 || GZ[Z[k]] || (GZ[Z[k]] = lightGrid(zoneLights(Z[k]))), L = G.m.get(Math.floor(x / G.S) * 65536 + Math.floor(z / G.S)) || G.wide;
+      var G = G0 || GZ[Z[k]] || (GZ[Z[k]] = lightGrid(zoneLights(Z[k]))), key = Math.floor(x / G.S) * 65536 + Math.floor(z / G.S);
+      if (G !== lG || key !== lK) { L = G.m.get(key) || G.wide; lG = G; lK = key; }
       for (var i = 0; i < L.length; i++) {
-        var l = L[i], lx = l.x - x, ly = l.y - y, lz = l.z - z, d2 = lx * lx + ly * ly + lz * lz;
-        if (d2 > l.r * l.r) continue;
-        var d = Math.sqrt(d2) + 1e-6, win = 1 - smoothstep(l.r * 0.55, l.r, d), ndl = (nx * lx + ny * ly + nz * lz) / d, w = 0.12 / (d2 + 2);
-        if (ndl > 0) { var dw = ndl / (d2 + 1); if (l.d) { var sp = -(l.d[0] * lx + l.d[1] * ly + l.d[2] * lz) / d; dw = sp > 0 ? dw * Math.pow(sp, l.lobe) : 0; } w += dw; }
-        w *= win; r += l.c[0] * w; gg += l.c[1] * w; b += l.c[2] * w;
+        var l = L[i], lx = l.x - x, ly = l.y - y, lz = l.z - z, d2 = lx * lx + ly * ly + lz * lz, lr = l.r;
+        if (d2 > lr * lr) continue;
+        var d = Math.sqrt(d2) + 1e-6, e0 = lr * 0.55, t = (d - e0) / (lr - e0), ndl = (nx * lx + ny * ly + nz * lz) / d, w = 0.12 / (d2 + 2);
+        t = t < 0 ? 0 : t > 1 ? 1 : t;
+        if (ndl > 0) { var dw = ndl / (d2 + 1); if (l.d) { var sp = -(l.d[0] * lx + l.d[1] * ly + l.d[2] * lz) / d, lo = l.lobe; dw = sp > 0 ? dw * (lo === 1 ? sp : lo === 2 ? sp * sp : Math.pow(sp, lo)) : 0; } w += dw; }
+        w *= 1 - t * t * (3 - 2 * t); r += l.c[0] * w; gg += l.c[1] * w; b += l.c[2] * w;
       }
       out[k * 3] = r; out[k * 3 + 1] = gg; out[k * 3 + 2] = b;
     }
     g.attributes.aLight.needsUpdate = true;
   }
   var BAKE = { meshes: [], worker: null, done: false, t0: 0 };
+  // (v0.49) a static mesh drawn once has its arrays on the graphics card: they move to the worker instead of being copied,
+  // and the traced light it sends back leaves the page once drawn, so the page keeps a fraction of the campus in memory
+  function bakeDrawn() { this.userData.drawn = true; delete this.onAfterRender; }
+  function bakeDrop() { var A = this.geometry.attributes; A.aLight.array = A.aAO.array = A.aSky.array = BLD_E; delete this.onAfterRender; }
   // mesh from a builder, lit at once; static meshes also go to the worker
   function bakedMesh(Bd, material, lightsOverride, off, opts) {
     var g = Bd.build(); bakeQuick(g, lightsOverride, off);
     var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;
-    if (!off) BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude) });
+    if (!off) { BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude) }); m.onAfterRender = bakeDrawn; }
     return m;
   }
   function startBakeWorker() {
-    if (BAKE.worker || typeof Worker === "undefined" || !CG.h) return;
+    if (BAKE.worker || BAKE.started || typeof Worker === "undefined" || !CG.h) return;
     var src = "(" + bakeWorkerMain.toString() + ")()", w;
     try { w = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" }))); } catch (e) { return; }
-    BAKE.worker = w; BAKE.t0 = performance.now();
+    BAKE.worker = w; BAKE.started = true; BAKE.t0 = performance.now();
+    var transfer = [], seen = new Set();
+    function give(a, Ty, own) {                    // the array itself once it is on the card, else a copy; either way it moves to the worker
+      var b = own && a instanceof Ty ? a : new Ty(a);
+      if (!seen.has(b.buffer)) { seen.add(b.buffer); transfer.push(b.buffer); }
+      return b;
+    }
     var meshes = BAKE.meshes.map(function (e) {
-      var g = e.mesh.geometry, idx = g.index.array;
-      return { pos: new Float32Array(g.attributes.position.array), nor: new Float32Array(g.attributes.normal.array), idx: new Uint32Array(idx), zone: new Uint8Array(g.userData.zone), occ: e.occluder };
+      var g = e.mesh.geometry, A = g.attributes, own = !!e.mesh.userData.drawn;
+      var m = { pos: give(A.position.array, Float32Array, own), nor: give(A.normal.array, Float32Array, own), idx: give(g.index.array, Uint32Array, own), zone: give(g.userData.zone, Uint8Array, own), occ: e.occluder };
+      if (own) { A.aFac.array = A.aFac2.array = A.aMat.array = BLD_E; g.userData.zone = null; e.own = true; }
+      return m;
     });
     function packL(L) { return L.map(function (l) { return [l.x, l.y, l.z, l.c[0], l.c[1], l.c[2], l.r, l.d ? l.d[0] : 0, l.d ? l.d[1] : 0, l.d ? l.d[2] : 0, l.d ? l.lobe : -1]; }); }
     w.onmessage = function (ev) {
       var r = ev.data; if (!r || !r.out) return;
       r.out.forEach(function (o, i) {
-        var g = BAKE.meshes[i].mesh.geometry;
-        g.attributes.aLight.array.set(o.light); g.attributes.aLight.needsUpdate = true;
-        g.attributes.aAO.array.set(o.ao); g.attributes.aAO.needsUpdate = true;
-        g.attributes.aSky.array.set(o.sky); g.attributes.aSky.needsUpdate = true;
+        var e = BAKE.meshes[i], A = e.mesh.geometry.attributes;
+        if (e.own) { A.aLight.array = o.light; A.aAO.array = o.ao; A.aSky.array = o.sky; e.mesh.onAfterRender = bakeDrop; }
+        else { A.aLight.array.set(o.light); A.aAO.array.set(o.ao); A.aSky.array.set(o.sky); }
+        A.aLight.needsUpdate = A.aAO.needsUpdate = A.aSky.needsUpdate = true;
       });
       BAKE.done = true; BAKE.ms = Math.round(performance.now() - BAKE.t0); w.terminate(); BAKE.worker = null;
       if (typeof queueEnv === "function") queueEnv(true);
     };
     w.onerror = function () { BAKE.failed = true; };
-    var transfer = []; meshes.forEach(function (m) { transfer.push(m.pos.buffer, m.nor.buffer, m.idx.buffer, m.zone.buffer); });
     w.postMessage({
       meshes: meshes, lights: [packL(campusLights), packL(palLights), packL(wingLights)], mobile: MOBILE,
       cg: { h: CG.h, x0: CG.x0, z0: CG.z0, res: CG.res, nx: CG.nx, nz: CG.nz },
@@ -121,6 +136,15 @@
       // ray patterns: cosine-weighted directions on the hemisphere around +z, turned to each normal
       function pattern(n, seed) { var out = [], ga = Math.PI * (3 - Math.sqrt(5)); for (var i = 0; i < n; i++) { var r = Math.sqrt((i + 0.5) / n), a = i * ga + seed; out.push([Math.cos(a) * r, Math.sin(a) * r, Math.sqrt(Math.max(0, 1 - r * r))]); } return out; }
       var NAO = D.mobile ? 12 : 16, NSK = D.mobile ? 10 : 16, AOP = pattern(NAO, 0.3), SKP = pattern(NSK, 1.1);
+      // (v0.50) each zone's lights by 4 m cell: every light, in its order, in each cell its reach touches; a point visits its
+      // cell's few instead of the zone's hundreds and meets the same lights in the same order, so the light is the same
+      var LG = D.lights.map(function (L) {
+        var m = new Map();
+        L.forEach(function (l) { var r = l[6], x0 = Math.floor((l[0] - r) / 4), x1 = Math.floor((l[0] + r) / 4), z0 = Math.floor((l[2] - r) / 4), z1 = Math.floor((l[2] + r) / 4);
+          for (var i = x0; i <= x1; i++) for (var j = z0; j <= z1; j++) { var key = i * 65536 + j, a = m.get(key); if (!a) m.set(key, a = []); a.push(l); } });
+        return m;
+      }), NOL = [];
+      function cellLights(zone, x, z) { var m = LG[zone]; return (m && m.get(Math.floor(x / 4) * 65536 + Math.floor(z / 4))) || NOL; }
       var out = [];
       D.meshes.forEach(function (m) {
         var p = m.pos, nn = m.nor, Z = m.zone, N = p.length / 3, light = new Float32Array(N * 3), ao = new Float32Array(N), sky = new Float32Array(N);
@@ -148,13 +172,13 @@
             }
             sky[k] = 0.85 * vis / NSK;
           } else sky[k] = 1;
-          // artificial light, with shadows toward the two strongest fittings
-          var L = D.lights[zone] || [], best = [-1, -1], bw = [0, 0], cr3 = [], lr = 0, lg = 0, lb = 0;
+          // artificial light, with shadows toward the two strongest fittings (the zone's lights listed for this point's cell)
+          var L = cellLights(zone, x, z), best = [-1, -1], bw = [0, 0], cr3 = [], lr = 0, lg = 0, lb = 0;
           for (var i = 0; i < L.length; i++) {
             var l = L[i], lx = l[0] - x, ly = l[1] - y, lz = l[2] - z, d2 = lx * lx + ly * ly + lz * lz; if (d2 > l[6] * l[6]) continue;
             var dd = Math.sqrt(d2) + 1e-6, win = 1 - Math.min(1, Math.max(0, (dd - l[6] * 0.55) / (l[6] * 0.45))); win = win * win * (3 - 2 * win);
             var ndl = (nx * lx + ny * ly + nz * lz) / dd, w = 0.12 / (d2 + 2), dw = 0;
-            if (ndl > 0) { dw = ndl / (d2 + 1); if (l[10] >= 0) { var sp = -(l[7] * lx + l[8] * ly + l[9] * lz) / dd; dw = sp > 0 ? dw * Math.pow(sp, l[10]) : 0; } }
+            if (ndl > 0) { dw = ndl / (d2 + 1); if (l[10] >= 0) { var sp = -(l[7] * lx + l[8] * ly + l[9] * lz) / dd, lo = l[10]; dw = sp > 0 ? dw * (lo === 1 ? sp : lo === 2 ? sp * sp : Math.pow(sp, lo)) : 0; } }
             w *= win; dw *= win;
             lr += l[3] * w; lg += l[4] * w; lb += l[5] * w;
             var lum = (l[3] + l[4] + l[5]) * dw;

@@ -17,6 +17,7 @@ two minutes, so run them one after another, never several at once.
 | `hidden.py` | Line of sight from the start: every campus point must stay behind the ridge (CP-1); margins below 0 mean visible |
 | `walktest.py` | Walks legs toward points in the wings and prints where the walker ends up (doors, walls, steps) |
 | `walk_check.py` | **Run before every push.** Walks the visitor's routes (start over the ridge, courtyard, a wing, the palace, the back door, the Crescent, its stair and court, the Sun court) and fails if any stops short; `--built` tests the published page |
+| `load_profile.py` | How the page loads on a slow PC: `--cpu 4` slows the processor to an old laptop's, `--heap-limit 256` gives it a small PC's memory (it says if the page crashes); prints when the terrain, the campus and the traced light are done, the memory at each, and the functions that took the time (`--gl`: textures and buffers sent to the card; `--heap`: what the memory holds) |
 | `evalpage.py` | Runs JavaScript in the page and prints the result, e.g. `evalpage.py "__mars._eval('PAL.R')"` |
 | `eagle_shot.py` | The homepage card's picture: the campus from the air at sunset, from a free camera (its numbers in the script), written to `ttmath/preview.jpg` (also the page's og:image) |
 | `site_check.py` | Opens the built `ttmath/index.html` as GitHub Pages serves it and takes one shot |

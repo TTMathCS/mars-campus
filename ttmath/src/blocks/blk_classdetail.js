@@ -111,7 +111,8 @@
       clockAt(W, F, F.y + (rm.code === "T06-10" ? 2.95 : 2.62));
     });
     if (!pins.length) return;
-    var cols = 2, rows = Math.ceil(pins.length / cols), tex = new THREE.CanvasTexture(pinAtlas(pins)); tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    var cols = 2, rows = Math.ceil(pins.length / cols), tex = { value: dummyTex };                 // drawn after the first frames (v0.49)
+    lateTexture(function () { var t = new THREE.CanvasTexture(pinAtlas(pins)); t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); tex.value = t; });
     var pos = [], uvs = [], idx = [], brt = [], w = PINB.w, h = PINB.h;
     function unit(a) { var p = crsPt(1, a); return new THREE.Vector3(p.x - PAL.c.x, 0, p.z - PAL.c.z).normalize(); }
     pins.forEach(function (p, k) {
@@ -127,7 +128,7 @@
     var vs = "attribute float aBright; varying vec2 vUv; varying float vB; void main(){ vUv = uv; vB = aBright; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
     var fs = "uniform sampler2D map; uniform float uExposure; varying vec2 vUv; varying float vB;\n" +
       "void main(){ vec3 t = texture2D(map, vUv).rgb; vec3 c = pow(t, vec3(2.2)) * vB + vec3(0.003); c *= uExposure; gl_FragColor = vec4(c / (1.0 + c), 0.0); }";
-    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: tex }, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: tex, uExposure: U.uExposure }, vertexShader: vs, fragmentShader: fs, side: THREE.DoubleSide });
     var m = new THREE.Mesh(geo, mat); m.matrixAutoUpdate = false; scene.add(m);
   }
   // ---- roller blinds on the outer glass (v0.40; CP-30): one in each bay between the mullions of the classrooms, the labs,

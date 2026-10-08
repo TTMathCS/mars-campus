@@ -4,12 +4,12 @@
 // its colour from the 360s that see it (pano.js). Only one 360 is loaded at a time, a small one first, then the
 // sharp one.
 import * as THREE from 'three';
-import { Pano, EYE, fromThree, stepping } from './pano.js';
+import { Pano, EYE, toThree, fromThree, stepping } from './pano.js';
 import { RingMap } from '../walk/ringmap.js';
 
 const $ = id => document.getElementById(id);
 const D = Math.PI / 180;
-const REACH = 11.5;              // the furthest point one steps to, metres
+const REACH = 11.5;              // the furthest point one steps to, metres (where the plan has no ways)
 const START = 'C-04.2';          // the Arrival hall, where everyone arrives
 const SLOW = /[?&]slow/.test(location.search) ? 8 : 1;     // (to look at a step frame by frame)
 
@@ -18,6 +18,9 @@ const plan = await (await fetch('plan.json')).json();
 const lists = await Promise.allSettled(['a', 'b'].map(m => fetch('v/index_' + m + '.json', { cache: 'no-cache' }).then(r => r.json())));
 const ready = lists.flatMap(l => (l.status === 'fulfilled' ? l.value.ready : []));
 const panos = new Map(plan.points.filter(p => ready.includes(p.id)).map(p => [p.id, new Pano(p, 'v/')]));
+// where one steps from each point, and the way there on free floor (its corners: round a banquette, a table, a bed;
+// photowalk_plan.py): a step never goes over the furniture
+const links = plan.links || null;
 
 // ---------------------------------------------------------------- drawing
 const canvas = $('view');
@@ -50,11 +53,11 @@ addEventListener('resize', resize); resize();
 
 // ---------------------------------------------------------------- where one is
 let here = null, near = [], move = null, yaw = 0, pitch = 0, fov = 72, hint = true, zoomed = false;
-// the view spans 90 degrees across the screen at rest, as wide on a phone held upright as it can without bending
-// the room (Jim, 7 Oct 2026: "the view is so close view. i need to bit far and zoom out"), and narrows to 72 while
-// one walks: a wide view stretches and swings what is at its edges as it moves ("while walking, the 3d angles looks
-// really strange, and distorted"); one zooms from 25 to 115 degrees up and down
-const WIDE = 90 * D, WALKING = 72 * D, FOV_MIN = 25, FOV_MAX = 115;
+// the view spans 90 degrees across the screen, as wide on a phone held upright as it can without bending the room
+// (Jim, 7 Oct 2026: "the view is so close view. i need to bit far and zoom out"), and stays so while one walks (a view
+// that narrowed as a step began read as a zoom: "press w just give me slow motion of zoom in. not walking"); one
+// zooms from 25 to 115 degrees up and down
+const WIDE = 90 * D, FOV_MIN = 25, FOV_MAX = 115;
 const fovFor = h => Math.max(50, Math.min(100, 2 * Math.atan(Math.tan(h / 2) / camera.aspect) / D));
 const fovFit = () => fovFor(WIDE);
 addEventListener('resize', () => { if (!zoomed) fov = fovFit(); });
@@ -69,17 +72,30 @@ function spans() {        // the stretches of the ring with points ready, for th
 function bearingOf(P) { return (Math.atan2(P.p.x, P.p.y) / D + 360) % 360; }
 
 function neighbours(P) {
-  // the points one sees from here, at eye height, near enough to step to
-  const out = [];
-  for (const Q of panos.values()) {
+  // the points one steps to from here (the plan's, rendered), that one sees at eye height; each with the way there
+  // (its corners, Blender's x, y) and the way one sets off (dx, dy: towards the way's point 2 m on)
+  const out = [], mine = links ? links[P.p.id] || {} : null;
+  for (const Q of mine ? Object.keys(mine).map(k => panos.get(k)).filter(Boolean) : panos.values()) {
     if (Q === P) continue;
-    const dx = Q.p.x - P.p.x, dy = Q.p.y - P.p.y, dist = Math.hypot(dx, dy);
-    if (dist > REACH || dist < 0.3) continue;
-    if (P.depth([dx / dist, dy / dist, 0]) < dist - 0.4) continue;
+    const ex = Q.p.x - P.p.x, ey = Q.p.y - P.p.y, dist = Math.hypot(ex, ey);
+    if (!mine && (dist > REACH || dist < 0.3)) continue;
+    if (P.depth([ex / dist, ey / dist, 0]) < dist - 0.4) continue;
+    const way = mine ? mine[Q.p.id] : [], [ox, oy] = along([P.p.x, P.p.y], way, [Q.p.x, Q.p.y], Math.min(2, dist / 2));
     const fl = Math.hypot(dist, EYE);
-    out.push({ Q, dist, dx, dy, floor: P.depth([dx / fl, dy / fl, -EYE / fl]) >= fl - 0.5 });
+    out.push({ Q, dist, way, dx: ox - P.p.x, dy: oy - P.p.y, floor: P.depth([ex / fl, ey / fl, -EYE / fl]) >= fl - 0.5 });
   }
   return out;
+}
+
+// the point `d` metres along a way (from a, round its corners, to b)
+function along(a, corners, b, d) {
+  const pts = [a, ...corners, b];
+  for (let k = 0; k < pts.length - 1; k++) {
+    const [x0, y0] = pts[k], [x1, y1] = pts[k + 1], l = Math.hypot(x1 - x0, y1 - y0);
+    if (d <= l || k === pts.length - 2) { const f = l ? Math.min(1, d / l) : 0; return [x0 + (x1 - x0) * f, y0 + (y1 - y0) * f]; }
+    d -= l;
+  }
+  return b;
 }
 
 let shown = '', nameT = 0;
@@ -126,17 +142,17 @@ function prefetch() {
   prefetched = n.Q; n.Q.loadFull().then(() => n.Q.full && renderer.initTexture(n.Q.full)).catch(() => {});
 }
 
-function ahead(back = false) {
-  // the point most nearly straight ahead (or behind), within 40 degrees
-  const fx = -Math.sin(yaw) * (back ? -1 : 1), fy = Math.cos(yaw) * (back ? -1 : 1);
-  let best = null, score = Infinity;
-  for (const n of near) {
-    const a = Math.acos(Math.max(-1, Math.min(1, (n.dx * fx + n.dy * fy) / n.dist)));
+// the step most nearly straight ahead (or behind), the way one sets off within 60 degrees of it
+function best(list, fx, fy) {
+  let pick = null, score = Infinity;
+  for (const n of list) {
+    const a = Math.acos(Math.max(-1, Math.min(1, (n.dx * fx + n.dy * fy) / (Math.hypot(n.dx, n.dy) || 1))));
     const s = n.dist * (1 + 3 * a);
-    if (a < 40 * D && s < score) { score = s; best = n; }
+    if (a < 60 * D && s < score) { score = s; pick = n; }
   }
-  return best;
+  return pick;
 }
+function ahead(back = false) { const k = back ? -1 : 1; return best(near, -Math.sin(yaw) * k, Math.cos(yaw) * k); }
 
 // a step: once the next point's sharp picture is in (or after 2.5 s, its small one), the camera walks there at
 // the pace of a walk, 1.4 m/s once under way (Jim, 7 Oct 2026: "when i walk, it moves too fast. and I can see the slow
@@ -157,25 +173,24 @@ async function go(n, v0 = 0) {
   cursor.position.set(Q.floor.x, Q.floor.y + 0.02, Q.floor.z); cursor.visible = true;      // where one is going, while it loads
   try { await loadFor(Q); } catch (e) { going = null; return; }
   going = null;
-  if (!move) begin(Q, v0);
+  if (!move) begin(n, v0);
 }
-function begin(Q, v0) {
-  Q.build(); Q.show();
+function begin(n, v0) {
+  const Q = n.Q; Q.build(); Q.show();
   world.remove(here.mesh); world.add(here.torn); world.add(Q.torn);       // both shapes, torn at near things' edges
-  const L = here.eye.distanceTo(Q.eye);
-  move = { A: here, B: Q, L, s: 0, v: v0, next: null, way: walking() };
+  // the way: straight, or round the furniture by its corners, at eye height, its corners rounded
+  const path = n.way && n.way.length
+    ? new THREE.CatmullRomCurve3([here.eye, ...n.way.map(([x, y]) => toThree(x, y, here.p.z + EYE)), Q.eye], false, 'centripetal')
+    : null;
+  const L = path ? path.getLength() : here.eye.distanceTo(Q.eye);
+  move = { A: here, B: Q, path, L, s: 0, v: v0, next: null, way: walking() };
   marks.forEach(m => (m.visible = false)); cursor.visible = false;
   if (hint) { hint = false; $('hint').classList.remove('on'); }
   Q.loadFull().then(() => Q.show()).catch(() => {});
   // where one would walk on to from there, loaded now
   if (move.way) {
-    const fx = -Math.sin(yaw) * move.way, fy = Math.cos(yaw) * move.way; let best = null, score = Infinity;
-    for (const m of neighbours(Q)) {
-      if (m.Q === here) continue;
-      const a = Math.acos(Math.max(-1, Math.min(1, (m.dx * fx + m.dy * fy) / m.dist))), sc = m.dist * (1 + 3 * a);
-      if (a < 40 * D && sc < score) { score = sc; best = m; }
-    }
-    if (best) { move.next = best.Q; loadFor(best.Q).catch(() => {}); }
+    const m = best(neighbours(Q).filter(m => m.Q !== here), -Math.sin(yaw) * move.way, Math.cos(yaw) * move.way);
+    if (m) { move.next = m; loadFor(m.Q).catch(() => {}); }
   }
 }
 
@@ -204,7 +219,8 @@ function pick(ev) {
   // else the step most nearly in the direction one clicked
   const fx = f.d.x, fy = -f.d.z, l = Math.hypot(fx, fy) || 1; let sa = 20 * D;
   for (const n of near) {
-    const a = Math.acos(Math.max(-1, Math.min(1, (n.dx * fx + n.dy * fy) / (n.dist * l))));
+    const ex = n.Q.p.x - here.p.x, ey = n.Q.p.y - here.p.y;
+    const a = Math.acos(Math.max(-1, Math.min(1, (ex * fx + ey * fy) / (n.dist * l))));
     if (a < sa) { sa = a; best = n; }
   }
   return best;
@@ -259,18 +275,17 @@ function frame(now) {
   const dt = Math.min(0.25, (now - last) / 1000); last = now;      // (a slow machine still walks at the pace of a walk)
   const tl = (held.has('KeyA') || held.has('ArrowLeft') ? 1 : 0) - (held.has('KeyD') || held.has('ArrowRight') ? 1 : 0);
   yaw += tl * dt * 1.4;                                        // A and D turn, 80 degrees a second
-  const want = move ? Math.min(fov, fovFor(WALKING)) : fov;
-  camera.fov += (want - camera.fov) * Math.min(1, dt * (move ? 3 : 4)); camera.updateProjectionMatrix();
+  camera.fov += (fov - camera.fov) * Math.min(1, dt * 4); camera.updateProjectionMatrix();
   camera.rotation.set(pitch, yaw, 0);
   if (move) {
     // on at walking pace; slowing to a stop at the point, unless one walks on and the next point is in
-    const on = move.next && move.way && walking() === move.way && inHand(move.next);
+    const on = move.next && move.way && walking() === move.way && inHand(move.next.Q);
     const left = move.L - move.s;
     if (!on && left <= move.v * move.v / (2 * ACCEL) + 0.02) move.v = Math.max(0.25 / SLOW, move.v - ACCEL * dt);
     else move.v = Math.min(SPEED, move.v + ACCEL * dt);
     move.s = Math.min(move.L, move.s + move.v * dt);
     const t = move.s / move.L;
-    camera.position.lerpVectors(move.A.eye, move.B.eye, t);
+    if (move.path) move.path.getPointAt(t, camera.position); else camera.position.lerpVectors(move.A.eye, move.B.eye, t);
     // both points' shapes, each surface coloured by the 360s that see it, the one ahead coming in
     const c = Math.min(1, Math.max(0, (t - 0.32) / 0.36)); stepping(move.A, move.B, c * c * (3 - 2 * c));
     const back = t < 0.5 ? move.A.back : move.B.back;
@@ -311,12 +326,12 @@ function openWay(P) {
 
 // ---------------------------------------------------------------- the start: the small 360 at once, then the sharp one
 async function start() {
-  const want = decodeURIComponent(location.hash.slice(1));
+  const [want, look] = decodeURIComponent(location.hash.slice(1)).split('/');      // #C-04.2 or #C-04.2/215 (looking that way)
   const P = panos.get(want) || panos.get(START) || panos.values().next().value;
   if (!P) return;
   fov = fovFit(); camera.fov = fov; camera.updateProjectionMatrix();
   await P.loadDepth();
-  yaw = -(P.p.stop ? P.p.look : openWay(P)) * D;     // a tour stop looks at its room's view; any other point into the room
+  yaw = -(look && P === panos.get(want) ? +look : P.p.stop ? P.p.look : openWay(P)) * D;   // a tour stop looks at its room's view; any other point into the room
   await Promise.all([P.loadDepth(), P.loadSmall()]);
   P.build(); await arrive(P);
   if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Drag to look round \u00b7 pinch to zoom \u00b7 tap the floor to walk';

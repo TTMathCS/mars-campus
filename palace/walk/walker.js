@@ -1,5 +1,8 @@
 // The walker: the keys and the mouse, steps on the floor map (walls, furniture and water stop one; one slides along
 // them), the Glide that carries one round, jumps in Mars gravity, and the head rising and falling with each step.
+// W and S or the up and down arrows walk, A and D or the left and right arrows turn, and a drag of the mouse looks
+// round: the mouse is never caught (Jim, 8 Oct 2026: "free walk should enable left right up down keys to help move";
+// "don't use mouse since it is not easy to quit mouse to click sth else").
 // The Glide carries one only while one stands still on it, the way one faces round the ring, and any key or step
 // takes one off it at once (Jim, 7 Oct 2026: "after few steps I cannot control and it keeps moving forward by itself":
 // it carried everyone who walked onto it, faster than one walks, with the glass beside it open only at the doors).
@@ -12,6 +15,7 @@ const EYE = 1.62, BODY = 0.26;                        // eye height, the walker'
 const WALK = 1.2, RUN = 3.9, GLIDE = 2.2;
 const GRAVITY = 3.71, JUMP = 2.3;                     // Mars: a jump of 0.7 m that lasts 1.2 s
 const RIDE_AFTER = 0.7;                               // seconds standing still on the Glide before it carries one
+const TURN = 1.4;                                     // radians a second the keys turn one (80 degrees)
 
 // where one can walk: a picture of the floor, white where it is free, across by bearing and down by radius
 export async function floorMap(url, F) {
@@ -33,7 +37,7 @@ export class Walker {
   constructor(camera, canStand, start, view) {
     this.camera = camera; this.canStand = canStand; this.keys = new Set(); this.stick = [0, 0];
     this.onStep = null;                                 // called at each footfall: (loudness, on the belt)
-    Object.assign(this, { x: 0, z: 0, y: 0, vy: 0, vx: 0, vz: 0, glide: 0, phase: 0, bob: 0, grounded: true, yaw: 0, pitch: 0, still: 0, way: 1 });
+    Object.assign(this, { x: 0, z: 0, y: 0, vy: 0, vx: 0, vz: 0, glide: 0, phase: 0, bob: 0, grounded: true, yaw: 0, pitch: 0, still: 0, way: 1, spin: 0 });
     // where one starts: the stretch's start, or a view in the address (#b=150.2&r=131&h=30&p=-5: bearing and radius,
     // then heading and pitch in degrees, the heading from looking clockwise along the ring)
     const b0 = +(view.b ?? start.b), r0 = +(view.r ?? start.r), p = P(r0, b0);
@@ -52,10 +56,24 @@ export class Walker {
 
   held(...codes) { return codes.some(c => this.keys.has(c)) ? 1 : 0; }
 
+  // a drag of the mouse looks round (the mouse stays free, for the links and the rest of the page)
+  drag(el) {
+    let at = null;
+    el.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; at = [e.clientX, e.clientY]; el.setPointerCapture(e.pointerId); el.classList.add('drag'); });
+    el.addEventListener('pointermove', e => {
+      if (!at) return;
+      this.look((e.clientX - at[0]) * 1.4, (e.clientY - at[1]) * 1.4); at = [e.clientX, e.clientY];
+    });
+    const up = () => { at = null; el.classList.remove('drag'); };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  }
+
   update(dt) {
     const b = bearingOf(this.x, this.z), r = Math.hypot(this.x, this.z);
     // what the keys ask for, relative to where one looks
-    const f = this.held('KeyW', 'ArrowUp') - this.held('KeyS', 'ArrowDown') + this.stick[1], s = this.held('KeyD', 'ArrowRight') - this.held('KeyA', 'ArrowLeft') + this.stick[0];
+    const f = this.held('KeyW', 'ArrowUp') - this.held('KeyS', 'ArrowDown') + this.stick[1], s = this.stick[0];
+    const turn = this.held('KeyA', 'ArrowLeft') - this.held('KeyD', 'ArrowRight');
+    this.spin += (turn * TURN - this.spin) * (1 - Math.exp(-dt * 10)); this.yaw += this.spin * dt;
     const fx = -Math.sin(this.yaw), fz = -Math.cos(this.yaw), rx = Math.cos(this.yaw), rz = -Math.sin(this.yaw);
     let tx = fx * f + rx * s, tz = fz * f + rz * s; const tl = Math.hypot(tx, tz);
     const speed = WALK;

@@ -17,8 +17,9 @@ Where the points go:
 
 Each point: its code (the room's code and a number round the ring: C-04.3; GL for the Glide), the scene that
 renders it (render/crown_rooms.py ROOMS), where it stands (radius r and bearing b; x, y in metres, the floor at 0),
-which way it looks first (a bearing), and the tour stop it is, if one. Where one can step from a point is found in
-the browser from what the point's 360 sees (its depth map), so a step never goes through a wall.
+which way it looks first (a bearing), and the tour stop it is, if one; and where one steps from each point (links):
+the points it sees that a straight way on free floor leads to, BODY metres clear either side, so a step never goes
+over a sofa or through a tree (the browser checks too, with the point's depth map, that no wall stands between).
   python3 palace/tools/photowalk_plan.py               write palace/photowalk/plan.json
   python3 palace/tools/photowalk_plan.py map out.png   and a map of the points over the floor map, to check"""
 import heapq, json, math, os, sys
@@ -41,6 +42,7 @@ CLEAR = 1.1                    # free floor round a point, metres: nothing right
 SNAP = 2.5                     # how far a point may move to find free floor, metres (round a table in the middle)
 EYE = 1.55                     # the camera above the floor, metres (as the tour's 360s)
 LINK = 9.5                     # the longest straight step between two points, metres
+BODY = 0.35                    # free floor either side of a step's way, metres
 GLIDE_STEP = 8.0               # points along the Glide, where one is needed: this far apart
 WAY_STEP = 2.5                 # spots on free floor in the rooms that a way between parts of the walk may take
 
@@ -102,10 +104,76 @@ class Floor:
             if not (0 <= j < self.h and self.clear_eye[j, i % self.w]): return False
         return True
 
-    def walkable(self, p, q, step=0.05):
-        """a straight line on free floor from p to q (each (x, y))"""
+    def body(self):
+        """the floor one's body fits on: free BODY metres round (a square), as a map like the floor's"""
+        if getattr(self, "_body", None) is not None: return self._body
+        cj = int(math.ceil(BODY / self.dr)); pad = int(math.ceil(BODY / (self.r0 * self.db * D))) + 1
+        blocked = (~self.free).astype(np.int32); bp = np.concatenate([blocked[:, -pad:], blocked, blocked[:, :pad]], axis=1)
+        sat = np.zeros((self.h + 1, self.w + 2 * pad + 1), np.int64); sat[1:, 1:] = bp.cumsum(0).cumsum(1)
+        out = np.zeros((self.h, self.w), bool); i = np.arange(self.w) + pad
+        for j in range(cj, self.h - cj):
+            ci = int(math.ceil(BODY / ((self.r0 + (j + 0.5) * self.dr) * self.db * D))); j0, j1 = j - cj, j + cj + 1
+            out[j] = (sat[j1, i + ci + 1] - sat[j0, i + ci + 1] - sat[j1, i - ci] + sat[j0, i - ci]) == 0
+        self._body = out
+        return out
+
+    def way(self, p, q, cell=0.15, most=1.5):
+        """the way one walks from p to q (each (x, y)): straight if it can be, else the shortest way round on free floor
+        (BODY clear), at most `most` times the straight distance; as its corners between p and q ([] if straight),
+        or None"""
+        if self.walkable(p, q): return []
+        body = self.body(); (rp, bp), (rq, bq) = rb(*p), rb(*q)
+        bm = bp + (((bq - bp) + 180.0) % 360.0 - 180.0) / 2; rm = (rp + rq) / 2; k = 1.0 / (rm * D)
+        # a grid of `cell` metres round the two: u along the ring (at radius rm), v across it (the radius)
+        ua, ub = (((bp - bm) + 180.0) % 360.0 - 180.0) / k, (((bq - bm) + 180.0) % 360.0 - 180.0) / k
+        u0, u1 = min(ua, ub) - 2.5, max(ua, ub) + 2.5; v0, v1 = max(self.r0, min(rp, rq) - 2.5), min(self.r0 + self.h * self.dr, max(rp, rq) + 2.5)
+        U = np.arange(u0, u1, cell); V = np.arange(v0, v1, cell); nu, nv = len(U), len(V)
+        uu, vv = np.meshgrid(U, V); bb = (bm + uu * k) % 360.0
+        ii = ((bb - self.b0) % 360.0 / self.db).astype(int) % self.w; jj = np.clip(((vv - self.r0) / self.dr).astype(int), 0, self.h - 1)
+        ok = body[jj, ii].copy()
+        # (round the points themselves, free floor is enough: a tour stop may stand nearer a sofa than BODY)
+        for (r_, b_) in ((rp, bp), (rq, bq)):
+            u_ = (((b_ - bm) + 180.0) % 360.0 - 180.0) / k
+            near = (uu - u_) ** 2 + (vv - r_) ** 2 < 0.45 ** 2
+            ok |= near & self.free[jj, ii]
+        def cell_of(u_, v_): return int(round((v_ - v0) / cell)), int(round((u_ - u0) / cell))
+        s0, s1 = cell_of(ua, rp), cell_of(ub, rq)
+        if not (0 <= s0[0] < nv and 0 <= s0[1] < nu and 0 <= s1[0] < nv and 0 <= s1[1] < nu): return None
+        ok[s0] = ok[s1] = True
+        straight = math.dist(p, q); best = {s0: 0.0}; prev = {}; pq = [(straight, 0.0, s0)]
+        steps = [(dj, di, cell * math.hypot(dj, di)) for dj in (-1, 0, 1) for di in (-1, 0, 1) if dj or di]
+        while pq:
+            f, g, c = heapq.heappop(pq)
+            if c == s1: break
+            if g > best.get(c, 1e18) or f > straight * most: continue
+            for dj, di, w in steps:
+                n = (c[0] + dj, c[1] + di)
+                if not (0 <= n[0] < nv and 0 <= n[1] < nu) or not ok[n]: continue
+                if g + w < best.get(n, 1e18):
+                    best[n] = g + w; prev[n] = c
+                    heapq.heappush(pq, (g + w + cell * math.hypot(n[0] - s1[0], n[1] - s1[1]), g + w, n))
+        if s1 not in prev: return None
+        cells = [s1]
+        while cells[-1] != s0: cells.append(prev[cells[-1]])
+        cells.reverse()
+        pts = [p] + [xy(V[c[0]], bm + U[c[1]] * k) for c in cells[1:-1]] + [q]
+        # the corners only: from each, on to the furthest point a straight way reaches
+        out, a = [], 0
+        while a < len(pts) - 1:
+            z = len(pts) - 1
+            while z > a + 1 and not self.walkable(pts[a], pts[z], c=BODY if 0 < a and z < len(pts) - 1 else 0.2): z -= 1
+            if z < len(pts) - 1: out.append(pts[z])
+            a = z
+        L = sum(math.dist(u, v) for u, v in zip([p] + out, out + [q]))
+        return [(round(float(x), 3), round(float(y), 3)) for x, y in out] if L <= straight * most else None
+
+    def walkable(self, p, q, step=0.1, c=None):
+        """a straight way on free floor from p to q (each (x, y)), with `c` metres free either side of it (BODY):
+        a step goes round a banquette, a table or a bed, never over it (Jim, 8 Oct 2026, of a step from the Arrival's
+        stop over the great maple's banquette: "press w just give me slow motion of zoom in. not walking")"""
+        c = BODY if c is None else c
         n = max(1, int(math.dist(p, q) / step))
-        return all(self.ok(*rb(p[0] + (q[0] - p[0]) * k / n, p[1] + (q[1] - p[1]) * k / n)) for k in range(n + 1))
+        return all(self.clear(*rb(p[0] + (q[0] - p[0]) * k / n, p[1] + (q[1] - p[1]) * k / n), c) for k in range(n + 1))
 
 
 def snap(F, r, b, box, clear=CLEAR, reach=SNAP):
@@ -205,15 +273,35 @@ def way_points(F):
     return out
 
 
+def rendered():
+    """the points of the plan so far whose pictures are in the site (palace/photowalk/v/, both machines' lists)"""
+    site = os.path.dirname(OUT); ids = set()
+    for m in ("a", "b"):
+        f = os.path.join(site, "v", "index_%s.json" % m)
+        if os.path.exists(f): ids |= set(json.load(open(f))["ready"])
+    old = json.load(open(OUT))["points"] if os.path.exists(OUT) else []
+    return [q for q in old if q["id"] in ids]
+
+
+def length(p, corners, q): return sum(math.dist(u, v) for u, v in zip([p] + corners, corners + [q]))
+
+
 def build():
-    """the rooms' points, then the shortest ways between the groups they make that straight steps do not join"""
+    """the rooms' points, and those already rendered (kept: a 360 is an hour of a machine's time in a few minutes),
+    then the shortest ways between the groups they make that steps do not join"""
     F = Floor(); pts = room_points(F); ways = way_points(F)
+    for q in rendered():
+        if any(math.dist(xy(p["r"], p["b"]), (q["x"], q["y"])) < 0.05 for p in pts): continue
+        r, b = rb(q["x"], q["y"])
+        if F.ok(r, b): pts.append(dict(r=r, b=b, room=q["room"], **({"stop": q["stop"]} if q.get("stop") else {})))
     allp = pts + ways; P = [xy(p["r"], p["b"]) for p in allp]; n0 = len(pts)
     nbr = {i: [] for i in range(len(allp))}
     for i in range(len(allp)):
         for j in range(i + 1, len(allp)):
             d = math.dist(P[i], P[j])
-            if d <= LINK and F.seen(P[i], P[j]): nbr[i].append((j, d)); nbr[j].append((i, d))
+            if d > LINK or not F.seen(P[i], P[j]): continue
+            w = F.way(P[i], P[j])
+            if w is not None: L = length(P[i], w, P[j]); nbr[i].append((j, L)); nbr[j].append((i, L))
     parent = list(range(len(allp)))
     def root(i):
         while parent[i] != i: parent[i] = parent[parent[i]]; i = parent[i]
@@ -277,6 +365,19 @@ def finish(pts):
     return pts
 
 
+def links(F, pts):
+    """where one steps from each point: the points at most LINK metres off that it sees, and the way there on free
+    floor, as its corners ([] for straight on): {id: {id: [[x, y], ...]}}"""
+    P = [(p["x"], p["y"]) for p in pts]; out = {p["id"]: {} for p in pts}
+    for i in range(len(pts)):
+        for j in range(i + 1, len(pts)):
+            if math.dist(P[i], P[j]) > LINK or not F.seen(P[i], P[j]): continue
+            w = F.way(P[i], P[j])
+            if w is None: continue
+            out[pts[i]["id"]][pts[j]["id"]] = [list(c) for c in w]; out[pts[j]["id"]][pts[i]["id"]] = [list(c) for c in w[::-1]]
+    return out
+
+
 def draw(F, pts, path, scale=0.25):
     """the points over the floor map: red the tour's stops, blue the ways between rooms, orange the rest"""
     im = Image.fromarray((F.free * 255).astype(np.uint8)).convert("RGB").resize((int(F.w * scale), int(F.h * scale * 2)))
@@ -293,7 +394,7 @@ def main():
     F, pts, (g0, g1) = build()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     names = {r["code"]: r["name"] for r in rooms()}; names["GL"] = "The Glide"
-    json.dump(dict(eye=EYE, link=LINK, rooms=names, scenes=SCENES, points=pts, retired=sorted(RETIRED)), open(OUT, "w"), indent=1)
+    json.dump(dict(eye=EYE, link=LINK, rooms=names, scenes=SCENES, points=pts, links=links(F, pts), retired=sorted(RETIRED)), open(OUT, "w"), indent=1)
     by = {}
     for p in pts: by[p["scene"]] = by.get(p["scene"], 0) + 1
     print("%d points by scene: %s" % (len(pts), ", ".join("%s %d" % kv for kv in by.items())))

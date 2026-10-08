@@ -173,17 +173,17 @@ let walking = false;
 goEl.disabled = false; goEl.textContent = 'Walk'; barEl.style.width = '100%';
 const touchy = matchMedia('(pointer: coarse)').matches;
 if (touchy) { walker.touch(canvas); document.querySelector('.keys').innerHTML = '<span><b>Left thumb</b> walk</span><span><b>Right thumb</b> look</span><span><b>Stand on the Glide</b> ride</span>'; }
+else walker.drag(canvas);
+// the walk starts at the button and stops at Esc; the mouse is never caught, the keys and a drag do it all
+function walkOn(on) {
+  walking = on; startEl.classList.toggle('hidden', on); document.body.classList.toggle('walking', on);
+  if (!on) { goEl.textContent = 'Walk on'; walker.keys.clear(); }
+}
 goEl.addEventListener('click', () => {
-  sound.start();
-  if (touchy) { walking = true; startEl.classList.add('hidden'); document.body.classList.add('walking'); canvas.requestFullscreen?.().catch(() => {}); }
-  else canvas.requestPointerLock();
+  sound.start(); walkOn(true); goEl.blur();
+  if (touchy) canvas.requestFullscreen?.().catch(() => {});
 });
-document.addEventListener('pointerlockchange', () => {
-  walking = document.pointerLockElement === canvas;
-  startEl.classList.toggle('hidden', walking); document.body.classList.toggle('walking', walking);
-  if (!walking) { goEl.textContent = 'Walk on'; walker.keys.clear(); }
-});
-document.addEventListener('mousemove', e => { if (walking) walker.look(e.movementX, e.movementY); });
+addEventListener('keydown', e => { if (e.code === 'Escape' && walking) walkOn(false); });
 
 // the room one is in, named as one comes in
 let roomNow = null, whereTimer = 0;

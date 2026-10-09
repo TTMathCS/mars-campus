@@ -189,9 +189,9 @@
     var pos = [], uvs = [], al = [], idx = [];
     SOFT_SHADOWS.forEach(function (s) { var n = pos.length / 3; s.c.forEach(function (p, i) { pos.push(p.x, p.y, p.z); uvs.push(i === 1 || i === 2 ? 1 : 0, i >= 2 ? 1 : 0); al.push(s.k); }); idx.push(n, n + 1, n + 2, n, n + 2, n + 3); });
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aK", new THREE.Float32BufferAttribute(al, 1)); geo.setIndex(idx);
-    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: new THREE.CanvasTexture(cv) } }, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
-      vertexShader: "attribute float aK; varying vec2 vUv; varying float vK; void main(){ vUv = uv; vK = aK; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: new THREE.CanvasTexture(cv) }, uCam: U.uCam, uFade: { value: new THREE.Vector2(1e9, 1e9) } }, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+      vertexShader: "attribute float aK; uniform vec3 uCam; uniform vec2 uFade; varying vec2 vUv; varying float vK; void main(){ vUv = uv; vK = aK * (1.0 - smoothstep(uFade.x, uFade.y, distance(position, uCam))); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
       fragmentShader: "uniform sampler2D map; varying vec2 vUv; varying float vK; void main(){ gl_FragColor = vec4(0.0, 0.0, 0.0, texture2D(map, vUv).a * 0.42 * vK); }" });
-    var m = new THREE.Mesh(geo, mat); m.renderOrder = 2; m.matrixAutoUpdate = false; m.frustumCulled = false; scene.add(m);
+    var m = new THREE.Mesh(geo, mat); m.renderOrder = 2; m.matrixAutoUpdate = false; m.frustumCulled = false; scene.add(m); SOFT_MAT = mat;
     SOFT_SHADOWS = [];
   }

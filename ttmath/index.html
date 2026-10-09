@@ -926,7 +926,7 @@
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
     var n = o.nv !== undefined ? o.nv : o.p.length / 3, ni = o.nv !== undefined ? o.ni : o.i.length, k;
-    if (this.pc) this.mark();
+    if (this.pc) { this.mark(); if (o.det) this.pd[(this.npc >> 1) - 1] = 1; }   // (v0.56) a piece of furniture (from furn())
     this.grow(n, ni);
     var base = this.nv, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements;
     var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
@@ -1009,23 +1009,30 @@
   // chunks by place (buildChunks(S)): a piece goes whole to the S metre square its middle stands in, or to the first chunk
   // when it is wider than that; the camera then draws only the chunks it sees, and as no piece is cut, every point keeps
   // the same neighbours for the bake, which lights it exactly as in one mesh
-  Builder.prototype.track = function () { if (window.MARS_ONE_MESH) return this; this.pc = new Uint32Array(4096); this.npc = 0; return this; };   // MARS_ONE_MESH: as before, for tests
+  Builder.prototype.track = function () { if (window.MARS_ONE_MESH) return this; this.pc = new Uint32Array(4096); this.pd = new Uint8Array(2048); this.npc = 0; return this; };   // MARS_ONE_MESH: as before, for tests
   Builder.prototype.mark = function () {
-    if (this.npc + 2 > this.pc.length) { var a = new Uint32Array(this.pc.length * 2); a.set(this.pc); this.pc = a; }
+    if (this.npc + 2 > this.pc.length) { var a = new Uint32Array(this.pc.length * 2); a.set(this.pc); this.pc = a; var d = new Uint8Array(this.pc.length >> 1); d.set(this.pd); this.pd = d; }
     this.pc[this.npc++] = this.nv; this.pc[this.npc++] = this.ni;
   };
+  // (v0.56) a square's furniture goes to chunks of its own by size (cls): 2 under DET_S[0] m across (chairs, stools, small
+  // plants), 1 up to DET_S[1] m (sofas, desks, trees: in squares twice the size, fewer to draw), bigger with the building (0);
+  // detailCull draws each class only so far
+  var DET_S = [1.2, 3.5];
   Builder.prototype.buildChunks = function (S) {
-    var P = this.p, pc = this.pc, np = this.npc >> 1, nv = this.nv, ni = this.ni, ids = new Map(), ch = [{ nv: 0, ni: 0 }], pcs = new Int32Array(np), k, v, t;
+    var P = this.p, pc = this.pc, pd = this.pd, np = this.npc >> 1, nv = this.nv, ni = this.ni, ids = new Map(), ch = [{ nv: 0, ni: 0, cls: 0 }], pcs = new Int32Array(np), k, v, t;
     for (k = 0; k < np; k++) {
       var v0 = pc[k * 2], v1 = k + 1 < np ? pc[k * 2 + 2] : nv, i0 = pc[k * 2 + 1], i1 = k + 1 < np ? pc[k * 2 + 3] : ni;
       if (v1 <= v0) { pcs[k] = -1; continue; }
-      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
-      for (v = v0; v < v1; v++) { var x = P[v * 3], z = P[v * 3 + 2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; }
+      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, y0 = 1e9, y1 = -1e9, det = pd && pd[k];
+      for (v = v0; v < v1; v++) { var x = P[v * 3], z = P[v * 3 + 2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; if (det) { var y = P[v * 3 + 1]; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
       var c = 0;
-      if (x1 - x0 <= S && z1 - z0 <= S) { var key = Math.floor((x0 + x1) / 2 / S) * 65536 + Math.floor((z0 + z1) / 2 / S); c = ids.get(key); if (c === undefined) { c = ch.length; ids.set(key, c); ch.push({ nv: 0, ni: 0 }); } }
+      if (x1 - x0 <= S && z1 - z0 <= S) {
+        var ext = det ? Math.max(x1 - x0, z1 - z0, y1 - y0) : 0, cls = !det || ext > DET_S[1] ? 0 : ext < DET_S[0] ? 2 : 1;
+        var Sc = cls === 1 ? 2 * S : S, key = (Math.floor((x0 + x1) / 2 / Sc) * 65536 + Math.floor((z0 + z1) / 2 / Sc)) * 4 + cls; c = ids.get(key); if (c === undefined) { c = ch.length; ids.set(key, c); ch.push({ nv: 0, ni: 0, cls: cls }); }
+      }
       pcs[k] = c; ch[c].nv += v1 - v0; ch[c].ni += i1 - i0;
     }
-    var self = this, out = ch.map(function (c) { return { p: new Float32Array(c.nv * 3), n: new Float32Array(c.nv * 3), f: new Float32Array(c.nv * 2), f2: new Float32Array(c.nv * 2), m: new Float32Array(c.nv), z: new Uint8Array(c.nv), i: new Uint32Array(c.ni), nv: 0, ni: 0 }; });
+    var self = this, out = ch.map(function (c) { return { p: new Float32Array(c.nv * 3), n: new Float32Array(c.nv * 3), f: new Float32Array(c.nv * 2), f2: new Float32Array(c.nv * 2), m: new Float32Array(c.nv), z: new Uint8Array(c.nv), i: new Uint32Array(c.ni), nv: 0, ni: 0, cls: c.cls }; });
     for (k = 0; k < np; k++) {
       if (pcs[k] < 0) continue;
       var o = out[pcs[k]], a0 = pc[k * 2], a1 = k + 1 < np ? pc[k * 2 + 2] : nv, j0 = pc[k * 2 + 1], j1 = k + 1 < np ? pc[k * 2 + 3] : ni, base = o.nv;
@@ -1035,7 +1042,7 @@
       for (t = j0; t < j1; t++) o.i[o.ni++] = self.i[t] - a0 + base;
       o.nv += a1 - a0;
     }
-    return out.filter(function (o) { return o.nv > 0; }).map(function (o) { return bldGeometry(o.p, o.n, o.f, o.f2, o.m, o.z, o.i); });
+    return out.filter(function (o) { return o.nv > 0; }).map(function (o) { var g = bldGeometry(o.p, o.n, o.f, o.f2, o.m, o.z, o.i); g.userData.cls = o.cls; return g; });
   };
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 
@@ -1374,7 +1381,7 @@
   function captureEnv(e) {
     var exp = e.interior ? interiorExposure() : exposure, keepExp = U.uExposure.value, keepOn = matU.uEnvOn.value, keepSky = sky.position.clone();
     var hidden = [motes].concat(palAnimHidden).filter(Boolean);
-    hidden.forEach(function (o) { o.visible = false; });
+    hidden.forEach(function (o) { o.visible = false; }); detailAll();
     var bound = [matU.uEnvIn.value, matU.uEnvOut.value, matU.uEnvW.value];
     matU.uEnvIn.value = matU.uEnvOut.value = matU.uEnvW.value = ENV.dummy.texture;       // never sample the map being drawn
     U.uExposure.value = exp; matU.uEnvOn.value = 0; matU.uPalB.value.w = e.interior ? 1 : 0;
@@ -3068,7 +3075,7 @@
   // ---- furniture, built once in local coordinates ----
   var FURN = {};
   var FURN_BEVEL = 0.007;                             // the rounding of furniture's box edges (v0.52)
-  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); b.bevel = FURN_BEVEL; fn(b); FURN[name] = b; } return FURN[name]; }
+  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); b.bevel = FURN_BEVEL; b.det = 1; fn(b); FURN[name] = b; } return FURN[name]; }
   function furnRelease() { FURN = {}; }               // once the campus is built: a piece asked for later is built again
   function leg(b, x0, y0, z0, x1, y1, z1, r, mat) { tubeAlong(b, [new THREE.Vector3(x0, y0, z0), new THREE.Vector3(x1, y1, z1)], r, 6, mat, 0.3); }
   function kindTag(b, n0, k) { b.tag(n0, null, k); }
@@ -3793,10 +3800,10 @@
     var pos = [], uvs = [], al = [], idx = [];
     SOFT_SHADOWS.forEach(function (s) { var n = pos.length / 3; s.c.forEach(function (p, i) { pos.push(p.x, p.y, p.z); uvs.push(i === 1 || i === 2 ? 1 : 0, i >= 2 ? 1 : 0); al.push(s.k); }); idx.push(n, n + 1, n + 2, n, n + 2, n + 3); });
     var geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2)); geo.setAttribute("aK", new THREE.Float32BufferAttribute(al, 1)); geo.setIndex(idx);
-    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: new THREE.CanvasTexture(cv) } }, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
-      vertexShader: "attribute float aK; varying vec2 vUv; varying float vK; void main(){ vUv = uv; vK = aK; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+    var mat = new THREE.ShaderMaterial({ uniforms: { map: { value: new THREE.CanvasTexture(cv) }, uCam: U.uCam, uFade: { value: new THREE.Vector2(1e9, 1e9) } }, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+      vertexShader: "attribute float aK; uniform vec3 uCam; uniform vec2 uFade; varying vec2 vUv; varying float vK; void main(){ vUv = uv; vK = aK * (1.0 - smoothstep(uFade.x, uFade.y, distance(position, uCam))); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
       fragmentShader: "uniform sampler2D map; varying vec2 vUv; varying float vK; void main(){ gl_FragColor = vec4(0.0, 0.0, 0.0, texture2D(map, vUv).a * 0.42 * vK); }" });
-    var m = new THREE.Mesh(geo, mat); m.renderOrder = 2; m.matrixAutoUpdate = false; m.frustumCulled = false; scene.add(m);
+    var m = new THREE.Mesh(geo, mat); m.renderOrder = 2; m.matrixAutoUpdate = false; m.frustumCulled = false; scene.add(m); SOFT_MAT = mat;
     SOFT_SHADOWS = [];
   }
 
@@ -9189,6 +9196,18 @@
     g.attributes.aLight.needsUpdate = true;
   }
   var BAKE = { meshes: [], worker: null, done: false, t0: 0 };
+  // (v0.56) furniture is four fifths of the campus's triangles, and most of what is in view is far off or behind walls: a
+  // furniture chunk is drawn only within DET_CUT[cls] metres of the eye (small pieces 45 m, mid-size 110 m). Until the page
+  // has drawn its first frame all are drawn (the bake takes the arrays of what has been drawn), and the sun's shadow pass
+  // and the reflection maps always draw them all. window.MARS_ALL_DETAIL = true draws them all (for shots from far off).
+  var DETAIL = [], DET_CUT = [1e9, 110, 45], DETAIL_ON = false, SOFT_MAT = null;
+  function detailCull() {
+    var all = !DETAIL_ON || window.MARS_ALL_DETAIL, c = camera.position;
+    for (var i = 0; i < DETAIL.length; i++) { var d = DETAIL[i], s = d.s; d.mesh.visible = all || Math.hypot(s.center.x - c.x, s.center.y - c.y, s.center.z - c.z) - s.radius < DET_CUT[d.cls]; }
+    if (SOFT_MAT) SOFT_MAT.uniforms.uFade.value.set(all ? 1e9 : DET_CUT[2] - 12, all ? 1e9 : DET_CUT[2] - 2);   // contact shadows gone before their chairs
+    for (i = 0; i < FINE.length; i++) { var F = FINE[i], far = !all && F.box.distanceToPoint(c) > F.swap; F.mesh.visible = far; for (var t = 0; t < F.tiles.length; t++) F.tiles[t].visible = !far; }   // the map's finest tiles
+  }
+  function detailAll() { for (var i = 0; i < DETAIL.length; i++) DETAIL[i].mesh.visible = true; }
   // (v0.49) a static mesh drawn once has its arrays on the graphics card: they move to the worker instead of being copied,
   // and the traced light it sends back leaves the page once drawn, so the page keeps a fraction of the campus in memory
   function bakeDrawn() { this.userData.drawn = true; delete this.onAfterRender; }
@@ -9203,12 +9222,13 @@
         if (!lat) bakeQuick(gc, lightsOverride);
         var mc = new THREE.Mesh(gc, material); mc.matrixAutoUpdate = false; mc.frustumCulled = ci > 0; mc.renderOrder = ci;
         BAKE.meshes.push({ mesh: mc, occluder: !(opts && opts.noOcclude), quick: lat }); mc.onAfterRender = bakeDrawn; grp.add(mc);
+        if (gc.userData.cls) DETAIL.push({ mesh: mc, cls: gc.userData.cls, s: gc.boundingSphere });
       });
       return grp;
     }
     var g = Bd.build(), later = !!(opts && opts.later) && !lightsOverride && !off && typeof Worker !== "undefined";
     if (!later) bakeQuick(g, lightsOverride, off);
-    var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;
+    var m = new THREE.Mesh(g, material); m.matrixAutoUpdate = false;     // (v0.56) culled by the view (its sphere is made with it)
     if (!off) { BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude), quick: later }); m.onAfterRender = bakeDrawn; }
     return m;
   }
@@ -9245,6 +9265,7 @@
         A.aLight.needsUpdate = A.aAO.needsUpdate = A.aSky.needsUpdate = true;
       });
       BAKE.done = true; BAKE.ms = Math.round(performance.now() - BAKE.t0); w.terminate(); BAKE.worker = null;
+      sunDirty = true;                                                 // the shadow pass draws every chunk: their traced light goes up, the arrays go (v0.56)
       if (typeof queueEnv === "function") queueEnv(true);
     };
     w.onerror = function () { BAKE.failed = true; };
@@ -9784,7 +9805,7 @@
       tileImgs.push({ img: img, lvl: t.lvl, box: g.boundingBox });
       var mat = new THREE.ShaderMaterial({ uniforms: withMap(makeTex(img, maxAniso)), side: THREE.DoubleSide, vertexShader: TERRAIN_VS, fragmentShader: TERRAIN_FS });
       var mesh = new THREE.Mesh(g, mat);
-      mesh.matrixAutoUpdate = false; mesh.userData.box = g.boundingBox;
+      mesh.matrixAutoUpdate = false; mesh.userData.box = g.boundingBox; mesh.userData.lvl = t.lvl; mesh.userData.img = img;
       terrainMeshes.push(mesh); scene.add(mesh);
     });
   }
@@ -9819,7 +9840,7 @@
     return decodeImage(new Uint8Array(buf, t.o[4][0], t.o[4][1])).then(function (img) {
       tileImgs.push({ img: img, lvl: t.lvl, box: g.boundingBox, mean: t.mean });
       var mesh = new THREE.Mesh(g, new THREE.ShaderMaterial({ uniforms: withMap(makeTex(img, maxAniso)), side: THREE.DoubleSide, vertexShader: TERRAIN_VS, fragmentShader: TERRAIN_FS }));
-      mesh.matrixAutoUpdate = false; mesh.userData.box = g.boundingBox;
+      mesh.matrixAutoUpdate = false; mesh.userData.box = g.boundingBox; mesh.userData.lvl = t.lvl; mesh.userData.img = img;
       terrainMeshes.push(mesh); scene.add(mesh);
     });
   }
@@ -9994,6 +10015,47 @@
     return out;
   }
   function canvasTex(cv) { var t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = maxAniso; t.needsUpdate = true; return t; }
+  // (v0.56) the map's finest tiles, round the start (levels 7 to 10 within 13 m, level 6 out to 32 m), are over three
+  // hundred small pieces, each drawn on its own; seen from further than FINE_SPEC's metres (where one picture of the whole
+  // group, 1024 pixels across, is as sharp as the screen) each group is drawn as one piece with that picture instead
+  var FINE = [], FINE_SPEC = [[7, 10, 40], [6, 6, 70]];
+  function buildFineProxies() {
+    FINE_SPEC.forEach(function (sp) {
+      var ms = terrainMeshes.filter(function (m) { return m.userData.lvl >= sp[0] && m.userData.lvl <= sp[1]; });
+      if (ms.length < 2) return;
+      var box = new THREE.Box3(); ms.forEach(function (m) { box.union(m.userData.box); });
+      var N = 1024, X0 = box.min.x, Z0 = box.min.z, S = Math.max(box.max.x - X0, box.max.z - Z0), kk = N / S, cv = mkCanvas(N, N), cx = cv.getContext("2d");
+      // every tile on the square, coarser first, each picture where its ground is (its uv to x, z fitted on three points)
+      var sq = new THREE.Box3(new THREE.Vector3(X0, -1e9, Z0), new THREE.Vector3(X0 + S, 1e9, Z0 + S));
+      terrainMeshes.filter(function (m) { return m.userData.img && m.userData.box.intersectsBox(sq); }).sort(function (a, b) { return a.userData.lvl - b.userData.lvl; }).forEach(function (m) {
+        var p = m.geometry.attributes.position.array, uv = m.geometry.attributes.uv.array, n = uv.length / 2, i0 = 0, i1 = 0, i2 = 0;
+        for (var i = 1; i < n; i++) { if (uv[i * 2] + uv[i * 2 + 1] < uv[i0 * 2] + uv[i0 * 2 + 1]) i0 = i; if (uv[i * 2] - uv[i * 2 + 1] > uv[i1 * 2] - uv[i1 * 2 + 1]) i1 = i; if (uv[i * 2 + 1] - uv[i * 2] > uv[i2 * 2 + 1] - uv[i2 * 2]) i2 = i; }
+        var du1 = uv[i1 * 2] - uv[i0 * 2], dv1 = uv[i1 * 2 + 1] - uv[i0 * 2 + 1], du2 = uv[i2 * 2] - uv[i0 * 2], dv2 = uv[i2 * 2 + 1] - uv[i0 * 2 + 1], det = du1 * dv2 - du2 * dv1;
+        if (Math.abs(det) < 1e-9) return;
+        var dx1 = p[i1 * 3] - p[i0 * 3], dz1 = p[i1 * 3 + 2] - p[i0 * 3 + 2], dx2 = p[i2 * 3] - p[i0 * 3], dz2 = p[i2 * 3 + 2] - p[i0 * 3 + 2];
+        var a00 = (dx1 * dv2 - dx2 * dv1) / det, a01 = (dx2 * du1 - dx1 * du2) / det, a10 = (dz1 * dv2 - dz2 * dv1) / det, a11 = (dz2 * du1 - dz1 * du2) / det;
+        var bx = p[i0 * 3] - a00 * uv[i0 * 2] - a01 * uv[i0 * 2 + 1], bz = p[i0 * 3 + 2] - a10 * uv[i0 * 2] - a11 * uv[i0 * 2 + 1], img = m.userData.img, iw = img.width, ih = img.height;
+        cx.setTransform(a00 / iw * kk, a10 / iw * kk, a01 / ih * kk, a11 / ih * kk, (bx - X0) * kk, (bz - Z0) * kk); cx.drawImage(img, 0, 0);
+      });
+      var nv = 0, ni = 0; ms.forEach(function (m) { nv += m.geometry.attributes.position.count; ni += m.geometry.index.count; });
+      var Pp = new Float32Array(nv * 3), Uv = new Float32Array(nv * 2), No = new Int8Array(nv * 3), Ix = new Uint32Array(ni), ov = 0, oi = 0;
+      ms.forEach(function (m) {
+        var A = m.geometry.attributes, p = A.position.array, n8 = A.normal8.array, ix = m.geometry.index.array, n = A.position.count;
+        Pp.set(p.subarray(0, n * 3), ov * 3); No.set(n8.subarray(0, n * 3), ov * 3);
+        for (var i = 0; i < n; i++) { Uv[(ov + i) * 2] = (p[i * 3] - X0) / S; Uv[(ov + i) * 2 + 1] = (p[i * 3 + 2] - Z0) / S; }
+        for (i = 0; i < ix.length; i++) Ix[oi++] = ix[i] + ov;
+        ov += n;
+      });
+      var g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(Pp, 3)); g.setAttribute("uv", new THREE.BufferAttribute(Uv, 2)); g.setAttribute("normal8", new THREE.BufferAttribute(No, 3, true));
+      g.setIndex(new THREE.BufferAttribute(Ix, 1)); g.boundingBox = box.clone(); g.boundingSphere = box.getBoundingSphere(new THREE.Sphere());
+      var tex = new THREE.CanvasTexture(cv); tex.flipY = false; tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping; tex.anisotropy = maxAniso;
+      var mesh = new THREE.Mesh(g, new THREE.ShaderMaterial({ uniforms: withMap(tex), side: THREE.DoubleSide, vertexShader: TERRAIN_VS, fragmentShader: TERRAIN_FS }));
+      mesh.matrixAutoUpdate = false; mesh.visible = false; scene.add(mesh);
+      mesh.onAfterRender = function () { var A = g.attributes; A.position.array = A.uv.array = BLD_E; A.normal8.array = new Int8Array(0); g.index.array = new Uint32Array(0); delete mesh.onAfterRender; };   // on the card: the page's copy goes
+      FINE.push({ mesh: mesh, tiles: ms, box: box, swap: sp[2] });
+    });
+  }
   function buildWorld() {
     var coarse = tileImgs.filter(function (t) { return t.lvl <= 5; }), fine = tileImgs.filter(function (t) { return t.lvl >= 8; });
     if (!coarse.length) coarse = tileImgs; if (!fine.length) fine = tileImgs;
@@ -10072,13 +10134,14 @@
     lightCam.left = mn.x - 1; lightCam.right = mx.x + 1; lightCam.bottom = mn.y - 1; lightCam.top = mx.y + 1; lightCam.near = -mx.z - 2; lightCam.far = -mn.z + 2;
     lightCam.updateProjectionMatrix();
     var hidden = [sky, motes, farMesh, footprints, drape].concat(GLASS_MESHES, DOOR_MESHES, palAnimHidden).filter(Boolean);
-    hidden.forEach(function (o) { o.visible = false; });
+    hidden.forEach(function (o) { o.visible = false; }); detailAll();   // every piece of furniture casts its shadow (v0.56)
     var solid = [campus, wings, palMesh].filter(Boolean), ac = renderer.autoClear;
     renderer.autoClear = false;
     renderer.setRenderTarget(shadowRT); renderer.setClearColor(0xffffff, 1); renderer.clear();
     solid.forEach(function (o) { o.visible = false; });                  // terrain, with the palace hole cut out
+    FINE.forEach(function (F) { F.mesh.visible = true; F.tiles.forEach(function (t) { t.visible = true; }); });
     scene.overrideMaterial = cutDepthMat; renderer.render(scene, lightCam);
-    solid.forEach(function (o) { o.visible = true; }); terrainMeshes.forEach(function (o) { o.visible = false; });
+    solid.forEach(function (o) { o.visible = true; }); terrainMeshes.forEach(function (o) { o.visible = false; }); FINE.forEach(function (F) { F.mesh.visible = false; });
     scene.overrideMaterial = depthMat; renderer.render(scene, lightCam);   // buildings, vehicles, the palace and its lattice
     terrainMeshes.forEach(function (o) { o.visible = true; });
     scene.overrideMaterial = null; renderer.autoClear = ac;
@@ -10566,8 +10629,9 @@
     if (onboardShown && !$("onboard").hidden && walked > 2) hideOnboard();
     updateHud(now);
     updateAudio(time);
-    renderFrame(time, dt);
+    detailCull(); renderFrame(time, dt);
     if (loaded && !BAKE.started) startBakeWorker();               // once the campus has been drawn: its arrays go to the worker (v0.50)
+    if (loaded) DETAIL_ON = true;                                  // from the next frame, furniture far off is left out (v0.56)
     requestAnimationFrame(frame);
   }
 
@@ -10581,7 +10645,7 @@
     setLoad("Building the TTMath campus", 92);
     return new Promise(function (res) { setTimeout(res, 30); });
   }).then(function () {
-    buildWorld();
+    buildWorld(); buildFineProxies();
     ground = groundAt(0, 0, 0); py = ground + EYE;
     sunDirty = true; loaded = true;
     $("loading").hidden = true;

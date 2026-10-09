@@ -235,6 +235,17 @@ each pushed when it is checked:
    something solid into the scene must write alpha 1. Where the scene target has 4 samples (`MSAA`: WebGL 2), matMat has
    alphaToCoverage and the A2C define: a leaf writes its sharpened alpha (its edge's share of the pixel) as alpha and
    sets that share of the samples, so its outline is smooth; without MSAA a leaf is cut at 0.5 as before.
+   (v0.56) What is drawn per frame. A piece added from `furn()` (the builder is marked `det`) goes to furniture chunks of
+   its own in `buildChunks`: cls 2 under 1.2 m across (chairs, stools, small plants; 16 m squares), cls 1 up to 3.5 m
+   (sofas, desks, trees; 32 m squares); bigger pieces stay with the building. `detailCull()` (blk_bake.js, every frame just
+   before `renderFrame`) hides a furniture chunk further than DET_CUT[cls] (45 m, 110 m) from the eye, fades the contact
+   shadows out from 33 to 43 m, and swaps the map's finest tiles for the FINE groups (`buildFineProxies`: levels 7 to 10
+   beyond 40 m of their box, level 6 beyond 70 m; one mesh and one 1024 px picture each). All furniture is drawn until the
+   first frame after the load (the bake takes the arrays of what has been drawn); `renderShadow` and `captureEnv` draw it
+   all (`detailAll`), and the shadow pass that follows the traced light uploads it. `window.MARS_ALL_DETAIL = true` draws
+   everything (for shots from far off). Glass pairs, small baked meshes (the doors' leaves) and the pods are culled by the
+   view. Count what a view draws with renderer.info (calls, triangles): with v0.55 a view drew 340 to 810 pieces and 2.9
+   to 4.7 million triangles.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

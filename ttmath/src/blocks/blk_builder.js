@@ -109,7 +109,7 @@
   // another builder's content, transformed (keeps its facade coordinates in its own metres)
   Builder.prototype.add = function (o, matrix) {
     var n = o.nv !== undefined ? o.nv : o.p.length / 3, ni = o.nv !== undefined ? o.ni : o.i.length, k;
-    if (this.pc) this.mark();
+    if (this.pc) { this.mark(); if (o.det) this.pd[(this.npc >> 1) - 1] = 1; }   // (v0.56) a piece of furniture (from furn())
     this.grow(n, ni);
     var base = this.nv, e = matrix.elements, q = new THREE.Matrix3().getNormalMatrix(matrix).elements;
     var e0 = e[0], e1 = e[1], e2 = e[2], e4 = e[4], e5 = e[5], e6 = e[6], e8 = e[8], e9 = e[9], e10 = e[10], e12 = e[12], e13 = e[13], e14 = e[14];   // affine: no divide by w
@@ -192,23 +192,30 @@
   // chunks by place (buildChunks(S)): a piece goes whole to the S metre square its middle stands in, or to the first chunk
   // when it is wider than that; the camera then draws only the chunks it sees, and as no piece is cut, every point keeps
   // the same neighbours for the bake, which lights it exactly as in one mesh
-  Builder.prototype.track = function () { if (window.MARS_ONE_MESH) return this; this.pc = new Uint32Array(4096); this.npc = 0; return this; };   // MARS_ONE_MESH: as before, for tests
+  Builder.prototype.track = function () { if (window.MARS_ONE_MESH) return this; this.pc = new Uint32Array(4096); this.pd = new Uint8Array(2048); this.npc = 0; return this; };   // MARS_ONE_MESH: as before, for tests
   Builder.prototype.mark = function () {
-    if (this.npc + 2 > this.pc.length) { var a = new Uint32Array(this.pc.length * 2); a.set(this.pc); this.pc = a; }
+    if (this.npc + 2 > this.pc.length) { var a = new Uint32Array(this.pc.length * 2); a.set(this.pc); this.pc = a; var d = new Uint8Array(this.pc.length >> 1); d.set(this.pd); this.pd = d; }
     this.pc[this.npc++] = this.nv; this.pc[this.npc++] = this.ni;
   };
+  // (v0.56) a square's furniture goes to chunks of its own by size (cls): 2 under DET_S[0] m across (chairs, stools, small
+  // plants), 1 up to DET_S[1] m (sofas, desks, trees: in squares twice the size, fewer to draw), bigger with the building (0);
+  // detailCull draws each class only so far
+  var DET_S = [1.2, 3.5];
   Builder.prototype.buildChunks = function (S) {
-    var P = this.p, pc = this.pc, np = this.npc >> 1, nv = this.nv, ni = this.ni, ids = new Map(), ch = [{ nv: 0, ni: 0 }], pcs = new Int32Array(np), k, v, t;
+    var P = this.p, pc = this.pc, pd = this.pd, np = this.npc >> 1, nv = this.nv, ni = this.ni, ids = new Map(), ch = [{ nv: 0, ni: 0, cls: 0 }], pcs = new Int32Array(np), k, v, t;
     for (k = 0; k < np; k++) {
       var v0 = pc[k * 2], v1 = k + 1 < np ? pc[k * 2 + 2] : nv, i0 = pc[k * 2 + 1], i1 = k + 1 < np ? pc[k * 2 + 3] : ni;
       if (v1 <= v0) { pcs[k] = -1; continue; }
-      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
-      for (v = v0; v < v1; v++) { var x = P[v * 3], z = P[v * 3 + 2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; }
+      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, y0 = 1e9, y1 = -1e9, det = pd && pd[k];
+      for (v = v0; v < v1; v++) { var x = P[v * 3], z = P[v * 3 + 2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; if (det) { var y = P[v * 3 + 1]; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
       var c = 0;
-      if (x1 - x0 <= S && z1 - z0 <= S) { var key = Math.floor((x0 + x1) / 2 / S) * 65536 + Math.floor((z0 + z1) / 2 / S); c = ids.get(key); if (c === undefined) { c = ch.length; ids.set(key, c); ch.push({ nv: 0, ni: 0 }); } }
+      if (x1 - x0 <= S && z1 - z0 <= S) {
+        var ext = det ? Math.max(x1 - x0, z1 - z0, y1 - y0) : 0, cls = !det || ext > DET_S[1] ? 0 : ext < DET_S[0] ? 2 : 1;
+        var Sc = cls === 1 ? 2 * S : S, key = (Math.floor((x0 + x1) / 2 / Sc) * 65536 + Math.floor((z0 + z1) / 2 / Sc)) * 4 + cls; c = ids.get(key); if (c === undefined) { c = ch.length; ids.set(key, c); ch.push({ nv: 0, ni: 0, cls: cls }); }
+      }
       pcs[k] = c; ch[c].nv += v1 - v0; ch[c].ni += i1 - i0;
     }
-    var self = this, out = ch.map(function (c) { return { p: new Float32Array(c.nv * 3), n: new Float32Array(c.nv * 3), f: new Float32Array(c.nv * 2), f2: new Float32Array(c.nv * 2), m: new Float32Array(c.nv), z: new Uint8Array(c.nv), i: new Uint32Array(c.ni), nv: 0, ni: 0 }; });
+    var self = this, out = ch.map(function (c) { return { p: new Float32Array(c.nv * 3), n: new Float32Array(c.nv * 3), f: new Float32Array(c.nv * 2), f2: new Float32Array(c.nv * 2), m: new Float32Array(c.nv), z: new Uint8Array(c.nv), i: new Uint32Array(c.ni), nv: 0, ni: 0, cls: c.cls }; });
     for (k = 0; k < np; k++) {
       if (pcs[k] < 0) continue;
       var o = out[pcs[k]], a0 = pc[k * 2], a1 = k + 1 < np ? pc[k * 2 + 2] : nv, j0 = pc[k * 2 + 1], j1 = k + 1 < np ? pc[k * 2 + 3] : ni, base = o.nv;
@@ -218,7 +225,7 @@
       for (t = j0; t < j1; t++) o.i[o.ni++] = self.i[t] - a0 + base;
       o.nv += a1 - a0;
     }
-    return out.filter(function (o) { return o.nv > 0; }).map(function (o) { return bldGeometry(o.p, o.n, o.f, o.f2, o.m, o.z, o.i); });
+    return out.filter(function (o) { return o.nv > 0; }).map(function (o) { var g = bldGeometry(o.p, o.n, o.f, o.f2, o.m, o.z, o.i); g.userData.cls = o.cls; return g; });
   };
   function T(x, y, z, rx, ry, rz, sx, sy, sz) { return new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx || 0, ry || 0, rz || 0)), new THREE.Vector3(sx || 1, sy || 1, sz || 1)); }
 

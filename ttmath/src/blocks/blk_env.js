@@ -76,7 +76,7 @@
   function captureEnv(e) {
     var exp = e.interior ? interiorExposure() : exposure, keepExp = U.uExposure.value, keepOn = matU.uEnvOn.value, keepSky = sky.position.clone();
     var hidden = [motes].concat(palAnimHidden).filter(Boolean);
-    hidden.forEach(function (o) { o.visible = false; });
+    hidden.forEach(function (o) { o.visible = false; }); detailAll();
     var bound = [matU.uEnvIn.value, matU.uEnvOut.value, matU.uEnvW.value];
     matU.uEnvIn.value = matU.uEnvOut.value = matU.uEnvW.value = ENV.dummy.texture;       // never sample the map being drawn
     U.uExposure.value = exp; matU.uEnvOn.value = 0; matU.uPalB.value.w = e.interior ? 1 : 0;

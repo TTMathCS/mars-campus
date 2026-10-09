@@ -29,7 +29,7 @@
   // ---- furniture, built once in local coordinates ----
   var FURN = {};
   var FURN_BEVEL = 0.007;                             // the rounding of furniture's box edges (v0.52)
-  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); b.bevel = FURN_BEVEL; fn(b); FURN[name] = b; } return FURN[name]; }
+  function furn(name, fn) { if (!FURN[name]) { var b = new Builder(); b.bevel = FURN_BEVEL; b.det = 1; fn(b); FURN[name] = b; } return FURN[name]; }
   function furnRelease() { FURN = {}; }               // once the campus is built: a piece asked for later is built again
   function leg(b, x0, y0, z0, x1, y1, z1, r, mat) { tubeAlong(b, [new THREE.Vector3(x0, y0, z0), new THREE.Vector3(x1, y1, z1)], r, 6, mat, 0.3); }
   function kindTag(b, n0, k) { b.tag(n0, null, k); }

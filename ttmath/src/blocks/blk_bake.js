@@ -38,6 +38,18 @@
     g.attributes.aLight.needsUpdate = true;
   }
   var BAKE = { meshes: [], worker: null, done: false, t0: 0 };
+  // (v0.56) furniture is four fifths of the campus's triangles, and most of what is in view is far off or behind walls: a
+  // furniture chunk is drawn only within DET_CUT[cls] metres of the eye (small pieces 45 m, mid-size 110 m). Until the page
+  // has drawn its first frame all are drawn (the bake takes the arrays of what has been drawn), and the sun's shadow pass
+  // and the reflection maps always draw them all. window.MARS_ALL_DETAIL = true draws them all (for shots from far off).
+  var DETAIL = [], DET_CUT = [1e9, 110, 45], DETAIL_ON = false, SOFT_MAT = null;
+  function detailCull() {
+    var all = !DETAIL_ON || window.MARS_ALL_DETAIL, c = camera.position;
+    for (var i = 0; i < DETAIL.length; i++) { var d = DETAIL[i], s = d.s; d.mesh.visible = all || Math.hypot(s.center.x - c.x, s.center.y - c.y, s.center.z - c.z) - s.radius < DET_CUT[d.cls]; }
+    if (SOFT_MAT) SOFT_MAT.uniforms.uFade.value.set(all ? 1e9 : DET_CUT[2] - 12, all ? 1e9 : DET_CUT[2] - 2);   // contact shadows gone before their chairs
+    for (i = 0; i < FINE.length; i++) { var F = FINE[i], far = !all && F.box.distanceToPoint(c) > F.swap; F.mesh.visible = far; for (var t = 0; t < F.tiles.length; t++) F.tiles[t].visible = !far; }   // the map's finest tiles
+  }
+  function detailAll() { for (var i = 0; i < DETAIL.length; i++) DETAIL[i].mesh.visible = true; }
   // (v0.49) a static mesh drawn once has its arrays on the graphics card: they move to the worker instead of being copied,
   // and the traced light it sends back leaves the page once drawn, so the page keeps a fraction of the campus in memory
   function bakeDrawn() { this.userData.drawn = true; delete this.onAfterRender; }
@@ -52,12 +64,13 @@
         if (!lat) bakeQuick(gc, lightsOverride);
         var mc = new THREE.Mesh(gc, material); mc.matrixAutoUpdate = false; mc.frustumCulled = ci > 0; mc.renderOrder = ci;
         BAKE.meshes.push({ mesh: mc, occluder: !(opts && opts.noOcclude), quick: lat }); mc.onAfterRender = bakeDrawn; grp.add(mc);
+        if (gc.userData.cls) DETAIL.push({ mesh: mc, cls: gc.userData.cls, s: gc.boundingSphere });
       });
       return grp;
     }
     var g = Bd.build(), later = !!(opts && opts.later) && !lightsOverride && !off && typeof Worker !== "undefined";
     if (!later) bakeQuick(g, lightsOverride, off);
-    var m = new THREE.Mesh(g, material); m.frustumCulled = false; m.matrixAutoUpdate = false;
+    var m = new THREE.Mesh(g, material); m.matrixAutoUpdate = false;     // (v0.56) culled by the view (its sphere is made with it)
     if (!off) { BAKE.meshes.push({ mesh: m, occluder: !(opts && opts.noOcclude), quick: later }); m.onAfterRender = bakeDrawn; }
     return m;
   }
@@ -94,6 +107,7 @@
         A.aLight.needsUpdate = A.aAO.needsUpdate = A.aSky.needsUpdate = true;
       });
       BAKE.done = true; BAKE.ms = Math.round(performance.now() - BAKE.t0); w.terminate(); BAKE.worker = null;
+      sunDirty = true;                                                 // the shadow pass draws every chunk: their traced light goes up, the arrays go (v0.56)
       if (typeof queueEnv === "function") queueEnv(true);
     };
     w.onerror = function () { BAKE.failed = true; };

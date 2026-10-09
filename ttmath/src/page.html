@@ -10551,7 +10551,15 @@
   }
 
   /* ===================== Loop + adaptive quality ===================== */
-  var qLocked = false, frameEMA = 16, lastQ = 0, loaded = false, framesSinceLoad = 0, qChanges = 0;
+  // (v0.57) the picture's resolution follows the frame rate both ways, on a ladder of steps (QL): a step down when frames
+  // take over 38 ms (under 26 a second), a step up when they keep up with a 60 Hz screen (under 18.5 ms). Before, it went
+  // up only under 14.5 ms, which a 60 Hz screen never gives, so a slow minute at the start (the light being traced) left an
+  // older PC drawing at 60 % for good, every edge soft and stepped (Jim, 8 Oct 2026: "the edge of furnitures/book shelves/
+  // sofa/plants"). A step up is on trial for 15 s: if it slows the frames below 42 a second it goes back and that step is
+  // not tried again (qTop), so the picture is as sharp as the PC can draw smoothly and never swings to and fro.
+  var qLocked = false, frameEMA = 16, lastQ = 0, loaded = false, framesSinceLoad = 0, qUpAt = -1e9;
+  var QL = [0.6, 0.75, 0.9, 1, 1.25, 1.5].filter(function (q) { return q < DPR_MAX - 0.01; }).concat([DPR_MAX]), qi = 0, qTop = QL.length - 1;
+  while (qi < QL.length - 1 && QL[qi + 1] <= qScale + 1e-6) qi++;
   function resize() {
     var w = window.innerWidth, h = window.innerHeight;
     renderer.setPixelRatio(qScale);
@@ -10574,9 +10582,10 @@
     if (loaded && !qLocked) {
       framesSinceLoad++;
       frameEMA = frameEMA * 0.94 + Math.min(dtMs, 100) * 0.06;
-      if (now - lastQ > 4000 && framesSinceLoad > 60 && qChanges < 4) {
-        if (frameEMA > 38 && qScale > 0.6) { qScale = Math.max(0.6, qScale - 0.25); resize(); lastQ = now; qChanges++; }
-        else if (frameEMA < 14.5 && qScale < DPR_MAX - 0.01) { qScale = Math.min(DPR_MAX, qScale + 0.15); resize(); lastQ = now; qChanges++; }
+      if (now - lastQ > 4000 && framesSinceLoad > 60) {
+        var tried = now - qUpAt < 15000;                               // a step up on trial: slower than 42 a second, it goes back
+        if ((frameEMA > 38 || (tried && frameEMA > 24)) && qi > 0) { if (tried) qTop = qi - 1; qi--; qScale = QL[qi]; resize(); lastQ = now; qUpAt = -1e9; }
+        else if (frameEMA < 18.5 && qi < qTop) { qi++; qUpAt = now; qScale = QL[qi]; resize(); lastQ = now; }
       }
     }
     stepTransition(now);

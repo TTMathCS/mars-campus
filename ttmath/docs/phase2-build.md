@@ -246,6 +246,10 @@ each pushed when it is checked:
    everything (for shots from far off). Glass pairs, small baked meshes (the doors' leaves) and the pods are culled by the
    view. Count what a view draws with renderer.info (calls, triangles): with v0.55 a view drew 340 to 810 pieces and 2.9
    to 4.7 million triangles.
+   (v0.57) The resolution (qScale) moves on a ladder QL (0.6, 0.75, 0.9, 1, 1.25, 1.5, up to the screen's DPR_MAX): a step
+   down when frames average over 38 ms, a step up when under 18.5 ms (a 60 Hz screen gives 16.7 ms at best: the old 14.5 ms
+   threshold could never be met there, so it only ever went down). A step up is on trial for 15 s: over 24 ms it goes back
+   and qTop keeps it from being tried again. `__mars.lockQuality(q)` still fixes it for shots.
 10. The garden domes (T-09), then Infinity Hall (T-07) and the Garden of Primes (T-08) with their links, the
    observatory (T-10), the pod port and terminal (T-14, T-15), the sports dome (T-11), the hangar and test yard (T-12,
    T-13) with the new rovers ([rover.md](rover.md)), each with its link (T-17).

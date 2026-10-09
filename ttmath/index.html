@@ -8090,18 +8090,22 @@
     g.textAlign = "center"; g.fillStyle = PRC.teal; var mp = P(bm * 1.04, -Math.PI / 2); g.fillText("half an ellipse round the Sun", mp[0] + cf, mp[1] + 14);
   };
   PRINT_DRAW.brachistochrone = function (g, b) {                       // the fastest way down (v0.48): beads on the cycloid and the straight line at equal times
-    var T = 2.4, R = Math.min(b.w * 0.86 / (T - Math.sin(T)), b.h * 0.78 / (1 - Math.cos(T))), x0 = b.x + b.w * 0.07, y0 = b.y + b.h * 0.1;
+    // (v0.58) past half a turn of the wheel (T > pi), as in the classic figure: the fastest way dips below B and climbs to it,
+    // across the print; the labels clear of the curves and the points
+    var T = 3.6, R = Math.min(b.w * 0.84 / (T - Math.sin(T)), b.h * 0.72 / 2), x0 = b.x + b.w * 0.08, y0 = b.y + b.h * 0.12;
     function C(t) { return [x0 + R * (t - Math.sin(t)), y0 + R * (1 - Math.cos(t))]; }
-    var B = C(T), L = Math.hypot(B[0] - x0, B[1] - y0), sn = (B[1] - y0) / L, tC = T * Math.sqrt(R), tL = Math.sqrt(2 * L / sn);   // times with g = 1
+    var B = C(T), L = Math.hypot(B[0] - x0, B[1] - y0), sn = (B[1] - y0) / L, tC = T * Math.sqrt(R);   // times with g = 1
     inkLine(g, 1.6, "rgba(31,36,48,0.55)"); g.setLineDash([6, 5]); g.beginPath(); g.moveTo(x0, y0); g.lineTo(B[0], B[1]); g.stroke(); g.setLineDash([]);
-    inkLine(g, 3, PRC.red); g.beginPath(); for (var k = 0; k <= 80; k++) { var q = C(T * k / 80); if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); } g.stroke();
+    inkLine(g, 3, PRC.red); g.beginPath(); for (var k = 0; k <= 100; k++) { var q = C(T * k / 100); if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); } g.stroke();
     for (var i = 1; i <= 6; i++) { var tt = tC * i / 6;
       var q2 = C(tt / Math.sqrt(R)); g.fillStyle = PRC.red; dot(g, q2[0], q2[1], 5);
       var s2 = Math.min(L, 0.5 * sn * tt * tt); g.fillStyle = "rgba(31,36,48,0.6)"; dot(g, x0 + (B[0] - x0) * s2 / L, y0 + (B[1] - y0) * s2 / L, 5); }
     g.fillStyle = PRC.ink; dot(g, x0, y0, 4); dot(g, B[0], B[1], 4);
-    serif(g, b.h * 0.06, "italic"); g.textBaseline = "middle"; g.textAlign = "left"; g.fillText("A", x0 + 8, y0 - 4); g.fillText("B", B[0] - 22, B[1] + 2);
-    g.fillStyle = PRC.red; g.fillText("the cycloid: first to arrive", b.x + b.w * 0.36, b.y + b.h * 0.9);
-    g.fillStyle = "rgba(31,36,48,0.75)"; g.fillText("the straight line: shortest, yet slower", b.x + b.w * 0.42, b.y + b.h * 0.32);
+    serif(g, b.h * 0.06, "italic"); g.textBaseline = "middle";
+    g.textAlign = "right"; g.fillText("A", x0 - 9, y0 - 4); g.textAlign = "left"; g.fillText("B", B[0] + 10, B[1] - 10);
+    var D = C(Math.PI); g.textAlign = "center"; g.fillStyle = PRC.red; g.fillText("the cycloid: first to arrive", D[0], D[1] + b.h * 0.075);
+    g.save(); g.translate((x0 + B[0]) / 2, (y0 + B[1]) / 2); g.rotate(Math.atan2(B[1] - y0, B[0] - x0));
+    g.fillStyle = "rgba(31,36,48,0.75)"; g.fillText("the straight line: shortest, yet slower", 0, -b.h * 0.05); g.restore();
   };
   // a room's mathematician (v0.39): the figure on the left, the name, the years and the city, and one line on the right
   function drawPoster(g, b, x) {

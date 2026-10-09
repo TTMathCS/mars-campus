@@ -6,8 +6,9 @@ import os, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.normpath(os.path.join(HERE, ".."))
 url = "https://ttmathcs.github.io/mars-campus/ttmath/"
-desc = ("Walk real NASA terrain in Gale Crater, Mars, at sunset, find the TTMath campus over the ridge and walk into its "
-        "classrooms, café, library and the Math Palace. Runs in the browser on desktop, iPhone and Android.")
+desc = ("Walk real NASA terrain in Gale Crater, Mars, at sunset, find the TTMath campus over the ridge and walk into it: the "
+        "Ring of classrooms, labs and lounges round a garden, the Math Palace's great glass dome, and pods to fly for an eagle's "
+        "view. Runs in the browser on desktop, iPhone and Android.")
 src = open(os.path.join(HERE, "page.html"), encoding="utf-8").read()
 cut = src.index("</style>") + len("</style>")
 head, body = src[:cut].strip(), src[cut:].strip()
